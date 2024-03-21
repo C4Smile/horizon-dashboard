@@ -1,0 +1,19 @@
+{
+  "appName": "Museo Primer Frente",
+  "buttons": {
+    "openSidebar": "Open Sidebar",
+    "search": "Search",
+    "list": "List",
+    "insert": "Insert",
+    "yes": "Yes",
+    "no": "No",
+    "submit": "Submit",
+    "close": "Close"
+  },
+  "tooltips": "",
+  "ariaLabels": "",
+  "messages": {
+    "200": "Saved successfully",
+    "401": "Error: Access denied"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "appName": "NOMBRE DE LA APLICACIÓN",
+  "buttons": {
+    "openSidebar": "Abrir Barra Lateral",
+    "search": "Buscar",
+    "list": "Lista",
+    "insert": "Insertar",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "tooltips": "",
+  "ariaLabels": ""
+}

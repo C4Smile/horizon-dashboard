@@ -1,0 +1,43 @@
+{
+  "routes": {
+    "dashboard": {
+      "link": "/"
+    },
+    "management": {
+      "link": "/gestion"
+    },
+    "personal": {
+      "link": "/personal"
+    }
+  },
+  "dashboard": {
+    "title": "Tablero",
+    "links": {
+      "main": "Principal",
+      "analytics": "Análisis"
+    }
+  },
+  "management": {
+    "title": "Gestión",
+    "links": {
+      "customers": "Clientes",
+      "reservations": "Reservas",
+      "invoices": "Facturas",
+      "rooms": "Habitaciones",
+      "roomTypes": "Tipos de Habitación"
+    }
+  },
+  "personal": {
+    "title": "Personal",
+    "links": {
+      "users": "Usuarios"
+    }
+  },
+  "settings": {
+    "title": "Configuración",
+    "links": {
+      "account": "Cuenta",
+      "notifications": "Notificaciones"
+    }
+  }
+}

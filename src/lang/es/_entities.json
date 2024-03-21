@@ -1,0 +1,51 @@
+{
+  "reservation": {
+    "customer": "Cliente",
+    "rooms": "Habitaciones",
+    "checkInDate": "Fecha de Entrada",
+    "checkOutDate": "Fecha de Salida",
+    "ticket": "Ticket",
+    "status": {
+      "name": "Estado",
+      "pending": "Pendiente",
+      "confirmed": "Confirmada",
+      "cancelled": "Cancelada"
+    }
+  },
+  "customer": {
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "phone": "Teléfono",
+    "address": "Dirección",
+    "country": "País",
+    "identification": "Identificación"
+  },
+  "country": {
+    "name": "Nombre"
+  },
+  "invoice": {
+    "reservation": "Reserva",
+    "customer": "Cliente",
+    "currency": "Moneda",
+    "dateIssued": "Fecha de Emisión",
+    "totalAmount": "Monto Total",
+    "paymentMethod": "Método de Pago"
+  },
+  "user": {
+    "username": "Nombre de Usuario",
+    "password": "Contraseña",
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "phone": "Teléfono"
+  },
+  "roomType": {
+    "name": "Nombre",
+    "capacity": "Capacidad",
+    "price": "Precio"
+  },
+  "room": {
+    "number": "Número",
+    "type": "Tipo",
+    "status": { "name": "Estado", "free": "Libre", "occupied": "Ocupada" }
+  }
+}
