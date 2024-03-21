@@ -1,6 +1,5 @@
 import { Customer } from "./Customer";
 import { Entity } from "./Entity";
-import { Room } from "./Room";
 
 export const ReservationStatus = {
   pending: "pending",
@@ -14,7 +13,6 @@ export const ReservationStatus = {
  */
 export class Reservation extends Entity {
   customer = null;
-  rooms = [];
   checkInDate = null;
   checkOutDate = null;
   status = ReservationStatus.pending;
@@ -23,7 +21,6 @@ export class Reservation extends Entity {
   /**
    * @param {number} id
    * @param {Customer} customer
-   * @param {Room[]} rooms
    * @param {Date} checkInDate
    * @param {Date} checkOutDate
    * @param {ReservationStatus} status
@@ -36,7 +33,6 @@ export class Reservation extends Entity {
   constructor(
     id,
     customer,
-    rooms,
     checkInDate,
     checkOutDate,
     status,
@@ -47,7 +43,6 @@ export class Reservation extends Entity {
   ) {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.customer = customer;
-    this.rooms = rooms;
     this.checkInDate = checkInDate;
     this.checkOutDate = checkOutDate;
     this.status = status;
@@ -63,7 +58,6 @@ export class Reservation extends Entity {
     return new Reservation(
       json.id,
       Customer.fromJson(json.customer),
-      json.rooms?.map((room) => Room.fromJson(room)),
       json.checkInDate,
       json.checkOutDate,
       json.status,
@@ -78,13 +72,6 @@ export class Reservation extends Entity {
    */
   get Customer() {
     return this.customer;
-  }
-
-  /**
-   * @returns Room
-   */
-  get Rooms() {
-    return this.rooms;
   }
 
   /**
