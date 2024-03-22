@@ -3,8 +3,8 @@ import { RoomType } from "./RoomType";
 import { Entity } from "./Entity";
 
 export const RoomStatus = {
-  free: "free",
-  occupied: "occupied",
+  operational: "operational",
+  maintenance: "maintenance",
 };
 
 /**
@@ -13,13 +13,14 @@ export const RoomStatus = {
  */
 export class Room extends Entity {
   number = "";
+  name = "";
   type = null;
   status = false;
 
   /**
    * @param {number} id
-   * @param {number} number
-   * @param {RoomType} type
+   * @param {string} number
+   * @param {string} name
    * @param {RoomStatus} status
    * @param {Date} dateOfCreation
    * @param {Date} lastUpdate
@@ -29,6 +30,7 @@ export class Room extends Entity {
   constructor(
     id,
     number,
+    name,
     type,
     status = RoomStatus.free,
     dateOfCreation = Date.now(),
@@ -37,6 +39,7 @@ export class Room extends Entity {
   ) {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.number = number;
+    this.name = name;
     this.type = type;
     this.status = status;
   }
@@ -50,6 +53,7 @@ export class Room extends Entity {
     return new Room(
       json.id,
       json.number,
+      json.name,
       RoomType.fromJson(json.type),
       json.status,
       json.dateOfCreation,
@@ -63,6 +67,13 @@ export class Room extends Entity {
    */
   get Number() {
     return this.number;
+  }
+
+  /**
+   * @returns Name
+   */
+  get Name() {
+    return this.name;
   }
 
   /**

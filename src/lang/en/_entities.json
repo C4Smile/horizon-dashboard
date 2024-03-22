@@ -1,7 +1,6 @@
 {
   "reservation": {
     "customer": { "label": "Customer", "placeholder": "ex: John Doe" },
-    "rooms": { "label": "Rooms", "placeholder": "ex: 101" },
     "checkInDate": { "label": "Check-in Date" },
     "checkOutDate": { "label": "Check-out Date" },
     "ticket": { "label": "Ticket" },
@@ -21,7 +20,8 @@
     "identification": { "label": "Identification", "placeholder": "ex: A9012M" }
   },
   "country": {
-    "name": { "label": "Name", "placeholder": "ex: Cuba" }
+    "name": { "label": "Name", "placeholder": "ex: Cuba" },
+    "iso": { "label": "ISO", "placeholder": "ex: CU" }
   },
   "invoice": {
     "reservation": { "label": "Reservation", "placeholder": "ex: " },
@@ -40,13 +40,12 @@
     "phone": { "label": "Phone", "placeholder": "ex: +5352574839" }
   },
   "roomType": {
-    "name": { "label": "Name", "placeholder": "ex: Simple" },
-    "capacity": { "label": "Capacity", "placeholder": "ex: 1" },
-    "price": { "label": "Price", "placeholder": "ex: 100" }
+    "name": { "label": "Name", "placeholder": "ex: Virtual" }
   },
   "room": {
-    "number": { "label": "Number", "placeholder": "ex: 101" },
-    "type": { "label": "Type", "placeholder": "ex: Simple" },
-    "status": { "label": "Status", "free": "Free", "occupied": "Occupied" }
+    "number": { "label": "Number", "placeholder": "ex: I" },
+    "name": { "label": "Name", "placeholder": "ex: Historia de un símbolo" },
+    "type": { "label": "Type", "placeholder": "ex: Virtual" },
+    "status": { "label": "Status", "operational": "Operational", "maintenance": "Maintenance" }
   }
 }
