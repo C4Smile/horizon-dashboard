@@ -18,14 +18,15 @@ export class Room extends Entity {
   status = false;
 
   /**
-   * @param {number} id
-   * @param {string} number
-   * @param {string} name
-   * @param {RoomStatus} status
-   * @param {Date} dateOfCreation
-   * @param {Date} lastUpdate
-   * @param {boolean} deleted
-   * @returns {Room}
+   * @param {number} id - Room id
+   * @param {string} number - Room number
+   * @param {string} name - Room name
+   * @param {RoomType} type - Room type
+   * @param {RoomStatus} status - Room status
+   * @param {Date} dateOfCreation - Room date of creation
+   * @param {Date} lastUpdate - Room last update
+   * @param {boolean} deleted - Room deleted
+   * @returns Room instance
    */
   constructor(
     id,
@@ -46,7 +47,7 @@ export class Room extends Entity {
 
   /**
    * @description Returns a JSON representation of the entity
-   * @param {Object} json
+   * @param {object} json - JSON representation of the entity
    * @returns {Room} Entity instance
    */
   static fromJson(json) {

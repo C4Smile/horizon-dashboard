@@ -12,15 +12,15 @@ export class User extends Entity {
   phone = "";
 
   /**
-   * @param {number} id
-   * @param {string} username
-   * @param {string} password
-   * @param {string} name
-   * @param {string} email
-   * @param {string} phone
-   * @param {Date} dateOfCreation
-   * @param {Date} lastUpdate
-   * @param {boolean} deleted
+   * @param {number} id - user id
+   * @param {string} username - username
+   * @param {string} password - user password
+   * @param {string} name - user name
+   * @param {string} email - user email
+   * @param {string} phone - user phone
+   * @param {Date} dateOfCreation - user date of creation
+   * @param {Date} lastUpdate - user last update
+   * @param {boolean} deleted - user deleted
    */
   constructor(
     id,
@@ -43,7 +43,7 @@ export class User extends Entity {
 
   /**
    * @description Returns a JSON representation of the entity
-   * @param {Object} json
+   * @param {object} json - JSON representation of the entity
    * @returns {User} Entity instance
    */
   static fromJson(json) {

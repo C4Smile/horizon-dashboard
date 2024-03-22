@@ -10,14 +10,14 @@ export class RoomType extends Entity {
   price = 0;
 
   /**
-   * @param {number} id
-   * @param {string} name
-   * @param {number} capacity
-   * @param {number} price
-   * @param {Date} dateOfCreation
-   * @param {Date} lastUpdate
-   * @param {boolean} deleted
-   * @returns {RoomType}
+   * @param {number} id - Room type id
+   * @param {string} name - Room type name
+   * @param {number} capacity - Room type capacity
+   * @param {number} price - Room type price
+   * @param {Date} dateOfCreation - Room type date of creation
+   * @param {Date} lastUpdate - Room type last update
+   * @param {boolean} deleted - Room type deleted
+   * @returns Room type instance
    */
   constructor(
     id,
@@ -36,8 +36,8 @@ export class RoomType extends Entity {
 
   /**
    * @description Returns a JSON representation of the entity
-   * @param {Object} json
-   * @returns {RoomType} Entity instance
+   * @param {object} json - JSON representation of the entity
+   * @returns Entity instance
    */
   static fromJson(json) {
     return new RoomType(

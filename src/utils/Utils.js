@@ -32,7 +32,9 @@ export const hexToRGB = (h) => {
 };
 
 /**
- *
+ * Format value
+ * @param {any} value - Value to format
+ * @returns Formatted value
  */
 export const formatValue = (value) =>
   Intl.NumberFormat("en-US", {

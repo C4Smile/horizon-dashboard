@@ -2,11 +2,11 @@ import React, { useState } from "react";
 
 /**
  * SidebarLinkGroup
- * @param {object} children - React children
- * @param {boolean} activeCondition - Active condition
+ * @param {object} props - Props
  * @returns {object} React component
  */
-function SidebarLinkGroup({ children, activeCondition }) {
+function SidebarLinkGroup(props) {
+  const { children, activeCondition } = props;
   const [open, setOpen] = useState(activeCondition);
 
   const handleClick = () => {

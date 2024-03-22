@@ -17,16 +17,16 @@ export class Invoice extends Entity {
   paymentMethod = null;
 
   /**
-   * @param {number} id
-   * @param {Reservation} reservation
-   * @param {Customer} customer
-   * @param {Currency} currency
-   * @param {PaymentMethod} paymentMethod
-   * @param {Date} dateIssued
-   * @param {number} totalAmount
-   * @param {Date} dateOfCreation
-   * @param {Date} lastUpdate
-   * @param {boolean} deleted
+   * @param {number} id - Invoice id
+   * @param {Reservation} reservation - Invoice reservation
+   * @param {Customer} customer - Invoice customer
+   * @param {Currency} currency - Invoice currency
+   * @param {PaymentMethod} paymentMethod - Invoice payment method
+   * @param {Date} dateIssued - Invoice date issued
+   * @param {number} totalAmount - Invoice total amount
+   * @param {Date} dateOfCreation - Invoice date of creation
+   * @param {Date} lastUpdate - Invoice last update
+   * @param {boolean} deleted - Invoice deleted
    */
   constructor(
     id,
@@ -51,8 +51,8 @@ export class Invoice extends Entity {
 
   /**
    * @description Returns a JSON representation of the entity
-   * @param {*} json
-   * @returns
+   * @param {object} json - JSON representation of the entity
+   * @returns Entity instance
    */
   static fromJson(json) {
     return new Invoice(

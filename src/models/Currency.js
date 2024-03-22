@@ -9,13 +9,13 @@ export class Currency extends Entity {
   reduction = "";
 
   /**
-   * @param {number} id
-   * @param {string} name
-   * @param {string} reduction
-   * @param {Date} dateOfCreation
-   * @param {Date} lastUpdate
-   * @param {boolean} deleted
-   * @returns {Currency}
+   * @param {number} id - Currency id
+   * @param {string} name - Currency name
+   * @param {string} reduction - Currency reduction
+   * @param {Date} dateOfCreation - Currency date of creation
+   * @param {Date} lastUpdate - Currency last update
+   * @param {boolean} deleted - Currency deleted
+   * @returns Currency instance
    */
   constructor(
     id,
@@ -32,7 +32,7 @@ export class Currency extends Entity {
 
   /**
    * @description Returns a JSON representation of the entity
-   * @param {Object} json
+   * @param {object} json - JSON representation of the entity
    * @returns {Currency} Entity instance
    */
   static fromJson(json) {

@@ -9,11 +9,11 @@ export class Entity {
   deleted = false;
 
   /**
-   * @param {number} id
-   * @param {Date} dateOfCreation
-   * @param {Date} lastUpdate
-   * @param {boolean} deleted
-   * @returns {Entity}
+   * @param {number} id - Entity id
+   * @param {Date} dateOfCreation - Entity date of creation
+   * @param {Date} lastUpdate - Entity last update
+   * @param {boolean} deleted - Entity deleted
+   * @returns Entity instance
    */
   constructor(id, dateOfCreation = Date.now(), lastUpdate = Date.now(), deleted = false) {
     this.id = id;
@@ -24,8 +24,8 @@ export class Entity {
 
   /**
    * @description Returns a JSON representation of the entity
-   * @param {Object} json
-   * @returns {Entity} Entity instance
+   * @param {object} json - JSON representation of the entity
+   * @returns Entity instance
    */
   static fromJson(json) {
     return new Entity(json.id, json.dateOfCreation, json.lastUpdate, json.deleted);

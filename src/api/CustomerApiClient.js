@@ -8,8 +8,8 @@ import supabase from "../db/connection";
 export class CustomerApiClient {
   /**
    * @description Get all users
-   * @param {string} query - Query
-   * @returns {Promise<User[]>} Users
+   * @param {string} attributes - Attributes
+   * @returns Users list
    */
   async getAll(attributes = "*") {
     return await supabase.from("Customer").select(attributes);
@@ -19,7 +19,7 @@ export class CustomerApiClient {
    * @description Get user by id
    * @param {string} id - User id
    * @param {string} attributes - Attributes
-   * @returns {Promise<User>} User
+   * @returns User
    */
   async getById(id, attributes = "*") {
     return await supabase.from("Customer").select(attributes).eq("id", id);
@@ -27,8 +27,8 @@ export class CustomerApiClient {
 
   /**
    * @description Create user
-   * @param {User} user - User
-   * @returns {Promise<User>} User
+   * @param {object} user - User
+   * @returns User
    */
   async create(user) {
     return await supabase.from("Customer").insert(user);
@@ -36,8 +36,8 @@ export class CustomerApiClient {
 
   /**
    * @description Update user
-   * @param {User} user - User
-   * @returns {Promise<User>} User
+   * @param {object} user - User
+   * @returns User
    */
   async update(user) {
     return await supabase.from("Customer").update(user).eq("id", user.id);

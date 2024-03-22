@@ -19,16 +19,16 @@ export class Reservation extends Entity {
   ticket = "";
 
   /**
-   * @param {number} id
-   * @param {Customer} customer
-   * @param {Date} checkInDate
-   * @param {Date} checkOutDate
-   * @param {ReservationStatus} status
-   * @param {string} ticket
-   * @param {Date} dateOfCreation
-   * @param {Date} lastUpdate
-   * @param {boolean} deleted
-   * @returns {Reservation}
+   * @param {number} id - Reservation id
+   * @param {Customer} customer - Reservation customer
+   * @param {Date} checkInDate - Reservation check-in date
+   * @param {Date} checkOutDate - Reservation check-out date
+   * @param {ReservationStatus} status - Reservation status
+   * @param {string} ticket - Reservation ticket
+   * @param {Date} dateOfCreation - Reservation date of creation
+   * @param {Date} lastUpdate - Reservation last update
+   * @param {boolean} deleted - Reservation deleted
+   * @returns Reservation instance
    */
   constructor(
     id,
@@ -51,7 +51,7 @@ export class Reservation extends Entity {
 
   /**
    * @description Returns a JSON representation of the entity
-   * @param {Object} json
+   * @param {object} json - JSON representation of the entity
    * @returns {Reservation} Entity instance
    */
   static fromJson(json) {

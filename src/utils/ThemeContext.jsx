@@ -2,15 +2,18 @@ import { createContext, useContext, useState, useEffect } from "react";
 
 const ThemeContext = createContext({
   currentTheme: "light",
-  changeCurrentTheme: () => {},
+  changeCurrentTheme: () => {
+    // Empty function
+  },
 });
 
 /**
  * ThemeProvider
- * @param {object} children - React children
+ * @param {object} props - React children
  * @returns {object} React component
  */
-export default function ThemeProvider({ children }) {
+export default function ThemeProvider(props) {
+  const { children } = props;
   const persistedTheme = localStorage.getItem("theme");
   const [theme, setTheme] = useState(persistedTheme || "light");
 
@@ -45,6 +48,6 @@ export default function ThemeProvider({ children }) {
 
 /**
  * useThemeProvider
+ * @returns {object} Theme context
  */
-// eslint-disable-next-line react-refresh/only-export-components
 export const useThemeProvider = () => useContext(ThemeContext);

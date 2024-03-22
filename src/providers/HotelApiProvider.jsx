@@ -5,7 +5,9 @@ import { HotelApiClient } from "../api/HotelApiClient";
 const HotelApiClientContext = createContext({});
 
 /**
- *
+ * HotelApiClientProvider
+ * @param {object} props - Props
+ * @returns {object} React component
  */
 const HotelApiClientProvider = (props) => {
   const { children } = props;
@@ -30,5 +32,4 @@ const useHotelApiClient = () => {
   return context.client;
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
 export { HotelApiClientProvider, useHotelApiClient };

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 /**
  * Notification
+ * @param {object} props - Props
  * @returns {object} React component
  */
 function Notification(props) {

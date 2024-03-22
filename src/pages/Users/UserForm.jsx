@@ -13,7 +13,9 @@ function UserForm() {
 
   const { t } = useTranslation();
 
-  const loading = useMemo(() => {}, []);
+  const loading = useMemo(() => {
+    return false;
+  }, []);
 
   return (
     <div className="px-5 pt-10 flex items-start justify-start">

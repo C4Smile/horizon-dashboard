@@ -3,15 +3,11 @@ import Transition from "../utils/Transition";
 
 /**
  * Tooltip
- * @param {object} children - React children
- * @param {string} className - Class name
- * @param {string} bg - Background color
- * @param {string} size - Size
- * @param {string} position - Position
- * @returns {object} React component
- *
+ * @param {object} props - Props
+ * @returns React component
  */
-function Tooltip({ children, className, bg, size, position }) {
+function Tooltip(props) {
+  const { children, className, bg, size, position } = props;
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
   const positionOuterClasses = (position) => {

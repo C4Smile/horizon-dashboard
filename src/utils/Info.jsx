@@ -3,12 +3,11 @@ import Transition from "./Transition";
 
 /**
  * Info
- * @param {object} children - React children
- * @param {string} className - Class name
- * @param {string} containerClassName - Class name
+ * @param {object} props - Props
  * @returns {object} React component
  */
-function Info({ children, className, containerClassName }) {
+function Info(props) {
+  const { children, className, containerClassName } = props;
   const [infoOpen, setInfoOpen] = useState(false);
 
   return (

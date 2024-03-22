@@ -14,16 +14,16 @@ export class Customer extends Entity {
   country = null;
 
   /**
-   * @param {number} id
-   * @param {string} name
-   * @param {string} email
-   * @param {string} phone
-   * @param {string} address
-   * @param {string} identification
-   * @param {Country} country
-   * @param {Date} dateOfCreation
-   * @param {Date} lastUpdate
-   * @param {boolean} deleted
+   * @param {number} id - Customer id
+   * @param {string} name - Customer name
+   * @param {string} email - Customer email
+   * @param {string} phone - Customer phone
+   * @param {string} address - Customer address
+   * @param {string} identification - Customer identification
+   * @param {Country} country - Customer country
+   * @param {Date} dateOfCreation - Customer date of creation
+   * @param {Date} lastUpdate - Customer last update
+   * @param {boolean} deleted - Customer deleted
    */
   constructor(
     id,
@@ -48,7 +48,7 @@ export class Customer extends Entity {
 
   /**
    * @description Returns a JSON representation of the entity
-   * @param {Object} json
+   * @param {object} json - JSON representation of the entity
    * @returns {Customer} Entity instance
    */
   static fromJson(json) {

@@ -7,11 +7,12 @@ import UserMenu from "../components/DropdownProfile";
 
 /**
  * Header
- * @param {object} sidebarOpen - Sidebar open state
- * @param {function} setSidebarOpen - Set sidebar open state
+ * @param {object} props - Props
  * @returns {object} React component
  */
-function Header({ sidebarOpen, setSidebarOpen }) {
+function Header(props) {
+  const { sidebarOpen, setSidebarOpen } = props;
+
   const [searchModalOpen, setSearchModalOpen] = useState(false);
 
   const { t } = useTranslation();

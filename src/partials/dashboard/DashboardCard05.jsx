@@ -55,12 +55,12 @@ function DashboardCard05() {
   useEffect(() => {
     setIncrement(increment + 1);
     if (increment + range < data.length) {
-      setSlicedData(([x, ...slicedData]) => [...slicedData, data[increment + range]]);
+      setSlicedData(([, ...slicedData]) => [...slicedData, data[increment + range]]);
     } else {
       setIncrement(0);
       setRange(0);
     }
-    setSlicedLabels(([x, ...slicedLabels]) => [...slicedLabels, new Date()]);
+    setSlicedLabels(([, ...slicedLabels]) => [...slicedLabels, new Date()]);
     return () => setIncrement(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [counter]);

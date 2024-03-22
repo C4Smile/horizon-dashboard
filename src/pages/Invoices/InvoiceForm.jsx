@@ -11,7 +11,9 @@ import Loading from "../../partials/loading/Loading";
 function InvoiceForm() {
   const { id } = useParams();
 
-  const loading = useMemo(() => {}, []);
+  const loading = useMemo(() => {
+    return false;
+  }, []);
 
   return <div>{loading ? <Loading /> : <form></form>}</div>;
 }

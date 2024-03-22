@@ -9,12 +9,12 @@ export class Country extends Entity {
   iso = "";
 
   /**
-   * @param {number} id
-   * @param {string} name
-   * @param {string} iso
-   * @param {Date} dateOfCreation
-   * @param {Date} lastUpdate
-   * @param {boolean} deleted
+   * @param {number} id - Country id
+   * @param {string} name - Country name
+   * @param {string} iso - Country iso
+   * @param {Date} dateOfCreation - Country date of creation
+   * @param {Date} lastUpdate - Country last update
+   * @param {boolean} deleted - Country deleted
    */
   constructor(id, name, iso, dateOfCreation = Date.now(), lastUpdate = Date.now(), deleted = false) {
     super(id, dateOfCreation, lastUpdate, deleted);
@@ -24,7 +24,7 @@ export class Country extends Entity {
 
   /**
    * @description Returns a JSON representation of the entity
-   * @param {Object} json
+   * @param {object} json - JSON representation of the entity
    * @returns {Country} Entity instance
    */
   static fromJson(json) {

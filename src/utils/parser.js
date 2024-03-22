@@ -1,6 +1,7 @@
 /**
  * Convert a string from camel case to sentence case
- * @param {string} word
+ * @param {string} word - string to convert
+ * @returns - sentence case string
  */
 export function camelCaseToSentence(word) {
   // Use a regular expression to split the word by capital letters

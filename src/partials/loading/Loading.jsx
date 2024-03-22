@@ -3,9 +3,12 @@ import "./styles.css";
 
 /**
  * Loading
+ * @param {object} props - Props
  * @returns Loading component
  */
-function Loading({ color = "stroke-blue-800", loaderClass, strokeWidth = "4", ...rest }) {
+function Loading(props) {
+  const { color = "stroke-blue-800", loaderClass, strokeWidth = "4", ...rest } = props;
+
   return (
     <div {...rest} className={`loading ${rest.className}`}>
       <div className="loader-container">

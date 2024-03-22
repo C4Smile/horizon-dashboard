@@ -10,7 +10,8 @@ import { sitemap } from "../sitemap";
  * @param {object} props - React props
  * @returns {object} React component
  */
-function Sidebar({ sidebarOpen, setSidebarOpen }) {
+function Sidebar(props) {
+  const { sidebarOpen, setSidebarOpen } = props;
   const location = useLocation();
   const { pathname } = location;
 

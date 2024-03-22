@@ -19,34 +19,25 @@ function useIsInitialRender() {
 
 /**
  * CSSTransition
- * @param {boolean} show - Show or hide
- * @param {string} enter - Enter class
- * @param {string} enterStart - Enter start class
- * @param {string} enterEnd - Enter end class
- * @param {string} leave - Leave class
- * @param {string} leaveStart - Leave start class
- * @param {string} leaveEnd - Leave end class
- * @param {boolean} appear - Show on first render
- * @param {boolean} unmountOnExit - Remove from DOM
- * @param {string} tag - HTML tag
- * @param {object} children - React children
- * @param {object} rest - Other props
- * @returns {object} React component
+ * @param {object} props - Props
+ * @returns React component
  */
-function CSSTransition({
-  show,
-  enter = "",
-  enterStart = "",
-  enterEnd = "",
-  leave = "",
-  leaveStart = "",
-  leaveEnd = "",
-  appear,
-  unmountOnExit,
-  tag = "div",
-  children,
-  ...rest
-}) {
+function CSSTransition(props) {
+  const {
+    show,
+    enter = "",
+    enterStart = "",
+    enterEnd = "",
+    leave = "",
+    leaveStart = "",
+    leaveEnd = "",
+    appear,
+    unmountOnExit,
+    tag = "div",
+    children,
+    ...rest
+  } = props;
+
   const enterClasses = enter.split(" ").filter((s) => s.length);
   const enterStartClasses = enterStart.split(" ").filter((s) => s.length);
   const enterEndClasses = enterEnd.split(" ").filter((s) => s.length);
@@ -106,13 +97,13 @@ function CSSTransition({
 }
 
 /**
- *
- * @param show - Show or hide
- * @param appear - Show on first render
- * @param rest - Other props
- * @returns {object} React component
+ * Transition
+ * @param {object} props - Props
+ * @returns React component
  */
-function Transition({ show, appear, ...rest }) {
+function Transition(props) {
+  const { show, appear, ...rest } = props;
+
   const { parent } = useContext(TransitionContext);
   const isInitialRender = useIsInitialRender();
   const isChild = show === undefined;

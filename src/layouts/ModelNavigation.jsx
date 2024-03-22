@@ -4,6 +4,7 @@ import { useLocation, Outlet, Link } from "react-router-dom";
 
 /**
  * ModelNavigation layout
+ * @param {object} props - Props
  * @returns ModelNavigation layout component
  */
 function ModelNavigation(props) {
