@@ -6,17 +6,20 @@ import { Entity } from "./Entity";
  */
 export class Country extends Entity {
   name = "";
+  iso = "";
 
   /**
    * @param {number} id
    * @param {string} name
+   * @param {string} iso
    * @param {Date} dateOfCreation
    * @param {Date} lastUpdate
    * @param {boolean} deleted
    */
-  constructor(id, name, dateOfCreation = Date.now(), lastUpdate = Date.now(), deleted = false) {
+  constructor(id, name, iso, dateOfCreation = Date.now(), lastUpdate = Date.now(), deleted = false) {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.name = name;
+    this.iso = iso;
   }
 
   /**
@@ -25,7 +28,14 @@ export class Country extends Entity {
    * @returns {Country} Entity instance
    */
   static fromJson(json) {
-    return new Country(json.id, json.name, json.dateOfCreation, json.lastUpdate, json.deleted);
+    return new Country(
+      json.id,
+      json.name,
+      json.iso,
+      json.dateOfCreation,
+      json.lastUpdate,
+      json.deleted,
+    );
   }
 
   /**
@@ -33,5 +43,12 @@ export class Country extends Entity {
    */
   get Name() {
     return this.name;
+  }
+
+  /**
+   * @returns ISO
+   */
+  get Iso() {
+    return this.iso;
   }
 }
