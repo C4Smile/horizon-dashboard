@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 
 // dto
 import { Customer } from "../../models/Customer";
-import { Country } from "../../models/Country";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
