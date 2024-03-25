@@ -78,7 +78,7 @@ function Customers() {
   }, [customerQuery]);
 
   const getActions = [
-    { id: "edit", onClick: (e) => navigate(e.id) },
+    { id: "edit", onClick: (e) => navigate(e.id), icon: faPencil },
     {
       id: "delete",
       onClick: (e) => {
@@ -89,6 +89,7 @@ function Customers() {
         if (error && error !== null) console.error(error);
         else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers] });
       },
+      icon: faTrash,
     },
   ];
 

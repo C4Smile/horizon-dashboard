@@ -10,7 +10,7 @@ import Loading from "../../partials/loading/Loading";
  * @returns Table component
  */
 function Table(props) {
-  const { columns, rows, isLoading } = props;
+  const { columns, rows, isLoading, actions } = props;
 
   return (
     <div className="relative overflow-x-auto">
@@ -22,6 +22,7 @@ function Table(props) {
                 {column.label}
               </th>
             ))}
+            {Boolean(actions.length) && <th scope="col" className="px-6 py-3"></th>}
           </tr>
         </thead>
         {!isLoading && Boolean(rows.length) && (
@@ -29,16 +30,18 @@ function Table(props) {
             {rows.map((row) => (
               <tr key={row.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 {columns.map((column, i) => (
-                  <th
+                  <td
                     key={column.id}
                     scope="row"
                     className={`px-6 py-4 font-medium ${i === 0 ? "text-gray-900 whitespace-nowrap dark:text-white" : ""} `}
                   >
                     {row[column.id]}
-                  </th>
+                  </td>
                 ))}
+                {Boolean(actions.length) && <td>{actions.map((action) =>  )}</td>}
               </tr>
             ))}
+
           </tbody>
         )}
       </table>
@@ -56,12 +59,14 @@ Table.defaultProps = {
   columns: [],
   rows: [],
   isLoading: true,
+  actions: [],
 };
 
 Table.propTypes = {
   columns: PropTypes.array,
   rows: PropTypes.array,
   isLoading: PropTypes.bool,
+  actions: PropTypes.array,
 };
 
 export default Table;
