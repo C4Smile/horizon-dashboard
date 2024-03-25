@@ -8,9 +8,9 @@ import { useForm, Controller } from "react-hook-form";
 import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
 import SelectInput from "../../components/Forms/SelectInput";
-import Notification from "../../partials/Notification";
 
 // providers
+import { useNotification } from "../../providers/NotificationProvider";
 import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // utils
@@ -29,7 +29,7 @@ function CustomerForm() {
 
   const museumApiClient = useMuseumApiClient();
 
-  const [notification, setNotification] = useState("");
+  const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
 
   const { handleSubmit, reset, control } = useForm();
@@ -80,7 +80,6 @@ function CustomerForm() {
 
   return (
     <div className="px-5 pt-10 flex items-start justify-start">
-      <Notification notification={notification} />
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
           {id ? `${t("_pages:customers.editForm")} ${id}` : t("_pages:customers.newForm")}

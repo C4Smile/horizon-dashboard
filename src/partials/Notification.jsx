@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNotification } from "../providers/NotificationProvider";
 
 /**
  * Notification
- * @param {object} props - Props
  * @returns {object} React component
  */
-function Notification(props) {
+function Notification() {
   const { t } = useTranslation();
-
-  const { notification } = props;
+  const { notification } = useNotification();
 
   const [notificationOpen, setNotificationOpen] = useState(Boolean(notification.length));
   const [state, setState] = useState("");

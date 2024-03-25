@@ -8,6 +8,7 @@ import "./charts/ChartjsConfig";
 
 // providers
 import { MuseumApiClientProvider } from "./providers/MuseumApiProvider";
+import { NotificationProvider } from "./providers/NotificationProvider";
 
 // components
 import SplashScreen from "./partials/loading/SplashScreen";
@@ -54,7 +55,15 @@ function App() {
     <MuseumApiClientProvider>
       <Suspense fallback={<SplashScreen />}>
         <Routes>
-          <Route exact path="/" element={<Dashboard />}>
+          <Route
+            exact
+            path="/"
+            element={
+              <NotificationProvider>
+                <Dashboard />
+              </NotificationProvider>
+            }
+          >
             <Route index element={<Home />} />
             <Route
               exact

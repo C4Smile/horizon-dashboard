@@ -1,7 +1,7 @@
 import { useMemo, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // dto
 import { Customer } from "../../models/Customer";
@@ -11,7 +11,8 @@ import { extractKeysFromObject } from "../../utils/parser";
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // providers
-import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
+import { useNotification } from "../../providers/NotificationProvider";
+import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -23,6 +24,9 @@ import Table from "../../components/Table/Table";
 function Customers() {
   const { t } = useTranslation();
 
+  const navigate = useNavigate();
+
+  const { setNotification } = useNotification();
   const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
@@ -73,12 +77,32 @@ function Customers() {
     if (error && error !== null) console.error(customerQuery.error);
   }, [customerQuery]);
 
+  const getActions = [
+    { id: "edit", onClick: (e) => navigate(e.id) },
+    {
+      id: "delete",
+      onClick: (e) => {
+        const { error, status } = museumApiClient.Customer.delete([e.id]);
+        setNotification(String(status));
+
+        // eslint-disable-next-line no-console
+        if (error && error !== null) console.error(error);
+        else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers] });
+      },
+    },
+  ];
+
   return (
     <div className="p-5 relative">
       <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
         {t("_pages:management.links.customers")}
       </h1>
-      <Table isLoading={customerQuery.isLoading} rows={preparedRows} columns={preparedColumns} />
+      <Table
+        isLoading={customerQuery.isLoading}
+        rows={preparedRows}
+        columns={preparedColumns}
+        actions={getActions}
+      />
     </div>
   );
 }

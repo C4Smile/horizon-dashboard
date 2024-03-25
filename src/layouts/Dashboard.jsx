@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 
 // components
 import ToTop from "../components/ToTop/ToTop";
+import Notification from "../partials/Notification";
 
 // partials
 import Sidebar from "../partials/sidebar/Sidebar";
@@ -24,6 +25,7 @@ function Dashboard() {
 
   return (
     <div className="flex h-screen overflow-hidden">
+      <Notification />
       {/* Sidebar */}
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
       <div ref={mainRef} className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
