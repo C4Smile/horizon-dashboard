@@ -6,6 +6,7 @@ import Loading from "../../partials/loading/Loading";
 
 /**
  * Table component
+ * @param {object} props - component props
  * @returns Table component
  */
 function Table(props) {
