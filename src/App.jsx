@@ -7,7 +7,7 @@ import "./css/style.css";
 import "./charts/ChartjsConfig";
 
 // providers
-import { HotelApiClientProvider } from "./providers/HotelApiProvider";
+import { MuseumApiClientProvider } from "./providers/MuseumApiProvider";
 
 // components
 import SplashScreen from "./partials/loading/SplashScreen";
@@ -51,7 +51,7 @@ function App() {
   }, [location.pathname]); // triggered on route change
 
   return (
-    <HotelApiClientProvider>
+    <MuseumApiClientProvider>
       <Suspense fallback={<SplashScreen />}>
         <Routes>
           <Route exact path="/" element={<Dashboard />}>
@@ -113,7 +113,7 @@ function App() {
           </Route>
         </Routes>
       </Suspense>
-    </HotelApiClientProvider>
+    </MuseumApiClientProvider>
   );
 }
 

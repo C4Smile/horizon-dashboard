@@ -1,6 +1,7 @@
 import { useMemo, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 // dto
 import { Customer } from "../../models/Customer";
@@ -10,7 +11,7 @@ import { extractKeysFromObject } from "../../utils/parser";
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // providers
-import { useHotelApiClient } from "../../providers/HotelApiProvider";
+import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -22,7 +23,7 @@ import Table from "../../components/Table/Table";
 function Customers() {
   const { t } = useTranslation();
 
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
     const keys = extractKeysFromObject(new Customer(), [
@@ -36,7 +37,7 @@ function Customers() {
 
   const customerQuery = useQuery({
     queryKey: [ReactQueryKeys.Customers],
-    queryFn: () => hotelApiClient.Customer.getAll(),
+    queryFn: () => museumApiClient.Customer.getAll(),
   });
 
   const preparedRows = useMemo(() => {
@@ -51,12 +52,16 @@ function Customers() {
             deleted: customer.deleted
               ? t("_accessibility:buttons.yes")
               : t("_accessibility:buttons.no"),
-            name: customer.name,
+            name: (
+              <Link className="underline text-light-primary" to={`${customer.id}`}>
+                {customer.name}
+              </Link>
+            ),
             email: customer.email,
             phone: customer.phone,
             address: customer.address,
             identification: customer.identification,
-            country: customer.country.Name,
+            country: customer.country?.Name,
           };
         });
     }

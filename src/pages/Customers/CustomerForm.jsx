@@ -11,7 +11,7 @@ import SelectInput from "../../components/Forms/SelectInput";
 import Notification from "../../partials/Notification";
 
 // providers
-import { useHotelApiClient } from "../../providers/HotelApiProvider";
+import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
@@ -27,7 +27,7 @@ function CustomerForm() {
 
   const { t } = useTranslation();
 
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const [notification, setNotification] = useState("");
   const [saving, setSaving] = useState(false);
@@ -38,13 +38,17 @@ function CustomerForm() {
     setNotification("");
     setSaving(true);
     try {
-      const result = await hotelApiClient.Customer.create(d);
+      let result;
+      if (d.id) result = await museumApiClient.Customer.create(d);
+      else result = await museumApiClient.Customer.update(d);
       const { error, status } = result;
       setNotification(String(status));
 
       // eslint-disable-next-line no-console
       if (error && error !== null) console.error(error);
-      else reset();
+      else if (id !== undefined)
+        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers, id] });
+      else reset({});
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
@@ -54,9 +58,10 @@ function CustomerForm() {
   };
 
   const customerQuery = useQuery({
-    queryKey: [ReactQueryKeys.Customers],
-    queryFn: () => hotelApiClient.Customer.getById(id),
-    enabled: !!id,
+    queryKey: [ReactQueryKeys.Customers, id],
+    queryFn: () => museumApiClient.Customer.getById(id),
+    enabled: id !== undefined,
+    retry: false,
   });
 
   useEffect(() => {
@@ -71,7 +76,7 @@ function CustomerForm() {
       // eslint-disable-next-line no-console
       if (data && data !== null) reset({ ...data });
     }
-  }, [customerQuery, reset]);
+  }, [customerQuery.data, id, reset]);
 
   return (
     <div className="px-5 pt-10 flex items-start justify-start">

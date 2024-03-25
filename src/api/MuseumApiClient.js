@@ -1,10 +1,10 @@
 import { CustomerApiClient } from "./CustomerApiClient";
 
 /**
- * @class HotelApiClient
- * @description HotelApiClient
+ * @class MuseumApiClient
+ * @description MuseumApiClient
  */
-export class HotelApiClient {
+export class MuseumApiClient {
   /**
    * @description constructor
    */
