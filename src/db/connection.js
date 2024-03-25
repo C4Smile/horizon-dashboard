@@ -9,7 +9,11 @@ export const saveToLocal = async (k, d) => {
     const fromLocal = localStorage.getItem(k);
     if (fromLocal) {
       const parsedList = JSON.parse(fromLocal);
-      parsedList.push({ ...d, id: parsedList.length });
+      if (d.id === undefined) d.id = parsedList.length;
+      // looking for update
+      const filtered = parsedList.findIndex((item) => item.id === d.id);
+      if (filtered >= 0) parsedList[filtered] = d;
+      else parsedList.push(d);
       localStorage.setItem(k, JSON.stringify(parsedList));
     } else {
       localStorage.setItem(k, JSON.stringify([{ ...d, id: 0 }]));
@@ -59,7 +63,7 @@ export const fetchSingleFromLocal = async (k, id, query) => {
       if (query) {
         // do query here
       }
-      const filtered = parsedList.filter((item) => item.id === id)[0];
+      const filtered = parsedList.find((item) => item.id === Number(id));
       data = filtered;
     }
     return { error: null, status: 200, data };
