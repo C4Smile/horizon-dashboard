@@ -1,0 +1,110 @@
+import { useMemo, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router-dom";
+
+// dto
+import { Customer } from "../../models/Customer";
+
+// utils
+import { extractKeysFromObject } from "../../utils/parser";
+import { ReactQueryKeys } from "../../utils/queryKeys";
+
+// providers
+import { useNotification } from "../../providers/NotificationProvider";
+import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
+
+// components
+import Table from "../../components/Table/Table";
+
+/**
+ * Customers page
+ * @returns Customers page component
+ */
+function Customers() {
+  const { t } = useTranslation();
+
+  const navigate = useNavigate();
+
+  const { setNotification } = useNotification();
+  const museumApiClient = useMuseumApiClient();
+
+  const preparedColumns = useMemo(() => {
+    const keys = extractKeysFromObject(new Customer(), [
+      "id",
+      "dateOfCreation",
+      "lastUpdate",
+      "deleted",
+    ]);
+    return keys.map((key) => ({ id: key, label: t(`_entities:customer.${key}.label`), className: "" }));
+  }, [t]);
+
+  const customerQuery = useQuery({
+    queryKey: [ReactQueryKeys.Customers],
+    queryFn: () => museumApiClient.Customer.getAll(),
+  });
+
+  const preparedRows = useMemo(() => {
+    if (customerQuery.data) {
+      const { data } = customerQuery.data;
+      if (data && data !== null)
+        return data.map((customer) => {
+          return {
+            id: customer.id,
+            dateOfCreation: new Date(customer.dateOfCreation).toLocaleDateString(),
+            lastUpdate: new Date(customer.lastUpdate).toLocaleDateString(),
+            deleted: customer.deleted
+              ? t("_accessibility:buttons.yes")
+              : t("_accessibility:buttons.no"),
+            name: (
+              <Link className="underline text-light-primary" to={`${customer.id}`}>
+                {customer.name}
+              </Link>
+            ),
+            email: customer.email,
+            phone: customer.phone,
+            address: customer.address,
+            identification: customer.identification,
+            country: customer.country?.Name,
+          };
+        });
+    }
+  }, [t, customerQuery]);
+
+  useEffect(() => {
+    const { error } = customerQuery;
+    // eslint-disable-next-line no-console
+    if (error && error !== null) console.error(customerQuery.error);
+  }, [customerQuery]);
+
+  const getActions = [
+    { id: "edit", onClick: (e) => navigate(e.id) },
+    {
+      id: "delete",
+      onClick: (e) => {
+        const { error, status } = museumApiClient.Customer.delete([e.id]);
+        setNotification(String(status));
+
+        // eslint-disable-next-line no-console
+        if (error && error !== null) console.error(error);
+        else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers] });
+      },
+    },
+  ];
+
+  return (
+    <div className="p-5 relative">
+      <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
+        {t("_pages:management.links.customers")}
+      </h1>
+      <Table
+        isLoading={customerQuery.isLoading}
+        rows={preparedRows}
+        columns={preparedColumns}
+        actions={getActions}
+      />
+    </div>
+  );
+}
+
+export default Customers;

@@ -1,0 +1,51 @@
+{
+  "routes": {
+    "dashboard": {
+      "link": "/"
+    },
+    "management": {
+      "link": "/gestion"
+    },
+    "personal": {
+      "link": "/personal"
+    }
+  },
+  "dashboard": {
+    "title": "Tablero",
+    "links": {
+      "main": "Principal",
+      "analytics": "Analítica"
+    }
+  },
+  "management": {
+    "title": "Gestión",
+    "links": {
+      "customers": "Clientes",
+      "reservations": "Reservas",
+      "invoices": "Facturas",
+      "rooms": "Salas",
+      "roomTypes": "Tipos de Salas"
+    }
+  },
+  "personal": {
+    "title": "Personal",
+    "links": {
+      "users": "Usuarios"
+    }
+  },
+  "settings": {
+    "title": "Configuración",
+    "links": {
+      "account": "Cuenta",
+      "notifications": "Notificaciones"
+    }
+  },
+  "users": {
+    "editForm": "Editar Usuario",
+    "newForm": "Nuevo Usuario"
+  },
+  "customers": {
+    "editForm": "Editar Cliente",
+    "newForm": "Nuevo Cliente"
+  }
+}

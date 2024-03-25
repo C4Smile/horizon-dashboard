@@ -1,0 +1,51 @@
+{
+  "reservation": {
+    "customer": { "label": "Cliente", "placeholder": "ej: John Doe" },
+    "checkInDate": { "label": "Fecha de Entrada" },
+    "checkOutDate": { "label": "Fecha de Salida" },
+    "ticket": { "label": "Ticket" },
+    "status": {
+      "label": "Estado",
+      "pending": "Pendiente",
+      "confirmed": "Confirmado",
+      "cancelled": "Cancelado"
+    }
+  },
+  "customer": {
+    "name": { "label": "Nombre", "placeholder": "ej: John Doe" },
+    "email": { "label": "Correo Electrónico", "placeholder": "ej: johndoe@gmail.com" },
+    "phone": { "label": "Teléfono", "placeholder": "ej: +5352574839" },
+    "address": { "label": "Dirección", "placeholder": "ej: Calle #57 % Calle y Calle" },
+    "country": { "label": "País" },
+    "identification": { "label": "Identificación", "placeholder": "ej: A9012M" }
+  },
+  "country": {
+    "name": { "label": "Nombre", "placeholder": "ej: Cuba" },
+    "iso": { "label": "ISO", "placeholder": "ej: CU" }
+  },
+  "invoice": {
+    "reservation": { "label": "Reserva", "placeholder": "ej: " },
+    "customer": { "label": "Cliente", "placeholder": "ej: John Doe" },
+    "currency": { "label": "Moneda", "placeholder": "ej: CUP" },
+    "dateIssued": { "label": "Fecha de Emisión", "placeholder": "ej: " },
+    "totalAmount": { "label": "Monto Total", "placeholder": "ej: " },
+    "paymentMethod": { "label": "Método de Pago", "placeholder": "ej: " }
+  },
+  "user": {
+    "username": { "label": "Nombre de Usuario", "placeholder": "ej: " },
+    "password": { "label": "Contraseña", "placeholder": "ej: " },
+    "rPassword": { "label": "Confirmar contraseña", "placeholder": "ej: " },
+    "name": { "label": "Nombre", "placeholder": "ej: John Doe" },
+    "email": { "label": "Correo Electrónico", "placeholder": "ej: johndoe@gmail.com" },
+    "phone": { "label": "Teléfono", "placeholder": "ej: +5352574839" }
+  },
+  "roomType": {
+    "name": { "label": "Nombre", "placeholder": "ej: Virtual" }
+  },
+  "room": {
+    "number": { "label": "Número", "placeholder": "ej: I" },
+    "name": { "label": "Nombre", "placeholder": "ej: Historia de un símbolo" },
+    "type": { "label": "Tipo", "placeholder": "ej: Virtual" },
+    "status": { "label": "Estado", "operational": "Operativo", "maintenance": "Mantenimiento" }
+  }
+}

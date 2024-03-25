@@ -1,0 +1,19 @@
+{
+  "appName": "Museo Primer Frente",
+  "buttons": {
+    "openSidebar": "Abrir Barra Lateral",
+    "search": "Buscar",
+    "list": "Lista",
+    "insert": "Insertar",
+    "yes": "Sí",
+    "no": "No",
+    "submit": "Enviar",
+    "close": "Cerrar"
+  },
+  "tooltips": "",
+  "ariaLabels": "",
+  "messages": {
+    "200": "Guardado exitosamente",
+    "401": "Error: Acceso denegado"
+  }
+}
