@@ -14,9 +14,9 @@ const NotificationContext = createContext();
  */
 const NotificationProvider = (props) => {
   const { children } = props;
-  const [notificationState, setNotificationState] = useState("");
+  const [notification, setNotification] = useState("");
 
-  const value = { notificationState, setNotificationState };
+  const value = { notification, setNotification };
   return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>;
 };
 
