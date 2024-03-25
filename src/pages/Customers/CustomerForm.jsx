@@ -41,9 +41,10 @@ function CustomerForm() {
       const result = await hotelApiClient.Customer.create(d);
       const { error, status } = result;
       setNotification(String(status));
-      reset();
+
       // eslint-disable-next-line no-console
       if (error && error !== null) console.error(error);
+      else reset();
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
