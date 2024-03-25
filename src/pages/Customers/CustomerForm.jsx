@@ -41,6 +41,7 @@ function CustomerForm() {
       const result = await hotelApiClient.Customer.create(d);
       const { error, status } = result;
       setNotification(String(status));
+      reset();
       // eslint-disable-next-line no-console
       if (error && error !== null) console.error(error);
     } catch (e) {
@@ -112,7 +113,23 @@ function CustomerForm() {
             />
           )}
         />
-
+        <Controller
+          control={control}
+          name="address"
+          disabled={customerQuery.isLoading || saving}
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="text"
+              name="address"
+              id="address"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder={t("_entities:customer.address.placeholder")}
+              label={t("_entities:customer.address.label")}
+              required
+            />
+          )}
+        />
         <Controller
           control={control}
           name="identification"
@@ -171,11 +188,11 @@ function CustomerForm() {
         <button
           type="submit"
           disabled={customerQuery.isLoading || saving}
-          className="relative text-white bg-blue-700 enabled:hover:bg-blue-800 enabled:focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="mb-5 relative text-white bg-light-primary transition enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           {(customerQuery.isLoading || saving) && (
             <Loading
-              className="bg-blue-700 w-full h-full absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] rounded-lg "
+              className="bg-primary w-full h-full absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] rounded-lg "
               strokeWidth="4"
               loaderClass="!w-6"
               color="stroke-white"
