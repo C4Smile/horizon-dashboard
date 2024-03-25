@@ -14,7 +14,7 @@
     "title": "Tablero",
     "links": {
       "main": "Principal",
-      "analytics": "Análisis"
+      "analytics": "Analítica"
     }
   },
   "management": {
@@ -23,8 +23,8 @@
       "customers": "Clientes",
       "reservations": "Reservas",
       "invoices": "Facturas",
-      "rooms": "Habitaciones",
-      "roomTypes": "Tipos de Habitación"
+      "rooms": "Salas",
+      "roomTypes": "Tipos de Salas"
     }
   },
   "personal": {
@@ -39,5 +39,13 @@
       "account": "Cuenta",
       "notifications": "Notificaciones"
     }
+  },
+  "users": {
+    "editForm": "Editar Usuario",
+    "newForm": "Nuevo Usuario"
+  },
+  "customers": {
+    "editForm": "Editar Cliente",
+    "newForm": "Nuevo Cliente"
   }
 }
