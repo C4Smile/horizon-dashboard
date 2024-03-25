@@ -12,7 +12,7 @@ export const saveToLocal = async (k, d) => {
       parsedList.push({ ...d, id: parsedList.length });
       localStorage.setItem(k, JSON.stringify(parsedList));
     } else {
-      localStorage.setItem(k, JSON.stringify([d]));
+      localStorage.setItem(k, JSON.stringify([{ ...d, id: 0 }]));
     }
     return { error: null, status: 200 };
   } catch (err) {
