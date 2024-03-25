@@ -71,3 +71,26 @@ export const fetchSingleFromLocal = async (k, id, query) => {
     return { error: err, status: 500 };
   }
 };
+
+/**
+ * Remove 'n' elements by their id
+ * @param {string} k - key
+ * @param {number[]} ids - array of ids
+ * @returns transaction status
+ */
+export const deleteFromLocal = async (k, ids) => {
+  try {
+    const fromLocal = localStorage.getItem(k);
+    if (fromLocal) {
+      const parsedList = JSON.parse(fromLocal);
+      ids.forEach((id) => {
+        const i = parsedList.findIndex((el) => el.id === id);
+        if (i >= 0) parsedList.splice(i, 1);
+      });
+      localStorage.setItem(k, JSON.stringify(parsedList));
+    }
+    return { error: null, status: 200 };
+  } catch (err) {
+    return { error: err, status: 500 };
+  }
+};
