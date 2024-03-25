@@ -1,7 +1,6 @@
 import React, { Suspense, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import loadable from "@loadable/component";
-import supabase from "./db/connection";
 
 import "./css/style.css";
 
@@ -50,18 +49,6 @@ function App() {
     window.scroll({ top: 0 });
     document.querySelector("html").style.scrollBehavior = "";
   }, [location.pathname]); // triggered on route change
-
-  const a = async () => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: "sito8943@gmail.com",
-      password: "12345679",
-    });
-    console.log(data, error);
-  };
-
-  useEffect(() => {
-    a();
-  }, []);
 
   return (
     <HotelApiClientProvider>

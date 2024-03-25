@@ -1,5 +1,4 @@
-// db
-import supabase from "../db/connection";
+import { fetchFromLocal, fetchSingleFromLocal, saveToLocal } from "../db/connection";
 
 /**
  * @class CustomerApiClient
@@ -12,7 +11,7 @@ export class CustomerApiClient {
    * @returns Users list
    */
   async getAll(attributes = "*") {
-    return await supabase.from("Customer").select(attributes);
+    return await fetchFromLocal("customer", attributes);
   }
 
   /**
@@ -22,7 +21,7 @@ export class CustomerApiClient {
    * @returns User
    */
   async getById(id, attributes = "*") {
-    return await supabase.from("Customer").select(attributes).eq("id", id);
+    return await fetchSingleFromLocal("customer", id, attributes);
   }
 
   /**
@@ -31,7 +30,7 @@ export class CustomerApiClient {
    * @returns User
    */
   async create(user) {
-    return await supabase.from("Customer").insert(user);
+    return await saveToLocal("customer", user);
   }
 
   /**
@@ -40,6 +39,6 @@ export class CustomerApiClient {
    * @returns User
    */
   async update(user) {
-    return await supabase.from("Customer").update(user).eq("id", user.id);
+    return await saveToLocal("customer", user);
   }
 }
