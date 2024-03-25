@@ -9,7 +9,7 @@ function WelcomeBanner() {
   const { t } = useTranslation();
 
   return (
-    <div className="relative bg-indigo-200 dark:bg-primary p-4 sm:p-6 rounded-sm overflow-hidden mb-8">
+    <div className="relative bg-light-primary/20 dark:bg-primary p-4 sm:p-6 rounded-sm overflow-hidden mb-8">
       {/* Background illustration */}
       <div
         className="absolute right-0 top-0 -mt-4 mr-16 pointer-events-none hidden xl:block"
@@ -60,7 +60,7 @@ function WelcomeBanner() {
         <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-1">
           Good afternoon, {t("_accessibility:appName")} 👋
         </h1>
-        <p className="dark:text-indigo-200">Here is what's happening with your projects today:</p>
+        <p className="dark:text-light-primary">Here is what's happening with your projects today:</p>
       </div>
     </div>
   );

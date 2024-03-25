@@ -32,7 +32,7 @@ function Sidebar(props) {
         />
         <path
           className={`fill-current ${
-            pathname === "/" || pathname.includes("dashboard") ? "text-indigo-200" : "text-slate-400"
+            pathname === "/" || pathname.includes("dashboard") ? "text-white" : "text-slate-400"
           }`}
           d="M12 15c-1.654 0-3-1.346-3-3 0-.462.113-.894.3-1.285L6 6l4.714 3.301A2.973 2.973 0 0112 9c1.654 0 3 1.346 3 3s-1.346 3-3 3z"
         />
