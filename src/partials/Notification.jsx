@@ -44,7 +44,7 @@ function Notification(props) {
     <>
       {
         <div
-          className={`${notificationOpen ? "scale-100" : "scale-0"} transition-all fixed bottom-0 right-0 w-full md:bottom-8 md:right-12 md:w-auto z-50`}
+          className={`${notificationOpen ? "opacity-1 scale-100" : "opacity-0"} transition-all fixed bottom-0 right-0 w-full md:bottom-8 md:right-12 md:w-auto z-50`}
         >
           <div
             className={`${notificationClass} border border-transparent dark:border-slate-700 text-white text-sm p-3 md:rounded shadow-lg flex justify-between`}
@@ -53,7 +53,7 @@ function Notification(props) {
               {t(`_accessibility:messages.${notification}`)}
             </div>
             <button
-              className="text-white hover:text-slate-400 pl-2 ml-3 border-l border-slate-200"
+              className="text-white hover:text-[red] pl-2 ml-3 border-l border-slate-200"
               onClick={() => setNotificationOpen(false)}
             >
               <span className="sr-only">{t("_accessibility:buttons.close")}</span>
