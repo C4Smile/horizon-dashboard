@@ -1,4 +1,5 @@
 import { CustomerApiClient } from "./CustomerApiClient";
+import { RoomApiClient } from "./RoomApiClient";
 
 /**
  * @class MuseumApiClient
@@ -10,6 +11,7 @@ export class MuseumApiClient {
    */
   constructor() {
     this.customer = new CustomerApiClient();
+    this.room = new RoomApiClient();
   }
 
   /**
@@ -17,5 +19,12 @@ export class MuseumApiClient {
    */
   get Customer() {
     return this.customer;
+  }
+
+  /**
+   * @returns {RoomApiClient} Room
+   */
+  get Room() {
+    return this.Customer;
   }
 }
