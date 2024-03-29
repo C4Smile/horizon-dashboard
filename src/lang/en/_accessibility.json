@@ -17,6 +17,9 @@
   },
   "tooltips": "",
   "ariaLabels": "",
+  "errors": {
+    "passwordDoNotMatch": "Password don't match"
+  },
   "messages": {
     "200": "Saved successfully",
     "401": "Error: Access denied"
