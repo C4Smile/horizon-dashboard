@@ -37,7 +37,10 @@
     "rPassword": { "label": "Confirm password", "placeholder": "ex: " },
     "name": { "label": "Name", "placeholder": "ex: John Doe" },
     "email": { "label": "Email", "placeholder": "ex: johndoe@gmail.com" },
-    "phone": { "label": "Phone", "placeholder": "ex: +5352574839" }
+    "phone": { "label": "Phone", "placeholder": "ex: +5352574839" },
+    "address": { "label": "Address", "placeholder": "ex: Street #57 % Street and Street" },
+    "country": { "label": "Country" },
+    "identification": { "label": "Identification", "placeholder": "ex: A9012M" }
   },
   "roomType": {
     "name": { "label": "Name", "placeholder": "ex: Virtual" }
