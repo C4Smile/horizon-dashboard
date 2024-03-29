@@ -104,7 +104,7 @@ function Users() {
   return (
     <div className="p-5 relative">
       <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
-        {t("_pages:management.links.users")}
+        {t("_pages:personal.links.users")}
       </h1>
       <Table
         isLoading={userQuery.isLoading}
