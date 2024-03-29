@@ -2,6 +2,9 @@ import React, { Suspense, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import loadable from "@loadable/component";
 
+// tippy styles
+import "tippy.js/dist/tippy.css"; // optional
+
 import "./css/style.css";
 
 import "./charts/ChartjsConfig";
