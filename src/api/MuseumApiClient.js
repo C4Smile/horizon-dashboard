@@ -25,6 +25,6 @@ export class MuseumApiClient {
    * @returns {RoomApiClient} Room
    */
   get Room() {
-    return this.Customer;
+    return this.room;
   }
 }
