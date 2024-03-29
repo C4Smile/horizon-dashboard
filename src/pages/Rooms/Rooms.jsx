@@ -47,21 +47,25 @@ function Rooms() {
   });
 
   const preparedRows = useMemo(() => {
-    return roomQuery.map((room) => {
-      return {
-        id: room.id,
-        dateOfCreation: new Date(room.dateOfCreation).toLocaleDateString(),
-        lastUpdate: new Date(room.lastUpdate).toLocaleDateString(),
-        deleted: room.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
-        number: room.number,
-        name: (
-          <Link className="underline text-light-primary" to={`${room.id}`}>
-            {room.name}
-          </Link>
-        ),
-        status: t(`_entities:room.status.${room.status}`),
-      };
-    });
+    if (roomQuery.data) {
+      const { data } = roomQuery.data;
+      if (data && data !== null)
+        return data.map((room) => {
+          return {
+            id: room.id,
+            dateOfCreation: new Date(room.dateOfCreation).toLocaleDateString(),
+            lastUpdate: new Date(room.lastUpdate).toLocaleDateString(),
+            deleted: room.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
+            number: room.number,
+            name: (
+              <Link className="underline text-light-primary" to={`${room.id}`}>
+                {room.name}
+              </Link>
+            ),
+            status: t(`_entities:room.status.${room.status}`),
+          };
+        });
+    }
   }, [roomQuery, t]);
 
   useEffect(() => {
