@@ -7,7 +7,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
 // dto
-import { Room, RoomStatus } from "../../models/Room";
+import { Room } from "../../models/Room";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
@@ -19,32 +19,6 @@ import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvid
 
 // components
 import Table from "../../components/Table/Table";
-import Loading from "../../partials/loading/Loading";
-
-const roomQuery = [
-  {
-    id: 1,
-    dateOfCreation: Date.now(),
-    lastUpdate: Date.now(),
-    deleted: true,
-    number: 1,
-    name: "Sala 1",
-    description:
-      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur",
-    status: RoomStatus.free,
-  },
-  {
-    id: 2,
-    dateOfCreation: Date.now(),
-    lastUpdate: Date.now(),
-    deleted: false,
-    number: 2,
-    name: "Sala 2",
-    description:
-      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur",
-    status: RoomStatus.occupied,
-  },
-];
 
 /**
  * Room page
