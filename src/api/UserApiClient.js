@@ -18,10 +18,16 @@ export class UserApiClient {
    * @description Get user by id
    * @param {string} id - User id
    * @param {string} attributes - Attributes
+   * @param {string[]} exclude - attributes to exclude
    * @returns User by id
    */
-  async getById(id, attributes = "*") {
-    return await fetchSingleFromLocal("user", id, attributes);
+  async getById(id, attributes = "*", exclude = []) {
+    const result = await fetchSingleFromLocal("user", id, attributes);
+    if (exclude.length)
+      exclude.forEach((attribute) => {
+        delete result.data[attribute];
+      });
+    return result;
   }
 
   /**
