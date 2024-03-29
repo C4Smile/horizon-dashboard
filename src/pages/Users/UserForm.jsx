@@ -37,6 +37,12 @@ function UserForm() {
     setSaving(true);
     try {
       let result;
+      if (d.password !== d.rPassword) {
+        setSaving(false);
+        // eslint-disable-next-line no-console
+        console.error(t("_accessibility:errors.passwordDoNotMatch"));
+        return setNotification(t("_accessibility:errors.passwordDoNotMatch"));
+      }
       if (d.id) result = await museumApiClient.User.create(d);
       else result = await museumApiClient.User.update(d);
       const { error, status } = result;
@@ -57,7 +63,7 @@ function UserForm() {
 
   const userQuery = useQuery({
     queryKey: [ReactQueryKeys.Users, id],
-    queryFn: () => museumApiClient.User.getById(id),
+    queryFn: () => museumApiClient.User.getById(id, "*", ["password", "rPassword"]),
     enabled: id !== undefined,
     retry: false,
   });
