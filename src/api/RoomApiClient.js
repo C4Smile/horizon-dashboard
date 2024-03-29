@@ -6,7 +6,7 @@ import { fetchFromLocal, fetchSingleFromLocal, saveToLocal, deleteFromLocal } fr
  */
 export class RoomApiClient {
   /**
-   * @description Get all users
+   * @description Get all rooms
    * @param {string} attributes - Attributes
    * @returns Room list
    */
@@ -15,8 +15,8 @@ export class RoomApiClient {
   }
 
   /**
-   * @description Get user by id
-   * @param {string} id - User id
+   * @description Get room by id
+   * @param {string} id - Room id
    * @param {string} attributes - Attributes
    * @returns Room by id
    */
@@ -25,21 +25,21 @@ export class RoomApiClient {
   }
 
   /**
-   * @description Create user
-   * @param {object} user - User
+   * @description Create room
+   * @param {object} room - Room
    * @returns  Transaction status
    */
-  async create(user) {
-    return await saveToLocal("room", user);
+  async create(room) {
+    return await saveToLocal("room", room);
   }
 
   /**
-   * @description Update user
-   * @param {object} user - User
+   * @description Update room
+   * @param {object} room - Room
    * @returns Transaction status
    */
-  async update(user) {
-    return await saveToLocal("room", user);
+  async update(room) {
+    return await saveToLocal("room", room);
   }
 
   /**
