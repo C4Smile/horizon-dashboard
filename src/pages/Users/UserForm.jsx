@@ -1,9 +1,24 @@
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import { useForm, Controller } from "react-hook-form";
 
 // components
 import Loading from "../../partials/loading/Loading";
+import TextInput from "../../components/Forms/TextInput";
+import SelectInput from "../../components/Forms/SelectInput";
+import PasswordInput from "../../components/Forms/PasswordInput";
+
+// providers
+import { useNotification } from "../../providers/NotificationProvider";
+import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvider";
+
+// utils
+import { ReactQueryKeys } from "../../utils/queryKeys";
+
+const countries = ["United States", "Canada", "France", "Germany"];
+
 /**
  * UserForm
  * @returns UserForm page Component
@@ -13,108 +28,217 @@ function UserForm() {
 
   const { t } = useTranslation();
 
-  const loading = useMemo(() => {
-    return false;
-  }, []);
+  const museumApiClient = useMuseumApiClient();
+
+  const { setNotification } = useNotification();
+  const [saving, setSaving] = useState(false);
+
+  const { handleSubmit, reset, control } = useForm();
+
+  const onSubmit = async (d) => {
+    setNotification("");
+    setSaving(true);
+    try {
+      let result;
+      if (d.id) result = await museumApiClient.User.create(d);
+      else result = await museumApiClient.User.update(d);
+      const { error, status } = result;
+      setNotification(String(status));
+
+      // eslint-disable-next-line no-console
+      if (error && error !== null) console.error(error);
+      else if (id !== undefined)
+        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users, id] });
+      else reset({});
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+      setNotification(String(e.status));
+    }
+    setSaving(false);
+  };
+
+  const userQuery = useQuery({
+    queryKey: [ReactQueryKeys.Users, id],
+    queryFn: () => museumApiClient.User.getById(id),
+    enabled: id !== undefined,
+    retry: false,
+  });
+
+  useEffect(() => {
+    const { error } = userQuery;
+    // eslint-disable-next-line no-console
+    if (error && error !== null) console.error(error);
+  }, [userQuery]);
+
+  useEffect(() => {
+    if (userQuery.data) {
+      const { data } = userQuery.data;
+      // eslint-disable-next-line no-console
+      if (data && data !== null) reset({ ...data });
+    }
+  }, [userQuery.data, id, reset]);
 
   return (
     <div className="px-5 pt-10 flex items-start justify-start">
-      {loading ? (
-        <Loading />
-      ) : (
-        <form className="w-full">
-          <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
-            {id ? `${t("_pages:users.editForm")} ${id}` : t("_pages:users.newForm")}
-          </h1>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="email"
-              name="floating_email"
-              id="floating_email"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
-            <label
-              htmlFor="floating_email"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              {t("_entities:user.email")}
-            </label>
-          </div>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+        <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
+          {id ? `${t("_pages:users.editForm")} ${id}` : t("_pages:users.newForm")}
+        </h1>
+        <Controller
+          control={control}
+          disabled={userQuery.isLoading || saving}
+          name="name"
+          render={({ field }) => (
+            <TextInput
+              {...field}
               type="text"
-              name="floating_name"
-              id="floating_name"
+              name="name"
+              id="name"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
+              placeholder={t("_entities:user.name.placeholder")}
+              label={t("_entities:user.name.label")}
               required
             />
-            <label
-              htmlFor="floating_email"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              {t("_entities:user.name")}
-            </label>
-          </div>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
+          )}
+        />
+        <Controller
+          control={control}
+          name="email"
+          disabled={userQuery.isLoading || saving}
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="email"
+              name="email"
+              id="email"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder={t("_entities:user.email.placeholder")}
+              label={t("_entities:user.email.label")}
+              required
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          disabled={userQuery.isLoading || saving}
+          name="username"
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="text"
+              name="username"
+              id="username"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder={t("_entities:user.username.placeholder")}
+              label={t("_entities:user.username.label")}
+              required
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          disabled={userQuery.isLoading || saving}
+          name="password"
+          render={({ field }) => (
+            <PasswordInput
+              {...field}
+              type="text"
+              name="password"
+              id="password"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder={t("_entities:user.password.placeholder")}
+              label={t("_entities:user.password.label")}
+              required
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          disabled={userQuery.isLoading || saving}
+          name="rPassword"
+          render={({ field }) => (
+            <PasswordInput
+              {...field}
+              type="text"
+              name="rPassword"
+              id="rPassword"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder={t("_entities:user.rPassword.placeholder")}
+              label={t("_entities:user.rPassword.label")}
+              required
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="address"
+          disabled={userQuery.isLoading || saving}
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="text"
+              name="address"
+              id="address"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder={t("_entities:user.address.placeholder")}
+              label={t("_entities:user.address.label")}
+              required
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="identification"
+          disabled={userQuery.isLoading || saving}
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="text"
+              name="identification"
+              id="identification"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder={t("_entities:user.identification.placeholder")}
+              label={t("_entities:user.identification.label")}
+              required
+            />
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="phone"
+          disabled={userQuery.isLoading || saving}
+          render={({ field }) => (
+            <TextInput
               type="tel"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              name="floating_phone"
-              id="floating_phone"
+              name="phone"
+              id="phone"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
+              placeholder={t("_entities:user.phone.placeholder")}
+              label={t("_entities:user.phone.label")}
               required
+              {...field}
             />
-            <label
-              htmlFor="floating_phone"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              {t("_entities:user.phone")}
-            </label>
-          </div>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="password"
-              name="floating_password"
-              id="floating_password"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
+          )}
+        />
+
+        <button
+          type="submit"
+          disabled={userQuery.isLoading || saving}
+          className="mb-5 relative text-white bg-light-primary transition enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          {(userQuery.isLoading || saving) && (
+            <Loading
+              className="bg-primary w-full h-full absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] rounded-lg "
+              strokeWidth="4"
+              loaderClass="!w-6"
+              color="stroke-white"
             />
-            <label
-              htmlFor="floating_password"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              {t("_entities:user.password")}
-            </label>
-          </div>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="password"
-              name="repeat_password"
-              id="floating_repeat_password"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
-            <label
-              htmlFor="floating_repeat_password"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              {t("_entities:user.rPassword")}
-            </label>
-          </div>
-          <button
-            type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            {t("_accessibility:buttons.submit")}
-          </button>
-        </form>
-      )}
+          )}
+          {t("_accessibility:buttons.submit")}
+        </button>
+      </form>
     </div>
   );
 }
