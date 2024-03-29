@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+
+// providers
 import { useNotification } from "../providers/NotificationProvider";
 
 /**
@@ -7,8 +10,9 @@ import { useNotification } from "../providers/NotificationProvider";
  * @returns {object} React component
  */
 function Notification() {
+  const location = useLocation();
   const { t } = useTranslation();
-  const { notification } = useNotification();
+  const { notification, setNotification } = useNotification();
 
   const [notificationOpen, setNotificationOpen] = useState(Boolean(notification.length));
   const [state, setState] = useState("");
@@ -36,8 +40,13 @@ function Notification() {
       bad: "bg-red-500",
       ugly: "bg-red-500",
     };
-    setNotificationClass(lNotificationClasses[state]);
+    setNotificationClass(state === "" ? lNotificationClasses.bad : lNotificationClasses[state]);
   }, [state]);
+
+  useEffect(() => {
+    setNotificationOpen(false);
+    setNotification("");
+  }, [location, setNotification]);
 
   return (
     <>
@@ -49,7 +58,7 @@ function Notification() {
             className={`${notificationClass} border border-transparent dark:border-slate-700 text-white text-sm p-3 md:rounded shadow-lg flex justify-between`}
           >
             <div className={`text-white inline-flex`}>
-              {t(`_accessibility:messages.${notification}`)}
+              {state === "" ? notification : t(`_accessibility:messages.${notification}`)}
             </div>
             <button
               className="text-white hover:text-[red] pl-2 ml-3 border-l border-slate-200"
