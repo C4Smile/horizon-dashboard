@@ -1,12 +1,21 @@
-import React, { useMemo } from "react";
+import { useMemo, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
+import { useNavigate, Link } from "react-router-dom";
+
+// icons
+import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
 // dto
 import { Room, RoomStatus } from "../../models/Room";
-import { RoomType } from "../../models/RoomType";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
+import { ReactQueryKeys } from "../../utils/queryKeys";
+
+// providers
+import { useNotification } from "../../providers/NotificationProvider";
+import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -18,9 +27,10 @@ const roomQuery = [
     dateOfCreation: Date.now(),
     lastUpdate: Date.now(),
     deleted: true,
-    number: 101,
-    type: new RoomType(1, "Single"),
-    description: "Single bed with private bathroom",
+    number: 1,
+    name: "Sala 1",
+    description:
+      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur",
     status: RoomStatus.free,
   },
   {
@@ -28,9 +38,10 @@ const roomQuery = [
     dateOfCreation: Date.now(),
     lastUpdate: Date.now(),
     deleted: false,
-    number: 102,
-    type: new RoomType(2, "Double"),
-    description: "Double bed with private bathroom",
+    number: 2,
+    name: "Sala 2",
+    description:
+      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur",
     status: RoomStatus.occupied,
   },
 ];
@@ -42,6 +53,11 @@ const roomQuery = [
 function Rooms() {
   const { t } = useTranslation();
 
+  const navigate = useNavigate();
+
+  const { setNotification } = useNotification();
+  const museumApiClient = useMuseumApiClient();
+
   const preparedColumns = useMemo(() => {
     const keys = extractKeysFromObject(new Room(), ["id", "dateOfCreation", "lastUpdate", "deleted"]);
     return keys.map((key) => ({
@@ -51,6 +67,11 @@ function Rooms() {
     }));
   }, [t]);
 
+  const roomQuery = useQuery({
+    queryKey: [ReactQueryKeys.Rooms],
+    queryFn: () => museumApiClient.room.getAll(),
+  });
+
   const preparedRows = useMemo(() => {
     return roomQuery.map((room) => {
       return {
@@ -59,21 +80,55 @@ function Rooms() {
         lastUpdate: new Date(room.lastUpdate).toLocaleDateString(),
         deleted: room.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
         number: room.number,
-        type: room.type.Name,
-        description: room.description,
+        name: (
+          <Link className="underline text-light-primary" to={`${room.id}`}>
+            {room.name}
+          </Link>
+        ),
         status: t(`_entities:room.status.${room.status}`),
       };
     });
-  }, [t]);
+  }, [roomQuery, t]);
 
-  const loading = useMemo(() => false, []);
+  useEffect(() => {
+    const { error } = roomQuery;
+    // eslint-disable-next-line no-console
+    if (error && error !== null) console.error(roomQuery.error);
+  }, [roomQuery]);
+
+  const getActions = [
+    {
+      id: "edit",
+      onClick: (e) => navigate(`/management/rooms/${e.id}`),
+      icon: faPencil,
+      tooltip: t("_accessibility:buttons.edit"),
+    },
+    {
+      id: "delete",
+      onClick: (e) => {
+        const { error, status } = museumApiClient.Customer.delete([e.id]);
+        setNotification(String(status));
+
+        // eslint-disable-next-line no-console
+        if (error && error !== null) console.error(error);
+        else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers] });
+      },
+      icon: faTrash,
+      tooltip: t("_accessibility:buttons.edit"),
+    },
+  ];
 
   return (
     <div className="p-5">
       <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
         {t("_pages:management.links.rooms")}
       </h1>
-      {loading ? <Loading /> : <Table rows={preparedRows} columns={preparedColumns} />}
+      <Table
+        isLoading={roomQuery.isLoading}
+        rows={preparedRows}
+        columns={preparedColumns}
+        actions={getActions}
+      />
     </div>
   );
 }
