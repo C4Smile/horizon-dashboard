@@ -7,7 +7,6 @@ import { useForm, Controller } from "react-hook-form";
 // components
 import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
-import SelectInput from "../../components/Forms/SelectInput";
 import PasswordInput from "../../components/Forms/PasswordInput";
 
 // providers
@@ -16,8 +15,6 @@ import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvid
 
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
-
-const countries = ["United States", "Canada", "France", "Germany"];
 
 /**
  * UserForm
