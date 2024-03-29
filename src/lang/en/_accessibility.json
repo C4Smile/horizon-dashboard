@@ -8,7 +8,12 @@
     "yes": "Yes",
     "no": "No",
     "submit": "Submit",
-    "close": "Close"
+    "close": "Close",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "labels": {
+    "actions": "Actions"
   },
   "tooltips": "",
   "ariaLabels": "",
