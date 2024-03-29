@@ -6,7 +6,7 @@ import { fetchFromLocal, fetchSingleFromLocal, saveToLocal, deleteFromLocal } fr
  */
 export class CustomerApiClient {
   /**
-   * @description Get all users
+   * @description Get all customers
    * @param {string} attributes - Attributes
    * @returns Customer list
    */
@@ -15,8 +15,8 @@ export class CustomerApiClient {
   }
 
   /**
-   * @description Get user by id
-   * @param {string} id - User id
+   * @description Get customer by id
+   * @param {string} id - Customer id
    * @param {string} attributes - Attributes
    * @returns Customer by id
    */
@@ -25,21 +25,21 @@ export class CustomerApiClient {
   }
 
   /**
-   * @description Create user
-   * @param {object} user - User
+   * @description Create customer
+   * @param {object} customer - Customer
    * @returns  Transaction status
    */
-  async create(user) {
-    return await saveToLocal("customer", user);
+  async create(customer) {
+    return await saveToLocal("customer", customer);
   }
 
   /**
-   * @description Update user
-   * @param {object} user - User
+   * @description Update customer
+   * @param {object} customer - Customer
    * @returns Transaction status
    */
-  async update(user) {
-    return await saveToLocal("customer", user);
+  async update(customer) {
+    return await saveToLocal("customer", customer);
   }
 
   /**
