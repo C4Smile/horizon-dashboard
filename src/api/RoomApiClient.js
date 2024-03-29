@@ -44,7 +44,7 @@ export class RoomApiClient {
 
   /**
    * Remove elements by their id
-   * @param {number[]} ids
+   * @param {number[]} ids ids to delete
    * @returns Transaction status
    */
   async delete(ids) {

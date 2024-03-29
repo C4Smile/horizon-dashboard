@@ -44,7 +44,7 @@ export class CustomerApiClient {
 
   /**
    * Remove elements by their id
-   * @param {number[]} ids
+   * @param {number[]} ids to delete
    * @returns Transaction status
    */
   async delete(ids) {
