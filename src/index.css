@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+textarea {
+  resize: none;
+}
+
 :root {
   line-height: 1.5;
 
