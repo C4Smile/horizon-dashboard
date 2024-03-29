@@ -18,6 +18,8 @@ export class User extends Entity {
    * @param {string} name - user name
    * @param {string} email - user email
    * @param {string} phone - user phone
+   * @param {string} address - user address
+   * @param {string} identification - user identification
    * @param {Date} dateOfCreation - user date of creation
    * @param {Date} lastUpdate - user last update
    * @param {boolean} deleted - user deleted
@@ -29,6 +31,8 @@ export class User extends Entity {
     name,
     email,
     phone,
+    address,
+    identification,
     dateOfCreation = Date.now(),
     lastUpdate = Date.now(),
     deleted = false,
@@ -39,6 +43,8 @@ export class User extends Entity {
     this.name = name;
     this.email = email;
     this.phone = phone;
+    this.address = address;
+    this.identification = identification;
   }
 
   /**
@@ -54,6 +60,8 @@ export class User extends Entity {
       json.name,
       json.email,
       json.phone,
+      json.address,
+      json.identification,
       json.dateOfCreation,
       json.lastUpdate,
       json.deleted,
@@ -93,5 +101,19 @@ export class User extends Entity {
    */
   get Phone() {
     return this.phone;
+  }
+
+  /**
+   * @returns Address
+   */
+  get Address() {
+    return this.address;
+  }
+
+  /**
+   * @returns Identification
+   */
+  get Identification() {
+    return this.identification;
   }
 }
