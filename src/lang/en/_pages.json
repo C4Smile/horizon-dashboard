@@ -47,5 +47,9 @@
   "customers": {
     "editForm": "Edit Customer",
     "newForm": "New Customer"
+  },
+  "rooms": {
+    "editForm": "Edit Room",
+    "newForm": "New Room"
   }
 }
