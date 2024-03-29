@@ -7,6 +7,7 @@ import { useForm, Controller } from "react-hook-form";
 // components
 import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
+import ParagraphInput from "../../components/Forms/ParagraphInput";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
@@ -111,6 +112,23 @@ function RoomForm() {
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder={t("_entities:room.name.placeholder")}
               label={t("_entities:room.name.label")}
+              required
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          disabled={roomQuery.isLoading || saving}
+          name="description"
+          render={({ field }) => (
+            <ParagraphInput
+              {...field}
+              name="description"
+              id="description"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer h-48"
+              inputClassName="!h-80"
+              placeholder={t("_entities:room.description.placeholder")}
+              label={t("_entities:room.description.label")}
               required
             />
           )}

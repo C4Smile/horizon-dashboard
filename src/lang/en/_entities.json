@@ -46,6 +46,7 @@
     "number": { "label": "Number", "placeholder": "ex: I" },
     "name": { "label": "Name", "placeholder": "ex: Historia de un símbolo" },
     "type": { "label": "Type", "placeholder": "ex: Virtual" },
+    "description": { "label": "Description", "placeholder": "ex: In this room Fidel Castro..." },
     "status": { "label": "Status", "operational": "Operational", "maintenance": "Maintenance" }
   }
 }
