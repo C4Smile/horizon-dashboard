@@ -92,7 +92,7 @@ function Rooms() {
         else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers] });
       },
       icon: faTrash,
-      tooltip: t("_accessibility:buttons.edit"),
+      tooltip: t("_accessibility:buttons.delete"),
     },
   ];
 
