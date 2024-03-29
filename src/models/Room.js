@@ -1,5 +1,3 @@
-import { RoomType } from "./RoomType";
-
 import { Entity } from "./Entity";
 
 export const RoomStatus = {
@@ -14,14 +12,12 @@ export const RoomStatus = {
 export class Room extends Entity {
   number = "";
   name = "";
-  type = null;
   status = false;
 
   /**
    * @param {number} id - Room id
    * @param {string} number - Room number
    * @param {string} name - Room name
-   * @param {RoomType} type - Room type
    * @param {RoomStatus} status - Room status
    * @param {Date} dateOfCreation - Room date of creation
    * @param {Date} lastUpdate - Room last update
@@ -32,7 +28,6 @@ export class Room extends Entity {
     id,
     number,
     name,
-    type,
     status = RoomStatus.free,
     dateOfCreation = Date.now(),
     lastUpdate = Date.now(),
@@ -41,7 +36,6 @@ export class Room extends Entity {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.number = number;
     this.name = name;
-    this.type = type;
     this.status = status;
   }
 
@@ -55,7 +49,6 @@ export class Room extends Entity {
       json.id,
       json.number,
       json.name,
-      RoomType.fromJson(json.type),
       json.status,
       json.dateOfCreation,
       json.lastUpdate,
@@ -75,13 +68,6 @@ export class Room extends Entity {
    */
   get Name() {
     return this.name;
-  }
-
-  /**
-   * @returns Type
-   */
-  get Type() {
-    return this.type;
   }
 
   /**
