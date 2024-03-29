@@ -11,7 +11,7 @@ const PasswordInput = forwardRef(function (props, ref) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <TextInput {...props} ref={ref}>
+    <TextInput {...props} type={showPassword ? "text" : "password"} ref={ref}>
       <button
         type="button"
         className="absolute right-0 top-[9px]"
