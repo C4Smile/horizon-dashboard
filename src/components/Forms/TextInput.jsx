@@ -11,6 +11,7 @@ import { inputStateClassName, labelStateClassName, helperTextStateClassName } fr
  */
 const TextInput = forwardRef(function (props, ref) {
   const {
+    children,
     value,
     onChange,
     state,
@@ -48,6 +49,7 @@ const TextInput = forwardRef(function (props, ref) {
       >
         {label}
       </label>
+      {children}
       <p className={`mt-2 text-sm ${helperTextStateClassName(state)} ${helperTextClassName}`}>
         {state !== "error" && state !== "good" ? placeholder : helperText}
       </p>
