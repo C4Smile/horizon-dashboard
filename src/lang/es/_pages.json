@@ -23,8 +23,7 @@
       "customers": "Clientes",
       "reservations": "Reservas",
       "invoices": "Facturas",
-      "rooms": "Salas",
-      "roomTypes": "Tipos de Salas"
+      "rooms": "Salas"
     }
   },
   "personal": {

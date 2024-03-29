@@ -27,10 +27,6 @@ export const sitemap = [
         label: "rooms",
         path: "/rooms",
       },
-      {
-        label: "roomTypes",
-        path: "/room-types",
-      },
     ],
   },
   {

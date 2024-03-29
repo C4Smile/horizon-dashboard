@@ -23,8 +23,7 @@
       "customers": "Customers",
       "reservations": "Reservations",
       "invoices": "Invoices",
-      "rooms": "Rooms",
-      "roomTypes": "Room Types"
+      "rooms": "Rooms"
     }
   },
   "personal": {

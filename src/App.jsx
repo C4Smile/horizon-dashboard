@@ -34,9 +34,6 @@ const InvoiceForm = loadable(() => import("./pages/Invoices/InvoiceForm"));
 // rooms
 const Rooms = loadable(() => import("./pages/Rooms/Rooms"));
 const RoomForm = loadable(() => import("./pages/Rooms/RoomForm"));
-// room types
-const RoomTypes = loadable(() => import("./pages/RoomTypes/RoomTypes"));
-const RoomTypeForm = loadable(() => import("./pages/RoomTypes/RoomTypeForm"));
 // users
 const Users = loadable(() => import("./pages/Users/Users"));
 const UserForm = loadable(() => import("./pages/Users/UserForm"));
@@ -103,15 +100,6 @@ function App() {
               <Route index element={<Rooms />} />
               <Route path="/management/rooms/new" element={<RoomForm />} />
               <Route path="/management/rooms/:id" element={<RoomForm />} />
-            </Route>
-            <Route
-              exact
-              path="/management/room-types"
-              element={<ModelNavigation parent="management" model="room-types" />}
-            >
-              <Route index element={<RoomTypes />} />
-              <Route path="/management/room-types/new" element={<RoomTypeForm />} />
-              <Route path="/management/room-types/:id" element={<RoomTypeForm />} />
             </Route>
             <Route
               exact
