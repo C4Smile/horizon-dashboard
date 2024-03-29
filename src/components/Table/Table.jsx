@@ -28,7 +28,7 @@ function Table(props) {
               </th>
             ))}
             {Boolean(actions.length) && (
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 {t("_accessibility:labels.actions")}
               </th>
             )}
