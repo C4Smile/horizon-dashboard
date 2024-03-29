@@ -1,5 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslation } from "react-i18next";
+import Tippy from "@tippyjs/react";
 
 // components
 import Loading from "../../partials/loading/Loading";
@@ -10,6 +13,8 @@ import Loading from "../../partials/loading/Loading";
  * @returns Table component
  */
 function Table(props) {
+  const { t } = useTranslation();
+
   const { columns, rows, isLoading, actions } = props;
 
   return (
@@ -22,7 +27,11 @@ function Table(props) {
                 {column.label}
               </th>
             ))}
-            {Boolean(actions.length) && <th scope="col" className="px-6 py-3"></th>}
+            {Boolean(actions.length) && (
+              <th scope="col" className="px-6 py-3">
+                {t("_accessibility:labels.actions")}
+              </th>
+            )}
           </tr>
         </thead>
         {!isLoading && Boolean(rows.length) && (
@@ -32,16 +41,26 @@ function Table(props) {
                 {columns.map((column, i) => (
                   <td
                     key={column.id}
-                    scope="row"
                     className={`px-6 py-4 font-medium ${i === 0 ? "text-gray-900 whitespace-nowrap dark:text-white" : ""} `}
                   >
                     {row[column.id]}
                   </td>
                 ))}
-                {Boolean(actions.length) && <td>{actions.map((action) =>  )}</td>}
+                {Boolean(actions.length) && (
+                  <td>
+                    <div className="flex items-center gap-3 w-full justify-center">
+                      {actions.map((action) => (
+                        <Tippy key={action.id} content={action.tooltip}>
+                          <button onClick={() => action.onClick(row)}>
+                            <FontAwesomeIcon icon={action.icon} />
+                          </button>
+                        </Tippy>
+                      ))}
+                    </div>
+                  </td>
+                )}
               </tr>
             ))}
-
           </tbody>
         )}
       </table>

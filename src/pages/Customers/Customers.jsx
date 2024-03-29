@@ -3,6 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 
+// icons
+import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
+
 // dto
 import { Customer } from "../../models/Customer";
 
@@ -78,7 +81,12 @@ function Customers() {
   }, [customerQuery]);
 
   const getActions = [
-    { id: "edit", onClick: (e) => navigate(e.id), icon: faPencil },
+    {
+      id: "edit",
+      onClick: (e) => navigate(`/management/customers/${e.id}`),
+      icon: faPencil,
+      tooltip: t("_accessibility:buttons.edit"),
+    },
     {
       id: "delete",
       onClick: (e) => {
@@ -90,6 +98,7 @@ function Customers() {
         else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers] });
       },
       icon: faTrash,
+      tooltip: t("_accessibility:buttons.edit"),
     },
   ];
 
