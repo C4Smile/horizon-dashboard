@@ -38,7 +38,7 @@
     "title": "Settings",
     "links": {
       "account": "Account",
-      "notifications": "Notifications"
+      "security": "Security"
     }
   },
   "users": {
