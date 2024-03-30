@@ -23,7 +23,9 @@
       "customers": "Customers",
       "reservations": "Reservations",
       "invoices": "Invoices",
-      "rooms": "Rooms"
+      "rooms": "Rooms",
+      "countries": "Countries",
+      "provinces": "Provinces"
     }
   },
   "personal": {
