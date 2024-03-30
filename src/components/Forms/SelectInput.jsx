@@ -42,8 +42,8 @@ const SelectInput = forwardRef(function (props, ref) {
         onChange={onChange}
         className={`block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 disabled:text-[#6b7280] ${inputStateClassName(state)} peer ${inputClassName}`}
       >
-        {options.map((option, index) => (
-          <option key={option.id} value={index}>
+        {options.map((option) => (
+          <option key={option.id} value={option.id}>
             {option.value}
           </option>
         ))}
