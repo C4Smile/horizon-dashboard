@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
+// components
 import SidebarLinkGroup from "./SidebarLinkGroup";
 import SidebarItem from "./SidebarItem";
+
+// sitemap
 import { sitemap } from "../sitemap";
 
 /**
