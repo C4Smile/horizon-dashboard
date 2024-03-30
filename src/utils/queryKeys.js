@@ -1,3 +1,9 @@
 export const ReactQueryKeys = {
-  Customers: "Customer",
+  Customers: "Customers",
+  Rooms: "Rooms",
+  Countries: "Countries",
+  Provinces: "Provinces",
+  Reservations: "Reservations",
+  Invoices: "Invoices",
+  Users: "Users",
 };
