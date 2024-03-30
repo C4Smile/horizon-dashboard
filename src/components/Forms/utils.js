@@ -1,6 +1,6 @@
 /**
  * Input State Class Name
- * @param {string} state
+ * @param {string} state - input state
  * @returns input class name by
  */
 export const inputStateClassName = (state) => {
@@ -16,7 +16,7 @@ export const inputStateClassName = (state) => {
 
 /**
  * Label State Class Name
- * @param {string} state
+ * @param {string} state - input state
  * @returns input class name by
  */
 export const labelStateClassName = (state) => {
@@ -32,7 +32,7 @@ export const labelStateClassName = (state) => {
 
 /**
  * Helper Text State Class Name
- * @param {string} state
+ * @param {string} state - input state
  * @returns input class name by
  */
 export const helperTextStateClassName = (state) => {
