@@ -114,7 +114,9 @@ function ProvinceForm() {
               id="country"
               name="country"
               label={t("_entities:customer.country.label")}
-              options={countryQuery.data?.data.map((c) => `${c.name} - ${c.iso}`) || []}
+              options={
+                countryQuery.data?.data.map((c) => ({ value: `${c.name} - ${c.iso}`, id: c.id })) || []
+              }
               value={value}
               onChange={(e) => {
                 onChange(e.target.value);
