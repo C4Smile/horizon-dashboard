@@ -50,5 +50,13 @@
   "rooms": {
     "editForm": "Edit Room",
     "newForm": "New Room"
+  },
+  "reservations": {
+    "editForm": "Edit Reservations",
+    "newForm": "New Reservations"
+  },
+  "invoices": {
+    "editForm": "Edit Invoice",
+    "newForm": "New Invoice"
   }
 }

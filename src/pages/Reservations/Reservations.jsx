@@ -1,61 +1,36 @@
-import React, { useMemo } from "react";
+import { useMemo, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
+import { useNavigate, Link } from "react-router-dom";
+
+// icons
+import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
 // dto
-import { Reservation, ReservationStatus } from "../../models/Reservation";
+import { Reservation } from "../../models/Reservation";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
+import { ReactQueryKeys } from "../../utils/queryKeys";
+
+// providers
+import { useNotification } from "../../providers/NotificationProvider";
+import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
-import Loading from "../../partials/loading/Loading";
-
-const reservationQuery = [
-  {
-    id: 1,
-    dateOfCreation: Date.now(),
-    lastUpdate: Date.now(),
-    deleted: false,
-    customer: { id: 1, name: "John Doe" },
-    rooms: [],
-    checkInDate: Date.now(),
-    checkOutDate: Date.now(),
-    status: ReservationStatus.pending,
-    ticket: "ABC123456",
-  },
-  {
-    id: 2,
-    dateOfCreation: Date.now(),
-    lastUpdate: Date.now(),
-    deleted: false,
-    customer: { id: 1, name: "John Doe" },
-    rooms: [],
-    checkInDate: Date.now(),
-    checkOutDate: Date.now(),
-    status: ReservationStatus.confirmed,
-    ticket: "ABC123456",
-  },
-  {
-    id: 3,
-    dateOfCreation: Date.now(),
-    lastUpdate: Date.now(),
-    deleted: false,
-    customer: { id: 1, name: "John Doe" },
-    rooms: [],
-    checkInDate: Date.now(),
-    checkOutDate: Date.now(),
-    status: ReservationStatus.cancelled,
-    ticket: "ABC123456",
-  },
-];
 
 /**
- * Reservations page
- * @returns Reservations page component
+ * Reservation page
+ * @returns Reservation page component
  */
 function Reservations() {
   const { t } = useTranslation();
+
+  const navigate = useNavigate();
+
+  const { setNotification } = useNotification();
+  const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
     const keys = extractKeysFromObject(new Reservation(), [
@@ -71,31 +46,74 @@ function Reservations() {
     }));
   }, [t]);
 
-  const preparedRows = useMemo(() => {
-    return reservationQuery.map((reservation) => {
-      return {
-        id: reservation.id,
-        dateOfCreation: new Date(reservation.dateOfCreation).toLocaleDateString(),
-        lastUpdate: new Date(reservation.lastUpdate).toLocaleDateString(),
-        deleted: reservation.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
-        customer: reservation.customer.name,
-        rooms: reservation.rooms.length,
-        checkInDate: new Date(reservation.checkInDate).toLocaleDateString(),
-        checkOutDate: new Date(reservation.checkOutDate).toLocaleDateString(),
-        status: t(`_entities:reservation.status.${ReservationStatus[reservation.status]}`),
-        ticket: reservation.ticket,
-      };
-    });
-  }, [t]);
+  const reservationQuery = useQuery({
+    queryKey: [ReactQueryKeys.Reservations],
+    queryFn: () => museumApiClient.reservation.getAll(),
+  });
 
-  const loading = useMemo(() => false, []);
+  const preparedRows = useMemo(() => {
+    if (reservationQuery.data) {
+      const { data } = reservationQuery.data;
+      if (data && data !== null)
+        return data.map((reservation) => {
+          return {
+            id: reservation.id,
+            dateOfCreation: new Date(reservation.dateOfCreation).toLocaleDateString(),
+            lastUpdate: new Date(reservation.lastUpdate).toLocaleDateString(),
+            deleted: reservation.deleted
+              ? t("_accessibility:buttons.yes")
+              : t("_accessibility:buttons.no"),
+            number: reservation.number,
+            name: (
+              <Link className="underline text-light-primary" to={`${reservation.id}`}>
+                {reservation.name}
+              </Link>
+            ),
+            status: t(`_entities:reservation.status.${reservation.status}`),
+          };
+        });
+    }
+  }, [reservationQuery, t]);
+
+  useEffect(() => {
+    const { error } = reservationQuery;
+    // eslint-disable-next-line no-console
+    if (error && error !== null) console.error(reservationQuery.error);
+  }, [reservationQuery]);
+
+  const getActions = [
+    {
+      id: "edit",
+      onClick: (e) => navigate(`/management/reservations/${e.id}`),
+      icon: faPencil,
+      tooltip: t("_accessibility:buttons.edit"),
+    },
+    {
+      id: "delete",
+      onClick: (e) => {
+        const { error, status } = museumApiClient.Customer.delete([e.id]);
+        setNotification(String(status));
+
+        // eslint-disable-next-line no-console
+        if (error && error !== null) console.error(error);
+        else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers] });
+      },
+      icon: faTrash,
+      tooltip: t("_accessibility:buttons.delete"),
+    },
+  ];
 
   return (
     <div className="p-5">
       <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
         {t("_pages:management.links.reservations")}
       </h1>
-      {loading ? <Loading /> : <Table rows={preparedRows} columns={preparedColumns} />}
+      <Table
+        isLoading={reservationQuery.isLoading}
+        rows={preparedRows}
+        columns={preparedColumns}
+        actions={getActions}
+      />
     </div>
   );
 }
