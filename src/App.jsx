@@ -22,6 +22,8 @@ const ModelNavigation = loadable(() => import("./layouts/ModelNavigation"));
 
 // Import pages
 const Home = loadable(() => import("./pages/Home"));
+const Account = loadable(() => import("./pages/Account/Account"));
+const NotFound = loadable(() => import("./pages/NotFound/NotFound"));
 // customers
 const Customers = loadable(() => import("./pages/Customers/Customers"));
 const CustomerForm = loadable(() => import("./pages/Customers/CustomerForm"));
@@ -71,6 +73,7 @@ function App() {
             }
           >
             <Route index element={<Home />} />
+            <Route path="/settings/account" element={<Account />} />
             <Route
               exact
               path="/management/customers"
@@ -135,6 +138,7 @@ function App() {
               <Route path="/personal/users/:id" element={<UserForm />} />
             </Route>
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </MuseumApiClientProvider>
