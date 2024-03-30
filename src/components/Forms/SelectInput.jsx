@@ -28,7 +28,7 @@ const SelectInput = forwardRef(function (props, ref) {
 
   // setting default value
   useEffect(() => {
-    if (value === "") onChange({ target: { value: "0" } });
+    if (value === "") onChange({ target: { value: options?.length ? options[0].id : "0" } });
   }, [onChange, options, value]);
 
   return (
@@ -43,8 +43,8 @@ const SelectInput = forwardRef(function (props, ref) {
         className={`block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 disabled:text-[#6b7280] ${inputStateClassName(state)} peer ${inputClassName}`}
       >
         {options.map((option, index) => (
-          <option key={index} value={index}>
-            {option}
+          <option key={option.id} value={index}>
+            {option.value}
           </option>
         ))}
       </select>
@@ -74,7 +74,7 @@ SelectInput.defaultProps = {
 };
 
 SelectInput.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.any,
   onChange: PropTypes.func.isRequired,
   state: PropTypes.oneOf(["error", "good", "default"]),
   name: PropTypes.string,
