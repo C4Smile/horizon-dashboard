@@ -31,6 +31,12 @@ const ReservationForm = loadable(() => import("./pages/Reservations/ReservationF
 // invoices
 const Invoices = loadable(() => import("./pages/Invoices/Invoices"));
 const InvoiceForm = loadable(() => import("./pages/Invoices/InvoiceForm"));
+// countries
+const Countries = loadable(() => import("./pages/Countries/Countries"));
+const CountryForm = loadable(() => import("./pages/Countries/CountryForm"));
+// provinces
+const Provinces = loadable(() => import("./pages/Provinces/Provinces"));
+const ProvinceForm = loadable(() => import("./pages/Provinces/ProvinceForm"));
 // rooms
 const Rooms = loadable(() => import("./pages/Rooms/Rooms"));
 const RoomForm = loadable(() => import("./pages/Rooms/RoomForm"));
@@ -91,6 +97,24 @@ function App() {
               <Route index element={<Invoices />} />
               <Route path="/management/invoices/new" element={<InvoiceForm />} />
               <Route path="/management/invoices/:id" element={<InvoiceForm />} />
+            </Route>
+            <Route
+              exact
+              path="/management/countries"
+              element={<ModelNavigation parent="management" model="countries" />}
+            >
+              <Route index element={<Countries />} />
+              <Route path="/management/countries/new" element={<CountryForm />} />
+              <Route path="/management/countries/:id" element={<CountryForm />} />
+            </Route>
+            <Route
+              exact
+              path="/management/provinces"
+              element={<ModelNavigation parent="management" model="provinces" />}
+            >
+              <Route index element={<Provinces />} />
+              <Route path="/management/provinces/new" element={<ProvinceForm />} />
+              <Route path="/management/provinces/:id" element={<ProvinceForm />} />
             </Route>
             <Route
               exact
