@@ -55,10 +55,6 @@ export const sitemap = [
         label: "account",
         path: "/account",
       },
-      {
-        label: "notifications",
-        path: "/notifications",
-      },
     ],
   },
 ];
