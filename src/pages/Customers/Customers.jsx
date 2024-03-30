@@ -68,7 +68,7 @@ function Customers() {
             phone: customer.phone,
             address: customer.address,
             identification: customer.identification,
-            country: customer.country?.Name,
+            country: customer.country?.name,
           };
         });
     }

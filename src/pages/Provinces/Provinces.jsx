@@ -68,7 +68,7 @@ function Provinces() {
                 {province.name}
               </Link>
             ),
-            country: province.country?.Name,
+            country: province.country?.name,
           };
         });
     }
