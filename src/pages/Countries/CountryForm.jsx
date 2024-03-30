@@ -7,7 +7,6 @@ import { useForm, Controller } from "react-hook-form";
 // components
 import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
-import ParagraphInput from "../../components/Forms/ParagraphInput";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
