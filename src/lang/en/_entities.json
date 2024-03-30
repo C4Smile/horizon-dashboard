@@ -23,6 +23,10 @@
     "name": { "label": "Name", "placeholder": "ex: Cuba" },
     "iso": { "label": "ISO", "placeholder": "ex: CU" }
   },
+  "province": {
+    "name": { "label": "Name", "placeholder": "ex: Havana" },
+    "country": { "label": "Country" }
+  },
   "invoice": {
     "reservation": { "label": "Reservation", "placeholder": "ex: " },
     "customer": { "label": "Customer", "placeholder": "ex: John Doe" },

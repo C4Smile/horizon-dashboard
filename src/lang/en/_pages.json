@@ -58,5 +58,13 @@
   "invoices": {
     "editForm": "Edit Invoice",
     "newForm": "New Invoice"
+  },
+  "countries": {
+    "editForm": "Edit Country",
+    "newForm": "New Country"
+  },
+  "provinces": {
+    "editForm": "Edit Province",
+    "newForm": "New Province"
   }
 }
