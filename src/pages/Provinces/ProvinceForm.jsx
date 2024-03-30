@@ -106,23 +106,6 @@ function ProvinceForm() {
         />
         <Controller
           control={control}
-          disabled={provinceQuery.isLoading || saving}
-          name="iso"
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              type="name"
-              name="iso"
-              id="iso"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder={t("_entities:province.iso.placeholder")}
-              label={t("_entities:province.iso.label")}
-              required
-            />
-          )}
-        />
-        <Controller
-          control={control}
           name="country"
           disabled={provinceQuery.isLoading || countryQuery.isLoading || saving}
           render={({ field: { onChange, value, ...rest } }) => (
@@ -131,7 +114,7 @@ function ProvinceForm() {
               id="country"
               name="country"
               label={t("_entities:customer.country.label")}
-              options={countryQuery.data?.data.map((c) => c.Name) || []}
+              options={countryQuery.data?.data.map((c) => `${c.name} - ${c.iso}`) || []}
               value={value}
               onChange={(e) => {
                 onChange(e.target.value);
