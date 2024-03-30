@@ -177,7 +177,7 @@ function CustomerForm() {
         <Controller
           control={control}
           name="country"
-          disabled={customerQuery.isLoading || saving}
+          disabled={customerQuery.isLoading || countryQuery.isLoading || saving}
           render={({ field: { onChange, value, ...rest } }) => (
             <SelectInput
               {...rest}
