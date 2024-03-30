@@ -16,8 +16,6 @@ import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvid
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
-const countries = ["United States", "Canada", "France", "Germany"];
-
 /**
  * CustomerForm
  * @returns CustomerForm page Component
@@ -77,6 +75,11 @@ function CustomerForm() {
       if (data && data !== null) reset({ ...data });
     }
   }, [customerQuery.data, id, reset]);
+
+  const countryQuery = useQuery({
+    queryKey: [ReactQueryKeys.Countries],
+    queryFn: () => museumApiClient.Country.getAll(),
+  });
 
   return (
     <div className="px-5 pt-10 flex items-start justify-start">
@@ -181,7 +184,7 @@ function CustomerForm() {
               id="country"
               name="country"
               label={t("_entities:customer.country.label")}
-              options={countries}
+              options={countryQuery.data?.data.map((c) => c.Name) || []}
               value={value}
               onChange={(e) => {
                 onChange(e.target.value);
