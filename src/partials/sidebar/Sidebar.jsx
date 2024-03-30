@@ -72,25 +72,25 @@ function Sidebar(props) {
     settings: (
       <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
         <circle
-          className={`fill-current ${pathname.includes("utility") ? "text-light-primary" : "text-slate-400"}`}
+          className={`fill-current ${pathname.includes("settings") ? "text-light-primary" : "text-slate-400"}`}
           cx="18.5"
           cy="5.5"
           r="4.5"
         />
         <circle
-          className={`fill-current ${pathname.includes("utility") ? "text-primary" : "text-slate-600"}`}
+          className={`fill-current ${pathname.includes("settings") ? "text-primary" : "text-slate-600"}`}
           cx="5.5"
           cy="5.5"
           r="4.5"
         />
         <circle
-          className={`fill-current ${pathname.includes("utility") ? "text-primary" : "text-slate-600"}`}
+          className={`fill-current ${pathname.includes("settings") ? "text-primary" : "text-slate-600"}`}
           cx="18.5"
           cy="18.5"
           r="4.5"
         />
         <circle
-          className={`fill-current ${pathname.includes("utility") ? "text-light-primary" : "text-slate-400"}`}
+          className={`fill-current ${pathname.includes("settings") ? "text-light-primary" : "text-slate-400"}`}
           cx="5.5"
           cy="18.5"
           r="4.5"
