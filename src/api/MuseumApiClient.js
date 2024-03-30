@@ -1,4 +1,8 @@
 import { CustomerApiClient } from "./CustomerApiClient";
+import { ReservationApiClient } from "./ReservationApiClient";
+import { InvoiceApiClient } from "./InvoiceApiClient";
+import { CountryApiClient } from "./CountryApiClient";
+import { ProvinceApiClient } from "./ProvinceApiClient";
 import { RoomApiClient } from "./RoomApiClient";
 import { UserApiClient } from "./UserApiClient";
 
@@ -13,6 +17,10 @@ export class MuseumApiClient {
   constructor() {
     this.user = new UserApiClient();
     this.customer = new CustomerApiClient();
+    this.reservation = new ReservationApiClient();
+    this.invoice = new InvoiceApiClient();
+    this.country = new CountryApiClient();
+    this.province = new ProvinceApiClient();
     this.room = new RoomApiClient();
   }
 
@@ -35,5 +43,33 @@ export class MuseumApiClient {
    */
   get Room() {
     return this.room;
+  }
+
+  /**
+   * @returns {CountryApiClient} Country
+   */
+  get Country() {
+    return this.country;
+  }
+
+  /**
+   * @returns {ProvinceApiClient} Province
+   */
+  get Province() {
+    return this.province;
+  }
+
+  /**
+   * @returns {ReservationApiClient} Reservation
+   */
+  get Reservation() {
+    return this.reservation;
+  }
+
+  /**
+   * @returns {InvoiceApiClient} Invoice
+   */
+  get Invoice() {
+    return this.invoice;
   }
 }
