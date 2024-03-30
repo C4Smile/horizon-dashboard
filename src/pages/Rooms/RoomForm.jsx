@@ -4,9 +4,13 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 
+// models
+import { RoomStatus } from "../../models/Room";
+
 // components
 import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
+import SelectInput from "../../components/Forms/SelectInput";
 import ParagraphInput from "../../components/Forms/ParagraphInput";
 
 // providers
@@ -15,6 +19,9 @@ import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvid
 
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
+import { getEnumIdValueTuple } from "../../utils/parser";
+
+const statuses = getEnumIdValueTuple(RoomStatus);
 
 /**
  * Room Form page component
@@ -30,7 +37,7 @@ function RoomForm() {
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
 
-  const { handleSubmit, reset, control } = useForm();
+  const { handleSubmit, reset, control } = useForm({ status: statuses[0].id });
 
   const onSubmit = async (d) => {
     setNotification("");
@@ -82,6 +89,26 @@ function RoomForm() {
         <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
           {id ? `${t("_pages:rooms.editForm")} ${id}` : t("_pages:rooms.newForm")}
         </h1>
+        {id && (
+          <Controller
+            control={control}
+            name="status"
+            disabled={roomQuery.isLoading || saving}
+            render={({ field: { onChange, value, ...rest } }) => (
+              <SelectInput
+                {...rest}
+                id="country"
+                name="country"
+                label={t("_entities:room.status.label")}
+                options={statuses}
+                value={value}
+                onChange={(e) => {
+                  onChange(e.target.value);
+                }}
+              />
+            )}
+          />
+        )}
         <Controller
           control={control}
           disabled={roomQuery.isLoading || saving}
