@@ -7,7 +7,6 @@ import { Country } from "./Country";
  */
 export class Province extends Entity {
   name = "";
-  iso = "";
 
   /**
    * @param {number} id - Province id
