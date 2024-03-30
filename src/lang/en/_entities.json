@@ -46,9 +46,6 @@
     "country": { "label": "Country" },
     "identification": { "label": "Identification", "placeholder": "ex: A9012M" }
   },
-  "roomType": {
-    "name": { "label": "Name", "placeholder": "ex: Virtual" }
-  },
   "room": {
     "number": { "label": "Number", "placeholder": "ex: I" },
     "name": { "label": "Name", "placeholder": "ex: Historia de un símbolo" },
