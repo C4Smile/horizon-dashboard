@@ -12,6 +12,11 @@ const {
   VITE_RECOVERING_COOKIE,
   // COMMUNICATION
   VITE_CRYPTO,
+  // CACHE
+  VITE_RECENT_SEARCHES,
+  VITE_RECENT_SEARCHES_LIMIT,
+  VITE_RECENT_PAGES,
+  VITE_RECENT_PAGES_LIMIT,
 } = import.meta.env;
 
 const config = {
@@ -28,6 +33,11 @@ const config = {
   recovering: VITE_RECOVERING_COOKIE,
   // COMMUNICATION
   crypto: VITE_CRYPTO,
+  // CACHE
+  recentSearches: VITE_RECENT_SEARCHES,
+  recentSearchesLimit: VITE_RECENT_SEARCHES_LIMIT,
+  recentPages: VITE_RECENT_PAGES,
+  recentPagesLimit: VITE_RECENT_PAGES_LIMIT,
 };
 
 export default config;
