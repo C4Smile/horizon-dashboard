@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 
 // components
 import ToTop from "../components/ToTop/ToTop";
@@ -8,6 +8,10 @@ import Notification from "../partials/Notification";
 // partials
 import Sidebar from "../partials/sidebar/Sidebar";
 import Header from "../partials/Header";
+
+// utils
+import { fromLocal, toLocal } from "../utils/local";
+import config from "../config";
 
 /**
  * Dashboard layout
@@ -22,6 +26,21 @@ function Dashboard() {
   useEffect(() => {
     setMain(mainRef?.current);
   }, [mainRef]);
+
+  const location = useLocation();
+
+  const saveRecentLocation = useCallback((content, link) => {
+    const recentPages = fromLocal(config.recentPages, "object") ?? [];
+    if (recentPages.length >= Number(config.recentPagesLimit))
+      recentPages.splice(Number(config.recentPagesLimit) - 1);
+    const newRecentPages = [{ link, text: content }, ...recentPages];
+    toLocal(config.recentPages, newRecentPages);
+  }, []);
+
+  useEffect(() => {
+    const { pathname } = location;
+    saveRecentLocation(pathname, pathname);
+  }, [location, saveRecentLocation]);
 
   return (
     <div className="flex h-screen overflow-hidden">
