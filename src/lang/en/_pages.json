@@ -10,6 +10,15 @@
       "link": "/personal"
     }
   },
+  "search": {
+    "label": "Search",
+    "placeholder": "Search Anything...",
+    "recentSearches": "Recent Searches",
+    "noRecentSearches": "No recent searches",
+    "recentPages": "Recent Pages",
+    "noRecentPages": "No recent navigation",
+    "result": "Search Results"
+  },
   "dashboard": {
     "title": "Dashboard",
     "links": {
