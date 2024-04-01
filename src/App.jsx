@@ -17,10 +17,14 @@ import { NotificationProvider } from "./providers/NotificationProvider";
 import SplashScreen from "./partials/loading/SplashScreen";
 
 // layouts
+const Auth = loadable(() => import("./layouts/Auth"));
 const Dashboard = loadable(() => import("./layouts/Dashboard"));
 const ModelNavigation = loadable(() => import("./layouts/ModelNavigation"));
 
 // Import pages
+// Auth
+const SignIn = loadable(() => import("./pages/Auth/SignIn"));
+// Generals
 const Home = loadable(() => import("./pages/Home"));
 const Account = loadable(() => import("./pages/Account/Account"));
 const NotFound = loadable(() => import("./pages/NotFound/NotFound"));
@@ -72,6 +76,9 @@ function App() {
       <SplashScreen visible={loaded} />
       <Suspense>
         <Routes>
+          <Route exact path="/auth" element={<Auth />}>
+            <Route index element={<SignIn />} />
+          </Route>
           <Route
             exact
             path="/"
