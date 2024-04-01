@@ -36,9 +36,9 @@
     "paymentMethod": { "label": "Payment Method", "placeholder": "ex: " }
   },
   "user": {
-    "username": { "label": "Username", "placeholder": "ex: " },
-    "password": { "label": "Password", "placeholder": "ex: " },
-    "rPassword": { "label": "Confirm password", "placeholder": "ex: " },
+    "username": { "label": "Username", "placeholder": "ex: johndoe" },
+    "password": { "label": "Password", "placeholder": "ex: *******" },
+    "rPassword": { "label": "Confirm password", "placeholder": "ex: *******" },
     "name": { "label": "Name", "placeholder": "ex: John Doe" },
     "email": { "label": "Email", "placeholder": "ex: johndoe@gmail.com" },
     "phone": { "label": "Phone", "placeholder": "ex: +5352574839" },
