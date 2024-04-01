@@ -1,5 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+
+// providers
+import { useAccount } from "../providers/AccountProvider";
 
 // components
 import ToTop from "../components/ToTop/ToTop";
@@ -18,6 +21,8 @@ import config from "../config";
  * @returns Dashboard layout component
  */
 function Dashboard() {
+  const { account } = useAccount();
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const mainRef = useRef(null);
@@ -28,6 +33,7 @@ function Dashboard() {
   }, [mainRef]);
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const saveRecentLocation = useCallback((content, link) => {
     const recentPages = fromLocal(config.recentPages, "object") ?? [];
@@ -41,6 +47,10 @@ function Dashboard() {
     const { pathname } = location;
     saveRecentLocation(pathname, pathname);
   }, [location, saveRecentLocation]);
+
+  useEffect(() => {
+    if (!account.id) navigate("/auth");
+  }, [account, navigate]);
 
   return (
     <div className="flex h-screen overflow-hidden">
