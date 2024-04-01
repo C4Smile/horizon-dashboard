@@ -1,7 +1,8 @@
 {
   "appName": "Museo Primer Frente",
   "buttons": {
-    "openSidebar": "Open Sidebar",
+    "closeSidebar": "Close sidebar",
+    "openSidebar": "Open sidebar",
     "search": "Search",
     "list": "List",
     "insert": "Insert",
