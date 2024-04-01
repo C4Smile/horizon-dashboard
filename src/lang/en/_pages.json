@@ -19,6 +19,11 @@
     "noRecentPages": "No recent navigation",
     "result": "Search Results"
   },
+  "auth": {
+    "signIn": {
+      "title": "Sign In"
+    }
+  },
   "dashboard": {
     "title": "Dashboard",
     "links": {
