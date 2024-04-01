@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import loadable from "@loadable/component";
 
@@ -51,6 +51,8 @@ const UserForm = loadable(() => import("./pages/Users/UserForm"));
  * @returns App Component
  */
 function App() {
+  const [loaded, setLoaded] = useState(true);
+
   const location = useLocation();
 
   useEffect(() => {
@@ -59,9 +61,16 @@ function App() {
     document.querySelector("html").style.scrollBehavior = "";
   }, [location.pathname]); // triggered on route change
 
+  useEffect(() => {
+    setTimeout(() => {
+      setLoaded(false);
+    }, 1000);
+  }, []);
+
   return (
     <MuseumApiClientProvider>
-      <Suspense fallback={<SplashScreen />}>
+      <SplashScreen visible={loaded} />
+      <Suspense>
         <Routes>
           <Route
             exact
