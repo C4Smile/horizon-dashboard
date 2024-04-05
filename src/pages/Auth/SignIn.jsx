@@ -8,6 +8,7 @@ import TextInput from "../../components/Forms/TextInput";
 import PasswordInput from "../../components/Forms/PasswordInput";
 
 // providers
+import { useAccount } from "../../providers/AccountProvider";
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // images
@@ -20,6 +21,8 @@ import logoVertical from "../../assets/images/logo-vertical.png";
 function SignIn() {
   const { t } = useTranslation();
 
+  const { setAccount } = useAccount();
+
   const [appear, setAppear] = useState(false);
 
   const museumApiClient = useMuseumApiClient();
@@ -27,20 +30,21 @@ function SignIn() {
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
 
-  const { handleSubmit, reset, control } = useForm();
+  const { handleSubmit, control } = useForm();
 
   const onSubmit = async (d) => {
     setError("");
     setSaving(true);
     try {
-      let result;
-      if (d.id) result = await museumApiClient.Customer.create(d);
-      else result = await museumApiClient.Customer.update(d);
-      const { error, status } = result;
+      const result = await museumApiClient.User.login(d.username, d.password);
+      const { error, status, data } = result;
+      console.log(data);
       // set server status to notification
-
       // eslint-disable-next-line no-console
       if (error && error !== null) console.error(error);
+      else {
+        setAccount(data);
+      }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);

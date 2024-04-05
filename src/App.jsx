@@ -15,6 +15,7 @@ import { NotificationProvider } from "./providers/NotificationProvider";
 
 // components
 import SplashScreen from "./partials/loading/SplashScreen";
+import { useAccount } from "./providers/AccountProvider";
 
 // layouts
 const Auth = loadable(() => import("./layouts/Auth"));
@@ -56,6 +57,8 @@ const UserForm = loadable(() => import("./pages/Users/UserForm"));
  */
 function App() {
   const [loaded, setLoaded] = useState(true);
+
+  const { setAccount } = useAccount();
 
   const location = useLocation();
 

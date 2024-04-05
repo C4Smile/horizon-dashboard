@@ -28,7 +28,7 @@ export class Room extends Entity {
     id,
     number,
     name,
-    status = RoomStatus.free,
+    status = RoomStatus.operational,
     dateOfCreation = Date.now(),
     lastUpdate = Date.now(),
     deleted = false,

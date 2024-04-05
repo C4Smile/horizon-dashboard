@@ -6,6 +6,27 @@ import { fetchFromLocal, fetchSingleFromLocal, saveToLocal, deleteFromLocal } fr
  */
 export class UserApiClient {
   /**
+   * Logs an user
+   * @param {string} user - username
+   * @param {string} password - password
+   * @returns Transaction result
+   */
+  async login(user, password) {
+    const result = await saveToLocal("user_account", { id: 1, user });
+    result.data = { id: 1, user };
+    return result;
+  }
+
+  /**
+   * Logouts an user
+   * @param {string} user - username
+   * @returns Transaction result
+   */
+  async logout(user) {
+    return await deleteFromLocal("user_account", user);
+  }
+
+  /**
    * @description Get all users
    * @param {string} attributes - Attributes
    * @returns User list
