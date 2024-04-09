@@ -1,4 +1,7 @@
 {
+  "entities": {
+    "user": "User"
+  },
   "reservation": {
     "customer": { "label": "Customer", "placeholder": "ex: John Doe" },
     "checkInDate": { "label": "Check-in Date" },

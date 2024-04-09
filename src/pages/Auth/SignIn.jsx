@@ -9,6 +9,7 @@ import PasswordInput from "../../components/Forms/PasswordInput";
 
 // providers
 import { useAccount } from "../../providers/AccountProvider";
+import { useNotification } from "../../providers/NotificationProvider";
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // images
@@ -32,23 +33,29 @@ function SignIn() {
 
   const { handleSubmit, control } = useForm();
 
+  const { setNotification } = useNotification();
+
   const onSubmit = async (d) => {
     setError("");
     setSaving(true);
     try {
       const result = await museumApiClient.User.login(d.username, d.password);
-      const { error, status, data } = result;
-      console.log(data);
+      const data = await result.json();
       // set server status to notification
-      // eslint-disable-next-line no-console
-      if (error && error !== null) console.error(error);
-      else {
+      if (data.status) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+        if (data.status === 404)
+          setNotification(t(`_accessibility:messages.404`), t("_entities:entities.user"));
+        else if (data.status === 401) setNotification(401);
+      } else {
         setAccount(data);
       }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
       // set server status to notification
+      setNotification(String(e.status));
     }
     setSaving(false);
   };

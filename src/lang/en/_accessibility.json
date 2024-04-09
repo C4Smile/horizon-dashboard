@@ -23,6 +23,8 @@
   },
   "messages": {
     "200": "Saved successfully",
-    "401": "Error: Access denied"
+    "401": "Wrong password",
+    "403": "Error: Access denied",
+    "404": "[model] not found"
   }
 }

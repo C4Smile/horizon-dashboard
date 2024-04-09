@@ -16,7 +16,22 @@ const NotificationProvider = (props) => {
   const { children } = props;
   const [notification, setNotification] = useState("");
 
-  const value = { notification, setNotification };
+  /**
+   *
+   * @param {string} string string to parse
+   * @param  {...string} params array of params
+   */
+  const setNotificationFunction = (string, ...params) => {
+    const regex = /\[llave\]/g;
+
+    setNotification(
+      string.replace(regex, () => {
+        return params.shift();
+      }),
+    );
+  };
+
+  const value = { notification, setNotification: setNotificationFunction };
   return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>;
 };
 

@@ -1,5 +1,7 @@
 import { fetchFromLocal, fetchSingleFromLocal, saveToLocal, deleteFromLocal } from "../db/connection";
 
+import config from "../config";
+
 /**
  * @class UserApiClient
  * @description UserApiClient
@@ -12,9 +14,15 @@ export class UserApiClient {
    * @returns Transaction result
    */
   async login(user, password) {
-    const result = await saveToLocal("user_account", { id: 1, user });
-    result.data = { id: 1, user };
-    return result;
+    const request = await fetch(`${config.apiUrl}auth/login`, {
+      method: "POST",
+      body: JSON.stringify({ username: user, password }),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+    });
+    return request;
   }
 
   /**
