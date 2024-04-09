@@ -28,7 +28,8 @@ function SignIn() {
 
   const museumApiClient = useMuseumApiClient();
 
-  const [error, setError] = useState("");
+  const [userError, setUserError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [saving, setSaving] = useState(false);
 
   const { handleSubmit, control } = useForm();
@@ -36,18 +37,17 @@ function SignIn() {
   const { setNotification } = useNotification();
 
   const onSubmit = async (d) => {
-    setError("");
+    setUserError("");
+    setPasswordError("");
     setSaving(true);
     try {
       const result = await museumApiClient.User.login(d.username, d.password);
       const data = await result.json();
       // set server status to notification
       if (data.status) {
-        // eslint-disable-next-line no-console
-        console.error(error);
         if (data.status === 404)
-          setNotification(t(`_accessibility:messages.404`), t("_entities:entities.user"));
-        else if (data.status === 401) setNotification(401);
+          setUserError(t(`_accessibility:messages.404`, { model: t("_entities:entities.user") }));
+        else if (data.status === 401) setPasswordError(401);
       } else {
         setAccount(data);
       }
@@ -98,6 +98,8 @@ function SignIn() {
                 className={`block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
                 label={t("_entities:user.username.label")}
                 required
+                helperText={userError}
+                state={userError.length ? "error" : ""}
               />
             )}
           />
@@ -117,6 +119,7 @@ function SignIn() {
                 className={`block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
                 label={t("_entities:user.password.label")}
                 required
+                state={passwordError.length ? "error" : ""}
               />
             )}
           />
