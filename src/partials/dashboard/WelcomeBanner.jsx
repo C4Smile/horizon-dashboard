@@ -1,12 +1,14 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
+
+// providers
+import { useAccount } from "../../providers/AccountProvider";
 
 /**
  * WelcomeBanner
  * @returns {object} React component
  */
 function WelcomeBanner() {
-  const { t } = useTranslation();
+  const { account } = useAccount();
 
   return (
     <div className="relative bg-light-primary/20 dark:bg-primary p-4 sm:p-6 rounded-sm overflow-hidden mb-8">
@@ -58,7 +60,7 @@ function WelcomeBanner() {
       {/* Content */}
       <div className="relative">
         <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-1">
-          Good afternoon, {t("_accessibility:appName")} 👋
+          Good afternoon, {account.username} 👋
         </h1>
         <p className="dark:text-light-primary">Here is what's happening with your projects today:</p>
       </div>

@@ -12,10 +12,10 @@ import "./charts/ChartjsConfig";
 // providers
 import { MuseumApiClientProvider } from "./providers/MuseumApiProvider";
 import { NotificationProvider } from "./providers/NotificationProvider";
+import { useAccount } from "./providers/AccountProvider";
 
 // components
 import SplashScreen from "./partials/loading/SplashScreen";
-import { useAccount } from "./providers/AccountProvider";
 
 // layouts
 const Auth = loadable(() => import("./layouts/Auth"));
@@ -58,7 +58,7 @@ const UserForm = loadable(() => import("./pages/Users/UserForm"));
 function App() {
   const [loaded, setLoaded] = useState(true);
 
-  const { setAccount } = useAccount();
+  const { logUserFromLocal } = useAccount();
 
   const location = useLocation();
 
@@ -69,10 +69,11 @@ function App() {
   }, [location.pathname]); // triggered on route change
 
   useEffect(() => {
+    logUserFromLocal();
     setTimeout(() => {
       setLoaded(false);
     }, 1000);
-  }, []);
+  }, [logUserFromLocal]);
 
   return (
     <MuseumApiClientProvider>

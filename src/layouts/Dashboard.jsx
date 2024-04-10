@@ -49,7 +49,6 @@ function Dashboard() {
   }, [location, saveRecentLocation]);
 
   useEffect(() => {
-    console.log(account);
     if (!account.id) navigate("/auth");
   }, [account, navigate]);
 

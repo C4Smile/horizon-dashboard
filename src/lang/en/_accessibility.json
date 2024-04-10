@@ -1,6 +1,8 @@
 {
   "appName": "Museo Primer Frente",
   "buttons": {
+    "signIn": "Sign in",
+    "signOut": "Sign out",
     "closeSidebar": "Close sidebar",
     "openSidebar": "Open sidebar",
     "search": "Search",

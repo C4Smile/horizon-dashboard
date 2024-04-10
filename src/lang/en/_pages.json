@@ -8,6 +8,9 @@
     },
     "personal": {
       "link": "/personal"
+    },
+    "settings": {
+      "link": "/settings"
     }
   },
   "search": {
@@ -22,6 +25,9 @@
   "auth": {
     "signIn": {
       "title": "Sign In"
+    },
+    "signOut": {
+      "title": "Sign Out"
     }
   },
   "dashboard": {

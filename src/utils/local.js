@@ -14,6 +14,7 @@ export const fromLocal = (key, as = "") => {
         return result;
     }
   }
+  return result;
 };
 
 /**
@@ -24,3 +25,10 @@ export const fromLocal = (key, as = "") => {
  */
 export const toLocal = (key, value) =>
   localStorage.setItem(key, typeof value === "object" ? JSON.stringify(value) : value);
+
+/**
+ * Remove data from local storage
+ * @param {string} key - key to remove
+ * @returns nothing
+ */
+export const removeFromLocal = (key) => localStorage.removeItem(key);

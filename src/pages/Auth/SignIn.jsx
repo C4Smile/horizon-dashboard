@@ -22,7 +22,7 @@ import logoVertical from "../../assets/images/logo-vertical.png";
 function SignIn() {
   const { t } = useTranslation();
 
-  const { setAccount } = useAccount();
+  const { logUser } = useAccount();
 
   const [appear, setAppear] = useState(false);
 
@@ -48,9 +48,7 @@ function SignIn() {
         if (data.status === 404)
           setUserError(t(`_accessibility:messages.404`, { model: t("_entities:entities.user") }));
         else if (data.status === 401) setPasswordError(401);
-      } else {
-        setAccount(data);
-      }
+      } else logUser({ ...data, username: d.username });
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
