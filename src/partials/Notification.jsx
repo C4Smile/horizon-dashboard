@@ -18,7 +18,9 @@ function Notification() {
   const [state, setState] = useState("");
   const [notificationClass, setNotificationClass] = useState("");
 
-  useEffect(() => {
+  console.log(notification);
+
+  /* useEffect(() => {
     setNotificationOpen(Boolean(notification.length));
     switch (notification) {
       case "400":
@@ -32,21 +34,21 @@ function Notification() {
       default:
         return setState("");
     }
-  }, [notification]);
+  }, [notification]); */
 
-  useEffect(() => {
+  /* useEffect(() => {
     const lNotificationClasses = {
       good: "bg-green-500",
       bad: "bg-red-500",
       ugly: "bg-red-500",
     };
     setNotificationClass(state === "" ? lNotificationClasses.bad : lNotificationClasses[state]);
-  }, [state]);
+  }, [state]); */
 
-  useEffect(() => {
+  /* useEffect(() => {
     setNotificationOpen(false);
     setNotification("");
-  }, [location, setNotification]);
+  }, [location, setNotification]); */
 
   return (
     <>

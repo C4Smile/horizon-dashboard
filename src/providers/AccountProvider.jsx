@@ -1,6 +1,6 @@
 /* eslint-disable react/function-component-definition */
 /* eslint-disable react/jsx-no-constructed-context-values */
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useCallback } from "react";
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
@@ -20,18 +20,19 @@ const AccountProvider = (props) => {
   const { children } = props;
   const [account, setAccount] = useState({});
 
-  const logUser = (data) => {
+  const logUser = useCallback((data) => {
+    setAccount(data);
     toLocal(config.user, data);
-  };
+  }, []);
 
-  const logoutUser = () => {
+  const logoutUser = useCallback(() => {
     removeFromLocal(config.user);
-  };
+  }, []);
 
-  const logUserFromLocal = () => {
+  const logUserFromLocal = useCallback(() => {
     const loggedUser = fromLocal(config.user, "object");
     if (loggedUser) setAccount(loggedUser);
-  };
+  }, []);
 
   const value = { account, logUser, logoutUser, logUserFromLocal };
   return <AccountContext.Provider value={value}>{children}</AccountContext.Provider>;

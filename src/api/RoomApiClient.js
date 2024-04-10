@@ -1,4 +1,6 @@
-import { fetchFromLocal, fetchSingleFromLocal, saveToLocal, deleteFromLocal } from "../db/connection";
+import config from "../config";
+import { fetchSingleFromLocal, saveToLocal, deleteFromLocal } from "../db/connection";
+import { fromLocal } from "../utils/local";
 
 /**
  * @class RoomApiClient
@@ -7,15 +9,22 @@ import { fetchFromLocal, fetchSingleFromLocal, saveToLocal, deleteFromLocal } fr
 export class RoomApiClient {
   /**
    * @description Get all rooms
-   * @param {string} attributes - Attributes
    * @returns Room list
    */
-  async getAll(attributes = "*") {
-    return await fetchFromLocal("room", attributes);
+  async getAll() {
+    const request = await fetch(`${config.apiUrl}room`, {
+      method: "GET",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return request;
   }
 
   /**
-   * @description Get room by id
+   * @description Get room by
    * @param {string} id - Room id
    * @param {string} attributes - Attributes
    * @returns Room by id
