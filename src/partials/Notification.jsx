@@ -1,4 +1,4 @@
-import { useEffect, memo, useState } from "react";
+import { useEffect, memo, useState, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -15,40 +15,36 @@ const Notification = memo(() => {
   const { notification, setNotification } = useNotification();
 
   const [notificationOpen, setNotificationOpen] = useState(Boolean(notification.length));
-  const [state, setState] = useState("");
-  const [notificationClass, setNotificationClass] = useState("");
 
   console.log(notification);
 
-  useEffect(() => {
-    setNotificationOpen(Boolean(notification.length));
+  const state = useMemo(() => {
     switch (notification) {
       case "400":
       case "401":
-        return setState("bad");
+        return "bad";
       case "500":
-        return setState("ugly");
+        return "ugly";
       case "200":
       case "201":
-        return setState("good");
+        return "good";
       default:
-        return setState("");
+        return "";
     }
   }, [notification]);
 
-  useEffect(() => {
+  const notificationClass = useMemo(() => {
     const lNotificationClasses = {
       good: "bg-green-500",
       bad: "bg-red-500",
       ugly: "bg-red-500",
     };
-    setNotificationClass(state === "" ? lNotificationClasses.bad : lNotificationClasses[state]);
+    return state === "" ? lNotificationClasses.bad : lNotificationClasses[state];
   }, [state]);
 
   useEffect(() => {
-    setNotificationOpen(false);
-    setNotification("");
-  }, [location, setNotification]);
+    setNotificationOpen(Boolean(notification.length));
+  }, [notification]);
 
   return (
     <>
