@@ -31,7 +31,6 @@ function Security() {
   const { handleSubmit, control } = useForm();
 
   const onSubmit = async (d) => {
-    setNotification("");
     setSaving(true);
     try {
       if (d.password !== d.rPassword) {

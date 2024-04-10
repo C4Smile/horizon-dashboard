@@ -77,84 +77,98 @@ function App() {
 
   return (
     <MuseumApiClientProvider>
-      <NotificationProvider>
-        <SplashScreen visible={loaded} />
-        <Suspense>
-          <Routes>
-            <Route exact path="/auth" element={<Auth />}>
-              <Route index element={<SignIn />} />
+      <SplashScreen visible={loaded} />
+      <Suspense>
+        <Routes>
+          <Route
+            exact
+            path="/auth"
+            element={
+              <NotificationProvider>
+                <Auth />
+              </NotificationProvider>
+            }
+          >
+            <Route index element={<SignIn />} />
+          </Route>
+          <Route
+            exact
+            path="/"
+            element={
+              <NotificationProvider>
+                <Dashboard />
+              </NotificationProvider>
+            }
+          >
+            <Route index element={<Home />} />
+            <Route path="/settings/account" element={<Account />} />
+            <Route
+              exact
+              path="/management/customers"
+              element={<ModelNavigation parent="management" model="customers" />}
+            >
+              <Route index element={<Customers />} />
+              <Route path="/management/customers/new" element={<CustomerForm />} />
+              <Route path="/management/customers/:id" element={<CustomerForm />} />
             </Route>
-            <Route exact path="/" element={<Dashboard />}>
-              <Route index element={<Home />} />
-              <Route path="/settings/account" element={<Account />} />
-              <Route
-                exact
-                path="/management/customers"
-                element={<ModelNavigation parent="management" model="customers" />}
-              >
-                <Route index element={<Customers />} />
-                <Route path="/management/customers/new" element={<CustomerForm />} />
-                <Route path="/management/customers/:id" element={<CustomerForm />} />
-              </Route>
-              <Route
-                exact
-                path="/management/reservations"
-                element={<ModelNavigation parent="management" model="reservations" />}
-              >
-                <Route index element={<Reservations />} />
-                <Route path="/management/reservations/new" element={<ReservationForm />} />
-                <Route path="/management/reservations/:id" element={<ReservationForm />} />
-              </Route>
-              <Route
-                exact
-                path="/management/invoices"
-                element={<ModelNavigation parent="management" model="invoices" />}
-              >
-                <Route index element={<Invoices />} />
-                <Route path="/management/invoices/new" element={<InvoiceForm />} />
-                <Route path="/management/invoices/:id" element={<InvoiceForm />} />
-              </Route>
-              <Route
-                exact
-                path="/management/countries"
-                element={<ModelNavigation parent="management" model="countries" />}
-              >
-                <Route index element={<Countries />} />
-                <Route path="/management/countries/new" element={<CountryForm />} />
-                <Route path="/management/countries/:id" element={<CountryForm />} />
-              </Route>
-              <Route
-                exact
-                path="/management/provinces"
-                element={<ModelNavigation parent="management" model="provinces" />}
-              >
-                <Route index element={<Provinces />} />
-                <Route path="/management/provinces/new" element={<ProvinceForm />} />
-                <Route path="/management/provinces/:id" element={<ProvinceForm />} />
-              </Route>
-              <Route
-                exact
-                path="/management/rooms"
-                element={<ModelNavigation parent="management" model="rooms" />}
-              >
-                <Route index element={<Rooms />} />
-                <Route path="/management/rooms/new" element={<RoomForm />} />
-                <Route path="/management/rooms/:id" element={<RoomForm />} />
-              </Route>
-              <Route
-                exact
-                path="/personal/users"
-                element={<ModelNavigation parent="personal" model="users" />}
-              >
-                <Route index element={<Users />} />
-                <Route path="/personal/users/new" element={<UserForm />} />
-                <Route path="/personal/users/:id" element={<UserForm />} />
-              </Route>
+            <Route
+              exact
+              path="/management/reservations"
+              element={<ModelNavigation parent="management" model="reservations" />}
+            >
+              <Route index element={<Reservations />} />
+              <Route path="/management/reservations/new" element={<ReservationForm />} />
+              <Route path="/management/reservations/:id" element={<ReservationForm />} />
             </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-      </NotificationProvider>
+            <Route
+              exact
+              path="/management/invoices"
+              element={<ModelNavigation parent="management" model="invoices" />}
+            >
+              <Route index element={<Invoices />} />
+              <Route path="/management/invoices/new" element={<InvoiceForm />} />
+              <Route path="/management/invoices/:id" element={<InvoiceForm />} />
+            </Route>
+            <Route
+              exact
+              path="/management/countries"
+              element={<ModelNavigation parent="management" model="countries" />}
+            >
+              <Route index element={<Countries />} />
+              <Route path="/management/countries/new" element={<CountryForm />} />
+              <Route path="/management/countries/:id" element={<CountryForm />} />
+            </Route>
+            <Route
+              exact
+              path="/management/provinces"
+              element={<ModelNavigation parent="management" model="provinces" />}
+            >
+              <Route index element={<Provinces />} />
+              <Route path="/management/provinces/new" element={<ProvinceForm />} />
+              <Route path="/management/provinces/:id" element={<ProvinceForm />} />
+            </Route>
+            <Route
+              exact
+              path="/management/rooms"
+              element={<ModelNavigation parent="management" model="rooms" />}
+            >
+              <Route index element={<Rooms />} />
+              <Route path="/management/rooms/new" element={<RoomForm />} />
+              <Route path="/management/rooms/:id" element={<RoomForm />} />
+            </Route>
+            <Route
+              exact
+              path="/personal/users"
+              element={<ModelNavigation parent="personal" model="users" />}
+            >
+              <Route index element={<Users />} />
+              <Route path="/personal/users/new" element={<UserForm />} />
+              <Route path="/personal/users/:id" element={<UserForm />} />
+            </Route>
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
     </MuseumApiClientProvider>
   );
 }

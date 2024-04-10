@@ -54,7 +54,6 @@ function PersonalInfo() {
   }, [userQuery.data, userId, reset]);
 
   const onSubmit = async (d) => {
-    setNotification("");
     setSaving(true);
     try {
       if (d.password !== d.rPassword) {

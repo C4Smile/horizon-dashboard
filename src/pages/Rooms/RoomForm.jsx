@@ -40,7 +40,6 @@ function RoomForm() {
   const { handleSubmit, reset, control } = useForm({ status: statuses[0].id });
 
   const onSubmit = async (d) => {
-    setNotification("");
     setSaving(true);
     try {
       let result;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, memo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -9,7 +9,7 @@ import { useNotification } from "../providers/NotificationProvider";
  * Notification
  * @returns {object} React component
  */
-function Notification() {
+const Notification = memo(() => {
   const location = useLocation();
   const { t } = useTranslation();
   const { notification, setNotification } = useNotification();
@@ -20,7 +20,7 @@ function Notification() {
 
   console.log(notification);
 
-  /* useEffect(() => {
+  useEffect(() => {
     setNotificationOpen(Boolean(notification.length));
     switch (notification) {
       case "400":
@@ -34,21 +34,21 @@ function Notification() {
       default:
         return setState("");
     }
-  }, [notification]); */
+  }, [notification]);
 
-  /* useEffect(() => {
+  useEffect(() => {
     const lNotificationClasses = {
       good: "bg-green-500",
       bad: "bg-red-500",
       ugly: "bg-red-500",
     };
     setNotificationClass(state === "" ? lNotificationClasses.bad : lNotificationClasses[state]);
-  }, [state]); */
+  }, [state]);
 
-  /* useEffect(() => {
+  useEffect(() => {
     setNotificationOpen(false);
     setNotification("");
-  }, [location, setNotification]); */
+  }, [location, setNotification]);
 
   return (
     <>
@@ -76,6 +76,6 @@ function Notification() {
       }
     </>
   );
-}
+});
 
 export default Notification;

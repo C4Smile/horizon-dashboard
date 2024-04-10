@@ -33,7 +33,6 @@ function CustomerForm() {
   const { handleSubmit, reset, control } = useForm();
 
   const onSubmit = async (d) => {
-    setNotification("");
     setSaving(true);
     try {
       let result;
