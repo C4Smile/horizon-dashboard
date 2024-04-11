@@ -26,6 +26,7 @@
   "messages": {
     "200": "Saved successfully",
     "201": "{{model}} saved successfully",
+    "204": "{{model}} deleted successfully",
     "401": "Wrong password",
     "403": "Error: Access denied",
     "404": "{{model}} not found",

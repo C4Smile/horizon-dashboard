@@ -93,5 +93,6 @@ export class CountryApiClient {
         },
       });
     }
+    return { status: 204 };
   }
 }

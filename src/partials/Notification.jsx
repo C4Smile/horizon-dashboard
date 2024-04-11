@@ -28,6 +28,7 @@ const Notification = memo(() => {
         return "ugly";
       case "200":
       case "201":
+      case "204":
         return "good";
       default:
         return "";

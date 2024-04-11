@@ -86,13 +86,16 @@ function Countries() {
     },
     {
       id: "delete",
-      onClick: (e) => {
-        const { error, status } = museumApiClient.Customer.delete([e.id]);
-        setNotification(String(status));
+      onClick: async (e) => {
+        const result = await museumApiClient.Country.delete([e.id]);
+        const { error, status } = result;
+        setNotification(String(status), { model: t("_entities:entities.country") });
 
-        // eslint-disable-next-line no-console
-        if (error && error !== null) console.error(error);
-        else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers] });
+        if (status !== 204) {
+          // eslint-disable-next-line no-console
+          console.error(error);
+          setNotification(String(status));
+        } else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Countries] });
       },
       icon: faTrash,
       tooltip: t("_accessibility:buttons.delete"),
