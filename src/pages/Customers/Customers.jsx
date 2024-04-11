@@ -45,33 +45,30 @@ function Customers() {
   const customerQuery = useQuery({
     queryKey: [ReactQueryKeys.Customers],
     queryFn: () => museumApiClient.Customer.getAll(),
+    retry: false,
   });
 
   const preparedRows = useMemo(() => {
-    if (customerQuery.data) {
-      const { data } = customerQuery.data;
-      if (data && data !== null)
-        return data.map((customer) => {
-          return {
-            id: customer.id,
-            dateOfCreation: new Date(customer.dateOfCreation).toLocaleDateString(),
-            lastUpdate: new Date(customer.lastUpdate).toLocaleDateString(),
-            deleted: customer.deleted
-              ? t("_accessibility:buttons.yes")
-              : t("_accessibility:buttons.no"),
-            name: (
-              <Link className="underline text-light-primary" to={`${customer.id}`}>
-                {customer.name}
-              </Link>
-            ),
-            email: customer.email,
-            phone: customer.phone,
-            address: customer.address,
-            identification: customer.identification,
-            country: customer.country?.name,
-          };
-        });
-    }
+    const { data } = customerQuery;
+    if (data && data !== null)
+      return data.map((customer) => {
+        return {
+          id: customer.id,
+          dateOfCreation: new Date(customer.dateOfCreation).toLocaleDateString(),
+          lastUpdate: new Date(customer.lastUpdate).toLocaleDateString(),
+          deleted: customer.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
+          name: (
+            <Link className="underline text-light-primary" to={`${customer.id}`}>
+              {customer.name}
+            </Link>
+          ),
+          email: customer.email,
+          phone: customer.phone,
+          address: customer.address,
+          identification: customer.identification,
+          country: customer.country?.name,
+        };
+      });
   }, [t, customerQuery]);
 
   useEffect(() => {
@@ -89,13 +86,16 @@ function Customers() {
     },
     {
       id: "delete",
-      onClick: (e) => {
-        const { error, status } = museumApiClient.Customer.delete([e.id]);
-        setNotification(String(status));
+      onClick: async (e) => {
+        const result = await museumApiClient.Customer.delete([e.id]);
+        const { error, status } = result;
+        setNotification(String(status), { model: t("_entities:entities.customer") });
 
-        // eslint-disable-next-line no-console
-        if (error && error !== null) console.error(error);
-        else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers] });
+        if (status !== 204) {
+          // eslint-disable-next-line no-console
+          console.error(error);
+          setNotification(String(status));
+        } else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers] });
       },
       icon: faTrash,
       tooltip: t("_accessibility:buttons.delete"),

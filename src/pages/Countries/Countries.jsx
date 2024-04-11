@@ -49,6 +49,7 @@ function Countries() {
   const countryQuery = useQuery({
     queryKey: [ReactQueryKeys.Countries],
     queryFn: () => museumApiClient.country.getAll(),
+    retry: false,
   });
 
   const preparedRows = useMemo(() => {

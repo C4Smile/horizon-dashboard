@@ -1,4 +1,7 @@
-import { fetchFromLocal, fetchSingleFromLocal, saveToLocal, deleteFromLocal } from "../db/connection";
+import config from "../config";
+
+// utils
+import { fromLocal } from "../utils/local";
 
 /**
  * @class CustomerApiClient
@@ -6,22 +9,36 @@ import { fetchFromLocal, fetchSingleFromLocal, saveToLocal, deleteFromLocal } fr
  */
 export class CustomerApiClient {
   /**
-   * @description Get all customers
-   * @param {string} attributes - Attributes
+   * @description Get all countries
    * @returns Customer list
    */
-  async getAll(attributes = "*") {
-    return await fetchFromLocal("customer", attributes);
+  async getAll() {
+    const request = await fetch(`${config.apiUrl}customer`, {
+      method: "GET",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return await request.json();
   }
 
   /**
    * @description Get customer by id
    * @param {string} id - Customer id
-   * @param {string} attributes - Attributes
    * @returns Customer by id
    */
-  async getById(id, attributes = "*") {
-    return await fetchSingleFromLocal("customer", id, attributes);
+  async getById(id) {
+    const request = await fetch(`${config.apiUrl}customer/${id}`, {
+      method: "GET",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return await request.json();
   }
 
   /**
@@ -30,7 +47,16 @@ export class CustomerApiClient {
    * @returns  Transaction status
    */
   async create(customer) {
-    return await saveToLocal("customer", customer);
+    const request = await fetch(`${config.apiUrl}customer`, {
+      method: "POST",
+      body: JSON.stringify(customer),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return request;
   }
 
   /**
@@ -39,15 +65,34 @@ export class CustomerApiClient {
    * @returns Transaction status
    */
   async update(customer) {
-    return await saveToLocal("customer", customer);
+    const request = await fetch(`${config.apiUrl}customer/${customer.id}`, {
+      method: "PATCH",
+      body: JSON.stringify(customer),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return request;
   }
 
   /**
    * Remove elements by their id
-   * @param {number[]} ids to delete
+   * @param {number[]} ids ids to delete
    * @returns Transaction status
    */
   async delete(ids) {
-    return await deleteFromLocal("customer", ids);
+    for (const id of ids) {
+      await fetch(`${config.apiUrl}customer/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+        },
+      });
+    }
+    return { status: 204 };
   }
 }

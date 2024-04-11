@@ -71,6 +71,7 @@ function CountryForm() {
 
     if (!id) {
       reset({
+        id: undefined,
         name: "",
         iso: "",
       });
