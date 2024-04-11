@@ -1,4 +1,7 @@
-import { fetchFromLocal, fetchSingleFromLocal, saveToLocal, deleteFromLocal } from "../db/connection";
+import config from "../config";
+
+// utils
+import { fromLocal } from "../utils/local";
 
 /**
  * @class ReservationApiClient
@@ -6,22 +9,36 @@ import { fetchFromLocal, fetchSingleFromLocal, saveToLocal, deleteFromLocal } fr
  */
 export class ReservationApiClient {
   /**
-   * @description Get all reservations
-   * @param {string} attributes - Attributes
+   * @description Get all countries
    * @returns Reservation list
    */
-  async getAll(attributes = "*") {
-    return await fetchFromLocal("reservation", attributes);
+  async getAll() {
+    const request = await fetch(`${config.apiUrl}reservation`, {
+      method: "GET",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return await request.json();
   }
 
   /**
    * @description Get reservation by id
    * @param {string} id - Reservation id
-   * @param {string} attributes - Attributes
    * @returns Reservation by id
    */
-  async getById(id, attributes = "*") {
-    return await fetchSingleFromLocal("reservation", id, attributes);
+  async getById(id) {
+    const request = await fetch(`${config.apiUrl}reservation/${id}`, {
+      method: "GET",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return await request.json();
   }
 
   /**
@@ -30,7 +47,16 @@ export class ReservationApiClient {
    * @returns  Transaction status
    */
   async create(reservation) {
-    return await saveToLocal("reservation", reservation);
+    const request = await fetch(`${config.apiUrl}reservation`, {
+      method: "POST",
+      body: JSON.stringify(reservation),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return request;
   }
 
   /**
@@ -39,7 +65,16 @@ export class ReservationApiClient {
    * @returns Transaction status
    */
   async update(reservation) {
-    return await saveToLocal("reservation", reservation);
+    const request = await fetch(`${config.apiUrl}reservation/${reservation.id}`, {
+      method: "PATCH",
+      body: JSON.stringify(reservation),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return request;
   }
 
   /**
@@ -48,6 +83,16 @@ export class ReservationApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    return await deleteFromLocal("reservation", ids);
+    for (const id of ids) {
+      await fetch(`${config.apiUrl}reservation/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+        },
+      });
+    }
+    return { status: 204 };
   }
 }

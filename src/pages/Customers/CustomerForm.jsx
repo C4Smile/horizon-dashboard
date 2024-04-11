@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -89,6 +89,14 @@ function CustomerForm() {
     queryFn: () => museumApiClient.Country.getAll(),
     retry: false,
   });
+
+  const countryList = useMemo(() => {
+    try {
+      return countryQuery?.data?.map((c) => ({ value: `${c.name} - ${c.iso}`, id: c.id })) || [];
+    } catch (err) {
+      return [];
+    }
+  }, [countryQuery.data]);
 
   return (
     <div className="px-5 pt-10 flex items-start justify-start">
@@ -182,7 +190,6 @@ function CustomerForm() {
             />
           )}
         />
-
         <Controller
           control={control}
           name="countryId"
@@ -193,9 +200,7 @@ function CustomerForm() {
               id="countryId"
               name="countryId"
               label={t("_entities:customer.country.label")}
-              options={
-                countryQuery?.data?.map((c) => ({ value: `${c.name} - ${c.iso}`, id: c.id })) || []
-              }
+              options={countryList}
               value={value}
               onChange={(e) => {
                 onChange(e.target.value);
