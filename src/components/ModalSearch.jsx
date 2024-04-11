@@ -132,7 +132,7 @@ function ModalSearch(props) {
                 type="search"
                 placeholder={t("_pages:search.placeholder")}
                 value={value}
-                setValue={setValue}
+                onChange={(e) => setValue(e.target.value)}
                 ref={searchInput}
               />
               <button className="absolute inset-0 right-auto group" type="submit" aria-label="Search">
