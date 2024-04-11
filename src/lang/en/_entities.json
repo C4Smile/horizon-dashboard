@@ -1,7 +1,8 @@
 {
   "entities": {
     "user": "User",
-    "role": "Role"
+    "role": "Role",
+    "country": "Country"
   },
   "roles": {
     "admin": "Administrator",

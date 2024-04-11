@@ -35,20 +35,20 @@ function CountryForm() {
     setSaving(true);
     try {
       let result;
-      if (d.id) result = await museumApiClient.Country.create(d);
+      if (!d.id) result = await museumApiClient.Country.create(d);
       else result = await museumApiClient.Country.update(d);
-      const { error, status } = result;
-      setNotification(String(status));
 
+      const { error, status } = result;
+      setNotification(String(status), { model: t("_entities:entities.country") });
       // eslint-disable-next-line no-console
-      if (error && error !== null) console.error(error);
+      if (status !== 201) console.error(error);
       else if (id !== undefined)
         queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Countries, id] });
       else reset({});
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
-      setNotification(String(e.status));
+      setNotification(String(e.status), { model: t("_entities:entities.country") });
     }
     setSaving(false);
   };

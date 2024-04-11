@@ -15,24 +15,19 @@ const NotificationContext = createContext();
 const NotificationProvider = (props) => {
   const { children } = props;
   const [notification, setNotification] = useState("");
+  const [params, setParams] = useState({});
 
   /**
    *
    * @param {string} string string to parse
    * @param  {...string} params array of params
    */
-  const setNotificationFunction = useCallback((string, ...params) => {
-    console.log("hola");
-    const regex = /\[llave\]/g;
-
-    setNotification(
-      string.replace(regex, () => {
-        return params.shift();
-      }),
-    );
+  const setNotificationFunction = useCallback((string, params) => {
+    setNotification(string);
+    setParams(params);
   }, []);
 
-  const value = { notification, setNotification: setNotificationFunction };
+  const value = { notification, setNotification: setNotificationFunction, params };
   return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>;
 };
 

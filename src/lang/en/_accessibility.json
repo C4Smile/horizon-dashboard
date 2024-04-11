@@ -25,8 +25,10 @@
   },
   "messages": {
     "200": "Saved successfully",
+    "201": "{{model}} saved successfully",
     "401": "Wrong password",
     "403": "Error: Access denied",
-    "404": "{{model}} not found"
+    "404": "{{model}} not found",
+    "409": "{{model}} already exist"
   }
 }

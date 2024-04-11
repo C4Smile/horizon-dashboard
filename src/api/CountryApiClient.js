@@ -1,4 +1,7 @@
-import { fetchFromLocal, fetchSingleFromLocal, saveToLocal, deleteFromLocal } from "../db/connection";
+import config from "../config";
+
+// utils
+import { fromLocal } from "../utils/local";
 
 /**
  * @class CountryApiClient
@@ -7,21 +10,35 @@ import { fetchFromLocal, fetchSingleFromLocal, saveToLocal, deleteFromLocal } fr
 export class CountryApiClient {
   /**
    * @description Get all countries
-   * @param {string} attributes - Attributes
    * @returns Country list
    */
-  async getAll(attributes = "*") {
-    return await fetchFromLocal("country", attributes);
+  async getAll() {
+    const request = await fetch(`${config.apiUrl}country`, {
+      method: "GET",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return request;
   }
 
   /**
    * @description Get country by id
    * @param {string} id - Country id
-   * @param {string} attributes - Attributes
    * @returns Country by id
    */
-  async getById(id, attributes = "*") {
-    return await fetchSingleFromLocal("country", id, attributes);
+  async getById(id) {
+    const request = await fetch(`${config.apiUrl}country/${id}`, {
+      method: "GET",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return request;
   }
 
   /**
@@ -30,7 +47,16 @@ export class CountryApiClient {
    * @returns  Transaction status
    */
   async create(country) {
-    return await saveToLocal("country", country);
+    const request = await fetch(`${config.apiUrl}country`, {
+      method: "POST",
+      body: JSON.stringify(country),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return request;
   }
 
   /**
@@ -39,7 +65,16 @@ export class CountryApiClient {
    * @returns Transaction status
    */
   async update(country) {
-    return await saveToLocal("country", country);
+    const request = await fetch(`${config.apiUrl}country/${country.id}`, {
+      method: "PATCH",
+      body: JSON.stringify(country),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return request;
   }
 
   /**
@@ -48,6 +83,15 @@ export class CountryApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    return await deleteFromLocal("country", ids);
+    for (const id of ids) {
+      await fetch(`${config.apiUrl}country/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+        },
+      });
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { useEffect, memo, useState, useMemo } from "react";
+import { useEffect, memo, useState, useMemo, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -12,16 +12,17 @@ import { useNotification } from "../providers/NotificationProvider";
 const Notification = memo(() => {
   const location = useLocation();
   const { t } = useTranslation();
-  const { notification, setNotification } = useNotification();
+  const { notification, setNotification, params } = useNotification();
 
   const [notificationOpen, setNotificationOpen] = useState(Boolean(notification.length));
-
-  console.log(notification);
 
   const state = useMemo(() => {
     switch (notification) {
       case "400":
       case "401":
+      case "403":
+      case "404":
+      case "409":
         return "bad";
       case "500":
         return "ugly";
@@ -46,6 +47,28 @@ const Notification = memo(() => {
     setNotificationOpen(Boolean(notification.length));
   }, [notification]);
 
+  const clean = useCallback(() => {
+    setNotificationOpen(false);
+    setTimeout(() => {
+      setNotification("");
+    }, 1000);
+  }, [setNotification]);
+
+  useEffect(() => {
+    clean();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
+
+  useEffect(() => {
+    if (notification !== "") {
+      window.addEventListener("click", clean);
+    }
+
+    return () => {
+      window.removeEventListener("click", clean);
+    };
+  }, [notification, clean]);
+
   return (
     <>
       {
@@ -56,7 +79,7 @@ const Notification = memo(() => {
             className={`${notificationClass} border border-transparent dark:border-slate-700 text-white text-sm p-3 md:rounded shadow-lg flex justify-between`}
           >
             <div className={`text-white inline-flex`}>
-              {state === "" ? notification : t(`_accessibility:messages.${notification}`)}
+              {state === "" ? notification : t(`_accessibility:messages.${notification}`, params)}
             </div>
             <button
               className="text-white hover:text-[red] pl-2 ml-3 border-l border-slate-200"
