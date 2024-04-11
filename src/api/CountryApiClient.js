@@ -21,7 +21,7 @@ export class CountryApiClient {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       },
     });
-    return request;
+    return await request.json();
   }
 
   /**
@@ -38,7 +38,7 @@ export class CountryApiClient {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       },
     });
-    return request;
+    return await request.json();
   }
 
   /**

@@ -67,10 +67,13 @@ function CountryForm() {
   }, [countryQuery]);
 
   useEffect(() => {
-    if (countryQuery.data) {
-      const { data } = countryQuery.data;
-      // eslint-disable-next-line no-console
-      if (data && data !== null) reset({ ...data });
+    if (countryQuery.data) reset({ ...countryQuery.data });
+
+    if (!id) {
+      reset({
+        name: "",
+        iso: "",
+      });
     }
   }, [countryQuery.data, id, reset]);
 

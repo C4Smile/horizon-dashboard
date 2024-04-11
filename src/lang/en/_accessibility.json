@@ -29,6 +29,7 @@
     "401": "Wrong password",
     "403": "Error: Access denied",
     "404": "{{model}} not found",
-    "409": "{{model}} already exist"
+    "409": "{{model}} already exist",
+    "500": "Something went wrong"
   }
 }

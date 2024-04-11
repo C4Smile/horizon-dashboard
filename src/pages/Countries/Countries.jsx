@@ -52,24 +52,23 @@ function Countries() {
   });
 
   const preparedRows = useMemo(() => {
-    if (countryQuery.data) {
-      const { data } = countryQuery.data;
-      if (data && data !== null)
-        return data.map((country) => {
-          return {
-            id: country.id,
-            dateOfCreation: new Date(country.dateOfCreation).toLocaleDateString(),
-            lastUpdate: new Date(country.lastUpdate).toLocaleDateString(),
-            deleted: country.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
-            name: (
-              <Link className="underline text-light-primary" to={`${country.id}`}>
-                {country.name}
-              </Link>
-            ),
-            iso: country.iso,
-          };
-        });
-    }
+    const { data } = countryQuery;
+
+    if (data && data !== null)
+      return data.map((country) => {
+        return {
+          id: country.id,
+          dateOfCreation: new Date(country.dateOfCreation).toLocaleDateString(),
+          lastUpdate: new Date(country.lastUpdate).toLocaleDateString(),
+          deleted: country.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
+          name: (
+            <Link className="underline text-light-primary" to={`${country.id}`}>
+              {country.name}
+            </Link>
+          ),
+          iso: country.iso,
+        };
+      });
   }, [countryQuery, t]);
 
   useEffect(() => {
