@@ -1,8 +1,8 @@
 import { Customer } from "./Customer";
-import { Reservation } from "./Reservation";
+import { Reservation } from "../reservation/Reservation";
 import { Entity } from "./Entity";
 import { Currency } from "./Currency";
-import { PaymentMethod } from "./PaymentMethod";
+import { PaymentMethod } from "../paymentMethod/PaymentMethod";
 
 /**
  * @class Invoice

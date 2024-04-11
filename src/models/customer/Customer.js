@@ -1,5 +1,5 @@
 import { Country } from "./Country";
-import { Entity } from "./Entity";
+import { Entity } from "../entity/Entity";
 
 /**
  * @class Customer

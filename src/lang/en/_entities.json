@@ -2,7 +2,8 @@
   "entities": {
     "user": "User",
     "role": "Role",
-    "country": "Country"
+    "country": "Country",
+    "customer": "Customer"
   },
   "roles": {
     "admin": "Administrator",

@@ -36,8 +36,9 @@ function CustomerForm() {
     setSaving(true);
     try {
       let result;
-      if (!d.id) result = await museumApiClient.Country.create(d);
-      else result = await museumApiClient.Country.update(d);
+
+      if (!d.id) result = await museumApiClient.Customer.create(d);
+      else result = await museumApiClient.Customer.update(d);
 
       const { error, status } = result;
       setNotification(String(status), { model: t("_entities:entities.customer") });
@@ -184,16 +185,16 @@ function CustomerForm() {
 
         <Controller
           control={control}
-          name="country"
+          name="countryId"
           disabled={customerQuery.isLoading || countryQuery.isLoading || saving}
           render={({ field: { onChange, value, ...rest } }) => (
             <SelectInput
               {...rest}
-              id="country"
-              name="country"
+              id="countryId"
+              name="countryId"
               label={t("_entities:customer.country.label")}
               options={
-                countryQuery.data?.data.map((c) => ({ value: `${c.name} - ${c.iso}`, id: c.id })) || []
+                countryQuery?.data?.map((c) => ({ value: `${c.name} - ${c.iso}`, id: c.id })) || []
               }
               value={value}
               onChange={(e) => {
