@@ -1,4 +1,4 @@
-import { Country } from "./Country";
+import { Country } from "../country/Country";
 import { Entity } from "../entity/Entity";
 
 /**

@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
 // dto
-import { Customer } from "../../models/Customer";
+import { Customer } from "../../models/customer/Customer";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
@@ -66,7 +66,14 @@ function Customers() {
           phone: customer.phone,
           address: customer.address,
           identification: customer.identification,
-          country: customer.country?.name,
+          country: (
+            <Link
+              className="underline text-light-primary"
+              to={`/management/countries/${customer.countryId}`}
+            >
+              {customer.country?.name}
+            </Link>
+          ),
         };
       });
   }, [t, customerQuery]);

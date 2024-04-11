@@ -7,7 +7,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
 // dto
-import { Country } from "../../models/Country";
+import { Country } from "../../models/country/Country";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
