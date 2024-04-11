@@ -28,7 +28,7 @@ const SelectInput = forwardRef(function (props, ref) {
 
   // setting default value
   useEffect(() => {
-    if (value === "") onChange({ target: { value: options?.length ? options[0].id : "0" } });
+    if (value === "") onChange({ target: { value: options[0]?.id } });
   }, [onChange, options, value]);
 
   return (
