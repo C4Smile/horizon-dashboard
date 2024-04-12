@@ -51,44 +51,42 @@ function Customers() {
   const [localData, setLocalData] = useState([]);
 
   const preparedRows = useMemo(() => {
-    if (localData)
-      return localData.map((customer) => {
-        return {
-          id: customer.id,
-          dateOfCreation: new Date(customer.dateOfCreation).toLocaleDateString(),
-          lastUpdate: new Date(customer.lastUpdate).toLocaleDateString(),
-          deleted: customer.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
-          name: (
-            <Link className="underline text-light-primary" to={`${customer.id}`}>
-              {customer.name}
-            </Link>
-          ),
-          email: customer.email,
-          phone: customer.phone,
-          address: customer.address,
-          identification: customer.identification,
-          country: (
-            <Link
-              className="underline text-light-primary"
-              to={`/management/countries/${customer.countryId}`}
-            >
-              {customer.country?.name}
-            </Link>
-          ),
-        };
-      });
+    return localData.map((customer) => {
+      return {
+        id: customer.id,
+        dateOfCreation: new Date(customer.dateOfCreation).toLocaleDateString(),
+        lastUpdate: new Date(customer.lastUpdate).toLocaleDateString(),
+        deleted: customer.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
+        name: (
+          <Link className="underline text-light-primary" to={`${customer.id}`}>
+            {customer.name}
+          </Link>
+        ),
+        email: customer.email,
+        phone: customer.phone,
+        address: customer.address,
+        identification: customer.identification,
+        country: (
+          <Link
+            className="underline text-light-primary"
+            to={`/management/countries/${customer.countryId}`}
+          >
+            {customer.country?.name}
+          </Link>
+        ),
+      };
+    });
   }, [localData, t]);
 
   useEffect(() => {
     const { data } = customerQuery;
-    console.log(data);
     if (data) {
       if (data.length === undefined && data?.statusCode !== 200) {
         // eslint-disable-next-line no-console
         console.error(data.message);
         setNotification(String(data.statusCode));
         if (data.statusCode === 401) navigate("/sign-out");
-      } else setLocalData(data);
+      } else setLocalData(data ?? []);
     }
   }, [customerQuery, navigate, setNotification]);
 

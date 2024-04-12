@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useNavigate, Link } from "react-router-dom";
@@ -51,35 +51,43 @@ function Reservations() {
     queryFn: () => museumApiClient.reservation.getAll(),
   });
 
+  const [localData, setLocalData] = useState([]);
+
   const preparedRows = useMemo(() => {
-    if (reservationQuery.data) {
-      const { data } = reservationQuery.data;
-      if (data && data !== null)
-        return data.map((reservation) => {
-          return {
-            id: reservation.id,
-            dateOfCreation: new Date(reservation.dateOfCreation).toLocaleDateString(),
-            lastUpdate: new Date(reservation.lastUpdate).toLocaleDateString(),
-            deleted: reservation.deleted
-              ? t("_accessibility:buttons.yes")
-              : t("_accessibility:buttons.no"),
-            number: reservation.number,
-            name: (
-              <Link className="underline text-light-primary" to={`${reservation.id}`}>
-                {reservation.name}
-              </Link>
-            ),
-            status: t(`_entities:reservation.status.${reservation.status}`),
-          };
-        });
-    }
-  }, [reservationQuery, t]);
+    return localData.map((reservation) => {
+      return {
+        id: reservation.id,
+        dateOfCreation: new Date(reservation.dateOfCreation).toLocaleDateString(),
+        lastUpdate: new Date(reservation.lastUpdate).toLocaleDateString(),
+        deleted: reservation.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
+        number: reservation.number,
+        name: (
+          <Link className="underline text-light-primary" to={`${reservation.id}`}>
+            {reservation.name}
+          </Link>
+        ),
+        status: t(`_entities:reservation.status.${reservation.status}`),
+      };
+    });
+  }, [localData, t]);
 
   useEffect(() => {
     const { error } = reservationQuery;
     // eslint-disable-next-line no-console
     if (error && error !== null) console.error(reservationQuery.error);
   }, [reservationQuery]);
+
+  useEffect(() => {
+    const { data } = reservationQuery;
+    if (data) {
+      if (data.length === undefined && data?.statusCode !== 200) {
+        // eslint-disable-next-line no-console
+        console.error(data.message);
+        setNotification(String(data.statusCode));
+        if (data.statusCode === 401) navigate("/sign-out");
+      } else setLocalData(data ?? []);
+    }
+  }, [reservationQuery, navigate, setNotification]);
 
   const getActions = [
     {
