@@ -49,13 +49,13 @@ function RoomForm() {
       setNotification(String(status), { model: t("_entities:entities.room") });
       // eslint-disable-next-line no-console
       if (error && error !== null) console.error(error);
-      else if (id === undefined)
-        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Rooms, id] });
+      if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Rooms, id] });
       else
         reset({
           id: undefined,
           number: "",
           name: "",
+          description: "",
           status: RoomStatus.operational,
         });
     } catch (e) {
@@ -80,12 +80,18 @@ function RoomForm() {
   }, [roomQuery]);
 
   useEffect(() => {
-    if (roomQuery.data) {
-      const { data } = roomQuery.data;
-      // eslint-disable-next-line no-console
-      if (data && data !== null) reset({ ...data });
+    if (roomQuery.data) reset({ ...roomQuery.data });
+
+    if (!id) {
+      reset({
+        id: undefined,
+        number: "",
+        name: "",
+        description: "",
+        status: RoomStatus.operational,
+      });
     }
-  }, [roomQuery.data, id, reset]);
+  }, [id, reset, roomQuery.data]);
 
   return (
     <div className="px-5 pt-10 flex items-start justify-start">

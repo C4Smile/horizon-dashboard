@@ -4,16 +4,16 @@ import config from "../config";
 import { fromLocal } from "../utils/local";
 
 /**
- * @class ProvinceApiClient
- * @description ProvinceApiClient
+ * @class RoomApiClient
+ * @description RoomApiClient
  */
-export class ProvinceApiClient {
+export class RoomApiClient {
   /**
    * @description Get all countries
-   * @returns Province list
+   * @returns Room list
    */
   async getAll() {
-    const request = await fetch(`${config.apiUrl}province`, {
+    const request = await fetch(`${config.apiUrl}room`, {
       method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -25,12 +25,12 @@ export class ProvinceApiClient {
   }
 
   /**
-   * @description Get province by id
-   * @param {string} id - Province id
-   * @returns Province by id
+   * @description Get room by id
+   * @param {string} id - Room id
+   * @returns Room by id
    */
   async getById(id) {
-    const request = await fetch(`${config.apiUrl}province/${id}`, {
+    const request = await fetch(`${config.apiUrl}room/${id}`, {
       method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -42,14 +42,14 @@ export class ProvinceApiClient {
   }
 
   /**
-   * @description Create province
-   * @param {object} province - Province
+   * @description Create room
+   * @param {object} room - Room
    * @returns  Transaction status
    */
-  async create(province) {
-    const request = await fetch(`${config.apiUrl}province`, {
+  async create(room) {
+    const request = await fetch(`${config.apiUrl}room`, {
       method: "POST",
-      body: JSON.stringify(province),
+      body: JSON.stringify(room),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -60,14 +60,14 @@ export class ProvinceApiClient {
   }
 
   /**
-   * @description Update province
-   * @param {object} province - Province
+   * @description Update room
+   * @param {object} room - Room
    * @returns Transaction status
    */
-  async update(province) {
-    const request = await fetch(`${config.apiUrl}province/${province.id}`, {
+  async update(room) {
+    const request = await fetch(`${config.apiUrl}room/${room.id}`, {
       method: "PATCH",
-      body: JSON.stringify(province),
+      body: JSON.stringify(room),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -84,7 +84,7 @@ export class ProvinceApiClient {
    */
   async delete(ids) {
     for (const id of ids) {
-      await fetch(`${config.apiUrl}province/${id}`, {
+      await fetch(`${config.apiUrl}room/${id}`, {
         method: "DELETE",
         headers: {
           "Access-Control-Allow-Origin": "*",

@@ -33,7 +33,13 @@ function Rooms() {
   const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
-    const keys = extractKeysFromObject(new Room(), ["id", "dateOfCreation", "lastUpdate", "deleted"]);
+    const keys = extractKeysFromObject(new Room(), [
+      "id",
+      "dateOfCreation",
+      "lastUpdate",
+      "deleted",
+      "description",
+    ]);
     return keys.map((key) => ({
       id: key,
       label: t(`_entities:room.${key}.label`),

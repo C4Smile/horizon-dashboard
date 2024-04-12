@@ -44,8 +44,7 @@ function CustomerForm() {
       setNotification(String(status), { model: t("_entities:entities.customer") });
       // eslint-disable-next-line no-console
       if (status !== 201) console.error(error);
-      else if (id !== undefined)
-        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers, id] });
+      if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers, id] });
       else
         reset({
           id: undefined,
