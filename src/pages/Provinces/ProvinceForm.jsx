@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -36,15 +36,14 @@ function ProvinceForm() {
     setSaving(true);
     try {
       let result;
-      if (d.id) result = await museumApiClient.Province.create(d);
+      if (!d.id) result = await museumApiClient.Province.create(d);
       else result = await museumApiClient.Province.update(d);
       const { error, status } = result;
-      setNotification(String(status));
-
+      setNotification(String(status), { model: t("_entities:entities.province") });
       // eslint-disable-next-line no-console
-      if (error && error !== null) console.error(error);
+      if (status !== 201) console.error(error);
       else if (id !== undefined)
-        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Provinces, id] });
+        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers, id] });
       else reset({});
     } catch (e) {
       // eslint-disable-next-line no-console
@@ -68,17 +67,30 @@ function ProvinceForm() {
   }, [provinceQuery]);
 
   useEffect(() => {
-    if (provinceQuery.data) {
-      const { data } = provinceQuery.data;
-      // eslint-disable-next-line no-console
-      if (data && data !== null) reset({ ...data });
+    if (provinceQuery.data) reset({ ...provinceQuery.data });
+
+    if (!id) {
+      reset({
+        id: undefined,
+        name: "",
+        country: undefined,
+      });
     }
   }, [provinceQuery.data, id, reset]);
 
   const countryQuery = useQuery({
     queryKey: [ReactQueryKeys.Countries],
     queryFn: () => museumApiClient.Country.getAll(),
+    retry: false,
   });
+
+  const countryList = useMemo(() => {
+    try {
+      return countryQuery?.data?.map((c) => ({ value: `${c.name} - ${c.iso}`, id: c.id })) || [];
+    } catch (err) {
+      return [];
+    }
+  }, [countryQuery.data]);
 
   return (
     <div className="px-5 pt-10 flex items-start justify-start">
@@ -105,17 +117,15 @@ function ProvinceForm() {
         />
         <Controller
           control={control}
-          name="country"
+          name="countryId"
           disabled={provinceQuery.isLoading || countryQuery.isLoading || saving}
           render={({ field: { onChange, value, ...rest } }) => (
             <SelectInput
               {...rest}
-              id="country"
-              name="country"
+              id="countryId"
+              name="countryId"
               label={t("_entities:customer.country.label")}
-              options={
-                countryQuery.data?.data.map((c) => ({ value: `${c.name} - ${c.iso}`, id: c.id })) || []
-              }
+              options={countryList}
               value={value}
               onChange={(e) => {
                 onChange(e.target.value);
