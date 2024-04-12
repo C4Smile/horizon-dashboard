@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useNavigate, Link } from "react-router-dom";
@@ -52,31 +52,36 @@ function Countries() {
     retry: false,
   });
 
-  const preparedRows = useMemo(() => {
-    const { data } = countryQuery;
+  const [localData, setLocalData] = useState([]);
 
-    if (data && data !== null)
-      return data.map((country) => {
-        return {
-          id: country.id,
-          dateOfCreation: new Date(country.dateOfCreation).toLocaleDateString(),
-          lastUpdate: new Date(country.lastUpdate).toLocaleDateString(),
-          deleted: country.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
-          name: (
-            <Link className="underline text-light-primary" to={`${country.id}`}>
-              {country.name}
-            </Link>
-          ),
-          iso: country.iso,
-        };
-      });
-  }, [countryQuery, t]);
+  const preparedRows = useMemo(() => {
+    return localData.map((country) => {
+      return {
+        id: country.id,
+        dateOfCreation: new Date(country.dateOfCreation).toLocaleDateString(),
+        lastUpdate: new Date(country.lastUpdate).toLocaleDateString(),
+        deleted: country.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
+        name: (
+          <Link className="underline text-light-primary" to={`${country.id}`}>
+            {country.name}
+          </Link>
+        ),
+        iso: country.iso,
+      };
+    });
+  }, [localData, t]);
 
   useEffect(() => {
-    const { error } = countryQuery;
-    // eslint-disable-next-line no-console
-    if (error && error !== null) console.error(countryQuery.error);
-  }, [countryQuery]);
+    const { data } = countryQuery;
+    if (data) {
+      if (data.length === undefined && data?.statusCode !== 200) {
+        // eslint-disable-next-line no-console
+        console.error(data.message);
+        setNotification(String(data.statusCode));
+        if (data.statusCode === 401) navigate("/sign-out");
+      } else setLocalData(data ?? []);
+    }
+  }, [countryQuery, navigate, setNotification]);
 
   const getActions = [
     {
