@@ -25,6 +25,7 @@ const ModelNavigation = loadable(() => import("./layouts/ModelNavigation"));
 // Import pages
 // Auth
 const SignIn = loadable(() => import("./pages/Auth/SignIn"));
+const SignOut = loadable(() => import("./pages/Auth/SignOut"));
 // Generals
 const Home = loadable(() => import("./pages/Home"));
 const Account = loadable(() => import("./pages/Account/Account"));
@@ -91,6 +92,7 @@ function App() {
           >
             <Route index element={<SignIn />} />
           </Route>
+          <Route path="/sign-out" element={<SignOut />} />
           <Route
             exact
             path="/"

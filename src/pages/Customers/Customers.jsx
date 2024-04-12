@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
@@ -48,10 +48,11 @@ function Customers() {
     retry: false,
   });
 
+  const [localData, setLocalData] = useState([]);
+
   const preparedRows = useMemo(() => {
-    const { data } = customerQuery;
-    if (data && data !== null)
-      return data.map((customer) => {
+    if (localData)
+      return localData.map((customer) => {
         return {
           id: customer.id,
           dateOfCreation: new Date(customer.dateOfCreation).toLocaleDateString(),
@@ -76,13 +77,20 @@ function Customers() {
           ),
         };
       });
-  }, [t, customerQuery]);
+  }, [localData, t]);
 
   useEffect(() => {
-    const { error } = customerQuery;
-    // eslint-disable-next-line no-console
-    if (error && error !== null) console.error(customerQuery.error);
-  }, [customerQuery]);
+    const { data } = customerQuery;
+    console.log(data);
+    if (data) {
+      if (data.length === undefined && data?.statusCode !== 200) {
+        // eslint-disable-next-line no-console
+        console.error(data.message);
+        setNotification(String(data.statusCode));
+        if (data.statusCode === 401) navigate("/sign-out");
+      } else setLocalData(data);
+    }
+  }, [customerQuery, navigate, setNotification]);
 
   const getActions = [
     {

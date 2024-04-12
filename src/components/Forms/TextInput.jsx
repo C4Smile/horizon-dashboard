@@ -70,7 +70,7 @@ TextInput.defaultProps = {
 TextInput.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  state: PropTypes.oneOf(["error", "good", "default"]),
+  state: PropTypes.oneOf(["", "error", "good", "default"]),
   name: PropTypes.string,
   id: PropTypes.string,
   type: PropTypes.string,
