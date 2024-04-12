@@ -42,9 +42,9 @@ function ProvinceForm() {
       setNotification(String(status), { model: t("_entities:entities.province") });
       // eslint-disable-next-line no-console
       if (status !== 201) console.error(error);
-      else if (id !== undefined)
+      else if (id === undefined)
         queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers, id] });
-      else reset({});
+      else reset({ id: undefined, name: "", country: undefined });
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);

@@ -3,7 +3,8 @@
     "user": "User",
     "role": "Role",
     "country": "Country",
-    "customer": "Customer"
+    "customer": "Customer",
+    "province": "Province"
   },
   "roles": {
     "admin": "Administrator",

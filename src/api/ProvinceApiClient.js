@@ -1,4 +1,7 @@
-import { fetchFromLocal, fetchSingleFromLocal, saveToLocal, deleteFromLocal } from "../db/connection";
+import config from "../config";
+
+// utils
+import { fromLocal } from "../utils/local";
 
 /**
  * @class ProvinceApiClient
@@ -6,22 +9,36 @@ import { fetchFromLocal, fetchSingleFromLocal, saveToLocal, deleteFromLocal } fr
  */
 export class ProvinceApiClient {
   /**
-   * @description Get all provinces
-   * @param {string} attributes - Attributes
+   * @description Get all countries
    * @returns Province list
    */
-  async getAll(attributes = "*") {
-    return await fetchFromLocal("province", attributes);
+  async getAll() {
+    const request = await fetch(`${config.apiUrl}province`, {
+      method: "GET",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return await request.json();
   }
 
   /**
    * @description Get province by id
    * @param {string} id - Province id
-   * @param {string} attributes - Attributes
    * @returns Province by id
    */
-  async getById(id, attributes = "*") {
-    return await fetchSingleFromLocal("province", id, attributes);
+  async getById(id) {
+    const request = await fetch(`${config.apiUrl}province/${id}`, {
+      method: "GET",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return await request.json();
   }
 
   /**
@@ -30,7 +47,16 @@ export class ProvinceApiClient {
    * @returns  Transaction status
    */
   async create(province) {
-    return await saveToLocal("province", province);
+    const request = await fetch(`${config.apiUrl}province`, {
+      method: "POST",
+      body: JSON.stringify(province),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return request;
   }
 
   /**
@@ -39,7 +65,16 @@ export class ProvinceApiClient {
    * @returns Transaction status
    */
   async update(province) {
-    return await saveToLocal("province", province);
+    const request = await fetch(`${config.apiUrl}province/${province.id}`, {
+      method: "PATCH",
+      body: JSON.stringify(province),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return request;
   }
 
   /**
@@ -48,6 +83,16 @@ export class ProvinceApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    return await deleteFromLocal("province", ids);
+    for (const id of ids) {
+      await fetch(`${config.apiUrl}province/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+        },
+      });
+    }
+    return { status: 204 };
   }
 }

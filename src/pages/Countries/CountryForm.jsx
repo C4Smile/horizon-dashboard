@@ -44,7 +44,12 @@ function CountryForm() {
       if (status !== 201) console.error(error);
       else if (id !== undefined)
         queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Countries, id] });
-      else reset({});
+      else
+        reset({
+          id: undefined,
+          name: "",
+          iso: "",
+        });
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
