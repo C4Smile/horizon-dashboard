@@ -84,7 +84,7 @@ function Customers() {
       if (data.length === undefined && data?.statusCode !== 200) {
         // eslint-disable-next-line no-console
         console.error(data.message);
-        setNotification(String(data.statusCode));
+        if (data.statusCode) setNotification(String(data.statusCode));
         if (data.statusCode === 401) navigate("/sign-out");
       } else setLocalData(data ?? []);
     }
