@@ -7,7 +7,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
 // dto
-import { Room } from "../../models/Room";
+import { Room } from "../../models/room/Room";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";

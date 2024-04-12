@@ -7,7 +7,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
 // dto
-import { Reservation } from "../../models/Reservation";
+import { Reservation } from "../../models/reservation/Reservation";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";

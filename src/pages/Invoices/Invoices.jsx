@@ -2,11 +2,11 @@ import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 // dto
-import { Invoice } from "../../models/Invoice";
-import { Customer } from "../../models/Customer";
-import { Currency } from "../../models/Currency";
-import { Reservation, ReservationStatus } from "../../models/Reservation";
-import { PaymentMethod } from "../../models/PaymentMethod";
+import { Invoice } from "../../models/invoice/Invoice";
+import { Customer } from "../../models/customer/Customer";
+import { Currency } from "../../models/currency/Currency";
+import { Reservation, ReservationStatus } from "../../models/reservation/Reservation";
+import { PaymentMethod } from "../../models/paymentMethod/PaymentMethod";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";

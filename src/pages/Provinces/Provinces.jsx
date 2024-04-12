@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useNavigate, Link } from "react-router-dom";
@@ -7,7 +7,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
 // dto
-import { Province } from "../../models/Province";
+import { Province } from "../../models/province/Province";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
@@ -49,36 +49,39 @@ function Provinces() {
   const provinceQuery = useQuery({
     queryKey: [ReactQueryKeys.Provinces],
     queryFn: () => museumApiClient.province.getAll(),
+    retry: false,
   });
 
+  const [localData, setLocalData] = useState([]);
+
   const preparedRows = useMemo(() => {
-    if (provinceQuery.data) {
-      const { data } = provinceQuery.data;
-      if (data && data !== null)
-        return data.map((province) => {
-          return {
-            id: province.id,
-            dateOfCreation: new Date(province.dateOfCreation).toLocaleDateString(),
-            lastUpdate: new Date(province.lastUpdate).toLocaleDateString(),
-            deleted: province.deleted
-              ? t("_accessibility:buttons.yes")
-              : t("_accessibility:buttons.no"),
-            name: (
-              <Link className="underline text-light-primary" to={`${province.id}`}>
-                {province.name}
-              </Link>
-            ),
-            country: province.country?.name,
-          };
-        });
-    }
-  }, [provinceQuery, t]);
+    return localData.map((province) => {
+      return {
+        id: province.id,
+        dateOfCreation: new Date(province.dateOfCreation).toLocaleDateString(),
+        lastUpdate: new Date(province.lastUpdate).toLocaleDateString(),
+        deleted: province.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
+        name: (
+          <Link className="underline text-light-primary" to={`${province.id}`}>
+            {province.name}
+          </Link>
+        ),
+        country: province.country?.name,
+      };
+    });
+  }, [localData, t]);
 
   useEffect(() => {
-    const { error } = provinceQuery;
-    // eslint-disable-next-line no-console
-    if (error && error !== null) console.error(provinceQuery.error);
-  }, [provinceQuery]);
+    const { data } = provinceQuery;
+    if (data) {
+      if (data.length === undefined && data?.statusCode !== 200) {
+        // eslint-disable-next-line no-console
+        console.error(data.message);
+        setNotification(String(data.statusCode));
+        if (data.statusCode === 401) navigate("/sign-out");
+      } else setLocalData(data ?? []);
+    }
+  }, [navigate, provinceQuery, setNotification]);
 
   const getActions = [
     {
