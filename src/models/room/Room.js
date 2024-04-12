@@ -1,4 +1,4 @@
-import { Entity } from "./Entity";
+import { Entity } from "../entity/Entity";
 
 export const RoomStatus = {
   operational: "operational",

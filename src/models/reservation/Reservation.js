@@ -1,5 +1,5 @@
-import { Customer } from "./Customer";
-import { Entity } from "./Entity";
+import { Customer } from "../customer/Customer";
+import { Entity } from "../entity/Entity";
 
 export const ReservationStatus = {
   pending: "pending",

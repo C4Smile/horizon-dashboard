@@ -1,7 +1,7 @@
-import { Customer } from "./Customer";
+import { Customer } from "../customer/Customer";
 import { Reservation } from "../reservation/Reservation";
-import { Entity } from "./Entity";
-import { Currency } from "./Currency";
+import { Entity } from "../entity/Entity";
+import { Currency } from "../currency/Currency";
 import { PaymentMethod } from "../paymentMethod/PaymentMethod";
 
 /**

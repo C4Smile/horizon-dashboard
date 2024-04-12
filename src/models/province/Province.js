@@ -1,5 +1,5 @@
-import { Entity } from "./Entity";
-import { Country } from "./Country";
+import { Entity } from "../entity/Entity";
+import { Country } from "../country/Country";
 
 /**
  * @class Province
