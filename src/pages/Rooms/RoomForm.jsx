@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 
 // models
-import { RoomStatus } from "../../models/Room";
+import { RoomStatus } from "../../models/room/Room";
 
 // components
 import Loading from "../../partials/loading/Loading";
@@ -43,16 +43,21 @@ function RoomForm() {
     setSaving(true);
     try {
       let result;
-      if (d.id) result = await museumApiClient.Room.create(d);
+      if (!d.id) result = await museumApiClient.Room.create(d);
       else result = await museumApiClient.Room.update(d);
       const { error, status } = result;
-      setNotification(String(status));
-
+      setNotification(String(status), { model: t("_entities:entities.room") });
       // eslint-disable-next-line no-console
       if (error && error !== null) console.error(error);
-      else if (id !== undefined)
+      else if (id === undefined)
         queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Rooms, id] });
-      else reset({});
+      else
+        reset({
+          id: undefined,
+          number: "",
+          name: "",
+          status: RoomStatus.operational,
+        });
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);

@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useNavigate, Link } from "react-router-dom";
@@ -44,35 +44,40 @@ function Rooms() {
   const roomQuery = useQuery({
     queryKey: [ReactQueryKeys.Rooms],
     queryFn: () => museumApiClient.room.getAll(),
+    retry: false,
   });
 
+  const [localData, setLocalData] = useState([]);
+
   const preparedRows = useMemo(() => {
-    if (roomQuery.data) {
-      const { data } = roomQuery.data;
-      if (data && data !== null)
-        return data.map((room) => {
-          return {
-            id: room.id,
-            dateOfCreation: new Date(room.dateOfCreation).toLocaleDateString(),
-            lastUpdate: new Date(room.lastUpdate).toLocaleDateString(),
-            deleted: room.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
-            number: room.number,
-            name: (
-              <Link className="underline text-light-primary" to={`${room.id}`}>
-                {room.name}
-              </Link>
-            ),
-            status: t(`_entities:room.status.${room.status}`),
-          };
-        });
-    }
-  }, [roomQuery, t]);
+    return localData.map((room) => {
+      return {
+        id: room.id,
+        dateOfCreation: new Date(room.dateOfCreation).toLocaleDateString(),
+        lastUpdate: new Date(room.lastUpdate).toLocaleDateString(),
+        deleted: room.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
+        number: room.number,
+        name: (
+          <Link className="underline text-light-primary" to={`${room.id}`}>
+            {room.name}
+          </Link>
+        ),
+        status: t(`_entities:room.status.${room.status}`),
+      };
+    });
+  }, [localData, t]);
 
   useEffect(() => {
-    const { error } = roomQuery;
-    // eslint-disable-next-line no-console
-    if (error && error !== null) console.error(roomQuery.error);
-  }, [roomQuery]);
+    const { data } = roomQuery;
+    if (data) {
+      if (data.length === undefined && data?.statusCode !== 200) {
+        // eslint-disable-next-line no-console
+        console.error(data.message);
+        if (data.statusCode) setNotification(String(data.statusCode));
+        if (data.statusCode === 401) navigate("/sign-out");
+      } else setLocalData(data ?? []);
+    }
+  }, [navigate, roomQuery, setNotification]);
 
   const getActions = [
     {
@@ -85,11 +90,11 @@ function Rooms() {
       id: "delete",
       onClick: (e) => {
         const { error, status } = museumApiClient.Customer.delete([e.id]);
-        setNotification(String(status));
+        setNotification(String(status), { model: t("_entities:entities.room") });
 
         // eslint-disable-next-line no-console
         if (error && error !== null) console.error(error);
-        else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers] });
+        else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Rooms] });
       },
       icon: faTrash,
       tooltip: t("_accessibility:buttons.delete"),

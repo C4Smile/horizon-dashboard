@@ -12,12 +12,14 @@ export const RoomStatus = {
 export class Room extends Entity {
   number = "";
   name = "";
-  status = false;
+  description = "";
+  status = RoomStatus.operational;
 
   /**
    * @param {number} id - Room id
    * @param {string} number - Room number
    * @param {string} name - Room name
+   * @param {string} description - Room description
    * @param {RoomStatus} status - Room status
    * @param {Date} dateOfCreation - Room date of creation
    * @param {Date} lastUpdate - Room last update
@@ -28,6 +30,7 @@ export class Room extends Entity {
     id,
     number,
     name,
+    description,
     status = RoomStatus.operational,
     dateOfCreation = Date.now(),
     lastUpdate = Date.now(),
@@ -36,6 +39,7 @@ export class Room extends Entity {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.number = number;
     this.name = name;
+    this.description = description;
     this.status = status;
   }
 
@@ -49,6 +53,7 @@ export class Room extends Entity {
       json.id,
       json.number,
       json.name,
+      json.description,
       json.status,
       json.dateOfCreation,
       json.lastUpdate,
@@ -68,6 +73,13 @@ export class Room extends Entity {
    */
   get Name() {
     return this.name;
+  }
+
+  /**
+   * @returns Description
+   */
+  get Description() {
+    return this.description;
   }
 
   /**

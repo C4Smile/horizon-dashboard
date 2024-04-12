@@ -1,19 +1,55 @@
 import config from "../config";
-import { fetchSingleFromLocal, saveToLocal, deleteFromLocal } from "../db/connection";
+
+// utils
 import { fromLocal } from "../utils/local";
 
 /**
- * @class RoomApiClient
- * @description RoomApiClient
+ * @class ProvinceApiClient
+ * @description ProvinceApiClient
  */
-export class RoomApiClient {
+export class ProvinceApiClient {
   /**
-   * @description Get all rooms
-   * @returns Room list
+   * @description Get all countries
+   * @returns Province list
    */
   async getAll() {
-    const request = await fetch(`${config.apiUrl}room`, {
+    const request = await fetch(`${config.apiUrl}province`, {
       method: "GET",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return await request.json();
+  }
+
+  /**
+   * @description Get province by id
+   * @param {string} id - Province id
+   * @returns Province by id
+   */
+  async getById(id) {
+    const request = await fetch(`${config.apiUrl}province/${id}`, {
+      method: "GET",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return await request.json();
+  }
+
+  /**
+   * @description Create province
+   * @param {object} province - Province
+   * @returns  Transaction status
+   */
+  async create(province) {
+    const request = await fetch(`${config.apiUrl}province`, {
+      method: "POST",
+      body: JSON.stringify(province),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -24,31 +60,21 @@ export class RoomApiClient {
   }
 
   /**
-   * @description Get room by
-   * @param {string} id - Room id
-   * @param {string} attributes - Attributes
-   * @returns Room by id
-   */
-  async getById(id, attributes = "*") {
-    return await fetchSingleFromLocal("room", id, attributes);
-  }
-
-  /**
-   * @description Create room
-   * @param {object} room - Room
-   * @returns  Transaction status
-   */
-  async create(room) {
-    return await saveToLocal("room", room);
-  }
-
-  /**
-   * @description Update room
-   * @param {object} room - Room
+   * @description Update province
+   * @param {object} province - Province
    * @returns Transaction status
    */
-  async update(room) {
-    return await saveToLocal("room", room);
+  async update(province) {
+    const request = await fetch(`${config.apiUrl}province/${province.id}`, {
+      method: "PATCH",
+      body: JSON.stringify(province),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return request;
   }
 
   /**
@@ -57,6 +83,16 @@ export class RoomApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    return await deleteFromLocal("room", ids);
+    for (const id of ids) {
+      await fetch(`${config.apiUrl}province/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+        },
+      });
+    }
+    return { status: 204 };
   }
 }

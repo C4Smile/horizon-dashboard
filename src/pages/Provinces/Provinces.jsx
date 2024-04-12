@@ -66,7 +66,14 @@ function Provinces() {
             {province.name}
           </Link>
         ),
-        country: province.country?.name,
+        country: (
+          <Link
+            className="underline text-light-primary"
+            to={`/management/countries/${province.countryId}`}
+          >
+            {province.country?.name}
+          </Link>
+        ),
       };
     });
   }, [localData, t]);
@@ -94,11 +101,11 @@ function Provinces() {
       id: "delete",
       onClick: (e) => {
         const { error, status } = museumApiClient.Customer.delete([e.id]);
-        setNotification(String(status));
+        setNotification(String(status), { model: t("_entities:entities.province") });
 
         // eslint-disable-next-line no-console
         if (error && error !== null) console.error(error);
-        else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers] });
+        else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Provinces] });
       },
       icon: faTrash,
       tooltip: t("_accessibility:buttons.delete"),

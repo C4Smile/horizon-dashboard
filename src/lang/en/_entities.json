@@ -4,7 +4,8 @@
     "role": "Role",
     "country": "Country",
     "customer": "Customer",
-    "province": "Province"
+    "province": "Province",
+    "room": "Room"
   },
   "roles": {
     "admin": "Administrator",
