@@ -66,5 +66,12 @@
     "type": { "label": "Type", "placeholder": "ex: Virtual" },
     "description": { "label": "Description", "placeholder": "ex: In this room Fidel Castro..." },
     "status": { "label": "Status", "operational": "Operational", "maintenance": "Maintenance" }
+  },
+  "currency": {
+    "name": { "label": "Name", "placeholder": "ex: Moneda nacional" },
+    "reduction": { "label": "Reducción", "placeholder": "ex: CUP" }
+  },
+  "paymentMethod": {
+    "name": { "label": "Name", "placeholder": "ex: Efectivo" }
   }
 }

@@ -84,7 +84,7 @@ function Currencies() {
   const getActions = [
     {
       id: "edit",
-      onClick: (e) => navigate(`/management/countries/${e.id}`),
+      onClick: (e) => navigate(`/management/currencies/${e.id}`),
       icon: faPencil,
       tooltip: t("_accessibility:buttons.edit"),
     },
@@ -109,7 +109,7 @@ function Currencies() {
   return (
     <div className="p-5">
       <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
-        {t("_pages:management.links.countries")}
+        {t("_pages:management.links.currencies")}
       </h1>
       <Table
         isLoading={currencyQuery.isLoading}

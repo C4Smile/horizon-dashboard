@@ -11,6 +11,12 @@
     },
     "settings": {
       "link": "/settings"
+    },
+    "currencies": {
+      "link": "/currencies"
+    },
+    "paymentMethods": {
+      "link": "/payment-methods"
     }
   },
   "search": {
@@ -45,7 +51,9 @@
       "invoices": "Invoices",
       "rooms": "Rooms",
       "countries": "Countries",
-      "provinces": "Provinces"
+      "provinces": "Provinces",
+      "currencies": "Currencies",
+      "paymentMethods": "Payment Methods"
     }
   },
   "personal": {
