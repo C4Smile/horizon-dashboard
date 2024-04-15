@@ -9,6 +9,7 @@ import { PaymentMethod } from "../paymentMethod/PaymentMethod";
  * @description Represents an invoice
  */
 export class Invoice extends Entity {
+  ticket = "";
   reservation = null;
   customer = null;
   currency = null;
@@ -18,6 +19,7 @@ export class Invoice extends Entity {
 
   /**
    * @param {number} id - Invoice id
+   * @param {string} ticket - ticket
    * @param {Reservation} reservation - Invoice reservation
    * @param {Customer} customer - Invoice customer
    * @param {Currency} currency - Invoice currency
@@ -30,6 +32,7 @@ export class Invoice extends Entity {
    */
   constructor(
     id,
+    ticket,
     reservation,
     customer,
     currency,
@@ -41,6 +44,7 @@ export class Invoice extends Entity {
     deleted,
   ) {
     super(id, dateOfCreation, lastUpdate, deleted);
+    this.ticket = ticket;
     this.reservation = reservation;
     this.customer = customer;
     this.currency = currency;
@@ -57,6 +61,7 @@ export class Invoice extends Entity {
   static fromJson(json) {
     return new Invoice(
       json.id,
+      json.ticket,
       Reservation.fromJson(json.reservation),
       Customer.fromJson(json.customer),
       Currency.fromJson(json.currency),
@@ -67,6 +72,13 @@ export class Invoice extends Entity {
       json.lastUpdate,
       json.deleted,
     );
+  }
+
+  /**
+   * @returns Ticket
+   */
+  get Ticket() {
+    return this.ticket;
   }
 
   /**

@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useAccount } from "../../providers/AccountProvider";
 
 /**
- *
- * @returns
+ * SignOut page
+ * @returns SignOut page component
  */
 function SignOut() {
   const { logoutUser } = useAccount();

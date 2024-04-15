@@ -48,7 +48,7 @@ function Provinces() {
 
   const provinceQuery = useQuery({
     queryKey: [ReactQueryKeys.Provinces],
-    queryFn: () => museumApiClient.province.getAll(),
+    queryFn: () => museumApiClient.Province.getAll(),
     retry: false,
   });
 

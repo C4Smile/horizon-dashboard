@@ -85,7 +85,6 @@ function Customers() {
         // eslint-disable-next-line no-console
         console.error(data.message);
         if (data.statusCode) setNotification(String(data.statusCode));
-        if (data.statusCode === 401) navigate("/sign-out");
       } else setLocalData(data ?? []);
     }
   }, [customerQuery, navigate, setNotification]);

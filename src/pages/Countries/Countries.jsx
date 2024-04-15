@@ -48,7 +48,7 @@ function Countries() {
 
   const countryQuery = useQuery({
     queryKey: [ReactQueryKeys.Countries],
-    queryFn: () => museumApiClient.country.getAll(),
+    queryFn: () => museumApiClient.Country.getAll(),
     retry: false,
   });
 
@@ -78,7 +78,6 @@ function Countries() {
         // eslint-disable-next-line no-console
         console.error(data.message);
         if (data.statusCode) setNotification(String(data.statusCode));
-        if (data.statusCode === 401) navigate("/sign-out");
       } else setLocalData(data ?? []);
     }
   }, [countryQuery, navigate, setNotification]);

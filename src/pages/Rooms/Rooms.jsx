@@ -49,7 +49,7 @@ function Rooms() {
 
   const roomQuery = useQuery({
     queryKey: [ReactQueryKeys.Rooms],
-    queryFn: () => museumApiClient.room.getAll(),
+    queryFn: () => museumApiClient.Room.getAll(),
     retry: false,
   });
 

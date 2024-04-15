@@ -48,7 +48,7 @@ function Reservations() {
 
   const reservationQuery = useQuery({
     queryKey: [ReactQueryKeys.Reservations],
-    queryFn: () => museumApiClient.reservation.getAll(),
+    queryFn: () => museumApiClient.Reservation.getAll(),
   });
 
   const [localData, setLocalData] = useState([]);
