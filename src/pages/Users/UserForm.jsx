@@ -42,20 +42,31 @@ function UserForm() {
         console.error(t("_accessibility:errors.passwordDoNotMatch"));
         return setNotification(t("_accessibility:errors.passwordDoNotMatch"));
       }
-      if (d.id) result = await museumApiClient.User.create(d);
+      if (!d.id) result = await museumApiClient.User.create(d);
       else result = await museumApiClient.User.update(d);
       const { error, status } = result;
-      setNotification(String(status));
+      console.log(result);
+      setNotification(String(status), { model: t("_entities:entities.user") });
 
       // eslint-disable-next-line no-console
-      if (error && error !== null) console.error(error);
+      if (status !== 201) console.error(error);
       else if (id !== undefined)
         queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users, id] });
-      else reset({});
+      else
+        reset({
+          id: undefined,
+          username: "",
+          password: "",
+          name: "",
+          email: "",
+          phone: "",
+          address: "",
+          identification: "",
+        });
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
-      setNotification(String(e.status));
+      setNotification(String(e.status), { model: t("_entities:entities.user") });
     }
     setSaving(false);
   };
@@ -74,12 +85,21 @@ function UserForm() {
   }, [userQuery]);
 
   useEffect(() => {
-    if (userQuery.data) {
-      const { data } = userQuery.data;
-      // eslint-disable-next-line no-console
-      if (data && data !== null) reset({ ...data });
+    if (userQuery.data) reset({ ...userQuery.data });
+
+    if (!id) {
+      reset({
+        id: undefined,
+        username: "",
+        password: "",
+        name: "",
+        email: "",
+        phone: "",
+        address: "",
+        identification: "",
+      });
     }
-  }, [userQuery.data, id, reset]);
+  }, [id, reset, userQuery.data]);
 
   return (
     <div className="px-5 pt-10 flex items-start justify-start">

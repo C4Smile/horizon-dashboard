@@ -1,4 +1,4 @@
-import { Entity } from "./Entity";
+import { Entity } from "../entity/Entity";
 
 /**
  * @class User
@@ -10,6 +10,8 @@ export class User extends Entity {
   name = "";
   email = "";
   phone = "";
+  address = "";
+  identification = "";
 
   /**
    * @param {number} id - user id
