@@ -33,6 +33,12 @@ const NotFound = loadable(() => import("./pages/NotFound/NotFound"));
 // customers
 const Customers = loadable(() => import("./pages/Customers/Customers"));
 const CustomerForm = loadable(() => import("./pages/Customers/CustomerForm"));
+// currencies
+const Currencies = loadable(() => import("./pages/Currencies/Currencies"));
+const CurrencyForm = loadable(() => import("./pages/Currencies/CurrencyForm"));
+// payment methods
+const PaymentMethods = loadable(() => import("./pages/PaymentMethods/PaymentMethods"));
+const PaymentMethodForm = loadable(() => import("./pages/PaymentMethods/PaymentMethodForm"));
 // reservations
 const Reservations = loadable(() => import("./pages/Reservations/Reservations"));
 const ReservationForm = loadable(() => import("./pages/Reservations/ReservationForm"));
@@ -112,6 +118,24 @@ function App() {
               <Route index element={<Customers />} />
               <Route path="/management/customers/new" element={<CustomerForm />} />
               <Route path="/management/customers/:id" element={<CustomerForm />} />
+            </Route>
+            <Route
+              exact
+              path="/management/currencies"
+              element={<ModelNavigation parent="management" model="currencies" />}
+            >
+              <Route index element={<Currencies />} />
+              <Route path="/management/currencies/new" element={<CurrencyForm />} />
+              <Route path="/management/currencies/:id" element={<CurrencyForm />} />
+            </Route>
+            <Route
+              exact
+              path="/management/paymentMethods"
+              element={<ModelNavigation parent="management" model="paymentMethods" />}
+            >
+              <Route index element={<PaymentMethods />} />
+              <Route path="/management/paymentMethods/new" element={<PaymentMethodForm />} />
+              <Route path="/management/paymentMethods/:id" element={<PaymentMethodForm />} />
             </Route>
             <Route
               exact
