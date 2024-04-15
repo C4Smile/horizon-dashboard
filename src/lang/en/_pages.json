@@ -88,5 +88,13 @@
   "provinces": {
     "editForm": "Edit Province",
     "newForm": "New Province"
+  },
+  "paymentMethods": {
+    "editForm": "Edit Payment Method",
+    "newForm": "New Payment Method"
+  },
+  "currencies": {
+    "editForm": "Edit Currency",
+    "newForm": "New Currency"
   }
 }

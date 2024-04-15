@@ -35,6 +35,14 @@ export const sitemap = [
         label: "provinces",
         path: "/provinces",
       },
+      {
+        label: "paymentMethods",
+        path: "/payment-methods",
+      },
+      {
+        label: "currencies",
+        path: "/currencies",
+      },
     ],
   },
   {
