@@ -1,4 +1,7 @@
-import { fetchFromLocal, fetchSingleFromLocal, saveToLocal, deleteFromLocal } from "../db/connection";
+import config from "../config";
+
+// utils
+import { fromLocal } from "../utils/local";
 
 /**
  * @class InvoiceApiClient
@@ -6,22 +9,36 @@ import { fetchFromLocal, fetchSingleFromLocal, saveToLocal, deleteFromLocal } fr
  */
 export class InvoiceApiClient {
   /**
-   * @description Get all invoices
-   * @param {string} attributes - Attributes
+   * @description Get all countries
    * @returns Invoice list
    */
-  async getAll(attributes = "*") {
-    return await fetchFromLocal("invoice", attributes);
+  async getAll() {
+    const request = await fetch(`${config.apiUrl}invoice`, {
+      method: "GET",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return await request.json();
   }
 
   /**
    * @description Get invoice by id
    * @param {string} id - Invoice id
-   * @param {string} attributes - Attributes
    * @returns Invoice by id
    */
-  async getById(id, attributes = "*") {
-    return await fetchSingleFromLocal("invoice", id, attributes);
+  async getById(id) {
+    const request = await fetch(`${config.apiUrl}invoice/${id}`, {
+      method: "GET",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return await request.json();
   }
 
   /**
@@ -30,7 +47,16 @@ export class InvoiceApiClient {
    * @returns  Transaction status
    */
   async create(invoice) {
-    return await saveToLocal("invoice", invoice);
+    const request = await fetch(`${config.apiUrl}invoice`, {
+      method: "POST",
+      body: JSON.stringify(invoice),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return request;
   }
 
   /**
@@ -39,7 +65,16 @@ export class InvoiceApiClient {
    * @returns Transaction status
    */
   async update(invoice) {
-    return await saveToLocal("invoice", invoice);
+    const request = await fetch(`${config.apiUrl}invoice/${invoice.id}`, {
+      method: "PATCH",
+      body: JSON.stringify(invoice),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return request;
   }
 
   /**
@@ -48,6 +83,16 @@ export class InvoiceApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    return await deleteFromLocal("invoice", ids);
+    for (const id of ids) {
+      await fetch(`${config.apiUrl}invoice/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+        },
+      });
+    }
+    return { status: 204 };
   }
 }
