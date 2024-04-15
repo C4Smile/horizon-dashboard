@@ -26,6 +26,7 @@ const AccountProvider = (props) => {
   }, []);
 
   const logoutUser = useCallback(() => {
+    setAccount({});
     removeFromLocal(config.user);
   }, []);
 

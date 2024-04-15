@@ -18,7 +18,7 @@ function SignOut() {
     setTimeout(() => {
       navigate("/auth");
     }, 1000);
-  }, []);
+  }, [logoutUser, navigate]);
 
   return <div></div>;
 }

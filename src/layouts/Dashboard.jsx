@@ -58,7 +58,7 @@ function Dashboard() {
       // eslint-disable-next-line no-console
       console.log(err);
       logoutUser();
-      navigate("/auth");
+      navigate("/sign-out");
     }
   }, [logoutUser, museumApiClient.User, navigate]);
 
