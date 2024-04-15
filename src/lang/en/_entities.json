@@ -7,6 +7,7 @@
     "province": "Province",
     "room": "Room",
     "invoice": "Invoice",
+    "currency": "Currency",
     "paymentMethod": "Payment Method"
   },
   "roles": {

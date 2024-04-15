@@ -4,16 +4,16 @@ import config from "../config";
 import { fromLocal } from "../utils/local";
 
 /**
- * @class RoomApiClient
- * @description RoomApiClient
+ * @class CurrencyApiClient
+ * @description CurrencyApiClient
  */
-export class RoomApiClient {
+export class CurrencyApiClient {
   /**
-   * @description Get all rooms
-   * @returns Room list
+   * @description Get all currencies
+   * @returns Currency list
    */
   async getAll() {
-    const request = await fetch(`${config.apiUrl}room`, {
+    const request = await fetch(`${config.apiUrl}currency`, {
       method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -25,12 +25,12 @@ export class RoomApiClient {
   }
 
   /**
-   * @description Get room by id
-   * @param {string} id - Room id
-   * @returns Room by id
+   * @description Get currency by id
+   * @param {string} id - Currency id
+   * @returns Currency by id
    */
   async getById(id) {
-    const request = await fetch(`${config.apiUrl}room/${id}`, {
+    const request = await fetch(`${config.apiUrl}currency/${id}`, {
       method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -42,14 +42,14 @@ export class RoomApiClient {
   }
 
   /**
-   * @description Create room
-   * @param {object} room - Room
+   * @description Create currency
+   * @param {object} currency - Currency
    * @returns  Transaction status
    */
-  async create(room) {
-    const request = await fetch(`${config.apiUrl}room`, {
+  async create(currency) {
+    const request = await fetch(`${config.apiUrl}currency`, {
       method: "POST",
-      body: JSON.stringify(room),
+      body: JSON.stringify(currency),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -60,14 +60,14 @@ export class RoomApiClient {
   }
 
   /**
-   * @description Update room
-   * @param {object} room - Room
+   * @description Update currency
+   * @param {object} currency - Currency
    * @returns Transaction status
    */
-  async update(room) {
-    const request = await fetch(`${config.apiUrl}room/${room.id}`, {
+  async update(currency) {
+    const request = await fetch(`${config.apiUrl}currency/${currency.id}`, {
       method: "PATCH",
-      body: JSON.stringify(room),
+      body: JSON.stringify(currency),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -84,7 +84,7 @@ export class RoomApiClient {
    */
   async delete(ids) {
     for (const id of ids) {
-      await fetch(`${config.apiUrl}room/${id}`, {
+      await fetch(`${config.apiUrl}currency/${id}`, {
         method: "DELETE",
         headers: {
           "Access-Control-Allow-Origin": "*",

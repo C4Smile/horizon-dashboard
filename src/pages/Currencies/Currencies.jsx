@@ -66,6 +66,7 @@ function Currencies() {
             {currency.name}
           </Link>
         ),
+        reduction: currency.reduction,
       };
     });
   }, [localData, t]);

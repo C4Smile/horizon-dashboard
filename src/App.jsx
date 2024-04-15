@@ -130,12 +130,12 @@ function App() {
             </Route>
             <Route
               exact
-              path="/management/paymentMethods"
-              element={<ModelNavigation parent="management" model="paymentMethods" />}
+              path="/management/payment-methods"
+              element={<ModelNavigation parent="management" model="payment-methods" />}
             >
               <Route index element={<PaymentMethods />} />
-              <Route path="/management/paymentMethods/new" element={<PaymentMethodForm />} />
-              <Route path="/management/paymentMethods/:id" element={<PaymentMethodForm />} />
+              <Route path="/management/payment-methods/new" element={<PaymentMethodForm />} />
+              <Route path="/management/payment-methods/:id" element={<PaymentMethodForm />} />
             </Route>
             <Route
               exact

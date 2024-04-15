@@ -5,6 +5,8 @@ import { CountryApiClient } from "./CountryApiClient";
 import { ProvinceApiClient } from "./ProvinceApiClient";
 import { RoomApiClient } from "./RoomApiClient";
 import { UserApiClient } from "./UserApiClient";
+import { CurrencyApiClient } from "./CurrencyApiClient";
+import { PaymentMethodApiClient } from "./PaymentMethodApiClient";
 
 /**
  * @class MuseumApiClient
@@ -22,6 +24,22 @@ export class MuseumApiClient {
     this.country = new CountryApiClient();
     this.province = new ProvinceApiClient();
     this.room = new RoomApiClient();
+    this.currency = new CurrencyApiClient();
+    this.paymentMethod = new PaymentMethodApiClient();
+  }
+
+  /**
+   * @returns {PaymentMethodApiClient} Currency
+   */
+  get PaymentMethod() {
+    return this.paymentMethod;
+  }
+
+  /**
+   * @returns {CurrencyApiClient} Currency
+   */
+  get Currency() {
+    return this.currency;
   }
 
   /**
