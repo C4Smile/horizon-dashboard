@@ -3,6 +3,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 // providers
 import { useAccount } from "../providers/AccountProvider";
+import { useMuseumApiClient } from "../providers/MuseumApiProvider";
 
 // components
 import ToTop from "../components/ToTop/ToTop";
@@ -21,8 +22,9 @@ import config from "../config";
  * @returns Dashboard layout component
  */
 function Dashboard() {
-  const { account } = useAccount();
+  const { logoutUser } = useAccount();
 
+  const museumApiClient = useMuseumApiClient();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const mainRef = useRef(null);
@@ -48,9 +50,21 @@ function Dashboard() {
     saveRecentLocation(pathname, pathname);
   }, [location, saveRecentLocation]);
 
+  const refreshToken = useCallback(async () => {
+    try {
+      const value = await museumApiClient.User.validates();
+      if (value.status === 401) throw Error("401");
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      logoutUser();
+      navigate("/auth");
+    }
+  }, [logoutUser, museumApiClient.User, navigate]);
+
   useEffect(() => {
-    if (!account.id) navigate("/auth");
-  }, [account, navigate]);
+    refreshToken();
+  }, [refreshToken]);
 
   return (
     <div className="flex h-screen overflow-hidden">

@@ -1,4 +1,5 @@
-import { fetchFromLocal, fetchSingleFromLocal, saveToLocal, deleteFromLocal } from "../db/connection";
+// utils
+import { fromLocal } from "../utils/local";
 
 import config from "../config";
 
@@ -7,6 +8,22 @@ import config from "../config";
  * @description UserApiClient
  */
 export class UserApiClient {
+  /**
+   * Validates a token
+   * @returns refreshed token
+   */
+  async validates() {
+    const request = await fetch(`${config.apiUrl}auth/validate`, {
+      method: "POST",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return request;
+  }
+
   /**
    * Logs an user
    * @param {string} user - username
@@ -26,63 +43,90 @@ export class UserApiClient {
   }
 
   /**
-   * Logouts an user
-   * @param {string} user - username
-   * @returns Transaction result
+   * @description Get all countries
+   * @returns Province list
    */
-  async logout(user) {
-    return await deleteFromLocal("user_account", user);
-  }
-
-  /**
-   * @description Get all users
-   * @param {string} attributes - Attributes
-   * @returns User list
-   */
-  async getAll(attributes = "*") {
-    return await fetchFromLocal("user", attributes);
+  async getAll() {
+    const request = await fetch(`${config.apiUrl}user`, {
+      method: "GET",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return await request.json();
   }
 
   /**
    * @description Get user by id
-   * @param {string} id - User id
-   * @param {string} attributes - Attributes
-   * @param {string[]} exclude - attributes to exclude
-   * @returns User by id
+   * @param {string} id - Province id
+   * @returns Province by id
    */
-  async getById(id, attributes = "*", exclude = []) {
-    const result = await fetchSingleFromLocal("user", id, attributes);
-    if (exclude.length)
-      exclude.forEach((attribute) => {
-        delete result.data[attribute];
-      });
-    return result;
+  async getById(id) {
+    const request = await fetch(`${config.apiUrl}user/${id}`, {
+      method: "GET",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return await request.json();
   }
 
   /**
    * @description Create user
-   * @param {object} user - User
+   * @param {object} user - Province
    * @returns  Transaction status
    */
   async create(user) {
-    return await saveToLocal("user", user);
+    const request = await fetch(`${config.apiUrl}user`, {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return request;
   }
 
   /**
    * @description Update user
-   * @param {object} user - User
+   * @param {object} user - Province
    * @returns Transaction status
    */
   async update(user) {
-    return await saveToLocal("user", user);
+    const request = await fetch(`${config.apiUrl}user/${user.id}`, {
+      method: "PATCH",
+      body: JSON.stringify(user),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    });
+    return request;
   }
 
   /**
    * Remove elements by their id
-   * @param {number[]} ids to delete
+   * @param {number[]} ids ids to delete
    * @returns Transaction status
    */
   async delete(ids) {
-    return await deleteFromLocal("user", ids);
+    for (const id of ids) {
+      await fetch(`${config.apiUrl}user/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+        },
+      });
+    }
+    return { status: 204 };
   }
 }
