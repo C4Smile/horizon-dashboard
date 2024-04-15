@@ -5,7 +5,9 @@
     "country": "Country",
     "customer": "Customer",
     "province": "Province",
-    "room": "Room"
+    "room": "Room",
+    "invoice": "Invoice",
+    "paymentMethod": "Payment Method"
   },
   "roles": {
     "admin": "Administrator",
