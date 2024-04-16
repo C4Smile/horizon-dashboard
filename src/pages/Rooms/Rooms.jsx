@@ -57,6 +57,7 @@ function Rooms() {
 
   const preparedRows = useMemo(() => {
     return localData.map((room) => {
+      console.log(room);
       return {
         id: room.id,
         dateOfCreation: new Date(room.dateOfCreation).toLocaleDateString(),
