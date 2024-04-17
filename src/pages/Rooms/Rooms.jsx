@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useState } from "react";
+import { useMemo, useEffect, useState, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useNavigate, Link } from "react-router-dom";
@@ -8,6 +8,7 @@ import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
 // dto
 import { Room } from "../../models/room/Room";
+import { GenericFilter } from "../../models/query/GenericFilter";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
@@ -19,7 +20,6 @@ import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvid
 
 // components
 import Table from "../../components/Table/Table";
-import { GenericFilter } from "../../models/query/GenericFilter";
 
 /**
  * Room page
@@ -48,9 +48,17 @@ function Rooms() {
     }));
   }, [t]);
 
+  const [pagingOptions, setPagingOptions] = useState(new GenericFilter());
+
+  const onSortChange = useCallback(
+    (attribute, sortingOrder) =>
+      setPagingOptions({ ...pagingOptions, sortOrder: sortingOrder, orderBy: attribute }),
+    [pagingOptions],
+  );
+
   const roomQuery = useQuery({
-    queryKey: [ReactQueryKeys.Rooms],
-    queryFn: () => museumApiClient.Room.getAll(new GenericFilter().toDefaultQuery()),
+    queryKey: [ReactQueryKeys.Rooms, pagingOptions],
+    queryFn: () => museumApiClient.Room.getAll(GenericFilter.toQuery(pagingOptions)),
     retry: false,
   });
 
@@ -63,7 +71,7 @@ function Rooms() {
         dateOfCreation: new Date(room.dateOfCreation).toLocaleDateString(),
         lastUpdate: new Date(room.lastUpdate).toLocaleDateString(),
         deleted: room.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
-        number: room.number,
+        number: room.number?.length ? room.number : t("_accessibility:labels.none"),
         name: (
           <Link className="underline text-light-primary" to={`${room.id}`}>
             {room.name}
@@ -118,6 +126,7 @@ function Rooms() {
         rows={preparedRows}
         columns={preparedColumns}
         actions={getActions}
+        onSort={onSortChange}
       />
     </div>
   );
