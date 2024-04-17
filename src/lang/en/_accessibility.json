@@ -16,7 +16,8 @@
     "delete": "Delete"
   },
   "labels": {
-    "actions": "Actions"
+    "actions": "Actions",
+    "none": "-"
   },
   "tooltips": "",
   "ariaLabels": "",
