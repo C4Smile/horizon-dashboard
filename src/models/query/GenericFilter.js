@@ -19,14 +19,19 @@ export class GenericFilter {
    * @param {string} orderBy - which attribute to order by
    * @param {SortOrder} sortOrder - sort order (ASC/DESC)
    */
-  constructor(page = 1, pageSize = 10, orderBy = "dateOfCreation", sortOrder = SortOrder.DESC) {
+  constructor(page = 1, pageSize = 10, orderBy = "id", sortOrder = SortOrder.DESC) {
     this.page = page;
     this.pageSize = pageSize;
     this.orderBy = orderBy;
     this.sortOrder = sortOrder;
   }
 
-  toDefaultQuery = () => {
-    return `?page=${this.page}&pageSize=${this.pageSize}&orderBy=${this.orderBy}&sortOrder=${this.sortOrder}`;
+  /**
+   * Turns to query
+   * @param {object} object - object to transform
+   * @returns a string in query shape
+   */
+  static toQuery = (object) => {
+    return `?page=${object.page}&pageSize=${object.pageSize}&orderBy=${object.orderBy}&sortOrder=${object.sortOrder}`;
   };
 }
