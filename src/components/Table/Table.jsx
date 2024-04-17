@@ -1,11 +1,17 @@
-import React from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
 import Tippy from "@tippyjs/react";
 
+// font awesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 // components
 import Loading from "../../partials/loading/Loading";
+
+// models
+import { SortOrder } from "../../models/query/GenericFilter";
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 /**
  * Table component
@@ -15,16 +21,45 @@ import Loading from "../../partials/loading/Loading";
 function Table(props) {
   const { t } = useTranslation();
 
-  const { columns, rows, isLoading, actions } = props;
+  const { columns, rows, isLoading, actions, onSort } = props;
+
+  const [sortingBy, setSortingBy] = useState("dateOfCreation");
+  const [sortingOrder, setSortingOrder] = useState(SortOrder.ASC);
+
+  const localOnSort = (attribute) => {
+    let localSortingOrder = sortingOrder;
+    if (sortingBy === attribute)
+      switch (sortingOrder) {
+        case SortOrder.ASC:
+          localSortingOrder = SortOrder.DESC;
+          break;
+        default:
+          localSortingOrder = SortOrder.ASC;
+          break;
+      }
+    setSortingBy(attribute);
+    setSortingOrder(localSortingOrder);
+    onSort(attribute, localSortingOrder);
+  };
 
   return (
-    <div className="relative overflow-x-auto">
+    <div className="relative overflow-x-auto w-full h-full">
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             {columns.map((column) => (
               <th key={column.id} scope="col" className={`px-6 py-3 ${column.className}`}>
-                {column.label}
+                <button onClick={() => localOnSort(column.id)} className="flex items-center gap-2">
+                  {column.label}
+
+                  <span className={`${sortingBy === column.id ? "opacity-100" : "opacity-0"}`}>
+                    {sortingOrder === SortOrder.ASC ? (
+                      <FontAwesomeIcon icon={faChevronUp} />
+                    ) : (
+                      <FontAwesomeIcon icon={faChevronDown} />
+                    )}
+                  </span>
+                </button>
               </th>
             ))}
             {Boolean(actions.length) && (
@@ -79,6 +114,7 @@ Table.defaultProps = {
   rows: [],
   isLoading: true,
   actions: [],
+  onSort: (attribute) => attribute,
 };
 
 Table.propTypes = {
@@ -86,6 +122,7 @@ Table.propTypes = {
   rows: PropTypes.array,
   isLoading: PropTypes.bool,
   actions: PropTypes.array,
+  onSort: PropTypes.func,
 };
 
 export default Table;
