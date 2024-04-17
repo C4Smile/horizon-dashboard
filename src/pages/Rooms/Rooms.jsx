@@ -19,6 +19,7 @@ import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvid
 
 // components
 import Table from "../../components/Table/Table";
+import { GenericFilter } from "../../models/query/GenericFilter";
 
 /**
  * Room page
@@ -49,7 +50,7 @@ function Rooms() {
 
   const roomQuery = useQuery({
     queryKey: [ReactQueryKeys.Rooms],
-    queryFn: () => museumApiClient.Room.getAll(),
+    queryFn: () => museumApiClient.Room.getAll(new GenericFilter().toDefaultQuery()),
     retry: false,
   });
 
@@ -57,7 +58,6 @@ function Rooms() {
 
   const preparedRows = useMemo(() => {
     return localData.map((room) => {
-      console.log(room);
       return {
         id: room.id,
         dateOfCreation: new Date(room.dateOfCreation).toLocaleDateString(),

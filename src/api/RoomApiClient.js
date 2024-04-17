@@ -10,10 +10,11 @@ import { fromLocal } from "../utils/local";
 export class RoomApiClient {
   /**
    * @description Get all rooms
+   * @param {string} query - query parameters
    * @returns Room list
    */
-  async getAll() {
-    const request = await fetch(`${config.apiUrl}room`, {
+  async getAll(query) {
+    const request = await fetch(`${config.apiUrl}room${query}`, {
       method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "*",
