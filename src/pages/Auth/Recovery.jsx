@@ -13,7 +13,7 @@ import { useNotification } from "../../providers/NotificationProvider";
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // images
-import logoVertical from "../../assets/images/logo.svg";
+import logoVertical from "../../assets/images/logo-vertical.png";
 
 import config from "../../config";
 
