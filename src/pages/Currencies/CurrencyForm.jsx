@@ -48,7 +48,7 @@ function CurrencyForm() {
         reset({
           id: undefined,
           name: "",
-          iso: "",
+          reduction: "",
         });
     } catch (e) {
       // eslint-disable-next-line no-console
@@ -78,7 +78,7 @@ function CurrencyForm() {
       reset({
         id: undefined,
         name: "",
-        iso: "",
+        reduction: "",
       });
     }
   }, [currencyQuery.data, id, reset]);
