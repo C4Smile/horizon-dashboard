@@ -29,8 +29,17 @@
     "result": "Search Results"
   },
   "auth": {
+    "recovery": {
+      "title": "Password Recovery",
+      "sent": "Check your email to reset your password"
+    },
+    "updatePassword": {
+      "title": "Update Password",
+      "sent": "Password has been updated"
+    },
     "signIn": {
-      "title": "Sign In"
+      "title": "Sign In",
+      "passwordRecovery": "Forgot password?"
     },
     "signOut": {
       "title": "Sign Out"
