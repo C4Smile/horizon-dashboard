@@ -1,9 +1,12 @@
 /* eslint-disable react/function-component-definition */
 /* eslint-disable react/jsx-no-constructed-context-values */
-import { createContext, useState, useContext, useCallback } from "react";
+import { createContext, useState, useContext, useCallback, useEffect } from "react";
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
+
+// providers
+import { useMuseumApiClient } from "./MuseumApiProvider";
 
 // utils
 import { toLocal, fromLocal, removeFromLocal } from "../utils/local";
@@ -18,6 +21,9 @@ const AccountContext = createContext();
  */
 const AccountProvider = (props) => {
   const { children } = props;
+
+  const museumApiClient = useMuseumApiClient();
+
   const [account, setAccount] = useState({});
 
   const logUser = useCallback((data) => {
@@ -34,6 +40,15 @@ const AccountProvider = (props) => {
     const loggedUser = fromLocal(config.user, "object");
     if (loggedUser) setAccount(loggedUser);
   }, []);
+
+  const fetchSession = useCallback(async () => {
+    const { data, error } = await museumApiClient.User.getSession();
+    if (!error) setAccount(data.user);
+  }, [museumApiClient.User]);
+
+  useEffect(() => {
+    fetchSession();
+  }, [fetchSession]);
 
   const value = { account, logUser, logoutUser, logUserFromLocal };
   return <AccountContext.Provider value={value}>{children}</AccountContext.Provider>;
@@ -53,4 +68,5 @@ const useAccount = () => {
   return context;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { AccountProvider, useAccount };
