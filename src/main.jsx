@@ -4,7 +4,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 // Provider
 import ThemeProvider from "./utils/ThemeContext";
-import { AccountProvider } from "./providers/AccountProvider.jsx";
+import { HotelApiClientProvider } from "./providers/HotelApiProvider";
+import { AccountProvider } from "./providers/AccountProvider";
 
 // App
 import App from "./App";
@@ -18,9 +19,11 @@ import "./index.css";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Router>
     <ThemeProvider>
-      <AccountProvider>
-        <App />
-      </AccountProvider>
+      <HotelApiClientProvider>
+        <AccountProvider>
+          <App />
+        </AccountProvider>
+      </HotelApiClientProvider>
     </ThemeProvider>
   </Router>,
 );

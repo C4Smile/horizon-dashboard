@@ -10,7 +10,6 @@ import "./css/style.css";
 import "./charts/ChartjsConfig";
 
 // providers
-import { MuseumApiClientProvider } from "./providers/MuseumApiProvider";
 import { NotificationProvider } from "./providers/NotificationProvider";
 import { useAccount } from "./providers/AccountProvider";
 
@@ -26,6 +25,8 @@ const ModelNavigation = loadable(() => import("./layouts/ModelNavigation"));
 // Auth
 const SignIn = loadable(() => import("./pages/Auth/SignIn"));
 const SignOut = loadable(() => import("./pages/Auth/SignOut"));
+const Recovery = loadable(() => import("./pages/Auth/Recovery"));
+const UpdatePassword = loadable(() => import("./pages/Auth/UpdatePassword"));
 // Generals
 const Home = loadable(() => import("./pages/Home"));
 const Account = loadable(() => import("./pages/Account/Account"));
@@ -83,7 +84,7 @@ function App() {
   }, [logUserFromLocal]);
 
   return (
-    <MuseumApiClientProvider>
+    <>
       <SplashScreen visible={loaded} />
       <Suspense>
         <Routes>
@@ -97,6 +98,8 @@ function App() {
             }
           >
             <Route index element={<SignIn />} />
+            <Route path="/auth/recovery" element={<Recovery />} />
+            <Route path="/auth/update-password" element={<UpdatePassword />} />
           </Route>
           <Route path="/sign-out" element={<SignOut />} />
           <Route
@@ -195,7 +198,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
-    </MuseumApiClientProvider>
+    </>
   );
 }
 
