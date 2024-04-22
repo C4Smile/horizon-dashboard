@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 // Provider
 import ThemeProvider from "./utils/ThemeContext";
-import { HotelApiClientProvider } from "./providers/HotelApiProvider";
+import { MuseumApiClientProvider } from "./providers/MuseumApiProvider";
 import { AccountProvider } from "./providers/AccountProvider";
 
 // App
@@ -19,11 +19,11 @@ import "./index.css";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Router>
     <ThemeProvider>
-      <HotelApiClientProvider>
+      <MuseumApiClientProvider>
         <AccountProvider>
           <App />
         </AccountProvider>
-      </HotelApiClientProvider>
+      </MuseumApiClientProvider>
     </ThemeProvider>
   </Router>,
 );
