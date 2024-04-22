@@ -2,35 +2,31 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { createCookie } from "some-javascript-utils/browser";
 
 // components
 import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
-import PasswordInput from "../../components/Forms/PasswordInput";
 
 // providers
-import { useAccount } from "../../providers/AccountProvider";
 import { useNotification } from "../../providers/NotificationProvider";
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // images
-import logoVertical from "../../assets/images/logo-vertical.png";
+import logoVertical from "../../assets/images/logo.svg";
+
+import config from "../../config";
 
 /**
- * Sign Page
- * @returns Sign component
+ * Recovery page
+ * @returns Recovery page component
  */
-function SignIn() {
+function Recovery() {
   const { t } = useTranslation();
-
-  const { logUser } = useAccount();
-
-  const [appear, setAppear] = useState(false);
 
   const museumApiClient = useMuseumApiClient();
 
-  const [userError, setUserError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [appear, setAppear] = useState(false);
   const [saving, setSaving] = useState(false);
 
   const { handleSubmit, control } = useForm();
@@ -38,19 +34,15 @@ function SignIn() {
   const { setNotification } = useNotification();
 
   const onSubmit = async (d) => {
-    setUserError("");
-    setPasswordError("");
     setSaving(true);
     try {
-      const result = await museumApiClient.User.login(d.email, d.password);
-      const data = await result.json();
-      // set server status to notification
-      if (data.status) {
-        if (data.status === 404)
-          setUserError(t(`_accessibility:messages.404`, { model: t("_entities:entities.user") }));
-        else if (data.status === 401 || data.status === 400)
-          setPasswordError(t("_accessibility:messages.401"));
-      } else logUser({ ...data, username: d.username });
+      const response = await museumApiClient.User.recovery(d.email);
+      const data = await response.json();
+      if (data !== null && data.status) setNotification(String(data.status));
+      else {
+        setNotification(t("_pages:auth.recovery.sent"), {}, "good");
+        createCookie(config.recovering, 1, d.email);
+      }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
@@ -72,15 +64,17 @@ function SignIn() {
         onSubmit={handleSubmit(onSubmit)}
         className="w-3/5 max-sm:w-10/12 px-5 pt-10 flex flex-col items-center justify-start"
       >
-        <img
-          src={logoVertical}
-          alt="logo del museo"
-          className={`w-28 mb-10 transition-all duration-500 ease-in-out ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
-        />
+        <Link to="/auth">
+          <img
+            src={logoVertical}
+            alt="museum's logo"
+            className={`md:mt-5 w-28 mb-10 transition-all duration-500 ease-in-out ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
+          />
+        </Link>
         <h1
           className={`w-full text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5 transition-all duration-500 ease-in-out delay-100 ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
         >
-          {t("_pages:auth.signIn.title")}
+          {t("_pages:auth.recovery.title")}
         </h1>
         <div
           className={`w-full transition-all duration-500 ease-in-out delay-200 ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
@@ -88,50 +82,19 @@ function SignIn() {
           <Controller
             control={control}
             disabled={saving}
-            name="username"
+            name="email"
             render={({ field }) => (
               <TextInput
                 {...field}
-                type="text"
-                name="username"
-                id="username"
+                type="email"
+                name="email"
+                id="email"
                 className={`block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
-                label={t("_entities:user.username.label")}
+                label={t("_entities:user.email.label")}
                 required
-                helperText={userError}
-                state={userError.length ? "error" : ""}
               />
             )}
           />
-        </div>
-        <div
-          className={`w-full transition-all duration-500 ease-in-out delay-300 ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
-        >
-          <Controller
-            control={control}
-            disabled={saving}
-            name="password"
-            render={({ field }) => (
-              <PasswordInput
-                {...field}
-                name="password"
-                id="password"
-                className={`block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
-                label={t("_entities:user.password.label")}
-                required
-                helperText={passwordError}
-                state={passwordError.length ? "error" : ""}
-              />
-            )}
-          />
-        </div>
-        <div className="w-full mb-5">
-          <Link
-            to="/auth/recovery"
-            className={`underline text-left transition-all duration-500 ease-in-out delay-[400ms] ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
-          >
-            {t("_pages:auth.signIn.passwordRecovery")}
-          </Link>
         </div>
         <button
           type="submit"
@@ -153,4 +116,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default Recovery;

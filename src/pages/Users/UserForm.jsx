@@ -45,7 +45,6 @@ function UserForm() {
       if (!d.id) result = await museumApiClient.User.create(d);
       else result = await museumApiClient.User.update(d);
       const { error, status } = result;
-      console.log(result);
       setNotification(String(status), { model: t("_entities:entities.user") });
 
       // eslint-disable-next-line no-console
