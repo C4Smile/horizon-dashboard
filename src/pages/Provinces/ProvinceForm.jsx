@@ -44,7 +44,7 @@ function ProvinceForm() {
       if (status !== 201) console.error(error);
       else if (id === undefined)
         queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers, id] });
-      else reset({ id: undefined, name: "", country: undefined });
+      else reset({ id: undefined, name: "", countryId: undefined });
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
@@ -73,7 +73,7 @@ function ProvinceForm() {
       reset({
         id: undefined,
         name: "",
-        country: undefined,
+        countryId: undefined,
       });
     }
   }, [provinceQuery.data, id, reset]);
