@@ -87,7 +87,7 @@ function PaymentMethods() {
   const getActions = [
     {
       id: "edit",
-      onClick: (e) => navigate(`/management/paymentMethods/${e.id}`),
+      onClick: (e) => navigate(`/management/payment-methods/${e.id}`),
       icon: faPencil,
       tooltip: t("_accessibility:buttons.edit"),
     },
