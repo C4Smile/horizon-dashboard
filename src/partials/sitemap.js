@@ -16,7 +16,7 @@ export const sitemap = [
         path: "/events",
       },
       {
-        label: "event-tags",
+        label: "eventTags",
         path: "/event-tags",
       },
       {
@@ -24,7 +24,7 @@ export const sitemap = [
         path: "/news",
       },
       {
-        label: "news-tags",
+        label: "newsTags",
         path: "/news-tags",
       },
       {
