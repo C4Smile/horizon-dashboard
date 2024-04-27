@@ -8,7 +8,11 @@
     "room": "Room",
     "invoice": "Invoice",
     "currency": "Currency",
-    "paymentMethod": "Payment Method"
+    "paymentMethod": "Payment Method",
+    "news": "News",
+    "newsTag": "News Tag",
+    "event": "Event",
+    "evenTag": "Event Tag"
   },
   "roles": {
     "admin": "Administrator",
@@ -25,6 +29,35 @@
       "confirmed": "Confirmed",
       "cancelled": "Cancelled"
     }
+  },
+  "event": {
+    "name": { "label": "Name", "placeholder": "ex: Fidel Castro's birthday" },
+    "description": { "label": "Description", "placeholder": "ex: In this event we will celebrate..." },
+    "startDate": { "label": "Start Date" },
+    "endDate": { "label": "End Date" },
+    "status": {
+      "label": "Status",
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled"
+    }
+  },
+  "news": {
+    "title": { "label": "Title", "placeholder": "ex: Fidel Castro's birthday" },
+    "content": { "label": "Content", "placeholder": "ex: In this event we will celebrate..." },
+    "date": { "label": "Date" },
+    "status": {
+      "label": "Status",
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled"
+    }
+  },
+  "newsTag": {
+    "name": { "label": "Name", "placeholder": "ex: Cultural" }
+  },
+  "eventTag": {
+    "name": { "label": "Name", "placeholder": "ex: Reunión" }
   },
   "customer": {
     "name": { "label": "Name", "placeholder": "ex: John Doe" },

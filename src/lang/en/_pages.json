@@ -11,12 +11,6 @@
     },
     "settings": {
       "link": "/settings"
-    },
-    "currencies": {
-      "link": "/currencies"
-    },
-    "paymentMethods": {
-      "link": "/payment-methods"
     }
   },
   "search": {
@@ -62,7 +56,11 @@
       "countries": "Countries",
       "provinces": "Provinces",
       "currencies": "Currencies",
-      "paymentMethods": "Payment Methods"
+      "paymentMethods": "Payment Methods",
+      "news": "News",
+      "events": "Events",
+      "newsTags": "News Tags",
+      "eventTags": "Event Tags"
     }
   },
   "personal": {
@@ -81,6 +79,22 @@
   "users": {
     "editForm": "Edit User",
     "newForm": "New User"
+  },
+  "news": {
+    "editForm": "Edit News",
+    "newForm": "New News"
+  },
+  "events": {
+    "editForm": "Edit Event",
+    "newForm": "New Event"
+  },
+  "newsTags": {
+    "editForm": "Edit News Tag",
+    "newForm": "New News Tag"
+  },
+  "eventTags": {
+    "editForm": "Edit Event Tag",
+    "newForm": "New Event Tag"
   },
   "customers": {
     "editForm": "Edit Customer",
