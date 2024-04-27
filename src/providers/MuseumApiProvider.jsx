@@ -24,7 +24,7 @@ const MuseumApiClientProvider = (props) => {
 };
 
 /**
- * @returns MuseumApiClient
+ * @returns {MuseumApiClient} MuseumApiClient
  */
 const useMuseumApiClient = () => {
   const context = useContext(MuseumApiClientContext);
