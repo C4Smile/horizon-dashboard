@@ -55,7 +55,8 @@ function SignIn() {
       // eslint-disable-next-line no-console
       console.error(e);
       // set server status to notification
-      setNotification(String(e.status));
+      if (e.status) setNotification(String(e.status));
+      else setNotification(String(e));
     }
     setSaving(false);
   };
