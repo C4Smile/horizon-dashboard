@@ -12,6 +12,22 @@ export const sitemap = [
     page: "management",
     child: [
       {
+        label: "events",
+        path: "/events",
+      },
+      {
+        label: "event-tags",
+        path: "/event-tags",
+      },
+      {
+        label: "news",
+        path: "/news",
+      },
+      {
+        label: "news-tags",
+        path: "/news-tags",
+      },
+      {
         label: "customers",
         path: "/customers",
       },
