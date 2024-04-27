@@ -39,7 +39,6 @@ const AccountProvider = (props) => {
   const fetchSession = useCallback(async () => {
     try {
       const data = fromLocal(config.user, "object");
-      console.log(data);
       setAccount(data);
     } catch (err) {
       // eslint-disable-next-line no-console
