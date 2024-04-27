@@ -23,7 +23,7 @@ function Auth() {
     const recovering = getCookie(config.recovering);
     if (recovering?.length) navigate("/auth/update-password");
     else {
-      if (account.id) navigate("/");
+      if (account && account.id) navigate("/");
     }
   }, [account, navigate]);
 
