@@ -5,9 +5,6 @@ import { createContext, useState, useContext, useCallback, useEffect } from "rea
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
-// providers
-import { useMuseumApiClient } from "./MuseumApiProvider";
-
 // utils
 import { toLocal, fromLocal, removeFromLocal } from "../utils/local";
 import config from "../config";
@@ -21,8 +18,6 @@ const AccountContext = createContext();
  */
 const AccountProvider = (props) => {
   const { children } = props;
-
-  const museumApiClient = useMuseumApiClient();
 
   const [account, setAccount] = useState({});
 
@@ -42,9 +37,15 @@ const AccountProvider = (props) => {
   }, []);
 
   const fetchSession = useCallback(async () => {
-    const { data, error } = await museumApiClient.User.getSession();
-    if (!error) setAccount(data.user);
-  }, [museumApiClient.User]);
+    try {
+      const data = fromLocal(config.user, "object");
+      console.log(data);
+      setAccount(data);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+    }
+  }, []);
 
   useEffect(() => {
     fetchSession();
