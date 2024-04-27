@@ -45,10 +45,10 @@ function SignIn() {
       const result = await museumApiClient.User.login(d.email, d.password);
       const data = await result.json();
       // set server status to notification
-      if (data.status) {
-        if (data.status === 404)
+      if (data.statusCode) {
+        if (data.statusCode === 404)
           setUserError(t(`_accessibility:messages.404`, { model: t("_entities:entities.user") }));
-        else if (data.status === 401 || data.status === 400)
+        else if (data.statusCode === 401 || data.statusCode === 400)
           setPasswordError(t("_accessibility:messages.401"));
       } else logUser({ ...data, username: d.username });
     } catch (e) {
