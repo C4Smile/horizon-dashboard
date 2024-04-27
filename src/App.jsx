@@ -31,6 +31,18 @@ const UpdatePassword = loadable(() => import("./pages/Auth/UpdatePassword"));
 const Home = loadable(() => import("./pages/Home"));
 const Account = loadable(() => import("./pages/Account/Account"));
 const NotFound = loadable(() => import("./pages/NotFound/NotFound"));
+// events
+const Events = loadable(() => import("./pages/Events/Events"));
+const EventForm = loadable(() => import("./pages/Events/EventForm"));
+// event tags
+const EventTags = loadable(() => import("./pages/EventTags/EventTags"));
+const EventTagForm = loadable(() => import("./pages/EventTags/EventTagForm"));
+// news
+const News = loadable(() => import("./pages/News/News"));
+const NewsForm = loadable(() => import("./pages/News/NewsForm"));
+// news tags
+const NewsTags = loadable(() => import("./pages/NewsTags/NewsTags"));
+const NewsTagForm = loadable(() => import("./pages/NewsTags/NewsTagForm"));
 // customers
 const Customers = loadable(() => import("./pages/Customers/Customers"));
 const CustomerForm = loadable(() => import("./pages/Customers/CustomerForm"));
@@ -113,6 +125,51 @@ function App() {
           >
             <Route index element={<Home />} />
             <Route path="/settings/account" element={<Account />} />
+            <Route
+              exact
+              path="/management/events"
+              element={<ModelNavigation parent="management" model="events" />}
+            >
+              <Route index element={<Events />} />
+              <Route path="/management/events/new" element={<EventForm />} />
+              <Route path="/management/events/:id" element={<EventForm />} />
+            </Route>
+            <Route
+              exact
+              path="/management/event-tags"
+              element={<ModelNavigation parent="management" model="event-tags" />}
+            >
+              <Route index element={<EventTags />} />
+              <Route path="/management/event-tags/new" element={<EventTagForm />} />
+              <Route path="/management/event-tags/:id" element={<EventTagForm />} />
+            </Route>
+            <Route
+              exact
+              path="/management/news"
+              element={<ModelNavigation parent="management" model="news" />}
+            >
+              <Route index element={<News />} />
+              <Route path="/management/news/new" element={<NewsForm />} />
+              <Route path="/management/news/:id" element={<NewsForm />} />
+            </Route>
+            <Route
+              exact
+              path="/management/news-tags"
+              element={<ModelNavigation parent="management" model="news-tags" />}
+            >
+              <Route index element={<NewsTags />} />
+              <Route path="/management/news-tags/new" element={<NewsTagForm />} />
+              <Route path="/management/news-tags/:id" element={<NewsTagForm />} />
+            </Route>
+            <Route
+              exact
+              path="/management/customers"
+              element={<ModelNavigation parent="management" model="customers" />}
+            >
+              <Route index element={<Customers />} />
+              <Route path="/management/customers/new" element={<CustomerForm />} />
+              <Route path="/management/customers/:id" element={<CustomerForm />} />
+            </Route>
             <Route
               exact
               path="/management/customers"
