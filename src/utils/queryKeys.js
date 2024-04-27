@@ -7,4 +7,8 @@ export const ReactQueryKeys = {
   Invoices: "Invoices",
   Users: "Users",
   PaymentMethods: "PaymentMethods",
+  News: "News",
+  Events: "Events",
+  NewsTags: "NewsTags",
+  EventsTags: "EventsTags",
 };
