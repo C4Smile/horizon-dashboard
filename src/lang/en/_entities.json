@@ -31,7 +31,7 @@
     }
   },
   "event": {
-    "name": { "label": "Name", "placeholder": "ex: Fidel Castro's birthday" },
+    "title": { "label": "Title", "placeholder": "ex: Fidel Castro's birthday" },
     "description": { "label": "Description", "placeholder": "ex: In this event we will celebrate..." },
     "startDate": { "label": "Start Date" },
     "endDate": { "label": "End Date" },
