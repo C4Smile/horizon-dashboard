@@ -1,4 +1,5 @@
 import { forwardRef } from "react";
+import PropTypes from "prop-types";
 import Flatpickr from "react-flatpickr";
 
 // @emotion/css
@@ -7,9 +8,11 @@ import { css } from "@emotion/css";
 // utils
 import { inputStateClassName, labelStateClassName, helperTextStateClassName } from "./utils";
 
-/* const wrapper = {
-  ""
-} */
+const wrapper = css({
+  ".flatpickr-wrapper": {
+    width: "100%",
+  },
+});
 
 /**
  * DatePicker
@@ -34,6 +37,7 @@ const DatePicker = forwardRef(function (props, ref) {
     helperText,
     helperTextClassName,
     enableTime = true,
+    dateFormat = "M j, Y H:i",
     ...rest
   } = props;
 
@@ -41,9 +45,8 @@ const DatePicker = forwardRef(function (props, ref) {
     mode: "range",
     static: true,
     monthSelectorType: "static",
-    dateFormat: "M j, Y",
+    dateFormat,
     defaultDate: value,
-
     prevArrow:
       '<svg className="fill-current" width="7" height="11" viewBox="0 0 7 11"><path d="M5.4 10.8l1.4-1.4-4-4 4-4L5.4 0 0 5.4z" /></svg>',
     nextArrow:
@@ -61,7 +64,7 @@ const DatePicker = forwardRef(function (props, ref) {
   };
 
   return (
-    <div className={`relative z-1 w-full mb-5 group ${containerClassName}`}>
+    <div className={`relative z-1 w-full mb-5 group ${containerClassName} ${wrapper}`}>
       <label
         htmlFor={name}
         className={`peer-focus:font-medium absolute text-sm duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7 ${labelStateClassName(state)} ${labelClassName}`}
@@ -82,16 +85,35 @@ const DatePicker = forwardRef(function (props, ref) {
       <p className={`mt-2 text-sm ${helperTextStateClassName(state)} ${helperTextClassName}`}>
         {state !== "error" && state !== "good" ? placeholder : helperText}
       </p>
-      <div className="absolute inset-0 left-0 flex items-center pointer-events-none">
-        <svg
-          className="w-4 h-4 fill-current text-slate-500 dark:text-slate-400 ml-3"
-          viewBox="0 0 16 16"
-        >
-          <path d="M15 2h-2V0h-2v2H9V0H7v2H5V0H3v2H1a1 1 0 00-1 1v12a1 1 0 001 1h14a1 1 0 001-1V3a1 1 0 00-1-1zm-1 12H2V6h12v8z" />
-        </svg>
-      </div>
     </div>
   );
 });
+
+DatePicker.defaultProps = {
+  type: "text",
+  required: false,
+  containerClassName: "",
+  inputClassName: "",
+  labelClassName: "",
+  helperTextClassName: "",
+  value: "",
+};
+
+DatePicker.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  state: PropTypes.oneOf(["", "error", "good", "default"]),
+  name: PropTypes.string,
+  id: PropTypes.string,
+  type: PropTypes.string,
+  required: PropTypes.bool,
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+  containerClassName: PropTypes.string,
+  inputClassName: PropTypes.string,
+  labelClassName: PropTypes.string,
+  helperText: PropTypes.string,
+  helperTextClassName: PropTypes.string,
+};
 
 export default DatePicker;
