@@ -7,6 +7,7 @@ import { useForm, Controller } from "react-hook-form";
 // components
 import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
+import DatePicker from "../../components/Forms/DatePicker";
 import ParagraphInput from "../../components/Forms/ParagraphInput";
 
 // providers
@@ -48,7 +49,7 @@ function EventForm() {
       else
         reset({
           id: undefined,
-          name: "",
+          title: "",
           description: "",
         });
     } catch (e) {
@@ -78,7 +79,7 @@ function EventForm() {
     if (!id) {
       reset({
         id: undefined,
-        name: "",
+        title: "",
         description: "",
       });
     }
@@ -93,20 +94,68 @@ function EventForm() {
         <Controller
           control={control}
           disabled={eventQuery.isLoading || saving}
-          name="name"
+          name="title"
           render={({ field }) => (
             <TextInput
               {...field}
               type="text"
-              name="name"
-              id="name"
+              name="title"
+              id="title"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder={t("_entities:event.name.placeholder")}
-              label={t("_entities:event.name.label")}
+              placeholder={t("_entities:event.title.placeholder")}
+              label={t("_entities:event.title.label")}
               required
             />
           )}
         />
+        <div className="flex gap-5">
+          <Controller
+            control={control}
+            disabled={eventQuery.isLoading || saving}
+            name="startDate"
+            render={({ field }) => (
+              <DatePicker
+                id="startDate"
+                name="startDate"
+                placeholder={t("_entities:event.description.placeholder")}
+                label={t("_entities:event.startDate.label")}
+                {...field}
+              >
+                <div className="absolute inset-0 left-0 -top-5 flex items-center pointer-events-none">
+                  <svg
+                    className="w-4 h-4 fill-current text-slate-500 dark:text-slate-400 ml-3"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M15 2h-2V0h-2v2H9V0H7v2H5V0H3v2H1a1 1 0 00-1 1v12a1 1 0 001 1h14a1 1 0 001-1V3a1 1 0 00-1-1zm-1 12H2V6h12v8z" />
+                  </svg>
+                </div>
+              </DatePicker>
+            )}
+          />
+          <Controller
+            control={control}
+            disabled={eventQuery.isLoading || saving}
+            name="endDate"
+            render={({ field }) => (
+              <DatePicker
+                id="endDate"
+                name="endDate"
+                placeholder={t("_entities:event.description.placeholder")}
+                label={t("_entities:event.startDate.label")}
+                {...field}
+              >
+                <div className="absolute inset-0 left-0 -top-5 flex items-center pointer-events-none">
+                  <svg
+                    className="w-4 h-4 fill-current text-slate-500 dark:text-slate-400 ml-3"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M15 2h-2V0h-2v2H9V0H7v2H5V0H3v2H1a1 1 0 00-1 1v12a1 1 0 001 1h14a1 1 0 001-1V3a1 1 0 00-1-1zm-1 12H2V6h12v8z" />
+                  </svg>
+                </div>
+              </DatePicker>
+            )}
+          />
+        </div>
         <Controller
           control={control}
           disabled={eventQuery.isLoading || saving}
@@ -123,6 +172,7 @@ function EventForm() {
             />
           )}
         />
+
         <button
           type="submit"
           disabled={eventQuery.isLoading || saving}
