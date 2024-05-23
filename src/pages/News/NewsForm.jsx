@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -8,6 +8,7 @@ import { useForm, Controller } from "react-hook-form";
 import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
 import ParagraphInput from "../../components/Forms/ParagraphInput";
+import AutocompleteInput from "../../components/Forms/AutocompleteInput";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
@@ -32,10 +33,14 @@ function NewsForm() {
 
   const { handleSubmit, reset, control } = useForm();
 
+  const [photo, setPhoto] = useState();
+
   const onSubmit = async (d) => {
     setSaving(true);
     try {
       let result;
+      if (photo) d.photo = photo.id;
+      else d.photo = 0;
       if (!d.id) result = await museumApiClient.News.create(d);
       else result = await museumApiClient.News.update(d);
 
@@ -72,7 +77,7 @@ function NewsForm() {
   }, [newsQuery]);
 
   useEffect(() => {
-    if (newsQuery.data) reset({ ...newsQuery.data });
+    if (newsQuery.data?.photo?.url) setPhoto(newsQuery.data?.photo);
 
     if (!id) {
       reset({
@@ -83,6 +88,26 @@ function NewsForm() {
     }
   }, [newsQuery.data, id, reset]);
 
+  const tagsQuery = useQuery({
+    queryKey: [ReactQueryKeys.Tags],
+    queryFn: () => museumApiClient.Tags.getAll(),
+    retry: false,
+  });
+
+  const tagsList = useMemo(() => {
+    try {
+      return tagsQuery?.data?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
+    } catch (err) {
+      return [];
+    }
+  }, [tagsQuery.data]);
+
+  useEffect(() => {
+    if (newsQuery.data) {
+      reset({ ...newsQuery.data });
+    }
+  }, [newsQuery.data, reset]);
+
   return (
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
@@ -92,7 +117,7 @@ function NewsForm() {
         <Controller
           control={control}
           disabled={newsQuery.isLoading || saving}
-          title="title"
+          name="title"
           render={({ field }) => (
             <TextInput
               {...field}
@@ -116,9 +141,28 @@ function NewsForm() {
               name="description"
               id="description"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer h-48"
-              inputClassName="!h-80"
               placeholder={t("_entities:news.description.placeholder")}
               label={t("_entities:news.description.label")}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="tags"
+          disabled={newsQuery.isLoading || tagsQuery.isLoading || saving}
+          render={({ field: { onChange, value, ...rest } }) => (
+            <AutocompleteInput
+              {...rest}
+              id="tags"
+              name="tags"
+              label={t("_entities:news.tags.label")}
+              placeholder={t("_entities:news.tags.placeholder")}
+              options={tagsList}
+              value={value}
+              multiple
+              onChange={(v) => {
+                onChange(v);
+              }}
             />
           )}
         />

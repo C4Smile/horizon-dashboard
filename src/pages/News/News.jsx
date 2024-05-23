@@ -3,6 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useNavigate, Link } from "react-router-dom";
 
+// images
+import noProduct from "../../assets/images/no-product.jpg";
+
 // icons
 import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
@@ -31,6 +34,9 @@ function NewsPage() {
 
   const { setNotification } = useNotification();
   const museumApiClient = useMuseumApiClient();
+
+  const [page, setPage] = useState(0);
+  const [count, setCount] = useState(20);
 
   const preparedColumns = useMemo(() => {
     const keys = extractKeysFromObject(new News(), [
@@ -67,6 +73,14 @@ function NewsPage() {
             {news.title}
           </Link>
         ),
+        photo: (
+          <img
+            className="w-10 h-10 rounded-full object-cover "
+            src={news.photo.url ?? noProduct}
+            alt={news.name}
+          />
+        ),
+        tags: news.tags.join(", "),
       };
     });
   }, [localData, t]);
