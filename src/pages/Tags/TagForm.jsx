@@ -16,10 +16,10 @@ import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvid
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
 /**
- * NewsTags Form page component
- * @returns NewsTags Form page component
+ * Tag Form page component
+ * @returns Tag Form page component
  */
-function NewsTagsForm() {
+function TagForm() {
   const { id } = useParams();
 
   const { t } = useTranslation();
@@ -35,15 +35,14 @@ function NewsTagsForm() {
     setSaving(true);
     try {
       let result;
-      if (!d.id) result = await museumApiClient.NewsTags.create(d);
-      else result = await museumApiClient.NewsTags.update(d);
+      if (!d.id) result = await museumApiClient.Tags.create(d);
+      else result = await museumApiClient.Tags.update(d);
 
       const { error, status } = result;
-      setNotification(String(status), { model: t("_entities:entities.newsTags") });
+      setNotification(String(status), { model: t("_entities:entities.tag") });
       // eslint-disable-next-line no-console
       if (status !== 201) console.error(error);
-      else if (id !== undefined)
-        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.NewsTags, id] });
+      else if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Tags, id] });
       else
         reset({
           id: undefined,
@@ -52,26 +51,26 @@ function NewsTagsForm() {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
-      setNotification(String(e.status), { model: t("_entities:entities.newsTags") });
+      setNotification(String(e.status), { model: t("_entities:entities.tag") });
     }
     setSaving(false);
   };
 
-  const newsTagsQuery = useQuery({
-    queryKey: [ReactQueryKeys.NewsTags, id],
-    queryFn: () => museumApiClient.NewsTags.getById(id),
+  const tagsQuery = useQuery({
+    queryKey: [ReactQueryKeys.Tags, id],
+    queryFn: () => museumApiClient.Tags.getById(id),
     enabled: id !== undefined,
     retry: false,
   });
 
   useEffect(() => {
-    const { error } = newsTagsQuery;
+    const { error } = tagsQuery;
     // eslint-disable-next-line no-console
     if (error && error !== null) console.error(error);
-  }, [newsTagsQuery]);
+  }, [tagsQuery]);
 
   useEffect(() => {
-    if (newsTagsQuery.data) reset({ ...newsTagsQuery.data });
+    if (tagsQuery.data) reset({ ...tagsQuery.data });
 
     if (!id) {
       reset({
@@ -79,37 +78,37 @@ function NewsTagsForm() {
         title: "",
       });
     }
-  }, [newsTagsQuery.data, id, reset]);
+  }, [tagsQuery.data, id, reset]);
 
   return (
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
-          {id ? `${t("_pages:newsTags.editForm")} ${id}` : t("_pages:newsTags.newForm")}
+          {id ? `${t("_pages:tags.editForm")} ${id}` : t("_pages:tags.newForm")}
         </h1>
         <Controller
           control={control}
-          disabled={newsTagsQuery.isLoading || saving}
-          title="title"
+          disabled={tagsQuery.isLoading || saving}
+          name="name"
           render={({ field }) => (
             <TextInput
               {...field}
               type="text"
-              title="title"
-              id="title"
+              name="name"
+              id="name"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder={t("_entities:newsTags.title.placeholder")}
-              label={t("_entities:newsTags.title.label")}
+              placeholder={t("_entities:tag.name.placeholder")}
+              label={t("_entities:tag.name.label")}
               required
             />
           )}
         />
         <button
           type="submit"
-          disabled={newsTagsQuery.isLoading || saving}
+          disabled={tagsQuery.isLoading || saving}
           className="mb-5 relative text-white bg-light-primary transition enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          {(newsTagsQuery.isLoading || saving) && (
+          {(tagsQuery.isLoading || saving) && (
             <Loading
               className="bg-primary w-full h-full absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] rounded-lg "
               strokeWidth="4"
@@ -124,4 +123,4 @@ function NewsTagsForm() {
   );
 }
 
-export default NewsTagsForm;
+export default TagForm;

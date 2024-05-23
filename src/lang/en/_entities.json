@@ -10,9 +10,8 @@
     "currency": "Currency",
     "paymentMethod": "Payment Method",
     "news": "News",
-    "newsTag": "News Tag",
     "event": "Event",
-    "evenTag": "Event Tag"
+    "tag": "Tag"
   },
   "roles": {
     "admin": "Administrator",
@@ -44,7 +43,10 @@
   },
   "news": {
     "title": { "label": "Title", "placeholder": "ex: Fidel Castro's birthday" },
-    "content": { "label": "Content", "placeholder": "ex: In this event we will celebrate..." },
+    "description": { "label": "Description", "placeholder": "ex: In this news we will celebrate..." },
+    "province": { "label": "Country" },
+    "photo": { "label": "Photo" },
+    "tags": { "label": "Tags", "placeholder": "ex: Cultural" },
     "date": { "label": "Date" },
     "status": {
       "label": "Status",
@@ -53,11 +55,8 @@
       "cancelled": "Cancelled"
     }
   },
-  "newsTag": {
+  "tag": {
     "name": { "label": "Name", "placeholder": "ex: Cultural" }
-  },
-  "eventTag": {
-    "name": { "label": "Name", "placeholder": "ex: Reunión" }
   },
   "customer": {
     "name": { "label": "Name", "placeholder": "ex: John Doe" },

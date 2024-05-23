@@ -4,16 +4,16 @@ import config from "../config";
 import { fromLocal } from "../utils/local";
 
 /**
- * @class NewTagApiClient
- * @description NewTagApiClient
+ * @class TagApiClient
+ * @description TagApiClient
  */
-export class NewTagApiClient {
+export class TagApiClient {
   /**
-   * @description Get all newTags
-   * @returns NewTag list
+   * @description Get all Tag
+   * @returns Tag list
    */
   async getAll() {
-    const request = await fetch(`${config.apiUrl}newTag`, {
+    const request = await fetch(`${config.apiUrl}tag`, {
       method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -25,12 +25,12 @@ export class NewTagApiClient {
   }
 
   /**
-   * @description Get newTag by id
-   * @param {string} id - NewTag id
-   * @returns NewTag by id
+   * @description Get Tag by id
+   * @param {string} id - Tag id
+   * @returns Tag by id
    */
   async getById(id) {
-    const request = await fetch(`${config.apiUrl}newTag/${id}`, {
+    const request = await fetch(`${config.apiUrl}tag/${id}`, {
       method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -42,14 +42,14 @@ export class NewTagApiClient {
   }
 
   /**
-   * @description Create newTag
-   * @param {object} newTag - NewTag
+   * @description Create Tag
+   * @param {object} Tag - Tag
    * @returns  Transaction status
    */
-  async create(newTag) {
-    const request = await fetch(`${config.apiUrl}newTag`, {
+  async create(Tag) {
+    const request = await fetch(`${config.apiUrl}tag`, {
       method: "POST",
-      body: JSON.stringify(newTag),
+      body: JSON.stringify(Tag),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -60,14 +60,14 @@ export class NewTagApiClient {
   }
 
   /**
-   * @description Update newTag
-   * @param {object} newTag - NewTag
+   * @description Update Tag
+   * @param {object} Tag - Tag
    * @returns Transaction status
    */
-  async update(newTag) {
-    const request = await fetch(`${config.apiUrl}newTag/${newTag.id}`, {
+  async update(Tag) {
+    const request = await fetch(`${config.apiUrl}tag/${Tag.id}`, {
       method: "PATCH",
-      body: JSON.stringify(newTag),
+      body: JSON.stringify(Tag),
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -84,7 +84,7 @@ export class NewTagApiClient {
    */
   async delete(ids) {
     for (const id of ids) {
-      await fetch(`${config.apiUrl}newTag/${id}`, {
+      await fetch(`${config.apiUrl}tag/${id}`, {
         method: "DELETE",
         headers: {
           "Access-Control-Allow-Origin": "*",

@@ -9,6 +9,5 @@ export const ReactQueryKeys = {
   PaymentMethods: "PaymentMethods",
   News: "News",
   Events: "Events",
-  NewsTags: "NewsTags",
-  EventsTags: "EventsTags",
+  Tags: "NewsTags",
 };

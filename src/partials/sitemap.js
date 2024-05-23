@@ -16,16 +16,12 @@ export const sitemap = [
         path: "/events",
       },
       {
-        label: "eventTags",
-        path: "/event-tags",
-      },
-      {
         label: "news",
         path: "/news",
       },
       {
-        label: "newsTags",
-        path: "/news-tags",
+        label: "tags",
+        path: "/tags",
       },
       {
         label: "customers",

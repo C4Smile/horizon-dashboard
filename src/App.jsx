@@ -34,15 +34,12 @@ const NotFound = loadable(() => import("./pages/NotFound/NotFound"));
 // events
 const Events = loadable(() => import("./pages/Events/Events"));
 const EventForm = loadable(() => import("./pages/Events/EventForm"));
-// event tags
-const EventTags = loadable(() => import("./pages/EventTags/EventTags"));
-const EventTagForm = loadable(() => import("./pages/EventTags/EventTagForm"));
 // news
 const News = loadable(() => import("./pages/News/News"));
 const NewsForm = loadable(() => import("./pages/News/NewsForm"));
-// news tags
-const NewsTags = loadable(() => import("./pages/NewsTags/NewsTags"));
-const NewsTagForm = loadable(() => import("./pages/NewsTags/NewsTagForm"));
+// tags
+const Tags = loadable(() => import("./pages/Tags/Tags"));
+const TagForm = loadable(() => import("./pages/Tags/TagForm"));
 // customers
 const Customers = loadable(() => import("./pages/Customers/Customers"));
 const CustomerForm = loadable(() => import("./pages/Customers/CustomerForm"));
@@ -136,15 +133,6 @@ function App() {
             </Route>
             <Route
               exact
-              path="/management/event-tags"
-              element={<ModelNavigation parent="management" model="event-tags" />}
-            >
-              <Route index element={<EventTags />} />
-              <Route path="/management/event-tags/new" element={<EventTagForm />} />
-              <Route path="/management/event-tags/:id" element={<EventTagForm />} />
-            </Route>
-            <Route
-              exact
               path="/management/news"
               element={<ModelNavigation parent="management" model="news" />}
             >
@@ -154,12 +142,12 @@ function App() {
             </Route>
             <Route
               exact
-              path="/management/news-tags"
-              element={<ModelNavigation parent="management" model="news-tags" />}
+              path="/management/tags"
+              element={<ModelNavigation parent="management" model="tags" />}
             >
-              <Route index element={<NewsTags />} />
-              <Route path="/management/news-tags/new" element={<NewsTagForm />} />
-              <Route path="/management/news-tags/:id" element={<NewsTagForm />} />
+              <Route index element={<Tags />} />
+              <Route path="/management/tags/new" element={<TagForm />} />
+              <Route path="/management/tags/:id" element={<TagForm />} />
             </Route>
             <Route
               exact

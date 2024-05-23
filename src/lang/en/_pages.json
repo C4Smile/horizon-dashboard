@@ -59,8 +59,7 @@
       "paymentMethods": "Payment Methods",
       "news": "News",
       "events": "Events",
-      "newsTags": "News Tags",
-      "eventTags": "Event Tags"
+      "tags": "Tags"
     }
   },
   "personal": {
@@ -88,13 +87,9 @@
     "editForm": "Edit Event",
     "newForm": "New Event"
   },
-  "newsTags": {
+  "tags": {
     "editForm": "Edit News Tag",
     "newForm": "New News Tag"
-  },
-  "eventTags": {
-    "editForm": "Edit Event Tag",
-    "newForm": "New Event Tag"
   },
   "customers": {
     "editForm": "Edit Customer",
