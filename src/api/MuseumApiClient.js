@@ -7,6 +7,8 @@ import { RoomApiClient } from "./RoomApiClient";
 import { UserApiClient } from "./UserApiClient";
 import { CurrencyApiClient } from "./CurrencyApiClient";
 import { PaymentMethodApiClient } from "./PaymentMethodApiClient";
+import { NewsApiClient } from "./NewsApiClient";
+import { TagApiClient } from "./TagApiClient";
 
 /**
  * @class MuseumApiClient
@@ -26,6 +28,8 @@ export class MuseumApiClient {
     this.room = new RoomApiClient();
     this.currency = new CurrencyApiClient();
     this.paymentMethod = new PaymentMethodApiClient();
+    this.tags = new TagApiClient();
+    this.news = new NewsApiClient();
   }
 
   /**
@@ -89,5 +93,19 @@ export class MuseumApiClient {
    */
   get Invoice() {
     return this.invoice;
+  }
+
+  /**
+   * @returns {TagApiClient} Tag
+   */
+  get Tags() {
+    return this.tags;
+  }
+
+  /**
+   * @returns {NewsApiClient} News
+   */
+  get News() {
+    return this.news;
   }
 }
