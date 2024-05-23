@@ -47,6 +47,9 @@ export class NewsApiClient {
    * @returns  Transaction status
    */
   async create(news) {
+    // parsing image
+    news.photoId = news.photo;
+    delete news.photo;
     const request = await fetch(`${config.apiUrl}news`, {
       method: "POST",
       body: JSON.stringify(news),
