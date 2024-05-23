@@ -35,6 +35,10 @@ export class News extends Entity {
   ) {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.title = title;
+    this.description = description;
+    this.province = province;
+    this.photo = photo;
+    this.tags = tags;
   }
 
   /**
@@ -51,5 +55,33 @@ export class News extends Entity {
    */
   get Title() {
     return this.title;
+  }
+
+  /**
+   * @returns Description
+   */
+  get Description() {
+    return this.description;
+  }
+
+  /**
+   * @returns Province
+   */
+  get Province() {
+    return this.province;
+  }
+
+  /**
+   * @returns Photo
+   */
+  get Photo() {
+    return this.photo;
+  }
+
+  /**
+   * @returns Tags
+   */
+  get Tags() {
+    return this.tags;
   }
 }
