@@ -4,7 +4,7 @@ import { Entity } from "../entity/Entity";
  * @class NewsTag
  * @description Represents a newsTag
  */
-export class NewsTag extends Entity {
+export class Tag extends Entity {
   name = "";
 
   /**
@@ -25,14 +25,7 @@ export class NewsTag extends Entity {
    * @returns {NewsTag} Entity instance
    */
   static fromJson(json) {
-    return new NewsTag(
-      json.id,
-      json.name,
-      json.iso,
-      json.dateOfCreation,
-      json.lastUpdate,
-      json.deleted,
-    );
+    return new Tag(json.id, json.name, json.iso, json.dateOfCreation, json.lastUpdate, json.deleted);
   }
 
   /**

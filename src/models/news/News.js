@@ -1,4 +1,7 @@
 import { Entity } from "../entity/Entity";
+import { Tag } from "../Tag/Tag";
+import { Province } from "../province/Province";
+import { Image } from "../image/Image";
 
 /**
  * @class News
@@ -6,15 +9,30 @@ import { Entity } from "../entity/Entity";
  */
 export class News extends Entity {
   title = "";
+  description = "";
 
   /**
    * @param {number} id - News id
    * @param {string} title - News title
+   * @param {string} description - News description
+   * @param {Province} province - Province
+   * @param {Image} photo - News image
+   * @param {Tag[]} tags - News tags
    * @param {Date} dateOfCreation - News date of creation
    * @param {Date} lastUpdate - News last update
    * @param {boolean} deleted - News deleted
    */
-  constructor(id, title, dateOfCreation = Date.now(), lastUpdate = Date.now(), deleted = false) {
+  constructor(
+    id,
+    title,
+    description,
+    province,
+    photo,
+    tags,
+    dateOfCreation = Date.now(),
+    lastUpdate = Date.now(),
+    deleted = false,
+  ) {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.title = title;
   }
