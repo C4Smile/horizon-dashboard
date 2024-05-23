@@ -29,7 +29,7 @@ const ParagraphInput = forwardRef(function (props, ref) {
   } = props;
 
   return (
-    <div className={`relative z-0 w-full mb-5 group h-80 ${containerClassName}`}>
+    <div className={`relative z-0 w-full mb-5 group ${containerClassName}`}>
       <textarea
         ref={ref}
         type={type}
