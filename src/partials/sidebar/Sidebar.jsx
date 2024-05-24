@@ -3,14 +3,12 @@ import { NavLink, useLocation } from "react-router-dom";
 
 // components
 import SidebarLinkGroup from "./SidebarLinkGroup";
+import Logo from "../../components/Logo/Logo";
 import SidebarItem from "./SidebarItem";
 
 // sitemap
 import { sitemap } from "../sitemap";
 import { useTranslation } from "react-i18next";
-
-// images
-import logo from "../../assets/images/logo.webp";
 
 /**
  * Sidebar
@@ -181,8 +179,8 @@ function Sidebar(props) {
             </svg>
           </button>
           {/* Logo */}
-          <NavLink end to="/" className="block">
-            <img src={logo} alt="logo del museo" className="w-8" />
+          <NavLink end to="/" className="block m-auto">
+            <Logo className="w-20 h-20" />
           </NavLink>
         </div>
 
