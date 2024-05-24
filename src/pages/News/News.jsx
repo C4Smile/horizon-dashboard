@@ -63,8 +63,16 @@ function NewsPage() {
 
   const preparedRows = useMemo(() => {
     return localData.map((news) => {
+      console.log(news);
       return {
         id: news.id,
+        photo: (
+          <img
+            className="w-10 h-10 rounded-full object-cover "
+            src={news.photo?.url ?? noProduct}
+            alt={news.name}
+          />
+        ),
         dateOfCreation: new Date(news.dateOfCreation).toLocaleDateString(),
         lastUpdate: new Date(news.lastUpdate).toLocaleDateString(),
         deleted: news.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
@@ -73,14 +81,8 @@ function NewsPage() {
             {news.title}
           </Link>
         ),
-        photo: (
-          <img
-            className="w-10 h-10 rounded-full object-cover "
-            src={news.photo.url ?? noProduct}
-            alt={news.name}
-          />
-        ),
-        tags: news.tags.join(", "),
+
+        tags: news.tags?.join(", ") ?? "",
       };
     });
   }, [localData, t]);
