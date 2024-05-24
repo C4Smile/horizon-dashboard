@@ -50,6 +50,9 @@ export class NewsApiClient {
     // parsing image
     news.photoId = news.photo;
     delete news.photo;
+    // parsing tags
+    news.tagsId = news.tags.map((tag) => tag.id);
+    delete news.tags;
     const request = await fetch(`${config.apiUrl}news`, {
       method: "POST",
       body: JSON.stringify(news),

@@ -7,6 +7,7 @@ import { useForm, Controller } from "react-hook-form";
 // components
 import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
+import SelectInput from "../../components/Forms/SelectInput";
 import ParagraphInput from "../../components/Forms/ParagraphInput";
 import AutocompleteInput from "../../components/Forms/AutocompleteInput";
 
@@ -108,12 +109,27 @@ function NewsForm() {
     }
   }, [newsQuery.data, reset]);
 
+  const provinceQuery = useQuery({
+    queryKey: [ReactQueryKeys.Provinces],
+    queryFn: () => museumApiClient.Province.getAll(),
+    retry: false,
+  });
+
+  const provinceList = useMemo(() => {
+    try {
+      return provinceQuery?.data?.map((c) => ({ value: `${c.name}`, id: c.id })) || [];
+    } catch (err) {
+      return [];
+    }
+  }, [provinceQuery.data]);
+
   return (
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
           {id ? `${t("_pages:news.editForm")} ${id}` : t("_pages:news.newForm")}
         </h1>
+        {/* Title */}
         <Controller
           control={control}
           disabled={newsQuery.isLoading || saving}
@@ -131,6 +147,7 @@ function NewsForm() {
             />
           )}
         />
+        {/* Description */}
         <Controller
           control={control}
           disabled={newsQuery.isLoading || saving}
@@ -146,6 +163,7 @@ function NewsForm() {
             />
           )}
         />
+        {/* Tags */}
         <Controller
           control={control}
           name="tags"
@@ -166,6 +184,26 @@ function NewsForm() {
             />
           )}
         />
+        {/* Province Id */}
+        <Controller
+          control={control}
+          name="provinceId"
+          disabled={newsQuery.isLoading || provinceQuery.isLoading || saving}
+          render={({ field: { onChange, value, ...rest } }) => (
+            <SelectInput
+              {...rest}
+              id="provinceId"
+              name="provinceId"
+              label={t("_entities:news.province.label")}
+              options={provinceList}
+              value={value}
+              onChange={(e) => {
+                onChange(e.target.value);
+              }}
+            />
+          )}
+        />
+
         <button
           type="submit"
           disabled={newsQuery.isLoading || saving}
