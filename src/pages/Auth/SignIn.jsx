@@ -71,7 +71,7 @@ function SignIn() {
     <div className="w-full h-screen flex items-start justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-1/2 max-md:w-3/5 max-sm:w-10/12 px-5 pt-10 flex flex-col items-center justify-start"
+        className="w-96 max-sm:w-10/12 px-5 pt-10 flex flex-col items-center justify-start"
       >
         <img
           src={logoVertical}

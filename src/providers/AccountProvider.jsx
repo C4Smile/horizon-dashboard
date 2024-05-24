@@ -50,7 +50,9 @@ const AccountProvider = (props) => {
     fetchSession();
   }, [fetchSession]);
 
-  const value = { account, logUser, logoutUser, logUserFromLocal };
+  const getDefaultPhoto = () => `${config.apiUrl}assets/user-no-image.webp`;
+
+  const value = { account, logUser, logoutUser, logUserFromLocal, getDefaultPhoto };
   return <AccountContext.Provider value={value}>{children}</AccountContext.Provider>;
 };
 

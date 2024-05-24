@@ -1,12 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { getDefaults, useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 // utils
 import Transition from "../utils/Transition";
-
-// images
-import UserAvatar from "../images/user-avatar-32.png";
 
 // providers
 import { useAccount } from "../providers/AccountProvider";
@@ -23,7 +20,7 @@ function DropdownProfile({ align }) {
   const trigger = useRef(null);
   const dropdown = useRef(null);
 
-  const { account } = useAccount();
+  const { account, getDefaultPhoto } = useAccount();
 
   // close on click outside
   useEffect(() => {
@@ -56,7 +53,13 @@ function DropdownProfile({ align }) {
         onClick={() => setDropdownOpen(!dropdownOpen)}
         aria-expanded={dropdownOpen}
       >
-        <img className="w-8 h-8 rounded-full" src={UserAvatar} width="32" height="32" alt="User" />
+        <img
+          className="w-8 h-8 rounded-full shadow-lg"
+          src={account.photo?.url ?? getDefaultPhoto()}
+          width="32"
+          height="32"
+          alt="User"
+        />
         <div className="flex items-center truncate">
           <span className="truncate ml-2 text-sm font-medium dark:text-slate-300 group-hover:text-slate-800 dark:group-hover:text-slate-200">
             {account.username}
