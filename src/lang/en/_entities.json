@@ -44,7 +44,7 @@
   "news": {
     "title": { "label": "Title", "placeholder": "ex: Fidel Castro's birthday" },
     "description": { "label": "Description", "placeholder": "ex: In this news we will celebrate..." },
-    "province": { "label": "Country" },
+    "province": { "label": "Province" },
     "photo": { "label": "Photo" },
     "tags": { "label": "Tags", "placeholder": "ex: Cultural" },
     "date": { "label": "Date" },
