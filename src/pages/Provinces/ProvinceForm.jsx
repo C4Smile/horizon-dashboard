@@ -98,6 +98,7 @@ function ProvinceForm() {
         <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
           {id ? `${t("_pages:provinces.editForm")} ${id}` : t("_pages:provinces.newForm")}
         </h1>
+        {/* Name */}
         <Controller
           control={control}
           disabled={provinceQuery.isLoading || saving}
@@ -115,6 +116,7 @@ function ProvinceForm() {
             />
           )}
         />
+        {/* Country Id */}
         <Controller
           control={control}
           name="countryId"
@@ -124,7 +126,7 @@ function ProvinceForm() {
               {...rest}
               id="countryId"
               name="countryId"
-              label={t("_entities:customer.country.label")}
+              label={t("_entities:province.country.label")}
               options={countryList}
               value={value}
               onChange={(e) => {
@@ -133,6 +135,7 @@ function ProvinceForm() {
             />
           )}
         />
+
         <button
           type="submit"
           disabled={provinceQuery.isLoading || saving}
