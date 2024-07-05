@@ -6,7 +6,7 @@ import { createContext, useState, useContext, useCallback, useEffect } from "rea
 import PropTypes from "prop-types";
 
 // providers
-import { useHotelApiClient } from "./HotelApiProvider";
+import { useMuseumApiClient } from "./MuseumApiProvider";
 
 // utils
 import { toLocal, fromLocal, removeFromLocal } from "../utils/local";
@@ -24,7 +24,7 @@ const AccountContext = createContext();
 const AccountProvider = (props) => {
   const { children } = props;
 
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const [account, setAccount] = useState({});
 
@@ -44,11 +44,11 @@ const AccountProvider = (props) => {
   }, []);
 
   const fetchSession = useCallback(async () => {
-    const { data, error } = await hotelApiClient.User.getSession();
+    const { data, error } = await museumApiClient.User.getSession();
     if (!error) {
       logUser({ ...data });
     }
-  }, [hotelApiClient.User, logUser]);
+  }, [museumApiClient.User, logUser]);
 
   useEffect(() => {
     fetchSession();

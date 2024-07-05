@@ -19,7 +19,7 @@ import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useHotelApiClient, queryClient } from "../../providers/HotelApiProvider";
+import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -45,7 +45,7 @@ function NewsPage() {
   const navigate = useNavigate();
 
   const { setNotification } = useNotification();
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
     const keys = extractKeysFromObject(new News(), [
@@ -77,7 +77,7 @@ function NewsPage() {
         ...sort,
       },
     ],
-    queryFn: () => hotelApiClient.News.getAll(sort.attribute, sort.order),
+    queryFn: () => museumApiClient.News.getAll(sort.attribute, sort.order),
     retry: false,
   });
 
@@ -145,7 +145,7 @@ function NewsPage() {
     {
       id: "delete",
       onClick: async (e) => {
-        const result = await hotelApiClient.News.delete([e.id]);
+        const result = await museumApiClient.News.delete([e.id]);
         const { error, status } = result;
         setNotification(String(status), { model: t("_entities:entities.news") });
 

@@ -16,7 +16,7 @@ import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useHotelApiClient, queryClient } from "../../providers/HotelApiProvider";
+import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -31,7 +31,7 @@ function RoomTypes() {
   const navigate = useNavigate();
 
   const { setNotification } = useNotification();
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
     const keys = extractKeysFromObject(new RoomType(), ["id", "dateOfCreation", "deleted"]);
@@ -57,7 +57,7 @@ function RoomTypes() {
         ...sort,
       },
     ],
-    queryFn: () => hotelApiClient.RoomType.getAll(sort.attribute, sort.order),
+    queryFn: () => museumApiClient.RoomType.getAll(sort.attribute, sort.order),
     retry: false,
   });
 
@@ -94,14 +94,14 @@ function RoomTypes() {
   const getActions = [
     {
       id: "edit",
-      onClick: (e) => navigate(`/hotel/room-types/${e.id}`),
+      onClick: (e) => navigate(`/museum/room-types/${e.id}`),
       icon: faPencil,
       tooltip: t("_accessibility:buttons.edit"),
     },
     {
       id: "delete",
       onClick: (e) => {
-        const { error, status } = hotelApiClient.Customer.delete([e.id]);
+        const { error, status } = museumApiClient.Customer.delete([e.id]);
         setNotification(String(status), { model: t("_entities:entities.roomType") });
 
         // eslint-disable-next-line no-console
@@ -115,7 +115,7 @@ function RoomTypes() {
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:hotel.links.roomTypes")}</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:museum.links.roomTypes")}</h1>
       <Table
         isLoading={roomTypeQuery.isLoading}
         rows={preparedRows}

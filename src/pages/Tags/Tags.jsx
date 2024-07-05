@@ -16,7 +16,7 @@ import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useHotelApiClient, queryClient } from "../../providers/HotelApiProvider";
+import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -31,7 +31,7 @@ function Tags() {
   const navigate = useNavigate();
 
   const { setNotification } = useNotification();
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
     const keys = extractKeysFromObject(new Tag(), ["id", "dateOfCreation", "deleted"]);
@@ -57,7 +57,7 @@ function Tags() {
         ...sort,
       },
     ],
-    queryFn: () => hotelApiClient.Tag.getAll(sort.attribute, sort.order),
+    queryFn: () => museumApiClient.Tag.getAll(sort.attribute, sort.order),
     retry: false,
   });
 
@@ -100,7 +100,7 @@ function Tags() {
     {
       id: "delete",
       onClick: async (e) => {
-        const result = await hotelApiClient.Tag.delete([e.id]);
+        const result = await museumApiClient.Tag.delete([e.id]);
         const { error, status } = result;
         setNotification(String(status), { model: t("_entities:entities.tag") });
 

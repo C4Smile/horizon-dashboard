@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 // providers
-import { useHotelApiClient } from "../providers/HotelApiProvider";
+import { useMuseumApiClient } from "../providers/MuseumApiProvider";
 
 // utils
 import { ReactQueryKeys } from "../utils/queryKeys";
@@ -27,7 +27,7 @@ const ExternalLinkInput = forwardRef(function (props, ref) {
 
   const { t } = useTranslation();
 
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const [error, setError] = useState(false);
   const [currentExternalLInk, setCurrentExternalLink] = useState();
@@ -36,7 +36,7 @@ const ExternalLinkInput = forwardRef(function (props, ref) {
 
   const externalLinkQuery = useQuery({
     queryKey: [ReactQueryKeys.ExternalLinks],
-    queryFn: () => hotelApiClient.ExternalLink.getAll(),
+    queryFn: () => museumApiClient.ExternalLink.getAll(),
     retry: false,
   });
 

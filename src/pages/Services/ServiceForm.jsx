@@ -18,7 +18,7 @@ import AutocompleteInput from "../../components/Forms/AutocompleteInput";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient, useHotelApiClient } from "../../providers/HotelApiProvider";
+import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
@@ -36,7 +36,7 @@ function ServiceForm() {
 
   const { t } = useTranslation();
 
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
@@ -51,8 +51,8 @@ function ServiceForm() {
 
     try {
       let result;
-      if (!d.id) result = await hotelApiClient.Service.create(d, photo);
-      else result = await hotelApiClient.Service.update(d, photo);
+      if (!d.id) result = await museumApiClient.Service.create(d, photo);
+      else result = await museumApiClient.Service.update(d, photo);
 
       const { message, status } = result;
       setNotification(String(status), { model: t("_entities:entities.service") });
@@ -82,7 +82,7 @@ function ServiceForm() {
 
   const serviceQuery = useQuery({
     queryKey: [ReactQueryKeys.Services, id],
-    queryFn: () => hotelApiClient.Service.getById(id),
+    queryFn: () => museumApiClient.Service.getById(id),
     enabled: id !== undefined,
     retry: false,
   });
@@ -110,7 +110,7 @@ function ServiceForm() {
 
   const placesQuery = useQuery({
     queryKey: [ReactQueryKeys.Places],
-    queryFn: () => hotelApiClient.Place.getAll(),
+    queryFn: () => museumApiClient.Place.getAll(),
     retry: false,
   });
 

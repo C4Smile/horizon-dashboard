@@ -6,7 +6,7 @@ import config from "../config";
 
 // providers
 import { useAccount } from "../providers/AccountProvider";
-import { useHotelApiClient } from "../providers/HotelApiProvider";
+import { useMuseumApiClient } from "../providers/MuseumApiProvider";
 
 // components
 import ToTop from "../components/ToTop/ToTop";
@@ -26,7 +26,7 @@ import { fromLocal, toLocal } from "../utils/local";
 function Dashboard() {
   const { logoutUser } = useAccount();
 
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const mainRef = useRef(null);
@@ -54,7 +54,7 @@ function Dashboard() {
 
   const refreshToken = useCallback(async () => {
     try {
-      const value = await hotelApiClient.User.validates();
+      const value = await museumApiClient.User.validates();
       if (value.status === 400) throw Error("400");
       if (value.status === 401) throw Error("401");
       if (value.status === 403) throw Error("403");
@@ -66,7 +66,7 @@ function Dashboard() {
       logoutUser();
       navigate("/sign-out");
     }
-  }, [logoutUser, hotelApiClient.User, navigate]);
+  }, [logoutUser, museumApiClient.User, navigate]);
 
   useEffect(() => {
     refreshToken();

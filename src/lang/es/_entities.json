@@ -73,7 +73,7 @@
     },
     "title": {
       "label": "Título",
-      "placeholder": "ej: El hotel abre un nuevo bar"
+      "placeholder": "ej: El museo abre un nuevo bar"
     },
     "subtitle": {
       "label": "Subtítulo",
@@ -87,7 +87,7 @@
     "lastUpdate": { "label": "Última actualización" },
     "title": {
       "label": "Título",
-      "placeholder": "ej: El hotel abre un nuevo bar"
+      "placeholder": "ej: El museo abre un nuevo bar"
     },
     "subtitle": {
       "label": "Subtítulo",
@@ -112,7 +112,7 @@
     "lastUpdate": { "label": "Última actualización" },
     "title": {
       "label": "Título",
-      "placeholder": "ej: El hotel abre un nuevo bar"
+      "placeholder": "ej: El museum abre un nuevo bar"
     },
     "description": {
       "label": "Descripción",

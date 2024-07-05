@@ -19,7 +19,7 @@ import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useHotelApiClient, queryClient } from "../../providers/HotelApiProvider";
+import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -44,7 +44,7 @@ function ServicesPage() {
   const navigate = useNavigate();
 
   const { setNotification } = useNotification();
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
     const keys = extractKeysFromObject(new Service(), [
@@ -76,7 +76,7 @@ function ServicesPage() {
         ...sort,
       },
     ],
-    queryFn: () => hotelApiClient.Service.getAll(sort.attribute, sort.order),
+    queryFn: () => museumApiClient.Service.getAll(sort.attribute, sort.order),
     retry: false,
   });
 
@@ -135,14 +135,14 @@ function ServicesPage() {
   const getActions = [
     {
       id: "edit",
-      onClick: (e) => navigate(`/hotel/services/${e.id}`),
+      onClick: (e) => navigate(`/museum/services/${e.id}`),
       icon: faPencil,
       tooltip: t("_accessibility:buttons.edit"),
     },
     {
       id: "delete",
       onClick: async (e) => {
-        const result = await hotelApiClient.Service.delete([e.id]);
+        const result = await museumApiClient.Service.delete([e.id]);
         const { error, status } = result;
         setNotification(String(status), { model: t("_entities:entities.service") });
 
@@ -159,7 +159,7 @@ function ServicesPage() {
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:hotel.links.services")}</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:museum.links.services")}</h1>
       <Table
         isLoading={serviceQuery.isLoading}
         rows={preparedRows}

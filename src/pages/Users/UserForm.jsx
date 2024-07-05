@@ -11,7 +11,7 @@ import PasswordInput from "../../components/Forms/PasswordInput";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient, useHotelApiClient } from "../../providers/HotelApiProvider";
+import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
@@ -25,7 +25,7 @@ function UserForm() {
 
   const { t } = useTranslation();
 
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
@@ -42,8 +42,8 @@ function UserForm() {
         console.error(t("_accessibility:errors.passwordDoNotMatch"));
         return setNotification(t("_accessibility:errors.passwordDoNotMatch"));
       }
-      if (!d.id) result = await hotelApiClient.User.create(d);
-      else result = await hotelApiClient.User.update(d);
+      if (!d.id) result = await museumApiClient.User.create(d);
+      else result = await museumApiClient.User.update(d);
       const { error, status } = result;
 
       setNotification(String(status), { model: t("_entities:entities.user") });
@@ -73,7 +73,7 @@ function UserForm() {
 
   const userQuery = useQuery({
     queryKey: [ReactQueryKeys.Users, id],
-    queryFn: () => hotelApiClient.User.getById(id, "*", ["password", "rPassword"]),
+    queryFn: () => museumApiClient.User.getById(id, "*", ["password", "rPassword"]),
     enabled: id !== undefined,
     retry: false,
   });

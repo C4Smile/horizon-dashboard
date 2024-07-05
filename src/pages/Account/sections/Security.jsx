@@ -8,7 +8,7 @@ import PasswordInput from "../../../components/Forms/PasswordInput";
 
 // providers
 import { useNotification } from "../../../providers/NotificationProvider";
-import { useHotelApiClient } from "../../../providers/HotelApiProvider";
+import { useMuseumApiClient } from "../../../providers/MuseumApiProvider";
 
 // utils
 import { fromLocal } from "../../../utils/local";
@@ -21,7 +21,7 @@ import config from "../../../config";
 function Security() {
   const { t } = useTranslation();
 
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const userId = fromLocal(config.user, "object")?.id;
 
@@ -39,7 +39,7 @@ function Security() {
         console.error(t("_accessibility:errors.passwordDoNotMatch"));
         return setNotification(t("_accessibility:errors.passwordDoNotMatch"));
       }
-      const { error, status } = await hotelApiClient.User.update({ ...d, id: userId });
+      const { error, status } = await museumApiClient.User.update({ ...d, id: userId });
       setNotification(String(status));
 
       // eslint-disable-next-line no-console

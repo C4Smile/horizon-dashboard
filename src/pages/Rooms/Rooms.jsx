@@ -19,7 +19,7 @@ import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useHotelApiClient, queryClient } from "../../providers/HotelApiProvider";
+import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -39,7 +39,7 @@ function Rooms() {
   const navigate = useNavigate();
 
   const { setNotification } = useNotification();
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
     const keys = extractKeysFromObject(new Room(), ["id", "dateOfCreation", "deleted", "content"]);
@@ -65,7 +65,7 @@ function Rooms() {
         ...sort,
       },
     ],
-    queryFn: () => hotelApiClient.Room.getAll(sort.attribute, sort.order),
+    queryFn: () => museumApiClient.Room.getAll(sort.attribute, sort.order),
     retry: false,
   });
 
@@ -83,7 +83,7 @@ function Rooms() {
           </Link>
         ),
         type: (
-          <Link className="underline text-light-primary" to={`/hotel/room-types/${room.id}`}>
+          <Link className="underline text-light-primary" to={`/museum/room-types/${room.id}`}>
             {room.type.name}
           </Link>
         ),
@@ -137,14 +137,14 @@ function Rooms() {
   const getActions = [
     {
       id: "edit",
-      onClick: (e) => navigate(`/hotel/rooms/${e.id}`),
+      onClick: (e) => navigate(`/museum/rooms/${e.id}`),
       icon: faPencil,
       tooltip: t("_accessibility:buttons.edit"),
     },
     {
       id: "delete",
       onClick: (e) => {
-        const { error, status } = hotelApiClient.Customer.delete([e.id]);
+        const { error, status } = museumApiClient.Customer.delete([e.id]);
         setNotification(String(status), { model: t("_entities:entities.room") });
 
         // eslint-disable-next-line no-console
@@ -158,7 +158,7 @@ function Rooms() {
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:hotel.links.rooms")}</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:museum.links.rooms")}</h1>
       <Table
         isLoading={roomQuery.isLoading}
         rows={preparedRows}

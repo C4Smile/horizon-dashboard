@@ -14,7 +14,7 @@ import Loading from "../../partials/loading/Loading";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient, useHotelApiClient } from "../../providers/HotelApiProvider";
+import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // utils
 import { localPhotoReducer } from "../../components/utils";
@@ -38,7 +38,7 @@ function NewsForm() {
 
   const { t } = useTranslation();
 
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
@@ -53,8 +53,8 @@ function NewsForm() {
 
     try {
       let result;
-      if (!d.id) result = await hotelApiClient.News.create(d, photos);
-      else result = await hotelApiClient.News.update(d, photos);
+      if (!d.id) result = await museumApiClient.News.create(d, photos);
+      else result = await museumApiClient.News.update(d, photos);
 
       const { message, status } = result;
       setNotification(String(status), { model: t("_entities:entities.news") });
@@ -82,7 +82,7 @@ function NewsForm() {
 
   const newsQuery = useQuery({
     queryKey: [ReactQueryKeys.News, id],
-    queryFn: () => hotelApiClient.News.getById(id),
+    queryFn: () => museumApiClient.News.getById(id),
     enabled: id !== undefined,
     retry: false,
   });
@@ -111,7 +111,7 @@ function NewsForm() {
 
   const tagsQuery = useQuery({
     queryKey: [ReactQueryKeys.Tags],
-    queryFn: () => hotelApiClient.Tag.getAll(),
+    queryFn: () => museumApiClient.Tag.getAll(),
     retry: false,
   });
 

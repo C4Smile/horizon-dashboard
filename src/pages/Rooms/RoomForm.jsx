@@ -18,7 +18,7 @@ import ImageKitIoUploader from "../../components/ImageKitIoUploader";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient, useHotelApiClient } from "../../providers/HotelApiProvider";
+import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // utils
 import { localPhotoReducer } from "../../components/utils";
@@ -36,7 +36,7 @@ function RoomForm() {
 
   const { t } = useTranslation();
 
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState();
@@ -51,8 +51,8 @@ function RoomForm() {
     setSaving(true);
     try {
       let result;
-      if (!d.id) result = await hotelApiClient.Room.create(d, photos, image360);
-      else result = await hotelApiClient.Room.update(d, photos, image360);
+      if (!d.id) result = await museumApiClient.Room.create(d, photos, image360);
+      else result = await museumApiClient.Room.update(d, photos, image360);
       const { error, status } = result;
       setNotification(String(status), { model: t("_entities:entities.room") });
       setLastUpdate(new Date().toDateString());
@@ -78,7 +78,7 @@ function RoomForm() {
 
   const roomQuery = useQuery({
     queryKey: [ReactQueryKeys.Rooms, id],
-    queryFn: () => hotelApiClient.Room.getById(id),
+    queryFn: () => museumApiClient.Room.getById(id),
     enabled: id !== undefined,
     retry: false,
   });
@@ -91,7 +91,7 @@ function RoomForm() {
 
   const typesQuery = useQuery({
     queryKey: [ReactQueryKeys.RoomTypes],
-    queryFn: () => hotelApiClient.RoomType.getAll(),
+    queryFn: () => museumApiClient.RoomType.getAll(),
     retry: false,
   });
 
@@ -105,7 +105,7 @@ function RoomForm() {
 
   const statusQuery = useQuery({
     queryKey: [ReactQueryKeys.RoomStatuses],
-    queryFn: () => hotelApiClient.RoomStatus.getAll(),
+    queryFn: () => museumApiClient.RoomStatus.getAll(),
     retry: false,
   });
 

@@ -10,7 +10,7 @@ import TextInput from "../../components/Forms/TextInput";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient, useHotelApiClient } from "../../providers/HotelApiProvider";
+import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
@@ -24,7 +24,7 @@ function TagForm() {
 
   const { t } = useTranslation();
 
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
@@ -36,8 +36,8 @@ function TagForm() {
     setSaving(true);
     try {
       let result;
-      if (!d.id) result = await hotelApiClient.Tag.create(d);
-      else result = await hotelApiClient.Tag.update(d);
+      if (!d.id) result = await museumApiClient.Tag.create(d);
+      else result = await museumApiClient.Tag.update(d);
 
       const { error, status } = result;
       setNotification(String(status), { model: t("_entities:entities.tag") });
@@ -60,7 +60,7 @@ function TagForm() {
 
   const tagQuery = useQuery({
     queryKey: [ReactQueryKeys.Tags, id],
-    queryFn: () => hotelApiClient.Tag.getById(id),
+    queryFn: () => museumApiClient.Tag.getById(id),
     enabled: id !== undefined,
     retry: false,
   });

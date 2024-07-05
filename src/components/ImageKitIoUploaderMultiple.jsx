@@ -14,7 +14,7 @@ import noPhoto from "../assets/images/no-product.jpg";
 import { IKContext, IKUpload } from "imagekitio-react";
 
 // providers
-import { useHotelApiClient } from "../providers/HotelApiProvider";
+import { useMuseumApiClient } from "../providers/MuseumApiProvider";
 
 /**
  * ImageKitIoUploader component
@@ -26,7 +26,7 @@ function ImageKitIoUploaderMultiple(props) {
 
   const [loadingPhotos, setLoadingPhotos] = useState(false);
 
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const onLoading = () => {
     setLoadingPhotos(true);
@@ -35,13 +35,13 @@ function ImageKitIoUploaderMultiple(props) {
   const uploadOthers = useCallback(
     async (files) => {
       const [, ...other] = files;
-      const result = await hotelApiClient.ImageKitIo.insertImages(
+      const result = await museumApiClient.ImageKitIo.insertImages(
         other,
-        hotelApiClient.ImageKitIo.generateFolder(folder),
+        museumApiClient.ImageKitIo.generateFolder(folder),
       );
       setPhotos({ type: "add", items: result });
     },
-    [folder, hotelApiClient.ImageKitIo, setPhotos],
+    [folder, museumApiClient.ImageKitIo, setPhotos],
   );
 
   /**
@@ -51,7 +51,7 @@ function ImageKitIoUploaderMultiple(props) {
   const onSuccess = async (res) => {
     try {
       const { url, fileId } = res;
-      const { data, error } = await hotelApiClient.ImageKitIo.insertImage({ url, fileId });
+      const { data, error } = await museumApiClient.ImageKitIo.insertImage({ url, fileId });
       if (!error) setPhotos({ type: "add", item: { fileId, url, id: data[0].id } });
       // eslint-disable-next-line no-console
       else console.error(error);
@@ -69,7 +69,7 @@ function ImageKitIoUploaderMultiple(props) {
   };
 
   const onDelete = async (index) => {
-    const error = await hotelApiClient.ImageKitIo.deleteImage(
+    const error = await museumApiClient.ImageKitIo.deleteImage(
       photos[index]?.fileId ?? photos[index]?.fileName,
     );
     if (!error) setPhotos({ type: "delete", index });
@@ -103,9 +103,9 @@ function ImageKitIoUploaderMultiple(props) {
           ) : (
             <div className="flex gap-4 items-center relative">
               <IKContext
-                publicKey={hotelApiClient.ImageKitIo.imageKitPublicKey}
-                urlEndpoint={hotelApiClient.ImageKitIo.imageKitUrl}
-                authenticator={hotelApiClient.ImageKitIo.authenticator}
+                publicKey={museumApiClient.ImageKitIo.imageKitPublicKey}
+                urlEndpoint={museumApiClient.ImageKitIo.imageKitUrl}
+                authenticator={museumApiClient.ImageKitIo.authenticator}
                 transformationPosition="path"
               >
                 <IKUpload
@@ -114,7 +114,7 @@ function ImageKitIoUploaderMultiple(props) {
                   onChange={onLoading}
                   onSuccess={onSuccess}
                   onUploadStart={(e) => uploadOthers(e.target.files)}
-                  folder={hotelApiClient.ImageKitIo.generateFolder(folder)}
+                  folder={museumApiClient.ImageKitIo.generateFolder(folder)}
                 />
               </IKContext>
               <div className="w-20 h-20 flex items-center justify-center rounded-full border-2 border-dashed border-primary/40">

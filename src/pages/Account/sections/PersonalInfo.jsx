@@ -13,7 +13,7 @@ import TextInput from "../../../components/Forms/TextInput";
 
 // providers
 import { useNotification } from "../../../providers/NotificationProvider";
-import { useHotelApiClient } from "../../../providers/HotelApiProvider";
+import { useMuseumApiClient } from "../../../providers/MuseumApiProvider";
 
 // utils
 import { ReactQueryKeys } from "../../../utils/queryKeys";
@@ -26,7 +26,7 @@ import { fromLocal } from "../../../utils/local";
 function PersonalInfo() {
   const { t } = useTranslation();
 
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const userId = fromLocal(config.user, "object")?.user?.id ?? 0;
 
@@ -37,7 +37,7 @@ function PersonalInfo() {
 
   const userQuery = useQuery({
     queryKey: [ReactQueryKeys.Users, userId],
-    queryFn: () => hotelApiClient.User.getById(userId),
+    queryFn: () => museumApiClient.User.getById(userId),
     enabled: userId !== undefined,
     retry: false,
   });
@@ -59,7 +59,7 @@ function PersonalInfo() {
   const onSubmit = async (d) => {
     setSaving(true);
     try {
-      const { error, status } = await hotelApiClient.User.update({ ...d });
+      const { error, status } = await museumApiClient.User.update({ ...d });
       setNotification(String(status), { model: t("_entities:entities.user") });
 
       // eslint-disable-next-line no-console
@@ -74,7 +74,7 @@ function PersonalInfo() {
 
   const rolesQuery = useQuery({
     queryKey: [ReactQueryKeys.UserRoles],
-    queryFn: () => hotelApiClient.UserRole.getAll(),
+    queryFn: () => museumApiClient.UserRole.getAll(),
     retry: false,
   });
 

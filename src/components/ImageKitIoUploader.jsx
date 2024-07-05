@@ -14,7 +14,7 @@ import noPhoto from "../assets/images/no-product.jpg";
 import { IKContext, IKUpload } from "imagekitio-react";
 
 // providers
-import { useHotelApiClient } from "../providers/HotelApiProvider";
+import { useMuseumApiClient } from "../providers/MuseumApiProvider";
 
 /**
  * ImageKitIoUploader component
@@ -26,7 +26,7 @@ function ImageKitIoUploader(props) {
 
   const [loadingPhoto, setLoadingPhoto] = useState(false);
 
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const onLoading = () => {
     setLoadingPhoto(true);
@@ -39,8 +39,8 @@ function ImageKitIoUploader(props) {
   const onSuccess = async (res) => {
     try {
       const { url, fileId } = res;
-      if (photo) await hotelApiClient.ImageKitIo.deleteImage(photo.fileId);
-      const { data, error } = await hotelApiClient.ImageKitIo.insertImage({ url, fileId });
+      if (photo) await museumApiClient.ImageKitIo.deleteImage(photo.fileId);
+      const { data, error } = await museumApiClient.ImageKitIo.insertImage({ url, fileId });
       if (!error) setPhoto({ fileId, url, id: data[0].id });
       // eslint-disable-next-line no-console
       else console.error(error);
@@ -58,7 +58,7 @@ function ImageKitIoUploader(props) {
   };
 
   const onDelete = async (index) => {
-    const error = await hotelApiClient.ImageKitIo.deleteImage(photo?.fileId ?? photo?.fileName);
+    const error = await museumApiClient.ImageKitIo.deleteImage(photo?.fileId ?? photo?.fileName);
     if (!error) setPhoto();
     // eslint-disable-next-line no-console
     else console.error(error);
@@ -91,16 +91,16 @@ function ImageKitIoUploader(props) {
           ) : (
             <div className="flex gap-4 items-center relative">
               <IKContext
-                publicKey={hotelApiClient.ImageKitIo.imageKitPublicKey}
-                urlEndpoint={hotelApiClient.ImageKitIo.imageKitUrl}
-                authenticator={hotelApiClient.ImageKitIo.authenticator}
+                publicKey={museumApiClient.ImageKitIo.imageKitPublicKey}
+                urlEndpoint={museumApiClient.ImageKitIo.imageKitUrl}
+                authenticator={museumApiClient.ImageKitIo.authenticator}
                 transformationPosition="path"
               >
                 <IKUpload
                   onError={onError}
                   onChange={onLoading}
                   onSuccess={onSuccess}
-                  folder={hotelApiClient.ImageKitIo.generateFolder(folder)}
+                  folder={museumApiClient.ImageKitIo.generateFolder(folder)}
                 />
               </IKContext>
               <div className="w-20 h-20 flex items-center justify-center rounded-full border-2 border-dashed border-primary/40">

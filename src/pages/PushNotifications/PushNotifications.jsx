@@ -19,7 +19,7 @@ import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useHotelApiClient, queryClient } from "../../providers/HotelApiProvider";
+import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -44,7 +44,7 @@ function PushNotifications() {
   const navigate = useNavigate();
 
   const { setNotification } = useNotification();
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
     const keys = extractKeysFromObject(new PushNotification(), ["id", "dateOfCreation", "deleted"]);
@@ -70,7 +70,7 @@ function PushNotifications() {
         ...sort,
       },
     ],
-    queryFn: () => hotelApiClient.PushNotification.getAll(sort.attribute, sort.order),
+    queryFn: () => museumApiClient.PushNotification.getAll(sort.attribute, sort.order),
     retry: false,
   });
 
@@ -144,7 +144,7 @@ function PushNotifications() {
     {
       id: "delete",
       onClick: async (e) => {
-        const result = await hotelApiClient.PushNotification.delete([e.id]);
+        const result = await museumApiClient.PushNotification.delete([e.id]);
         const { error, status } = result;
         setNotification(String(status), { model: t("_entities:entities.pushNotifications") });
 

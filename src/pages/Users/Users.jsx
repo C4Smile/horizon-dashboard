@@ -15,7 +15,7 @@ import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useHotelApiClient, queryClient } from "../../providers/HotelApiProvider";
+import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -30,7 +30,7 @@ function Users() {
   const navigate = useNavigate();
 
   const { setNotification } = useNotification();
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
     const keys = extractKeysFromObject(new User(), [
@@ -45,7 +45,7 @@ function Users() {
 
   const userQuery = useQuery({
     queryKey: [ReactQueryKeys.Users],
-    queryFn: () => hotelApiClient.User.getAll(),
+    queryFn: () => museumApiClient.User.getAll(),
   });
 
   const preparedRows = useMemo(() => {
@@ -89,7 +89,7 @@ function Users() {
     {
       id: "delete",
       onClick: (e) => {
-        const { error, status } = hotelApiClient.User.delete([e.id]);
+        const { error, status } = museumApiClient.User.delete([e.id]);
         setNotification(String(status));
 
         // eslint-disable-next-line no-console

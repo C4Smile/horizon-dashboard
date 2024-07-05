@@ -14,7 +14,7 @@ import Loading from "../../partials/loading/Loading";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient, useHotelApiClient } from "../../providers/HotelApiProvider";
+import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
@@ -32,7 +32,7 @@ function AppTextForm() {
 
   const { t } = useTranslation();
 
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
@@ -44,8 +44,8 @@ function AppTextForm() {
     setSaving(true);
     try {
       let result;
-      if (!d.id) result = await hotelApiClient.AppText.create(d);
-      else result = await hotelApiClient.AppText.update(d);
+      if (!d.id) result = await museumApiClient.AppText.create(d);
+      else result = await museumApiClient.AppText.update(d);
 
       const { error, status } = result;
       setNotification(String(status), { model: t("_entities:entities.appText") });
@@ -70,7 +70,7 @@ function AppTextForm() {
 
   const appTextQuery = useQuery({
     queryKey: [ReactQueryKeys.AppTexts, id],
-    queryFn: () => hotelApiClient.AppText.getById(id),
+    queryFn: () => museumApiClient.AppText.getById(id),
     enabled: id !== undefined,
     retry: false,
   });

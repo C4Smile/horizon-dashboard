@@ -19,7 +19,7 @@ import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useHotelApiClient, queryClient } from "../../providers/HotelApiProvider";
+import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -44,7 +44,7 @@ function ActivitysPage() {
   const navigate = useNavigate();
 
   const { setNotification } = useNotification();
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
     const keys = extractKeysFromObject(new Activity(), [
@@ -75,7 +75,7 @@ function ActivitysPage() {
         ...sort,
       },
     ],
-    queryFn: () => hotelApiClient.Activity.getAll(sort.attribute, sort.order),
+    queryFn: () => museumApiClient.Activity.getAll(sort.attribute, sort.order),
     retry: false,
   });
 
@@ -145,7 +145,7 @@ function ActivitysPage() {
     {
       id: "delete",
       onClick: async (e) => {
-        const result = await hotelApiClient.Activity.delete([e.id]);
+        const result = await museumApiClient.Activity.delete([e.id]);
         const { error, status } = result;
         setNotification(String(status), { model: t("_entities:entities.activity") });
 
@@ -162,7 +162,7 @@ function ActivitysPage() {
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:hotel.links.activitys")}</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:museum.links.activitys")}</h1>
       <Table
         isLoading={activityQuery.isLoading}
         rows={preparedRows}

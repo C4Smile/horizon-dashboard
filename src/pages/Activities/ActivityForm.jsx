@@ -14,7 +14,7 @@ import AutocompleteInput from "../../components/Forms/AutocompleteInput";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient, useHotelApiClient } from "../../providers/HotelApiProvider";
+import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // utils
 import { entities, ReactQueryKeys } from "../../utils/queryKeys";
@@ -28,7 +28,7 @@ function ActivityForm() {
 
   const { t } = useTranslation();
 
-  const hotelApiClient = useHotelApiClient();
+  const museumApiClient = useMuseumApiClient();
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
@@ -43,7 +43,7 @@ function ActivityForm() {
 
   const entitiesQuery = useQuery({
     queryKey: [entityLinkType, previousLink ?? ""],
-    queryFn: () => hotelApiClient.Activity.getEntity(entityLinkType),
+    queryFn: () => museumApiClient.Activity.getEntity(entityLinkType),
     enabled: !!entityLinkType,
     retry: false,
   });
@@ -80,8 +80,8 @@ function ActivityForm() {
     setSaving(true);
     try {
       let result;
-      if (!d.id) result = await hotelApiClient.Activity.create(d, photo);
-      else result = await hotelApiClient.Activity.update(d, photo);
+      if (!d.id) result = await museumApiClient.Activity.create(d, photo);
+      else result = await museumApiClient.Activity.update(d, photo);
 
       const { message, status } = result;
       setNotification(String(status), { model: t("_entities:entities.activity") });
@@ -108,7 +108,7 @@ function ActivityForm() {
 
   const activityQuery = useQuery({
     queryKey: [ReactQueryKeys.Activitys, id],
-    queryFn: () => hotelApiClient.Activity.getById(id),
+    queryFn: () => museumApiClient.Activity.getById(id),
     enabled: id !== undefined,
     retry: false,
   });
