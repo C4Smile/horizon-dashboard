@@ -1,7 +1,12 @@
-import config from "../config";
+import { toSlug } from "some-javascript-utils";
+import draftToHtml from "draftjs-to-html";
+import { convertToRaw } from "draft-js";
+
+// services
+import { makeRequest } from "../db/services";
 
 // utils
-import { fromLocal } from "../utils/local";
+import { SortOrder } from "../models/query/GenericFilter";
 
 /**
  * @class TagApiClient
@@ -9,89 +14,66 @@ import { fromLocal } from "../utils/local";
  */
 export class TagApiClient {
   /**
-   * @description Get all Tag
-   * @returns Tag list
+   * @description Get all tags
+   * @param {string} sort attribute to order by
+   * @param {string} order asc/desc
+   * @returns {Promise<any[]>} Tags
    */
-  async getAll() {
-    const request = await fetch(`${config.apiUrl}tag`, {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
-    });
-    return await request.json();
+  async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
+    const { error, data, status } = await makeRequest("tags");
+    if (error !== null) return { status, statusCode: status, message: error.message };
+    return data;
   }
 
   /**
-   * @description Get Tag by id
+   * @description Get tag by id
    * @param {string} id - Tag id
-   * @returns Tag by id
+   * @returns {Promise<any>} Tag
    */
   async getById(id) {
-    const request = await fetch(`${config.apiUrl}tag/${id}`, {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
-    });
-    return await request.json();
+    const { error, data, status } = await makeRequest(`tags/${id}`);
+    if (error !== null) return { status, statusCode: status, message: error.message };
+    return data[0];
   }
 
   /**
-   * @description Create Tag
-   * @param {object} Tag - Tag
-   * @returns  Transaction status
+   * @description Create tag
+   * @param {object} tag - Tag
+   * @returns {Promise<any>} Tag
    */
-  async create(Tag) {
-    const request = await fetch(`${config.apiUrl}tag`, {
-      method: "POST",
-      body: JSON.stringify(Tag),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
-    });
-    return request;
+  async create(tag) {
+    // default values
+    tag.urlName = toSlug(tag.title);
+    // parsing html
+    tag.content = tag.content ? draftToHtml(convertToRaw(tag.content.getCurrentContent())) : null;
+    const { error, data, status } = await makeRequest("tags", "POST", tag);
+    return { error, data, status: status === 204 ? 201 : status };
   }
 
   /**
-   * @description Update Tag
-   * @param {object} Tag - Tag
-   * @returns Transaction status
+   * @description Update tag
+   * @param {object} tag - Tag
+   * @returns {Promise<any>} Tag
    */
-  async update(Tag) {
-    const request = await fetch(`${config.apiUrl}tag/${Tag.id}`, {
-      method: "PATCH",
-      body: JSON.stringify(Tag),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
-    });
-    return request;
+  async update(tag) {
+    // default values
+    tag.urlName = toSlug(tag.title);
+    // parsing html
+    tag.content = tag.content ? draftToHtml(convertToRaw(tag.content.getCurrentContent())) : null;
+    // call service
+    const { status, error } = await makeRequest(`tags/${tag.id}`, "PUT", tag);
+    if (error !== null) return { status, statusCode: error.code, message: error.message };
+    return { error, status: status === 204 ? 201 : status };
   }
 
   /**
    * Remove elements by their id
-   * @param {number[]} ids ids to delete
+   * @param {number[]} ids to delete
    * @returns Transaction status
    */
   async delete(ids) {
     for (const id of ids) {
-      await fetch(`${config.apiUrl}tag/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-        },
-      });
+      await makeRequest(`tags/${id}`, "DELETE");
     }
     return { status: 204 };
   }

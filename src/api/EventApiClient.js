@@ -1,98 +1,233 @@
-import config from "../config";
+import { toSlug } from "some-javascript-utils";
+import draftToHtml from "draftjs-to-html";
+import { convertToRaw } from "draft-js";
+
+// services
+import { makeRequest } from "../db/services";
 
 // utils
-import { fromLocal } from "../utils/local";
+import { SortOrder } from "../models/query/GenericFilter";
+
+// apis
+import { TagsEventsApiClient } from "./TagsEventsApiClient";
+import { ImageEventsApiClient } from "./ImagesEventsApiClient";
+import { EventSchedulesApiClient } from "./EventSchedulesApiClient";
+import { EventLinksApiClient } from "./EventLinksApiClient";
 
 /**
  * @class EventApiClient
  * @description EventApiClient
  */
 export class EventApiClient {
+  tagsEvents = new TagsEventsApiClient();
+  photosEvents = new ImageEventsApiClient();
+  eventSchedules = new EventSchedulesApiClient();
+  eventLinks = new EventLinksApiClient();
+
+  // private scripts
+  parseManyToMany = (remoteAttribute, localList = [], remoteList = []) => {
+    const toAdd = [];
+    const toRemove = [];
+
+    const getToCompare = (element) =>
+      element[remoteAttribute]?.id ?? element[remoteAttribute] ?? element.id;
+
+    // adding new elements
+    if (localList)
+      for (const localElement of localList) {
+        if (!remoteList) {
+          // create new element
+          const elToAdd = { delete: false, ...localElement };
+          elToAdd[remoteAttribute] = getToCompare(localElement);
+          // add to list
+          toAdd.push(elToAdd);
+          continue;
+        }
+        const remoteTag = remoteList.find(
+          (element) => getToCompare(element) === getToCompare(localElement),
+        );
+        if (!remoteTag) {
+          // create new element
+          const elToAdd = { delete: false, ...localElement };
+          elToAdd[remoteAttribute] = getToCompare(localElement);
+          // add to list
+          toAdd.push(elToAdd);
+        }
+      }
+    // removing elements
+    if (remoteList)
+      for (const remoteElement of remoteList) {
+        if (!localList) {
+          // create new element
+          const elToRemove = { delete: true, ...remoteElement };
+          elToRemove[remoteAttribute] = getToCompare(remoteElement);
+          // add to list
+          toRemove.push(elToRemove);
+
+          continue;
+        }
+        const localElement = localList.find(
+          (element) => getToCompare(element) === getToCompare(remoteElement),
+        );
+        if (!localElement) {
+          // create new element
+          const elToRemove = { delete: true, ...remoteElement };
+          elToRemove[remoteAttribute] = getToCompare(remoteElement);
+          // add to list
+          toRemove.push(elToRemove);
+        }
+      }
+    return [...toAdd, ...toRemove];
+  };
+
   /**
-   * @description Get all events
-   * @returns Event list
+   * @description Get all event
+   * @param {string} query - Query
+   * @returns {Promise<Event[]>} Event
    */
-  async getAll() {
-    const request = await fetch(`${config.apiUrl}event`, {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
-    });
-    return await request.json();
+  async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
+    const { data, error, status } = await makeRequest("events");
+    if (error !== null) return { status, statusCode: status, message: error.message };
+    return data;
   }
 
   /**
    * @description Get event by id
    * @param {string} id - Event id
-   * @returns Event by id
+   * @returns {Promise<Event>} Event
    */
   async getById(id) {
-    const request = await fetch(`${config.apiUrl}event/${id}`, {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
-    });
-    return await request.json();
+    const { data, error, status } = await makeRequest(`events/${id}`);
+    if (error !== null) return { status, statusCode: status, message: error.message };
+    return data[0];
   }
 
   /**
    * @description Create event
-   * @param {object} event - Event
-   * @returns  Transaction status
+   * @param {Event} event - Event
+   * @param {object[]} photos - Event photos
+   * @returns {Promise<Event>} Event
    */
-  async create(event) {
-    const request = await fetch(`${config.apiUrl}event`, {
-      method: "POST",
-      body: JSON.stringify(event),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
-    });
-    return request;
+  async create(event, photos) {
+    // default values
+    event.urlName = toSlug(event.title);
+    // parsing html
+    event.content = event.content ? draftToHtml(convertToRaw(event.content.getCurrentContent())) : null;
+    // parsing links
+    const linksToKeep = this.parseManyToMany("linkId", event.newEventHasLink, event.eventHasLink);
+    // parsing schedule
+    const scheduleToKeep = this.parseManyToMany(
+      "id",
+      event.newEventHasSchedules,
+      event.eventHasSchedules,
+    );
+    // parsing tags
+    const tagsToKeep = event.tagsId.map((tag) => tag.id);
+    // cleaning relation ships
+    delete event.tagsId;
+    delete event.newEventHasLink;
+    delete event.newEventHasSchedules;
+    // call service
+    const { error, data, status } = await makeRequest("events", "POST", event);
+    if (error !== null) return { status, data, statusCode: status, message: error.message };
+    // adding relationships
+    // saving links
+    for (const link of linksToKeep)
+      await this.eventLinks.create({ eventId: data[0].id, linkId: link.linkId, url: link.url });
+
+    // saving schedule
+    for (const schedule of scheduleToKeep)
+      await this.eventSchedules.create({
+        eventId: data[0].id,
+        description: schedule.description,
+        date: schedule.date,
+      });
+    // saving tags
+    for (const tag of tagsToKeep) await this.tagsEvents.create({ eventsId: data[0].id, tagId: tag });
+    // saving image
+    if (photos)
+      for (const photo of photos)
+        await this.photosEvents.create({ eventsId: data[0].id, imageId: photo.id });
+
+    return { error, data, status: status === 204 ? 201 : status };
   }
 
   /**
    * @description Update event
-   * @param {object} event - Event
-   * @returns Transaction status
+   * @param {Event} event - Event
+   * @param {object[]} photos - Photos to keep
+   * @returns {Promise<Event>} Event
    */
-  async update(event) {
-    const request = await fetch(`${config.apiUrl}event/${event.id}`, {
-      method: "PATCH",
-      body: JSON.stringify(event),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+  async update(event, photos) {
+    // default values
+    event.urlName = toSlug(event.title);
+    // parsing html
+    event.content = event.content ? draftToHtml(convertToRaw(event.content.getCurrentContent())) : null;
+    // parsing links
+    const linksToKeep = this.parseManyToMany("linkId", event.newEventHasLink, event.eventHasLink);
+    // parsing schedule
+    const scheduleToKeep = this.parseManyToMany(
+      "id",
+      event.newEventHasSchedules,
+      event.eventHasSchedules,
+    );
+    // parsing tags
+    const tagsToKeep = this.parseManyToMany("typeId", event.tagsId, event.eventHasTag);
+    // saving photos
+    const newPhotos = [];
+    for (const newPhoto of photos) {
+      const found = event.eventHasImage.some((value) => value.imageId.id === newPhoto.id);
+      if (!found) newPhotos.push(newPhoto);
+    }
+    // cleaning relation ships
+    delete event.tagsId;
+    delete event.eventHasTag;
+    delete event.eventHasImage;
+    delete event.newEventHasLink;
+    delete event.eventHasLink;
+    delete event.eventHasSchedules;
+    delete event.newEventHasSchedules;
+    // call service
+    const { status, error } = await makeRequest(`events/${event.id}`, "PUT", {
+      ...event,
+      lastUpdate: new Date().toISOString(),
     });
-    return request;
+    if (error !== null) return { status, statusCode: error.code, message: error.message };
+    // do relationship updates
+    // saving links
+    for (const link of linksToKeep) {
+      if (link.delete) await this.eventSchedules.deleteByUrl(link.linkId, link.url);
+      else await this.eventLinks.create({ eventId: event.id, linkId: link.linkId, url: link.url });
+    }
+    // saving schedule
+    for (const schedule of scheduleToKeep) {
+      if (schedule.delete) await this.eventSchedules.deleteSingle(schedule.id);
+      await this.eventSchedules.create({
+        eventId: event.id,
+        description: schedule.description,
+        date: schedule.date,
+      });
+    }
+    // saving tags
+    for (const tag of tagsToKeep) {
+      if (tag.delete) this.tagsEvents.deleteByEvent(tag.tagId, event.id);
+      else this.tagsEvents.create({ eventsId: event.id, tagId: tag.tagId });
+    }
+    // saving photo
+    if (newPhotos.length)
+      for (const newPhoto of newPhotos)
+        this.photosEvents.create({ eventsId: event.id, imageId: newPhoto.id });
+    return { error, status: status === 204 ? 201 : status };
   }
 
   /**
    * Remove elements by their id
-   * @param {number[]} ids ids to delete
+   * @param {number[]} ids to delete
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) {
-      await fetch(`${config.apiUrl}event/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-        },
-      });
-    }
+    for (const id of ids) await makeRequest(`events/${id}`, "DELETE");
+
     return { status: 204 };
   }
 }
