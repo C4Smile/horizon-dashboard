@@ -23,6 +23,7 @@ const SelectInput = forwardRef(function (props, ref) {
     labelClassName,
     helperText,
     helperTextClassName,
+    placeholder,
     ...rest
   } = props;
 
@@ -54,11 +55,9 @@ const SelectInput = forwardRef(function (props, ref) {
       >
         {label}
       </label>
-      {(state === "error" || state === "good") && (
-        <p className={`mt-2 text-sm ${helperTextStateClassName(state)} ${helperTextClassName}`}>
-          {helperText}
-        </p>
-      )}
+      <p className={`mt-2 text-sm ${helperTextStateClassName(state)} ${helperTextClassName}`}>
+        {state !== "error" && state !== "good" ? placeholder : helperText}
+      </p>
     </div>
   );
 });

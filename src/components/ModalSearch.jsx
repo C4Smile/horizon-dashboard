@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useDebounce } from "use-lodash-debounce";
+// import { useDebounce } from "use-lodash-debounce";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -19,7 +19,7 @@ function ModalSearch(props) {
   const { t } = useTranslation();
 
   const [value, setValue] = useState();
-  const debouncedValue = useDebounce(value, 800);
+  // const debouncedValue = useDebounce(value, 800);
 
   const modalContent = useRef(null);
   const searchInput = useRef(null);

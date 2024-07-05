@@ -39,7 +39,7 @@ function Table(props) {
       }
     setSortingBy(attribute);
     setSortingOrder(localSortingOrder);
-    onSort(attribute, localSortingOrder);
+    if (onSort) onSort(attribute, localSortingOrder);
   };
 
   return (
@@ -49,16 +49,22 @@ function Table(props) {
           <tr>
             {columns.map((column) => (
               <th key={column.id} scope="col" className={`px-6 py-3 ${column.className}`}>
-                <button onClick={() => localOnSort(column.id)} className="flex items-center gap-2">
+                <button
+                  disabled={!column.sortable}
+                  onClick={() => localOnSort(column.id)}
+                  className="flex items-center gap-2"
+                >
                   {column.label}
 
-                  <span className={`${sortingBy === column.id ? "opacity-100" : "opacity-0"}`}>
-                    {sortingOrder === SortOrder.ASC ? (
-                      <FontAwesomeIcon icon={faChevronUp} />
-                    ) : (
-                      <FontAwesomeIcon icon={faChevronDown} />
-                    )}
-                  </span>
+                  {column.sortable && (
+                    <span className={`${sortingBy === column.id ? "opacity-100" : "opacity-0"}`}>
+                      {sortingOrder === SortOrder.ASC ? (
+                        <FontAwesomeIcon icon={faChevronUp} />
+                      ) : (
+                        <FontAwesomeIcon icon={faChevronDown} />
+                      )}
+                    </span>
+                  )}
                 </button>
               </th>
             ))}
@@ -76,7 +82,7 @@ function Table(props) {
                 {columns.map((column, i) => (
                   <td
                     key={column.id}
-                    className={`px-6 py-4 font-medium ${i === 0 ? "text-gray-900 whitespace-nowrap dark:text-white" : ""} `}
+                    className={`px-6 py-4 font-medium ${i === 0 ? "text-gray-900 whitespace-nowrap dark:text-white" : ""} ${column.className}`}
                   >
                     {row[column.id]}
                   </td>

@@ -6,17 +6,42 @@ import { Entity } from "../entity/Entity";
  */
 export class Event extends Entity {
   title = "";
+  description = "";
+  content = "";
+  subtitle = "";
+  address = "";
+  location = "";
+  eventHasTag = [];
+  eventHasImage = [];
+  eventHasLink = [];
 
   /**
    * @param {number} id - Event id
    * @param {string} title - Event title
+   * @param {string} description - Event description
    * @param {Date} dateOfCreation - Event date of creation
    * @param {Date} lastUpdate - Event last update
    * @param {boolean} deleted - Event deleted
    */
-  constructor(id, title, dateOfCreation = Date.now(), lastUpdate = Date.now(), deleted = false) {
+  constructor(
+    id,
+    title,
+    description,
+    content,
+    subtitle,
+    address,
+    location,
+    dateOfCreation = Date.now(),
+    lastUpdate = Date.now(),
+    deleted = false,
+  ) {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.title = title;
+    this.description = description;
+    this.content = content;
+    this.subtitle = subtitle;
+    this.address = address;
+    this.location = location;
   }
 
   /**
@@ -25,7 +50,18 @@ export class Event extends Entity {
    * @returns {Event} Entity instance
    */
   static fromJson(json) {
-    return new Event(json.id, json.title, json.iso, json.dateOfCreation, json.lastUpdate, json.deleted);
+    return new Event(
+      json.id,
+      json.title,
+      json.description,
+      json.content,
+      json.subtitle,
+      json.address,
+      json.location,
+      json.dateOfCreation,
+      json.lastUpdate,
+      json.deleted,
+    );
   }
 
   /**
@@ -33,5 +69,40 @@ export class Event extends Entity {
    */
   get Title() {
     return this.title;
+  }
+
+  /**
+   * @returns ISO
+   */
+  get Description() {
+    return this.description;
+  }
+
+  /**
+   * @returns Content
+   */
+  get Content() {
+    return this.content;
+  }
+
+  /**
+   * @returns Subtitle
+   */
+  get Subtitle() {
+    return this.subtitle;
+  }
+
+  /**
+   * @returns Address
+   */
+  get Address() {
+    return this.address;
+  }
+
+  /**
+   * @returns Location
+   */
+  get Location() {
+    return this.location;
   }
 }

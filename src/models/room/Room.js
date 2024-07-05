@@ -1,25 +1,20 @@
 import { Entity } from "../entity/Entity";
 
-export const RoomStatus = {
-  operational: "operational",
-  maintenance: "maintenance",
-};
-
 /**
  * @class Room
  * @description Represents a room
  */
 export class Room extends Entity {
   number = "";
-  name = "";
-  description = "";
-  status = RoomStatus.operational;
+  type = 0;
+  status = 0;
+  roomHasImage = [];
+  image360Id = 0;
+  content = "";
 
   /**
    * @param {number} id - Room id
    * @param {string} number - Room number
-   * @param {string} name - Room name
-   * @param {string} description - Room description
    * @param {RoomStatus} status - Room status
    * @param {Date} dateOfCreation - Room date of creation
    * @param {Date} lastUpdate - Room last update
@@ -29,17 +24,15 @@ export class Room extends Entity {
   constructor(
     id,
     number,
-    name,
-    description,
-    status = RoomStatus.operational,
+    status = 0,
+    content = "",
     dateOfCreation = Date.now(),
     lastUpdate = Date.now(),
     deleted = false,
   ) {
     super(id, dateOfCreation, lastUpdate, deleted);
+    this.content = content;
     this.number = number;
-    this.name = name;
-    this.description = description;
     this.status = status;
   }
 
@@ -52,9 +45,8 @@ export class Room extends Entity {
     return new Room(
       json.id,
       json.number,
-      json.name,
-      json.description,
       json.status,
+      json.content,
       json.dateOfCreation,
       json.lastUpdate,
       json.deleted,
@@ -69,23 +61,16 @@ export class Room extends Entity {
   }
 
   /**
-   * @returns Name
-   */
-  get Name() {
-    return this.name;
-  }
-
-  /**
-   * @returns Description
-   */
-  get Description() {
-    return this.description;
-  }
-
-  /**
    * @returns Status
    */
   get Status() {
     return this.status;
+  }
+
+  /**
+   * @returns Content
+   */
+  get Content() {
+    return this.content;
   }
 }

@@ -1,9 +1,12 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { getCookie } from "some-javascript-utils/browser";
+
+import config from "../config";
 
 // providers
 import { useAccount } from "../providers/AccountProvider";
-import { useMuseumApiClient } from "../providers/MuseumApiProvider";
+import { useHotelApiClient } from "../providers/HotelApiProvider";
 
 // components
 import ToTop from "../components/ToTop/ToTop";
@@ -15,7 +18,6 @@ import Header from "../partials/Header";
 
 // utils
 import { fromLocal, toLocal } from "../utils/local";
-import config from "../config";
 
 /**
  * Dashboard layout
@@ -24,7 +26,7 @@ import config from "../config";
 function Dashboard() {
   const { logoutUser } = useAccount();
 
-  const museumApiClient = useMuseumApiClient();
+  const hotelApiClient = useHotelApiClient();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const mainRef = useRef(null);
@@ -52,19 +54,23 @@ function Dashboard() {
 
   const refreshToken = useCallback(async () => {
     try {
-      const value = await museumApiClient.User.validates();
+      const value = await hotelApiClient.User.validates();
+      if (value.status === 400) throw Error("400");
       if (value.status === 401) throw Error("401");
+      if (value.status === 403) throw Error("403");
+      const recovering = getCookie(config.recovering);
+      if (recovering?.length) navigate("/auth/update-password");
     } catch (err) {
       // eslint-disable-next-line no-console
-      console.log(err);
+      console.error(err);
       logoutUser();
       navigate("/sign-out");
     }
-  }, [logoutUser, museumApiClient.User, navigate]);
+  }, [logoutUser, hotelApiClient.User, navigate]);
 
   useEffect(() => {
     refreshToken();
-  }, [refreshToken]);
+  }, [navigate, refreshToken]);
 
   return (
     <div className="flex h-screen overflow-hidden">

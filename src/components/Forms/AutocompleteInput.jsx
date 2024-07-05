@@ -1,5 +1,4 @@
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
-import PropTypes from "prop-types";
 
 // icons
 import { faClose } from "@fortawesome/free-solid-svg-icons";
@@ -19,14 +18,14 @@ const AutocompleteInput = forwardRef(function (props, ref) {
     state,
     value,
     onChange,
-    options,
-    name,
-    id,
-    label,
-    containerClassName,
-    helperText,
-    placeholder,
-    multiple,
+    options = [],
+    name = "",
+    id = "",
+    label = "",
+    containerClassName = "",
+    helperText = "",
+    placeholder = "",
+    multiple = false,
     ...rest
   } = props;
 
@@ -97,8 +96,8 @@ const AutocompleteInput = forwardRef(function (props, ref) {
         helperText={helperText}
         onFocus={() => setShowSuggestions(true)}
         label={label}
-        ref={ref}
         containerClassName="!mb-0"
+        ref={ref}
         {...rest}
       >
         {!multiple && value && (
@@ -112,7 +111,7 @@ const AutocompleteInput = forwardRef(function (props, ref) {
         )}
       </TextInput>
       {showSuggestions && (
-        <ul className="m-0 p-0 z-10 bg-white absolute w-full">
+        <ul className="m-0 p-0 z-10 bg-white absolute w-full max-h-44 overflow-auto">
           {suggestions.map((suggestion) => (
             <li
               className="p-2 hover:bg-primary/20"
@@ -134,33 +133,5 @@ const AutocompleteInput = forwardRef(function (props, ref) {
     </div>
   );
 });
-
-AutocompleteInput.defaultProps = {
-  type: "text",
-  required: false,
-  containerClassName: "",
-  inputClassName: "",
-  labelClassName: "",
-  helperTextClassName: "",
-  value: "",
-};
-
-AutocompleteInput.propTypes = {
-  value: PropTypes.any,
-  onChange: PropTypes.func.isRequired,
-  state: PropTypes.oneOf(["error", "good", "default"]),
-  name: PropTypes.string,
-  id: PropTypes.string,
-  type: PropTypes.string,
-  required: PropTypes.bool,
-  label: PropTypes.string,
-  placeholder: PropTypes.string,
-  containerClassName: PropTypes.string,
-  inputClassName: PropTypes.string,
-  labelClassName: PropTypes.string,
-  helperText: PropTypes.string,
-  helperTextClassName: PropTypes.string,
-  options: PropTypes.array.isRequired,
-};
 
 export default AutocompleteInput;

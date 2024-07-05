@@ -1,37 +1,44 @@
 import { createContext, useContext } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { MuseumApiClient } from "../api/MuseumApiClient";
+import { HotelApiClient } from "../api/HotelApiClient";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false, // default: true
+    },
+  },
+});
 
-const MuseumApiClientContext = createContext({});
+const HotelApiClientContext = createContext({});
 
 /**
- * MuseumApiClientProvider
+ * HotelApiClientProvider
  * @param {object} props - Props
  * @returns {object} React component
  */
-const MuseumApiClientProvider = (props) => {
+const HotelApiClientProvider = (props) => {
   const { children } = props;
 
-  const museumApiClient = new MuseumApiClient();
+  const hotelApiClient = new HotelApiClient();
 
   return (
-    <MuseumApiClientContext.Provider value={{ client: museumApiClient }}>
+    <HotelApiClientContext.Provider value={{ client: hotelApiClient }}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </MuseumApiClientContext.Provider>
+    </HotelApiClientContext.Provider>
   );
 };
 
 /**
- * @returns {MuseumApiClient} MuseumApiClient
+ * @returns {HotelApiClient} HotelApiClient
  */
-const useMuseumApiClient = () => {
-  const context = useContext(MuseumApiClientContext);
+const useHotelApiClient = () => {
+  const context = useContext(HotelApiClientContext);
   if (context === undefined) {
-    throw new Error("useMuseumApiClient must be used within a MuseumApiClientProvider");
+    throw new Error("useHotelApiClient must be used within a HotelApiClientProvider");
   }
   return context.client;
 };
 
-export { queryClient, MuseumApiClientProvider, useMuseumApiClient };
+// eslint-disable-next-line react-refresh/only-export-components
+export { queryClient, HotelApiClientProvider, useHotelApiClient };

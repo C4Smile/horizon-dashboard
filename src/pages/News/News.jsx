@@ -15,13 +15,25 @@ import { News } from "../../models/news/News";
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
 import { ReactQueryKeys } from "../../utils/queryKeys";
+import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
+import { useHotelApiClient, queryClient } from "../../providers/HotelApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
+import Chip from "../../components/Chip/Chip";
+
+const columnClasses = {
+  title: "max-w-40 overflow-hidden",
+  lastUpdate: "w-56",
+};
+
+const noSortableColumns = {
+  newsHasTag: true,
+  newsHasImage: true,
+};
 
 /**
  * News page
@@ -33,29 +45,39 @@ function NewsPage() {
   const navigate = useNavigate();
 
   const { setNotification } = useNotification();
-  const museumApiClient = useMuseumApiClient();
-
-  const [page, setPage] = useState(0);
-  const [count, setCount] = useState(20);
+  const hotelApiClient = useHotelApiClient();
 
   const preparedColumns = useMemo(() => {
     const keys = extractKeysFromObject(new News(), [
       "id",
       "description",
       "dateOfCreation",
-      "lastUpdate",
       "deleted",
+      "content",
     ]);
     return keys.map((key) => ({
       id: key,
       label: t(`_entities:news.${key}.label`),
-      className: "",
+      className: columnClasses[key] ?? "",
+      sortable: !noSortableColumns[key],
     }));
   }, [t]);
 
+  const [sort, setSort] = useState({
+    attribute: "lastUpdate",
+    order: SortOrder.ASC,
+  });
+
+  const onTableSort = (attribute, order) => setSort({ attribute, order });
+
   const newsQuery = useQuery({
-    queryKey: [ReactQueryKeys.News],
-    queryFn: () => museumApiClient.News.getAll(),
+    queryKey: [
+      ReactQueryKeys.News,
+      {
+        ...sort,
+      },
+    ],
+    queryFn: () => hotelApiClient.News.getAll(sort.attribute, sort.order),
     retry: false,
   });
 
@@ -63,26 +85,41 @@ function NewsPage() {
 
   const preparedRows = useMemo(() => {
     return localData.map((news) => {
-      console.log(news);
       return {
         id: news.id,
-        photo: (
-          <img
-            className="w-10 h-10 rounded-full object-cover "
-            src={news.photo?.url ?? noProduct}
-            alt={news.name}
-          />
-        ),
-        dateOfCreation: new Date(news.dateOfCreation).toLocaleDateString(),
-        lastUpdate: new Date(news.lastUpdate).toLocaleDateString(),
+        lastUpdate: new Date(news.lastUpdate).toLocaleDateString("es-ES"),
         deleted: news.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
         title: (
-          <Link className="underline text-light-primary" to={`${news.id}`}>
-            {news.title}
+          <Link className="underline text-light-primary flex" to={`${news.id}`}>
+            <span className="w-80 truncate">{news.title}</span>
           </Link>
         ),
-
-        tags: news.tags?.join(", ") ?? "",
+        newsHasTag:
+          (
+            <div className="flex flex-wrap gap-3">
+              {news.newsHasTag?.map((tag) => (
+                <Chip key={tag?.tagId?.id} label={tag?.tagId?.name} />
+              ))}
+            </div>
+          ) ?? " - ",
+        newsHasImage: (
+          <>
+            {news.newsHasImage && news.newsHasImage.length ? (
+              <div className="flex items-center justify-start">
+                {news.newsHasImage.map((image, i) => (
+                  <img
+                    key={i}
+                    className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
+                    src={image.imageId.url}
+                    alt={`${news.title} ${i}`}
+                  />
+                ))}
+              </div>
+            ) : (
+              <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={news.title} />
+            )}
+          </>
+        ),
       };
     });
   }, [localData, t]);
@@ -101,14 +138,14 @@ function NewsPage() {
   const getActions = [
     {
       id: "edit",
-      onClick: (e) => navigate(`/management/news/${e.id}`),
+      onClick: (e) => navigate(`/activities/news/${e.id}`),
       icon: faPencil,
       tooltip: t("_accessibility:buttons.edit"),
     },
     {
       id: "delete",
       onClick: async (e) => {
-        const result = await museumApiClient.News.delete([e.id]);
+        const result = await hotelApiClient.News.delete([e.id]);
         const { error, status } = result;
         setNotification(String(status), { model: t("_entities:entities.news") });
 
@@ -125,14 +162,13 @@ function NewsPage() {
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
-        {t("_pages:management.links.news")}
-      </h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:activities.links.news")}</h1>
       <Table
         isLoading={newsQuery.isLoading}
         rows={preparedRows}
         columns={preparedColumns}
         actions={getActions}
+        onSort={onTableSort}
       />
     </div>
   );

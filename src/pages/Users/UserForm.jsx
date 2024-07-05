@@ -11,7 +11,7 @@ import PasswordInput from "../../components/Forms/PasswordInput";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvider";
+import { queryClient, useHotelApiClient } from "../../providers/HotelApiProvider";
 
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
@@ -25,7 +25,7 @@ function UserForm() {
 
   const { t } = useTranslation();
 
-  const museumApiClient = useMuseumApiClient();
+  const hotelApiClient = useHotelApiClient();
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
@@ -42,9 +42,10 @@ function UserForm() {
         console.error(t("_accessibility:errors.passwordDoNotMatch"));
         return setNotification(t("_accessibility:errors.passwordDoNotMatch"));
       }
-      if (!d.id) result = await museumApiClient.User.create(d);
-      else result = await museumApiClient.User.update(d);
+      if (!d.id) result = await hotelApiClient.User.create(d);
+      else result = await hotelApiClient.User.update(d);
       const { error, status } = result;
+
       setNotification(String(status), { model: t("_entities:entities.user") });
 
       // eslint-disable-next-line no-console
@@ -72,7 +73,7 @@ function UserForm() {
 
   const userQuery = useQuery({
     queryKey: [ReactQueryKeys.Users, id],
-    queryFn: () => museumApiClient.User.getById(id, "*", ["password", "rPassword"]),
+    queryFn: () => hotelApiClient.User.getById(id, "*", ["password", "rPassword"]),
     enabled: id !== undefined,
     retry: false,
   });
@@ -102,10 +103,11 @@ function UserForm() {
 
   return (
     <div className="px-5 pt-10 flex items-start justify-start">
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
+      <form onSubmit={handleSubmit(onSubmit)} className="form">
+        <h1 className="text-2xl md:text-3xl font-bold mb-5">
           {id ? `${t("_pages:users.editForm")} ${id}` : t("_pages:users.newForm")}
         </h1>
+        {/* User Name */}
         <Controller
           control={control}
           disabled={userQuery.isLoading || saving}
@@ -123,6 +125,7 @@ function UserForm() {
             />
           )}
         />
+        {/* User Email */}
         <Controller
           control={control}
           name="email"
@@ -140,6 +143,7 @@ function UserForm() {
             />
           )}
         />
+        {/* User Username */}
         <Controller
           control={control}
           disabled={userQuery.isLoading || saving}
@@ -157,6 +161,7 @@ function UserForm() {
             />
           )}
         />
+        {/* User Password */}
         <Controller
           control={control}
           disabled={userQuery.isLoading || saving}
@@ -173,6 +178,7 @@ function UserForm() {
             />
           )}
         />
+        {/* User RPassword */}
         <Controller
           control={control}
           disabled={userQuery.isLoading || saving}
@@ -189,6 +195,7 @@ function UserForm() {
             />
           )}
         />
+        {/* User Address */}
         <Controller
           control={control}
           name="address"
@@ -242,11 +249,7 @@ function UserForm() {
           )}
         />
 
-        <button
-          type="submit"
-          disabled={userQuery.isLoading || saving}
-          className="mb-5 relative text-white bg-light-primary transition enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
+        <button type="submit" disabled={userQuery.isLoading || saving} className="mb-5 submit">
           {(userQuery.isLoading || saving) && (
             <Loading
               className="bg-primary w-full h-full absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] rounded-lg "
@@ -255,7 +258,7 @@ function UserForm() {
               color="stroke-white"
             />
           )}
-          {t("_accessibility:buttons.submit")}
+          {t("_accessibility:buttons.save")}
         </button>
       </form>
     </div>

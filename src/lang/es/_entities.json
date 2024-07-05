@@ -1,51 +1,243 @@
 {
-  "reservation": {
-    "customer": { "label": "Cliente", "placeholder": "ej: John Doe" },
-    "checkInDate": { "label": "Fecha de Entrada" },
-    "checkOutDate": { "label": "Fecha de Salida" },
-    "ticket": { "label": "Ticket" },
-    "status": {
-      "label": "Estado",
-      "pending": "Pendiente",
-      "confirmed": "Confirmado",
-      "cancelled": "Cancelado"
+  "entities": {
+    "user": "Usuario",
+    "role": "Rol",
+    "country": "País",
+    "customer": "Cliente",
+    "province": "Provincia",
+    "room": "Habitación",
+    "invoice": "Factura",
+    "currency": "Moneda",
+    "news": "Noticia",
+    "event": "Evento",
+    "events": "Eventos",
+    "place": "Lugar",
+    "tag": "Etiqueta",
+    "activity": "Oferta",
+    "service": "Servicio",
+    "externalLink": "Enlace externo",
+    "paymentMethod": "Método de Pago",
+    "appText": "Texto para la App",
+    "pushNotification": "Notificación instantánea"
+  },
+  "roles": {
+    "admin": "Administrador",
+    "user": "Usuario"
+  },
+  "appText": {
+    "lastUpdate": { "label": "Última actualización" },
+    "title": {
+      "label": "Título",
+      "placeholder": "ej: Acerca de"
+    },
+    "content": {
+      "label": "Contenido"
     }
   },
-  "customer": {
-    "name": { "label": "Nombre", "placeholder": "ej: John Doe" },
-    "email": { "label": "Correo Electrónico", "placeholder": "ej: johndoe@gmail.com" },
+  "service": {
+    "lastUpdate": { "label": "Última actualización" },
+    "name": { "label": "Nombre", "placeholder": "ex: Habitación" },
+    "imageId": {
+      "label": "Imagen"
+    },
+    "description": {
+      "label": "Descripción",
+      "placeholder": "Alguna descripción"
+    },
+    "servicePlace": {
+      "label": "Lugar con este servicio",
+      "placeholder": "ej: Night club"
+    },
+    "content": {
+      "label": "Contenido"
+    },
+    "serviceHasSchedule": {
+      "label": "Horario"
+    }
+  },
+  "activity": {
+    "entity": {
+      "label": "Redirección",
+      "typePlaceholder": "Selecciona a el tipo de entidad",
+      "idPlaceholder": "Selecciona la {{entity}} al cual redireccionará esta oferta"
+    },
+    "description": {
+      "label": "Descripción",
+      "placeholder": "Alguna descripción"
+    },
+    "lastUpdate": {
+      "label": "Última actualización"
+    },
+    "imageId": {
+      "label": "Imagen"
+    },
+    "title": {
+      "label": "Título",
+      "placeholder": "ej: El hotel abre un nuevo bar"
+    },
+    "subtitle": {
+      "label": "Subtítulo",
+      "placeholder": "Información para una previsualización rápida"
+    }
+  },
+  "news": {
+    "content": {
+      "label": "Contenido"
+    },
+    "lastUpdate": { "label": "Última actualización" },
+    "title": {
+      "label": "Título",
+      "placeholder": "ej: El hotel abre un nuevo bar"
+    },
+    "subtitle": {
+      "label": "Subtítulo",
+      "placeholder": "Información para una previsualización rápida"
+    },
+    "description": {
+      "label": "Descripción",
+      "placeholder": "Alguna descripción"
+    },
+    "newsHasTag": {
+      "label": "Etiquetas",
+      "placeholder": "ej: Cultural"
+    },
+    "newsHasImage": {
+      "label": "Imágenes"
+    }
+  },
+  "event": {
+    "content": {
+      "label": "Contenido"
+    },
+    "lastUpdate": { "label": "Última actualización" },
+    "title": {
+      "label": "Título",
+      "placeholder": "ej: El hotel abre un nuevo bar"
+    },
+    "description": {
+      "label": "Descripción",
+      "placeholder": "Alguna descripción para promoción"
+    },
+    "eventHasTag": {
+      "label": "Etiquetas",
+      "placeholder": "ej: Cultural"
+    },
+    "eventHasImage": {
+      "label": "Imágenes"
+    },
+    "subtitle": {
+      "label": "Subtítulo",
+      "placeholder": "Información para una previsualización rápida"
+    },
+    "address": {
+      "label": "Dirección",
+      "placeholder": "Calle #3 % Calle #2 y Calle #4"
+    },
+    "eventHasLink": {
+      "label": "Enlaces externos",
+      "placeholder": "previsualización:"
+    },
+    "location": {
+      "label": "Ubicación",
+      "placeholder": "ej: 20.0237273,-75.8332217"
+    },
+    "eventHasSchedule": {
+      "label": "Horario",
+      "placeholder": "ej: Apertura del evento"
+    }
+  },
+  "user": {
+    "role": { "label": "Rol" },
+    "lastUpdate": { "label": "Última actualización" },
+    "username": { "label": "Nombre de usuario", "placeholder": "ej: juanperez" },
+    "password": { "label": "Contraseña", "placeholder": "ej: *******" },
+    "rPassword": { "label": "Confirmar contraseña", "placeholder": "ej: *******" },
+    "name": { "label": "Nombre", "placeholder": "ej: Juan Pérez" },
+    "email": { "label": "Correo electrónico", "placeholder": "ej: juanperez@gmail.com" },
     "phone": { "label": "Teléfono", "placeholder": "ej: +5352574839" },
     "address": { "label": "Dirección", "placeholder": "ej: Calle #57 % Calle y Calle" },
     "country": { "label": "País" },
     "identification": { "label": "Identificación", "placeholder": "ej: A9012M" }
   },
-  "country": {
-    "name": { "label": "Nombre", "placeholder": "ej: Cuba" },
-    "iso": { "label": "ISO", "placeholder": "ej: CU" }
-  },
-  "invoice": {
-    "reservation": { "label": "Reserva", "placeholder": "ej: " },
-    "customer": { "label": "Cliente", "placeholder": "ej: John Doe" },
-    "currency": { "label": "Moneda", "placeholder": "ej: CUP" },
-    "dateIssued": { "label": "Fecha de Emisión", "placeholder": "ej: " },
-    "totalAmount": { "label": "Monto Total", "placeholder": "ej: " },
-    "paymentMethod": { "label": "Método de Pago", "placeholder": "ej: " }
-  },
-  "user": {
-    "username": { "label": "Nombre de Usuario", "placeholder": "ej: " },
-    "password": { "label": "Contraseña", "placeholder": "ej: " },
-    "rPassword": { "label": "Confirmar contraseña", "placeholder": "ej: " },
-    "name": { "label": "Nombre", "placeholder": "ej: John Doe" },
-    "email": { "label": "Correo Electrónico", "placeholder": "ej: johndoe@gmail.com" },
-    "phone": { "label": "Teléfono", "placeholder": "ej: +5352574839" }
+  "room": {
+    "lastUpdate": { "label": "Última actualización" },
+    "number": { "label": "Número", "placeholder": "ej: I" },
+    "name": { "label": "Nombre", "placeholder": "ej: Mirador A" },
+    "type": { "label": "Tipo", "placeholder": "ej: Doble" },
+    "description": {
+      "label": "Descripción",
+      "placeholder": "ej: En esta habitación se puede ver el mar..."
+    },
+    "status": { "label": "Estado" },
+    "roomHasImage": {
+      "label": "Imágenes"
+    },
+    "image360Id": {
+      "label": "Imagen 360"
+    },
+    "content": {
+      "label": "Contenido"
+    }
   },
   "roomType": {
-    "name": { "label": "Nombre", "placeholder": "ej: Virtual" }
+    "lastUpdate": { "label": "Última actualización" },
+    "name": { "label": "Nombre", "placeholder": "ej: Simple" },
+    "price": { "label": "Precio", "placeholder": "ej: 200" },
+    "capacity": { "label": "Capacidad", "placeholder": "2" }
   },
-  "room": {
-    "number": { "label": "Número", "placeholder": "ej: I" },
-    "name": { "label": "Nombre", "placeholder": "ej: Historia de un símbolo" },
-    "type": { "label": "Tipo", "placeholder": "ej: Virtual" },
-    "status": { "label": "Estado", "operational": "Operativo", "maintenance": "Mantenimiento" }
+  "pushNotification": {
+    "actionType": {
+      "link": "Link to another page",
+      "entity": "Link to another entity"
+    },
+    "lastUpdate": { "label": "Última actualización" },
+    "title": { "label": "Título", "placeholder": "ex: Nuevo lugar ha abierto" },
+    "description": {
+      "label": "Descripción",
+      "placeholder": "ej: Alguna descripción para la notificación"
+    },
+    "entity": {
+      "label": "Redirección",
+      "typePlaceholder": "Selecciona a el tipo de entidad",
+      "idPlaceholder": "Selecciona la {{entity}} al cual redireccionará esta oferta"
+    },
+    "action": {
+      "label": "Acción",
+      "placeholder": "Enlace al cual redirigirá la notificación"
+    },
+    "sentDate": {
+      "label": "Fecha de envío"
+    },
+    "imageId": {
+      "label": "Imagen"
+    }
+  },
+  "tag": {
+    "lastUpdate": { "label": "Última actualización" },
+    "name": { "label": "Nombre", "placeholder": "ej: Cultural" }
+  },
+  "externalLink": {
+    "url": {
+      "label": "Dirección url"
+    }
+  },
+  "schedule": {
+    "description": {
+      "label": "Descripción",
+      "placeholder": "ex: Apertura",
+      "notEmpty": "La descripción es requerida"
+    },
+    "day": {
+      "label": "Día de la semana",
+      "placeholder": "ex: Lunes"
+    },
+    "date": {
+      "label": "Fecha",
+      "placeholder": "ex: 24-12-2024 08:30 AM"
+    },
+    "time": {
+      "label": "Hora",
+      "placeholder": "ex: 08:30 AM"
+    }
   }
 }

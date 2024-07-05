@@ -3,27 +3,75 @@
     "dashboard": {
       "link": "/"
     },
+    "museum": {
+      "link": "/museum"
+    },
+    "activities": {
+      "link": "/activities"
+    },
     "management": {
-      "link": "/gestion"
+      "link": "/management"
     },
     "personal": {
       "link": "/personal"
+    },
+    "settings": {
+      "link": "/settings"
+    }
+  },
+  "home": {
+    "welcome": "Bienvenido"
+  },
+  "search": {
+    "label": "Buscar",
+    "placeholder": "Buscar algo...",
+    "recentSearches": "Búsquedas recientes",
+    "noRecentSearches": "No hay búsquedas recientes",
+    "recentPages": "Páginas recientes",
+    "noRecentPages": "Sin navegación reciente",
+    "result": "Resultados de búsqueda"
+  },
+  "auth": {
+    "recovery": {
+      "title": "Recuperación de contraseña",
+      "sent": "Revise su correo electrónico para restablecer su contraseña"
+    },
+    "updatePassword": {
+      "title": "Actualizar contraseña",
+      "sent": "La contraseña ha sido actualizada"
+    },
+    "signIn": {
+      "title": "Iniciar sesión",
+      "passwordRecovery": "¿Olvidó su contraseña?"
+    },
+    "signOut": {
+      "title": "Cerrar sesión"
     }
   },
   "dashboard": {
-    "title": "Tablero",
+    "title": "Panel Administrativo",
     "links": {
-      "main": "Principal",
-      "analytics": "Analítica"
+      "main": "Principal"
     }
+  },
+  "museum": {
+    "title": "Hotel",
+    "links": {
+      "services": "Services",
+      "activities": "Actividades",
+      "rooms": "Habitaciones",
+      "roomTypes": "Tipos de habitaciones"
+    }
+  },
+  "activities": {
+    "title": "Actividades",
+    "links": { "news": "Noticias", "events": "Eventos", "tags": "Etiquetas" }
   },
   "management": {
     "title": "Gestión",
     "links": {
-      "customers": "Clientes",
-      "reservations": "Reservas",
-      "invoices": "Facturas",
-      "rooms": "Salas"
+      "appTexts": "Textos del App",
+      "pushNotifications": "Notificaciones instantáneas"
     }
   },
   "personal": {
@@ -33,18 +81,53 @@
     }
   },
   "settings": {
-    "title": "Configuración",
+    "title": "Configuraciones",
     "links": {
       "account": "Cuenta",
-      "notifications": "Notificaciones"
+      "security": "Seguridad"
     }
+  },
+  "services": {
+    "editForm": "Editar Servicio",
+    "newForm": "Nuevo Servicio"
   },
   "users": {
     "editForm": "Editar Usuario",
     "newForm": "Nuevo Usuario"
   },
-  "customers": {
-    "editForm": "Editar Cliente",
-    "newForm": "Nuevo Cliente"
+  "rooms": {
+    "editForm": "Editar Habitación",
+    "newForm": "Nueva Habitación"
+  },
+  "roomTypes": {
+    "editForm": "Editar Tipo de Habitación",
+    "newForm": "Nuevo Tipo de Habitación"
+  },
+  "news": {
+    "editForm": "Editar Noticia",
+    "newForm": "Nueva Noticia"
+  },
+  "events": {
+    "editForm": "Editar Evento",
+    "newForm": "Nuevo Evento"
+  },
+  "tags": {
+    "editForm": "Editar Etiqueta",
+    "newForm": "Nueva Etiqueta"
+  },
+  "activitys": {
+    "editForm": "Editar Actividad",
+    "newForm": "Nueva Actividad"
+  },
+  "appTexts": {
+    "editForm": "Editar Texto para la Aplicación",
+    "newForm": "Nueva Texto para la Aplicación"
+  },
+  "pushNotifications": {
+    "editForm": "Editar Notificación instantánea",
+    "newForm": "Nueva Notificación instantánea"
+  },
+  "notFound": {
+    "title": "No encontrado"
   }
 }

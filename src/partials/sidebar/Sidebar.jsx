@@ -1,9 +1,22 @@
 import { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
+// icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowLeftLong,
+  faArrowRightLong,
+  faBuildingColumns,
+  faChartLine,
+  faGear,
+  faRss,
+  faTableList,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons";
+
 // components
-import SidebarLinkGroup from "./SidebarLinkGroup";
 import Logo from "../../components/Logo/Logo";
+import SidebarLinkGroup from "./SidebarLinkGroup";
 import SidebarItem from "./SidebarItem";
 
 // sitemap
@@ -23,84 +36,12 @@ function Sidebar(props) {
   const { pathname } = location;
 
   const icons = {
-    dashboard: (
-      <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-        <path
-          className={`fill-current ${
-            pathname === "/" || pathname.includes("dashboard") ? "text-primary" : "text-slate-400"
-          }`}
-          d="M12 0C5.383 0 0 5.383 0 12s5.383 12 12 12 12-5.383 12-12S18.617 0 12 0z"
-        />
-        <path
-          className={`fill-current ${
-            pathname === "/" || pathname.includes("dashboard") ? "text-light-primary" : "text-white"
-          }`}
-          d="M12 3c-4.963 0-9 4.037-9 9s4.037 9 9 9 9-4.037 9-9-4.037-9-9-9z"
-        />
-        <path
-          className={`fill-current ${
-            pathname === "/" || pathname.includes("dashboard") ? "text-white" : "text-slate-400"
-          }`}
-          d="M12 15c-1.654 0-3-1.346-3-3 0-.462.113-.894.3-1.285L6 6l4.714 3.301A2.973 2.973 0 0112 9c1.654 0 3 1.346 3 3s-1.346 3-3 3z"
-        />
-      </svg>
-    ),
-    management: (
-      <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-        <path
-          className={`fill-current ${pathname.includes("management") ? "text-secondary" : "text-slate-400"}`}
-          d="M13 15l11-7L11.504.136a1 1 0 00-1.019.007L0 7l13 8z"
-        />
-        <path
-          className={`fill-current ${pathname.includes("management") ? "text-light-primary" : "text-white"}`}
-          d="M13 15L0 7v9c0 .355.189.685.496.864L13 24v-9z"
-        />
-        <path
-          className={`fill-current ${pathname.includes("management") ? "text-primary" : "text-slate-600"}`}
-          d="M13 15.047V24l10.573-7.181A.999.999 0 0024 16V8l-11 7.047z"
-        />
-      </svg>
-    ),
-    personal: (
-      <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-        <path
-          className={`fill-current ${pathname.includes("personal") ? "text-primary" : "text-slate-600"}`}
-          d="M18.974 8H22a2 2 0 012 2v6h-2v5a1 1 0 01-1 1h-2a1 1 0 01-1-1v-5h-2v-6a2 2 0 012-2h.974zM20 7a2 2 0 11-.001-3.999A2 2 0 0120 7zM2.974 8H6a2 2 0 012 2v6H6v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5H0v-6a2 2 0 012-2h.974zM4 7a2 2 0 11-.001-3.999A2 2 0 014 7z"
-        />
-        <path
-          className={`fill-current ${pathname.includes("personal") ? "text-light-primary" : "text-slate-400"}`}
-          d="M12 6a3 3 0 110-6 3 3 0 010 6zm2 18h-4a1 1 0 01-1-1v-6H6v-6a3 3 0 013-3h6a3 3 0 013 3v6h-3v6a1 1 0 01-1 1z"
-        />
-      </svg>
-    ),
-    settings: (
-      <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-        <circle
-          className={`fill-current ${pathname.includes("settings") ? "text-light-primary" : "text-slate-400"}`}
-          cx="18.5"
-          cy="5.5"
-          r="4.5"
-        />
-        <circle
-          className={`fill-current ${pathname.includes("settings") ? "text-primary" : "text-slate-600"}`}
-          cx="5.5"
-          cy="5.5"
-          r="4.5"
-        />
-        <circle
-          className={`fill-current ${pathname.includes("settings") ? "text-primary" : "text-slate-600"}`}
-          cx="18.5"
-          cy="18.5"
-          r="4.5"
-        />
-        <circle
-          className={`fill-current ${pathname.includes("settings") ? "text-light-primary" : "text-slate-400"}`}
-          cx="5.5"
-          cy="18.5"
-          r="4.5"
-        />
-      </svg>
-    ),
+    dashboard: <FontAwesomeIcon icon={faChartLine} />,
+    activities: <FontAwesomeIcon icon={faRss} />,
+    management: <FontAwesomeIcon icon={faTableList} />,
+    personal: <FontAwesomeIcon icon={faUsers} />,
+    museum: <FontAwesomeIcon icon={faBuildingColumns} />,
+    settings: <FontAwesomeIcon icon={faGear} />,
   };
 
   const trigger = useRef(null);
@@ -155,16 +96,16 @@ function Sidebar(props) {
       <div
         id="sidebar"
         ref={sidebar}
-        className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 shrink-0 bg-slate-200 dark:bg-slate-800 p-4 transition-all duration-200 ease-in-out ${
+        className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 ${sidebarExpanded ? "lg:!w-64" : ""} 2xl:!w-64 shrink-0 bg-slate-200 dark:bg-slate-800 p-4 transition-all duration-200 ease-in-out ${
           sidebarOpen ? "translate-x-0" : "-translate-x-64"
         }`}
       >
         {/* Sidebar header */}
-        <div className="flex justify-between mb-10 pr-3 sm:px-2">
+        <div className="relative flex justify-between mb-10 pr-3 sm:px-2">
           {/* Close button */}
           <button
             ref={trigger}
-            className="lg:hidden text-slate-500 hover:text-slate-400"
+            className="absolute lg:hidden text-slate-500 hover:text-slate-400"
             onClick={() => setSidebarOpen(!sidebarOpen)}
             aria-controls="sidebar"
             aria-expanded={sidebarOpen}
@@ -180,7 +121,12 @@ function Sidebar(props) {
           </button>
           {/* Logo */}
           <NavLink end to="/" className="block m-auto">
-            <Logo className="w-20 h-20" />
+            <Logo
+              symbolProps={{ className: "w-36 h-36" }}
+              className="m-auto"
+              text={false}
+              extra={false}
+            />
           </NavLink>
         </div>
 
@@ -188,14 +134,6 @@ function Sidebar(props) {
         <div className="space-y-8">
           {/* Pages group */}
           <div>
-            <h3 className="text-xs uppercase text-slate-500 font-semibold pl-3">
-              <span
-                className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6"
-                aria-hidden="true"
-              >
-                •••
-              </span>
-            </h3>
             <ul className="mt-3">
               {sitemap.map((item) => (
                 <SidebarLinkGroup
@@ -225,14 +163,8 @@ function Sidebar(props) {
         <div className="pt-3 hidden lg:inline-flex 2xl:hidden justify-end mt-auto">
           <div className="px-3 py-2">
             <button onClick={() => setSidebarExpanded(!sidebarExpanded)}>
-              <span className="sr-only">Expand / collapse sidebar</span>
-              <svg className="w-6 h-6 fill-current sidebar-expanded:rotate-180" viewBox="0 0 24 24">
-                <path
-                  className="text-slate-400"
-                  d="M19.586 11l-5-5L16 4.586 23.414 12 16 19.414 14.586 18l5-5H7v-2z"
-                />
-                <path className="text-slate-600" d="M3 23H1V1h2z" />
-              </svg>
+              <span className="sr-only">{t("_accessibility:.buttons.expandSidebar")}</span>
+              <FontAwesomeIcon icon={!sidebarExpanded ? faArrowRightLong : faArrowLeftLong} />
             </button>
           </div>
         </div>

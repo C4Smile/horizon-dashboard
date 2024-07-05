@@ -1,20 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 
+// config
+import config from "../../../config";
+
 // components
 import Loading from "../../../partials/loading/Loading";
+import SelectInput from "../../../components/Forms/SelectInput";
 import TextInput from "../../../components/Forms/TextInput";
 
 // providers
 import { useNotification } from "../../../providers/NotificationProvider";
-import { useMuseumApiClient } from "../../../providers/MuseumApiProvider";
+import { useHotelApiClient } from "../../../providers/HotelApiProvider";
 
 // utils
 import { ReactQueryKeys } from "../../../utils/queryKeys";
 import { fromLocal } from "../../../utils/local";
-import config from "../../../config";
 
 /**
  * Personal Info section
@@ -23,9 +26,9 @@ import config from "../../../config";
 function PersonalInfo() {
   const { t } = useTranslation();
 
-  const museumApiClient = useMuseumApiClient();
+  const hotelApiClient = useHotelApiClient();
 
-  const userId = fromLocal(config.user, "object")?.id;
+  const userId = fromLocal(config.user, "object")?.user?.id ?? 0;
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
@@ -33,8 +36,8 @@ function PersonalInfo() {
   const { handleSubmit, reset, control } = useForm();
 
   const userQuery = useQuery({
-    queryKey: [ReactQueryKeys.Customers, userId],
-    queryFn: () => museumApiClient.Customer.getById(userId),
+    queryKey: [ReactQueryKeys.Users, userId],
+    queryFn: () => hotelApiClient.User.getById(userId),
     enabled: userId !== undefined,
     retry: false,
   });
@@ -47,7 +50,7 @@ function PersonalInfo() {
 
   useEffect(() => {
     if (userQuery.data) {
-      const { data } = userQuery.data;
+      const data = userQuery.data;
       // eslint-disable-next-line no-console
       if (data && data !== null) reset({ ...data });
     }
@@ -56,14 +59,8 @@ function PersonalInfo() {
   const onSubmit = async (d) => {
     setSaving(true);
     try {
-      if (d.password !== d.rPassword) {
-        setSaving(false);
-        // eslint-disable-next-line no-console
-        console.error(t("_accessibility:errors.passwordDoNotMatch"));
-        return setNotification(t("_accessibility:errors.passwordDoNotMatch"));
-      }
-      const { error, status } = await museumApiClient.User.update({ ...d, id: userId });
-      setNotification(String(status));
+      const { error, status } = await hotelApiClient.User.update({ ...d });
+      setNotification(String(status), { model: t("_entities:entities.user") });
 
       // eslint-disable-next-line no-console
       if (error && error !== null) console.error(error);
@@ -75,11 +72,24 @@ function PersonalInfo() {
     setSaving(false);
   };
 
+  const rolesQuery = useQuery({
+    queryKey: [ReactQueryKeys.UserRoles],
+    queryFn: () => hotelApiClient.UserRole.getAll(),
+    retry: false,
+  });
+
+  const roleList = useMemo(() => {
+    try {
+      return rolesQuery?.data?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
+    } catch (err) {
+      return [];
+    }
+  }, [rolesQuery.data]);
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex-col pt-10 flex items-start justify-start">
-      <h2 className="text-1xl md:text-2xl text-slate-800 dark:text-slate-100 font-bold mb-5">
-        {t("_pages:settings.links.account")}
-      </h2>
+    <form onSubmit={handleSubmit(onSubmit)} className="form pt-10">
+      <h2 className="text-1xl md:text-2xl font-bold mb-5">{t("_pages:settings.links.account")}</h2>
+      {/* User Name */}
       <Controller
         control={control}
         disabled={userQuery.isLoading || saving}
@@ -97,6 +107,7 @@ function PersonalInfo() {
           />
         )}
       />
+      {/* User Email */}
       <Controller
         control={control}
         name="email"
@@ -114,6 +125,7 @@ function PersonalInfo() {
           />
         )}
       />
+      {/* User Username */}
       <Controller
         control={control}
         disabled={userQuery.isLoading || saving}
@@ -127,10 +139,12 @@ function PersonalInfo() {
             className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder={t("_entities:user.username.placeholder")}
             label={t("_entities:user.username.label")}
+            disabled
             required
           />
         )}
       />
+      {/* User Address */}
       <Controller
         control={control}
         name="address"
@@ -148,6 +162,7 @@ function PersonalInfo() {
           />
         )}
       />
+      {/* User Identification */}
       <Controller
         control={control}
         name="identification"
@@ -165,7 +180,7 @@ function PersonalInfo() {
           />
         )}
       />
-
+      {/* User Phone */}
       <Controller
         control={control}
         name="phone"
@@ -183,11 +198,28 @@ function PersonalInfo() {
           />
         )}
       />
-      <button
-        type="submit"
-        disabled={userQuery.isLoading || saving}
-        className="mb-5 relative text-white bg-light-primary transition enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-      >
+      {/* User Role */}
+      <Controller
+        control={control}
+        name="role"
+        disabled={userQuery.isLoading || rolesQuery.isLoading || saving}
+        render={({ field: { onChange, value, ...rest } }) => (
+          <SelectInput
+            {...rest}
+            id="role"
+            disabled
+            name="role"
+            label={t("_entities:user.role.label")}
+            options={roleList}
+            value={value}
+            onChange={(e) => {
+              onChange(e.target.value);
+            }}
+          />
+        )}
+      />
+
+      <button type="submit" disabled={userQuery.isLoading || saving} className="mb-5 submit">
         {(userQuery.isLoading || saving) && (
           <Loading
             className="bg-primary w-full h-full absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] rounded-lg "
@@ -196,7 +228,7 @@ function PersonalInfo() {
             color="stroke-white"
           />
         )}
-        {t("_accessibility:buttons.submit")}
+        {t("_accessibility:buttons.save")}
       </button>
     </form>
   );

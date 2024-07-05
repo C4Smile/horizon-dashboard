@@ -15,7 +15,7 @@ import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
+import { useHotelApiClient, queryClient } from "../../providers/HotelApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -30,7 +30,7 @@ function Users() {
   const navigate = useNavigate();
 
   const { setNotification } = useNotification();
-  const museumApiClient = useMuseumApiClient();
+  const hotelApiClient = useHotelApiClient();
 
   const preparedColumns = useMemo(() => {
     const keys = extractKeysFromObject(new User(), [
@@ -45,7 +45,7 @@ function Users() {
 
   const userQuery = useQuery({
     queryKey: [ReactQueryKeys.Users],
-    queryFn: () => museumApiClient.User.getAll(),
+    queryFn: () => hotelApiClient.User.getAll(),
   });
 
   const preparedRows = useMemo(() => {
@@ -55,8 +55,8 @@ function Users() {
         return data.map((user) => {
           return {
             id: user.id,
-            dateOfCreation: new Date(user.dateOfCreation).toLocaleDateString(),
-            lastUpdate: new Date(user.lastUpdate).toLocaleDateString(),
+            dateOfCreation: new Date(user.dateOfCreation).toLocaleDateString("es-ES"),
+            lastUpdate: new Date(user.lastUpdate).toLocaleDateString("es-ES"),
             deleted: user.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
             username: (
               <Link className="underline text-light-primary" to={`${user.id}`}>
@@ -89,7 +89,7 @@ function Users() {
     {
       id: "delete",
       onClick: (e) => {
-        const { error, status } = museumApiClient.User.delete([e.id]);
+        const { error, status } = hotelApiClient.User.delete([e.id]);
         setNotification(String(status));
 
         // eslint-disable-next-line no-console
@@ -103,9 +103,7 @@ function Users() {
 
   return (
     <div className="p-5 relative">
-      <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
-        {t("_pages:personal.links.users")}
-      </h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:personal.links.users")}</h1>
       <Table
         isLoading={userQuery.isLoading}
         rows={preparedRows}

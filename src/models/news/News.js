@@ -1,7 +1,4 @@
 import { Entity } from "../entity/Entity";
-import { Tag } from "../Tag/Tag";
-import { Province } from "../province/Province";
-import { Image } from "../image/Image";
 
 /**
  * @class News
@@ -10,14 +7,14 @@ import { Image } from "../image/Image";
 export class News extends Entity {
   title = "";
   description = "";
+  content = "";
+  newsHasTag = [];
+  newsHasImage = [];
 
   /**
    * @param {number} id - News id
    * @param {string} title - News title
    * @param {string} description - News description
-   * @param {Province} province - Province
-   * @param {Image} photo - News image
-   * @param {Tag[]} tags - News tags
    * @param {Date} dateOfCreation - News date of creation
    * @param {Date} lastUpdate - News last update
    * @param {boolean} deleted - News deleted
@@ -26,9 +23,7 @@ export class News extends Entity {
     id,
     title,
     description,
-    province,
-    photo,
-    tags,
+    content,
     dateOfCreation = Date.now(),
     lastUpdate = Date.now(),
     deleted = false,
@@ -36,9 +31,7 @@ export class News extends Entity {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.title = title;
     this.description = description;
-    this.province = province;
-    this.photo = photo;
-    this.tags = tags;
+    this.content = content;
   }
 
   /**
@@ -47,7 +40,15 @@ export class News extends Entity {
    * @returns {News} Entity instance
    */
   static fromJson(json) {
-    return new News(json.id, json.title, json.iso, json.dateOfCreation, json.lastUpdate, json.deleted);
+    return new News(
+      json.id,
+      json.title,
+      json.description,
+      json.content,
+      json.dateOfCreation,
+      json.lastUpdate,
+      json.deleted,
+    );
   }
 
   /**
@@ -58,30 +59,16 @@ export class News extends Entity {
   }
 
   /**
-   * @returns Description
+   * @returns ISO
    */
   get Description() {
     return this.description;
   }
 
   /**
-   * @returns Province
+   * @returns Content
    */
-  get Province() {
-    return this.province;
-  }
-
-  /**
-   * @returns Photo
-   */
-  get Photo() {
-    return this.photo;
-  }
-
-  /**
-   * @returns Tags
-   */
-  get Tags() {
-    return this.tags;
+  get Content() {
+    return this.content;
   }
 }

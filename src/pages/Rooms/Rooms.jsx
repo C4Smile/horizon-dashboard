@@ -1,25 +1,33 @@
-import { useMemo, useEffect, useState, useCallback } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useNavigate, Link } from "react-router-dom";
+
+// images
+import noProduct from "../../assets/images/no-product.jpg";
 
 // icons
 import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
 // dto
 import { Room } from "../../models/room/Room";
-import { GenericFilter } from "../../models/query/GenericFilter";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
 import { ReactQueryKeys } from "../../utils/queryKeys";
+import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
+import { useHotelApiClient, queryClient } from "../../providers/HotelApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
+
+const noSortableColumns = {
+  roomHasImage: true,
+  image360Id: true,
+};
 
 /**
  * Room page
@@ -31,34 +39,33 @@ function Rooms() {
   const navigate = useNavigate();
 
   const { setNotification } = useNotification();
-  const museumApiClient = useMuseumApiClient();
+  const hotelApiClient = useHotelApiClient();
 
   const preparedColumns = useMemo(() => {
-    const keys = extractKeysFromObject(new Room(), [
-      "id",
-      "dateOfCreation",
-      "lastUpdate",
-      "deleted",
-      "description",
-    ]);
+    const keys = extractKeysFromObject(new Room(), ["id", "dateOfCreation", "deleted", "content"]);
     return keys.map((key) => ({
       id: key,
       label: t(`_entities:room.${key}.label`),
       className: "",
+      sortable: !noSortableColumns[key],
     }));
   }, [t]);
 
-  const [pagingOptions, setPagingOptions] = useState(new GenericFilter());
+  const [sort, setSort] = useState({
+    attribute: "lastUpdate",
+    order: SortOrder.ASC,
+  });
 
-  const onSortChange = useCallback(
-    (attribute, sortingOrder) =>
-      setPagingOptions({ ...pagingOptions, sortOrder: sortingOrder, orderBy: attribute }),
-    [pagingOptions],
-  );
+  const onTableSort = (attribute, order) => setSort({ attribute, order });
 
   const roomQuery = useQuery({
-    queryKey: [ReactQueryKeys.Rooms, pagingOptions],
-    queryFn: () => museumApiClient.Room.getAll(GenericFilter.toQuery(pagingOptions)),
+    queryKey: [
+      ReactQueryKeys.Rooms,
+      {
+        ...sort,
+      },
+    ],
+    queryFn: () => hotelApiClient.Room.getAll(sort.attribute, sort.order),
     retry: false,
   });
 
@@ -68,16 +75,50 @@ function Rooms() {
     return localData.map((room) => {
       return {
         id: room.id,
-        dateOfCreation: new Date(room.dateOfCreation).toLocaleDateString(),
-        lastUpdate: new Date(room.lastUpdate).toLocaleDateString(),
+        lastUpdate: new Date(room.lastUpdate).toLocaleDateString("es-ES"),
         deleted: room.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
-        number: room.number?.length ? room.number : t("_accessibility:labels.none"),
-        name: (
+        number: (
           <Link className="underline text-light-primary" to={`${room.id}`}>
-            {room.name}
+            {room.number}
           </Link>
         ),
-        status: t(`_entities:room.status.${room.status}`),
+        type: (
+          <Link className="underline text-light-primary" to={`/hotel/room-types/${room.id}`}>
+            {room.type.name}
+          </Link>
+        ),
+        image360Id: (
+          <>
+            {room.image360Id?.url ? (
+              <img
+                className={`w-10 h-10 rounded-full object-cover border-white border-2`}
+                src={room.image360Id.url}
+                alt={`${room.number}`}
+              />
+            ) : (
+              <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={room.number} />
+            )}
+          </>
+        ),
+        roomHasImage: (
+          <>
+            {room.roomHasImage && room.roomHasImage.length ? (
+              <div className="flex items-center justify-start">
+                {room.roomHasImage.map((image, i) => (
+                  <img
+                    key={i}
+                    className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
+                    src={image.imageId.url}
+                    alt={`${room.name} ${i}`}
+                  />
+                ))}
+              </div>
+            ) : (
+              <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={room.name} />
+            )}
+          </>
+        ),
+        status: room.status.name,
       };
     });
   }, [localData, t]);
@@ -89,22 +130,21 @@ function Rooms() {
         // eslint-disable-next-line no-console
         console.error(data.message);
         if (data.statusCode) setNotification(String(data.statusCode));
-        if (data.statusCode === 401) navigate("/sign-out");
       } else setLocalData(data ?? []);
     }
-  }, [navigate, roomQuery, setNotification]);
+  }, [roomQuery, setNotification]);
 
   const getActions = [
     {
       id: "edit",
-      onClick: (e) => navigate(`/management/rooms/${e.id}`),
+      onClick: (e) => navigate(`/hotel/rooms/${e.id}`),
       icon: faPencil,
       tooltip: t("_accessibility:buttons.edit"),
     },
     {
       id: "delete",
       onClick: (e) => {
-        const { error, status } = museumApiClient.Customer.delete([e.id]);
+        const { error, status } = hotelApiClient.Customer.delete([e.id]);
         setNotification(String(status), { model: t("_entities:entities.room") });
 
         // eslint-disable-next-line no-console
@@ -118,15 +158,13 @@ function Rooms() {
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
-        {t("_pages:management.links.rooms")}
-      </h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:hotel.links.rooms")}</h1>
       <Table
         isLoading={roomQuery.isLoading}
         rows={preparedRows}
         columns={preparedColumns}
         actions={getActions}
-        onSort={onSortChange}
+        onSort={onTableSort}
       />
     </div>
   );

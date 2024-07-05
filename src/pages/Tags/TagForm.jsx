@@ -10,7 +10,7 @@ import TextInput from "../../components/Forms/TextInput";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvider";
+import { queryClient, useHotelApiClient } from "../../providers/HotelApiProvider";
 
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
@@ -24,10 +24,11 @@ function TagForm() {
 
   const { t } = useTranslation();
 
-  const museumApiClient = useMuseumApiClient();
+  const hotelApiClient = useHotelApiClient();
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
+  const [lastUpdate, setLastUpdate] = useState();
 
   const { handleSubmit, reset, control } = useForm();
 
@@ -35,18 +36,19 @@ function TagForm() {
     setSaving(true);
     try {
       let result;
-      if (!d.id) result = await museumApiClient.Tags.create(d);
-      else result = await museumApiClient.Tags.update(d);
+      if (!d.id) result = await hotelApiClient.Tag.create(d);
+      else result = await hotelApiClient.Tag.update(d);
 
       const { error, status } = result;
       setNotification(String(status), { model: t("_entities:entities.tag") });
+      setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
       if (status !== 201) console.error(error);
       else if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Tags, id] });
       else
         reset({
           id: undefined,
-          title: "",
+          name: "",
         });
     } catch (e) {
       // eslint-disable-next-line no-console
@@ -56,39 +58,60 @@ function TagForm() {
     setSaving(false);
   };
 
-  const tagsQuery = useQuery({
+  const tagQuery = useQuery({
     queryKey: [ReactQueryKeys.Tags, id],
-    queryFn: () => museumApiClient.Tags.getById(id),
+    queryFn: () => hotelApiClient.Tag.getById(id),
     enabled: id !== undefined,
     retry: false,
   });
 
   useEffect(() => {
-    const { error } = tagsQuery;
+    const { error } = tagQuery;
     // eslint-disable-next-line no-console
     if (error && error !== null) console.error(error);
-  }, [tagsQuery]);
+  }, [tagQuery]);
 
   useEffect(() => {
-    if (tagsQuery.data) reset({ ...tagsQuery.data });
+    if (tagQuery.data) {
+      setLastUpdate(tagQuery?.data?.lastUpdate);
+      reset({ ...tagQuery.data });
+    }
 
     if (!id) {
       reset({
         id: undefined,
-        title: "",
+        name: "",
       });
     }
-  }, [tagsQuery.data, id, reset]);
+  }, [tagQuery.data, id, reset]);
 
   return (
     <div className="px-5 pt-10 flex items-start justify-start">
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
+      <form onSubmit={handleSubmit(onSubmit)} className="form">
+        <h1 className="text-2xl md:text-3xl font-bold">
           {id ? `${t("_pages:tags.editForm")} ${id}` : t("_pages:tags.newForm")}
         </h1>
+        {tagQuery.isLoading ? (
+          <Loading
+            className="bg-none w-6 h-6 mb-10"
+            strokeWidth="4"
+            loaderClass="!w-6"
+            color="stroke-primary"
+          />
+        ) : (
+          <div className={id && lastUpdate ? "" : "mt-5"}>
+            {id && lastUpdate && (
+              <p className="text-sm mb-10">
+                {t("_accessibility:labels.lastUpdate")}{" "}
+                {new Date(lastUpdate).toLocaleDateString("es-ES")}
+              </p>
+            )}
+          </div>
+        )}
+        {/* Tags Name */}
         <Controller
           control={control}
-          disabled={tagsQuery.isLoading || saving}
+          disabled={tagQuery.isLoading || saving}
           name="name"
           render={({ field }) => (
             <TextInput
@@ -103,12 +126,8 @@ function TagForm() {
             />
           )}
         />
-        <button
-          type="submit"
-          disabled={tagsQuery.isLoading || saving}
-          className="mb-5 relative text-white bg-light-primary transition enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          {(tagsQuery.isLoading || saving) && (
+        <button type="submit" disabled={tagQuery.isLoading || saving} className="mb-5 submit">
+          {(tagQuery.isLoading || saving) && (
             <Loading
               className="bg-primary w-full h-full absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] rounded-lg "
               strokeWidth="4"
@@ -116,7 +135,7 @@ function TagForm() {
               color="stroke-white"
             />
           )}
-          {t("_accessibility:buttons.submit")}
+          {t("_accessibility:buttons.save")}
         </button>
       </form>
     </div>

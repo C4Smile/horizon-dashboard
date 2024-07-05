@@ -7,58 +7,72 @@ import { useNavigate, Link } from "react-router-dom";
 import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
 // dto
-import { Tag } from "../../models/Tag/Tag";
+import { Tag } from "../../models/tag/Tag";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
 import { ReactQueryKeys } from "../../utils/queryKeys";
+import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
+import { useHotelApiClient, queryClient } from "../../providers/HotelApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
 
 /**
- * Tags page
- * @returns Tags page component
+ * Tag page
+ * @returns Tag page component
  */
-function TagsPage() {
+function Tags() {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
 
   const { setNotification } = useNotification();
-  const museumApiClient = useMuseumApiClient();
+  const hotelApiClient = useHotelApiClient();
 
   const preparedColumns = useMemo(() => {
-    const keys = extractKeysFromObject(new Tag(), ["id", "dateOfCreation", "lastUpdate", "deleted"]);
+    const keys = extractKeysFromObject(new Tag(), ["id", "dateOfCreation", "deleted"]);
     return keys.map((key) => ({
       id: key,
       label: t(`_entities:tag.${key}.label`),
       className: "",
+      sortable: true,
     }));
   }, [t]);
 
-  const tagsQuery = useQuery({
-    queryKey: [ReactQueryKeys.Tags],
-    queryFn: () => museumApiClient.Tags.getAll(),
+  const [sort, setSort] = useState({
+    attribute: "lastUpdate",
+    order: SortOrder.ASC,
+  });
+
+  const onTableSort = (attribute, order) => setSort({ attribute, order });
+
+  const tagQuery = useQuery({
+    queryKey: [
+      ReactQueryKeys.Tags,
+      {
+        ...sort,
+      },
+    ],
+    queryFn: () => hotelApiClient.Tag.getAll(sort.attribute, sort.order),
     retry: false,
   });
 
   const [localData, setLocalData] = useState([]);
 
   const preparedRows = useMemo(() => {
-    return localData.map((tags) => {
+    return localData.map((tag) => {
       return {
-        id: tags.id,
-        dateOfCreation: new Date(tags.dateOfCreation).toLocaleDateString(),
-        lastUpdate: new Date(tags.lastUpdate).toLocaleDateString(),
-        deleted: tags.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
+        id: tag.id,
+        dateOfCreation: new Date(tag.dateOfCreation).toLocaleDateString("es-ES"),
+        lastUpdate: new Date(tag.lastUpdate).toLocaleDateString("es-ES"),
+        deleted: tag.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
         name: (
-          <Link className="underline text-light-primary" to={`${tags.id}`}>
-            {tags.name}
+          <Link className="underline text-light-primary" to={`${tag.id}`}>
+            {tag.name}
           </Link>
         ),
       };
@@ -66,7 +80,7 @@ function TagsPage() {
   }, [localData, t]);
 
   useEffect(() => {
-    const { data } = tagsQuery;
+    const { data } = tagQuery;
     if (data) {
       if (data.length === undefined && data?.statusCode !== 200) {
         // eslint-disable-next-line no-console
@@ -74,19 +88,19 @@ function TagsPage() {
         if (data.statusCode) setNotification(String(data.statusCode));
       } else setLocalData(data ?? []);
     }
-  }, [tagsQuery, navigate, setNotification]);
+  }, [tagQuery, navigate, setNotification]);
 
   const getActions = [
     {
       id: "edit",
-      onClick: (e) => navigate(`/management/tags/${e.id}`),
+      onClick: (e) => navigate(`/activities/tags/${e.id}`),
       icon: faPencil,
       tooltip: t("_accessibility:buttons.edit"),
     },
     {
       id: "delete",
       onClick: async (e) => {
-        const result = await museumApiClient.Tags.delete([e.id]);
+        const result = await hotelApiClient.Tag.delete([e.id]);
         const { error, status } = result;
         setNotification(String(status), { model: t("_entities:entities.tag") });
 
@@ -103,17 +117,16 @@ function TagsPage() {
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
-        {t("_pages:management.links.tags")}
-      </h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:activities.links.tags")}</h1>
       <Table
-        isLoading={tagsQuery.isLoading}
+        isLoading={tagQuery.isLoading}
         rows={preparedRows}
         columns={preparedColumns}
         actions={getActions}
+        onSort={onTableSort}
       />
     </div>
   );
 }
 
-export default TagsPage;
+export default Tags;

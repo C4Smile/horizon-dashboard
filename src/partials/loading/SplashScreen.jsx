@@ -1,9 +1,7 @@
-import React from "react";
-
-// images
-import background from "../../assets/images/bg-footer.jpg";
+import { useEffect, useState } from "react";
 
 // components
+import Loading from "./Loading";
 import Logo from "../../components/Logo/Logo";
 
 /**
@@ -14,12 +12,29 @@ import Logo from "../../components/Logo/Logo";
 export default function SplashScreen(props) {
   const { visible } = props;
 
+  const [loader, setLoader] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoader(true);
+    }, 2000);
+  }, []);
+
   return (
     <div
-      className={`w-full h-screen fixed top-0 left-0 z-50 transition-opacity duration-500 ease-in-out ${visible ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+      className={`bg-white w-full h-screen fixed top-0 left-0 z-50 transition-opacity duration-500 ease-in-out ${visible ? "opacity-100" : "opacity-0 pointer-events-none"} flex items-center justify-center flex-col`}
     >
-      <img src={background} alt="green noise background" className="w-full h-full" />
-      <Logo className="w-20 absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]" />
+      <Logo className={`w-auto h-auto`} />
+      <div
+        className={`transition duration-300 ease-in-out ${loader ? "opacity-100 scale-100" : "opacity-0 scale-0"}`}
+      >
+        <Loading
+          className="w-10 h-10 rounded-lg mt-4"
+          strokeWidth="4"
+          loaderClass="!w-6"
+          color="stroke-primary"
+        />
+      </div>
     </div>
   );
 }

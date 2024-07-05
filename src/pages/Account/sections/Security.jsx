@@ -8,7 +8,7 @@ import PasswordInput from "../../../components/Forms/PasswordInput";
 
 // providers
 import { useNotification } from "../../../providers/NotificationProvider";
-import { useMuseumApiClient } from "../../../providers/MuseumApiProvider";
+import { useHotelApiClient } from "../../../providers/HotelApiProvider";
 
 // utils
 import { fromLocal } from "../../../utils/local";
@@ -21,7 +21,7 @@ import config from "../../../config";
 function Security() {
   const { t } = useTranslation();
 
-  const museumApiClient = useMuseumApiClient();
+  const hotelApiClient = useHotelApiClient();
 
   const userId = fromLocal(config.user, "object")?.id;
 
@@ -39,7 +39,7 @@ function Security() {
         console.error(t("_accessibility:errors.passwordDoNotMatch"));
         return setNotification(t("_accessibility:errors.passwordDoNotMatch"));
       }
-      const { error, status } = await museumApiClient.User.update({ ...d, id: userId });
+      const { error, status } = await hotelApiClient.User.update({ ...d, id: userId });
       setNotification(String(status));
 
       // eslint-disable-next-line no-console
@@ -53,10 +53,8 @@ function Security() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex-col pt-10 flex items-start justify-start">
-      <h2 className="text-1xl md:text-2xl text-slate-800 dark:text-slate-100 font-bold mb-5">
-        {t("_pages:settings.links.security")}
-      </h2>
+    <form onSubmit={handleSubmit(onSubmit)} className="form pt-10">
+      <h2 className="text-1xl md:text-2xl font-bold mb-5">{t("_pages:settings.links.security")}</h2>
       <Controller
         control={control}
         disabled={saving}
@@ -91,11 +89,7 @@ function Security() {
           />
         )}
       />
-      <button
-        type="submit"
-        disabled={saving}
-        className="mb-5 relative text-white bg-light-primary transition enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-      >
+      <button type="submit" disabled={saving} className="mb-5 submit">
         {saving && (
           <Loading
             className="bg-primary w-full h-full absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] rounded-lg "
@@ -104,7 +98,7 @@ function Security() {
             color="stroke-white"
           />
         )}
-        {t("_accessibility:buttons.submit")}
+        {t("_accessibility:buttons.save")}
       </button>
     </form>
   );

@@ -16,18 +16,20 @@ const NotificationProvider = (props) => {
   const { children } = props;
   const [notification, setNotification] = useState("");
   const [params, setParams] = useState({});
+  const [state, setState] = useState("good");
 
   /**
    *
    * @param {string} string string to parse
    * @param  {...string} params array of params
    */
-  const setNotificationFunction = useCallback((string, params) => {
+  const setNotificationFunction = useCallback((string, params, state = "") => {
     setNotification(string);
     setParams(params);
+    setState(state);
   }, []);
 
-  const value = { notification, setNotification: setNotificationFunction, params };
+  const value = { notification, setNotification: setNotificationFunction, params, state };
   return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>;
 };
 
@@ -45,4 +47,5 @@ const useNotification = () => {
   return context;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { NotificationProvider, useNotification };

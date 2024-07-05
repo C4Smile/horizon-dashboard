@@ -22,8 +22,8 @@ i18n
   // init i18next
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
-    fallbackLng: "en",
-    supportedLngs: ["en", "es"],
+    fallbackLng: "es",
+    supportedLngs: ["es"],
     ns: namespaces,
     defaultNS: "_pages",
     resources: {

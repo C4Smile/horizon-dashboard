@@ -12,17 +12,19 @@ import { useNotification } from "../providers/NotificationProvider";
 const Notification = memo(() => {
   const location = useLocation();
   const { t } = useTranslation();
-  const { notification, setNotification, params } = useNotification();
+  const { notification, setNotification, params, state } = useNotification();
 
   const [notificationOpen, setNotificationOpen] = useState(Boolean(notification.length));
 
-  const state = useMemo(() => {
+  const localState = useMemo(() => {
     switch (notification) {
+      case "images":
       case "400":
       case "401":
       case "403":
       case "404":
       case "409":
+      case "429":
         return "bad";
       case "500":
         return "ugly";
@@ -37,12 +39,13 @@ const Notification = memo(() => {
 
   const notificationClass = useMemo(() => {
     const lNotificationClasses = {
-      good: "bg-green-500",
+      good: "bg-green-500 text-black",
       bad: "bg-red-500",
       ugly: "bg-red-500",
     };
-    return state === "" ? lNotificationClasses.bad : lNotificationClasses[state];
-  }, [state]);
+    if (state.length) return lNotificationClasses[state];
+    return localState === "" ? lNotificationClasses.bad : lNotificationClasses[localState];
+  }, [localState, state]);
 
   useEffect(() => {
     setNotificationOpen(Boolean(notification.length));
@@ -80,7 +83,7 @@ const Notification = memo(() => {
             className={`${notificationClass} border border-transparent dark:border-slate-700 text-white text-sm p-3 md:rounded shadow-lg flex justify-between`}
           >
             <div className={`text-white inline-flex`}>
-              {state === "" ? notification : t(`_accessibility:messages.${notification}`, params)}
+              {localState === "" ? notification : t(`_accessibility:messages.${notification}`, params)}
             </div>
             <button
               className="text-white hover:text-[red] pl-2 ml-3 border-l border-slate-200"

@@ -5,8 +5,13 @@ import { createContext, useState, useContext, useCallback, useEffect } from "rea
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
+// providers
+import { useHotelApiClient } from "./HotelApiProvider";
+
 // utils
 import { toLocal, fromLocal, removeFromLocal } from "../utils/local";
+
+// config
 import config from "../config";
 
 const AccountContext = createContext();
@@ -18,6 +23,8 @@ const AccountContext = createContext();
  */
 const AccountProvider = (props) => {
   const { children } = props;
+
+  const hotelApiClient = useHotelApiClient();
 
   const [account, setAccount] = useState({});
 
@@ -37,22 +44,17 @@ const AccountProvider = (props) => {
   }, []);
 
   const fetchSession = useCallback(async () => {
-    try {
-      const data = fromLocal(config.user, "object");
-      if (data) setAccount(data);
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(err);
+    const { data, error } = await hotelApiClient.User.getSession();
+    if (!error) {
+      logUser({ ...data });
     }
-  }, []);
+  }, [hotelApiClient.User, logUser]);
 
   useEffect(() => {
     fetchSession();
   }, [fetchSession]);
 
-  const getDefaultPhoto = () => `${config.apiUrl}assets/user-no-image.webp`;
-
-  const value = { account, logUser, logoutUser, logUserFromLocal, getDefaultPhoto };
+  const value = { account, logUser, logoutUser, logUserFromLocal };
   return <AccountContext.Provider value={value}>{children}</AccountContext.Provider>;
 };
 

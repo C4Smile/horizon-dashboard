@@ -2,9 +2,38 @@ export const sitemap = [
   {
     path: "/",
     page: "dashboard",
+    child: [{ label: "main", path: "/" }],
+  },
+  {
+    path: "/museum",
+    page: "museum",
     child: [
-      { label: "main", path: "/" },
-      { label: "analytics", path: "/analytics" },
+      {
+        label: "rooms",
+        path: "/rooms",
+      },
+      {
+        label: "roomTypes",
+        path: "/room-types",
+      },
+    ],
+  },
+  {
+    path: "/activities",
+    page: "activities",
+    child: [
+      {
+        label: "news",
+        path: "/news",
+      },
+      {
+        label: "events",
+        path: "/events",
+      },
+      {
+        label: "tags",
+        path: "/tags",
+      },
     ],
   },
   {
@@ -12,40 +41,12 @@ export const sitemap = [
     page: "management",
     child: [
       {
-        label: "events",
-        path: "/events",
+        label: "pushNotifications",
+        path: "/push-notifications",
       },
       {
-        label: "news",
-        path: "/news",
-      },
-      {
-        label: "tags",
-        path: "/tags",
-      },
-      {
-        label: "customers",
-        path: "/customers",
-      },
-      {
-        label: "reservations",
-        path: "/reservations",
-      },
-      {
-        label: "invoices",
-        path: "/invoices",
-      },
-      {
-        label: "rooms",
-        path: "/rooms",
-      },
-      {
-        label: "countries",
-        path: "/countries",
-      },
-      {
-        label: "provinces",
-        path: "/provinces",
+        label: "appTexts",
+        path: "/app-texts",
       },
       {
         label: "paymentMethods",

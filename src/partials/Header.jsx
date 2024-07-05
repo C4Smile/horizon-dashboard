@@ -1,8 +1,8 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import SearchModal from "../components/ModalSearch";
-import Notifications from "../components/DropdownNotifications";
+/* import SearchModal from "../components/ModalSearch";
+import Notifications from "../components/DropdownNotifications"; */
 import UserMenu from "../components/DropdownProfile";
 
 /**
@@ -13,7 +13,7 @@ import UserMenu from "../components/DropdownProfile";
 function Header(props) {
   const { sidebarOpen, setSidebarOpen } = props;
 
-  const [searchModalOpen, setSearchModalOpen] = useState(false);
+  // const [searchModalOpen, setSearchModalOpen] = useState(false);
 
   const { t } = useTranslation();
 
@@ -49,7 +49,7 @@ function Header(props) {
           {/* Header: Right side */}
           <div className="flex items-center space-x-3">
             <div>
-              <button
+              {/*  <button
                 className={`w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600/80 rounded-full ml-3 ${
                   searchModalOpen && "bg-slate-200"
                 }`}
@@ -76,11 +76,11 @@ function Header(props) {
                 searchId="search"
                 modalOpen={searchModalOpen}
                 setModalOpen={setSearchModalOpen}
-              />
+              /> */}
             </div>
-            <Notifications align="right" />
-            {/*  Divider */}
-            <hr className="w-px h-6 bg-slate-200 dark:bg-slate-700 border-none" />
+            {/* <Notifications align="right" />
+            {/* Divider */}
+            {/*<hr className="w-px h-6 bg-slate-200 dark:bg-slate-700 border-none" /> */}
             <UserMenu align="right" />
           </div>
         </div>
