@@ -19,6 +19,6 @@ export async function makeRequest(url, method = "GET", body = null) {
     },
     body: JSON.stringify(body),
   });
-  const { error, data, status } = request.json();
+  const { error, data, status } = await request.json();
   return { error, data, status };
 }
