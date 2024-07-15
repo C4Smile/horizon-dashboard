@@ -10,6 +10,7 @@ export class RoomType extends Entity {
   capacity = 0;
 
   /**
+   * @param {number} id - RoomType id
    * @param {string} name - RoomType name
    * @param {number} price - RoomType price
    * @param {number} capacity - RoomType capacity
