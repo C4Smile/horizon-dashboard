@@ -20,7 +20,7 @@ export class AppTextApiClient {
    * @returns {Promise<any[]>} AppTexts
    */
   async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
-    const { error, data, status } = await makeRequest("appTexts");
+    const { error, data, status } = await makeRequest(`appTexts?sort=${sort}&order=${order}`);
     if (error !== null) return { status, statusCode: status, message: error.message };
     return data;
   }
@@ -65,7 +65,10 @@ export class AppTextApiClient {
       ? draftToHtml(convertToRaw(appText.content.getCurrentContent()))
       : null;
     // call service
-    const { status, error } = await makeRequest(`appTexts/${appText.id}`, "PUT", appText);
+    const { status, error } = await makeRequest(`appTexts/${appText.id}`, "PUT", {
+      ...appText,
+      lastUpdate: new Date().toISOString(),
+    });
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     return { error, status: status === 204 ? 201 : status };
   }

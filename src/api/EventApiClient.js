@@ -32,7 +32,7 @@ export class EventApiClient {
    * @returns {Promise<Event[]>} Event
    */
   async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
-    const { data, error, status } = await makeRequest(`events?sort=${sort}&order=${order}`);
+    const { data, error, status } = await makeRequest(`event?sort=${sort}&order=${order}`);
     if (error !== null) return { status, statusCode: status, message: error.message };
     return data;
   }
@@ -43,7 +43,7 @@ export class EventApiClient {
    * @returns {Promise<Event>} Event
    */
   async getById(id) {
-    const { data, error, status } = await makeRequest(`events/${id}`);
+    const { data, error, status } = await makeRequest(`event/${id}`);
     if (error !== null) return { status, statusCode: status, message: error.message };
     return data[0];
   }
@@ -70,7 +70,7 @@ export class EventApiClient {
     delete event.newEventHasLink;
     delete event.newEventHasSchedules;
     // call service
-    const { error, data, status } = await makeRequest("events", "POST", event);
+    const { error, data, status } = await makeRequest("event", "POST", event);
     if (error !== null) return { status, data, statusCode: status, message: error.message };
     // adding relationships
     // saving links
@@ -85,11 +85,11 @@ export class EventApiClient {
         date: schedule.date,
       });
     // saving tags
-    for (const tag of tagsToKeep) await this.tagsEvents.create({ eventsId: data[0].id, tagId: tag });
+    for (const tag of tagsToKeep) await this.tagsEvents.create({ eventId: data[0].id, tagId: tag });
     // saving image
     if (photos)
       for (const photo of photos)
-        await this.photosEvents.create({ eventsId: data[0].id, imageId: photo.id });
+        await this.photosEvents.create({ eventId: data[0].id, imageId: photo.id });
 
     return { error, data, status: status === 204 ? 201 : status };
   }
@@ -126,7 +126,7 @@ export class EventApiClient {
     delete event.eventHasSchedules;
     delete event.newEventHasSchedules;
     // call service
-    const { status, error } = await makeRequest(`events/${event.id}`, "PUT", {
+    const { status, error } = await makeRequest(`event/${event.id}`, "PUT", {
       ...event,
       lastUpdate: new Date().toISOString(),
     });
@@ -149,12 +149,12 @@ export class EventApiClient {
     // saving tags
     for (const tag of tagsToKeep) {
       if (tag.delete) this.tagsEvents.deleteByEvent(tag.tagId, event.id);
-      else this.tagsEvents.create({ eventsId: event.id, tagId: tag.tagId });
+      else this.tagsEvents.create({ eventId: event.id, tagId: tag.tagId });
     }
     // saving photo
     if (newPhotos.length)
       for (const newPhoto of newPhotos)
-        this.photosEvents.create({ eventsId: event.id, imageId: newPhoto.id });
+        this.photosEvents.create({ eventId: event.id, imageId: newPhoto.id });
     return { error, status: status === 204 ? 201 : status };
   }
 
@@ -164,7 +164,7 @@ export class EventApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) await makeRequest(`events/${id}`, "DELETE");
+    for (const id of ids) await makeRequest(`event/${id}`, "DELETE");
 
     return { status: 204 };
   }

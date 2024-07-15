@@ -48,10 +48,12 @@ export class NewsApiClient {
 
   /**
    * @description Get all news
+   * @param {string} sort - Sort by
+   * @param {SortOrder} order - Order ASC/DESC
    * @returns News list
    */
-  async getAll() {
-    const { error, data, status } = await makeRequest("news");
+  async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
+    const { error, data, status } = await makeRequest(`news?sort=${sort}&order=${order}`);
     if (error !== null) return { status, statusCode: status, message: error.message };
     return data;
   }
@@ -78,8 +80,6 @@ export class NewsApiClient {
     news.urlName = toSlug(news.title);
     // parsing html
     news.content = draftToHtml(convertToRaw(news.content.getCurrentContent()));
-    // parsing image
-    news.photoId = news.photo;
     // parsing tags
     const tagsToKeep = news.tags.map((tag) => tag.id);
     // cleaning relation ships

@@ -1,6 +1,4 @@
-import { toSlug } from "some-javascript-utils";
-import draftToHtml from "draftjs-to-html";
-import { convertToRaw } from "draft-js";
+import { Tag } from "../models/tag/Tag";
 
 // services
 import { makeRequest } from "../db/services";
@@ -14,13 +12,13 @@ import { SortOrder } from "../models/query/GenericFilter";
  */
 export class TagApiClient {
   /**
-   * @description Get all tags
-   * @param {string} sort attribute to order by
-   * @param {string} order asc/desc
-   * @returns {Promise<any[]>} Tags
+   * @description Get all tag
+   * @param {string} sort - Sort by
+   * @param {SortOrder} order - Order ASC/DESC
+   * @returns {Promise<Tag[]>} Tag
    */
   async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
-    const { error, data, status } = await makeRequest("tags");
+    const { data, error, status } = await makeRequest(`tag?sort=${sort}&order=${order}`);
     if (error !== null) return { status, statusCode: status, message: error.message };
     return data;
   }
@@ -28,40 +26,49 @@ export class TagApiClient {
   /**
    * @description Get tag by id
    * @param {string} id - Tag id
-   * @returns {Promise<any>} Tag
+   * @returns {Promise<Tag>} Tag
    */
   async getById(id) {
-    const { error, data, status } = await makeRequest(`tags/${id}`);
+    const { data, error, status } = await makeRequest(`tag/${id}`);
     if (error !== null) return { status, statusCode: status, message: error.message };
     return data[0];
   }
 
   /**
+   * @description Get tag by id
+   * @param {string} entity - Tag id
+   * @returns {Promise<Tag>} some entity
+   */
+  async getEntity(entity) {
+    const { data, error, status } = await makeRequest(`${entity}`);
+    if (error !== null) return { status, statusCode: status, message: error.message };
+    return data;
+  }
+
+  /**
    * @description Create tag
-   * @param {object} tag - Tag
-   * @returns {Promise<any>} Tag
+   * @param {Tag} tag - Tag
+   * @returns {Promise<Tag>} Tag
    */
   async create(tag) {
-    // default values
-    tag.urlName = toSlug(tag.title);
-    // parsing html
-    tag.content = tag.content ? draftToHtml(convertToRaw(tag.content.getCurrentContent())) : null;
-    const { error, data, status } = await makeRequest("tags", "POST", tag);
+    // call service
+    const { error, data, status } = await makeRequest("tag", "POST", tag);
+    if (error !== null) return { status, data, statusCode: status, message: error.message };
+
     return { error, data, status: status === 204 ? 201 : status };
   }
 
   /**
    * @description Update tag
-   * @param {object} tag - Tag
-   * @returns {Promise<any>} Tag
+   * @param {Tag} tag - Tag
+   * @returns {Promise<Tag>} Tag
    */
   async update(tag) {
-    // default values
-    tag.urlName = toSlug(tag.title);
-    // parsing html
-    tag.content = tag.content ? draftToHtml(convertToRaw(tag.content.getCurrentContent())) : null;
     // call service
-    const { status, error } = await makeRequest(`tags/${tag.id}`, "PUT", tag);
+    const { status, error } = await makeRequest(`tag/${tag.id}`, "PUT", {
+      ...tag,
+      lastUpdate: new Date().toISOString(),
+    });
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     return { error, status: status === 204 ? 201 : status };
   }
@@ -72,9 +79,7 @@ export class TagApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) {
-      await makeRequest(`tags/${id}`, "DELETE");
-    }
+    for (const id of ids) await makeRequest(`tag/${id}`, "DELETE");
     return { status: 204 };
   }
 }
