@@ -13,6 +13,9 @@ export class PushNotification extends Entity {
   /**
    * @param {number} id - PushNotification id
    * @param {string} title - PushNotification title
+   * @param {string} action - PushNotification action
+   * @param {number} imageId - PushNotification imageId
+   * @param {Date} sentDate - PushNotification sentDate
    * @param {Date} dateOfCreation - PushNotification date of creation
    * @param {Date} lastUpdate - PushNotification last update
    * @param {boolean} deleted - PushNotification deleted
