@@ -7,10 +7,11 @@ import { makeRequest } from "../db/services";
 
 // utils
 import { SortOrder } from "../models/query/GenericFilter";
+import { parseManyToMany } from "./utils/relationships";
 
 // apis
 import { TagsEventsApiClient } from "./TagsEventsApiClient";
-import { ImageEventsApiClient } from "./ImagesEventsApiClient";
+import { ImagesEventsApiClient } from "./ImagesEventsApiClient";
 import { EventSchedulesApiClient } from "./EventSchedulesApiClient";
 import { EventLinksApiClient } from "./EventLinksApiClient";
 
@@ -20,73 +21,18 @@ import { EventLinksApiClient } from "./EventLinksApiClient";
  */
 export class EventApiClient {
   tagsEvents = new TagsEventsApiClient();
-  photosEvents = new ImageEventsApiClient();
+  photosEvents = new ImagesEventsApiClient();
   eventSchedules = new EventSchedulesApiClient();
   eventLinks = new EventLinksApiClient();
 
-  // private scripts
-  parseManyToMany = (remoteAttribute, localList = [], remoteList = []) => {
-    const toAdd = [];
-    const toRemove = [];
-
-    const getToCompare = (element) =>
-      element[remoteAttribute]?.id ?? element[remoteAttribute] ?? element.id;
-
-    // adding new elements
-    if (localList)
-      for (const localElement of localList) {
-        if (!remoteList) {
-          // create new element
-          const elToAdd = { delete: false, ...localElement };
-          elToAdd[remoteAttribute] = getToCompare(localElement);
-          // add to list
-          toAdd.push(elToAdd);
-          continue;
-        }
-        const remoteTag = remoteList.find(
-          (element) => getToCompare(element) === getToCompare(localElement),
-        );
-        if (!remoteTag) {
-          // create new element
-          const elToAdd = { delete: false, ...localElement };
-          elToAdd[remoteAttribute] = getToCompare(localElement);
-          // add to list
-          toAdd.push(elToAdd);
-        }
-      }
-    // removing elements
-    if (remoteList)
-      for (const remoteElement of remoteList) {
-        if (!localList) {
-          // create new element
-          const elToRemove = { delete: true, ...remoteElement };
-          elToRemove[remoteAttribute] = getToCompare(remoteElement);
-          // add to list
-          toRemove.push(elToRemove);
-
-          continue;
-        }
-        const localElement = localList.find(
-          (element) => getToCompare(element) === getToCompare(remoteElement),
-        );
-        if (!localElement) {
-          // create new element
-          const elToRemove = { delete: true, ...remoteElement };
-          elToRemove[remoteAttribute] = getToCompare(remoteElement);
-          // add to list
-          toRemove.push(elToRemove);
-        }
-      }
-    return [...toAdd, ...toRemove];
-  };
-
   /**
    * @description Get all event
-   * @param {string} query - Query
+   * @param {string} sort - Sort by
+   * @param {SortOrder} order - Order ASC/DESC
    * @returns {Promise<Event[]>} Event
    */
   async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
-    const { data, error, status } = await makeRequest("events");
+    const { data, error, status } = await makeRequest(`events?sort=${sort}&order=${order}`);
     if (error !== null) return { status, statusCode: status, message: error.message };
     return data;
   }
@@ -114,13 +60,9 @@ export class EventApiClient {
     // parsing html
     event.content = event.content ? draftToHtml(convertToRaw(event.content.getCurrentContent())) : null;
     // parsing links
-    const linksToKeep = this.parseManyToMany("linkId", event.newEventHasLink, event.eventHasLink);
+    const linksToKeep = parseManyToMany("linkId", event.newEventHasLink, event.eventHasLink);
     // parsing schedule
-    const scheduleToKeep = this.parseManyToMany(
-      "id",
-      event.newEventHasSchedules,
-      event.eventHasSchedules,
-    );
+    const scheduleToKeep = parseManyToMany("id", event.newEventHasSchedules, event.eventHasSchedules);
     // parsing tags
     const tagsToKeep = event.tagsId.map((tag) => tag.id);
     // cleaning relation ships
@@ -164,15 +106,11 @@ export class EventApiClient {
     // parsing html
     event.content = event.content ? draftToHtml(convertToRaw(event.content.getCurrentContent())) : null;
     // parsing links
-    const linksToKeep = this.parseManyToMany("linkId", event.newEventHasLink, event.eventHasLink);
+    const linksToKeep = parseManyToMany("linkId", event.newEventHasLink, event.eventHasLink);
     // parsing schedule
-    const scheduleToKeep = this.parseManyToMany(
-      "id",
-      event.newEventHasSchedules,
-      event.eventHasSchedules,
-    );
+    const scheduleToKeep = parseManyToMany("id", event.newEventHasSchedules, event.eventHasSchedules);
     // parsing tags
-    const tagsToKeep = this.parseManyToMany("typeId", event.tagsId, event.eventHasTag);
+    const tagsToKeep = parseManyToMany("typeId", event.tagsId, event.eventHasTag);
     // saving photos
     const newPhotos = [];
     for (const newPhoto of photos) {
