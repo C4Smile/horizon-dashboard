@@ -15,7 +15,8 @@ export class Room extends Entity {
   /**
    * @param {number} id - Room id
    * @param {string} number - Room number
-   * @param {RoomStatus} status - Room status
+   * @param {object} status - Room status
+   * @param {string} content - Room content
    * @param {Date} dateOfCreation - Room date of creation
    * @param {Date} lastUpdate - Room last update
    * @param {boolean} deleted - Room deleted
