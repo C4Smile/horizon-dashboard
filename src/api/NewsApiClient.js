@@ -8,7 +8,7 @@ import { makeRequest } from "../db/services";
 
 // apis
 import { TagsNewsApiClient } from "./TagsNewsApiClient";
-import { ImageNewsApiClient } from "./ImagesNewsApiClient";
+import { ImagesNewsApiClient } from "./ImagesNewsApiClient";
 
 /**
  * @class NewsApiClient
@@ -16,7 +16,7 @@ import { ImageNewsApiClient } from "./ImagesNewsApiClient";
  */
 export class NewsApiClient {
   tagsNews = new TagsNewsApiClient();
-  photosNews = new ImageNewsApiClient();
+  photosNews = new ImagesNewsApiClient();
 
   // private scripts
   parseTags = (localTags = [], remoteTags = []) => {
