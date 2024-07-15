@@ -14,6 +14,7 @@ export class Activity extends Entity {
    * @param {number} id - Activity id
    * @param {string} title - Activity title
    * @param {string} description - Activity description
+   * @param {string} entity - Activity entity
    * @param {Date} dateOfCreation - Activity date of creation
    * @param {Date} lastUpdate - Activity last update
    * @param {boolean} deleted - Activity deleted
