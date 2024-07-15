@@ -15,7 +15,7 @@ export class ActivityApiClient {
    * @description Get all activity
    * @param {string} sort - Sort by
    * @param {SortOrder} order - Order ASC/DESC
-   * @returns {Promise<any[]>} Activity
+   * @returns {Promise<Activity[]>} Activity
    */
   async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
     const { data, error, status } = await makeRequest(`activity?sort=${sort}&order=${order}`);
@@ -26,7 +26,7 @@ export class ActivityApiClient {
   /**
    * @description Get activity by id
    * @param {string} id - Activity id
-   * @returns {Promise<any>} Activity
+   * @returns {Promise<Activity>} Activity
    */
   async getById(id) {
     const { data, error, status } = await makeRequest(`activity/${id}`);
@@ -37,7 +37,7 @@ export class ActivityApiClient {
   /**
    * @description Get activity by id
    * @param {string} entity - Activity id
-   * @returns {Promise<any>} some entity
+   * @returns {Promise<Activity>} some entity
    */
   async getEntity(entity) {
     const { data, error, status } = await makeRequest(`${entity}`);
@@ -49,7 +49,7 @@ export class ActivityApiClient {
    * @description Create activity
    * @param {Activity} activity - Activity
    * @param {object} photo - Activity photo
-   * @returns {Promise<any>} Activity
+   * @returns {Promise<Activity>} Activity
    */
   async create(activity, photo) {
     // saving image
@@ -65,7 +65,7 @@ export class ActivityApiClient {
    * @description Update activity
    * @param {Activity} activity - Activity
    * @param {object} photo - Photo to keep
-   * @returns {Promise<any>} Activity
+   * @returns {Promise<Activity>} Activity
    */
   async update(activity, photo) {
     // saving photo
