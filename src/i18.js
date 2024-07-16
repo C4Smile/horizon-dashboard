@@ -8,10 +8,6 @@ import { namespaces } from "./lang/nameSpaces";
 import esAccessibility from "./lang/es/_accessibility.json";
 import esEntities from "./lang/es/_entities.json";
 import esPages from "./lang/es/_pages.json";
-// en
-import enAccessibility from "./lang/en/_accessibility.json";
-import enEntities from "./lang/en/_entities.json";
-import enPages from "./lang/en/_pages.json";
 
 i18n
   // detect user language
@@ -27,11 +23,6 @@ i18n
     ns: namespaces,
     defaultNS: "_pages",
     resources: {
-      en: {
-        _accessibility: enAccessibility,
-        _pages: enPages,
-        _entities: enEntities,
-      },
       es: {
         _accessibility: esAccessibility,
         _pages: esPages,
