@@ -20,8 +20,7 @@ export class UserApiClient {
       username: user,
       password,
     });
-    const { token } = data;
-    if (token) toLocal(config.user, { token, user });
+    if (data) toLocal(config.user, data);
     return {
       json: async () => ({ ...data, status: error ? error.status : 200 }),
     };
