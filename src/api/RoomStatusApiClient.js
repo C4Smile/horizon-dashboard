@@ -5,15 +5,15 @@ import { makeRequest } from "../db/services";
 import { SortOrder } from "../models/query/GenericFilter";
 
 /**
- * @class AppTextApiClient
- * @description AppTextApiClient
+ * @class RoomStatusApiClient
+ * @description RoomStatusApiClient
  */
-export class AppTextApiClient {
+export class RoomStatusApiClient {
   /**
    * @description Get all roomStatus
    * @param {string} sort attribute to order by
    * @param {string} order asc/desc
-   * @returns {Promise<any[]>} AppTexts
+   * @returns {Promise<any[]>} RoomStatus
    */
   async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
     const { error, data, status } = await makeRequest(`roomStatus?sort=${sort}&order=${order}`);
@@ -23,8 +23,8 @@ export class AppTextApiClient {
 
   /**
    * @description Get roomStatus by id
-   * @param {string} id - AppText id
-   * @returns {Promise<any>} AppText
+   * @param {string} id - RoomStatus id
+   * @returns {Promise<any>} RoomStatus
    */
   async getById(id) {
     const { error, data, status } = await makeRequest(`roomStatus/${id}`);
@@ -34,8 +34,8 @@ export class AppTextApiClient {
 
   /**
    * @description Create roomStatus
-   * @param {object} roomStatus - AppText
-   * @returns {Promise<any>} AppText
+   * @param {object} roomStatus - RoomStatus
+   * @returns {Promise<any>} RoomStatus
    */
   async create(roomStatus) {
     const { error, data, status } = await makeRequest("roomStatus", "POST", roomStatus);
@@ -44,8 +44,8 @@ export class AppTextApiClient {
 
   /**
    * @description Update roomStatus
-   * @param {object} roomStatus - AppText
-   * @returns {Promise<any>} AppText
+   * @param {object} roomStatus - RoomStatus
+   * @returns {Promise<any>} RoomStatus
    */
   async update(roomStatus) {
     // call service
