@@ -120,7 +120,7 @@ const ExternalLinkInput = forwardRef(function (props, ref) {
             setCurrentUrl(e.target.value);
             setError(false);
           }}
-          placeholder={`${placeholder} ${currentPreview}${currentUrl}`}
+          placeholder={`${placeholder} ${currentPreview ?? ""}${currentUrl}`}
           helperText={error ? t("_entities:externalLink.url.repeatedError") : ""}
         />
       </div>
