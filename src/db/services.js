@@ -18,5 +18,6 @@ export async function makeRequest(url, method = "GET", body = null, headers = nu
     headers: h,
     body: JSON.stringify(body),
   });
-  return await request.json();
+  const data = await request.json();
+  return { ...data, error: { status: request.status, message: request.statusText } };
 }
