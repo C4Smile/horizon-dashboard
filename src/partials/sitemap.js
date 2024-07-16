@@ -9,7 +9,7 @@ export const sitemap = [
     page: "museum",
     child: [
       {
-        services: "services",
+        label: "services",
         path: "/services",
       },
       {
