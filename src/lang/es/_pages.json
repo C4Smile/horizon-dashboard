@@ -68,21 +68,22 @@
     }
   },
   "museum": {
-    "title": "Hotel",
+    "title": "Museo",
     "links": {
       "customers": "Clientes",
-      "places": "Lugares",
-      "placeTypes": "Tipos de lugares",
       "services": "Services",
-      "offers": "Ofertas",
-      "reservations": "Reservas",
       "rooms": "Habitaciones",
       "roomTypes": "Tipos de habitaciones"
     }
   },
   "information": {
     "title": "Información",
-    "links": { "news": "Noticias", "events": "Eventos", "tags": "Etiquetas" }
+    "links": {
+      "activities": "Activities",
+      "news": "Noticias",
+      "events": "Eventos",
+      "tags": "Etiquetas"
+    }
   },
   "management": {
     "title": "Gestión",
