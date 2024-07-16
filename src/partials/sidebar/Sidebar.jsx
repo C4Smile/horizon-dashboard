@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeftLong,
   faArrowRightLong,
-  faBellConcierge,
+  faBuildingColumns,
   faChartLine,
   faGear,
   faRss,
@@ -40,7 +40,7 @@ function Sidebar(props) {
     information: <FontAwesomeIcon icon={faRss} />,
     management: <FontAwesomeIcon icon={faTableList} />,
     personal: <FontAwesomeIcon icon={faUsers} />,
-    hotel: <FontAwesomeIcon icon={faBellConcierge} />,
+    museum: <FontAwesomeIcon icon={faBuildingColumns} />,
     settings: <FontAwesomeIcon icon={faGear} />,
   };
 

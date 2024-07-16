@@ -93,7 +93,7 @@ function Tags() {
   const getActions = [
     {
       id: "edit",
-      onClick: (e) => navigate(`/activities/tags/${e.id}`),
+      onClick: (e) => navigate(`/information/tags/${e.id}`),
       icon: faPencil,
       tooltip: t("_accessibility:buttons.edit"),
     },
@@ -117,7 +117,7 @@ function Tags() {
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:activities.links.tags")}</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:information.links.tags")}</h1>
       <Table
         isLoading={tagQuery.isLoading}
         rows={preparedRows}

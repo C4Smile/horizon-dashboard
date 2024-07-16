@@ -9,6 +9,10 @@ export const sitemap = [
     page: "museum",
     child: [
       {
+        services: "services",
+        path: "/services",
+      },
+      {
         label: "rooms",
         path: "/rooms",
       },
@@ -19,9 +23,13 @@ export const sitemap = [
     ],
   },
   {
-    path: "/activities",
-    page: "activities",
+    path: "/information",
+    page: "information",
     child: [
+      {
+        label: "activities",
+        path: "/activities",
+      },
       {
         label: "news",
         path: "/news",
