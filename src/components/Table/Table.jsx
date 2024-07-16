@@ -44,8 +44,8 @@ function Table(props) {
 
   return (
     <div className="relative overflow-x-auto w-full h-full">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+        <thead className="text-xs text-gray-700 bg-gray-50">
           <tr>
             {columns.map((column) => (
               <th key={column.id} scope="col" className={`px-6 py-3 ${column.className}`}>
@@ -78,11 +78,11 @@ function Table(props) {
         {!isLoading && Boolean(rows.length) && (
           <tbody>
             {rows.map((row) => (
-              <tr key={row.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <tr key={row.id} className="bg-white border-b">
                 {columns.map((column, i) => (
                   <td
                     key={column.id}
-                    className={`px-6 py-4 font-medium ${i === 0 ? "text-gray-900 whitespace-nowrap dark:text-white" : ""} ${column.className}`}
+                    className={`px-6 py-4 font-medium ${i === 0 ? "text-gray-900 whitespace-nowrap" : ""} ${column.className}`}
                   >
                     {row[column.id]}
                   </td>
@@ -106,7 +106,7 @@ function Table(props) {
         )}
       </table>
       {!rows.length && !isLoading && (
-        <div className="bg-gray-50 dark:bg-gray-700 w-full flex items-center justify-center py-2 border-t-[1px]">
+        <div className="bg-gray-50 w-full flex items-center justify-center py-2 border-t-[1px]">
           <p>No data</p>
         </div>
       )}
