@@ -20,7 +20,10 @@ export class UserApiClient {
       username: user,
       password,
     });
-    if (data) toLocal(config.user, data);
+    if (data && data.user) {
+      data.user.email = user;
+      toLocal(config.user, data);
+    }
     return {
       json: async () => ({ ...data, status: error ? error.status : 200 }),
     };
