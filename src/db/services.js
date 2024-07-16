@@ -13,10 +13,11 @@ export async function makeRequest(url, method = "GET", body = null, headers = nu
     "Content-Type": "application/json",
     ...(headers ?? {}),
   };
+  const b = body ? JSON.stringify(body) : null;
   const request = await fetch(`${config.apiUrl}${url}`, {
     method,
     headers: h,
-    body: JSON.stringify(body),
+    body: b,
   });
   const data = await request.json();
   return { data, error: { status: request.status, message: request.statusText } };
