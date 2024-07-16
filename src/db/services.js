@@ -5,20 +5,21 @@ import config from "../config";
  * @param {string} url - URL to make the request
  * @param {string} method - Request method
  * @param {object} body - Request body
- * @param {object} headers - Request headers
+ * @param {object} h - Request headers
  * @returns Request response
  */
-export async function makeRequest(url, method = "GET", body = null, headers = null) {
-  const h = {
+export async function makeRequest(url, method = "GET", body = null, h = null) {
+  const headers = {
     "Content-Type": "application/json",
-    ...(headers ?? {}),
+    ...(h ?? {}),
   };
-  const b = body ? JSON.stringify(body) : null;
-  const request = await fetch(`${config.apiUrl}${url}`, {
+  const options = {
     method,
-    headers: h,
-    body: b,
-  });
+    headers,
+  };
+  if (body) options.body = JSON.stringify(body);
+
+  const request = await fetch(`${config.apiUrl}${url}`, options);
   const data = await request.json();
   return { data, error: { status: request.status, message: request.statusText } };
 }
