@@ -4,19 +4,19 @@
       "link": "/"
     },
     "museum": {
-      "link": "/museum"
+      "link": "/museo"
     },
     "information": {
-      "link": "/information"
+      "link": "/informacion"
     },
     "management": {
-      "link": "/management"
+      "link": "/gestion"
     },
     "personal": {
       "link": "/personal"
     },
     "settings": {
-      "link": "/settings"
+      "link": "/ajustes"
     }
   },
   "chat": {
