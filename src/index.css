@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.small-image {
+  @apply w-10 h-10 min-h-10 min-w-10;
+}
+
 textarea {
   resize: none;
 }
