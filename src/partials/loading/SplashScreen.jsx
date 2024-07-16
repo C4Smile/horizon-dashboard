@@ -24,7 +24,7 @@ export default function SplashScreen(props) {
     <div
       className={`bg-white w-full h-screen fixed top-0 left-0 z-50 transition-opacity duration-500 ease-in-out ${visible ? "opacity-100" : "opacity-0 pointer-events-none"} flex items-center justify-center flex-col`}
     >
-      <Logo className={`w-auto h-auto`} />
+      <Logo className={`w-20 h-20`} />
       <div
         className={`transition duration-300 ease-in-out ${loader ? "opacity-100 scale-100" : "opacity-0 scale-0"}`}
       >
