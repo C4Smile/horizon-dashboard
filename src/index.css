@@ -1,3 +1,7 @@
+/* Additional styles */
+@import "css/additional-styles/utility-patterns.css";
+@import "css/additional-styles/flatpickr.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,8 +10,33 @@
   @apply w-10 h-10 min-h-10 min-w-10;
 }
 
-textarea {
-  resize: none;
+input[type="file"] {
+  visibility: hidden;
+  position: absolute;
+}
+
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+.segoe * {
+  font-family: "Segoe UI", sans-serif !important;
+}
+
+.poppins {
+  font-family: "Poppins", sans-serif !important;
+}
+
+a,
+button,
+p {
+  font-weight: 500;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 900;
 }
 
 :root {
@@ -26,4 +55,66 @@ textarea {
 
 .disabled-link {
   pointer-events: none;
+}
+
+textarea {
+  resize: none;
+}
+
+.form {
+  @apply w-full flex items-start justify-start flex-col;
+}
+
+.submit {
+  @apply relative text-white bg-light-primary transition enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center;
+}
+
+.outlined {
+  @apply relative text-primary border-2 border-dashed border-primary transition duration-300 enabled:hover:text-white enabled:hover:bg-primary rounded-full min-w-10 w-10 min-h-10 h-10 flex items-center justify-center;
+}
+
+.appear {
+  animation: appear 0.5s ease 1;
+}
+
+.disappear {
+  animation: disappear 0.5s ease 1;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes disappear {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+}
+
+.rotate {
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
