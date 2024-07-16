@@ -6,8 +6,8 @@
     "museum": {
       "link": "/museum"
     },
-    "activities": {
-      "link": "/activities"
+    "information": {
+      "link": "/information"
     },
     "management": {
       "link": "/management"
@@ -18,6 +18,18 @@
     "settings": {
       "link": "/settings"
     }
+  },
+  "chat": {
+    "you": "Tú",
+    "bot": "Bot",
+    "at": "a las",
+    "tooltips": {
+      "minimize": "Minimizar chat",
+      "close": "Cerrar chat",
+      "delete": "Eliminar historial de chat"
+    },
+    "title": "Asistencia en línea",
+    "input": "Escribe un mensaje"
   },
   "home": {
     "welcome": "Bienvenido"
@@ -49,28 +61,36 @@
     }
   },
   "dashboard": {
-    "title": "Panel Administrativo",
+    "title": "Tablero",
     "links": {
-      "main": "Principal"
+      "main": "Principal",
+      "analytics": "Análisis"
     }
   },
   "museum": {
-    "title": "Museo",
+    "title": "Hotel",
     "links": {
+      "customers": "Clientes",
+      "places": "Lugares",
+      "placeTypes": "Tipos de lugares",
       "services": "Services",
-      "activities": "Actividades",
+      "offers": "Ofertas",
+      "reservations": "Reservas",
       "rooms": "Habitaciones",
       "roomTypes": "Tipos de habitaciones"
     }
   },
-  "activities": {
-    "title": "Actividades",
+  "information": {
+    "title": "Información",
     "links": { "news": "Noticias", "events": "Eventos", "tags": "Etiquetas" }
   },
   "management": {
     "title": "Gestión",
     "links": {
+      "invoices": "Facturas",
       "appTexts": "Textos del App",
+      "currencies": "Monedas",
+      "paymentMethods": "Métodos de pago",
       "pushNotifications": "Notificaciones instantáneas"
     }
   },
@@ -95,6 +115,10 @@
     "editForm": "Editar Usuario",
     "newForm": "Nuevo Usuario"
   },
+  "customers": {
+    "editForm": "Editar Cliente",
+    "newForm": "Nuevo Cliente"
+  },
   "rooms": {
     "editForm": "Editar Habitación",
     "newForm": "Nueva Habitación"
@@ -115,7 +139,7 @@
     "editForm": "Editar Etiqueta",
     "newForm": "Nueva Etiqueta"
   },
-  "activitys": {
+  "activities": {
     "editForm": "Editar Actividad",
     "newForm": "Nueva Actividad"
   },
