@@ -23,7 +23,7 @@ function WelcomeBanner() {
       {/* Content */}
       <div className="relative bg-white/20 p-4 sm:p-6 w-full h-full">
         <h1 className="text-2xl md:text-3xl font-bold mb-1">
-          {t("_pages:home.welcome")}, {account?.user?.email} 👋
+          {t("_pages:home.welcome")}, {account?.museumUser?.name} 👋
         </h1>
       </div>
     </div>
