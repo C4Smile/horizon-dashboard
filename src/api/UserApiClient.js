@@ -1,5 +1,6 @@
 // utils
 import { fromLocal } from "../utils/local";
+import { makeRequest } from "../db/services";
 
 import config from "../config";
 
@@ -9,45 +10,67 @@ import config from "../config";
  */
 export class UserApiClient {
   /**
-   * Validates a token
-   * @returns refreshed token
-   */
-  async validates() {
-    const request = await fetch(`${config.apiUrl}auth/validate`, {
-      method: "POST",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
-    });
-    return request;
-  }
-
-  /**
    * Logs an user
    * @param {string} user - username
    * @param {string} password - password
    * @returns Transaction result
    */
   async login(user, password) {
-    const request = await fetch(`${config.apiUrl}auth/login`, {
-      method: "POST",
-      body: JSON.stringify({ username: user, password }),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-      },
+    const { data, error } = await makeRequest(`auth/login`, "POST", {
+      username: user,
+      password,
     });
-    return request;
+    return {
+      json: async () => ({ ...data, status: error ? error.status : 200 }),
+    };
   }
+
+  /**
+   * Fetch owner data
+   * @param {string} userId - User id
+   * @returns Owner
+   */
+  async fetchOwner(userId) {
+    const { data, error } = await makeRequest(`museumUser/byUserId/${userId}`);
+    return {
+      json: async () => ({ ...data[0], status: error ? error.status : 200 }),
+    };
+  }
+
+  /**
+   * Get session
+   * @returns the current session
+   */
+  async getSession() {
+    const { data, error } = await makeRequest(`auth/validate`, "POST");
+    return { data, error };
+  }
+
+  /**
+   * Validates a token
+   * @returns refreshed token
+   */
+  async validates() {
+    const { data, error } = await makeRequest(`auth/validate`, "POST");
+    return { data, status: error?.status };
+  }
+
+  /**
+   * Logouts an user
+   * @returns Transaction result
+   */
+  async logout() {
+    // await supabase.auth.signOut();
+  }
+
+  // TODO ALL DOWN BELOW
 
   /**
    * @description Get all countries
    * @returns Province list
    */
   async getAll() {
-    const request = await fetch(`${config.apiUrl}user`, {
+    const request = await fetch(`user`, {
       method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -64,7 +87,7 @@ export class UserApiClient {
    * @returns Province by id
    */
   async getById(id) {
-    const request = await fetch(`${config.apiUrl}user/${id}`, {
+    const request = await fetch(`user/${id}`, {
       method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -81,7 +104,7 @@ export class UserApiClient {
    * @returns  Transaction status
    */
   async create(user) {
-    const request = await fetch(`${config.apiUrl}user`, {
+    const request = await fetch(`user`, {
       method: "POST",
       body: JSON.stringify(user),
       headers: {
@@ -99,7 +122,7 @@ export class UserApiClient {
    * @returns Transaction status
    */
   async update(user) {
-    const request = await fetch(`${config.apiUrl}user/${user.id}`, {
+    const request = await fetch(`user/${user.id}`, {
       method: "PATCH",
       body: JSON.stringify(user),
       headers: {
@@ -118,7 +141,7 @@ export class UserApiClient {
    */
   async delete(ids) {
     for (const id of ids) {
-      await fetch(`${config.apiUrl}user/${id}`, {
+      await fetch(`user/${id}`, {
         method: "DELETE",
         headers: {
           "Access-Control-Allow-Origin": "*",
