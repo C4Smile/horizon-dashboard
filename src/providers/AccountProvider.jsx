@@ -46,7 +46,10 @@ const AccountProvider = (props) => {
   const fetchSession = useCallback(async () => {
     const { data, error } = await museumApiClient.User.getSession();
     if (!error) {
-      logUser({ ...data });
+      const request = await museumApiClient.User.fetchOwner(data.user.id);
+      const museumUser = await request.json();
+      if (museumUser) logUser({ ...data, museumUser });
+      else logUser({ ...data });
     }
   }, [museumApiClient.User, logUser]);
 
