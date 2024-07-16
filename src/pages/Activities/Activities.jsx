@@ -138,7 +138,7 @@ function ActivitysPage() {
   const getActions = [
     {
       id: "edit",
-      onClick: (e) => navigate(`/activities/activitys/${e.id}`),
+      onClick: (e) => navigate(`/information/activities/${e.id}`),
       icon: faPencil,
       tooltip: t("_accessibility:buttons.edit"),
     },
@@ -153,7 +153,7 @@ function ActivitysPage() {
           // eslint-disable-next-line no-console
           console.error(error);
           setNotification(String(status));
-        } else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Activitys] });
+        } else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Activities] });
       },
       icon: faTrash,
       tooltip: t("_accessibility:buttons.delete"),

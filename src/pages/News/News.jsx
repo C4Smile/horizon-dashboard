@@ -138,7 +138,7 @@ function NewsPage() {
   const getActions = [
     {
       id: "edit",
-      onClick: (e) => navigate(`/activities/news/${e.id}`),
+      onClick: (e) => navigate(`/information/news/${e.id}`),
       icon: faPencil,
       tooltip: t("_accessibility:buttons.edit"),
     },
@@ -162,7 +162,7 @@ function NewsPage() {
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:activities.links.news")}</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:information.links.news")}</h1>
       <Table
         isLoading={newsQuery.isLoading}
         rows={preparedRows}
