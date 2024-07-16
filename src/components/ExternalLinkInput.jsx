@@ -56,8 +56,10 @@ const ExternalLinkInput = forwardRef(function (props, ref) {
   }, [externalLinkQuery.data]);
 
   const add = () => {
+    setError(false);
+    if (!currentUrl?.length) setError("emptyError");
     const repeated = value?.find((link) => link.url === `${currentPreview}${currentUrl}`);
-    if (repeated) setError(true);
+    if (repeated) setError("repeatedError");
     else {
       if (value)
         onChange([
@@ -77,10 +79,7 @@ const ExternalLinkInput = forwardRef(function (props, ref) {
     const { key } = e;
     if (key === "Enter" || key === "Return") {
       e.preventDefault();
-      if (currentUrl.length) {
-        // searching for repeated
-        add();
-      }
+      add();
     }
   };
 
@@ -117,11 +116,11 @@ const ExternalLinkInput = forwardRef(function (props, ref) {
           state={error ? "error" : ""}
           label={t("_entities:externalLink.url.label")}
           onChange={(e) => {
-            setCurrentUrl(e.target.value);
+            setCurrentUrl(e.target.value.toLowerCase());
             setError(false);
           }}
           placeholder={`${placeholder} ${currentPreview ?? ""}${currentUrl}`}
-          helperText={error ? t("_entities:externalLink.url.repeatedError") : ""}
+          helperText={error ? t(`_entities:externalLink.url.${error}`) : ""}
         />
       </div>
       <div className="flex items-center justify-start flex-wrap my-4 gap-2">
