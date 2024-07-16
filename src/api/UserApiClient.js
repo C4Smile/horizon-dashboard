@@ -1,5 +1,5 @@
 // utils
-import { fromLocal } from "../utils/local";
+import { fromLocal, toLocal } from "../utils/local";
 import { makeRequest } from "../db/services";
 
 import config from "../config";
@@ -20,6 +20,8 @@ export class UserApiClient {
       username: user,
       password,
     });
+    const { token } = data;
+    if (token) toLocal(config.user, { token, user });
     return {
       json: async () => ({ ...data, status: error ? error.status : 200 }),
     };
@@ -31,9 +33,11 @@ export class UserApiClient {
    * @returns Owner
    */
   async fetchOwner(userId) {
-    const { data, error } = await makeRequest(`museumUser/byUserId/${userId}`);
+    const { data, error } = await makeRequest(`museumUser/byUserId/${userId}`, "GET", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     return {
-      json: async () => ({ ...data[0], status: error ? error.status : 200 }),
+      json: async () => ({ ...data, status: error ? error.status : 200 }),
     };
   }
 
@@ -42,7 +46,9 @@ export class UserApiClient {
    * @returns the current session
    */
   async getSession() {
-    const { data, error } = await makeRequest(`auth/validate`, "POST");
+    const { data, error } = await makeRequest(`auth/validate`, "GET", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     return { data, error };
   }
 
@@ -51,7 +57,9 @@ export class UserApiClient {
    * @returns refreshed token
    */
   async validates() {
-    const { data, error } = await makeRequest(`auth/validate`, "POST");
+    const { data, error } = await makeRequest(`auth/validate`, "GET", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     return { data, status: error?.status };
   }
 
