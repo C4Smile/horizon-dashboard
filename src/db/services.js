@@ -1,5 +1,7 @@
 import config from "../config";
 
+const isAnError = (status) => status < 200 && status > 299;
+
 /**
  * @description Make a request to the API
  * @param {string} url - URL to make the request
@@ -21,5 +23,9 @@ export async function makeRequest(url, method = "GET", body = null, h = null) {
 
   const request = await fetch(`${config.apiUrl}${url}`, options);
   const data = await request.json();
-  return { data, error: { status: request.status, message: request.statusText } };
+  return {
+    data,
+    status: request.status,
+    error: isAnError(request.status) ? { status: request.status, message: request.statusText } : null,
+  };
 }
