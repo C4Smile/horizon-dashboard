@@ -38,24 +38,24 @@ const AccountProvider = (props) => {
     removeFromLocal(config.user);
   }, []);
 
-  const logUserFromLocal = useCallback(() => {
-    const loggedUser = fromLocal(config.user, "object");
-    if (loggedUser) setAccount(loggedUser);
-  }, []);
-
-  const fetchSession = useCallback(async () => {
-    const { data, error } = await museumApiClient.User.getSession();
-    if (!error) {
-      const request = await museumApiClient.User.fetchOwner(data.user.id);
-      const museumUser = await request.json();
-      if (museumUser) logUser({ ...data, museumUser });
-      else logUser({ ...data });
+  const logUserFromLocal = useCallback(async () => {
+    try {
+      const { error } = await museumApiClient.User.getSession();
+      if (!error) {
+        const loggedUser = fromLocal(config.user, "object");
+        if (loggedUser) {
+          const request = await museumApiClient.User.fetchOwner(loggedUser.user.id);
+          const museumUser = await request.json();
+          if (museumUser) setAccount({ ...loggedUser, museumUser });
+          else setAccount(loggedUser);
+        }
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      logoutUser();
     }
-  }, [museumApiClient.User, logUser]);
-
-  useEffect(() => {
-    fetchSession();
-  }, [fetchSession]);
+  }, [logoutUser, museumApiClient.User]);
 
   const value = { account, logUser, logoutUser, logUserFromLocal };
   return <AccountContext.Provider value={value}>{children}</AccountContext.Provider>;
