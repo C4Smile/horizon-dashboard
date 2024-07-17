@@ -59,6 +59,7 @@
     "passwordDoNotMatch": "Las contraseñas no coinciden"
   },
   "messages": {
+    "notConnected": "No se estableció conexión con el servidor",
     "images": "Se debe subir una imagen",
     "200": "Guardado exitosamente",
     "201": "{{model}} guardado exitosamente",
