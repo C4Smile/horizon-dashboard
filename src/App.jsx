@@ -49,7 +49,7 @@ const EventForm = loadable(() => import("./pages/Events/EventForm"));
 // tags
 const Tags = loadable(() => import("./pages/Tags/Tags"));
 const TagForm = loadable(() => import("./pages/Tags/TagForm"));
-// offers
+// activities
 const Activities = loadable(() => import("./pages/Activities/Activities"));
 const ActivityForm = loadable(() => import("./pages/Activities/ActivityForm"));
 // Service
@@ -148,11 +148,11 @@ function App() {
             <Route
               exact
               path="/museum/activities"
-              element={<ModelNavigation parent="museum" model="offers" />}
+              element={<ModelNavigation parent="museum" model="activities" />}
             >
               <Route index element={<Activities />} />
-              <Route path="/museum/offers/new" element={<ActivityForm />} />
-              <Route path="/museum/offers/:id" element={<ActivityForm />} />
+              <Route path="/museum/activities/new" element={<ActivityForm />} />
+              <Route path="/museum/activities/:id" element={<ActivityForm />} />
             </Route>
             <Route
               exact
