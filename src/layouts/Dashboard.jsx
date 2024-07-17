@@ -24,7 +24,7 @@ import { fromLocal, toLocal } from "../utils/local";
  * @returns Dashboard layout component
  */
 function Dashboard() {
-  const { logoutUser } = useAccount();
+  const { account, logoutUser } = useAccount();
 
   const museumApiClient = useMuseumApiClient();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -69,8 +69,8 @@ function Dashboard() {
   }, [logoutUser, museumApiClient.User, navigate]);
 
   useEffect(() => {
-    refreshToken();
-  }, [navigate, refreshToken]);
+    if (account.user) refreshToken();
+  }, [account.user, navigate, refreshToken]);
 
   return (
     <div className="flex h-screen overflow-hidden">
