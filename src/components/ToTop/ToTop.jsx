@@ -6,6 +6,7 @@ import Chevron from "../Chevron/Chevron";
 
 /**
  * ToTop
+ * @param {object} props - Props
  * @returns ToTop component
  */
 function ToTop(props) {
