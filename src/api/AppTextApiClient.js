@@ -7,6 +7,10 @@ import { makeRequest } from "../db/services";
 
 // utils
 import { SortOrder } from "../models/query/GenericFilter";
+import { fromLocal } from "../utils/local";
+
+// config
+import config from "../config";
 
 /**
  * @class AppTextApiClient
@@ -31,7 +35,9 @@ export class AppTextApiClient {
    * @returns {Promise<any>} AppText
    */
   async getById(id) {
-    const { error, data, status } = await makeRequest(`appTexts/${id}`);
+    const { error, data, status } = await makeRequest(`appTexts/${id}`, "GET", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, statusCode: status, message: error.message };
     return data[0];
   }
@@ -48,7 +54,9 @@ export class AppTextApiClient {
     appText.content = appText.content
       ? draftToHtml(convertToRaw(appText.content.getCurrentContent()))
       : null;
-    const { error, data, status } = await makeRequest("appTexts", "POST", appText);
+    const { error, data, status } = await makeRequest("appTexts", "POST", appText, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     return { error, data, status: status === 204 ? 201 : status };
   }
 
@@ -65,10 +73,17 @@ export class AppTextApiClient {
       ? draftToHtml(convertToRaw(appText.content.getCurrentContent()))
       : null;
     // call service
-    const { status, error } = await makeRequest(`appTexts/${appText.id}`, "PUT", {
-      ...appText,
-      lastUpdate: new Date().toISOString(),
-    });
+    const { status, error } = await makeRequest(
+      `appTexts/${appText.id}`,
+      "PUT",
+      {
+        ...appText,
+        lastUpdate: new Date().toISOString(),
+      },
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     return { error, status: status === 204 ? 201 : status };
   }
@@ -80,7 +95,9 @@ export class AppTextApiClient {
    */
   async delete(ids) {
     for (const id of ids) {
-      await makeRequest(`appTexts/${id}`, "DELETE");
+      await makeRequest(`appTexts/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
     }
     return { status: 204 };
   }
