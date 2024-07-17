@@ -31,21 +31,6 @@ const UpdatePassword = loadable(() => import("./pages/Auth/UpdatePassword"));
 const Home = loadable(() => import("./pages/Home"));
 const Account = loadable(() => import("./pages/Account/Account"));
 const NotFound = loadable(() => import("./pages/NotFound/NotFound"));
-// customers
-const Customers = loadable(() => import("./pages/Customers/Customers"));
-// const CustomerForm = loadable(() => import("./pages/Customers/CustomerForm"));
-// currencies
-const Currencies = loadable(() => import("./pages/Currencies/Currencies"));
-const CurrencyForm = loadable(() => import("./pages/Currencies/CurrencyForm"));
-// payment methods
-const PaymentMethods = loadable(() => import("./pages/PaymentMethods/PaymentMethods"));
-const PaymentMethodForm = loadable(() => import("./pages/PaymentMethods/PaymentMethodForm"));
-// reservations
-const Reservations = loadable(() => import("./pages/Reservations/Reservations"));
-const ReservationForm = loadable(() => import("./pages/Reservations/ReservationForm"));
-// invoices
-const Invoices = loadable(() => import("./pages/Invoices/Invoices"));
-const InvoiceForm = loadable(() => import("./pages/Invoices/InvoiceForm"));
 // rooms
 const Rooms = loadable(() => import("./pages/Rooms/Rooms"));
 const RoomForm = loadable(() => import("./pages/Rooms/RoomForm"));
@@ -140,15 +125,6 @@ function App() {
               <Route index element={<Services />} />
               <Route path="/museum/services/new" element={<ServiceForm />} />
               <Route path="/museum/services/:id" element={<ServiceForm />} />
-            </Route>
-            <Route
-              exact
-              path="/museum/reservations"
-              element={<ModelNavigation parent="museum" model="reservations" />}
-            >
-              <Route index element={<Reservations />} />
-              <Route path="/museum/reservations/new" element={<ReservationForm />} />
-              <Route path="/museum/reservations/:id" element={<ReservationForm />} />
             </Route>
             <Route
               exact
