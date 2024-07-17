@@ -61,7 +61,7 @@ function SignIn() {
       // eslint-disable-next-line no-console
       console.error(e);
       // set server status to notification
-      setNotification(String(e.status));
+      setNotification(String(e.status ?? "notConnected"));
     }
     setSaving(false);
   };
