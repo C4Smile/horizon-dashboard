@@ -31,18 +31,9 @@ const UpdatePassword = loadable(() => import("./pages/Auth/UpdatePassword"));
 const Home = loadable(() => import("./pages/Home"));
 const Account = loadable(() => import("./pages/Account/Account"));
 const NotFound = loadable(() => import("./pages/NotFound/NotFound"));
-// events
-const Events = loadable(() => import("./pages/Events/Events"));
-const EventForm = loadable(() => import("./pages/Events/EventForm"));
-// news
-const News = loadable(() => import("./pages/News/News"));
-const NewsForm = loadable(() => import("./pages/News/NewsForm"));
-// tags
-const Tags = loadable(() => import("./pages/Tags/Tags"));
-const TagForm = loadable(() => import("./pages/Tags/TagForm"));
 // customers
 const Customers = loadable(() => import("./pages/Customers/Customers"));
-const CustomerForm = loadable(() => import("./pages/Customers/CustomerForm"));
+// const CustomerForm = loadable(() => import("./pages/Customers/CustomerForm"));
 // currencies
 const Currencies = loadable(() => import("./pages/Currencies/Currencies"));
 const CurrencyForm = loadable(() => import("./pages/Currencies/CurrencyForm"));
@@ -55,18 +46,36 @@ const ReservationForm = loadable(() => import("./pages/Reservations/ReservationF
 // invoices
 const Invoices = loadable(() => import("./pages/Invoices/Invoices"));
 const InvoiceForm = loadable(() => import("./pages/Invoices/InvoiceForm"));
-// countries
-const Countries = loadable(() => import("./pages/Countries/Countries"));
-const CountryForm = loadable(() => import("./pages/Countries/CountryForm"));
-// provinces
-const Provinces = loadable(() => import("./pages/Provinces/Provinces"));
-const ProvinceForm = loadable(() => import("./pages/Provinces/ProvinceForm"));
 // rooms
 const Rooms = loadable(() => import("./pages/Rooms/Rooms"));
 const RoomForm = loadable(() => import("./pages/Rooms/RoomForm"));
+// roomTypes
+const RoomTypes = loadable(() => import("./pages/RoomTypes/RoomTypes"));
+const RoomTypeForm = loadable(() => import("./pages/RoomTypes/RoomTypeForm"));
 // users
 const Users = loadable(() => import("./pages/Users/Users"));
 const UserForm = loadable(() => import("./pages/Users/UserForm"));
+// news
+const News = loadable(() => import("./pages/News/News"));
+const NewsForm = loadable(() => import("./pages/News/NewsForm"));
+// events
+const Events = loadable(() => import("./pages/Events/Events"));
+const EventForm = loadable(() => import("./pages/Events/EventForm"));
+// tags
+const Tags = loadable(() => import("./pages/Tags/Tags"));
+const TagForm = loadable(() => import("./pages/Tags/TagForm"));
+// offers
+const Activities = loadable(() => import("./pages/Activities/Activities"));
+const ActivityForm = loadable(() => import("./pages/Activities/ActivityForm"));
+// Service
+const Services = loadable(() => import("./pages/Services/Services"));
+const ServiceForm = loadable(() => import("./pages/Services/ServiceForm"));
+// Service
+const AppTexts = loadable(() => import("./pages/AppTexts/AppTexts"));
+const AppTextForm = loadable(() => import("./pages/AppTexts/AppTextForm"));
+// Push Notification
+const PushNotifications = loadable(() => import("./pages/PushNotifications/PushNotifications"));
+const PushNotificationForm = loadable(() => import("./pages/PushNotifications/PushNotificationForm"));
 
 /**
  * Main App
@@ -122,113 +131,98 @@ function App() {
           >
             <Route index element={<Home />} />
             <Route path="/settings/account" element={<Account />} />
+            {/* Museum */}
             <Route
               exact
-              path="/management/events"
-              element={<ModelNavigation parent="management" model="events" />}
+              path="/museum/services"
+              element={<ModelNavigation parent="museum" model="services" />}
             >
-              <Route index element={<Events />} />
-              <Route path="/management/events/new" element={<EventForm />} />
-              <Route path="/management/events/:id" element={<EventForm />} />
+              <Route index element={<Services />} />
+              <Route path="/museum/services/new" element={<ServiceForm />} />
+              <Route path="/museum/services/:id" element={<ServiceForm />} />
             </Route>
             <Route
               exact
-              path="/management/news"
-              element={<ModelNavigation parent="management" model="news" />}
-            >
-              <Route index element={<News />} />
-              <Route path="/management/news/new" element={<NewsForm />} />
-              <Route path="/management/news/:id" element={<NewsForm />} />
-            </Route>
-            <Route
-              exact
-              path="/management/tags"
-              element={<ModelNavigation parent="management" model="tags" />}
-            >
-              <Route index element={<Tags />} />
-              <Route path="/management/tags/new" element={<TagForm />} />
-              <Route path="/management/tags/:id" element={<TagForm />} />
-            </Route>
-            <Route
-              exact
-              path="/management/customers"
-              element={<ModelNavigation parent="management" model="customers" />}
-            >
-              <Route index element={<Customers />} />
-              <Route path="/management/customers/new" element={<CustomerForm />} />
-              <Route path="/management/customers/:id" element={<CustomerForm />} />
-            </Route>
-            <Route
-              exact
-              path="/management/customers"
-              element={<ModelNavigation parent="management" model="customers" />}
-            >
-              <Route index element={<Customers />} />
-              <Route path="/management/customers/new" element={<CustomerForm />} />
-              <Route path="/management/customers/:id" element={<CustomerForm />} />
-            </Route>
-            <Route
-              exact
-              path="/management/currencies"
-              element={<ModelNavigation parent="management" model="currencies" />}
-            >
-              <Route index element={<Currencies />} />
-              <Route path="/management/currencies/new" element={<CurrencyForm />} />
-              <Route path="/management/currencies/:id" element={<CurrencyForm />} />
-            </Route>
-            <Route
-              exact
-              path="/management/payment-methods"
-              element={<ModelNavigation parent="management" model="payment-methods" />}
-            >
-              <Route index element={<PaymentMethods />} />
-              <Route path="/management/payment-methods/new" element={<PaymentMethodForm />} />
-              <Route path="/management/payment-methods/:id" element={<PaymentMethodForm />} />
-            </Route>
-            <Route
-              exact
-              path="/management/reservations"
-              element={<ModelNavigation parent="management" model="reservations" />}
+              path="/museum/reservations"
+              element={<ModelNavigation parent="museum" model="reservations" />}
             >
               <Route index element={<Reservations />} />
-              <Route path="/management/reservations/new" element={<ReservationForm />} />
-              <Route path="/management/reservations/:id" element={<ReservationForm />} />
+              <Route path="/museum/reservations/new" element={<ReservationForm />} />
+              <Route path="/museum/reservations/:id" element={<ReservationForm />} />
             </Route>
             <Route
               exact
-              path="/management/invoices"
-              element={<ModelNavigation parent="management" model="invoices" />}
-            >
-              <Route index element={<Invoices />} />
-              <Route path="/management/invoices/new" element={<InvoiceForm />} />
-              <Route path="/management/invoices/:id" element={<InvoiceForm />} />
-            </Route>
-            <Route
-              exact
-              path="/management/countries"
-              element={<ModelNavigation parent="management" model="countries" />}
-            >
-              <Route index element={<Countries />} />
-              <Route path="/management/countries/new" element={<CountryForm />} />
-              <Route path="/management/countries/:id" element={<CountryForm />} />
-            </Route>
-            <Route
-              exact
-              path="/management/provinces"
-              element={<ModelNavigation parent="management" model="provinces" />}
-            >
-              <Route index element={<Provinces />} />
-              <Route path="/management/provinces/new" element={<ProvinceForm />} />
-              <Route path="/management/provinces/:id" element={<ProvinceForm />} />
-            </Route>
-            <Route
-              exact
-              path="/management/rooms"
-              element={<ModelNavigation parent="management" model="rooms" />}
+              path="/museum/rooms"
+              element={<ModelNavigation parent="museum" model="rooms" />}
             >
               <Route index element={<Rooms />} />
-              <Route path="/management/rooms/new" element={<RoomForm />} />
-              <Route path="/management/rooms/:id" element={<RoomForm />} />
+              <Route path="/museum/rooms/new" element={<RoomForm />} />
+              <Route path="/museum/rooms/:id" element={<RoomForm />} />
+            </Route>
+            <Route
+              exact
+              path="/museum/room-types"
+              element={<ModelNavigation parent="museum" model="room-types" />}
+            >
+              <Route index element={<RoomTypes />} />
+              <Route path="/museum/room-types/new" element={<RoomTypeForm />} />
+              <Route path="/museum/room-types/:id" element={<RoomTypeForm />} />
+            </Route>
+            {/* Information */}
+            <Route
+              exact
+              path="/museum/activities"
+              element={<ModelNavigation parent="museum" model="offers" />}
+            >
+              <Route index element={<Activities />} />
+              <Route path="/museum/offers/new" element={<ActivityForm />} />
+              <Route path="/museum/offers/:id" element={<ActivityForm />} />
+            </Route>
+            <Route
+              exact
+              path="/activities/news"
+              element={<ModelNavigation parent="activities" model="news" />}
+            >
+              <Route index element={<News />} />
+              <Route path="/activities/news/new" element={<NewsForm />} />
+              <Route path="/activities/news/:id" element={<NewsForm />} />
+            </Route>
+            <Route
+              exact
+              path="/activities/events"
+              element={<ModelNavigation parent="activities" model="events" />}
+            >
+              <Route index element={<Events />} />
+              <Route path="/activities/events/new" element={<EventForm />} />
+              <Route path="/activities/events/:id" element={<EventForm />} />
+            </Route>
+            <Route
+              exact
+              path="/activities/tags"
+              element={<ModelNavigation parent="activities" model="tags" />}
+            >
+              <Route index element={<Tags />} />
+              <Route path="/activities/tags/new" element={<TagForm />} />
+              <Route path="/activities/tags/:id" element={<TagForm />} />
+            </Route>
+            {/* Management */}
+            <Route
+              exact
+              path="/management/push-notifications"
+              element={<ModelNavigation parent="management" model="push-notifications" />}
+            >
+              <Route index element={<PushNotifications />} />
+              <Route path="/management/push-notifications/new" element={<PushNotificationForm />} />
+              <Route path="/management/push-notifications/:id" element={<PushNotificationForm />} />
+            </Route>
+            <Route
+              exact
+              path="/management/app-texts"
+              element={<ModelNavigation parent="management" model="app-texts" />}
+            >
+              <Route index element={<AppTexts />} />
+              <Route path="/management/app-texts/new" element={<AppTextForm />} />
+              <Route path="/management/app-texts/:id" element={<AppTextForm />} />
             </Route>
             <Route
               exact
