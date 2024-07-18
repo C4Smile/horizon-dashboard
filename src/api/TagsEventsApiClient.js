@@ -40,7 +40,9 @@ export class TagsEventsApiClient {
    */
   async create(tagsEvents) {
     // call service
-    const { error, data, status } = await makeRequest("tagsEvents", "POST", tagsEvents);
+    const { error, data, status } = await makeRequest("tagsEvents", "POST", tagsEvents, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
 
     return { error, data, status: status === 204 ? 201 : status };
   }
@@ -52,7 +54,9 @@ export class TagsEventsApiClient {
    */
   async update(tagsEvents) {
     // call service
-    const { status, error } = await makeRequest(`tagsEvents/${tagsEvents.id}`, "PUT", tagsEvents);
+    const { status, error } = await makeRequest(`tagsEvents/${tagsEvents.id}`, "PUT", tagsEvents, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     return { error, status: status === 204 ? 201 : status };
   }
@@ -64,7 +68,9 @@ export class TagsEventsApiClient {
    */
   async delete(ids) {
     for (const id of ids) {
-      await makeRequest(`tagsEvents/${id}`, "DELETE");
+      await makeRequest(`tagsEvents/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
     }
     return { status: 204 };
   }
@@ -76,7 +82,9 @@ export class TagsEventsApiClient {
    * @returns Status
    */
   async deleteByEvent(tagId, eventId) {
-    await makeRequest(`tagsEvents/${tagId}/events/${eventId}`, "DELETE");
+    await makeRequest(`tagsEvents/${tagId}/events/${eventId}`, "DELETE", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     return { status: 204 };
   }
 }

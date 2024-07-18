@@ -42,7 +42,9 @@ export class RoomStatusApiClient {
    * @returns {Promise<any>} RoomStatus
    */
   async create(roomStatus) {
-    const { error, data, status } = await makeRequest("roomStatus", "POST", roomStatus);
+    const { error, data, status } = await makeRequest("roomStatus", "POST", roomStatus, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     return { error, data, status: status === 204 ? 201 : status };
   }
 
@@ -53,10 +55,17 @@ export class RoomStatusApiClient {
    */
   async update(roomStatus) {
     // call service
-    const { status, error } = await makeRequest(`roomStatus/${roomStatus.id}`, "PUT", {
-      ...roomStatus,
-      lastUpdate: new Date().toISOString(),
-    });
+    const { status, error } = await makeRequest(
+      `roomStatus/${roomStatus.id}`,
+      "PUT",
+      {
+        ...roomStatus,
+        lastUpdate: new Date().toISOString(),
+      },
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     return { error, status: status === 204 ? 201 : status };
   }
@@ -67,9 +76,11 @@ export class RoomStatusApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) {
-      await makeRequest(`roomStatus/${id}`, "DELETE");
-    }
+    for (const id of ids)
+      await makeRequest(`roomStatus/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
+
     return { status: 204 };
   }
 }

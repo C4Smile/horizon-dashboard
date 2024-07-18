@@ -44,7 +44,9 @@ export class RoomTypeApiClient {
    * @returns {Promise<RoomType>} some entity
    */
   async getEntity(entity) {
-    const { data, error, status } = await makeRequest(`${entity}`);
+    const { data, error, status } = await makeRequest(`${entity}`, "GET", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, statusCode: status, message: error.message };
     return data;
   }
@@ -59,7 +61,9 @@ export class RoomTypeApiClient {
     // saving image
     if (photo) roomType.imageId = photo.id;
     // call service
-    const { error, data, status } = await makeRequest("roomType", "POST", roomType);
+    const { error, data, status } = await makeRequest("roomType", "POST", roomType, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, data, statusCode: status, message: error.message };
 
     return { error, data, status: status === 204 ? 201 : status };
@@ -75,10 +79,17 @@ export class RoomTypeApiClient {
     // saving photo
     if (photo) roomType.imageId = photo.id;
     // call service
-    const { status, error } = await makeRequest(`roomType/${roomType.id}`, "PUT", {
-      ...roomType,
-      lastUpdate: new Date().toISOString(),
-    });
+    const { status, error } = await makeRequest(
+      `roomType/${roomType.id}`,
+      "PUT",
+      {
+        ...roomType,
+        lastUpdate: new Date().toISOString(),
+      },
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     return { error, status: status === 204 ? 201 : status };
   }
@@ -89,7 +100,10 @@ export class RoomTypeApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) await makeRequest(`roomType/${id}`, "DELETE");
+    for (const id of ids)
+      await makeRequest(`roomType/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
     return { status: 204 };
   }
 }

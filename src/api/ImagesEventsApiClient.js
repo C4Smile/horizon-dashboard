@@ -40,7 +40,9 @@ export class ImagesEventsApiClient {
    */
   async create(imagesEvents) {
     // call service
-    const { error, data, status } = await makeRequest("imagesEvents", "POST", imagesEvents);
+    const { error, data, status } = await makeRequest("imagesEvents", "POST", imagesEvents, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     return { error, data, status: status === 204 ? 201 : status };
   }
 
@@ -51,7 +53,14 @@ export class ImagesEventsApiClient {
    */
   async update(imagesEvents) {
     // call service
-    const { status, error } = await makeRequest(`imagesEvents/${imagesEvents.id}`, "PUT", imagesEvents);
+    const { status, error } = await makeRequest(
+      `imagesEvents/${imagesEvents.id}`,
+      "PUT",
+      imagesEvents,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     return { error, status: status === 204 ? 201 : status };
   }
@@ -63,7 +72,9 @@ export class ImagesEventsApiClient {
    */
   async delete(ids) {
     for (const id of ids) {
-      await makeRequest(`imagesEvents/${id}`, "DELETE");
+      await makeRequest(`imagesEvents/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
     }
     return { status: 204 };
   }

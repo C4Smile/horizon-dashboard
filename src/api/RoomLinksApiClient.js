@@ -64,7 +64,9 @@ export class RoomLinksApiClient {
    */
   async delete(ids) {
     for (const id of ids) {
-      await makeRequest(`roomLinks/${id}`, "DELETE");
+      await makeRequest(`roomLinks/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
     }
     return { status: 204 };
   }
@@ -76,7 +78,9 @@ export class RoomLinksApiClient {
    * @returns RoomLinks by roomId
    */
   async deleteByUrl(linkId, url) {
-    await makeRequest(`roomLinks/${linkId}/${url}`, "DELETE");
+    await makeRequest(`roomLinks/${linkId}/${url}`, "DELETE", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     return { status: 204 };
   }
 }

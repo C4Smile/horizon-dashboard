@@ -43,7 +43,9 @@ export class RoleApiClient {
    */
   async create(role) {
     // call service
-    const { error, data, status } = await makeRequest("role", "POST", role);
+    const { error, data, status } = await makeRequest("role", "POST", role, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, data, statusCode: status, message: error.message };
 
     return { error, data, status: status === 204 ? 201 : status };
@@ -56,10 +58,17 @@ export class RoleApiClient {
    */
   async update(role) {
     // call service
-    const { status, error } = await makeRequest(`role/${role.id}`, "PUT", {
-      ...role,
-      lastUpdate: new Date().toISOString(),
-    });
+    const { status, error } = await makeRequest(
+      `role/${role.id}`,
+      "PUT",
+      {
+        ...role,
+        lastUpdate: new Date().toISOString(),
+      },
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     return { error, status: status === 204 ? 201 : status };
   }
@@ -70,7 +79,10 @@ export class RoleApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) await makeRequest(`role/${id}`, "DELETE");
+    for (const id of ids)
+      await makeRequest(`role/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
     return { status: 204 };
   }
 }

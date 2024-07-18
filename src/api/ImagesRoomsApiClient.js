@@ -40,7 +40,9 @@ export class ImagesRoomsApiClient {
    */
   async create(imagesRooms) {
     // call service
-    const { error, data, status } = await makeRequest("imagesRooms", "POST", imagesRooms);
+    const { error, data, status } = await makeRequest("imagesRooms", "POST", imagesRooms, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     return { error, data, status: status === 204 ? 201 : status };
   }
 
@@ -51,7 +53,9 @@ export class ImagesRoomsApiClient {
    */
   async update(imagesRooms) {
     // call service
-    const { status, error } = await makeRequest(`imagesRooms/${imagesRooms.id}`, "PUT", imagesRooms);
+    const { status, error } = await makeRequest(`imagesRooms/${imagesRooms.id}`, "PUT", imagesRooms, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     return { error, status: status === 204 ? 201 : status };
   }
@@ -63,7 +67,9 @@ export class ImagesRoomsApiClient {
    */
   async delete(ids) {
     for (const id of ids) {
-      await makeRequest(`imagesRooms/${id}`, "DELETE");
+      await makeRequest(`imagesRooms/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
     }
     return { status: 204 };
   }

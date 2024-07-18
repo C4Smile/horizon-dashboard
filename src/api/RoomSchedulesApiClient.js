@@ -40,7 +40,9 @@ export class RoomSchedulesApiClient {
    */
   async create(roomSchedules) {
     // call service
-    const { error, data, status } = await makeRequest("roomSchedules", "POST", roomSchedules);
+    const { error, data, status } = await makeRequest("roomSchedules", "POST", roomSchedules, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
 
     return { error, data, status: status === 204 ? 201 : status };
   }
@@ -56,6 +58,9 @@ export class RoomSchedulesApiClient {
       `roomSchedules/${roomSchedules.id}`,
       "PUT",
       roomSchedules,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
     );
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     return { error, status: status === 204 ? 201 : status };
@@ -67,9 +72,11 @@ export class RoomSchedulesApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) {
-      await makeRequest(`roomSchedules/${id}`, "DELETE");
-    }
+    for (const id of ids)
+      await makeRequest(`roomSchedules/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
+
     return { status: 204 };
   }
 
@@ -79,7 +86,9 @@ export class RoomSchedulesApiClient {
    * @returns Transaction status
    */
   async deleteSingle(id) {
-    await makeRequest(`roomSchedules/${id}`, "DELETE");
+    await makeRequest(`roomSchedules/${id}`, "DELETE", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     return { status: 204 };
   }
 }

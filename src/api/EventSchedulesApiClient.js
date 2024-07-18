@@ -40,7 +40,9 @@ export class EventSchedulesApiClient {
    */
   async create(eventSchedules) {
     // call service
-    const { error, data, status } = await makeRequest("eventSchedules", "POST", eventSchedules);
+    const { error, data, status } = await makeRequest("eventSchedules", "POST", eventSchedules, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
 
     return { error, data, status: status === 204 ? 201 : status };
   }
@@ -56,6 +58,9 @@ export class EventSchedulesApiClient {
       `eventSchedules/${eventSchedules.id}`,
       "PUT",
       eventSchedules,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
     );
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     return { error, status: status === 204 ? 201 : status };
@@ -68,7 +73,9 @@ export class EventSchedulesApiClient {
    */
   async delete(ids) {
     for (const id of ids) {
-      await makeRequest(`eventSchedules/${id}`, "DELETE");
+      await makeRequest(`eventSchedules/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
     }
     return { status: 204 };
   }
@@ -79,7 +86,9 @@ export class EventSchedulesApiClient {
    * @returns Transaction status
    */
   async deleteSingle(id) {
-    await makeRequest(`eventSchedules/${id}`, "DELETE");
+    await makeRequest(`eventSchedules/${id}`, "DELETE", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     return { status: 204 };
   }
 }

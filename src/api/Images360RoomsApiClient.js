@@ -40,7 +40,9 @@ export class Images360RoomsApiClient {
    */
   async create(images360Rooms) {
     // call service
-    const { error, data, status } = await makeRequest("images360Rooms", "POST", images360Rooms);
+    const { error, data, status } = await makeRequest("images360Rooms", "POST", images360Rooms, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     return { error, data, status: status === 204 ? 201 : status };
   }
 
@@ -55,6 +57,9 @@ export class Images360RoomsApiClient {
       `images360Rooms/${images360Rooms.id}`,
       "PUT",
       images360Rooms,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
     );
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     return { error, status: status === 204 ? 201 : status };
@@ -67,7 +72,9 @@ export class Images360RoomsApiClient {
    */
   async delete(ids) {
     for (const id of ids) {
-      await makeRequest(`images360Rooms/${id}`, "DELETE");
+      await makeRequest(`images360Rooms/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
     }
     return { status: 204 };
   }

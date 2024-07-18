@@ -69,10 +69,17 @@ export class TagApiClient {
    */
   async update(tag) {
     // call service
-    const { status, error } = await makeRequest(`tag/${tag.id}`, "PUT", {
-      ...tag,
-      lastUpdate: new Date().toISOString(),
-    });
+    const { status, error } = await makeRequest(
+      `tag/${tag.id}`,
+      "PUT",
+      {
+        ...tag,
+        lastUpdate: new Date().toISOString(),
+      },
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     return { error, status: status === 204 ? 201 : status };
   }
@@ -83,7 +90,10 @@ export class TagApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) await makeRequest(`tag/${id}`, "DELETE");
+    for (const id of ids)
+      await makeRequest(`tag/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
     return { status: 204 };
   }
 }

@@ -55,7 +55,9 @@ export class ServiceApiClient {
    * @returns {Promise<Service>} some entity
    */
   async getEntity(entity) {
-    const { data, error, status } = await makeRequest(`${entity}`);
+    const { data, error, status } = await makeRequest(`${entity}`, "GET", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, statusCode: status, message: error.message };
     return data;
   }
@@ -85,7 +87,9 @@ export class ServiceApiClient {
     // saving image
     if (photo) service.imageId = photo.id;
     // call service
-    const { error, data, status } = await makeRequest("service", "POST", service);
+    const { error, data, status } = await makeRequest("service", "POST", service, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, data, statusCode: status, message: error.message };
     // saving schedule
     for (const schedule of scheduleToKeep)
@@ -124,10 +128,17 @@ export class ServiceApiClient {
     delete service.newServiceHasSchedule;
     // call service
     // call service
-    const { status, error } = await makeRequest(`service/${service.id}`, "PUT", {
-      ...service,
-      lastUpdate: new Date().toISOString(),
-    });
+    const { status, error } = await makeRequest(
+      `service/${service.id}`,
+      "PUT",
+      {
+        ...service,
+        lastUpdate: new Date().toISOString(),
+      },
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     // saving schedule
     for (const schedule of scheduleToKeep) {
@@ -147,7 +158,10 @@ export class ServiceApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) await makeRequest(`service/${id}`, "DELETE");
+    for (const id of ids)
+      await makeRequest(`service/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
     return { status: 204 };
   }
 }

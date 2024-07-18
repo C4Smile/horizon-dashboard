@@ -91,7 +91,9 @@ export class NewsApiClient {
     // cleaning relation ships
     delete news.tagsId;
     // call service
-    const { error, data, status } = await makeRequest("news", "POST", news);
+    const { error, data, status } = await makeRequest("news", "POST", news, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     // adding relationships
     for (const tag of tagsToKeep) await this.tagsNews.create({ newsId: data[0].id, tagId: tag });
     // saving image
@@ -126,10 +128,17 @@ export class NewsApiClient {
     delete news.newsHasTag;
     delete news.newsHasImage;
     // call service
-    const { status, error } = await makeRequest(`news/${news.id}`, "PUT", {
-      ...news,
-      lastUpdate: new Date().toISOString(),
-    });
+    const { status, error } = await makeRequest(
+      `news/${news.id}`,
+      "PUT",
+      {
+        ...news,
+        lastUpdate: new Date().toISOString(),
+      },
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     if (error !== null) return { status, statusCode: error.code, message: error.message };
 
     // adding relationships
@@ -140,7 +149,7 @@ export class NewsApiClient {
     // saving photo
     if (newPhotos.length)
       for (const newPhoto of newPhotos)
-        this.photosEvents.create({ newssId: news.id, imageId: newPhoto.id });
+        this.photosEvents.create({ newsId: news.id, imageId: newPhoto.id });
 
     return { error, status: status === 204 ? 201 : status };
   }
@@ -151,7 +160,10 @@ export class NewsApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) await makeRequest(`news/${id}`, "DELETE");
+    for (const id of ids)
+      await makeRequest(`news/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
 
     return { status: 204 };
   }

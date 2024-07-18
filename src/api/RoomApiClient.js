@@ -78,7 +78,9 @@ export class RoomApiClient {
     delete room.newRoomHasLink;
     delete room.newRoomHasSchedules;
     // call service
-    const { error, data, status } = await makeRequest("room", "POST", room);
+    const { error, data, status } = await makeRequest("room", "POST", room, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, data, statusCode: status, message: error.message };
     // adding relationships
     // saving links
@@ -145,10 +147,17 @@ export class RoomApiClient {
     delete room.roomHasSchedules;
     delete room.newRoomHasSchedules;
     // call service
-    const { status, error } = await makeRequest(`room/${room.id}`, "PUT", {
-      ...room,
-      lastUpdate: new Date().toISOString(),
-    });
+    const { status, error } = await makeRequest(
+      `room/${room.id}`,
+      "PUT",
+      {
+        ...room,
+        lastUpdate: new Date().toISOString(),
+      },
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     // do relationship updates
     // saving links
@@ -188,7 +197,10 @@ export class RoomApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) await makeRequest(`room/${id}`, "DELETE");
+    for (const id of ids)
+      await makeRequest(`room/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
     return { status: 204 };
   }
 }

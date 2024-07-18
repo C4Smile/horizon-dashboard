@@ -40,7 +40,9 @@ export class TagsNewsApiClient {
    */
   async create(tagsNews) {
     // call service
-    const { error, data, status } = await makeRequest("tagsNews", "POST", tagsNews);
+    const { error, data, status } = await makeRequest("tagsNews", "POST", tagsNews, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
 
     return { error, data, status: status === 204 ? 201 : status };
   }
@@ -52,7 +54,9 @@ export class TagsNewsApiClient {
    */
   async update(tagsNews) {
     // call service
-    const { status, error } = await makeRequest(`tagsNews/${tagsNews.id}`, "PUT", tagsNews);
+    const { status, error } = await makeRequest(`tagsNews/${tagsNews.id}`, "PUT", tagsNews, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     return { error, status: status === 204 ? 201 : status };
   }
@@ -76,7 +80,9 @@ export class TagsNewsApiClient {
    * @returns Status
    */
   async deleteByNews(tagId, newsId) {
-    await makeRequest(`tagsNews/${tagId}/news/${newsId}`, "DELETE");
+    await makeRequest(`tagsNews/${tagId}/news/${newsId}`, "DELETE", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     return { status: 204 };
   }
 }

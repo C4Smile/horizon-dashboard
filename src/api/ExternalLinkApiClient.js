@@ -42,7 +42,9 @@ export class ExternalLinkApiClient {
    * @returns {Promise<any[]>} some entity
    */
   async getEntity(entity) {
-    const { data, error, status } = await makeRequest(`${entity}`);
+    const { data, error, status } = await makeRequest(`${entity}`, "GET", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, statusCode: status, message: error.message };
     return data;
   }
@@ -54,7 +56,9 @@ export class ExternalLinkApiClient {
    */
   async create(externalLink) {
     // call service
-    const { error, data, status } = await makeRequest("externalLink", "POST", externalLink);
+    const { error, data, status } = await makeRequest("externalLink", "POST", externalLink, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, data, statusCode: status, message: error.message };
 
     return { error, data, status: status === 204 ? 201 : status };
@@ -67,10 +71,17 @@ export class ExternalLinkApiClient {
    */
   async update(externalLink) {
     // call service
-    const { status, error } = await makeRequest(`externalLink/${externalLink.id}`, "PUT", {
-      ...externalLink,
-      lastUpdate: new Date().toISOString(),
-    });
+    const { status, error } = await makeRequest(
+      `externalLink/${externalLink.id}`,
+      "PUT",
+      {
+        ...externalLink,
+        lastUpdate: new Date().toISOString(),
+      },
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     return { error, status: status === 204 ? 201 : status };
   }
@@ -81,7 +92,10 @@ export class ExternalLinkApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) await makeRequest(`externalLink/${id}`, "DELETE");
+    for (const id of ids)
+      await makeRequest(`externalLink/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
     return { status: 204 };
   }
 }
