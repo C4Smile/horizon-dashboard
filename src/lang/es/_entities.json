@@ -5,7 +5,7 @@
     "country": "País",
     "customer": "Cliente",
     "province": "Provincia",
-    "room": "Habitación",
+    "room": "Sala",
     "invoice": "Factura",
     "currency": "Moneda",
     "news": "Noticia",
@@ -36,7 +36,7 @@
   },
   "service": {
     "lastUpdate": { "label": "Última actualización" },
-    "name": { "label": "Nombre", "placeholder": "ex: Habitación" },
+    "name": { "label": "Nombre", "placeholder": "ex: Sala" },
     "imageId": {
       "label": "Imagen"
     },
@@ -166,7 +166,7 @@
     "type": { "label": "Tipo", "placeholder": "ej: Doble" },
     "description": {
       "label": "Descripción",
-      "placeholder": "ej: En esta habitación se puede ver el mar..."
+      "placeholder": "ej: En esta sala se puede ver el mar..."
     },
     "status": { "label": "Estado" },
     "roomHasImage": {

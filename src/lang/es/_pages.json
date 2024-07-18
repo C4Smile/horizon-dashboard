@@ -121,12 +121,12 @@
     "newForm": "Nuevo Cliente"
   },
   "rooms": {
-    "editForm": "Editar Habitación",
-    "newForm": "Nueva Habitación"
+    "editForm": "Editar Sala",
+    "newForm": "Nueva Sala"
   },
   "roomTypes": {
-    "editForm": "Editar Tipo de Habitación",
-    "newForm": "Nuevo Tipo de Habitación"
+    "editForm": "Editar Tipo de Sala",
+    "newForm": "Nuevo Tipo de Sala"
   },
   "news": {
     "editForm": "Editar Noticia",
