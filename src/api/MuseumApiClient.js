@@ -1,6 +1,7 @@
 import { ActivityApiClient } from "./ActivityApiClient";
 import { AppTextApiClient } from "./AppTextApiClient";
 import { EventApiClient } from "./EventApiClient";
+import { ExternalLinkApiClient } from "./ExternalLinkApiClient";
 import { NewsApiClient } from "./NewsApiClient";
 import { PushNotificationApiClient } from "./PushNotificationApiClient";
 import { RoleApiClient } from "./RoleApiClient";
@@ -23,6 +24,7 @@ export class MuseumApiClient {
     this.activity = new ActivityApiClient();
     this.appText = new AppTextApiClient();
     this.events = new EventApiClient();
+    this.externalLink = new ExternalLinkApiClient();
     this.news = new NewsApiClient();
     this.pushNotifications = new PushNotificationApiClient();
     this.role = new RoleApiClient();
@@ -65,7 +67,7 @@ export class MuseumApiClient {
   /**
    * @returns {PushNotificationApiClient} PushNotification
    */
-  get PushNotifications() {
+  get PushNotification() {
     return this.pushNotifications;
   }
 
@@ -116,5 +118,12 @@ export class MuseumApiClient {
    */
   get User() {
     return this.user;
+  }
+
+  /**
+   * @returns {ExternalLinkApiClient} ExternalLink
+   */
+  get ExternalLink() {
+    return this.externalLink;
   }
 }
