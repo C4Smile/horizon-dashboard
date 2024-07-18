@@ -8,12 +8,16 @@ import { makeRequest } from "../db/services";
 // utils
 import { SortOrder } from "../models/query/GenericFilter";
 import { parseManyToMany } from "./utils/relationships";
+import { fromLocal } from "../utils/local";
 
 // apis
 import { TagsEventsApiClient } from "./TagsEventsApiClient";
 import { ImagesEventsApiClient } from "./ImagesEventsApiClient";
 import { EventSchedulesApiClient } from "./EventSchedulesApiClient";
 import { EventLinksApiClient } from "./EventLinksApiClient";
+
+// config
+import config from "../config";
 
 /**
  * @class EventApiClient
@@ -43,7 +47,9 @@ export class EventApiClient {
    * @returns {Promise<Event>} Event
    */
   async getById(id) {
-    const { data, error, status } = await makeRequest(`event/${id}`);
+    const { data, error, status } = await makeRequest(`event/${id}`, "GET", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, statusCode: status, message: error.message };
     return data[0];
   }
@@ -70,7 +76,9 @@ export class EventApiClient {
     delete event.newEventHasLink;
     delete event.newEventHasSchedules;
     // call service
-    const { error, data, status } = await makeRequest("event", "POST", event);
+    const { error, data, status } = await makeRequest("event", "POST", event, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, data, statusCode: status, message: error.message };
     // adding relationships
     // saving links
@@ -126,10 +134,17 @@ export class EventApiClient {
     delete event.eventHasSchedules;
     delete event.newEventHasSchedules;
     // call service
-    const { status, error } = await makeRequest(`event/${event.id}`, "PUT", {
-      ...event,
-      lastUpdate: new Date().toISOString(),
-    });
+    const { status, error } = await makeRequest(
+      `event/${event.id}`,
+      "PUT",
+      {
+        ...event,
+        lastUpdate: new Date().toISOString(),
+      },
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     // do relationship updates
     // saving links
@@ -164,7 +179,10 @@ export class EventApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) await makeRequest(`event/${id}`, "DELETE");
+    for (const id of ids)
+      await makeRequest(`event/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
 
     return { status: 204 };
   }

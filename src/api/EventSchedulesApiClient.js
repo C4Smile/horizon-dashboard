@@ -1,5 +1,11 @@
-// utils
+// services
 import { makeRequest } from "../db/services";
+
+// utils
+import { fromLocal } from "../utils/local";
+
+// config
+import config from "../config";
 
 /**
  * @class EventSchedulesApiClient

@@ -5,6 +5,10 @@ import { makeRequest } from "../db/services";
 
 // utils
 import { SortOrder } from "../models/query/GenericFilter";
+import { fromLocal } from "../utils/local";
+
+// config
+import config from "../config";
 
 /**
  * @class RoomTypeApiClient

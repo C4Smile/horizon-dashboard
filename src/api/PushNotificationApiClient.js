@@ -5,6 +5,10 @@ import { makeRequest } from "../db/services";
 
 // utils
 import { SortOrder } from "../models/query/GenericFilter";
+import { fromLocal } from "../utils/local";
+
+// config
+import config from "../config";
 
 /**
  * @class PushNotificationApiClient
@@ -29,7 +33,9 @@ export class PushNotificationApiClient {
    * @returns {Promise<PushNotification>} PushNotification
    */
   async getById(id) {
-    const { data, error, status } = await makeRequest(`pushNotification/${id}`);
+    const { data, error, status } = await makeRequest(`pushNotification/${id}`, "GET", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, statusCode: status, message: error.message };
     return data[0];
   }
@@ -47,7 +53,9 @@ export class PushNotificationApiClient {
     // saving image
     if (photo) pushNotification.imageId = photo.id;
     // call service
-    const { error, data, status } = await makeRequest("pushNotification", "POST", pushNotification);
+    const { error, data, status } = await makeRequest("pushNotification", "POST", pushNotification, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, data, statusCode: status, message: error.message };
     return { error, status: status === 204 ? 201 : status };
   }
@@ -64,10 +72,17 @@ export class PushNotificationApiClient {
     // saving photo
     if (photo) pushNotification.imageId = photo.id;
     // call service
-    const { status, error } = await makeRequest(`pushNotification/${pushNotification.id}`, "PUT", {
-      ...pushNotification,
-      lastUpdate: new Date().toISOString(),
-    });
+    const { status, error } = await makeRequest(
+      `pushNotification/${pushNotification.id}`,
+      "PUT",
+      {
+        ...pushNotification,
+        lastUpdate: new Date().toISOString(),
+      },
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     return { error, status: status === 204 ? 201 : status };
   }
@@ -78,7 +93,10 @@ export class PushNotificationApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) await makeRequest(`pushNotification/${id}`, "DELETE");
+    for (const id of ids)
+      await makeRequest(`pushNotification/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
     return { status: 204 };
   }
 }

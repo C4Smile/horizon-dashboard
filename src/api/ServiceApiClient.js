@@ -11,6 +11,10 @@ import { makeRequest } from "../db/services";
 // utils
 import { SortOrder } from "../models/query/GenericFilter";
 import { parseManyToMany } from "./utils/relationships";
+import { fromLocal } from "../utils/local";
+
+// config
+import config from "../config";
 
 // apis
 import { ServiceSchedulesApiClient } from "./ServiceSchedulesApiClient";

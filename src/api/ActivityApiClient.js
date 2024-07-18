@@ -5,6 +5,10 @@ import { makeRequest } from "../db/services";
 
 // utils
 import { SortOrder } from "../models/query/GenericFilter";
+import { fromLocal } from "../utils/local";
+
+// config
+import config from "../config";
 
 /**
  * @class ActivityApiClient
@@ -29,7 +33,9 @@ export class ActivityApiClient {
    * @returns {Promise<Activity>} Activity
    */
   async getById(id) {
-    const { data, error, status } = await makeRequest(`activity/${id}`);
+    const { data, error, status } = await makeRequest(`activity/${id}`, "GET", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, statusCode: status, message: error.message };
     return data[0];
   }
@@ -40,7 +46,9 @@ export class ActivityApiClient {
    * @returns {Promise<Activity>} some entity
    */
   async getEntity(entity) {
-    const { data, error, status } = await makeRequest(`${entity}`);
+    const { data, error, status } = await makeRequest(`${entity}`, "GET", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, statusCode: status, message: error.message };
     return data;
   }
@@ -55,7 +63,9 @@ export class ActivityApiClient {
     // saving image
     if (photo) activity.imageId = photo.id;
     // call service
-    const { error, data, status } = await makeRequest("activity", "POST", activity);
+    const { error, data, status } = await makeRequest("activity", "POST", activity, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, data, statusCode: status, message: error.message };
 
     return { error, data, status: status === 204 ? 201 : status };
@@ -71,10 +81,17 @@ export class ActivityApiClient {
     // saving photo
     if (photo) activity.imageId = photo.id;
     // call service
-    const { status, error } = await makeRequest(`activity/${activity.id}`, "PUT", {
-      ...activity,
-      lastUpdate: new Date().toISOString(),
-    });
+    const { status, error } = await makeRequest(
+      `activity/${activity.id}`,
+      "PUT",
+      {
+        ...activity,
+        lastUpdate: new Date().toISOString(),
+      },
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     return { error, status: status === 204 ? 201 : status };
   }
@@ -85,7 +102,10 @@ export class ActivityApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) await makeRequest(`activity/${id}`, "DELETE");
+    for (const id of ids)
+      await makeRequest(`activity/${id}`, "DELETE", null, {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      });
     return { status: 204 };
   }
 }

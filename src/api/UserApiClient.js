@@ -1,7 +1,10 @@
-// utils
-import { fromLocal, toLocal } from "../utils/local";
+// services
 import { makeRequest } from "../db/services";
 
+// utils
+import { fromLocal, toLocal } from "../utils/local";
+
+// config
 import config from "../config";
 
 /**
