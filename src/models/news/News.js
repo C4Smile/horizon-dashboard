@@ -15,6 +15,7 @@ export class News extends Entity {
    * @param {number} id - News id
    * @param {string} title - News title
    * @param {string} description - News description
+   * @param {string} content - News content
    * @param {Date} dateOfCreation - News date of creation
    * @param {Date} lastUpdate - News last update
    * @param {boolean} deleted - News deleted

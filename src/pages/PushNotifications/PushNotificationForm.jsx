@@ -243,7 +243,7 @@ function PushNotificationForm() {
             </p>
             <div className="flex w-full gap-5">
               <SelectInput
-                options={entities.map((entity, i) => ({
+                options={entities.map((entity) => ({
                   id: entity,
                   value: t(`_entities:entities.${entity}`),
                 }))}

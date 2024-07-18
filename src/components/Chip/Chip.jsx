@@ -5,7 +5,7 @@ import { faClose } from "@fortawesome/free-solid-svg-icons";
 
 /**
  * Chip component
- * @param {object} props
+ * @param {object} props - component props
  * @returns Chip component
  */
 export default function Chip(props) {

@@ -23,8 +23,9 @@ const icons = {
 };
 
 /**
- *
- * @returns
+ * LinkChip component
+ * @param {object} props - component props
+ * @returns {object} LinkChip component
  */
 function LinkChip(props) {
   const { link, onDelete, externalLinkList, onlyIcon, variant = "", className, spanClassName } = props;

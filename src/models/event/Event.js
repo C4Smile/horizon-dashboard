@@ -19,6 +19,10 @@ export class Event extends Entity {
    * @param {number} id - Event id
    * @param {string} title - Event title
    * @param {string} description - Event description
+   * @param {string} content - Event content
+   * @param {string} subtitle - Event subtitle
+   * @param {string} address - Event address
+   * @param {string} location - Event location
    * @param {Date} dateOfCreation - Event date of creation
    * @param {Date} lastUpdate - Event last update
    * @param {boolean} deleted - Event deleted
