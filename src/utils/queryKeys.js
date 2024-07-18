@@ -1,13 +1,16 @@
 export const ReactQueryKeys = {
-  Customers: "Customers",
-  Rooms: "Rooms",
-  Countries: "Countries",
-  Provinces: "Provinces",
-  Reservations: "Reservations",
-  Invoices: "Invoices",
-  Users: "Users",
-  PaymentMethods: "PaymentMethods",
-  News: "News",
+  Activities: "Activities",
+  AppTexts: "AppTexts",
   Events: "Events",
-  Tags: "NewsTags",
+  PushNotifications: "PushNotifications",
+  Roles: "Roles",
+  Rooms: "Rooms",
+  RoomStatuses: "RoomStatuses",
+  RoomTypes: "RoomTypes",
+  Services: "Services",
+  Users: "Users",
+  News: "News",
+  Tags: "Tags",
 };
+
+export const entities = ["room", "activity", "events", "news"];
