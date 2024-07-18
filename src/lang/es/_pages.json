@@ -61,7 +61,7 @@
     }
   },
   "dashboard": {
-    "title": "Tablero",
+    "title": "Panel Administrativo",
     "links": {
       "main": "Principal",
       "analytics": "Análisis"

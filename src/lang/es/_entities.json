@@ -187,8 +187,8 @@
   },
   "pushNotification": {
     "actionType": {
-      "link": "Link to another page",
-      "entity": "Link to another entity"
+      "link": "Enlace a una página",
+      "entity": "Enlace a otra entidad"
     },
     "lastUpdate": { "label": "Última actualización" },
     "title": { "label": "Título", "placeholder": "ex: Nuevo lugar ha abierto" },
