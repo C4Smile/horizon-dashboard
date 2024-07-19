@@ -67,8 +67,6 @@ export class RoomApiClient {
     room.urlName = toSlug(room.number);
     // parsing html
     room.content = room.content ? draftToHtml(convertToRaw(room.content.getCurrentContent())) : null;
-    // parsing links
-    const linksToKeep = parseManyToMany("linkId", room.newRoomHasLink, room.roomHasLink);
     // parsing schedule
     const scheduleToKeep = parseManyToMany("id", room.newRoomHasSchedules, room.roomHasSchedules);
     // cleaning relation ships
@@ -80,10 +78,6 @@ export class RoomApiClient {
     });
     if (error !== null) return { status, data, statusCode: status, message: error.message };
     // adding relationships
-    // saving links
-    for (const link of linksToKeep)
-      await this.roomLinks.create({ roomId: data[0].id, linkId: link.linkId, url: link.url });
-
     // saving schedule
     for (const schedule of scheduleToKeep)
       await this.roomSchedules.create({
@@ -115,12 +109,8 @@ export class RoomApiClient {
     room.urlName = toSlug(room.number);
     // parsing html
     room.content = room.content ? draftToHtml(convertToRaw(room.content.getCurrentContent())) : null;
-    // parsing links
-    const linksToKeep = parseManyToMany("linkId", room.newRoomHasLink, room.roomHasLink);
     // parsing schedule
     const scheduleToKeep = parseManyToMany("id", room.newRoomHasSchedules, room.roomHasSchedules);
-    // parsing tags
-    const tagsToKeep = parseManyToMany("typeId", room.tagsId, room.roomHasTag);
     // saving photos
     const newPhotos = [];
     for (const newPhoto of photos) {
@@ -134,11 +124,9 @@ export class RoomApiClient {
       if (!found) newPhotos360.push(newPhoto);
     }
     // cleaning relation ships
-    delete room.tagsId;
     delete room.roomHasTag;
     delete room.roomHasImage;
     delete room.newRoomHasLink;
-    delete room.roomHasLink;
     delete room.roomHasSchedules;
     delete room.newRoomHasSchedules;
     // call service
@@ -155,11 +143,6 @@ export class RoomApiClient {
     );
     if (error !== null) return { status, statusCode: error.code, message: error.message };
     // do relationship updates
-    // saving links
-    for (const link of linksToKeep) {
-      if (link.delete) await this.roomSchedules.deleteByUrl(link.linkId, link.url);
-      else await this.roomLinks.create({ roomId: room.id, linkId: link.linkId, url: link.url });
-    }
     // saving schedule
     for (const schedule of scheduleToKeep) {
       if (schedule.delete) await this.roomSchedules.deleteSingle(schedule.id);
@@ -168,11 +151,6 @@ export class RoomApiClient {
         description: schedule.description,
         date: schedule.date,
       });
-    }
-    // saving tags
-    for (const tag of tagsToKeep) {
-      if (tag.delete) this.tagsRooms.deleteByRoom(tag.tagId, room.id);
-      else this.tagsRooms.create({ roomId: room.id, tagId: tag.tagId });
     }
     // saving photo
     if (newPhotos.length)
