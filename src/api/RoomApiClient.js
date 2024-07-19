@@ -20,7 +20,6 @@ import config from "../config";
 import { ImagesRoomsApiClient } from "./ImagesRoomsApiClient";
 import { Images360RoomsApiClient } from "./Images360RoomsApiClient";
 import { RoomSchedulesApiClient } from "./RoomSchedulesApiClient";
-import { RoomLinksApiClient } from "./RoomLinksApiClient";
 
 /**
  * @class RoomApiClient
@@ -30,7 +29,6 @@ export class RoomApiClient {
   photosRooms = new ImagesRoomsApiClient();
   photos360Rooms = new Images360RoomsApiClient();
   roomSchedules = new RoomSchedulesApiClient();
-  roomLinks = new RoomLinksApiClient();
 
   /**
    * @description Get all room
