@@ -114,7 +114,7 @@
     "lastUpdate": { "label": "Última actualización" },
     "title": {
       "label": "Título",
-      "placeholder": "ej: El museum abre un nuevo bar"
+      "placeholder": "ej: El museo abre una nueva exposición"
     },
     "description": {
       "label": "Descripción",
