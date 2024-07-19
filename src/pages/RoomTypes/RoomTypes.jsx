@@ -74,8 +74,6 @@ function RoomTypes() {
             {roomType.name}
           </Link>
         ),
-        price: `${roomType.price} CUP`,
-        capacity: `${roomType.capacity}`,
       };
     });
   }, [localData, t]);

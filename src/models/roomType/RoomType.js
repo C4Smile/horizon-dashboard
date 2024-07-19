@@ -6,32 +6,18 @@ import { Entity } from "../entity/Entity";
  */
 export class RoomType extends Entity {
   name = "";
-  price = 0;
-  capacity = 0;
 
   /**
    * @param {number} id - RoomType id
    * @param {string} name - RoomType name
-   * @param {number} price - RoomType price
-   * @param {number} capacity - RoomType capacity
    * @param {Date} dateOfCreation - RoomType date of creation
    * @param {Date} lastUpdate - RoomType last update
    * @param {boolean} deleted - RoomType deleted
    * @returns RoomType instance
    */
-  constructor(
-    id,
-    name,
-    price,
-    capacity,
-    dateOfCreation = Date.now(),
-    lastUpdate = Date.now(),
-    deleted = false,
-  ) {
+  constructor(id, name, dateOfCreation = Date.now(), lastUpdate = Date.now(), deleted = false) {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.name = name;
-    this.price = price;
-    this.capacity = capacity;
   }
 
   /**
@@ -40,15 +26,7 @@ export class RoomType extends Entity {
    * @returns {RoomType} Entity instance
    */
   static fromJson(json) {
-    return new RoomType(
-      json.id,
-      json.name,
-      json.price,
-      json.capacity,
-      json.dateOfCreation,
-      json.lastUpdate,
-      json.deleted,
-    );
+    return new RoomType(json.id, json.name, json.dateOfCreation, json.lastUpdate, json.deleted);
   }
 
   /**
@@ -56,19 +34,5 @@ export class RoomType extends Entity {
    */
   get Name() {
     return this.name;
-  }
-
-  /**
-   * @returns Price
-   */
-  get Price() {
-    return this.price;
-  }
-
-  /**
-   * @returns Capacity
-   */
-  get Capacity() {
-    return this.capacity;
   }
 }
