@@ -147,39 +147,39 @@ function App() {
             {/* Information */}
             <Route
               exact
-              path="/museum/activities"
-              element={<ModelNavigation parent="museum" model="activities" />}
+              path="/information/activities"
+              element={<ModelNavigation parent="information" model="activities" />}
             >
               <Route index element={<Activities />} />
-              <Route path="/museum/activities/new" element={<ActivityForm />} />
-              <Route path="/museum/activities/:id" element={<ActivityForm />} />
+              <Route path="/information/activities/new" element={<ActivityForm />} />
+              <Route path="/information/activities/:id" element={<ActivityForm />} />
             </Route>
             <Route
               exact
-              path="/activities/news"
-              element={<ModelNavigation parent="activities" model="news" />}
+              path="/information/news"
+              element={<ModelNavigation parent="information" model="news" />}
             >
               <Route index element={<News />} />
-              <Route path="/activities/news/new" element={<NewsForm />} />
-              <Route path="/activities/news/:id" element={<NewsForm />} />
+              <Route path="/information/news/new" element={<NewsForm />} />
+              <Route path="/information/news/:id" element={<NewsForm />} />
             </Route>
             <Route
               exact
-              path="/activities/events"
-              element={<ModelNavigation parent="activities" model="events" />}
+              path="/information/events"
+              element={<ModelNavigation parent="information" model="events" />}
             >
               <Route index element={<Events />} />
-              <Route path="/activities/events/new" element={<EventForm />} />
-              <Route path="/activities/events/:id" element={<EventForm />} />
+              <Route path="/information/events/new" element={<EventForm />} />
+              <Route path="/information/events/:id" element={<EventForm />} />
             </Route>
             <Route
               exact
-              path="/activities/tags"
-              element={<ModelNavigation parent="activities" model="tags" />}
+              path="/information/tags"
+              element={<ModelNavigation parent="information" model="tags" />}
             >
               <Route index element={<Tags />} />
-              <Route path="/activities/tags/new" element={<TagForm />} />
-              <Route path="/activities/tags/:id" element={<TagForm />} />
+              <Route path="/information/tags/new" element={<TagForm />} />
+              <Route path="/information/tags/:id" element={<TagForm />} />
             </Route>
             {/* Management */}
             <Route
