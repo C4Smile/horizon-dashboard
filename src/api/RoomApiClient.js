@@ -71,10 +71,7 @@ export class RoomApiClient {
     const linksToKeep = parseManyToMany("linkId", room.newRoomHasLink, room.roomHasLink);
     // parsing schedule
     const scheduleToKeep = parseManyToMany("id", room.newRoomHasSchedules, room.roomHasSchedules);
-    // parsing tags
-    const tagsToKeep = room.tagsId.map((tag) => tag.id);
     // cleaning relation ships
-    delete room.tagsId;
     delete room.newRoomHasLink;
     delete room.newRoomHasSchedules;
     // call service
@@ -94,8 +91,6 @@ export class RoomApiClient {
         description: schedule.description,
         date: schedule.date,
       });
-    // saving tags
-    for (const tag of tagsToKeep) await this.tagsRooms.create({ roomId: data[0].id, tagId: tag });
     // saving image
     if (photos)
       for (const photo of photos)
