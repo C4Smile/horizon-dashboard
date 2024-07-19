@@ -44,15 +44,15 @@ function RoomForm() {
 
   const { handleSubmit, reset, control } = useForm();
 
-  const [image360, setImage360] = useState();
+  const [images360, setImages360] = useReducer(localPhotoReducer, []);
   const [photos, setPhotos] = useReducer(localPhotoReducer, []);
 
   const onSubmit = async (d) => {
     setSaving(true);
     try {
       let result;
-      if (!d.id) result = await museumApiClient.Room.create(d, photos, image360);
-      else result = await museumApiClient.Room.update(d, photos, image360);
+      if (!d.id) result = await museumApiClient.Room.create(d, photos, images360);
+      else result = await museumApiClient.Room.update(d, photos, images360);
       const { error, status } = result;
       setNotification(String(status), { model: t("_entities:entities.room") });
       setLastUpdate(new Date().toDateString());
@@ -61,7 +61,7 @@ function RoomForm() {
       if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Rooms, id] });
       else {
         setPhotos({ type: "set", items: [] });
-        setImage360();
+        setImages360({ type: "set", items: [] });
         reset({
           id: undefined,
           number: "",
@@ -226,15 +226,15 @@ function RoomForm() {
             />
           )}
         />
-        {/* Room 360 Image */}
-        <div className="mb-4">
+        {/* Room 360 Images */}
+        <div>
           {roomQuery.isLoading ? (
             <Loading />
           ) : (
-            <ImageKitIoUploader
-              photo={image360}
-              setPhoto={setImage360}
-              label={`${t("_entities:room.image360Id.label")}`}
+            <ImageKitIoUploaderMultiple
+              photos={images360}
+              setPhotos={setImages360}
+              label={`${t("_entities:room.roomHasImage360.label")}`}
               folder={`/images/${ReactQueryKeys.Rooms}`}
             />
           )}
