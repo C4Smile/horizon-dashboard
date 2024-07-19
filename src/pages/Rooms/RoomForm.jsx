@@ -14,7 +14,6 @@ import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
 import SelectInput from "../../components/Forms/SelectInput";
 import ImageKitIoUploaderMultiple from "../../components/ImageKitIoUploaderMultiple";
-import ImageKitIoUploader from "../../components/ImageKitIoUploader";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
