@@ -36,8 +36,8 @@ function RoomForm() {
     setSaving(true);
     try {
       let result;
-      if (!d.id) result = await museumApiClient.Room.create(d);
-      else result = await museumApiClient.Room.update(d);
+      if (!d.id) result = await museumApiClient.RoomType.create(d);
+      else result = await museumApiClient.RoomType.update(d);
       const { error, status } = result;
       setNotification(String(status), { model: t("_entities:entities.roomType") });
       setLastUpdate(new Date().toDateString());
@@ -59,8 +59,8 @@ function RoomForm() {
   };
 
   const roomTypeQuery = useQuery({
-    queryKey: [ReactQueryKeys.Rooms, id],
-    queryFn: () => museumApiClient.Room.getById(id),
+    queryKey: [ReactQueryKeys.RoomTypes, id],
+    queryFn: () => museumApiClient.RoomType.getById(id),
     enabled: id !== undefined,
     retry: false,
   });
