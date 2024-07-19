@@ -12,6 +12,15 @@ import { ServiceApiClient } from "./ServiceApiClient";
 import { TagApiClient } from "./TagApiClient";
 import { UserApiClient } from "./UserApiClient";
 
+// services
+import { makeRequest } from "../db/services";
+
+// utils
+import { fromLocal } from "../utils/local";
+
+// config
+import config from "../config";
+
 /**
  * @class MuseumApiClient
  * @description MuseumApiClient
@@ -34,6 +43,19 @@ export class MuseumApiClient {
     this.service = new ServiceApiClient();
     this.tags = new TagApiClient();
     this.user = new UserApiClient();
+  }
+
+  /**
+   * @description Get activity by id
+   * @param {string} entity - Activity id
+   * @returns {Promise<any>} some entity
+   */
+  async getEntity(entity) {
+    const { data, error, status } = await makeRequest(`${entity}`, "GET", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
+    if (error !== null) return { status, statusCode: status, message: error.message };
+    return data;
   }
 
   /**

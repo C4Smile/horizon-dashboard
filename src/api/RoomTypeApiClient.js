@@ -39,19 +39,6 @@ export class RoomTypeApiClient {
   }
 
   /**
-   * @description Get roomType by id
-   * @param {string} entity - RoomType id
-   * @returns {Promise<RoomType>} some entity
-   */
-  async getEntity(entity) {
-    const { data, error, status } = await makeRequest(`${entity}`, "GET", null, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
-    if (error !== null) return { status, statusCode: status, message: error.message };
-    return data;
-  }
-
-  /**
    * @description Create roomType
    * @param {RoomType} roomType - RoomType
    * @param {object} photo - RoomType photo

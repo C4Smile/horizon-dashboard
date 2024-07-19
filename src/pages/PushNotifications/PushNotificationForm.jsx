@@ -47,7 +47,7 @@ function PushNotificationForm() {
 
   const entitiesQuery = useQuery({
     queryKey: [entityLinkType, previousLink ?? ""],
-    queryFn: () => museumApiClient.Offer.getEntity(entityLinkType),
+    queryFn: () => museumApiClient.getEntity(entityLinkType),
     enabled: !!entityLinkType,
     retry: false,
   });

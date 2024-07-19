@@ -41,19 +41,6 @@ export class ActivityApiClient {
   }
 
   /**
-   * @description Get activity by id
-   * @param {string} entity - Activity id
-   * @returns {Promise<Activity>} some entity
-   */
-  async getEntity(entity) {
-    const { data, error, status } = await makeRequest(`${entity}`, "GET", null, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
-    if (error !== null) return { status, statusCode: status, message: error.message };
-    return data;
-  }
-
-  /**
    * @description Create activity
    * @param {Activity} activity - Activity
    * @param {object} photo - Activity photo

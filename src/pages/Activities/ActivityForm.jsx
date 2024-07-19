@@ -43,7 +43,7 @@ function ActivityForm() {
 
   const entitiesQuery = useQuery({
     queryKey: [entityLinkType, previousLink ?? ""],
-    queryFn: () => museumApiClient.Activity.getEntity(entityLinkType),
+    queryFn: () => museumApiClient.getEntity(entityLinkType),
     enabled: !!entityLinkType,
     retry: false,
   });

@@ -39,24 +39,15 @@ export class TagApiClient {
   }
 
   /**
-   * @description Get tag by id
-   * @param {string} entity - Tag id
-   * @returns {Promise<Tag>} some entity
-   */
-  async getEntity(entity) {
-    const { data, error, status } = await makeRequest(`${entity}`);
-    if (error !== null) return { status, statusCode: status, message: error.message };
-    return data;
-  }
-
-  /**
    * @description Create tag
    * @param {Tag} tag - Tag
    * @returns {Promise<Tag>} Tag
    */
   async create(tag) {
     // call service
-    const { error, data, status } = await makeRequest("tag", "POST", tag);
+    const { error, data, status } = await makeRequest("tag", "POST", tag, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, data, statusCode: status, message: error.message };
 
     return { error, data, status: status === 204 ? 201 : status };

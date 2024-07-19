@@ -50,19 +50,6 @@ export class ServiceApiClient {
   }
 
   /**
-   * @description Get service by id
-   * @param {string} entity - Activity id
-   * @returns {Promise<Service>} some entity
-   */
-  async getEntity(entity) {
-    const { data, error, status } = await makeRequest(`${entity}`, "GET", null, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
-    if (error !== null) return { status, statusCode: status, message: error.message };
-    return data;
-  }
-
-  /**
    * @description Create service
    * @param {Service} service - Service
    * @param {object} photo - Service photo

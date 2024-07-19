@@ -37,19 +37,6 @@ export class ExternalLinkApiClient {
   }
 
   /**
-   * @description Get externalLink by id
-   * @param {string} entity - ExternalLink id
-   * @returns {Promise<any[]>} some entity
-   */
-  async getEntity(entity) {
-    const { data, error, status } = await makeRequest(`${entity}`, "GET", null, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
-    if (error !== null) return { status, statusCode: status, message: error.message };
-    return data;
-  }
-
-  /**
    * @description Create externalLink
    * @param {object} externalLink - ExternalLink
    * @returns {Promise<any[]>} ExternalLink
