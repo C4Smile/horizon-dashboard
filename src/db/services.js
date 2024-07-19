@@ -1,6 +1,6 @@
 import config from "../config";
 
-const isAnError = (status) => status < 200 && status > 299;
+const isAnError = (status) => status < 200 || status > 299;
 
 /**
  * @description Make a request to the API
