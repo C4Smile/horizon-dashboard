@@ -35,10 +35,10 @@ const noSortableColumns = {
 };
 
 /**
- * Activitys page
- * @returns Activitys page component
+ * Activities page
+ * @returns Activities page component
  */
-function ActivitysPage() {
+function ActivitiesPage() {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
@@ -70,7 +70,7 @@ function ActivitysPage() {
 
   const activityQuery = useQuery({
     queryKey: [
-      ReactQueryKeys.Activitys,
+      ReactQueryKeys.Activities,
       {
         ...sort,
       },
@@ -162,7 +162,9 @@ function ActivitysPage() {
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:museum.links.activitys")}</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-5">
+        {t("_pages:information.links.activities")}
+      </h1>
       <Table
         isLoading={activityQuery.isLoading}
         rows={preparedRows}
@@ -174,4 +176,4 @@ function ActivitysPage() {
   );
 }
 
-export default ActivitysPage;
+export default ActivitiesPage;

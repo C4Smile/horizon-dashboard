@@ -89,7 +89,7 @@ function ActivityForm() {
       // eslint-disable-next-line no-console
       if (status !== 201) console.error(message);
       else if (id !== undefined)
-        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Activitys, id] });
+        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Activities, id] });
       else {
         setPhoto();
         reset({
@@ -107,7 +107,7 @@ function ActivityForm() {
   };
 
   const activityQuery = useQuery({
-    queryKey: [ReactQueryKeys.Activitys, id],
+    queryKey: [ReactQueryKeys.Activities, id],
     queryFn: () => museumApiClient.Activity.getById(id),
     enabled: id !== undefined,
     retry: false,
@@ -149,7 +149,7 @@ function ActivityForm() {
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <h1 className="text-2xl md:text-3xl font-bold">
-          {id ? `${t("_pages:activitys.editForm")} ${id}` : t("_pages:activitys.newForm")}
+          {id ? `${t("_pages:activities.editForm")} ${id}` : t("_pages:activities.newForm")}
         </h1>
         {activityQuery.isLoading ? (
           <Loading
@@ -238,7 +238,7 @@ function ActivityForm() {
               photo={photo}
               setPhoto={setPhoto}
               label={`${t("_entities:activity.imageId.label")}`}
-              folder={`/images/${ReactQueryKeys.Activitys}`}
+              folder={`/images/${ReactQueryKeys.Activities}`}
             />
           )}
         </div>
