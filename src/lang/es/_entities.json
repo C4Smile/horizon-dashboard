@@ -163,7 +163,7 @@
   },
   "room": {
     "lastUpdate": { "label": "Última actualización" },
-    "number": { "label": "Número", "placeholder": "ej: I" },
+    "number": { "label": "Número - Nombre", "placeholder": "ej: I" },
     "name": { "label": "Nombre", "placeholder": "ej: Mirador A" },
     "type": { "label": "Tipo", "placeholder": "ej: Doble" },
     "description": {
@@ -174,7 +174,7 @@
     "roomHasImage": {
       "label": "Imágenes"
     },
-    "image360Id": {
+    "roomHasImage360": {
       "label": "Imagen 360"
     },
     "content": {
