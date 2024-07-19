@@ -183,9 +183,7 @@
   },
   "roomType": {
     "lastUpdate": { "label": "Última actualización" },
-    "name": { "label": "Nombre", "placeholder": "ej: Simple" },
-    "price": { "label": "Precio", "placeholder": "ej: 200" },
-    "capacity": { "label": "Capacidad", "placeholder": "2" }
+    "name": { "label": "Nombre", "placeholder": "ej: Museable" }
   },
   "pushNotification": {
     "actionType": {
@@ -193,7 +191,7 @@
       "entity": "Enlace a otra entidad"
     },
     "lastUpdate": { "label": "Última actualización" },
-    "title": { "label": "Título", "placeholder": "ex: Nuevo lugar ha abierto" },
+    "title": { "label": "Título", "placeholder": "ex: Nueva sala ha abierto" },
     "description": {
       "label": "Descripción",
       "placeholder": "ej: Alguna descripción para la notificación"
