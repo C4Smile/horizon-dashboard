@@ -28,7 +28,7 @@ export class UserApiClient {
       toLocal(config.user, data);
     }
     return {
-      json: async () => ({ ...data, status: error ? error.status : 200 }),
+      json: async () => ({ ...data, status: error ? error.status : 200, error }),
     };
   }
 
@@ -42,7 +42,7 @@ export class UserApiClient {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     return {
-      json: async () => ({ ...data, status: error ? error.status : 200 }),
+      json: async () => ({ ...data, status: error ? error.status : 200, error }),
     };
   }
 
@@ -51,10 +51,10 @@ export class UserApiClient {
    * @returns the current session
    */
   async getSession() {
-    const { data, error } = await makeRequest(`auth/validate`, "GET", null, {
+    const { data, error, status } = await makeRequest(`auth/validate`, "GET", null, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
-    return { data, error };
+    return { data, status: error?.status ?? status, error };
   }
 
   /**
@@ -62,10 +62,10 @@ export class UserApiClient {
    * @returns refreshed token
    */
   async validates() {
-    const { data, error } = await makeRequest(`auth/validate`, "GET", null, {
+    const { data, error, status } = await makeRequest(`auth/validate`, "GET", null, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
-    return { data, status: error?.status };
+    return { data, status: error?.status ?? status, error };
   }
 
   /**
