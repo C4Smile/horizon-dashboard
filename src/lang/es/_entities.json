@@ -6,6 +6,8 @@
     "customer": "Cliente",
     "province": "Provincia",
     "room": "Sala",
+    "roomType": "Tipo de Sala",
+    "roomStatus": "Estado de Sala",
     "invoice": "Factura",
     "currency": "Moneda",
     "news": "Noticia",
