@@ -121,7 +121,7 @@ function RoomForm() {
     if (roomQuery.data) {
       if (roomQuery.data?.roomHasImage?.length)
         setPhotos({ type: "set", items: roomQuery.data?.roomHasImage.map((image) => image.imageId) });
-      if (roomQuery.data?.image360Id) setImage360(roomQuery.data?.image360Id);
+      if (roomQuery.data?.image360Id) setImages360(roomQuery.data?.image360Id);
       //* PARSING CONTENT
       if (roomQuery.data?.content && typeof roomQuery.data?.content === "string") {
         const html = roomQuery.data?.content;
