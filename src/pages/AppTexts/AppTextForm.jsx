@@ -51,15 +51,17 @@ function AppTextForm() {
       setNotification(String(status), { model: t("_entities:entities.appText") });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
-      if (status !== 201) console.error(error);
-      else if (id !== undefined)
-        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.AppTexts, id] });
-      else
-        reset({
-          id: undefined,
-          title: "",
-          content: null,
-        });
+      if (error && error !== null) console.error(error.message);
+      else {
+        if (id !== undefined)
+          queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.AppTexts, id] });
+        else
+          reset({
+            id: undefined,
+            title: "",
+            content: null,
+          });
+      }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);

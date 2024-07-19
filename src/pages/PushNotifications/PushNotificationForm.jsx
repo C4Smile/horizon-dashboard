@@ -85,16 +85,18 @@ function PushNotificationForm() {
       setNotification(String(status), { model: t("_entities:entities.pushNotification") });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
-      if (status !== 201) console.error(error);
-      else if (id !== undefined)
-        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.PushNotifications, id] });
+      if (error && error !== null) console.error(error.message);
       else {
-        setPhoto();
-        reset({
-          id: undefined,
-          title: "",
-          description: "",
-        });
+        if (id !== undefined)
+          queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.PushNotifications, id] });
+        else {
+          setPhoto();
+          reset({
+            id: undefined,
+            title: "",
+            description: "",
+          });
+        }
       }
     } catch (e) {
       // eslint-disable-next-line no-console

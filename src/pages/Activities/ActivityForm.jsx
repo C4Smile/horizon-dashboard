@@ -83,20 +83,22 @@ function ActivityForm() {
       if (!d.id) result = await museumApiClient.Activity.create(d, photo);
       else result = await museumApiClient.Activity.update(d, photo);
 
-      const { message, status } = result;
+      const { error, status } = result;
       setNotification(String(status), { model: t("_entities:entities.activity") });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
-      if (status !== 201) console.error(message);
-      else if (id !== undefined)
-        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Activities, id] });
+      if (error && error !== null) console.error(error.message);
       else {
-        setPhoto();
-        reset({
-          id: undefined,
-          title: "",
-          description: "",
-        });
+        if (id !== undefined)
+          queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Activities, id] });
+        else {
+          setPhoto();
+          reset({
+            id: undefined,
+            title: "",
+            description: "",
+          });
+        }
       }
     } catch (e) {
       // eslint-disable-next-line no-console

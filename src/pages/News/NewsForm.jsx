@@ -56,21 +56,23 @@ function NewsForm() {
       if (!d.id) result = await museumApiClient.News.create(d, photos);
       else result = await museumApiClient.News.update(d, photos);
 
-      const { message, status } = result;
+      const { error, status } = result;
       setNotification(String(status), { model: t("_entities:entities.news") });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
-      if (status !== 201) console.error(message);
-      else if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.News, id] });
+      if (error && error !== null) console.error(error.message);
       else {
-        setPhotos({ type: "set", items: [] });
-        reset({
-          id: undefined,
-          title: "",
-          subtitle: "",
-          description: "",
-          tagsId: [],
-        });
+        if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.News, id] });
+        else {
+          setPhotos({ type: "set", items: [] });
+          reset({
+            id: undefined,
+            title: "",
+            subtitle: "",
+            description: "",
+            tagsId: [],
+          });
+        }
       }
     } catch (e) {
       // eslint-disable-next-line no-console

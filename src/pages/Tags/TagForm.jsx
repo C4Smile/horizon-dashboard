@@ -43,13 +43,15 @@ function TagForm() {
       setNotification(String(status), { model: t("_entities:entities.tag") });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
-      if (status !== 201) console.error(error);
-      else if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Tags, id] });
-      else
-        reset({
-          id: undefined,
-          name: "",
-        });
+      if (error && error !== null) console.error(error.message);
+      else {
+        if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Tags, id] });
+        else
+          reset({
+            id: undefined,
+            name: "",
+          });
+      }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);

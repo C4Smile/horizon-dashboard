@@ -58,27 +58,28 @@ function EventForm() {
       if (!d.id) result = await museumApiClient.Event.create(d, photos);
       else result = await museumApiClient.Event.update(d, photos);
 
-      const { message, status } = result;
+      const { error, status } = result;
       setNotification(String(status), { model: t("_entities:entities.event") });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
-      if (status !== 201) console.error(message);
-      else if (id !== undefined)
-        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Events, id] });
+      if (error && error !== null) console.error(error.message);
       else {
-        setPhotos({ type: "set", items: [] });
-        reset({
-          id: undefined,
-          title: "",
-          subtitle: "",
-          address: "",
-          location: "",
-          content: null,
-          description: "",
-          tagsId: [],
-          newEventHasLink: [],
-          newEventHasSchedule: [],
-        });
+        if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Events, id] });
+        else {
+          setPhotos({ type: "set", items: [] });
+          reset({
+            id: undefined,
+            title: "",
+            subtitle: "",
+            address: "",
+            location: "",
+            content: null,
+            description: "",
+            tagsId: [],
+            newEventHasLink: [],
+            newEventHasSchedule: [],
+          });
+        }
       }
     } catch (e) {
       // eslint-disable-next-line no-console

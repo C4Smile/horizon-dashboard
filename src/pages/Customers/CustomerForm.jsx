@@ -43,18 +43,21 @@ function CustomerForm() {
       const { error, status } = result;
       setNotification(String(status), { model: t("_entities:entities.customer") });
       // eslint-disable-next-line no-console
-      if (status !== 201) console.error(error);
-      if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers, id] });
-      else
-        reset({
-          id: undefined,
-          name: "",
-          email: "",
-          phone: "",
-          address: "",
-          identification: "",
-          country: undefined,
-        });
+      if (error && error !== null) console.error(error.message);
+      else {
+        if (id !== undefined)
+          queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers, id] });
+        else
+          reset({
+            id: undefined,
+            name: "",
+            email: "",
+            phone: "",
+            address: "",
+            identification: "",
+            country: undefined,
+          });
+      }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);

@@ -54,23 +54,25 @@ function ServiceForm() {
       if (!d.id) result = await museumApiClient.Service.create(d, photo);
       else result = await museumApiClient.Service.update(d, photo);
 
-      const { message, status } = result;
+      const { error, status } = result;
       setNotification(String(status), { model: t("_entities:entities.service") });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
-      if (status !== 201) console.error(message);
-      else if (id !== undefined)
-        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Services, id] });
+      if (error && error !== null) console.error(error.message);
       else {
-        setPhoto({ type: "set", items: [] });
-        reset({
-          id: undefined,
-          name: "",
-          description: "",
-          servicePlace: [],
-          content: null,
-          newPlaceHasSchedule: [],
-        });
+        if (id !== undefined)
+          queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Services, id] });
+        else {
+          setPhoto({ type: "set", items: [] });
+          reset({
+            id: undefined,
+            name: "",
+            description: "",
+            servicePlace: [],
+            content: null,
+            newPlaceHasSchedule: [],
+          });
+        }
       }
     } catch (e) {
       // eslint-disable-next-line no-console

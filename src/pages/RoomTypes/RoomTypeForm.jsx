@@ -42,14 +42,16 @@ function RoomForm() {
       setNotification(String(status), { model: t("_entities:entities.roomType") });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
-      if (error && error !== null) console.error(error);
-      if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Rooms, id] });
-      else
-        reset({
-          id: undefined,
-          number: "",
-          name: "",
-        });
+      if (error && error !== null) console.error(error.message);
+      else {
+        if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Rooms, id] });
+        else
+          reset({
+            id: undefined,
+            number: "",
+            name: "",
+          });
+      }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);

@@ -56,16 +56,18 @@ function RoomForm() {
       setNotification(String(status), { model: t("_entities:entities.room") });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
-      if (error && error !== null) console.error(error);
-      if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Rooms, id] });
+      if (error && error !== null) console.error(error.message);
       else {
-        setPhotos({ type: "set", items: [] });
-        setImages360({ type: "set", items: [] });
-        reset({
-          id: undefined,
-          number: "",
-          content: null,
-        });
+        if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Rooms, id] });
+        else {
+          setPhotos({ type: "set", items: [] });
+          setImages360({ type: "set", items: [] });
+          reset({
+            id: undefined,
+            number: "",
+            content: null,
+          });
+        }
       }
     } catch (e) {
       // eslint-disable-next-line no-console
@@ -172,13 +174,13 @@ function RoomForm() {
         {id && (
           <Controller
             control={control}
-            name="status"
+            name="statusId"
             disabled={roomQuery.isLoading || saving}
             render={({ field: { onChange, value, ...rest } }) => (
               <SelectInput
                 {...rest}
-                id="status"
-                name="status"
+                id="statusId"
+                name="statusId"
                 label={t("_entities:room.status.label")}
                 options={statusList}
                 value={value}
@@ -209,13 +211,13 @@ function RoomForm() {
         {/* Room Type */}
         <Controller
           control={control}
-          name="type"
+          name="typeId"
           disabled={roomQuery.isLoading || typesQuery.isLoading || saving}
           render={({ field: { onChange, value, ...rest } }) => (
             <SelectInput
               {...rest}
-              id="type"
-              name="type"
+              id="typeId"
+              name="typeId"
               label={t("_entities:room.type.label")}
               options={typesList}
               value={value}
