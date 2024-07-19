@@ -72,8 +72,8 @@
     "links": {
       "customers": "Clientes",
       "services": "Services",
-      "rooms": "Habitaciones",
-      "roomTypes": "Tipos de habitaciones"
+      "rooms": "Salas",
+      "roomTypes": "Tipos de salas"
     }
   },
   "information": {
