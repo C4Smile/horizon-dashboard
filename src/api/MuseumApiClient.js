@@ -109,7 +109,7 @@ export class MuseumApiClient {
   /**
    * @returns {TagApiClient} Tag
    */
-  get Tags() {
+  get Tag() {
     return this.tags;
   }
 
