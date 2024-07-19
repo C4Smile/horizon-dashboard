@@ -64,7 +64,7 @@ export class RoomApiClient {
    */
   async create(room, photos, photos360) {
     // default values
-    room.urlName = toSlug(room.title);
+    room.urlName = toSlug(room.number);
     // parsing html
     room.content = room.content ? draftToHtml(convertToRaw(room.content.getCurrentContent())) : null;
     // parsing links
@@ -117,7 +117,7 @@ export class RoomApiClient {
    */
   async update(room, photos, photos360) {
     // default values
-    room.urlName = toSlug(room.title);
+    room.urlName = toSlug(room.number);
     // parsing html
     room.content = room.content ? draftToHtml(convertToRaw(room.content.getCurrentContent())) : null;
     // parsing links
