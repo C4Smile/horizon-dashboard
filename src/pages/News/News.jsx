@@ -109,14 +109,14 @@ function NewsPage() {
                 {news.newsHasImage.map((image, i) => (
                   <img
                     key={i}
-                    className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
+                    className={`small-image rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
                     src={image.imageId.url}
                     alt={`${news.title} ${i}`}
                   />
                 ))}
               </div>
             ) : (
-              <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={news.title} />
+              <img className="small-image rounded-full object-cover" src={noProduct} alt={news.title} />
             )}
           </>
         ),
