@@ -182,7 +182,7 @@ function EventsPage() {
   const getActions = [
     {
       id: "edit",
-      onClick: (e) => navigate(`/activities/events/${e.id}`),
+      onClick: (e) => navigate(`/information/events/${e.id}`),
       icon: faPencil,
       tooltip: t("_accessibility:buttons.edit"),
     },
@@ -206,7 +206,7 @@ function EventsPage() {
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:activities.links.events")}</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:information.links.events")}</h1>
       <Table
         isLoading={eventsQuery.isLoading}
         rows={preparedRows}
