@@ -29,6 +29,9 @@ const ImageKitIoUploaderMultiple = loadable(
   () => import("../../components/ImageKitIoUploaderMultiple"),
 );
 
+// pages
+const NotFound = loadable(() => import("../NotFound/NotFound"));
+
 /**
  * News Form page component
  * @returns News Form page component
@@ -39,6 +42,8 @@ function NewsForm() {
   const { t } = useTranslation();
 
   const museumApiClient = useMuseumApiClient();
+
+  const [notFound, setNotFound] = useState(false);
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
@@ -90,9 +95,10 @@ function NewsForm() {
   });
 
   useEffect(() => {
-    const { error } = newsQuery;
+    const { data } = newsQuery;
     // eslint-disable-next-line no-console
-    if (error && error !== null) console.error(error);
+    if (data && data.error) console.error(data.error.message);
+    if (data?.status === 404) setNotFound(true);
   }, [newsQuery]);
 
   useEffect(() => {
@@ -146,7 +152,9 @@ function NewsForm() {
     }
   }, [tagsList, newsQuery.data, reset]);
 
-  return (
+  return notFound ? (
+    <NotFound />
+  ) : (
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <h1 className="text-2xl md:text-3xl font-bold">

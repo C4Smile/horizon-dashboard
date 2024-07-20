@@ -27,6 +27,9 @@ import { ReactQueryKeys } from "../../utils/queryKeys";
 const HtmlInput = loadable(() => import("../../components/Forms/HtmlInput"));
 const ScheduleInput = loadable(() => import("../../components/ScheduleInput"));
 
+// pages
+const NotFound = loadable(() => import("../NotFound/NotFound"));
+
 /**
  * Service Form page component
  * @returns Service Form page component
@@ -37,6 +40,8 @@ function ServiceForm() {
   const { t } = useTranslation();
 
   const museumApiClient = useMuseumApiClient();
+
+  const [notFound, setNotFound] = useState(false);
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
@@ -90,9 +95,10 @@ function ServiceForm() {
   });
 
   useEffect(() => {
-    const { error } = serviceQuery;
+    const { data } = serviceQuery;
     // eslint-disable-next-line no-console
-    if (error && error !== null) console.error(error);
+    if (data && data.error) console.error(data.error.message);
+    if (data?.status === 404) setNotFound(true);
   }, [serviceQuery]);
 
   useEffect(() => {
@@ -147,7 +153,9 @@ function ServiceForm() {
     }
   }, [serviceQuery.data, reset, placesList]);
 
-  return (
+  return notFound ? (
+    <NotFound />
+  ) : (
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <h1 className="text-2xl md:text-3xl font-bold">

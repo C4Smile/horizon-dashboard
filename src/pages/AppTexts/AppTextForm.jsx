@@ -23,6 +23,9 @@ import { ReactQueryKeys } from "../../utils/queryKeys";
 const TextInput = loadable(() => import("../../components/Forms/TextInput"));
 const HtmlInput = loadable(() => import("../../components/Forms/HtmlInput"));
 
+// pages
+const NotFound = loadable(() => import("../NotFound/NotFound"));
+
 /**
  * AppText Form page component
  * @returns AppText Form page component
@@ -33,6 +36,8 @@ function AppTextForm() {
   const { t } = useTranslation();
 
   const museumApiClient = useMuseumApiClient();
+
+  const [notFound, setNotFound] = useState(false);
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
@@ -78,9 +83,10 @@ function AppTextForm() {
   });
 
   useEffect(() => {
-    const { error } = appTextQuery;
+    const { data } = appTextQuery;
     // eslint-disable-next-line no-console
-    if (error && error !== null) console.error(error);
+    if (data && data.error) console.error(data.error.message);
+    if (data?.status === 404) setNotFound(true);
   }, [appTextQuery]);
 
   useEffect(() => {
@@ -107,7 +113,9 @@ function AppTextForm() {
     }
   }, [appTextQuery.data, id, reset]);
 
-  return (
+  return notFound ? (
+    <NotFound />
+  ) : (
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <h1 className="text-2xl md:text-3xl font-bold">

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
+import loadable from "@loadable/component";
 
 // components
 import Loading from "../../partials/loading/Loading";
@@ -15,6 +16,9 @@ import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvid
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
+// pages
+const NotFound = loadable(() => import("../NotFound/NotFound"));
+
 /**
  * Room Form page component
  * @returns Room Form page component
@@ -25,6 +29,8 @@ function RoomForm() {
   const { t } = useTranslation();
 
   const museumApiClient = useMuseumApiClient();
+
+  const [notFound, setNotFound] = useState(false);
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
@@ -68,9 +74,10 @@ function RoomForm() {
   });
 
   useEffect(() => {
-    const { error } = roomTypeQuery;
+    const { data } = roomTypeQuery;
     // eslint-disable-next-line no-console
-    if (error && error !== null) console.error(error);
+    if (data && data.error) console.error(data.error.message);
+    if (data?.status === 404) setNotFound(true);
   }, [roomTypeQuery]);
 
   useEffect(() => {
@@ -87,7 +94,9 @@ function RoomForm() {
     }
   }, [id, reset, roomTypeQuery.data]);
 
-  return (
+  return notFound ? (
+    <NotFound />
+  ) : (
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <h1 className="text-2xl md:text-3xl font-bold">
