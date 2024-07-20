@@ -163,12 +163,12 @@
   },
   "room": {
     "lastUpdate": { "label": "Última actualización" },
-    "number": { "label": "Número - Nombre", "placeholder": "ej: I" },
-    "name": { "label": "Nombre", "placeholder": "ej: Mirador A" },
-    "type": { "label": "Tipo", "placeholder": "ej: Doble" },
+    "number": { "label": "Número", "placeholder": "ej: Sala I" },
+    "name": { "label": "Nombre", "placeholder": "ej: Historia de un símbolo" },
+    "type": { "label": "Tipo", "placeholder": "ej: Museable" },
     "description": {
       "label": "Descripción",
-      "placeholder": "ej: En esta sala se puede ver el mar..."
+      "placeholder": "ej: En esta sala se puede..."
     },
     "status": { "label": "Estado" },
     "roomHasImage": {

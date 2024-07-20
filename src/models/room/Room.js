@@ -6,15 +6,17 @@ import { Entity } from "../entity/Entity";
  */
 export class Room extends Entity {
   number = "";
+  name = "";
   type = 0;
   status = 0;
   roomHasImage = [];
-  image360Id = 0;
+  roomHasImage360 = [];
   content = "";
 
   /**
    * @param {number} id - Room id
    * @param {string} number - Room number
+   * @param {string} name - Room Name
    * @param {object} status - Room status
    * @param {string} content - Room content
    * @param {Date} dateOfCreation - Room date of creation
@@ -25,6 +27,7 @@ export class Room extends Entity {
   constructor(
     id,
     number,
+    name,
     status = 0,
     content = "",
     dateOfCreation = Date.now(),
@@ -32,6 +35,7 @@ export class Room extends Entity {
     deleted = false,
   ) {
     super(id, dateOfCreation, lastUpdate, deleted);
+    this.name = name;
     this.content = content;
     this.number = number;
     this.status = status;

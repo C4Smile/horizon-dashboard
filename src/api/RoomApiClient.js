@@ -62,7 +62,7 @@ export class RoomApiClient {
    */
   async create(room, photos, photos360) {
     // default values
-    room.urlName = toSlug(room.number);
+    room.urlName = toSlug(room.name);
     // parsing html
     room.content = room.content ? draftToHtml(convertToRaw(room.content.getCurrentContent())) : "";
     // parsing schedule
@@ -74,12 +74,12 @@ export class RoomApiClient {
     const { error, data, status } = await makeRequest(
       "room",
       "POST",
-      { ...room, statusId: 3 },
+      { ...room, statusId: 1 },
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       },
     );
-    if (error !== null) return { status, error: { message: error.message }  };
+    if (error !== null) return { status, error: { message: error.message } };
     // adding relationships
     // saving schedule
     for (const schedule of scheduleToKeep)
@@ -144,7 +144,7 @@ export class RoomApiClient {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       },
     );
-    if (error !== null) return { status, error: { message: error.message }  };
+    if (error !== null) return { status, error: { message: error.message } };
     // do relationship updates
     // saving schedule
     for (const schedule of scheduleToKeep) {

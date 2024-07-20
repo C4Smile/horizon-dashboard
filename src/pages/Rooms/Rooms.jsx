@@ -3,9 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useNavigate, Link } from "react-router-dom";
 
-// images
-import noProduct from "../../assets/images/no-product.jpg";
-
 // icons
 import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
@@ -77,9 +74,10 @@ function Rooms() {
         id: room.id,
         lastUpdate: new Date(room.lastUpdate).toLocaleDateString("es-ES"),
         deleted: room.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
-        number: (
+        number: room.number,
+        name: (
           <Link className="underline text-light-primary" to={`${room.id}`}>
-            {room.number}
+            {room.name}
           </Link>
         ),
         type: (
@@ -87,36 +85,29 @@ function Rooms() {
             {room.type.name}
           </Link>
         ),
-        image360Id: (
-          <>
-            {room.image360Id?.url ? (
+        roomHasImage360: (
+          <div className="flex items-center justify-start">
+            {room.roomHasImage360.map((image, i) => (
               <img
-                className={`w-10 h-10 rounded-full object-cover border-white border-2`}
-                src={room.image360Id.url}
-                alt={`${room.number}`}
+                key={i}
+                className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
+                src={image.imageId.url}
+                alt={`${room.name} ${i}`}
               />
-            ) : (
-              <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={room.number} />
-            )}
-          </>
+            ))}
+          </div>
         ),
         roomHasImage: (
-          <>
-            {room.roomHasImage && room.roomHasImage.length ? (
-              <div className="flex items-center justify-start">
-                {room.roomHasImage.map((image, i) => (
-                  <img
-                    key={i}
-                    className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
-                    src={image.imageId.url}
-                    alt={`${room.name} ${i}`}
-                  />
-                ))}
-              </div>
-            ) : (
-              <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={room.name} />
-            )}
-          </>
+          <div className="flex items-center justify-start">
+            {room.roomHasImage.map((image, i) => (
+              <img
+                key={i}
+                className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
+                src={image.imageId.url}
+                alt={`${room.name} ${i}`}
+              />
+            ))}
+          </div>
         ),
         status: room.status.name,
       };
