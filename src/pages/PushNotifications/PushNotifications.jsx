@@ -141,7 +141,7 @@ function PushNotifications() {
       if (data.status && data?.status !== 200) {
         // eslint-disable-next-line no-console
         console.error(data.error.message);
-        if (data.status) setNotification(String(data.status));
+        setNotification(String(data.status));
       } else setLocalData(data ?? []);
     }
   }, [pushNotificationQuery, navigate, setNotification]);

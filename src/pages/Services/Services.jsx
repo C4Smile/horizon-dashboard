@@ -124,10 +124,10 @@ function ServicesPage() {
   useEffect(() => {
     const { data } = serviceQuery;
     if (data) {
-      if (data.length === undefined && data?.status !== 200) {
+      if (data.status && data?.status !== 200) {
         // eslint-disable-next-line no-console
         console.error(data.message);
-        if (data.status) setNotification(String(data.status));
+        setNotification(String(data.status));
       } else setLocalData(data ?? []);
     }
   }, [serviceQuery, navigate, setNotification]);
