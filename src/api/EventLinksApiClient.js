@@ -13,52 +13,17 @@ import config from "../config";
  */
 export class EventLinksApiClient {
   /**
-   * @description Get all eventLinks
-   * @returns EventLinks list
-   */
-  async getAll() {
-    const { error, data, status } = await makeRequest("eventLinks");
-    if (error !== null) return { status, error: { message: error.message } };
-    return data;
-  }
-
-  /**
-   * @description Get eventLinks by id
-   * @param {string} id - EventLinks id
-   * @returns EventLinks by id
-   */
-  async getById(id) {
-    const { error, data, status } = await makeRequest(`eventLinks/${id}`);
-    if (error !== null) return { status, error: { message: error.message } };
-    return data[0];
-  }
-
-  /**
    * @description Create eventLinks
    * @param {object} eventLinks - EventLinks
    * @returns  Transaction status
    */
   async create(eventLinks) {
     // call service
-    const { error, data, status } = await makeRequest("eventLinks", "POST", eventLinks, {
+    const { error, data, status } = await makeRequest("event/links", "POST", eventLinks, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
 
     return { error, data, status: status === 204 ? 201 : status };
-  }
-
-  /**
-   * @description Update eventLinks
-   * @param {object} eventLinks - EventLinks
-   * @returns Transaction status
-   */
-  async update(eventLinks) {
-    // call service
-    const { status, error } = await makeRequest(`eventLinks/${eventLinks.id}`, "PUT", eventLinks, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
-    if (error !== null) return { status, error: { message: error.message } };
-    return { error, status: status === 204 ? 201 : status };
   }
 
   /**
@@ -68,7 +33,7 @@ export class EventLinksApiClient {
    */
   async delete(ids) {
     for (const id of ids) {
-      await makeRequest(`eventLinks/${id}`, "DELETE", null, {
+      await makeRequest(`event/links/${id}`, "DELETE", null, {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       });
     }
@@ -82,7 +47,7 @@ export class EventLinksApiClient {
    * @returns EventLinks by eventId
    */
   async deleteByUrl(linkId, url) {
-    await makeRequest(`eventLinks/${linkId}/${url}`, "DELETE", null, {
+    await makeRequest(`event/links/${linkId}/${url}`, "DELETE", null, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     return { status: 204 };
