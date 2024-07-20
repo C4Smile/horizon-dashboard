@@ -51,6 +51,7 @@ function CustomerForm() {
       // eslint-disable-next-line no-console
       if (error && error !== null) console.error(error.message);
       else {
+        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers] });
         if (id !== undefined)
           queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers, id] });
         else

@@ -67,6 +67,7 @@ function NewsForm() {
       // eslint-disable-next-line no-console
       if (error && error !== null) console.error(error.message);
       else {
+        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.News] });
         if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.News, id] });
         else {
           setPhotos({ type: "set", items: [] });

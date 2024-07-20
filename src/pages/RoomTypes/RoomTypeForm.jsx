@@ -50,7 +50,9 @@ function RoomForm() {
       // eslint-disable-next-line no-console
       if (error && error !== null) console.error(error.message);
       else {
-        if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Rooms, id] });
+        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.RoomTypes] });
+        if (id !== undefined)
+          queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.RoomTypes, id] });
         else
           reset({
             id: undefined,

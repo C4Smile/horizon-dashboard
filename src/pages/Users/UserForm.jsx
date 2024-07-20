@@ -57,6 +57,7 @@ function UserForm() {
       // eslint-disable-next-line no-console
       if (error && error !== null) console.error(error.message);
       else {
+        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users] });
         if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users, id] });
         else
           reset({

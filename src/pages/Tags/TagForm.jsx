@@ -51,6 +51,7 @@ function TagForm() {
       // eslint-disable-next-line no-console
       if (error && error !== null) console.error(error.message);
       else {
+        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Tags] });
         if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Tags, id] });
         else
           reset({
