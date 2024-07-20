@@ -75,7 +75,7 @@
     },
     "title": {
       "label": "Título",
-      "placeholder": "ej: El museo abre un nuevo bar"
+      "placeholder": "ej: El museo abre una nueva sala"
     },
     "subtitle": {
       "label": "Subtítulo",
@@ -89,7 +89,7 @@
     "lastUpdate": { "label": "Última actualización" },
     "title": {
       "label": "Título",
-      "placeholder": "ej: El museo abre un nuevo bar"
+      "placeholder": "ej: El museo abre una nueva sala"
     },
     "subtitle": {
       "label": "Subtítulo",
