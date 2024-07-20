@@ -69,7 +69,7 @@ function Dashboard() {
   }, [logoutUser, museumApiClient.User, navigate]);
 
   useEffect(() => {
-    if (account.user) refreshToken();
+    refreshToken();
   }, [account.user, navigate, refreshToken]);
 
   return (
