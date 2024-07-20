@@ -5,6 +5,11 @@ import { MuseumApiClient } from "../api/MuseumApiClient";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
+      refetchInterval: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retry: false,
+      retryOnMount: false,
       refetchOnWindowFocus: false, // default: true
     },
   },
