@@ -14,3 +14,10 @@ export const ReactQueryKeys = {
 };
 
 export const entities = ["room", "activity", "events", "news"];
+
+export const parents = {
+  room: "museum",
+  activity: "information",
+  events: "information",
+  news: "information",
+};
