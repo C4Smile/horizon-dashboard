@@ -22,7 +22,8 @@ import LinkChip from "./Chip/LinkChip";
  * @param {object} props
  * @returns External link component
  */
-const ExternalLinkInput = forwardRef(function (props) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const ExternalLinkInput = forwardRef(function (props, ref) {
   const { children, value = [], onChange, label, placeholder, containerClassName } = props;
 
   const { t } = useTranslation();
