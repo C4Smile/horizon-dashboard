@@ -79,7 +79,7 @@ export class RoomApiClient {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       },
     );
-    if (error !== null) return { status, error: { status, error: { message: error.message } } };
+    if (error !== null) return { status, error: { message: error.message }  };
     // adding relationships
     // saving schedule
     for (const schedule of scheduleToKeep)
@@ -144,7 +144,7 @@ export class RoomApiClient {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       },
     );
-    if (error !== null) return { status, error: { status, error: { message: error.message } } };
+    if (error !== null) return { status, error: { message: error.message }  };
     // do relationship updates
     // saving schedule
     for (const schedule of scheduleToKeep) {
