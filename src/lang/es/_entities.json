@@ -38,7 +38,7 @@
   },
   "service": {
     "lastUpdate": { "label": "Última actualización" },
-    "name": { "label": "Nombre", "placeholder": "ex: Sala" },
+    "name": { "label": "Nombre", "placeholder": "ej: Sala" },
     "imageId": {
       "label": "Imagen"
     },
@@ -191,7 +191,7 @@
       "entity": "Enlace a otra entidad"
     },
     "lastUpdate": { "label": "Última actualización" },
-    "title": { "label": "Título", "placeholder": "ex: Nueva sala ha abierto" },
+    "title": { "label": "Título", "placeholder": "ej: Nueva sala ha abierto" },
     "description": {
       "label": "Descripción",
       "placeholder": "ej: Alguna descripción para la notificación"
@@ -224,20 +224,20 @@
   "schedule": {
     "description": {
       "label": "Descripción",
-      "placeholder": "ex: Apertura",
+      "placeholder": "ej: Apertura",
       "notEmpty": "La descripción es requerida"
     },
     "day": {
       "label": "Día de la semana",
-      "placeholder": "ex: Lunes"
+      "placeholder": "ej: Lunes"
     },
     "date": {
       "label": "Fecha",
-      "placeholder": "ex: 24-12-2024 08:30 AM"
+      "placeholder": "ej: 24-12-2024 08:30 AM"
     },
     "time": {
       "label": "Hora",
-      "placeholder": "ex: 08:30 AM"
+      "placeholder": "ej: 08:30 AM"
     }
   }
 }
