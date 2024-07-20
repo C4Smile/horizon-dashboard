@@ -23,7 +23,7 @@ export class PushNotificationApiClient {
    */
   async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
     const { data, error, status } = await makeRequest(`pushNotification?sort=${sort}&order=${order}`);
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data;
   }
 
@@ -36,7 +36,7 @@ export class PushNotificationApiClient {
     const { data, error, status } = await makeRequest(`pushNotification/${id}`, "GET", null, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data[0];
   }
 

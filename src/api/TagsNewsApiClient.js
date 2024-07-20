@@ -18,7 +18,7 @@ export class TagsNewsApiClient {
    */
   async getAll() {
     const { error, data, status } = await makeRequest("tagsNews");
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data;
   }
 
@@ -29,7 +29,7 @@ export class TagsNewsApiClient {
    */
   async getById(id) {
     const { error, data, status } = await makeRequest(`tagsNews/${id}`);
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data[0];
   }
 

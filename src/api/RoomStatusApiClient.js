@@ -21,7 +21,7 @@ export class RoomStatusApiClient {
    */
   async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
     const { error, data, status } = await makeRequest(`roomStatus?sort=${sort}&order=${order}`);
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data;
   }
 
@@ -32,7 +32,7 @@ export class RoomStatusApiClient {
    */
   async getById(id) {
     const { error, data, status } = await makeRequest(`roomStatus/${id}`);
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data[0];
   }
 

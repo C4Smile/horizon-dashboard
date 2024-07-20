@@ -23,7 +23,7 @@ export class TagApiClient {
    */
   async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
     const { data, error, status } = await makeRequest(`tag?sort=${sort}&order=${order}`);
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data;
   }
 
@@ -34,7 +34,7 @@ export class TagApiClient {
    */
   async getById(id) {
     const { data, error, status } = await makeRequest(`tag/${id}`);
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data[0];
   }
 

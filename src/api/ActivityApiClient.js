@@ -23,7 +23,7 @@ export class ActivityApiClient {
    */
   async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
     const { data, error, status } = await makeRequest(`activity?sort=${sort}&order=${order}`);
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data;
   }
 
@@ -36,7 +36,7 @@ export class ActivityApiClient {
     const { data, error, status } = await makeRequest(`activity/${id}`, "GET", null, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data[0];
   }
 
@@ -53,7 +53,7 @@ export class ActivityApiClient {
     const { error, data, status } = await makeRequest("activity", "POST", activity, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
-    if (error !== null) return { status, data, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
 
     return { error, data, status: status === 204 ? 201 : status };
   }
@@ -79,7 +79,7 @@ export class ActivityApiClient {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       },
     );
-    if (error !== null) return { status, statusCode: error.code, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return { error, status: status === 204 ? 201 : status };
   }
 

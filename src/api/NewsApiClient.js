@@ -60,7 +60,7 @@ export class NewsApiClient {
    */
   async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
     const { error, data, status } = await makeRequest(`news?sort=${sort}&order=${order}`);
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data;
   }
 
@@ -71,7 +71,7 @@ export class NewsApiClient {
    */
   async getById(id) {
     const { error, data, status } = await makeRequest(`news/${id}`);
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data[0];
   }
 

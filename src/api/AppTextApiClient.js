@@ -25,7 +25,7 @@ export class AppTextApiClient {
    */
   async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
     const { error, data, status } = await makeRequest(`appTexts?sort=${sort}&order=${order}`);
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data;
   }
 
@@ -38,7 +38,7 @@ export class AppTextApiClient {
     const { error, data, status } = await makeRequest(`appTexts/${id}`, "GET", null, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data[0];
   }
 

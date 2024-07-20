@@ -21,7 +21,7 @@ export class ExternalLinkApiClient {
    */
   async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
     const { data, error, status } = await makeRequest(`externalLink?sort=${sort}&order=${order}`);
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data;
   }
 
@@ -32,7 +32,7 @@ export class ExternalLinkApiClient {
    */
   async getById(id) {
     const { data, error, status } = await makeRequest(`externalLink/${id}`);
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data[0];
   }
 

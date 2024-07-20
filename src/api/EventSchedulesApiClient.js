@@ -18,7 +18,7 @@ export class EventSchedulesApiClient {
    */
   async getAll() {
     const { error, data, status } = await makeRequest("eventSchedules");
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data;
   }
 
@@ -29,7 +29,7 @@ export class EventSchedulesApiClient {
    */
   async getById(id) {
     const { error, data, status } = await makeRequest(`eventSchedules/${id}`);
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data[0];
   }
 

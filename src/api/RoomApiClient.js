@@ -38,7 +38,7 @@ export class RoomApiClient {
    */
   async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
     const { error, data, status } = await makeRequest(`room?sort=${sort}&order=${order}`);
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data;
   }
 
@@ -49,7 +49,7 @@ export class RoomApiClient {
    */
   async getById(id) {
     const { error, data, status } = await makeRequest(`room/${id}`);
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data[0];
   }
 
@@ -64,17 +64,23 @@ export class RoomApiClient {
     // default values
     room.urlName = toSlug(room.number);
     // parsing html
-    room.content = room.content ? draftToHtml(convertToRaw(room.content.getCurrentContent())) : null;
+    room.content = room.content ? draftToHtml(convertToRaw(room.content.getCurrentContent())) : "";
     // parsing schedule
     const scheduleToKeep = parseManyToMany("id", room.newRoomHasSchedules, room.roomHasSchedules);
     // cleaning relation ships
     delete room.newRoomHasLink;
     delete room.newRoomHasSchedules;
     // call service
-    const { error, data, status } = await makeRequest("room", "POST", room, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
-    if (error !== null) return { status, data, statusCode: status, message: error.message };
+    const { error, data, status } = await makeRequest(
+      "room",
+      "POST",
+      { ...room, statusId: 3 },
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
+    if (error !== null)
+      return { status, error: { status, statusCode: error.code, message: error.message } };
     // adding relationships
     // saving schedule
     for (const schedule of scheduleToKeep)
@@ -106,7 +112,7 @@ export class RoomApiClient {
     // default values
     room.urlName = toSlug(room.number);
     // parsing html
-    room.content = room.content ? draftToHtml(convertToRaw(room.content.getCurrentContent())) : null;
+    room.content = room.content ? draftToHtml(convertToRaw(room.content.getCurrentContent())) : "";
     // parsing schedule
     const scheduleToKeep = parseManyToMany("id", room.newRoomHasSchedules, room.roomHasSchedules);
     // saving photos
@@ -139,7 +145,8 @@ export class RoomApiClient {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       },
     );
-    if (error !== null) return { status, statusCode: error.code, message: error.message };
+    if (error !== null)
+      return { status, error: { status, statusCode: error.code, message: error.message } };
     // do relationship updates
     // saving schedule
     for (const schedule of scheduleToKeep) {

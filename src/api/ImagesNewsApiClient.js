@@ -18,7 +18,7 @@ export class ImagesNewsApiClient {
    */
   async getAll() {
     const { error, data, status } = await makeRequest("imagesNews");
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data;
   }
 
@@ -29,7 +29,7 @@ export class ImagesNewsApiClient {
    */
   async getById(id) {
     const { error, data, status } = await makeRequest(`imagesNews/${id}`);
-    if (error !== null) return { status, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return data[0];
   }
 
