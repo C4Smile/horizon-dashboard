@@ -87,9 +87,10 @@ function PushNotificationForm() {
       // eslint-disable-next-line no-console
       if (error && error !== null) console.error(error.message);
       else {
-        if (id !== undefined)
+        if (id !== undefined) {
           queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.PushNotifications, id] });
-        else {
+          queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.PushNotifications] });
+        } else {
           setPhoto();
           reset({
             id: undefined,
