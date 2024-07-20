@@ -87,7 +87,7 @@ export class NewsApiClient {
     // parsing html
     news.content = draftToHtml(convertToRaw(news.content.getCurrentContent()));
     // parsing tags
-    const tagsToKeep = news.tags.map((tag) => tag.id);
+    const tagsToKeep = news.tagsId.map((tag) => tag.id);
     // cleaning relation ships
     delete news.tagsId;
     // call service
