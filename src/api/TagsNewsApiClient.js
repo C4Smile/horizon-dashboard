@@ -13,52 +13,17 @@ import config from "../config";
  */
 export class TagsNewsApiClient {
   /**
-   * @description Get all tagsNews
-   * @returns TagsNews list
-   */
-  async getAll() {
-    const { error, data, status } = await makeRequest("tagsNews");
-    if (error !== null) return { status, error: { message: error.message } };
-    return data;
-  }
-
-  /**
-   * @description Get tagsNews by id
-   * @param {string} id - TagsNews id
-   * @returns TagsNews by id
-   */
-  async getById(id) {
-    const { error, data, status } = await makeRequest(`tagsNews/${id}`);
-    if (error !== null) return { status, error: { message: error.message } };
-    return data[0];
-  }
-
-  /**
    * @description Create tagsNews
    * @param {object} tagsNews - TagsNews
    * @returns  Transaction status
    */
   async create(tagsNews) {
     // call service
-    const { error, data, status } = await makeRequest("tagsNews", "POST", tagsNews, {
+    const { error, data, status } = await makeRequest("newsHasTag", "POST", tagsNews, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
 
     return { error, data, status: status === 204 ? 201 : status };
-  }
-
-  /**
-   * @description Update tagsNews
-   * @param {object} tagsNews - TagsNews
-   * @returns Transaction status
-   */
-  async update(tagsNews) {
-    // call service
-    const { status, error } = await makeRequest(`tagsNews/${tagsNews.id}`, "PUT", tagsNews, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
-    if (error !== null) return { status, error: { message: error.message } };
-    return { error, status: status === 204 ? 201 : status };
   }
 
   /**
@@ -68,7 +33,7 @@ export class TagsNewsApiClient {
    */
   async delete(ids) {
     for (const id of ids) {
-      await makeRequest(`tagsNews/${id}`, "DELETE");
+      await makeRequest(`newsHasTag/${id}`, "DELETE");
     }
     return { status: 204 };
   }
@@ -80,7 +45,7 @@ export class TagsNewsApiClient {
    * @returns Status
    */
   async deleteByNews(tagId, newsId) {
-    await makeRequest(`tagsNews/${tagId}/news/${newsId}`, "DELETE", null, {
+    await makeRequest(`news/${newsId}/tags/${tagId}`, "DELETE", null, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     return { status: 204 };
