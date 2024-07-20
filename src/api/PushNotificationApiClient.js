@@ -56,7 +56,7 @@ export class PushNotificationApiClient {
     const { error, data, status } = await makeRequest("pushNotification", "POST", pushNotification, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
-    if (error !== null) return { status, data, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     return { error, status: status === 204 ? 201 : status };
   }
 
@@ -83,7 +83,7 @@ export class PushNotificationApiClient {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       },
     );
-    if (error !== null) return { status, statusCode: error.code, message: error.message };
+    if (error !== null) return { status, error : { message: error.message } };
     return { error, status: status === 204 ? 201 : status };
   }
 

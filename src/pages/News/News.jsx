@@ -127,10 +127,10 @@ function NewsPage() {
   useEffect(() => {
     const { data } = newsQuery;
     if (data) {
-      if (data.length === undefined && data?.statusCode !== 200) {
+      if (data.length === undefined && data?.status !== 200) {
         // eslint-disable-next-line no-console
         console.error(data.message);
-        if (data.statusCode) setNotification(String(data.statusCode));
+        if (data.status) setNotification(String(data.status));
       } else setLocalData(data ?? []);
     }
   }, [newsQuery, navigate, setNotification]);

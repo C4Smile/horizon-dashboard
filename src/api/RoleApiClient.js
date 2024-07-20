@@ -46,7 +46,7 @@ export class RoleApiClient {
     const { error, data, status } = await makeRequest("role", "POST", role, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
-    if (error !== null) return { status, data, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
 
     return { error, data, status: status === 204 ? 201 : status };
   }
@@ -69,7 +69,7 @@ export class RoleApiClient {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       },
     );
-    if (error !== null) return { status, statusCode: error.code, message: error.message };
+    if (error !== null) return { status, error : { message: error.message } };
     return { error, status: status === 204 ? 201 : status };
   }
 

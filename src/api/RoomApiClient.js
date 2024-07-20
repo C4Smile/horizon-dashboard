@@ -80,7 +80,7 @@ export class RoomApiClient {
       },
     );
     if (error !== null)
-      return { status, error: { status, statusCode: error.code, message: error.message } };
+      return { status, error: { status, error : { message: error.message } } };
     // adding relationships
     // saving schedule
     for (const schedule of scheduleToKeep)
@@ -146,7 +146,7 @@ export class RoomApiClient {
       },
     );
     if (error !== null)
-      return { status, error: { status, statusCode: error.code, message: error.message } };
+      return { status, error: { status, error : { message: error.message } } };
     // do relationship updates
     // saving schedule
     for (const schedule of scheduleToKeep) {

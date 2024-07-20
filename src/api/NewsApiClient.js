@@ -139,7 +139,7 @@ export class NewsApiClient {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       },
     );
-    if (error !== null) return { status, statusCode: error.code, message: error.message };
+    if (error !== null) return { status, error : { message: error.message } };
 
     // adding relationships
     for (const tag of tagsToKeep) {

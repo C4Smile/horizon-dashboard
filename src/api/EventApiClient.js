@@ -79,7 +79,7 @@ export class EventApiClient {
     const { error, data, status } = await makeRequest("event", "POST", event, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
-    if (error !== null) return { status, data, statusCode: status, message: error.message };
+    if (error !== null) return { status, error: { message: error.message } };
     // adding relationships
     // saving links
     for (const link of linksToKeep)
@@ -145,7 +145,7 @@ export class EventApiClient {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       },
     );
-    if (error !== null) return { status, statusCode: error.code, message: error.message };
+    if (error !== null) return { status, error : { message: error.message } };
     // do relationship updates
     // saving links
     for (const link of linksToKeep) {
