@@ -53,7 +53,7 @@ export class PushNotificationApiClient {
     // saving image
     if (photo) pushNotification.imageId = photo.id;
     // call service
-    const { error, data, status } = await makeRequest("pushNotification", "POST", pushNotification, {
+    const { error, status } = await makeRequest("pushNotification", "POST", pushNotification, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     if (error !== null) return { status, error: { message: error.message } };
