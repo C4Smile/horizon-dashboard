@@ -28,7 +28,7 @@ function ModelNavigation(props) {
         </Link>
         {!noInsert && (
           <Link
-            disabled={pathname === `/${parent}/${model}/new`}
+            disabled={pathname === `/${parent}/${model}/new` || pathname.match(/^\/[^/]+\/[^/]+\/\d+$/)}
             className={`px-3 py-2 ${
               pathname === `/${parent}/${model}/new` || pathname.match(/^\/[^/]+\/[^/]+\/\d+$/)
                 ? "text-light-primary/40 disabled-link"
