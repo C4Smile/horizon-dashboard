@@ -40,8 +40,8 @@ const AccountProvider = (props) => {
 
   const logUserFromLocal = useCallback(async () => {
     try {
-      const { error } = await museumApiClient.User.getSession();
-      if (!error) {
+      const { status } = await museumApiClient.User.getSession();
+      if (status === 200) {
         const loggedUser = fromLocal(config.user, "object");
         if (loggedUser) {
           const request = await museumApiClient.User.fetchOwner(loggedUser.user.id);
@@ -49,7 +49,7 @@ const AccountProvider = (props) => {
           if (museumUser) setAccount({ ...loggedUser, museumUser });
           else setAccount(loggedUser);
         }
-      }
+      } else logoutUser();
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);
