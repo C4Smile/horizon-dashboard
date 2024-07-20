@@ -14,7 +14,7 @@ import { PushNotification } from "../../models/pushNotification/PushNotification
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { ReactQueryKeys } from "../../utils/queryKeys";
+import { parents, ReactQueryKeys } from "../../utils/queryKeys";
 import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
@@ -25,7 +25,6 @@ import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvid
 import Table from "../../components/Table/Table";
 
 const columnClasses = {
-  title: "max-w-40 overflow-hidden",
   lastUpdate: "w-56",
 };
 
@@ -78,6 +77,29 @@ function PushNotifications() {
 
   const preparedRows = useMemo(() => {
     return localData.map((pushNotification) => {
+      let parsedAction = "-";
+      const sAction = pushNotification?.action?.split(",");
+      if (sAction?.length === 2)
+        parsedAction = (
+          <Link
+            className="underline text-light-primary flex"
+            to={`/${parents[sAction[0]]}/${sAction[0]}s/${sAction[1]}`}
+          >
+            <span className="w-80 truncate capitalize">{`${sAction[0]} - ${sAction[1]}`}</span>
+          </Link>
+        );
+      else if (sAction?.length === 1)
+        parsedAction = (
+          <a
+            href={`${sAction[0]}`}
+            target="_blank"
+            rel="noreferrer"
+            className="underline text-light-primary flex"
+          >
+            <span className="w-80 truncate capitalize">{`${sAction[0]}`}</span>
+          </a>
+        );
+
       return {
         id: pushNotification.id,
         dateOfCreation: new Date(pushNotification.dateOfCreation).toLocaleDateString("es-ES"),
@@ -108,17 +130,7 @@ function PushNotifications() {
             )}
           </>
         ),
-        action:
-          pushNotification?.entity && pushNotification?.entity?.length ? (
-            <Link
-              className="underline text-light-primary flex"
-              to={`${pushNotification?.entity?.split(",")[0]}s/${pushNotification?.entity?.split(",")[1]}`}
-            >
-              <span className="w-80 truncate capitalize">{`${pushNotification?.entity?.split(",")[0]} - ${pushNotification?.entity?.split(",")[1]}`}</span>
-            </Link>
-          ) : (
-            " - "
-          ),
+        action: parsedAction,
       };
     });
   }, [localData, t]);
@@ -126,9 +138,9 @@ function PushNotifications() {
   useEffect(() => {
     const { data } = pushNotificationQuery;
     if (data) {
-      if (data.length === undefined && data?.status !== 200) {
+      if (data.status && data?.status !== 200) {
         // eslint-disable-next-line no-console
-        console.error(data.message);
+        console.error(data.error.message);
         if (data.status) setNotification(String(data.status));
       } else setLocalData(data ?? []);
     }
