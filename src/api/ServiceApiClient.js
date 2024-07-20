@@ -126,7 +126,7 @@ export class ServiceApiClient {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       },
     );
-    if (error !== null) return { status, error : { message: error.message } };
+    if (error !== null) return { status, error: { message: error.message } };
     // saving schedule
     for (const schedule of scheduleToKeep) {
       if (schedule.delete) await this.serviceSchedules.deleteSingle(schedule.id);

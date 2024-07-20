@@ -10,9 +10,6 @@ import Loading from "../partials/loading/Loading";
 // image
 import noPhoto from "../assets/images/no-product.jpg";
 
-// imagekitio-react
-import { IKContext, IKUpload } from "imagekitio-react";
-
 // providers
 import { useMuseumApiClient } from "../providers/MuseumApiProvider";
 
@@ -37,6 +34,7 @@ function ImageKitIoUploader(props) {
    * @param {*} res
    */
   const onSuccess = async (res) => {
+    // museumApiClient.ImageKitIo.generateFolder(folder)
     try {
       const { url, fileId } = res;
       if (photo) await museumApiClient.ImageKitIo.deleteImage(photo.fileId);
@@ -90,19 +88,7 @@ function ImageKitIoUploader(props) {
             </>
           ) : (
             <div className="flex gap-4 items-center relative">
-              <IKContext
-                publicKey={museumApiClient.ImageKitIo.imageKitPublicKey}
-                urlEndpoint={museumApiClient.ImageKitIo.imageKitUrl}
-                authenticator={museumApiClient.ImageKitIo.authenticator}
-                transformationPosition="path"
-              >
-                <IKUpload
-                  onError={onError}
-                  onChange={onLoading}
-                  onSuccess={onSuccess}
-                  folder={museumApiClient.ImageKitIo.generateFolder(folder)}
-                />
-              </IKContext>
+              <input type="file" />
               <div className="w-20 h-20 flex items-center justify-center rounded-full border-2 border-dashed border-primary/40">
                 <FontAwesomeIcon icon={faAdd} className="cursor-pointer p-4 text-2xl text-primary" />
               </div>

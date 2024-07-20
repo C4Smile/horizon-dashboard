@@ -71,7 +71,7 @@ export class TagApiClient {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       },
     );
-    if (error !== null) return { status, error : { message: error.message } };
+    if (error !== null) return { status, error: { message: error.message } };
     return { error, status: status === 204 ? 201 : status };
   }
 
