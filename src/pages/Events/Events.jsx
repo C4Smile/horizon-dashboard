@@ -82,7 +82,7 @@ function EventsPage() {
         ...sort,
       },
     ],
-    queryFn: () => museumApiClient.Event.getAll(sort.attribute, sort.order),
+    queryFn: () => museumApiClient.Events.getAll(sort.attribute, sort.order),
     retry: false,
   });
 
@@ -189,7 +189,7 @@ function EventsPage() {
     {
       id: "delete",
       onClick: async (e) => {
-        const result = await museumApiClient.Event.delete([e.id]);
+        const result = await museumApiClient.Events.delete([e.id]);
         const { error, status } = result;
         setNotification(String(status), { model: t("_entities:entities.event") });
 

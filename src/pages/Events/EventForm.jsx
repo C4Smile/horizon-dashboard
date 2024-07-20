@@ -55,8 +55,8 @@ function EventForm() {
 
     try {
       let result;
-      if (!d.id) result = await museumApiClient.Event.create(d, photos);
-      else result = await museumApiClient.Event.update(d, photos);
+      if (!d.id) result = await museumApiClient.Events.create(d, photos);
+      else result = await museumApiClient.Events.update(d, photos);
 
       const { error, status } = result;
       setNotification(String(status), { model: t("_entities:entities.event") });
@@ -91,7 +91,7 @@ function EventForm() {
 
   const eventQuery = useQuery({
     queryKey: [ReactQueryKeys.Events, id],
-    queryFn: () => museumApiClient.Event.getById(id),
+    queryFn: () => museumApiClient.Events.getById(id),
     enabled: id !== undefined,
     retry: false,
   });
