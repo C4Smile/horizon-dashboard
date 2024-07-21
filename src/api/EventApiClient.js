@@ -118,7 +118,7 @@ export class EventApiClient {
     // parsing schedule
     const scheduleToKeep = parseManyToMany("id", event.newEventHasSchedules, event.eventHasSchedules);
     // parsing tags
-    const tagsToKeep = parseManyToMany("typeId", event.tagsId, event.eventHasTag);
+    const tagsToKeep = parseManyToMany("tagId", event.tagsId, event.eventHasTag);
     // saving photos
     const newPhotos = [];
     for (const newPhoto of photos) {
