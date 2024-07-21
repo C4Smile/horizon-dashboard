@@ -13,34 +13,13 @@ import config from "../config";
  */
 export class EventSchedulesApiClient {
   /**
-   * @description Get all eventSchedules
-   * @returns EventSchedules list
-   */
-  async getAll() {
-    const { error, data, status } = await makeRequest("eventSchedules");
-    if (error !== null) return { status, error: { message: error.message } };
-    return data;
-  }
-
-  /**
-   * @description Get eventSchedules by id
-   * @param {string} id - EventSchedules id
-   * @returns EventSchedules by id
-   */
-  async getById(id) {
-    const { error, data, status } = await makeRequest(`eventSchedules/${id}`);
-    if (error !== null) return { status, error: { message: error.message } };
-    return data[0];
-  }
-
-  /**
    * @description Create eventSchedules
    * @param {object} eventSchedules - EventSchedules
    * @returns  Transaction status
    */
   async create(eventSchedules) {
     // call service
-    const { error, data, status } = await makeRequest("eventSchedules", "POST", eventSchedules, {
+    const { error, data, status } = await makeRequest("eventHasSchedules", "POST", eventSchedules, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
 
@@ -55,7 +34,7 @@ export class EventSchedulesApiClient {
   async update(eventSchedules) {
     // call service
     const { status, error } = await makeRequest(
-      `eventSchedules/${eventSchedules.id}`,
+      `eventHasSchedules/${eventSchedules.id}`,
       "PATCH",
       eventSchedules,
       {
@@ -73,7 +52,7 @@ export class EventSchedulesApiClient {
    */
   async delete(ids) {
     for (const id of ids) {
-      await makeRequest(`eventSchedules/${id}`, "DELETE", null, {
+      await makeRequest(`eventHasSchedules/${id}`, "DELETE", null, {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       });
     }
@@ -86,7 +65,7 @@ export class EventSchedulesApiClient {
    * @returns Transaction status
    */
   async deleteSingle(id) {
-    await makeRequest(`eventSchedules/${id}`, "DELETE", null, {
+    await makeRequest(`eventHasSchedules/${id}`, "DELETE", null, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     return { status: 204 };

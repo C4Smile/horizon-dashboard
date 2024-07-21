@@ -19,7 +19,7 @@ export class EventLinksApiClient {
    */
   async create(eventLinks) {
     // call service
-    const { error, data, status } = await makeRequest("event/links", "POST", eventLinks, {
+    const { error, data, status } = await makeRequest("eventHasLinks", "POST", eventLinks, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
 
@@ -33,7 +33,7 @@ export class EventLinksApiClient {
    */
   async delete(ids) {
     for (const id of ids) {
-      await makeRequest(`event/links/${id}`, "DELETE", null, {
+      await makeRequest(`eventHasLinks/${id}`, "DELETE", null, {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       });
     }
@@ -47,7 +47,7 @@ export class EventLinksApiClient {
    * @returns EventLinks by eventId
    */
   async deleteByUrl(linkId, url) {
-    await makeRequest(`event/links/${linkId}/${url}`, "DELETE", null, {
+    await makeRequest(`eventHasLinks/${linkId}/${url}`, "DELETE", null, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     return { status: 204 };
