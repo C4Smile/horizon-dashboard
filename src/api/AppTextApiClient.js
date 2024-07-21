@@ -94,11 +94,11 @@ export class AppTextApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) {
+    for (const id of ids)
       await makeRequest(`appTexts/${id}`, "DELETE", null, {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       });
-    }
+
     return { status: 204 };
   }
 }
