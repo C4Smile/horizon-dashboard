@@ -24,6 +24,7 @@ import { localPhotoReducer } from "../../components/utils";
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // loadable
+const ScheduleInput = loadable(() => import("../../components/ScheduleInput"));
 const HtmlInput = loadable(() => import("../../components/Forms/HtmlInput"));
 
 // pages
@@ -72,6 +73,7 @@ function RoomForm() {
             id: undefined,
             number: "",
             content: null,
+            newRoomHasSchedule: [],
           });
         }
       }
@@ -130,6 +132,8 @@ function RoomForm() {
       if (roomQuery.data?.roomHasImage?.length)
         setPhotos({ type: "set", items: roomQuery.data?.roomHasImage.map((image) => image.imageId) });
       if (roomQuery.data?.image360Id) setImages360(roomQuery.data?.image360Id);
+      //* PARSING SCHEDULE
+      roomQuery.data.newRoomHasSchedule = roomQuery.data?.roomHasSchedule;
       //* PARSING CONTENT
       if (roomQuery.data?.content && typeof roomQuery.data?.content === "string") {
         const html = roomQuery.data?.content;
@@ -146,10 +150,12 @@ function RoomForm() {
 
     if (!id) {
       setPhotos({ type: "set", items: [] });
+      setImages360({ type: "set", items: [] });
       reset({
         id: undefined,
         number: "",
         content: null,
+        newRoomHasSchedule: [],
       });
     }
   }, [id, reset, roomQuery.data]);
@@ -251,6 +257,15 @@ function RoomForm() {
                 onChange(e.target.value);
               }}
             />
+          )}
+        />
+        {/* Room Schedule */}
+        <Controller
+          control={control}
+          disabled={roomQuery.isLoading || saving}
+          name="newEventHasSchedule"
+          render={({ field }) => (
+            <ScheduleInput label={t("_entities:room.roomHasSchedule.label")} {...field} />
           )}
         />
         {/* Room 360 Images */}
