@@ -138,7 +138,7 @@ function EventsPage() {
           (
             <div className="flex flex-wrap gap-3">
               {event.eventHasTag?.map((tag) => (
-                <Chip key={tag?.tagId?.id} label={tag?.tagId?.name} spanClassName="text-xs" />
+                <Chip key={tag?.id} label={tag?.name} spanClassName="text-xs" />
               ))}
             </div>
           ) ?? " - ",
