@@ -13,31 +13,17 @@ import config from "../config";
  */
 export class TagsEventsApiClient {
   /**
-   * @description Create tagsEvents
-   * @param {object} tagsEvents - TagsEvents
+   * @description Create tagsEvent
+   * @param {object} tagsEvent - TagsEvent
    * @returns  Transaction status
    */
-  async create(tagsEvents) {
+  async create(tagsEvent) {
     // call service
-    const { error, data, status } = await makeRequest("eventHasTags", "POST", tagsEvents, {
+    const { error, data, status } = await makeRequest("eventHasTag", "POST", tagsEvent, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
 
     return { error, data, status: status === 204 ? 201 : status };
-  }
-
-  /**
-   * Remove elements by their id
-   * @param {number[]} ids ids to delete
-   * @returns Transaction status
-   */
-  async delete(ids) {
-    for (const id of ids) {
-      await makeRequest(`eventHasTags/${id}`, "DELETE", null, {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      });
-    }
-    return { status: 204 };
   }
 
   /**
@@ -46,10 +32,15 @@ export class TagsEventsApiClient {
    * @param {number} eventId - Event id
    * @returns Status
    */
-  async deleteByEvent(tagId, eventId) {
-    await makeRequest(`event/${eventId}/tags/${tagId}`, "DELETE", null, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
+  async delete(tagId, eventId) {
+    await makeRequest(
+      `eventHasTag`,
+      "DELETE",
+      { tagId, eventId },
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     return { status: 204 };
   }
 }
