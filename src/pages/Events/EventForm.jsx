@@ -156,7 +156,7 @@ function EventForm() {
       eventQuery.data.newEventHasSchedule = eventQuery.data?.eventHasSchedule;
       //* PARSING TAGS
       const parsedTags = tagsList.filter((tag) =>
-        eventQuery?.data?.eventHasTag?.some((lTag) => lTag.tagId === tag.id),
+        eventQuery?.data?.eventHasTag?.some((lTag) => lTag.id === tag.id),
       );
       if (eventQuery.data?.content && typeof eventQuery.data?.content === "string") {
         const html = eventQuery.data?.content;
