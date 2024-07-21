@@ -143,7 +143,7 @@ export class NewsApiClient {
 
     // adding relationships
     for (const tag of tagsToKeep) {
-      if (tag.delete) this.tagsNews.deleteByNews(tag.tagId, news.id);
+      if (tag.delete) this.tagsNews.delete(tag.tagId, news.id);
       else this.tagsNews.create({ newsId: news.id, tagId: tag.tagId });
     }
     // saving photo

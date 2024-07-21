@@ -27,27 +27,20 @@ export class TagsNewsApiClient {
   }
 
   /**
-   * Remove elements by their id
-   * @param {number[]} ids ids to delete
-   * @returns Transaction status
-   */
-  async delete(ids) {
-    for (const id of ids) {
-      await makeRequest(`newsHasTag/${id}`, "DELETE");
-    }
-    return { status: 204 };
-  }
-
-  /**
    * @description Get a tagsNews by newsId
    * @param {number} tagId - Tag id
    * @param {number} newsId - News id
    * @returns Status
    */
-  async deleteByNews(tagId, newsId) {
-    await makeRequest(`news/${newsId}/tags/${tagId}`, "DELETE", null, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
+  async delete(tagId, newsId) {
+    await makeRequest(
+      `newsHasTag`,
+      "DELETE",
+      { tagId, newsId },
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     return { status: 204 };
   }
 }
