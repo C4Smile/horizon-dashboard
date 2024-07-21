@@ -1,77 +1,41 @@
-// import imagekit from "imagekit";
-
 // config
 import config from "../config";
 
-// db
-import supabase from "../db/connection";
+// utils
+import { fromLocal } from "../utils/local";
 
-const headers = {
-  "Access-Control-Allow-Origin": "*",
-  "Content-Type": "application/json",
-};
-
-/**
- * Image kit io auth response type
- */
-// eslint-disable-next-line no-unused-vars
-class ImageKitIoAuthResponse {
-  signature = "";
-  expire = "";
-  token = "";
-}
+// services
+import { makeRequest } from "../db/services";
 
 /**
  * ImageKitIoApiClient
  */
 export class ImageKitIoApiClient {
   /**
-   *
-   * @returns {ImageKitIoAuthResponse} imagekit auth response
-   */
-  async authenticator() {
-    try {
-      // You can also pass headers and validate the request source in the backend, or you can use headers for any other use case.
-      const response = await fetch(images, {
-        headers,
-      });
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Request failed with status ${response.status}: ${errorText}`);
-      }
-      const data = await response.json();
-      const { signature, expire, token } = data;
-      return { signature, expire, token };
-    } catch (error) {
-      throw new Error(`Authentication request failed: ${error.message}`);
-    }
-  }
-
-  /**
    * Generate image folder
-   * @param {string} dirPath 
-   * @returns
+   * @param {string} dirPath folder path
+   * @returns {string} folder path
    */
   generateFolder(dirPath) {
     return `${config.appName}/${dirPath.toLowerCase()}`;
   }
 
   /**
-   * Save photo into supabase
-   * @param {object} photo
+   * Save photo into database
+   * @param {object} photo photo object
+   * @returns {Promise<{data: any, error: any}>} response
    */
   async insertImage(photo) {
-    const { data, error } = await supabase
-      .from("images")
-      .insert({ url: photo.url, fileName: photo.fileId })
-      .select("id");
-    return { data, error };
+    const { error, data, status } = await makeRequest("images", "POST", photo, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
+    return { error, data, status: status === 204 ? 201 : status };
   }
 
   /**
    * Read file as base64
-   * @param {File} file
-   * @returns {Promise<string>}
+   * @param {File} file file to read
+   * @returns {Promise<string>} base64 string
    */
   async readFileAsBase64(file) {
     return new Promise((resolve, reject) => {
@@ -86,18 +50,21 @@ export class ImageKitIoApiClient {
    *
    * @param {object[]} photos list of images
    * @param {string} folder where to save images
-   * @returns
+   * @returns {Promise<any[]>} uploaded images
    */
   async insertImages(photos, folder) {
     const uploads = [];
 
     for (const photo of photos) {
       const base64 = await this.readFileAsBase64(photo);
-      const response = await fetch(imagekitUploadUrl, {
-        headers,
-        method: "POST",
-        body: JSON.stringify({ base64, folder, fileName: photo.name }),
-      });
+      const response = await makeRequest(
+        "images",
+        "POST",
+        { base64, folder, fileName: photo.name },
+        {
+          Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+        },
+      );
       const result = await response.json();
       if (!result.error) {
         const { url, fileId } = result;
@@ -116,24 +83,14 @@ export class ImageKitIoApiClient {
 
   /**
    * Deletes an image
-   * @param {string} id
-   * @returns
+   * @param {string} id image id
+   * @returns {Promise<any>} response
    */
   async deleteImage(id) {
-    try {
-      const response = await fetch(imagekitDeleteUrl, {
-        headers,
-        method: "POST",
-        body: JSON.stringify({ imageId: id }),
-      });
-      const result = response.status;
-      if (result === 200) {
-        const { error } = await supabase.from("images").delete().eq("fileName", id);
-        return error;
-      }
-      return 200;
-    } catch (err) {
-      return err;
-    }
+    const { error } = await makeRequest(`images/${id}`, "DELETE", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
+    if (!error) return error.status;
+    return 200;
   }
 }
