@@ -179,6 +179,9 @@
     },
     "content": {
       "label": "Contenido"
+    },
+    "roomHasSchedule": {
+      "label": "Horario"
     }
   },
   "roomType": {
