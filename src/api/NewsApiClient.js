@@ -130,7 +130,7 @@ export class NewsApiClient {
     // call service
     const { status, error } = await makeRequest(
       `news/${news.id}`,
-      "PUT",
+      "PATCH",
       {
         ...news,
         lastUpdate: new Date().toISOString(),

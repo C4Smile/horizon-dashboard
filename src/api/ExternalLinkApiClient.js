@@ -60,7 +60,7 @@ export class ExternalLinkApiClient {
     // call service
     const { status, error } = await makeRequest(
       `externalLink/${externalLink.id}`,
-      "PUT",
+      "PATCH",
       {
         ...externalLink,
         lastUpdate: new Date().toISOString(),

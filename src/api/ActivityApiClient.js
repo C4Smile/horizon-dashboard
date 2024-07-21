@@ -70,7 +70,7 @@ export class ActivityApiClient {
     // call service
     const { status, error } = await makeRequest(
       `activity/${activity.id}`,
-      "PUT",
+      "PATCH",
       {
         ...activity,
         lastUpdate: new Date().toISOString(),

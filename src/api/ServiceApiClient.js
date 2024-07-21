@@ -117,7 +117,7 @@ export class ServiceApiClient {
     // call service
     const { status, error } = await makeRequest(
       `service/${service.id}`,
-      "PUT",
+      "PATCH",
       {
         ...service,
         lastUpdate: new Date().toISOString(),

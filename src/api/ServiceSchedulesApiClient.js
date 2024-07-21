@@ -56,7 +56,7 @@ export class ServiceSchedulesApiClient {
     // call service
     const { status, error } = await makeRequest(
       `serviceSchedules/${serviceSchedules.id}`,
-      "PUT",
+      "PATCH",
       serviceSchedules,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,

@@ -53,7 +53,7 @@ export class ImagesNewsApiClient {
    */
   async update(imagesNews) {
     // call service
-    const { status, error } = await makeRequest(`imagesNews/${imagesNews.id}`, "PUT", imagesNews, {
+    const { status, error } = await makeRequest(`imagesNews/${imagesNews.id}`, "PATCH", imagesNews, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     if (error !== null) return { status, error: { message: error.message } };

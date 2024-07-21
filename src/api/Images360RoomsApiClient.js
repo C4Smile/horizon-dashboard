@@ -55,7 +55,7 @@ export class Images360RoomsApiClient {
     // call service
     const { status, error } = await makeRequest(
       `images360Rooms/${images360Rooms.id}`,
-      "PUT",
+      "PATCH",
       images360Rooms,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,

@@ -53,7 +53,7 @@ export class ImagesRoomsApiClient {
    */
   async update(imagesRooms) {
     // call service
-    const { status, error } = await makeRequest(`imagesRooms/${imagesRooms.id}`, "PUT", imagesRooms, {
+    const { status, error } = await makeRequest(`imagesRooms/${imagesRooms.id}`, "PATCH", imagesRooms, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     if (error !== null) return { status, error: { message: error.message } };

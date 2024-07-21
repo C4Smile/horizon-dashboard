@@ -75,7 +75,7 @@ export class AppTextApiClient {
     // call service
     const { status, error } = await makeRequest(
       `appTexts/${appText.id}`,
-      "PUT",
+      "PATCH",
       {
         ...appText,
         lastUpdate: new Date().toISOString(),

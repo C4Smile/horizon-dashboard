@@ -136,7 +136,7 @@ export class EventApiClient {
     // call service
     const { status, error } = await makeRequest(
       `event/${event.id}`,
-      "PUT",
+      "PATCH",
       {
         ...event,
         lastUpdate: new Date().toISOString(),

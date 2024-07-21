@@ -62,7 +62,7 @@ export class TagApiClient {
     // call service
     const { status, error } = await makeRequest(
       `tag/${tag.id}`,
-      "PUT",
+      "PATCH",
       {
         ...tag,
         lastUpdate: new Date().toISOString(),

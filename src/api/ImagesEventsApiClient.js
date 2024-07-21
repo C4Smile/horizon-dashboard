@@ -55,7 +55,7 @@ export class ImagesEventsApiClient {
     // call service
     const { status, error } = await makeRequest(
       `imagesEvents/${imagesEvents.id}`,
-      "PUT",
+      "PATCH",
       imagesEvents,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,

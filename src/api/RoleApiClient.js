@@ -60,7 +60,7 @@ export class RoleApiClient {
     // call service
     const { status, error } = await makeRequest(
       `role/${role.id}`,
-      "PUT",
+      "PATCH",
       {
         ...role,
         lastUpdate: new Date().toISOString(),

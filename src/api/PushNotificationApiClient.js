@@ -74,7 +74,7 @@ export class PushNotificationApiClient {
     // call service
     const { status, error } = await makeRequest(
       `pushNotification/${pushNotification.id}`,
-      "PUT",
+      "PATCH",
       {
         ...pushNotification,
         lastUpdate: new Date().toISOString(),

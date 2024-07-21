@@ -68,7 +68,7 @@ export class RoomTypeApiClient {
     // call service
     const { status, error } = await makeRequest(
       `roomType/${roomType.id}`,
-      "PUT",
+      "PATCH",
       {
         ...roomType,
         lastUpdate: new Date().toISOString(),

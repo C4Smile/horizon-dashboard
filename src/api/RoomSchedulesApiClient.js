@@ -56,7 +56,7 @@ export class RoomSchedulesApiClient {
     // call service
     const { status, error } = await makeRequest(
       `roomSchedules/${roomSchedules.id}`,
-      "PUT",
+      "PATCH",
       roomSchedules,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,

@@ -56,7 +56,7 @@ export class EventSchedulesApiClient {
     // call service
     const { status, error } = await makeRequest(
       `eventSchedules/${eventSchedules.id}`,
-      "PUT",
+      "PATCH",
       eventSchedules,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
