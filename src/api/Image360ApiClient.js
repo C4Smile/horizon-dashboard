@@ -10,7 +10,7 @@ import { makeRequest } from "../db/services";
 /**
  * ImageKitIoApiClient
  */
-export class ImageApiClient {
+export class Image360ApiClient {
   /**
    * Generate image folder
    * @param {string} dirPath folder path

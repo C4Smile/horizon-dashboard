@@ -11,6 +11,8 @@ import { RoomTypeApiClient } from "./RoomTypeApiClient";
 import { ServiceApiClient } from "./ServiceApiClient";
 import { TagApiClient } from "./TagApiClient";
 import { UserApiClient } from "./UserApiClient";
+import { ImageApiClient } from "./ImageApiClient";
+import { Image360ApiClient } from "./Image360ApiClient";
 
 // services
 import { makeRequest } from "../db/services";
@@ -43,6 +45,8 @@ export class MuseumApiClient {
     this.service = new ServiceApiClient();
     this.tags = new TagApiClient();
     this.user = new UserApiClient();
+    this.image = new ImageApiClient();
+    this.image360 = new Image360ApiClient();
   }
 
   /**
@@ -56,6 +60,20 @@ export class MuseumApiClient {
     });
     if (error !== null) return { status, error: { message: error.message } };
     return data;
+  }
+
+  /**
+   * @returns {ImageApiClient} Image
+   */
+  get Image() {
+    return this.image;
+  }
+
+  /**
+   * @returns {Image360ApiClient} Image 360
+   */
+  get Image360() {
+    return this.image360;
   }
 
   /**
