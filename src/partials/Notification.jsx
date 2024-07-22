@@ -18,6 +18,7 @@ const Notification = memo(() => {
 
   const localState = useMemo(() => {
     switch (notification) {
+      case "notConnected":
       case "images":
       case "400":
       case "401":
