@@ -14,11 +14,11 @@ import noPhoto from "../assets/images/no-product.jpg";
 import { useMuseumApiClient } from "../providers/MuseumApiProvider";
 
 /**
- * ImageKitIoUploader component
+ * ImageUploader component
  * @param {object} props
  * @returns
  */
-function ImageKitIoUploaderMultiple(props) {
+function ImageUploaderMultiple(props) {
   const { label, folder, photos, setPhotos } = props;
 
   const [loadingPhotos, setLoadingPhotos] = useState(false);
@@ -32,13 +32,13 @@ function ImageKitIoUploaderMultiple(props) {
   const uploadOthers = useCallback(
     async (files) => {
       const [, ...other] = files;
-      const result = await museumApiClient.ImageKitIo.insertImages(
+      const result = await museumApiClient.Image.insertImages(
         other,
-        museumApiClient.ImageKitIo.generateFolder(folder),
+        museumApiClient.Image.generateFolder(folder),
       );
       setPhotos({ type: "add", items: result });
     },
-    [folder, museumApiClient.ImageKitIo, setPhotos],
+    [folder, museumApiClient.Image, setPhotos],
   );
 
   /**
@@ -46,10 +46,10 @@ function ImageKitIoUploaderMultiple(props) {
    * @param {*} res
    */
   const onSuccess = async (res) => {
-    // museumApiClient.ImageKitIo.generateFolder(folder)
+    // museumApiClient.Image.generateFolder(folder)
     try {
       const { url, fileId } = res;
-      const { data, error } = await museumApiClient.ImageKitIo.insertImage({ url, fileId });
+      const { data, error } = await museumApiClient.Image.insertImage({ url, fileId });
       if (!error) setPhotos({ type: "add", item: { fileId, url, id: data[0].id } });
       // eslint-disable-next-line no-console
       else console.error(error);
@@ -67,7 +67,7 @@ function ImageKitIoUploaderMultiple(props) {
   };
 
   const onDelete = async (index) => {
-    const error = await museumApiClient.ImageKitIo.deleteImage(
+    const error = await museumApiClient.Image.deleteImage(
       photos[index]?.fileId ?? photos[index]?.fileName,
     );
     if (!error) setPhotos({ type: "delete", index });
@@ -112,4 +112,4 @@ function ImageKitIoUploaderMultiple(props) {
   );
 }
 
-export default ImageKitIoUploaderMultiple;
+export default ImageUploaderMultiple;

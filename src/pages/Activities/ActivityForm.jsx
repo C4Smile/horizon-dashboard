@@ -10,7 +10,7 @@ import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
 import SelectInput from "../../components/Forms/SelectInput";
 import ParagraphInput from "../../components/Forms/ParagraphInput";
-import ImageKitIoUploader from "../../components/ImageKitIoUploader";
+import ImageUploader from "../../components/ImageUploader";
 import AutocompleteInput from "../../components/Forms/AutocompleteInput";
 
 // providers
@@ -246,7 +246,7 @@ function ActivityForm() {
           {activityQuery.isLoading ? (
             <Loading />
           ) : (
-            <ImageKitIoUploader
+            <ImageUploader
               photo={photo}
               setPhoto={setPhoto}
               label={`${t("_entities:activity.imageId.label")}`}

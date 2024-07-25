@@ -14,11 +14,11 @@ import noPhoto from "../assets/images/no-product.jpg";
 import { useMuseumApiClient } from "../providers/MuseumApiProvider";
 
 /**
- * ImageKitIoUploader component
+ * ImageUploader component
  * @param {object} props
  * @returns
  */
-function ImageKitIoUploader(props) {
+function ImageUploader(props) {
   const { label, folder, photo, setPhoto } = props;
 
   const [loadingPhoto, setLoadingPhoto] = useState(false);
@@ -34,11 +34,11 @@ function ImageKitIoUploader(props) {
    * @param {*} res
    */
   const onSuccess = async (res) => {
-    // museumApiClient.ImageKitIo.generateFolder(folder)
+    // museumApiClient.Image.generateFolder(folder)
     try {
       const { url, fileId } = res;
-      if (photo) await museumApiClient.ImageKitIo.deleteImage(photo.fileId);
-      const { data, error } = await museumApiClient.ImageKitIo.insertImage({ url, fileId });
+      if (photo) await museumApiClient.Image.deleteImage(photo.fileId);
+      const { data, error } = await museumApiClient.Image.insertImage({ url, fileId });
       if (!error) setPhoto({ fileId, url, id: data[0].id });
       // eslint-disable-next-line no-console
       else console.error(error);
@@ -56,7 +56,7 @@ function ImageKitIoUploader(props) {
   };
 
   const onDelete = async (index) => {
-    const error = await museumApiClient.ImageKitIo.deleteImage(photo?.fileId ?? photo?.fileName);
+    const error = await museumApiClient.Image.deleteImage(photo?.fileId ?? photo?.fileName);
     if (!error) setPhoto();
     // eslint-disable-next-line no-console
     else console.error(error);
@@ -100,4 +100,4 @@ function ImageKitIoUploader(props) {
   );
 }
 
-export default ImageKitIoUploader;
+export default ImageUploader;

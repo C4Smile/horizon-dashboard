@@ -25,9 +25,7 @@ const TextInput = loadable(() => import("../../components/Forms/TextInput"));
 const HtmlInput = loadable(() => import("../../components/Forms/HtmlInput"));
 const ParagraphInput = loadable(() => import("../../components/Forms/ParagraphInput"));
 const AutocompleteInput = loadable(() => import("../../components/Forms/AutocompleteInput"));
-const ImageKitIoUploaderMultiple = loadable(
-  () => import("../../components/ImageKitIoUploaderMultiple"),
-);
+const ImageUploaderMultiple = loadable(() => import("../../components/ImageUploaderMultiple"));
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
@@ -256,7 +254,7 @@ function NewsForm() {
           {newsQuery.isLoading ? (
             <Loading />
           ) : (
-            <ImageKitIoUploaderMultiple
+            <ImageUploaderMultiple
               photos={photos}
               setPhotos={setPhotos}
               label={`${t("_entities:news.newsHasImage.label")}`}

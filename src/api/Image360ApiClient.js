@@ -8,7 +8,7 @@ import { fromLocal } from "../utils/local";
 import { makeRequest } from "../db/services";
 
 /**
- * ImageKitIoApiClient
+ * ImageApiClient
  */
 export class Image360ApiClient {
   /**

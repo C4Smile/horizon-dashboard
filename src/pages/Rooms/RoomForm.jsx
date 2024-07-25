@@ -14,7 +14,7 @@ import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
 import SelectInput from "../../components/Forms/SelectInput";
 import ParagraphInput from "../../components/Forms/ParagraphInput";
-import ImageKitIoUploaderMultiple from "../../components/ImageKitIoUploaderMultiple";
+import ImageUploaderMultiple from "../../components/ImageUploaderMultiple";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
@@ -290,7 +290,7 @@ function RoomForm() {
           {roomQuery.isLoading ? (
             <Loading />
           ) : (
-            <ImageKitIoUploaderMultiple
+            <ImageUploaderMultiple
               photos={images360}
               setPhotos={setImages360}
               label={`${t("_entities:room.roomHasImage360.label")}`}
@@ -303,7 +303,7 @@ function RoomForm() {
           {roomQuery.isLoading ? (
             <Loading />
           ) : (
-            <ImageKitIoUploaderMultiple
+            <ImageUploaderMultiple
               photos={photos}
               setPhotos={setPhotos}
               label={`${t("_entities:room.roomHasImage.label")}`}

@@ -27,8 +27,8 @@ const ScheduleInput = loadable(() => import("../../components/ScheduleInput"));
 const ParagraphInput = loadable(() => import("../../components/Forms/ParagraphInput"));
 const AutocompleteInput = loadable(() => import("../../components/Forms/AutocompleteInput"));
 const ExternalLinkInput = loadable(() => import("../../components/ExternalLinkInput"));
-const ImageKitIoUploaderMultiple = loadable(
-  () => import("../../components/ImageKitIoUploaderMultiple"),
+const ImageUploaderMultiple = loadable(
+  () => import("../../components/ImageUploaderMultiple"),
 );
 
 // pages
@@ -333,7 +333,7 @@ function EventForm() {
           {eventQuery.isLoading ? (
             <Loading />
           ) : (
-            <ImageKitIoUploaderMultiple
+            <ImageUploaderMultiple
               photos={photos}
               setPhotos={setPhotos}
               label={`${t("_entities:event.eventHasImage.label")}`}

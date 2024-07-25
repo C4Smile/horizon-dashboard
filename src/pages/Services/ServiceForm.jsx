@@ -13,7 +13,7 @@ import htmlToDraft from "html-to-draftjs";
 import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
 import ParagraphInput from "../../components/Forms/ParagraphInput";
-import ImageKitIoUploader from "../../components/ImageKitIoUploader";
+import ImageUploader from "../../components/ImageUploader";
 import AutocompleteInput from "../../components/Forms/AutocompleteInput";
 
 // providers
@@ -252,7 +252,7 @@ function ServiceForm() {
           {serviceQuery.isLoading ? (
             <Loading />
           ) : (
-            <ImageKitIoUploader
+            <ImageUploader
               photo={photo}
               setPhoto={setPhoto}
               label={`${t("_entities:service.imageId.label")}`}
