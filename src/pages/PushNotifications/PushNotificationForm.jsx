@@ -55,7 +55,6 @@ function PushNotificationForm() {
     queryKey: [entityLinkType, previousLink ?? ""],
     queryFn: () => museumApiClient.getEntity(entityLinkType),
     enabled: !!entityLinkType,
-    retry: false,
   });
 
   const entityList = useMemo(() => {
@@ -117,7 +116,6 @@ function PushNotificationForm() {
     queryKey: [ReactQueryKeys.PushNotifications, id],
     queryFn: () => museumApiClient.PushNotification.getById(id),
     enabled: id !== undefined,
-    retry: false,
   });
 
   useEffect(() => {

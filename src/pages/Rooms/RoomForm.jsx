@@ -90,7 +90,6 @@ function RoomForm() {
     queryKey: [ReactQueryKeys.Rooms, id],
     queryFn: () => museumApiClient.Room.getById(id),
     enabled: id !== undefined,
-    retry: false,
   });
 
   useEffect(() => {
@@ -103,7 +102,6 @@ function RoomForm() {
   const typesQuery = useQuery({
     queryKey: [ReactQueryKeys.RoomTypes],
     queryFn: () => museumApiClient.RoomType.getAll(),
-    retry: false,
   });
 
   const typesList = useMemo(() => {
@@ -117,7 +115,7 @@ function RoomForm() {
   const statusQuery = useQuery({
     queryKey: [ReactQueryKeys.RoomStatuses],
     queryFn: () => museumApiClient.RoomStatus.getAll(),
-    retry: false,
+
   });
 
   const statusList = useMemo(() => {

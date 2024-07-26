@@ -76,7 +76,6 @@ function ActivitiesPage() {
       },
     ],
     queryFn: () => museumApiClient.Activity.getAll(sort.attribute, sort.order),
-    retry: false,
   });
 
   const [localData, setLocalData] = useState([]);

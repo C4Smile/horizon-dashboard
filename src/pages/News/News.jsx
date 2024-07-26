@@ -26,7 +26,6 @@ import Table from "../../components/Table/Table";
 import Chip from "../../components/Chip/Chip";
 
 const columnClasses = {
-  title: "max-w-40 overflow-hidden",
   lastUpdate: "w-56",
 };
 
@@ -78,7 +77,6 @@ function NewsPage() {
       },
     ],
     queryFn: () => museumApiClient.News.getAll(sort.attribute, sort.order),
-    retry: false,
   });
 
   const [localData, setLocalData] = useState([]);

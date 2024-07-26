@@ -83,7 +83,6 @@ function EventsPage() {
       },
     ],
     queryFn: () => museumApiClient.Events.getAll(sort.attribute, sort.order),
-    retry: false,
   });
 
   const [localData, setLocalData] = useState([]);

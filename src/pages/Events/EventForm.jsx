@@ -27,9 +27,7 @@ const ScheduleInput = loadable(() => import("../../components/ScheduleInput"));
 const ParagraphInput = loadable(() => import("../../components/Forms/ParagraphInput"));
 const AutocompleteInput = loadable(() => import("../../components/Forms/AutocompleteInput"));
 const ExternalLinkInput = loadable(() => import("../../components/ExternalLinkInput"));
-const ImageUploaderMultiple = loadable(
-  () => import("../../components/ImageUploaderMultiple"),
-);
+const ImageUploaderMultiple = loadable(() => import("../../components/ImageUploaderMultiple"));
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
@@ -99,7 +97,6 @@ function EventForm() {
     queryKey: [ReactQueryKeys.Events, id],
     queryFn: () => museumApiClient.Events.getById(id),
     enabled: id !== undefined,
-    retry: false,
   });
 
   useEffect(() => {
@@ -133,7 +130,6 @@ function EventForm() {
   const tagsQuery = useQuery({
     queryKey: [ReactQueryKeys.Tags],
     queryFn: () => museumApiClient.Tag.getAll(),
-    retry: false,
   });
 
   const tagsList = useMemo(() => {

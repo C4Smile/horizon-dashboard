@@ -77,7 +77,6 @@ function CustomerForm() {
     queryKey: [ReactQueryKeys.Customers, id],
     queryFn: () => museumApiClient.Customer.getById(id),
     enabled: id !== undefined,
-    retry: false,
   });
 
   useEffect(() => {
@@ -106,7 +105,6 @@ function CustomerForm() {
   const countryQuery = useQuery({
     queryKey: [ReactQueryKeys.Countries],
     queryFn: () => museumApiClient.Country.getAll(),
-    retry: false,
   });
 
   const countryList = useMemo(() => {

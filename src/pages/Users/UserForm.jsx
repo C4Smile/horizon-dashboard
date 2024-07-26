@@ -83,7 +83,6 @@ function UserForm() {
     queryKey: [ReactQueryKeys.Users, id],
     queryFn: () => museumApiClient.User.getById(id, "*", ["password", "rPassword"]),
     enabled: id !== undefined,
-    retry: false,
   });
 
   useEffect(() => {

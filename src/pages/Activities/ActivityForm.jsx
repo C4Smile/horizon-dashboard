@@ -51,7 +51,6 @@ function ActivityForm() {
     queryKey: [entityLinkType, previousLink ?? ""],
     queryFn: () => museumApiClient.getEntity(entityLinkType),
     enabled: !!entityLinkType,
-    retry: false,
   });
 
   const entityList = useMemo(() => {
@@ -119,7 +118,6 @@ function ActivityForm() {
     queryKey: [ReactQueryKeys.Activities, id],
     queryFn: () => museumApiClient.Activity.getById(id),
     enabled: id !== undefined,
-    retry: false,
   });
 
   useEffect(() => {

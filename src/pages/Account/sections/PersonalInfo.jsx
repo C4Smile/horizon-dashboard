@@ -39,7 +39,6 @@ function PersonalInfo() {
     queryKey: [ReactQueryKeys.Users, userId],
     queryFn: () => museumApiClient.User.getById(userId),
     enabled: userId !== undefined,
-    retry: false,
   });
 
   useEffect(() => {
@@ -75,7 +74,7 @@ function PersonalInfo() {
   const rolesQuery = useQuery({
     queryKey: [ReactQueryKeys.UserRoles],
     queryFn: () => museumApiClient.UserRole.getAll(),
-    retry: false,
+
   });
 
   const roleList = useMemo(() => {

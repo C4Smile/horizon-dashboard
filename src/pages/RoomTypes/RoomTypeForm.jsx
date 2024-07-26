@@ -72,7 +72,7 @@ function RoomForm() {
     queryKey: [ReactQueryKeys.RoomTypes, id],
     queryFn: () => museumApiClient.RoomType.getById(id),
     enabled: id !== undefined,
-    retry: false,
+
   });
 
   useEffect(() => {

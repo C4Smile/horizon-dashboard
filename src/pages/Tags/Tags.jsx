@@ -58,7 +58,7 @@ function Tags() {
       },
     ],
     queryFn: () => museumApiClient.Tag.getAll(sort.attribute, sort.order),
-    retry: false,
+
   });
 
   const [localData, setLocalData] = useState([]);

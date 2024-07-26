@@ -92,7 +92,6 @@ function ServiceForm() {
     queryKey: [ReactQueryKeys.Services, id],
     queryFn: () => museumApiClient.Service.getById(id),
     enabled: id !== undefined,
-    retry: false,
   });
 
   useEffect(() => {
@@ -120,7 +119,7 @@ function ServiceForm() {
   const placesQuery = useQuery({
     queryKey: [ReactQueryKeys.Places],
     queryFn: () => museumApiClient.Place.getAll(),
-    retry: false,
+
   });
 
   const placesList = useMemo(() => {

@@ -90,7 +90,6 @@ function NewsForm() {
     queryKey: [ReactQueryKeys.News, id],
     queryFn: () => museumApiClient.News.getById(id),
     enabled: id !== undefined,
-    retry: false,
   });
 
   useEffect(() => {
@@ -119,7 +118,6 @@ function NewsForm() {
   const tagsQuery = useQuery({
     queryKey: [ReactQueryKeys.Tags],
     queryFn: () => museumApiClient.Tag.getAll(),
-    retry: false,
   });
 
   const tagsList = useMemo(() => {
