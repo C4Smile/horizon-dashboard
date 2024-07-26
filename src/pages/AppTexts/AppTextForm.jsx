@@ -80,7 +80,6 @@ function AppTextForm() {
     queryKey: [ReactQueryKeys.AppTexts, id],
     queryFn: () => museumApiClient.AppText.getById(id),
     enabled: id !== undefined,
-
   });
 
   useEffect(() => {

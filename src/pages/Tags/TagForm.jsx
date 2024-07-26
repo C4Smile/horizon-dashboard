@@ -71,7 +71,6 @@ function TagForm() {
     queryKey: [ReactQueryKeys.Tags, id],
     queryFn: () => museumApiClient.Tag.getById(id),
     enabled: id !== undefined,
-
   });
 
   useEffect(() => {

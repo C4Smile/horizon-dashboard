@@ -10,6 +10,7 @@ import Chip from "./Chip/Chip";
 import TextInput from "./Forms/TextInput";
 import SelectInput from "./Forms/SelectInput";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ScheduleInput = forwardRef(function (props, ref) {
   const { children, value = [], onChange, label, containerClassName, onlyTime } = props;
 

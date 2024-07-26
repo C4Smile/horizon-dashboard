@@ -1,5 +1,3 @@
-/* eslint-disable react/function-component-definition */
-/* eslint-disable react/jsx-no-constructed-context-values */
 import { createContext, useState, useContext, useCallback } from "react";
 
 // prop-types is a library for typechecking of props
@@ -47,5 +45,4 @@ const useNotification = () => {
   return context;
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
 export { NotificationProvider, useNotification };

@@ -45,7 +45,6 @@ function Customers() {
   const customerQuery = useQuery({
     queryKey: [ReactQueryKeys.Customers],
     queryFn: () => museumApiClient.Customer.getAll(),
-
   });
 
   const [localData, setLocalData] = useState([]);

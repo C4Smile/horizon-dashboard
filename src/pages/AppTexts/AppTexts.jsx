@@ -58,7 +58,6 @@ function AppTexts() {
       },
     ],
     queryFn: () => museumApiClient.AppText.getAll(sort.attribute, sort.order),
-
   });
 
   const [localData, setLocalData] = useState([]);

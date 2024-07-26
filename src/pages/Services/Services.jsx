@@ -77,7 +77,6 @@ function ServicesPage() {
       },
     ],
     queryFn: () => museumApiClient.Service.getAll(sort.attribute, sort.order),
-
   });
 
   const [localData, setLocalData] = useState([]);

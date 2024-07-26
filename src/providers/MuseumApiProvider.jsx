@@ -45,5 +45,4 @@ const useMuseumApiClient = () => {
   return context.client;
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
 export { queryClient, MuseumApiClientProvider, useMuseumApiClient };

@@ -58,7 +58,6 @@ function RoomTypes() {
       },
     ],
     queryFn: () => museumApiClient.RoomType.getAll(sort.attribute, sort.order),
-
   });
 
   const [localData, setLocalData] = useState([]);

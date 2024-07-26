@@ -74,7 +74,6 @@ function PersonalInfo() {
   const rolesQuery = useQuery({
     queryKey: [ReactQueryKeys.UserRoles],
     queryFn: () => museumApiClient.UserRole.getAll(),
-
   });
 
   const roleList = useMemo(() => {

@@ -38,7 +38,6 @@ const ExternalLinkInput = forwardRef(function (props, ref) {
   const externalLinkQuery = useQuery({
     queryKey: [ReactQueryKeys.ExternalLinks],
     queryFn: () => museumApiClient.ExternalLink.getAll(),
-    retry: false,
   });
 
   const externalLinkList = useMemo(() => {
