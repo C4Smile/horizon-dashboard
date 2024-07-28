@@ -122,8 +122,6 @@ function RoomAreaForm() {
           items: roomAreaQuery.data?.roomAreaHasImage.map((image) => image.imageId),
         });
       if (roomAreaQuery.data?.image360Id) setImages360(roomAreaQuery.data?.image360Id);
-      //* PARSING SCHEDULE
-      roomAreaQuery.data.newRoomAreaHasSchedule = roomAreaQuery.data?.roomAreaHasSchedule;
       //* PARSING CONTENT
       if (roomAreaQuery.data?.content && typeof roomAreaQuery.data?.content === "string") {
         const html = roomAreaQuery.data?.content;
@@ -135,7 +133,10 @@ function RoomAreaForm() {
         }
       }
       setLastUpdate(roomAreaQuery?.data?.lastUpdate);
-      reset({ ...roomAreaQuery.data });
+      reset({
+        ...roomAreaQuery.data,
+        roomId: { value: roomAreaQuery.data.room?.name, id: roomAreaQuery.data.room?.id },
+      });
     }
 
     if (!id) {
@@ -233,13 +234,13 @@ function RoomAreaForm() {
         <Controller
           control={control}
           disabled={roomAreaQuery.isLoading || saving}
-          name="order"
+          name="number"
           render={({ field }) => (
             <TextInput
               {...field}
               type="number"
-              name="order"
-              id="order"
+              name="number"
+              id="number"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder={t("_entities:roomArea.order.placeholder")}
               label={t("_entities:roomArea.order.label")}
