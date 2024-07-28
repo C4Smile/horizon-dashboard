@@ -22,6 +22,7 @@ import { fromLocal } from "../utils/local";
 
 // config
 import config from "../config";
+import { RoomAreaApiClient } from "./RoomAreaApiClient";
 
 /**
  * @class MuseumApiClient
@@ -42,6 +43,7 @@ export class MuseumApiClient {
     this.room = new RoomApiClient();
     this.roomStatus = new RoomStatusApiClient();
     this.roomType = new RoomTypeApiClient();
+    this.roomArea = new RoomAreaApiClient();
     this.service = new ServiceApiClient();
     this.tags = new TagApiClient();
     this.user = new UserApiClient();
@@ -123,6 +125,13 @@ export class MuseumApiClient {
    */
   get Room() {
     return this.room;
+  }
+
+  /**
+   * @returns {RoomAreaApiClient} Room
+   */
+  get RoomArea() {
+    return this.roomArea;
   }
 
   /**
