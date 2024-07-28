@@ -69,7 +69,7 @@ TextInput.defaultProps = {
 };
 
 TextInput.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.any,
   onChange: PropTypes.func.isRequired,
   state: PropTypes.oneOf(["", "error", "good", "default"]),
   name: PropTypes.string,
