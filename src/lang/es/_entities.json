@@ -6,7 +6,7 @@
     "customer": "Cliente",
     "province": "Provincia",
     "room": "Sala",
-    "roomArea":"Área de sala",
+    "roomArea": "Área de sala",
     "roomType": "Tipo de Sala",
     "roomStatus": "Estado de Sala",
     "invoice": "Factura",
@@ -187,13 +187,17 @@
   },
   "roomArea": {
     "lastUpdate": { "label": "Última actualización" },
-    "number": { "label": "Número", "placeholder": "ej: 1" },
-    "name": { "label": "Nombre", "placeholder": "ej: Historia de un símbolo" },
+    "order": { "label": "Orden", "placeholder": "La posición en el orden de la sala (ej: 1, 2, 3)" },
+    "name": { "label": "Nombre", "placeholder": "ej: Héroes Caídos" },
     "description": {
       "label": "Descripción",
       "placeholder": "ej: En esta sala se puede..."
     },
     "status": { "label": "Estado" },
+    "roomId": {
+      "label": "Room",
+      "placeholder": "ej: Historia de un símbolo"
+    },
     "roomAreaHasImage": {
       "label": "Imágenes"
     },

@@ -14,6 +14,7 @@ import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
 import SelectInput from "../../components/Forms/SelectInput";
 import ParagraphInput from "../../components/Forms/ParagraphInput";
+import AutocompleteInput from "../../components/Forms/AutocompleteInput";
 import ImageUploaderMultiple from "../../components/ImageUploaderMultiple";
 
 // providers
@@ -25,7 +26,6 @@ import { localPhotoReducer } from "../../components/utils";
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // loadable
-const ScheduleInput = loadable(() => import("../../components/ScheduleInput"));
 const HtmlInput = loadable(() => import("../../components/Forms/HtmlInput"));
 
 // pages
@@ -73,9 +73,10 @@ function RoomAreaForm() {
           setImages360({ type: "set", items: [] });
           reset({
             id: undefined,
-            number: "",
+            order: 1,
             description: "",
             content: null,
+            roomId: null,
           });
         }
       }
@@ -142,12 +143,25 @@ function RoomAreaForm() {
       setImages360({ type: "set", items: [] });
       reset({
         id: undefined,
-        number: "",
+        order: 1,
         content: null,
-        newRoomAreaHasSchedule: [],
+        roomId: null,
       });
     }
   }, [id, reset, roomAreaQuery.data]);
+
+  const roomsQuery = useQuery({
+    queryKey: [ReactQueryKeys.Rooms],
+    queryFn: () => museumApiClient.Room.getAll(),
+  });
+
+  const roomsList = useMemo(() => {
+    try {
+      return roomsQuery?.data?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
+    } catch (err) {
+      return [];
+    }
+  }, [roomsQuery.data]);
 
   return notFound ? (
     <NotFound />
@@ -195,20 +209,40 @@ function RoomAreaForm() {
             )}
           />
         )}
+        {/* RoomArea Room */}
+        <Controller
+          control={control}
+          name="roomId"
+          disabled={roomAreaQuery.isLoading || roomsQuery.isLoading || saving}
+          render={({ field: { onChange, value, ...rest } }) => (
+            <AutocompleteInput
+              {...rest}
+              id="roomId"
+              name="roomId"
+              label={t("_entities:roomArea.roomId.label")}
+              placeholder={t("_entities:roomArea.roomId.placeholder")}
+              options={roomsList}
+              value={value}
+              onChange={(v) => {
+                onChange(v);
+              }}
+            />
+          )}
+        />
         {/* RoomArea Number */}
         <Controller
           control={control}
           disabled={roomAreaQuery.isLoading || saving}
-          name="number"
+          name="order"
           render={({ field }) => (
             <TextInput
               {...field}
               type="number"
-              name="number"
-              id="number"
+              name="order"
+              id="order"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder={t("_entities:roomArea.number.placeholder")}
-              label={t("_entities:roomArea.number.label")}
+              placeholder={t("_entities:roomArea.order.placeholder")}
+              label={t("_entities:roomArea.order.label")}
             />
           )}
         />
