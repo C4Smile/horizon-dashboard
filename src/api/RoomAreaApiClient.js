@@ -64,6 +64,8 @@ export class RoomAreaApiClient {
     roomArea.content = roomArea.content
       ? draftToHtml(convertToRaw(roomArea.content.getCurrentContent()))
       : "";
+    // parsing room
+    roomArea.roomId = roomArea.roomId.id;
     // call service
     const { error, data, status } = await makeRequest(
       "roomArea",
@@ -101,6 +103,8 @@ export class RoomAreaApiClient {
     roomArea.content = roomArea.content
       ? draftToHtml(convertToRaw(roomArea.content.getCurrentContent()))
       : "";
+    // parsing room
+    roomArea.roomId = roomArea.roomId.id;
     // saving photos
     const newPhotos = [];
     for (const newPhoto of photos) {
