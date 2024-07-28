@@ -34,6 +34,9 @@ const NotFound = loadable(() => import("./pages/NotFound/NotFound"));
 // rooms
 const Rooms = loadable(() => import("./pages/Rooms/Rooms"));
 const RoomForm = loadable(() => import("./pages/Rooms/RoomForm"));
+// roomAreas
+const RoomAreas = loadable(() => import("./pages/RoomAreas/RoomAreas"));
+const RoomAreaForm = loadable(() => import("./pages/RoomAreas/RoomAreaForm"));
 // roomTypes
 const RoomTypes = loadable(() => import("./pages/RoomTypes/RoomTypes"));
 const RoomTypeForm = loadable(() => import("./pages/RoomTypes/RoomTypeForm"));
@@ -134,6 +137,15 @@ function App() {
               <Route index element={<Rooms />} />
               <Route path="/museum/rooms/new" element={<RoomForm />} />
               <Route path="/museum/rooms/:id" element={<RoomForm />} />
+            </Route>
+            <Route
+              exact
+              path="/museum/room-areas"
+              element={<ModelNavigation parent="museum" model="room-areas" />}
+            >
+              <Route index element={<RoomAreas />} />
+              <Route path="/museum/room-areas/new" element={<RoomAreaForm />} />
+              <Route path="/museum/room-areas/:id" element={<RoomAreaForm />} />
             </Route>
             <Route
               exact
