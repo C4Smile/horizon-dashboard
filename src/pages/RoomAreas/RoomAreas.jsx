@@ -75,7 +75,6 @@ function RoomAreas() {
 
   const preparedRows = useMemo(() => {
     return localData.map((roomArea) => {
-      console.log(roomArea);
       return {
         id: roomArea.id,
         lastUpdate: new Date(roomArea.lastUpdate).toLocaleDateString("es-ES"),
