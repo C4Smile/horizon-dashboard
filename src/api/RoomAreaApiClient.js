@@ -1,4 +1,3 @@
-import { toSlug } from "some-javascript-utils";
 import draftToHtml from "draftjs-to-html";
 import { convertToRaw } from "draft-js";
 
