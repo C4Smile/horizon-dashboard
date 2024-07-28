@@ -58,8 +58,6 @@ export class RoomAreaApiClient {
    * @returns {Promise<RoomArea>} RoomArea
    */
   async create(roomArea, photos, photos360) {
-    // default values
-    roomArea.urlName = toSlug(roomArea.name);
     // parsing html
     roomArea.content = roomArea.content
       ? draftToHtml(convertToRaw(roomArea.content.getCurrentContent()))
@@ -97,8 +95,6 @@ export class RoomAreaApiClient {
    * @returns {Promise<RoomArea>} RoomArea
    */
   async update(roomArea, photos, photos360) {
-    // default values
-    roomArea.urlName = toSlug(roomArea.number);
     // parsing html
     roomArea.content = roomArea.content
       ? draftToHtml(convertToRaw(roomArea.content.getCurrentContent()))
