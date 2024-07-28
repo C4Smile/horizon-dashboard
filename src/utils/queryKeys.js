@@ -7,13 +7,15 @@ export const ReactQueryKeys = {
   Rooms: "Rooms",
   RoomStatuses: "RoomStatuses",
   RoomTypes: "RoomTypes",
+  RoomAreas: "RoomAreas",
+  RoomAreaStatuses: "RoomAreaStatuses",
   Services: "Services",
   Users: "Users",
   News: "News",
   Tags: "Tags",
 };
 
-export const entities = ["room", "activity", "events", "news"];
+export const entities = ["room", "roomArea", "activity", "events", "news"];
 
 export const parents = {
   room: "museum",
