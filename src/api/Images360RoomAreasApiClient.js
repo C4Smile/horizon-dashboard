@@ -8,10 +8,10 @@ import { fromLocal } from "../utils/local";
 import config from "../config";
 
 /**
- * @class Images360RoomsApiClient
- * @description Images360RoomsApiClient
+ * @class Images360RoomAreasApiClient
+ * @description Images360RoomAreasApiClient
  */
-export class Images360RoomsApiClient {
+export class Images360RoomAreasApiClient {
   /**
    * @description Create images360Rooms
    * @param {object} images360Rooms - Images360Rooms
