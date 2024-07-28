@@ -195,7 +195,7 @@
     },
     "status": { "label": "Estado" },
     "roomId": {
-      "label": "Room",
+      "label": "Sala",
       "placeholder": "ej: Historia de un símbolo"
     },
     "roomAreaHasImage": {
