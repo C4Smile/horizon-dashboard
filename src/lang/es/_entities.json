@@ -163,7 +163,7 @@
   },
   "room": {
     "lastUpdate": { "label": "Última actualización" },
-    "number": { "label": "Número", "placeholder": "ej: Sala I" },
+    "number": { "label": "Número", "placeholder": "ej: I" },
     "name": { "label": "Nombre", "placeholder": "ej: Historia de un símbolo" },
     "type": { "label": "Tipo", "placeholder": "ej: Museable" },
     "description": {
