@@ -73,6 +73,7 @@
       "customers": "Clientes",
       "services": "Services",
       "rooms": "Salas",
+      "roomAreas": "Area de salas",
       "roomTypes": "Tipos de salas"
     }
   },
@@ -123,6 +124,10 @@
   "rooms": {
     "editForm": "Editar Sala",
     "newForm": "Nueva Sala"
+  },
+  "roomAreas": {
+    "editForm": "Editar Area de Sala",
+    "newForm": "Nueva Area de Sala"
   },
   "roomTypes": {
     "editForm": "Editar Tipo de Sala",

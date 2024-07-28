@@ -184,6 +184,25 @@
       "label": "Horario"
     }
   },
+  "roomArea": {
+    "lastUpdate": { "label": "Última actualización" },
+    "number": { "label": "Número", "placeholder": "ej: 1" },
+    "name": { "label": "Nombre", "placeholder": "ej: Historia de un símbolo" },
+    "description": {
+      "label": "Descripción",
+      "placeholder": "ej: En esta sala se puede..."
+    },
+    "status": { "label": "Estado" },
+    "roomAreaHasImage": {
+      "label": "Imágenes"
+    },
+    "roomAreaHasImage360": {
+      "label": "Imagen 360"
+    },
+    "content": {
+      "label": "Contenido"
+    }
+  },
   "roomType": {
     "lastUpdate": { "label": "Última actualización" },
     "name": { "label": "Nombre", "placeholder": "ej: Museable" }
