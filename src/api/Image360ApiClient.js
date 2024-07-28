@@ -26,7 +26,7 @@ export class Image360ApiClient {
    * @returns {Promise<{data: any, error: any}>} response
    */
   async insertImage(photo) {
-    const { error, data, status } = await makeRequest("images", "POST", photo, {
+    const { error, data, status } = await makeRequest("images360", "POST", photo, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     return { error, data, status: status === 204 ? 201 : status };
@@ -58,7 +58,7 @@ export class Image360ApiClient {
     for (const photo of photos) {
       const base64 = await this.readFileAsBase64(photo);
       const { data, error } = await makeRequest(
-        "images",
+        "images360",
         "POST",
         { base64, folder, fileName: photo.name },
         {
@@ -79,7 +79,7 @@ export class Image360ApiClient {
    * @returns {Promise<any>} response
    */
   async deleteImage(id) {
-    const { error } = await makeRequest(`images/${id}`, "DELETE", null, {
+    const { error } = await makeRequest(`images360/${id}`, "DELETE", null, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     if (!error) return error.status;

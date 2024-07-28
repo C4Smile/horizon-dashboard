@@ -8,55 +8,55 @@ import { fromLocal } from "../utils/local";
 import config from "../config";
 
 /**
- * @class ImagesRoomsApiClient
- * @description ImagesRoomsApiClient
+ * @class ImagesRoomAreasApiClient
+ * @description ImagesRoomAreasApiClient
  */
-export class ImagesRoomsApiClient {
+export class ImagesRoomAreasApiClient {
   /**
-   * @description Get all roomHasImage
-   * @returns ImagesRooms list
+   * @description Get all roomAreaHasImage
+   * @returns ImagesRoomAreas list
    */
   async getAll() {
-    const { error, data, status } = await makeRequest("roomHasImage");
+    const { error, data, status } = await makeRequest("roomAreaHasImage");
     if (error !== null) return { status, error: { message: error.message } };
     return data;
   }
 
   /**
-   * @description Get roomHasImage by id
-   * @param {string} id - ImagesRooms id
-   * @returns ImagesRooms by id
+   * @description Get roomAreaHasImage by id
+   * @param {string} id - ImagesRoomAreas id
+   * @returns ImagesRoomAreas by id
    */
   async getById(id) {
-    const { error, data, status } = await makeRequest(`roomHasImage/${id}`);
+    const { error, data, status } = await makeRequest(`roomAreaHasImage/${id}`);
     if (error !== null) return { status, error: { message: error.message } };
     return data[0];
   }
 
   /**
-   * @description Create roomHasImage
-   * @param {object} roomHasImage - ImagesRooms
+   * @description Create roomAreaHasImage
+   * @param {object} roomAreaHasImage - ImagesRoomAreas
    * @returns  Transaction status
    */
-  async create(roomHasImage) {
+  async create(roomAreaHasImage) {
     // call service
-    const { error, data, status } = await makeRequest("roomHasImage", "POST", roomHasImage, {
+    const { error, data, status } = await makeRequest("roomAreaHasImage", "POST", roomAreaHasImage, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     return { error, data, status: status === 204 ? 201 : status };
   }
 
   /**
-   * @description Update roomHasImage
-   * @param {object} roomHasImage - ImagesRooms
+   * @description Update roomAreaHasImage
+   * @param {object} roomAreaHasImage - ImagesRoomAreas
    * @returns Transaction status
    */
-  async update(roomHasImage) {
+  async update(roomAreaHasImage) {
     // call service
     const { status, error } = await makeRequest(
-      `roomHasImage/${roomHasImage.id}`,
+      `roomAreaHasImage/${roomAreaHasImage.id}`,
       "PATCH",
-      roomHasImage,
+      roomAreaHasImage,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       },
@@ -72,7 +72,7 @@ export class ImagesRoomsApiClient {
    */
   async delete(ids) {
     for (const id of ids) {
-      await makeRequest(`roomHasImage/${id}`, "DELETE", null, {
+      await makeRequest(`roomAreaHasImage/${id}`, "DELETE", null, {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       });
     }
