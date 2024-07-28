@@ -39,7 +39,13 @@ function RoomAreas() {
   const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
-    const keys = extractKeysFromObject(new RoomArea(), ["id", "dateOfCreation", "deleted", "content"]);
+    const keys = extractKeysFromObject(new RoomArea(), [
+      "id",
+      "dateOfCreation",
+      "deleted",
+      "content",
+      "description",
+    ]);
     return keys.map((key) => ({
       id: key,
       label: t(`_entities:roomArea.${key}.label`),
@@ -69,6 +75,7 @@ function RoomAreas() {
 
   const preparedRows = useMemo(() => {
     return localData.map((roomArea) => {
+      console.log(roomArea);
       return {
         id: roomArea.id,
         lastUpdate: new Date(roomArea.lastUpdate).toLocaleDateString("es-ES"),
@@ -76,6 +83,11 @@ function RoomAreas() {
         name: (
           <Link className="underline text-light-primary" to={`${roomArea.id}`}>
             {roomArea.name}
+          </Link>
+        ),
+        roomId: (
+          <Link className="underline text-light-primary" to={`/museum/rooms/${roomArea.room?.id}`}>
+            {roomArea.room?.name}
           </Link>
         ),
         roomAreaHasImage360: (
