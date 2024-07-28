@@ -68,7 +68,6 @@ export class RoomApiClient {
     // parsing schedule
     const scheduleToKeep = parseManyToMany("id", room.newRoomHasSchedules, room.roomHasSchedules);
     // cleaning relation ships
-    delete room.newRoomHasLink;
     delete room.newRoomHasSchedules;
     // call service
     const { error, data, status } = await makeRequest(
@@ -127,9 +126,7 @@ export class RoomApiClient {
       if (!found) newPhotos360.push(newPhoto);
     }
     // cleaning relation ships
-    delete room.roomHasTag;
     delete room.roomHasImage;
-    delete room.newRoomHasLink;
     delete room.roomHasSchedules;
     delete room.newRoomHasSchedules;
     // call service
