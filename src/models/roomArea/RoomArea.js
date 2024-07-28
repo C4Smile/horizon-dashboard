@@ -8,6 +8,7 @@ export class RoomArea extends Entity {
   name = "";
   status = 0;
   content = "";
+  roomId = 0;
   description = "";
   roomAreaHasImage = [];
   roomAreaHasImage360 = [];
