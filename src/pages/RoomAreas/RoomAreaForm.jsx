@@ -289,7 +289,7 @@ function RoomAreaForm() {
               photos={images360}
               setPhotos={setImages360}
               label={`${t("_entities:roomArea.roomAreaHasImage360.label")}`}
-              folder={`/images/${ReactQueryKeys.RoomAreas}`}
+              folder={`/${ReactQueryKeys.RoomAreas}`}
             />
           )}
         </div>
@@ -302,7 +302,7 @@ function RoomAreaForm() {
               photos={photos}
               setPhotos={setPhotos}
               label={`${t("_entities:roomArea.roomAreaHasImage.label")}`}
-              folder={`/images/${ReactQueryKeys.RoomAreas}`}
+              folder={`/${ReactQueryKeys.RoomAreas}`}
             />
           )}
         </div>

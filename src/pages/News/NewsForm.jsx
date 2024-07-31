@@ -256,7 +256,7 @@ function NewsForm() {
               photos={photos}
               setPhotos={setPhotos}
               label={`${t("_entities:news.newsHasImage.label")}`}
-              folder={`/images/${ReactQueryKeys.News}`}
+              folder={`/${ReactQueryKeys.News}`}
             />
           )}
         </div>

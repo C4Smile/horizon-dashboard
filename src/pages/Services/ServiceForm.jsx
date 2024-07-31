@@ -254,7 +254,7 @@ function ServiceForm() {
               photo={photo}
               setPhoto={setPhoto}
               label={`${t("_entities:service.imageId.label")}`}
-              folder={`/images/${ReactQueryKeys.Services}`}
+              folder={`/${ReactQueryKeys.Services}`}
             />
           )}
         </div>

@@ -333,7 +333,7 @@ function EventForm() {
               photos={photos}
               setPhotos={setPhotos}
               label={`${t("_entities:event.eventHasImage.label")}`}
-              folder={`/images/${ReactQueryKeys.Events}`}
+              folder={`/${ReactQueryKeys.Events}`}
             />
           )}
         </div>
