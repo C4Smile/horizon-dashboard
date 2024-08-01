@@ -1,3 +1,4 @@
+import config from "../config";
 class PhotoReducerActionType {
   type = "";
 }
@@ -31,3 +32,10 @@ export function localPhotoReducer(state, action) {
       return state;
   }
 }
+
+/**
+ *
+ * @param {string} string - string
+ * @returns {string} static url photo
+ */
+export const staticUrlPhoto = (string) => `${config.apiUrl}${string}`;
