@@ -38,4 +38,4 @@ export function localPhotoReducer(state, action) {
  * @param {string} string - string
  * @returns {string} static url photo
  */
-export const staticUrlPhoto = (string) => `${config.apiUrl}${string}`;
+export const staticUrlPhoto = (string) => `${config.apiUrl}public/images/${string}`;
