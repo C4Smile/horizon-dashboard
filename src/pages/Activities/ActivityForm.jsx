@@ -248,7 +248,7 @@ function ActivityForm() {
               photo={photo}
               setPhoto={setPhoto}
               label={`${t("_entities:activity.imageId.label")}`}
-              folder={`/${ReactQueryKeys.Activities}`}
+              folder={`${ReactQueryKeys.Activities}`}
             />
           )}
         </div>
