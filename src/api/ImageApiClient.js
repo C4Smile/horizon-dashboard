@@ -65,8 +65,12 @@ export class ImageApiClient {
           Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
         },
       );
-      // eslint-disable-next-line no-console
-      if (error) console.error(error.message);
+
+      if (error) {
+        // eslint-disable-next-line no-console
+        console.error(error.message);
+        return { error };
+      }
       uploads.push({ fileId: data[0].fileName, url: data[0].url, id: data[0].id });
     }
 
