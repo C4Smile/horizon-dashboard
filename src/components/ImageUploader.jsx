@@ -10,13 +10,16 @@ import Loading from "../partials/loading/Loading";
 // image
 import noPhoto from "../assets/images/no-product.jpg";
 
+// utils
+import { staticUrlPhoto } from "./utils";
+
 // providers
 import { useMuseumApiClient } from "../providers/MuseumApiProvider";
 
 /**
  * ImageUploader component
- * @param {object} props
- * @returns
+ * @param {object} props - component props
+ * @returns ImageUploader component
  */
 function ImageUploader(props) {
   const { label, folder, photo, setPhoto } = props;
@@ -25,37 +28,14 @@ function ImageUploader(props) {
 
   const museumApiClient = useMuseumApiClient();
 
-  const onLoading = () => {
+  const onUploadFile = async (e) => {
     setLoadingPhoto(true);
-  };
-
-  /**
-   *
-   * @param {*} res
-   */
-  const onSuccess = async (res) => {
-    // museumApiClient.Image.generateFolder(folder)
-    try {
-      const { url, fileId } = res;
-      if (photo) await museumApiClient.Image.deleteImage(photo.fileId);
-      const { data, error } = await museumApiClient.Image.insertImage({ url, fileId });
-      if (!error) setPhoto({ fileId, url, id: data[0].id });
-      // eslint-disable-next-line no-console
-      else console.error(error);
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(err);
-    }
+    const uploads = await museumApiClient.Image.insertImages(e.target.files, folder);
+    setPhoto(uploads[0]);
     setLoadingPhoto(false);
   };
 
-  const onError = (e) => {
-    // eslint-disable-next-line no-console
-    console.error(e);
-    setLoadingPhoto(false);
-  };
-
-  const onDelete = async (index) => {
+  const onDelete = async () => {
     const error = await museumApiClient.Image.deleteImage(photo?.fileId ?? photo?.fileName);
     if (!error) setPhoto();
     // eslint-disable-next-line no-console
@@ -81,14 +61,14 @@ function ImageUploader(props) {
                 </button>
                 <img
                   className="w-60 h-60 rounded-full object-cover"
-                  src={photo?.url ?? noPhoto}
+                  src={photo?.url ? staticUrlPhoto(photo?.url) : noPhoto}
                   alt="upload"
                 />
               </div>
             </>
           ) : (
             <div className="flex gap-4 items-center relative">
-              <input type="file" />
+              <input type="file" onChange={onUploadFile} />
               <div className="w-20 h-20 flex items-center justify-center rounded-full border-2 border-dashed border-primary/40">
                 <FontAwesomeIcon icon={faAdd} className="cursor-pointer p-4 text-2xl text-primary" />
               </div>
