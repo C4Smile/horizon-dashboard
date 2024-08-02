@@ -61,7 +61,7 @@ export class ServiceApiClient {
     // parsing html
     service.content = service.content
       ? draftToHtml(convertToRaw(service.content.getCurrentContent()))
-      : null;
+      : "";
     // parsing places
     // parsing schedule
     const scheduleToKeep = parseManyToMany(
@@ -101,7 +101,7 @@ export class ServiceApiClient {
     // parsing html
     service.content = service.content
       ? draftToHtml(convertToRaw(service.content.getCurrentContent()))
-      : null;
+      : "";
     // saving photo
     if (photo) service.imageId = photo.id;
     // parsing schedule

@@ -53,7 +53,7 @@ export class AppTextApiClient {
     // parsing html
     appText.content = appText.content
       ? draftToHtml(convertToRaw(appText.content.getCurrentContent()))
-      : null;
+      : "";
     const { error, data, status } = await makeRequest("appTexts", "POST", appText, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
@@ -71,7 +71,7 @@ export class AppTextApiClient {
     // parsing html
     appText.content = appText.content
       ? draftToHtml(convertToRaw(appText.content.getCurrentContent()))
-      : null;
+      : "";
     // call service
     const { status, error } = await makeRequest(
       `appTexts/${appText.id}`,

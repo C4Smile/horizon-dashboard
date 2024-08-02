@@ -64,7 +64,7 @@ export class EventApiClient {
     // default values
     event.urlName = toSlug(event.title);
     // parsing html
-    event.content = event.content ? draftToHtml(convertToRaw(event.content.getCurrentContent())) : null;
+    event.content = event.content ? draftToHtml(convertToRaw(event.content.getCurrentContent())) : "";
     // parsing links
     const linksToKeep = parseManyToMany("linkId", event.newEventHasLink, event.eventHasLink);
     // parsing schedule
@@ -112,7 +112,7 @@ export class EventApiClient {
     // default values
     event.urlName = toSlug(event.title);
     // parsing html
-    event.content = event.content ? draftToHtml(convertToRaw(event.content.getCurrentContent())) : null;
+    event.content = event.content ? draftToHtml(convertToRaw(event.content.getCurrentContent())) : "";
     // parsing links
     const linksToKeep = parseManyToMany("linkId", event.newEventHasLink, event.eventHasLink);
     // parsing schedule
