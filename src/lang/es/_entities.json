@@ -47,9 +47,9 @@
       "label": "Descripción",
       "placeholder": "Alguna descripción"
     },
-    "servicePlace": {
-      "label": "Lugar con este servicio",
-      "placeholder": "ej: Night club"
+    "serviceRoom": {
+      "label": "Sala con este servicio",
+      "placeholder": "ej: Librería"
     },
     "content": {
       "label": "Contenido"
