@@ -116,23 +116,23 @@ function ServiceForm() {
     }
   }, [serviceQuery.data, id, reset]);
 
-  const placesQuery = useQuery({
-    queryKey: [ReactQueryKeys.Services],
-    queryFn: () => museumApiClient.Service.getAll(),
+  const roomsQuery = useQuery({
+    queryKey: [ReactQueryKeys.Rooms],
+    queryFn: () => museumApiClient.Room.getAll(),
   });
 
-  const placesList = useMemo(() => {
+  const roomsList = useMemo(() => {
     try {
-      return placesQuery?.data?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
+      return roomsQuery?.data?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
     } catch (err) {
       return [];
     }
-  }, [placesQuery.data]);
+  }, [roomsQuery.data]);
 
   useEffect(() => {
     if (serviceQuery.data) {
       //* PARSING PLACES
-      const parsedRooms = placesList.filter((room) =>
+      const parsedRooms = roomsList.filter((room) =>
         serviceQuery?.data?.serviceRoom?.some((lRoom) => lRoom.roomId === room.id),
       );
       //* PARSING SCHEDULE
@@ -150,7 +150,7 @@ function ServiceForm() {
       setLastUpdate(serviceQuery?.data?.lastUpdate);
       reset({ ...serviceQuery.data, roomsId: parsedRooms });
     }
-  }, [serviceQuery.data, reset, placesList]);
+  }, [serviceQuery.data, reset, roomsList]);
 
   return notFound ? (
     <NotFound />
@@ -227,16 +227,16 @@ function ServiceForm() {
         {/* Service Room */}
         <Controller
           control={control}
-          name="placesId"
-          disabled={serviceQuery.isLoading || placesQuery.isLoading || saving}
+          name="roomsId"
+          disabled={serviceQuery.isLoading || roomsQuery.isLoading || saving}
           render={({ field: { onChange, value, ...rest } }) => (
             <AutocompleteInput
               {...rest}
-              id="placesId"
-              name="placesId"
+              id="roomsId"
+              name="roomsId"
               label={t("_entities:service.serviceRoom.label")}
               placeholder={t("_entities:service.serviceRoom.placeholder")}
-              options={placesList}
+              options={roomsList}
               value={value}
               multiple
               onChange={(v) => {
