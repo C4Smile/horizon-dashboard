@@ -74,9 +74,9 @@ function ServiceForm() {
             id: undefined,
             name: "",
             description: "",
-            servicePlace: [],
+            serviceRoom: [],
             content: null,
-            newPlaceHasSchedule: [],
+            newServiceHasSchedule: [],
           });
         }
       }
@@ -111,14 +111,14 @@ function ServiceForm() {
         name: "",
         description: "",
         content: null,
-        newPlaceHasSchedule: [],
+        newServiceHasSchedule: [],
       });
     }
   }, [serviceQuery.data, id, reset]);
 
   const placesQuery = useQuery({
-    queryKey: [ReactQueryKeys.Places],
-    queryFn: () => museumApiClient.Place.getAll(),
+    queryKey: [ReactQueryKeys.Services],
+    queryFn: () => museumApiClient.Service.getAll(),
   });
 
   const placesList = useMemo(() => {
@@ -132,11 +132,11 @@ function ServiceForm() {
   useEffect(() => {
     if (serviceQuery.data) {
       //* PARSING PLACES
-      const parsedPlaces = placesList.filter((place) =>
-        serviceQuery?.data?.servicePlace?.some((lPlace) => lPlace.placeId === place.id),
+      const parsedRooms = placesList.filter((room) =>
+        serviceQuery?.data?.serviceRoom?.some((lRoom) => lRoom.roomId === room.id),
       );
       //* PARSING SCHEDULE
-      serviceQuery.data.newPlaceHasSchedule = serviceQuery.data?.serviceHasSchedule;
+      serviceQuery.data.newServiceHasSchedule = serviceQuery.data?.serviceHasSchedule;
       //* PARSING CONTENT
       if (serviceQuery.data?.content && typeof serviceQuery.data?.content === "string") {
         const html = serviceQuery.data?.content;
@@ -148,7 +148,7 @@ function ServiceForm() {
         }
       }
       setLastUpdate(serviceQuery?.data?.lastUpdate);
-      reset({ ...serviceQuery.data, placesId: parsedPlaces });
+      reset({ ...serviceQuery.data, roomsId: parsedRooms });
     }
   }, [serviceQuery.data, reset, placesList]);
 
@@ -195,7 +195,7 @@ function ServiceForm() {
             />
           )}
         />
-        {/* Place Schedule */}
+        {/* Service Schedule */}
         <Controller
           control={control}
           disabled={serviceQuery.isLoading || saving}
@@ -224,7 +224,7 @@ function ServiceForm() {
             />
           )}
         />
-        {/* Service Places */}
+        {/* Service Room */}
         <Controller
           control={control}
           name="placesId"
@@ -234,8 +234,8 @@ function ServiceForm() {
               {...rest}
               id="placesId"
               name="placesId"
-              label={t("_entities:service.servicePlace.label")}
-              placeholder={t("_entities:service.servicePlace.placeholder")}
+              label={t("_entities:service.serviceRoom.label")}
+              placeholder={t("_entities:service.serviceRoom.placeholder")}
               options={placesList}
               value={value}
               multiple
@@ -258,7 +258,7 @@ function ServiceForm() {
             />
           )}
         </div>
-        {/* Place Content */}
+        {/* Service Content */}
         <Controller
           control={control}
           name="content"
