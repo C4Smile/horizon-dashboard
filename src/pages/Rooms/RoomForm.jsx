@@ -129,7 +129,11 @@ function RoomForm() {
     if (roomQuery.data) {
       if (roomQuery.data?.roomHasImage?.length)
         setPhotos({ type: "set", items: roomQuery.data?.roomHasImage.map((image) => image.imageId) });
-      if (roomQuery.data?.image360Id) setImages360(roomQuery.data?.image360Id);
+      if (roomQuery.data?.roomHasImage360?.length)
+        setPhotos({
+          type: "set",
+          items: roomQuery.data?.roomHasImage360.map((image) => image.imageId),
+        });
       //* PARSING SCHEDULE
       roomQuery.data.newRoomHasSchedule = roomQuery.data?.roomHasSchedule;
       //* PARSING CONTENT

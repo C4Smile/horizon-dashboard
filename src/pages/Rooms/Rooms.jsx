@@ -23,7 +23,7 @@ import Table from "../../components/Table/Table";
 
 const noSortableColumns = {
   roomHasImage: true,
-  image360Id: true,
+  roomHasImage360: true,
 };
 
 /**
