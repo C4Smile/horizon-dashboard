@@ -168,27 +168,6 @@ function GuestBookForm() {
             )}
           </div>
         )}
-        {/* GuestBook Status */}
-        {id && (
-          <Controller
-            control={control}
-            name="statusId"
-            disabled={guestBookQuery.isLoading || saving}
-            render={({ field: { onChange, value, ...rest } }) => (
-              <SelectInput
-                {...rest}
-                id="statusId"
-                name="statusId"
-                label={t("_entities:guestBook.status.label")}
-                options={statusList}
-                value={value}
-                onChange={(e) => {
-                  onChange(e.target.value);
-                }}
-              />
-            )}
-          />
-        )}
         {/* GuestBook Name */}
         <Controller
           control={control}
