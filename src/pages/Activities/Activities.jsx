@@ -14,7 +14,7 @@ import { Activity } from "../../models/activity/Activity";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { ReactQueryKeys } from "../../utils/queryKeys";
+import { ReactQueryKeys, parents } from "../../utils/queryKeys";
 import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
@@ -85,6 +85,19 @@ function ActivitiesPage() {
 
   const preparedRows = useMemo(() => {
     return localData.map((activity) => {
+      let parsedAction = "-";
+      const sAction = activity?.entity?.split(",");
+
+      if (sAction?.length === 2)
+        parsedAction = (
+          <Link
+            className="underline text-light-primary flex"
+            to={`/${parents[sAction[0]]}/${sAction[0]}s/${sAction[1]}`}
+          >
+            <span className="w-80 truncate capitalize">{`${sAction[0]} - ${sAction[1]}`}</span>
+          </Link>
+        );
+
       return {
         id: activity.id,
         lastUpdate: new Date(activity.lastUpdate).toLocaleDateString("es-ES"),
@@ -122,6 +135,7 @@ function ActivitiesPage() {
           ) : (
             " - "
           ),
+        entity: parsedAction,
       };
     });
   }, [localData, t]);
