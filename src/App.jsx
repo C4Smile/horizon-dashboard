@@ -64,6 +64,9 @@ const AppTextForm = loadable(() => import("./pages/AppTexts/AppTextForm"));
 // Push Notification
 const PushNotifications = loadable(() => import("./pages/PushNotifications/PushNotifications"));
 const PushNotificationForm = loadable(() => import("./pages/PushNotifications/PushNotificationForm"));
+// Guest Book
+const GuestBooks = loadable(() => import("./pages/GuestBooks/GuestBooks"));
+const GuestBookForm = loadable(() => import("./pages/GuestBooks/GuestBookForm"));
 
 /**
  * Main App
@@ -155,6 +158,15 @@ function App() {
               <Route index element={<RoomTypes />} />
               <Route path="/museum/room-types/new" element={<RoomTypeForm />} />
               <Route path="/museum/room-types/:id" element={<RoomTypeForm />} />
+            </Route>
+            <Route
+              exact
+              path="/museum/guest-books"
+              element={<ModelNavigation parent="museum" model="guest-books" />}
+            >
+              <Route index element={<GuestBooks />} />
+              <Route path="/museum/guest-books/new" element={<GuestBookForm />} />
+              <Route path="/museum/guest-books/:id" element={<GuestBookForm />} />
             </Route>
             {/* Information */}
             <Route
