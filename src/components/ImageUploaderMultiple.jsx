@@ -36,12 +36,10 @@ function ImageUploaderMultiple(props) {
   };
 
   const onDelete = async (index) => {
-    const error = await museumApiClient.Image.deleteImage(
-      photos[index]?.fileId ?? photos[index]?.fileName,
-    );
-    if (!error) setPhotos({ type: "delete", index });
+    const status = await museumApiClient.Image.deleteImage(photos[index]?.id);
+    if (status === 200) setPhotos({ type: "delete", index });
     // eslint-disable-next-line no-console
-    else console.error(error);
+    else console.error(status);
   };
 
   return (

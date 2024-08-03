@@ -36,10 +36,10 @@ function ImageUploader(props) {
   };
 
   const onDelete = async () => {
-    const error = await museumApiClient.Image.deleteImage(photo?.fileId ?? photo?.fileName);
-    if (!error) setPhoto();
+    const status = await museumApiClient.Image.deleteImage(photo?.fileId ?? photo?.fileName);
+    if (status === 200) setPhoto();
     // eslint-disable-next-line no-console
-    else console.error(error);
+    else console.error(status);
   };
 
   return (
