@@ -53,10 +53,9 @@ export class GuestBookApiClient {
    * @description Create guestBook
    * @param {object} guestBook - GuestBook
    * @param {object[]} photos - GuestBook photos
-   * @param {object} photos360 - GuestBook 360 photos
    * @returns {Promise<GuestBook>} GuestBook
    */
-  async create(guestBook, photos, photos360) {
+  async create(guestBook, photos) {
     // parsing html
     guestBook.content = guestBook.content
       ? draftToHtml(convertToRaw(guestBook.content.getCurrentContent()))
@@ -78,10 +77,6 @@ export class GuestBookApiClient {
     if (photos)
       for (const photo of photos)
         await this.photosGuestBooks.create({ guestBookId: data[0].id, imageId: photo.id });
-    // saving image360
-    if (photos360)
-      for (const photo of photos360)
-        await this.photos360GuestBooks.create({ guestBookId: data[0].id, imageId: photo.id });
 
     return { error, data, status: status === 204 ? 201 : status };
   }
@@ -90,10 +85,9 @@ export class GuestBookApiClient {
    * @description Update guestBook
    * @param {object} guestBook - GuestBook
    * @param {object[]} photos - GuestBook photos
-   * @param {object} photos360 - GuestBook 360 photos
    * @returns {Promise<GuestBook>} GuestBook
    */
-  async update(guestBook, photos, photos360) {
+  async update(guestBook, photos) {
     // parsing html
     guestBook.content = guestBook.content
       ? draftToHtml(convertToRaw(guestBook.content.getCurrentContent()))
@@ -105,12 +99,6 @@ export class GuestBookApiClient {
     for (const newPhoto of photos) {
       const found = guestBook.guestBookHasImage.some((value) => value.imageId.id === newPhoto.id);
       if (!found) newPhotos.push(newPhoto);
-    }
-    // saving photos
-    const newPhotos360 = [];
-    for (const newPhoto of photos360) {
-      const found = guestBook.guestBookHasImage360.some((value) => value.imageId.id === newPhoto.id);
-      if (!found) newPhotos360.push(newPhoto);
     }
     // cleaning relation ships
     delete guestBook.guestBookHasImage;
@@ -133,10 +121,6 @@ export class GuestBookApiClient {
       for (const newPhoto of newPhotos)
         this.photosGuestBooks.create({ guestBookId: guestBook.id, imageId: newPhoto.id });
 
-    // saving photo
-    if (newPhotos360.length)
-      for (const newPhoto of newPhotos360)
-        this.photos360GuestBooks.create({ guestBookId: guestBook.id, imageId: newPhoto.id });
     return { error, status: status === 204 ? 201 : status };
   }
 
