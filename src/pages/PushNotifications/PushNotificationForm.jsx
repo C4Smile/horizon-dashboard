@@ -300,7 +300,7 @@ function PushNotificationForm() {
               photo={photo}
               setPhoto={setPhoto}
               label={`${t("_entities:pushNotification.imageId.label")}`}
-              folder={`${ReactQueryKeys.Offers}`}
+              folder={`${ReactQueryKeys.PushNotifications}`}
             />
           )}
         </div>
