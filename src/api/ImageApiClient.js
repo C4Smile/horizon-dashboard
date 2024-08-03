@@ -86,7 +86,7 @@ export class ImageApiClient {
     const { error } = await makeRequest(`images/${id}`, "DELETE", null, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
-    if (!error) return error.status;
+    if (error) return error.status;
     return 200;
   }
 }
