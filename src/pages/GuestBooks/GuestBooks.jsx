@@ -95,7 +95,6 @@ function GuestBooks() {
             ))}
           </div>
         ),
-        status: guestBook.status.name,
       };
     });
   }, [localData, t]);
