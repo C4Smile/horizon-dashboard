@@ -16,6 +16,7 @@ import { PushNotification } from "../../models/pushNotification/PushNotification
 import { extractKeysFromObject } from "../../utils/parser";
 import { parents, ReactQueryKeys } from "../../utils/queryKeys";
 import { SortOrder } from "../../models/query/GenericFilter";
+import { staticUrlPhoto } from "../../components/utils";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
@@ -117,7 +118,7 @@ function PushNotifications() {
             {pushNotification.imageId?.url ? (
               <img
                 className={`w-10 h-10 rounded-full object-cover border-white border-2`}
-                src={pushNotification.imageId.url}
+                src={staticUrlPhoto(pushNotification.imageId.url)}
                 alt={`${pushNotification.title}`}
               />
             ) : (

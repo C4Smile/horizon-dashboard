@@ -9,6 +9,9 @@ import noProduct from "../../assets/images/no-product.jpg";
 // icons
 import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
+// utils
+import { staticUrlPhoto } from "../../components/utils";
+
 // dto
 import { Event } from "../../models/event/Event";
 
@@ -149,7 +152,7 @@ function EventsPage() {
                   <img
                     key={i}
                     className={`small-image rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
-                    src={image.imageId.url}
+                    src={staticUrlPhoto(image.imageId.url)}
                     alt={`${event.title} ${i}`}
                   />
                 ))}

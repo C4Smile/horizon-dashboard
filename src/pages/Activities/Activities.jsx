@@ -24,6 +24,9 @@ import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvid
 // components
 import Table from "../../components/Table/Table";
 
+// utils
+import { staticUrlPhoto } from "../../components/utils";
+
 const columnClasses = {
   title: "max-w-40 overflow-hidden",
   lastUpdate: "w-56",
@@ -96,7 +99,7 @@ function ActivitiesPage() {
             {activity.imageId?.url ? (
               <img
                 className={`w-10 h-10 rounded-full object-cover border-white border-2`}
-                src={activity.imageId.url}
+                src={staticUrlPhoto(activity.imageId.url)}
                 alt={`${activity.title}`}
               />
             ) : (

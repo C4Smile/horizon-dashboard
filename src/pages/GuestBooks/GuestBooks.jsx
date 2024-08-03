@@ -13,6 +13,7 @@ import { GuestBook } from "../../models/guestBook/GuestBook";
 import { extractKeysFromObject } from "../../utils/parser";
 import { ReactQueryKeys } from "../../utils/queryKeys";
 import { SortOrder } from "../../models/query/GenericFilter";
+import { staticUrlPhoto } from "../../components/utils";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
@@ -89,7 +90,7 @@ function GuestBooks() {
               <img
                 key={i}
                 className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
-                src={image.imageId.url}
+                src={staticUrlPhoto(image.imageId.url)}
                 alt={`${guestBook.name} ${i}`}
               />
             ))}
