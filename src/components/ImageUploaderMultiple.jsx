@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 // font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,8 +15,8 @@ import { useMuseumApiClient } from "../providers/MuseumApiProvider";
 
 /**
  * ImageUploader component
- * @param {object} props
- * @returns
+ * @param {object} props - component props
+ * @returns ImageUploaderMultiple component
  */
 function ImageUploaderMultiple(props) {
   const { label, folder, photos, setPhotos } = props;
@@ -25,44 +25,10 @@ function ImageUploaderMultiple(props) {
 
   const museumApiClient = useMuseumApiClient();
 
-  const onLoading = () => {
+  const onUploadFile = async (e) => {
     setLoadingPhotos(true);
-  };
-
-  const uploadOthers = useCallback(
-    async (files) => {
-      const [, ...other] = files;
-      const result = await museumApiClient.Image.insertImages(
-        other,
-        museumApiClient.Image.generateFolder(folder),
-      );
-      setPhotos({ type: "add", items: result });
-    },
-    [folder, museumApiClient.Image, setPhotos],
-  );
-
-  /**
-   *
-   * @param {*} res
-   */
-  const onSuccess = async (res) => {
-    // museumApiClient.Image.generateFolder(folder)
-    try {
-      const { url, fileId } = res;
-      const { data, error } = await museumApiClient.Image.insertImage({ url, fileId });
-      if (!error) setPhotos({ type: "add", item: { fileId, url, id: data[0].id } });
-      // eslint-disable-next-line no-console
-      else console.error(error);
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(err);
-    }
-    setLoadingPhotos(false);
-  };
-
-  const onError = (e) => {
-    // eslint-disable-next-line no-console
-    console.error(e);
+    const uploads = await museumApiClient.Image.insertImages(e.target.files, folder);
+    setPhotos(uploads);
     setLoadingPhotos(false);
   };
 
@@ -100,7 +66,7 @@ function ImageUploaderMultiple(props) {
             <Loading className="w-20 h-20 bg-black/20 rounded-full" />
           ) : (
             <div className="flex gap-4 items-center relative">
-              <input type="file" />
+              <input accept="image/png, image/jpeg, image/jpg" type="file" onChange={onUploadFile} />
               <div className="w-20 h-20 flex items-center justify-center rounded-full border-2 border-dashed border-primary/40">
                 <FontAwesomeIcon icon={faAdd} className="cursor-pointer p-4 text-2xl text-primary" />
               </div>

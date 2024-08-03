@@ -68,7 +68,7 @@ function ImageUploader(props) {
             </>
           ) : (
             <div className="flex gap-4 items-center relative">
-              <input type="file" onChange={onUploadFile} />
+              <input accept="image/png, image/jpeg, image/jpg" type="file" onChange={onUploadFile} />
               <div className="w-20 h-20 flex items-center justify-center rounded-full border-2 border-dashed border-primary/40">
                 <FontAwesomeIcon icon={faAdd} className="cursor-pointer p-4 text-2xl text-primary" />
               </div>
