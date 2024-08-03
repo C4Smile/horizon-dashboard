@@ -60,8 +60,6 @@ export class GuestBookApiClient {
     guestBook.content = guestBook.content
       ? draftToHtml(convertToRaw(guestBook.content.getCurrentContent()))
       : "";
-    // parsing room
-    guestBook.roomId = guestBook.roomId.id;
     // call service
     const { error, data, status } = await makeRequest(
       "guestBook",
@@ -92,8 +90,6 @@ export class GuestBookApiClient {
     guestBook.content = guestBook.content
       ? draftToHtml(convertToRaw(guestBook.content.getCurrentContent()))
       : "";
-    // parsing room
-    guestBook.roomId = guestBook.roomId.id;
     // saving photos
     const newPhotos = [];
     for (const newPhoto of photos) {
