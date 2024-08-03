@@ -8,7 +8,7 @@ export class Service extends Entity {
   name = "";
   description = "";
   imageId = 0;
-  servicePlace = [];
+  serviceRoom = [];
   serviceHasSchedule = [];
 
   /**

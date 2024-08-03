@@ -21,6 +21,9 @@ import { SortOrder } from "../../models/query/GenericFilter";
 import { useNotification } from "../../providers/NotificationProvider";
 import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
 
+// utils
+import { staticUrlPhoto } from "../../components/utils";
+
 // components
 import Table from "../../components/Table/Table";
 
@@ -97,7 +100,7 @@ function ServicesPage() {
             {service.imageId?.url ? (
               <img
                 className={`w-10 h-10 rounded-full object-cover border-white border-2`}
-                src={service.imageId.url}
+                src={staticUrlPhoto(service.imageId.url)}
                 alt={`${service.name}`}
               />
             ) : (
