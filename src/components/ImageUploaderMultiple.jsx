@@ -10,6 +10,9 @@ import Loading from "../partials/loading/Loading";
 // image
 import noPhoto from "../assets/images/no-product.jpg";
 
+// utils
+import { staticUrlPhoto } from "./utils";
+
 // providers
 import { useMuseumApiClient } from "../providers/MuseumApiProvider";
 
@@ -28,7 +31,7 @@ function ImageUploaderMultiple(props) {
   const onUploadFile = async (e) => {
     setLoadingPhotos(true);
     const uploads = await museumApiClient.Image.insertImages(e.target.files, folder);
-    setPhotos(uploads);
+    setPhotos({ type: "set", items: uploads });
     setLoadingPhotos(false);
   };
 
@@ -52,11 +55,15 @@ function ImageUploaderMultiple(props) {
                 <button
                   type="button"
                   onClick={() => onDelete(i)}
-                  className="text-white bg-error absolute -top-2 -right-2 rounded-full w-10 h-10"
+                  className="text-secondary hover:text-white bg-white hover:bg-secondary absolute -top-2 -right-2 rounded-full w-8 h-8 transition-colors duration-300"
                 >
                   <FontAwesomeIcon icon={faTrash} />
                 </button>
-                <img className="w-20 h-20 rounded-full" src={photo?.url ?? noPhoto} alt="upload" />
+                <img
+                  className="w-20 h-20 rounded-full"
+                  src={photo?.url ? staticUrlPhoto(photo?.url) : noPhoto}
+                  alt="upload"
+                />
               </div>
             ))}
           </>
