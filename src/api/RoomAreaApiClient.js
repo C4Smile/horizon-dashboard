@@ -16,7 +16,7 @@ import config from "../config";
 
 // apis
 import { ImagesRoomAreasApiClient } from "./ImagesRoomAreasApiClient";
-import { Images360RoomAreasApiClient } from "./Images360RoomApiClient";
+import { Images360RoomAreasApiClient } from "./Images360RoomAreasApiClient";
 
 /**
  * @class RoomAreaApiClient
