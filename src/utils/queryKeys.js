@@ -13,6 +13,7 @@ export const ReactQueryKeys = {
   Users: "Users",
   News: "News",
   Tags: "Tags",
+  GuestBooks: "GuestBooks",
 };
 
 export const entities = ["room", "roomArea", "activity", "events", "news"];
