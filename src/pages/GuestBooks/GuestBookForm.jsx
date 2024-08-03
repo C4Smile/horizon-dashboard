@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useReducer } from "react";
+import { useEffect, useState, useReducer } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -12,7 +12,6 @@ import htmlToDraft from "html-to-draftjs";
 // components
 import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
-import SelectInput from "../../components/Forms/SelectInput";
 import ParagraphInput from "../../components/Forms/ParagraphInput";
 import ImageUploaderMultiple from "../../components/ImageUploaderMultiple";
 
@@ -95,19 +94,6 @@ function GuestBookForm() {
     if (data && data.error) console.error(data.error.message);
     if (data?.status === 404) setNotFound(true);
   }, [guestBookQuery]);
-
-  const statusQuery = useQuery({
-    queryKey: [ReactQueryKeys.GuestBookStatuses],
-    queryFn: () => museumApiClient.RoomStatus.getAll(),
-  });
-
-  const statusList = useMemo(() => {
-    try {
-      return statusQuery?.data?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
-    } catch (err) {
-      return [];
-    }
-  }, [statusQuery.data]);
 
   useEffect(() => {
     if (guestBookQuery.data) {
