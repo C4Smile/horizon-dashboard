@@ -25,7 +25,7 @@ export const sitemap = [
         path: "/room-types",
       },
       {
-        label: "guestBook",
+        label: "guestBooks",
         path: "/guest-books",
       },
     ],
