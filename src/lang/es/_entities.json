@@ -186,7 +186,7 @@
       "label": "Horario"
     }
   },
-  "guesrBook": {
+  "guestBook": {
     "lastUpdate": { "label": "Última actualización" },
     "name": { "label": "Nombre", "placeholder": "ej: Visita del ministro de..." },
     "description": {
