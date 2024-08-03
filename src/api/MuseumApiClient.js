@@ -2,10 +2,12 @@ import { ActivityApiClient } from "./ActivityApiClient";
 import { AppTextApiClient } from "./AppTextApiClient";
 import { EventApiClient } from "./EventApiClient";
 import { ExternalLinkApiClient } from "./ExternalLinkApiClient";
+import { GuestBookApiClient } from "./GuestBookApiClient";
 import { NewsApiClient } from "./NewsApiClient";
 import { PushNotificationApiClient } from "./PushNotificationApiClient";
 import { RoleApiClient } from "./RoleApiClient";
 import { RoomApiClient } from "./RoomApiClient";
+import { RoomAreaApiClient } from "./RoomAreaApiClient";
 import { RoomStatusApiClient } from "./RoomStatusApiClient";
 import { RoomTypeApiClient } from "./RoomTypeApiClient";
 import { ServiceApiClient } from "./ServiceApiClient";
@@ -22,7 +24,6 @@ import { fromLocal } from "../utils/local";
 
 // config
 import config from "../config";
-import { RoomAreaApiClient } from "./RoomAreaApiClient";
 
 /**
  * @class MuseumApiClient
@@ -37,6 +38,7 @@ export class MuseumApiClient {
     this.appText = new AppTextApiClient();
     this.events = new EventApiClient();
     this.externalLink = new ExternalLinkApiClient();
+    this.guestBook = new GuestBookApiClient();
     this.news = new NewsApiClient();
     this.pushNotifications = new PushNotificationApiClient();
     this.role = new RoleApiClient();
@@ -174,5 +176,12 @@ export class MuseumApiClient {
    */
   get ExternalLink() {
     return this.externalLink;
+  }
+
+  /**
+   * @returns {GuestBookApiClient} GuestBook
+   */
+  get GuestBook() {
+    return this.guestBook;
   }
 }
