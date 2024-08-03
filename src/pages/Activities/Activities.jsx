@@ -124,17 +124,6 @@ function ActivitiesPage() {
             )}
           </>
         ),
-        entity:
-          activity?.entity && activity?.entity?.length ? (
-            <Link
-              className="underline text-light-primary flex"
-              to={`${activity?.entity?.split(",")[0]}s/${activity?.entity?.split(",")[1]}`}
-            >
-              <span className="w-80 truncate capitalize">{`${activity?.entity?.split(",")[0]} - ${activity?.entity?.split(",")[1]}`}</span>
-            </Link>
-          ) : (
-            " - "
-          ),
         entity: parsedAction,
       };
     });
