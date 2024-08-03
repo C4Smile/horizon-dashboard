@@ -121,7 +121,11 @@ function RoomAreaForm() {
           type: "set",
           items: roomAreaQuery.data?.roomAreaHasImage.map((image) => image.imageId),
         });
-      if (roomAreaQuery.data?.image360Id) setImages360(roomAreaQuery.data?.image360Id);
+      if (roomAreaQuery.data?.roomAreaHasImage360?.length)
+        setImages360({
+          type: "set",
+          items: roomAreaQuery.data?.roomAreaHasImage360.map((image) => image.imageId),
+        });
       //* PARSING CONTENT
       if (roomAreaQuery.data?.content && typeof roomAreaQuery.data?.content === "string") {
         const html = roomAreaQuery.data?.content;
