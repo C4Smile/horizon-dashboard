@@ -26,7 +26,7 @@ export class Image360ApiClient {
    * @returns {Promise<{data: any, error: any}>} response
    */
   async insertImage(photo) {
-    const { error, data, status } = await makeRequest("images360", "POST", photo, {
+    const { error, data, status } = await makeRequest("images", "POST", photo, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     return { error, data, status: status === 204 ? 201 : status };
@@ -65,8 +65,12 @@ export class Image360ApiClient {
           Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
         },
       );
-      // eslint-disable-next-line no-console
-      if (error) console.error(error.message);
+
+      if (error) {
+        // eslint-disable-next-line no-console
+        console.error(error.message);
+        return { error };
+      }
       uploads.push({ fileId: data[0].fileName, url: data[0].url, id: data[0].id });
     }
 
@@ -79,7 +83,7 @@ export class Image360ApiClient {
    * @returns {Promise<any>} response
    */
   async deleteImage(id) {
-    const { error } = await makeRequest(`images360/${id}`, "DELETE", null, {
+    const { error } = await makeRequest(`images/${id}`, "DELETE", null, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     if (!error) return error.status;
