@@ -21,7 +21,8 @@
     "externalLink": "Enlace externo",
     "paymentMethod": "Método de Pago",
     "appText": "Texto para la App",
-    "pushNotification": "Notificación instantánea"
+    "pushNotification": "Notificación instantánea",
+    "guestBook": "Libro de Visita"
   },
   "roles": {
     "admin": "Administrador",
@@ -183,6 +184,20 @@
     },
     "roomHasSchedule": {
       "label": "Horario"
+    }
+  },
+  "guesrBook": {
+    "lastUpdate": { "label": "Última actualización" },
+    "name": { "label": "Nombre", "placeholder": "ej: Visita del ministro de..." },
+    "description": {
+      "label": "Descripción",
+      "placeholder": "ej: Durante la visita el ministro mencionó..."
+    },
+    "guestBookHasImage": {
+      "label": "Imágenes"
+    },
+    "content": {
+      "label": "Contenido"
     }
   },
   "roomArea": {

@@ -74,7 +74,8 @@
       "services": "Services",
       "rooms": "Salas",
       "roomAreas": "Área de salas",
-      "roomTypes": "Tipos de salas"
+      "roomTypes": "Tipos de salas",
+      "guestBook": "Libro de visitas"
     }
   },
   "information": {
@@ -156,6 +157,10 @@
   "pushNotifications": {
     "editForm": "Editar Notificación instantánea",
     "newForm": "Nueva Notificación instantánea"
+  },
+  "guestBook": {
+    "editForm": "Editar Visita",
+    "newForm": "Nueva Visita"
   },
   "notFound": {
     "title": "No encontrado"
