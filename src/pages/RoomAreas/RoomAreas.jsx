@@ -134,7 +134,7 @@ function RoomAreas() {
   const getActions = [
     {
       id: "edit",
-      onClick: (e) => navigate(`/museum/roomAreas/${e.id}`),
+      onClick: (e) => navigate(`/museum/room-areas/${e.id}`),
       icon: faPencil,
       tooltip: t("_accessibility:buttons.edit"),
     },

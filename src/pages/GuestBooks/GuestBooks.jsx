@@ -114,7 +114,7 @@ function GuestBooks() {
   const getActions = [
     {
       id: "edit",
-      onClick: (e) => navigate(`/museum/guestBooks/${e.id}`),
+      onClick: (e) => navigate(`/museum/guest-books/${e.id}`),
       icon: faPencil,
       tooltip: t("_accessibility:buttons.edit"),
     },
