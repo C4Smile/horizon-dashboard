@@ -23,6 +23,7 @@ export async function makeRequest(url, method = "GET", body = null, h = null) {
 
   const request = await fetch(`${config.apiUrl}${url}`, options);
   const data = await request.json();
+
   return {
     data,
     status: request.status,
