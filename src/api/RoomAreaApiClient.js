@@ -39,6 +39,17 @@ export class RoomAreaApiClient {
   }
 
   /**
+   * @description Get all roomArea
+   * @param {number} roomId Room Id
+   * @returns {Promise<RoomArea[]>} RoomAreas
+   */
+  async getByRoomId(roomId) {
+    const { error, data, status } = await makeRequest(`roomArea/byRoomId/${roomId}`);
+    if (error !== null) return { status, error: { message: error.message } };
+    return data;
+  }
+
+  /**
    * @description Get roomArea by id
    * @param {string} id - RoomArea id
    * @returns {Promise<RoomArea>} RoomArea
