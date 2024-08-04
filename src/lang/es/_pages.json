@@ -74,6 +74,7 @@
       "services": "Services",
       "rooms": "Salas",
       "roomAreas": "Área de salas",
+      "sortRooms": "Organizar Salas",
       "roomTypes": "Tipos de salas",
       "guestBooks": "Libro de visitas"
     }
@@ -121,6 +122,10 @@
   "customers": {
     "editForm": "Editar Cliente",
     "newForm": "Nuevo Cliente"
+  },
+  "sortRooms": {
+    "title": "Organizar Sala",
+    "areas": "Áreas de la Sala {{room}}"
   },
   "rooms": {
     "editForm": "Editar Sala",

@@ -67,6 +67,8 @@ const PushNotificationForm = loadable(() => import("./pages/PushNotifications/Pu
 // Guest Book
 const GuestBooks = loadable(() => import("./pages/GuestBooks/GuestBooks"));
 const GuestBookForm = loadable(() => import("./pages/GuestBooks/GuestBookForm"));
+// Sort Rooms
+const SortRooms = loadable(() => import("./pages/SortRooms/SortRooms"));
 
 /**
  * Main App
@@ -150,8 +152,9 @@ function App() {
               <Route path="/museum/room-areas/new" element={<RoomAreaForm />} />
               <Route path="/museum/room-areas/:id" element={<RoomAreaForm />} />
             </Route>
+            <Route exact path="/museum/sort-rooms" element={<SortRooms />} />
             <Route
-              exact
+              exactp
               path="/museum/room-types"
               element={<ModelNavigation parent="museum" model="room-types" />}
             >
