@@ -234,23 +234,6 @@ function RoomAreaForm() {
             />
           )}
         />
-        {/* RoomArea Number */}
-        <Controller
-          control={control}
-          disabled={roomAreaQuery.isLoading || saving}
-          name="number"
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              type="number"
-              name="number"
-              id="number"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder={t("_entities:roomArea.order.placeholder")}
-              label={t("_entities:roomArea.order.label")}
-            />
-          )}
-        />
         {/* RoomArea Name */}
         <Controller
           control={control}
