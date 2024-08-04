@@ -66,7 +66,7 @@ textarea {
 }
 
 .submit {
-  @apply relative text-white bg-light-primary transition enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center;
+  @apply relative text-white bg-light-primary transition enabled:hover:bg-primary disabled:bg-primary/40 enabled:focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center;
 }
 
 .outlined {
