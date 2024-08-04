@@ -105,7 +105,7 @@ export class RoomAreaApiClient {
   async saveOrder(roomAreas) {
     const { error } = await makeRequest(
       "roomArea/order",
-      "POST",
+      "PATCH",
       { roomAreas },
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
