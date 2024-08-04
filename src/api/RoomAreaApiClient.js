@@ -98,6 +98,23 @@ export class RoomAreaApiClient {
   }
 
   /**
+   * Save room areas order
+   * @param {object} roomAreas - selected room areas
+   * @returns if error occurred
+   */
+  async saveOrder(roomAreas) {
+    const { error } = await makeRequest(
+      "roomArea/order",
+      "POST",
+      { roomAreas },
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
+    return error;
+  }
+
+  /**
    * @description Update roomArea
    * @param {object} roomArea - RoomArea
    * @param {object[]} photos - RoomArea photos
