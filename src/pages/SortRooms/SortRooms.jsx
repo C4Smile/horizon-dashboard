@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState, useReducer, useEffect } from "react";
+import { useMemo, useState, useReducer, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import React from "react";
 
@@ -15,6 +15,7 @@ import Loading from "../../partials/loading/Loading";
 import AutocompleteInput from "../../components/Forms/AutocompleteInput";
 
 // providers
+import { useNotification } from "../../providers/NotificationProvider";
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 const roomAreasReducer = (state, action) => {
@@ -49,15 +50,22 @@ const roomAreasReducer = (state, action) => {
 function SortRooms() {
   const { t } = useTranslation();
 
+  const { setNotification } = useNotification();
+
   const museumApiClient = useMuseumApiClient();
 
   const [editing, setEditing] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [roomAreas, setRoomAreas] = useReducer(roomAreasReducer, []);
 
-  const save = () => {
-    // do logic here
-  };
+  const save = useCallback(async () => {
+    const error = await museumApiClient.RoomArea.saveOrder(roomAreas);
+    if (error) {
+      // eslint-disable-next-line no-console
+      console.error(error.message);
+      setNotification(error.status);
+    }
+  }, [museumApiClient.RoomArea, roomAreas, setNotification]);
 
   const roomsQuery = useQuery({
     queryKey: [ReactQueryKeys.Rooms],
@@ -135,18 +143,20 @@ function SortRooms() {
                 >
                   <p>{area.value}</p>
                   <div className="flex flex-col items-center justify-center">
-                    <button
-                      disabled={i === 0}
-                      onClick={() => setRoomAreas({ type: "up", index: i })}
-                      className={`${i === 0 ? "" : "hover:text-primary transition"}`}
-                    >
-                      <FontAwesomeIcon icon={faChevronUp} />
-                    </button>
+                    {
+                      <button
+                        disabled={i === 0 || editing}
+                        onClick={() => setRoomAreas({ type: "up", index: i })}
+                        className={`${!editing ? "opacity-0" : ""} ${i === 0 ? "" : "hover:text-primary transition"}`}
+                      >
+                        <FontAwesomeIcon icon={faChevronUp} />
+                      </button>
+                    }
                     <p>{i + 1}</p>
                     <button
                       onClick={() => setRoomAreas({ type: "down", index: i })}
-                      disabled={i === roomAreas.length - 1}
-                      className={`${i === roomAreas.length - 1 ? "" : "hover:text-primary transition"}`}
+                      disabled={i === roomAreas.length - 1 || editing}
+                      className={`${!editing ? "opacity-0" : ""} ${i === roomAreas.length - 1 ? "" : "hover:text-primary transition"}`}
                     >
                       <FontAwesomeIcon icon={faChevronDown} />
                     </button>
