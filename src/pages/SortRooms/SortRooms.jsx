@@ -51,8 +51,13 @@ function SortRooms() {
 
   const museumApiClient = useMuseumApiClient();
 
+  const [editing, setEditing] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [roomAreas, setRoomAreas] = useReducer(roomAreasReducer, []);
+
+  const save = () => {
+    // do logic here
+  };
 
   const roomsQuery = useQuery({
     queryKey: [ReactQueryKeys.Rooms],
@@ -101,7 +106,26 @@ function SortRooms() {
 
       {roomAreas.length ? (
         <div>
-          <h2>{t("_pages:sortRooms.areas", { room: selectedRoom?.value })}</h2>
+          <div className="flex items-center justify-between">
+            <h2>{t("_pages:sortRooms.areas", { room: selectedRoom?.value })}</h2>
+            <div className="flex gap-2 items-center">
+              <button
+                onClick={editing ? () => save() : () => setEditing(true)}
+                type="submit"
+                className="submit"
+              >
+                {editing ? t("_accessibility:buttons.save") : t("_accessibility:buttons.edit")}
+              </button>
+              <button
+                onClick={() => setEditing(false)}
+                type="submit"
+                disabled={!editing}
+                className="submit"
+              >
+                {t("_accessibility:buttons.cancel")}
+              </button>
+            </div>
+          </div>
           {!roomAreasQuery?.isLoading ? (
             <ul>
               {roomAreas.map((area, i) => (
@@ -113,12 +137,14 @@ function SortRooms() {
                   <div className="flex flex-col items-center justify-center">
                     <button
                       disabled={i === 0}
+                      onClick={() => setRoomAreas({ type: "up", index: i })}
                       className={`${i === 0 ? "" : "hover:text-primary transition"}`}
                     >
                       <FontAwesomeIcon icon={faChevronUp} />
                     </button>
                     <p>{i + 1}</p>
                     <button
+                      onClick={() => setRoomAreas({ type: "down", index: i })}
                       disabled={i === roomAreas.length - 1}
                       className={`${i === roomAreas.length - 1 ? "" : "hover:text-primary transition"}`}
                     >
