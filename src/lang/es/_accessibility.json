@@ -65,6 +65,7 @@
     "200": "Guardado exitosamente",
     "201": "{{model}} guardado exitosamente",
     "204": "{{model}} eliminado exitosamente",
+    "400": "Error al procesar los datos",
     "401": "Usuario o contraseña incorrectos",
     "403": "Error: Acceso denegado",
     "404": "{{model}} no encontrado",
