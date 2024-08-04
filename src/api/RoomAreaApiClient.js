@@ -103,14 +103,9 @@ export class RoomAreaApiClient {
    * @returns if error occurred
    */
   async saveOrder(roomAreas) {
-    const { error } = await makeRequest(
-      "roomArea/order",
-      "PATCH",
-      { roomAreas },
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
-    );
+    const { error } = await makeRequest("roomArea/order", "PUT", roomAreas, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     return error;
   }
 
