@@ -125,7 +125,8 @@
   },
   "sortRooms": {
     "title": "Organizar Sala",
-    "areas": "Áreas de la Sala {{room}}"
+    "areas": "Áreas de la Sala {{room}}",
+    "saved": "Orden guardado correctamente"
   },
   "rooms": {
     "editForm": "Editar Sala",

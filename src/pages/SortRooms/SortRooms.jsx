@@ -63,9 +63,9 @@ function SortRooms() {
     if (error) {
       // eslint-disable-next-line no-console
       console.error(error.message);
-      setNotification(error.status);
-    }
-  }, [museumApiClient.RoomArea, roomAreas, setNotification]);
+      setNotification(String(error.status));
+    } else setNotification(t("_pages:sortRooms.saved"), "good");
+  }, [museumApiClient.RoomArea, roomAreas, setNotification, t]);
 
   const roomsQuery = useQuery({
     queryKey: [ReactQueryKeys.Rooms],
@@ -145,7 +145,7 @@ function SortRooms() {
                   <div className="flex flex-col items-center justify-center">
                     {
                       <button
-                        disabled={i === 0 || editing}
+                        disabled={i === 0 || !editing}
                         onClick={() => setRoomAreas({ type: "up", index: i })}
                         className={`${!editing ? "opacity-0" : ""} ${i === 0 ? "" : "hover:text-primary transition"}`}
                       >
@@ -155,7 +155,7 @@ function SortRooms() {
                     <p>{i + 1}</p>
                     <button
                       onClick={() => setRoomAreas({ type: "down", index: i })}
-                      disabled={i === roomAreas.length - 1 || editing}
+                      disabled={i === roomAreas.length - 1 || !editing}
                       className={`${!editing ? "opacity-0" : ""} ${i === roomAreas.length - 1 ? "" : "hover:text-primary transition"}`}
                     >
                       <FontAwesomeIcon icon={faChevronDown} />
