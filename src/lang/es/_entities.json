@@ -189,15 +189,11 @@
   "guestBook": {
     "lastUpdate": { "label": "Última actualización" },
     "name": { "label": "Nombre", "placeholder": "ej: Visita del ministro de..." },
-    "description": {
-      "label": "Descripción",
-      "placeholder": "ej: Durante la visita el ministro mencionó..."
-    },
     "guestBookHasImage": {
       "label": "Imágenes"
     },
-    "content": {
-      "label": "Contenido"
+    "date": {
+      "label": "Fecha de la visita"
     }
   },
   "roomArea": {
