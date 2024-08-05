@@ -31,11 +31,9 @@ export class Images360RoomAreasApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) {
-      await makeRequest(`roomHasImage360/${id}`, "DELETE", null, {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      });
-    }
+    await makeRequest(`roomHasImage360`, "DELETE", ids, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     return { status: 204 };
   }
 }

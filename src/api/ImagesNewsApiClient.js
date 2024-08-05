@@ -31,11 +31,9 @@ export class ImagesNewsApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) {
-      await makeRequest(`newsHasImage/${id}`, "DELETE", null, {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      });
-    }
+    await makeRequest(`newsHasImage`, "DELETE", ids, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     return { status: 204 };
   }
 }

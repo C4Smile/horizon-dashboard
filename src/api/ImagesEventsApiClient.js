@@ -31,11 +31,9 @@ export class ImagesEventsApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids) {
-      await makeRequest(`eventHasImage/${id}`, "DELETE", null, {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      });
-    }
+    await makeRequest(`eventHasImage`, "DELETE", ids, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     return { status: 204 };
   }
 }
