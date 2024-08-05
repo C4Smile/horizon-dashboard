@@ -151,7 +151,7 @@ export class NewsApiClient {
     // saving photo
     if (newPhotos.length)
       for (const newPhoto of newPhotos)
-        this.photosEvents.create({ newsId: news.id, imageId: newPhoto.id });
+        this.photosNews.create({ newsId: news.id, imageId: newPhoto.id });
 
     return { error, status: status === 204 ? 201 : status };
   }
