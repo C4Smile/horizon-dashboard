@@ -94,6 +94,8 @@ export class NewsApiClient {
     const { error, data, status } = await makeRequest("news", "POST", news, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
+    if (error !== null) return { status, error: { message: error.message } };
+
     // adding relationships
     for (const tag of tagsToKeep) await this.tagsNews.create({ newsId: data[0].id, tagId: tag });
     // saving image
