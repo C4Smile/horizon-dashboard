@@ -12,7 +12,6 @@ import htmlToDraft from "html-to-draftjs";
 // components
 import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
-import ParagraphInput from "../../components/Forms/ParagraphInput";
 import ImageUploaderMultiple from "../../components/ImageUploaderMultiple";
 
 // providers
@@ -22,9 +21,6 @@ import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvid
 // utils
 import { localPhotoReducer } from "../../components/utils";
 import { ReactQueryKeys } from "../../utils/queryKeys";
-
-// loadable
-const HtmlInput = loadable(() => import("../../components/Forms/HtmlInput"));
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
@@ -171,19 +167,20 @@ function GuestBookForm() {
             />
           )}
         />
-        {/* GuestBook Description */}
+        {/* PushNotification Sent Date */}
         <Controller
           control={control}
           disabled={guestBookQuery.isLoading || saving}
-          name="description"
+          name="sentDate"
           render={({ field }) => (
-            <ParagraphInput
+            <TextInput
               {...field}
-              name="description"
-              id="description"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer h-48"
-              placeholder={t("_entities:guestBook.description.placeholder")}
-              label={t("_entities:guestBook.description.label")}
+              type="datetime-local"
+              name="sentDate"
+              id="sentDate"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              label={t("_entities:pushNotification.sentDate.label")}
+              required
             />
           )}
         />
@@ -200,21 +197,6 @@ function GuestBookForm() {
             />
           )}
         </div>
-        {/* GuestBook content */}
-        <Controller
-          control={control}
-          name="content"
-          disabled={guestBookQuery.isLoading || saving}
-          render={({ field: { onChange, value, ...rest } }) => (
-            <HtmlInput
-              label={t("_entities:guestBook.content.label")}
-              wrapperClassName="mt-5 w-full"
-              {...rest}
-              value={value}
-              onChange={onChange}
-            />
-          )}
-        />
         <button type="submit" disabled={guestBookQuery.isLoading || saving} className="my-5 submit">
           {(guestBookQuery.isLoading || saving) && (
             <Loading

@@ -79,6 +79,7 @@ function GuestBooks() {
         id: guestBook.id,
         lastUpdate: new Date(guestBook.lastUpdate).toLocaleDateString("es-ES"),
         deleted: guestBook.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
+        date: new Date(guestBook.date).toLocaleDateString("es-ES"),
         name: (
           <Link className="underline text-light-primary" to={`${guestBook.id}`}>
             {guestBook.name}
