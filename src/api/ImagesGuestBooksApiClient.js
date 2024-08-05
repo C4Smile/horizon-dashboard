@@ -11,7 +11,7 @@ import config from "../config";
  * @class ImagesGuestBookApiClient
  * @description ImagesGuestBookApiClient
  */
-export class ImagesGuestBookApiClient {
+export class ImagesGuestBooksApiClient {
   /**
    * @description Create imagesGuestBook
    * @param {object} imagesGuestBook - ImagesGuestBook
