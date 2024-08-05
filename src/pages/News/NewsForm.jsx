@@ -132,7 +132,7 @@ function NewsForm() {
     if (newsQuery.data) {
       //* PARSING TAGS
       const parsedTags = tagsList.filter((tag) =>
-        newsQuery?.data?.newsHasTag?.some((lTag) => lTag.id === tag.id),
+        newsQuery?.data?.newsHasTag?.some((lTag) => lTag.tagId.id === tag.id),
       );
       //* PARSING CONTENT
       if (newsQuery.data?.content && typeof newsQuery.data?.content === "string") {

@@ -96,7 +96,7 @@ function NewsPage() {
         newsHasTag:
           (
             <div className="flex flex-wrap gap-3">
-              {news.newsHasTag?.map((tag) => (
+              {news.newsHasTag?.map(({ tagId: tag }) => (
                 <Chip key={tag?.id} label={tag?.name} spanClassName="text-xs" />
               ))}
             </div>
