@@ -21,7 +21,7 @@ const NotificationProvider = (props) => {
    * @param {string} string string to parse
    * @param  {...string} params array of params
    */
-  const setNotificationFunction = useCallback((string, params, state = "") => {
+  const setNotificationFunction = useCallback((string, params = {}, state = "") => {
     setNotification(string);
     setParams(params);
     setState(state);

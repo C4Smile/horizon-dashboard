@@ -64,7 +64,7 @@ function SortRooms() {
       // eslint-disable-next-line no-console
       console.error(error.message);
       setNotification(String(error.status));
-    } else setNotification(t("_pages:sortRooms.saved"), "good");
+    } else setNotification(t("_pages:sortRooms.saved"), {}, "good");
   }, [museumApiClient.RoomArea, roomAreas, setNotification, t]);
 
   const roomsQuery = useQuery({
@@ -89,7 +89,9 @@ function SortRooms() {
   useEffect(() => {
     setRoomAreas({
       type: "set",
-      items: roomAreasQuery?.data?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [],
+      items:
+        roomAreasQuery?.data?.map((c) => ({ value: `${c.name}`, number: `${c.number}`, id: c.id })) ??
+        [],
     });
   }, [roomAreasQuery.data]);
 
@@ -152,7 +154,7 @@ function SortRooms() {
                         <FontAwesomeIcon icon={faChevronUp} />
                       </button>
                     }
-                    <p>{i + 1}</p>
+                    <p>{area.number}</p>
                     <button
                       onClick={() => setRoomAreas({ type: "down", index: i })}
                       disabled={i === roomAreas.length - 1 || !editing}
