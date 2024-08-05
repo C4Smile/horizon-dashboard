@@ -281,7 +281,7 @@ function RoomAreaForm() {
           )}
         </div>
         {/* RoomArea Images */}
-        <div>
+        <div className="my-5">
           {roomAreaQuery.isLoading ? (
             <Loading />
           ) : (
