@@ -4,6 +4,7 @@ import { convertToRaw } from "draft-js";
 
 // utils
 import { SortOrder } from "../models/query/GenericFilter";
+import { parseManyToMany } from "./utils/relationships";
 import { fromLocal } from "../utils/local";
 
 // config
@@ -118,7 +119,7 @@ export class NewsApiClient {
     // parsing html
     news.content = draftToHtml(convertToRaw(news.content.getCurrentContent()));
     // parsing tags
-    const tagsToKeep = this.parseTags(news.tagsId, news.newsHasTag);
+    const tagsToKeep = parseManyToMany("tagId", news.tagsId, news.newsHasTag);
     // saving photos
     const newPhotos = [];
     for (const newPhoto of photos) {
