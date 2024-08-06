@@ -293,6 +293,7 @@ function RoomForm() {
           ) : (
             <ImageUploaderMultiple
               photos={images360}
+              apiClient={museumApiClient.Image360}
               setPhotos={setImages360}
               label={`${t("_entities:room.roomHasImage360.label")}`}
               folder={`${ReactQueryKeys.Rooms}`}
