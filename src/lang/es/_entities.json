@@ -1,5 +1,6 @@
 {
   "entities": {
+    "image": "Imagen",
     "user": "Usuario",
     "role": "Rol",
     "country": "País",
