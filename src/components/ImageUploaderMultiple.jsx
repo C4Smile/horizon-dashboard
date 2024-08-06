@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 // font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,6 +15,7 @@ import noPhoto from "../assets/images/no-product.jpg";
 import { staticUrlPhoto } from "./utils";
 
 // providers
+import { useNotification } from "../providers/NotificationProvider";
 import { useMuseumApiClient } from "../providers/MuseumApiProvider";
 
 /**
@@ -24,19 +26,29 @@ import { useMuseumApiClient } from "../providers/MuseumApiProvider";
 function ImageUploaderMultiple(props) {
   const { label, folder, photos, setPhotos } = props;
 
+  const { t } = useTranslation();
+  const { setNotification } = useNotification();
+
   const [loadingPhotos, setLoadingPhotos] = useState(false);
 
   const museumApiClient = useMuseumApiClient();
 
+  const apiClient = useMemo(() => {
+    if (props.apiClient) return props.apiClient;
+    return museumApiClient.Image;
+  }, [props.apiClient, museumApiClient]);
+
   const onUploadFile = async (e) => {
     setLoadingPhotos(true);
-    const uploads = await museumApiClient.Image.insertImages(e.target.files, folder);
-    setPhotos({ type: "set", items: uploads });
+    const uploads = await apiClient.insertImages(e.target.files, folder);
+    if (uploads.error)
+      setNotification(String(uploads.error.status), { model: t("_entities:entities.image") });
+    else setPhotos({ type: "set", items: uploads });
     setLoadingPhotos(false);
   };
 
   const onDelete = async (index) => {
-    const status = await museumApiClient.Image.deleteImage(photos[index]?.id);
+    const status = await apiClient.deleteImage(photos[index]?.id);
     if (status === 200) setPhotos({ type: "delete", index });
     // eslint-disable-next-line no-console
     else console.error(status);

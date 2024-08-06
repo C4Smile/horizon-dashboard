@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 // font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,6 +15,7 @@ import noPhoto from "../assets/images/no-product.jpg";
 import { staticUrlPhoto } from "./utils";
 
 // providers
+import { useNotification } from "../providers/NotificationProvider";
 import { useMuseumApiClient } from "../providers/MuseumApiProvider";
 
 /**
@@ -24,6 +26,9 @@ import { useMuseumApiClient } from "../providers/MuseumApiProvider";
 function ImageUploader(props) {
   const { label, folder, photo, setPhoto } = props;
 
+  const { t } = useTranslation();
+  const { setNotification } = useNotification();
+
   const [loadingPhoto, setLoadingPhoto] = useState(false);
 
   const museumApiClient = useMuseumApiClient();
@@ -31,7 +36,9 @@ function ImageUploader(props) {
   const onUploadFile = async (e) => {
     setLoadingPhoto(true);
     const uploads = await museumApiClient.Image.insertImages(e.target.files, folder);
-    setPhoto(uploads[0]);
+    if (uploads.error)
+      setNotification(String(uploads.error.status), { model: t("_entities:entities.image") });
+    else setPhoto(uploads[0]);
     setLoadingPhoto(false);
   };
 
