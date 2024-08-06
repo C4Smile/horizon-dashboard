@@ -16,7 +16,6 @@ import config from "../config";
 
 // apis
 import { ImagesGuestBooksApiClient } from "./ImagesGuestBooksApiClient";
-import { Images360GuestBooksApiClient } from "./Images360GuestBooksApiClient";
 
 /**
  * @class GuestBookApiClient
@@ -24,7 +23,6 @@ import { Images360GuestBooksApiClient } from "./Images360GuestBooksApiClient";
  */
 export class GuestBookApiClient {
   photosGuestBooks = new ImagesGuestBooksApiClient();
-  photos360GuestBooks = new Images360GuestBooksApiClient();
 
   /**
    * @description Get all guestBook
