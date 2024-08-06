@@ -19,7 +19,7 @@ export class Images360RoomAreasApiClient {
    */
   async create(images360Rooms) {
     // call service
-    const { error, data, status } = await makeRequest("roomHasImage360", "POST", images360Rooms, {
+    const { error, data, status } = await makeRequest("roomAreaHasImage360", "POST", images360Rooms, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     return { error, data, status: status === 204 ? 201 : status };
@@ -31,7 +31,7 @@ export class Images360RoomAreasApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    await makeRequest(`roomHasImage360`, "DELETE", ids, {
+    await makeRequest(`roomAreaHasImage360`, "DELETE", ids, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     return { status: 204 };
