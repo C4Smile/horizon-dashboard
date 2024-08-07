@@ -50,6 +50,7 @@ function ServicesPage() {
     const keys = extractKeysFromObject(new Service(), [
       "description",
       "dateOfCreation",
+      "serviceRoom",
       "serviceHasSchedule",
     ]);
     return keys.map((key) => ({
@@ -101,17 +102,6 @@ function ServicesPage() {
             )}
           </>
         ),
-        servicePlace:
-          service?.servicePlace && service?.servicePlace?.length ? (
-            <Link
-              className="underline text-light-primary flex"
-              to={`/places/${service?.servicePlace?.placeId?.name}`}
-            >
-              <span className="w-80 truncate">{service?.servicePlace?.placeId?.name}</span>
-            </Link>
-          ) : (
-            " - "
-          ),
       };
     });
   }, [localData]);
