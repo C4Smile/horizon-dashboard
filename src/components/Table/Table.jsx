@@ -1,17 +1,25 @@
-import { useState } from "react";
 import PropTypes from "prop-types";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+
+// tippy
 import Tippy from "@tippyjs/react";
 
 // font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPencil, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 // components
 import Loading from "../../partials/loading/Loading";
 
 // models
 import { SortOrder } from "../../models/query/GenericFilter";
-import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+
+// providers
+import { useNotification } from "../../providers/NotificationProvider";
+import { queryClient } from "../../providers/MuseumApiProvider";
 
 const baseColumns = ["id", "dateOfCreation", "lastUpdate", "deleted"];
 
@@ -25,7 +33,11 @@ const isBaseColumn = (column) => baseColumns.includes(column);
 function Table(props) {
   const { t } = useTranslation();
 
-  const { columns, rows, isLoading, actions, onSort } = props;
+  const navigate = useNavigate();
+
+  const { setNotification } = useNotification();
+
+  const { columns, rows, isLoading, actions, apiClient, queryKey, onSort } = props;
 
   const [sortingBy, setSortingBy] = useState("dateOfCreation");
   const [sortingOrder, setSortingOrder] = useState(SortOrder.ASC);
@@ -45,6 +57,54 @@ function Table(props) {
     setSortingOrder(localSortingOrder);
     if (onSort) onSort(attribute, localSortingOrder);
   };
+
+  const getActions = useMemo(() => {
+    return [
+      ...actions,
+      {
+        id: "edit",
+        onClick: (e) => navigate(`/information/tags/${e.id}`),
+        icon: faPencil,
+        tooltip: t("_accessibility:buttons.edit"),
+      },
+      {
+        id: "delete",
+        hidden: (entity) => entity.deleted.value,
+        onClick: async (e) => {
+          const result = await apiClient.delete([e.id]);
+          const { error, status, data } = result;
+          if (data?.count) {
+            setNotification("deleted", { model: t("_entities:entities.tag"), count: data.count });
+            queryClient.invalidateQueries({ queryKey: [queryKey] });
+          } else {
+            // eslint-disable-next-line no-console
+            console.error(error);
+            setNotification(String(status));
+          }
+        },
+        icon: faTrash,
+        tooltip: t("_accessibility:buttons.delete"),
+      },
+      {
+        id: "restore",
+        hidden: (entity) => !entity.deleted.value,
+        onClick: async (e) => {
+          const result = await apiClient.restore([e.id]);
+          const { error, status, data } = result;
+          if (data?.count) {
+            setNotification("restored", { model: t("_entities:entities.tag"), count: data.count });
+            queryClient.invalidateQueries({ queryKey: [queryKey] });
+          } else {
+            // eslint-disable-next-line no-console
+            console.error(error);
+            setNotification(String(status));
+          }
+        },
+        icon: faArrowRotateLeft,
+        tooltip: t("_accessibility:buttons.restore"),
+      },
+    ];
+  }, [actions, apiClient, navigate, queryKey, setNotification, t]);
 
   return (
     <div className="relative overflow-x-auto w-full h-full">
@@ -71,7 +131,7 @@ function Table(props) {
                 </button>
               </th>
             ))}
-            {Boolean(actions.length) && (
+            {Boolean(getActions.length) && (
               <th scope="col" className="px-6 py-3 text-center">
                 {t("_accessibility:labels.actions")}
               </th>
@@ -83,7 +143,7 @@ function Table(props) {
             {rows.map((row) => (
               <tr
                 key={row.id}
-                className={`bg-white border-b ${row.deleted.value ? "bg-secondary/10" : ""}`}
+                className={`border-b ${row.deleted.value ? "bg-secondary/10" : "bg-white"}`}
               >
                 {columns.map((column, i) => (
                   <td
@@ -93,16 +153,18 @@ function Table(props) {
                     {row[column.id]?.render ?? row[column.id]}
                   </td>
                 ))}
-                {Boolean(actions.length) && (
+                {Boolean(getActions.length) && (
                   <td>
                     <div className="flex items-center gap-3 w-full justify-center">
-                      {actions.map((action) => (
-                        <Tippy key={action.id} content={action.tooltip}>
-                          <button onClick={() => action.onClick(row)}>
-                            <FontAwesomeIcon icon={action.icon} />
-                          </button>
-                        </Tippy>
-                      ))}
+                      {getActions
+                        .filter((action) => !action.hidden || !action.hidden(row))
+                        .map((action) => (
+                          <Tippy key={action.id} content={action.tooltip}>
+                            <button onClick={() => action.onClick(row)}>
+                              <FontAwesomeIcon icon={action.icon} />
+                            </button>
+                          </Tippy>
+                        ))}
                     </div>
                   </td>
                 )}

@@ -3,9 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useNavigate, Link } from "react-router-dom";
 
-// icons
-import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
-
 // dto
 import { Tag } from "../../models/tag/Tag";
 
@@ -16,7 +13,7 @@ import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
+import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -101,30 +98,7 @@ function Tags() {
     }
   }, [tagQuery, navigate, setNotification]);
 
-  const getActions = [
-    {
-      id: "edit",
-      onClick: (e) => navigate(`/information/tags/${e.id}`),
-      icon: faPencil,
-      tooltip: t("_accessibility:buttons.edit"),
-    },
-    {
-      id: "delete",
-      onClick: async (e) => {
-        const result = await museumApiClient.Tag.delete([e.id]);
-        const { error, status, data } = result;
-        if (data?.count)
-          setNotification(String(status), { model: t("_entities:entities.tag"), count: data.count });
-        if (status !== 204) {
-          // eslint-disable-next-line no-console
-          console.error(error);
-          setNotification(String(status));
-        } else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Tags] });
-      },
-      icon: faTrash,
-      tooltip: t("_accessibility:buttons.delete"),
-    },
-  ];
+  const getActions = [];
 
   return (
     <div className="p-5">
@@ -132,9 +106,11 @@ function Tags() {
       <Table
         isLoading={tagQuery.isLoading}
         rows={preparedRows}
+        apiClient={museumApiClient.Tag}
         columns={preparedColumns}
         actions={getActions}
         onSort={onTableSort}
+        queryKey={ReactQueryKeys.Tags}
       />
     </div>
   );
