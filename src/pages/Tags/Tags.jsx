@@ -34,7 +34,7 @@ function Tags() {
   const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
-    const keys = extractKeysFromObject(new Tag(), ["id", "dateOfCreation", "deleted"]);
+    const keys = extractKeysFromObject(new Tag(), []);
     return keys.map((key) => ({
       id: key,
       label: t(`_entities:tag.${key}.label`),
@@ -66,14 +66,26 @@ function Tags() {
     return localData.map((tag) => {
       return {
         id: tag.id,
-        dateOfCreation: new Date(tag.dateOfCreation).toLocaleDateString("es-ES"),
-        lastUpdate: new Date(tag.lastUpdate).toLocaleDateString("es-ES"),
-        deleted: tag.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
-        name: (
-          <Link className="underline text-light-primary" to={`${tag.id}`}>
-            {tag.name}
-          </Link>
-        ),
+        dateOfCreation: {
+          value: tag.dateOfCreation,
+          render: new Date(tag.dateOfCreation).toLocaleDateString("es-ES"),
+        },
+        lastUpdate: {
+          value: tag.lastUpdate,
+          render: new Date(tag.lastUpdate).toLocaleDateString("es-ES"),
+        },
+        deleted: {
+          value: tag.deleted,
+          render: tag.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
+        },
+        name: {
+          value: tag.name,
+          render: (
+            <Link className="underline text-light-primary" to={`${tag.id}`}>
+              {tag.name}
+            </Link>
+          ),
+        },
       };
     });
   }, [localData, t]);
@@ -100,9 +112,9 @@ function Tags() {
       id: "delete",
       onClick: async (e) => {
         const result = await museumApiClient.Tag.delete([e.id]);
-        const { error, status } = result;
-        setNotification(String(status), { model: t("_entities:entities.tag") });
-
+        const { error, status, data } = result;
+        if (data?.count)
+          setNotification(String(status), { model: t("_entities:entities.tag"), count: data.count });
         if (status !== 204) {
           // eslint-disable-next-line no-console
           console.error(error);
