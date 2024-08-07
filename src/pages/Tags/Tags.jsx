@@ -1,7 +1,7 @@
 import { useMemo, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // dto
 import { Tag } from "../../models/tag/Tag";
@@ -24,8 +24,6 @@ import Table from "../../components/Table/Table";
  */
 function Tags() {
   const { t } = useTranslation();
-
-  const navigate = useNavigate();
 
   const { setNotification } = useNotification();
   const museumApiClient = useMuseumApiClient();
@@ -62,19 +60,7 @@ function Tags() {
   const preparedRows = useMemo(() => {
     return localData.map((tag) => {
       return {
-        id: tag.id,
-        dateOfCreation: {
-          value: tag.dateOfCreation,
-          render: new Date(tag.dateOfCreation).toLocaleDateString("es-ES"),
-        },
-        lastUpdate: {
-          value: tag.lastUpdate,
-          render: new Date(tag.lastUpdate).toLocaleDateString("es-ES"),
-        },
-        deleted: {
-          value: tag.deleted,
-          render: tag.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
-        },
+        ...tag,
         name: {
           value: tag.name,
           render: (
@@ -85,7 +71,7 @@ function Tags() {
         },
       };
     });
-  }, [localData, t]);
+  }, [localData]);
 
   useEffect(() => {
     const { data } = tagQuery;
@@ -96,7 +82,8 @@ function Tags() {
         setNotification(String(data.status));
       } else setLocalData(data ?? []);
     }
-  }, [tagQuery, navigate, setNotification]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tagQuery.data, setNotification]);
 
   const getActions = [];
 
