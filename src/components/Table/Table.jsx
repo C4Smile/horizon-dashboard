@@ -13,6 +13,10 @@ import Loading from "../../partials/loading/Loading";
 import { SortOrder } from "../../models/query/GenericFilter";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
+const baseColumns = ["id", "dateOfCreation", "lastUpdate", "deleted"];
+
+const isBaseColumn = (column) => baseColumns.includes(column);
+
 /**
  * Table component
  * @param {object} props - component props
@@ -54,8 +58,7 @@ function Table(props) {
                   onClick={() => localOnSort(column.id)}
                   className="flex items-center gap-2"
                 >
-                  {column.label}
-
+                  {isBaseColumn(column.id) ? t(`_entities:base.${column.id}`) : column.label}
                   {column.sortable && (
                     <span className={`${sortingBy === column.id ? "opacity-100" : "opacity-0"}`}>
                       {sortingOrder === SortOrder.ASC ? (
@@ -78,13 +81,16 @@ function Table(props) {
         {!isLoading && Boolean(rows.length) && (
           <tbody>
             {rows.map((row) => (
-              <tr key={row.id} className="bg-white border-b">
+              <tr
+                key={row.id}
+                className={`bg-white border-b ${row.deleted.value ? "bg-secondary/10" : ""}`}
+              >
                 {columns.map((column, i) => (
                   <td
                     key={column.id}
                     className={`px-6 py-4 font-medium ${i === 0 ? "text-gray-900 whitespace-nowrap" : ""} ${column.className}`}
                   >
-                    {row[column.id]}
+                    {row[column.id]?.render ?? row[column.id]}
                   </td>
                 ))}
                 {Boolean(actions.length) && (
