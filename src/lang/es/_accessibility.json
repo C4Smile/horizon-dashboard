@@ -64,7 +64,7 @@
     "images": "Se debe subir una imagen",
     "200": "Guardado exitosamente",
     "201": "{{model}} guardado exitosamente",
-    "204": "{{model}} eliminado exitosamente",
+    "204": "{{count}} {{model}}(s) eliminado(s) exitosamente",
     "400": "Error al procesar los datos",
     "401": "Usuario o contraseña incorrectos",
     "403": "Error: Acceso denegado",
