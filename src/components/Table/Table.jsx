@@ -74,7 +74,7 @@ function Table(props) {
           const result = await apiClient.delete([e.id]);
           const { error, status, data } = result;
           if (data?.count) {
-            setNotification("deleted", { model: t("_entities:entities.tag"), count: data.count });
+            setNotification("deleted", { count: data.count });
             queryClient.invalidateQueries({ queryKey: [queryKey] });
           } else {
             // eslint-disable-next-line no-console
@@ -92,7 +92,7 @@ function Table(props) {
           const result = await apiClient.restore([e.id]);
           const { error, status, data } = result;
           if (data?.count) {
-            setNotification("restored", { model: t("_entities:entities.tag"), count: data.count });
+            setNotification("restored", { count: data.count });
             queryClient.invalidateQueries({ queryKey: [queryKey] });
           } else {
             // eslint-disable-next-line no-console
@@ -105,6 +105,43 @@ function Table(props) {
       },
     ];
   }, [actions, apiClient, navigate, queryKey, setNotification, t]);
+
+  const parsedRows = useMemo(
+    () =>
+      rows.map((row) => {
+        const parsedRow = { ...row };
+        baseColumns.forEach((column) => {
+          if (parsedRow[column] !== undefined && parsedRow[column] !== null) {
+            switch (column) {
+              case "deleted":
+                parsedRow[column] = {
+                  value: row.deleted,
+                  render: row.deleted
+                    ? t("_accessibility:buttons.yes")
+                    : t("_accessibility:buttons.no"),
+                };
+                break;
+              case "dateOfCreation":
+                parsedRow[column] = {
+                  value: row.dateOfCreation,
+                  render: new Date(row.dateOfCreation).toLocaleDateString("es-ES"),
+                };
+                break;
+              case "lastUpdate":
+                parsedRow[column] = {
+                  value: row.lastUpdate,
+                  render: new Date(row.lastUpdate).toLocaleDateString("es-ES"),
+                };
+                break;
+              default:
+                break;
+            }
+          }
+        });
+        return parsedRow;
+      }),
+    [rows, t],
+  );
 
   return (
     <div className="relative overflow-x-auto w-full h-full">
@@ -140,7 +177,7 @@ function Table(props) {
         </thead>
         {!isLoading && Boolean(rows.length) && (
           <tbody>
-            {rows.map((row) => (
+            {parsedRows.map((row) => (
               <tr
                 key={row.id}
                 className={`border-b ${row.deleted.value ? "bg-secondary/10" : "bg-white"}`}
