@@ -81,10 +81,9 @@ export class TagApiClient {
    * @returns Transaction status
    */
   async delete(ids) {
-    for (const id of ids)
-      await makeRequest(`tag/${id}`, "DELETE", null, {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      });
-    return { status: 204 };
+    const { data, status, error } = await makeRequest(`tag`, "DELETE", ids, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
+    return { data, error, status: status === 200 ? 204 : status };
   }
 }
