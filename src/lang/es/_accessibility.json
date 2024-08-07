@@ -65,7 +65,7 @@
     "images": "Se debe subir una imagen",
     "200": "Guardado exitosamente",
     "201": "{{model}} guardado exitosamente",
-    "204": "{{count}} {{model}}(s) eliminado(s) exitosamente",
+    "204": "{{count}} object(s) eliminado(s) exitosamente",
     "deleted": "{{count}} objeto(s) eliminado(s) exitosamente",
     "restored": "{{count}} objeto(s) restaurados(s) exitosamente",
     "400": "Error al procesar los datos",
