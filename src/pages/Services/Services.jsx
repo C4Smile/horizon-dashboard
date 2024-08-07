@@ -1,13 +1,12 @@
 import { useMemo, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // images
 import noProduct from "../../assets/images/no-product.jpg";
 
 // icons
-import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
 
 // dto
 import { Service } from "../../models/service/Service";
@@ -19,7 +18,7 @@ import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
+import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // utils
 import { staticUrlPhoto } from "../../components/utils";
@@ -44,17 +43,13 @@ const noSortableColumns = {
 function ServicesPage() {
   const { t } = useTranslation();
 
-  const navigate = useNavigate();
-
   const { setNotification } = useNotification();
   const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
     const keys = extractKeysFromObject(new Service(), [
-      "id",
       "description",
       "dateOfCreation",
-      "deleted",
       "serviceHasSchedule",
     ]);
     return keys.map((key) => ({
@@ -87,9 +82,7 @@ function ServicesPage() {
   const preparedRows = useMemo(() => {
     return localData.map((service) => {
       return {
-        id: service.id,
-        lastUpdate: new Date(service.lastUpdate).toLocaleDateString("es-ES"),
-        deleted: service.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
+        ...service,
         name: (
           <Link className="underline text-light-primary flex" to={`${service.id}`}>
             <span className="w-80 truncate">{service.name}</span>
@@ -121,7 +114,7 @@ function ServicesPage() {
           ),
       };
     });
-  }, [localData, t]);
+  }, [localData]);
 
   useEffect(() => {
     const { data } = serviceQuery;
@@ -132,32 +125,10 @@ function ServicesPage() {
         setNotification(String(data.status));
       } else setLocalData(data ?? []);
     }
-  }, [serviceQuery, navigate, setNotification]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [serviceQuery.data, setNotification]);
 
-  const getActions = [
-    {
-      id: "edit",
-      onClick: (e) => navigate(`/museum/services/${e.id}`),
-      icon: faPencil,
-      tooltip: t("_accessibility:buttons.edit"),
-    },
-    {
-      id: "delete",
-      onClick: async (e) => {
-        const result = await museumApiClient.Service.delete([e.id]);
-        const { error, status } = result;
-        setNotification(String(status), { model: t("_entities:entities.service") });
-
-        if (status !== 204) {
-          // eslint-disable-next-line no-console
-          console.error(error);
-          setNotification(String(status));
-        } else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Services] });
-      },
-      icon: faTrash,
-      tooltip: t("_accessibility:buttons.delete"),
-    },
-  ];
+  const getActions = [];
 
   return (
     <div className="p-5">
@@ -165,9 +136,11 @@ function ServicesPage() {
       <Table
         isLoading={serviceQuery.isLoading}
         rows={preparedRows}
+        apiClient={museumApiClient.Service}
         columns={preparedColumns}
         actions={getActions}
         onSort={onTableSort}
+        queryKey={ReactQueryKeys.Services}
       />
     </div>
   );
