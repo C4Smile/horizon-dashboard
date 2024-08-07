@@ -25,6 +25,12 @@
     "pushNotification": "Notificación instantánea",
     "guestBook": "Libro de Visita"
   },
+  "base": {
+    "id": "Id",
+    "deleted": "Eliminado",
+    "lastUpdate": "Última actualización",
+    "dateOfCreation": "Fecha de creación"
+  },
   "roles": {
     "admin": "Administrador",
     "user": "Usuario"
