@@ -63,7 +63,7 @@ function Table(props) {
       ...actions,
       {
         id: "edit",
-        onClick: (e) => navigate(`/information/tags/${e.id}`),
+        onClick: (e) => navigate(`/information/${queryKey}/${e.id}`),
         icon: faPencil,
         tooltip: t("_accessibility:buttons.edit"),
       },
