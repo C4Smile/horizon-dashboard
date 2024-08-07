@@ -86,4 +86,16 @@ export class TagApiClient {
     });
     return { data, error, status: status === 200 ? 204 : status };
   }
+
+  /**
+   * Restore elements by their id
+   * @param {number[]} ids to restore
+   * @returns Transaction status
+   */
+  async restore(ids) {
+    const { data, status, error } = await makeRequest(`tag/restore`, "PATCH", ids, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
+    return { data, error, status: status === 200 ? 204 : status };
+  }
 }
