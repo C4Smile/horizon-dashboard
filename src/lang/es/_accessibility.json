@@ -45,6 +45,7 @@
     "close": "Cerrar",
     "edit": "Editar",
     "delete": "Eliminar",
+    "restore": "Restaurar",
     "add": "Add",
     "remove": "Remove"
   },
@@ -65,6 +66,8 @@
     "200": "Guardado exitosamente",
     "201": "{{model}} guardado exitosamente",
     "204": "{{count}} {{model}}(s) eliminado(s) exitosamente",
+    "deleted": "{{count}} {{model}}(s) eliminado(s) exitosamente",
+    "restored": "{{count}} {{model}}(s) restaurados(s) exitosamente",
     "400": "Error al procesar los datos",
     "401": "Usuario o contraseña incorrectos",
     "403": "Error: Acceso denegado",
