@@ -29,6 +29,8 @@ const Notification = memo(() => {
         return "bad";
       case "500":
         return "ugly";
+      case "deleted":
+      case "restored":
       case "200":
       case "201":
       case "204":
