@@ -6,7 +6,6 @@ import { convertToRaw } from "draft-js";
 import { makeRequest } from "../db/services";
 
 // utils
-import { SortOrder } from "../models/query/GenericFilter";
 import { parseManyToMany } from "./utils/relationships";
 import { fromLocal } from "../utils/local";
 
@@ -19,39 +18,25 @@ import { EventLinksApiClient } from "./EventLinksApiClient";
 // config
 import config from "../config";
 
+// base
+import { BaseApiClient } from "./utils/BaseApiClient";
+
 /**
  * @class EventApiClient
  * @description EventApiClient
  */
-export class EventApiClient {
+export class EventApiClient extends BaseApiClient {
   tagsEvents = new TagsEventsApiClient();
   photosEvents = new ImagesEventsApiClient();
   eventSchedules = new EventSchedulesApiClient();
   eventLinks = new EventLinksApiClient();
 
   /**
-   * @description Get all event
-   * @param {string} sort - Sort by
-   * @param {SortOrder} order - Order ASC/DESC
-   * @returns {Promise<Event[]>} Event
+   * create base api client
    */
-  async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
-    const { data, error, status } = await makeRequest(`event?sort=${sort}&order=${order}`);
-    if (error !== null) return { status, error: { message: error.message } };
-    return data;
-  }
-
-  /**
-   * @description Get event by id
-   * @param {string} id - Event id
-   * @returns {Promise<Event>} Event
-   */
-  async getById(id) {
-    const { data, error, status } = await makeRequest(`event/${id}`, "GET", null, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
-    if (error !== null) return { status, error: { message: error.message } };
-    return data[0];
+  constructor() {
+    super();
+    this.baseUrl = "event";
   }
 
   /**
@@ -76,7 +61,7 @@ export class EventApiClient {
     delete event.newEventHasLink;
     delete event.newEventHasSchedules;
     // call service
-    const { error, data, status } = await makeRequest("event", "POST", event, {
+    const { error, data, status } = await makeRequest(this.baseUrl, "POST", event, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     if (error !== null) return { status, error: { message: error.message } };
@@ -135,7 +120,7 @@ export class EventApiClient {
     delete event.newEventHasSchedules;
     // call service
     const { status, error } = await makeRequest(
-      `event/${event.id}`,
+      `${this.baseUrl}/${event.id}`,
       "PATCH",
       {
         ...event,
@@ -171,19 +156,5 @@ export class EventApiClient {
       for (const newPhoto of newPhotos)
         this.photosEvents.create({ eventId: event.id, imageId: newPhoto.id });
     return { error, status: status === 204 ? 201 : status };
-  }
-
-  /**
-   * Remove elements by their id
-   * @param {number[]} ids to delete
-   * @returns Transaction status
-   */
-  async delete(ids) {
-    for (const id of ids)
-      await makeRequest(`event/${id}`, "DELETE", null, {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      });
-
-    return { status: 204 };
   }
 }

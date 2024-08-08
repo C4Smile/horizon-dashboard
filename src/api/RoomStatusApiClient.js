@@ -2,38 +2,25 @@
 import { makeRequest } from "../db/services";
 
 // utils
-import { SortOrder } from "../models/query/GenericFilter";
 import { fromLocal } from "../utils/local";
 
 // config
 import config from "../config";
 
+// base
+import { BaseApiClient } from "./utils/BaseApiClient";
+
 /**
  * @class RoomStatusApiClient
  * @description RoomStatusApiClient
  */
-export class RoomStatusApiClient {
+export class RoomStatusApiClient extends BaseApiClient {
   /**
-   * @description Get all roomStatus
-   * @param {string} sort attribute to order by
-   * @param {string} order asc/desc
-   * @returns {Promise<any[]>} RoomStatus
+   * create base api client
    */
-  async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
-    const { error, data, status } = await makeRequest(`roomStatus?sort=${sort}&order=${order}`);
-    if (error !== null) return { status, error: { message: error.message } };
-    return data;
-  }
-
-  /**
-   * @description Get roomStatus by id
-   * @param {string} id - RoomStatus id
-   * @returns {Promise<any>} RoomStatus
-   */
-  async getById(id) {
-    const { error, data, status } = await makeRequest(`roomStatus/${id}`);
-    if (error !== null) return { status, error: { message: error.message } };
-    return data[0];
+  constructor() {
+    super();
+    this.baseUrl = "roomStatus";
   }
 
   /**
@@ -42,7 +29,7 @@ export class RoomStatusApiClient {
    * @returns {Promise<any>} RoomStatus
    */
   async create(roomStatus) {
-    const { error, data, status } = await makeRequest("roomStatus", "POST", roomStatus, {
+    const { error, data, status } = await makeRequest(this.baseUrl, "POST", roomStatus, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     return { error, data, status: status === 204 ? 201 : status };
@@ -56,7 +43,7 @@ export class RoomStatusApiClient {
   async update(roomStatus) {
     // call service
     const { status, error } = await makeRequest(
-      `roomStatus/${roomStatus.id}`,
+      `${this.baseUrl}/${roomStatus.id}`,
       "PATCH",
       {
         ...roomStatus,
@@ -68,19 +55,5 @@ export class RoomStatusApiClient {
     );
     if (error !== null) return { status, error: { message: error.message } };
     return { error, status: status === 204 ? 201 : status };
-  }
-
-  /**
-   * Remove elements by their id
-   * @param {number[]} ids to delete
-   * @returns Transaction status
-   */
-  async delete(ids) {
-    for (const id of ids)
-      await makeRequest(`roomStatus/${id}`, "DELETE", null, {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      });
-
-    return { status: 204 };
   }
 }

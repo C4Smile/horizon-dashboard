@@ -8,7 +8,6 @@ import { RoomArea } from "../models/roomArea/RoomArea";
 import { makeRequest } from "../db/services";
 
 // utils
-import { SortOrder } from "../models/query/GenericFilter";
 import { fromLocal } from "../utils/local";
 
 // config
@@ -18,24 +17,23 @@ import config from "../config";
 import { ImagesRoomAreasApiClient } from "./ImagesRoomAreasApiClient";
 import { Images360RoomAreasApiClient } from "./Images360RoomAreasApiClient";
 
+// base
+import { BaseApiClient } from "./utils/BaseApiClient";
+
 /**
  * @class RoomAreaApiClient
  * @description RoomAreaApiClient
  */
-export class RoomAreaApiClient {
+export class RoomAreaApiClient extends BaseApiClient {
   photosRoomAreas = new ImagesRoomAreasApiClient();
   photos360RoomAreas = new Images360RoomAreasApiClient();
 
   /**
-   * @description Get all roomArea
-   * @param {string} sort attribute to order by
-   * @param {string} order asc/desc
-   * @returns {Promise<RoomArea[]>} RoomAreas
+   * create base api client
    */
-  async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
-    const { error, data, status } = await makeRequest(`roomArea?sort=${sort}&order=${order}`);
-    if (error !== null) return { status, error: { message: error.message } };
-    return data;
+  constructor() {
+    super();
+    this.baseUrl = "roomArea";
   }
 
   /**
@@ -44,20 +42,9 @@ export class RoomAreaApiClient {
    * @returns {Promise<RoomArea[]>} RoomAreas
    */
   async getByRoomId(roomId) {
-    const { error, data, status } = await makeRequest(`roomArea/byRoomId/${roomId}`);
+    const { error, data, status } = await makeRequest(`${this.baseUrl}/byRoomId/${roomId}`);
     if (error !== null) return { status, error: { message: error.message } };
     return data;
-  }
-
-  /**
-   * @description Get roomArea by id
-   * @param {string} id - RoomArea id
-   * @returns {Promise<RoomArea>} RoomArea
-   */
-  async getById(id) {
-    const { error, data, status } = await makeRequest(`roomArea/${id}`);
-    if (error !== null) return { status, error: { message: error.message } };
-    return data[0];
   }
 
   /**
@@ -76,7 +63,7 @@ export class RoomAreaApiClient {
     roomArea.roomId = roomArea.roomId.id;
     // call service
     const { error, data, status } = await makeRequest(
-      "roomArea",
+      this.baseUrl,
       "POST",
       { ...roomArea, statusId: 1 },
       {
@@ -103,7 +90,7 @@ export class RoomAreaApiClient {
    * @returns if error occurred
    */
   async saveOrder(roomAreas) {
-    const { error } = await makeRequest("roomArea/order", "PUT", roomAreas, {
+    const { error } = await makeRequest(`${this.baseUrl}/order`, "PUT", roomAreas, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     return error;
@@ -139,7 +126,7 @@ export class RoomAreaApiClient {
     delete roomArea.roomAreaHasImage;
     // call service
     const { status, error } = await makeRequest(
-      `roomArea/${roomArea.id}`,
+      `${this.baseUrl}/${roomArea.id}`,
       "PATCH",
       {
         ...roomArea,
@@ -161,18 +148,5 @@ export class RoomAreaApiClient {
       for (const newPhoto of newPhotos360)
         this.photos360RoomAreas.create({ roomAreaId: roomArea.id, imageId: newPhoto.id });
     return { error, status: status === 204 ? 201 : status };
-  }
-
-  /**
-   * Remove elements by their id
-   * @param {number[]} ids to delete
-   * @returns Transaction status
-   */
-  async delete(ids) {
-    for (const id of ids)
-      await makeRequest(`roomArea/${id}`, "DELETE", null, {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      });
-    return { status: 204 };
   }
 }

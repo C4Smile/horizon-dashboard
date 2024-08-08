@@ -10,13 +10,13 @@ import { fromLocal } from "../utils/local";
 import config from "../config";
 
 // base
-import { BaseAPiClient } from "./utils/BaseApiClient";
+import { BaseApiClient } from "./utils/BaseApiClient";
 
 /**
  * @class TagApiClient
  * @description TagApiClient
  */
-export class TagApiClient extends BaseAPiClient {
+export class TagApiClient extends BaseApiClient {
   /**
    * create base api client
    */

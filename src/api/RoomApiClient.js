@@ -9,7 +9,6 @@ import { Room } from "../models/room/Room";
 import { makeRequest } from "../db/services";
 
 // utils
-import { SortOrder } from "../models/query/GenericFilter";
 import { parseManyToMany } from "./utils/relationships";
 import { fromLocal } from "../utils/local";
 
@@ -21,36 +20,24 @@ import { ImagesRoomsApiClient } from "./ImagesRoomsApiClient";
 import { Images360RoomsApiClient } from "./Images360RoomsApiClient";
 import { RoomSchedulesApiClient } from "./RoomSchedulesApiClient";
 
+// base
+import { BaseApiClient } from "./utils/BaseApiClient";
+
 /**
  * @class RoomApiClient
  * @description RoomApiClient
  */
-export class RoomApiClient {
+export class RoomApiClient extends BaseApiClient {
   photosRooms = new ImagesRoomsApiClient();
   photos360Rooms = new Images360RoomsApiClient();
   roomSchedules = new RoomSchedulesApiClient();
 
   /**
-   * @description Get all room
-   * @param {string} sort attribute to order by
-   * @param {string} order asc/desc
-   * @returns {Promise<Room[]>} Rooms
+   * create base api client
    */
-  async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
-    const { error, data, status } = await makeRequest(`room?sort=${sort}&order=${order}`);
-    if (error !== null) return { status, error: { message: error.message } };
-    return data;
-  }
-
-  /**
-   * @description Get room by id
-   * @param {string} id - Room id
-   * @returns {Promise<Room>} Room
-   */
-  async getById(id) {
-    const { error, data, status } = await makeRequest(`room/${id}`);
-    if (error !== null) return { status, error: { message: error.message } };
-    return data[0];
+  constructor() {
+    super();
+    this.baseUrl = "room";
   }
 
   /**
@@ -71,7 +58,7 @@ export class RoomApiClient {
     delete room.newRoomHasSchedules;
     // call service
     const { error, data, status } = await makeRequest(
-      "room",
+      this.baseUrl,
       "POST",
       { ...room, statusId: 1 },
       {
@@ -131,7 +118,7 @@ export class RoomApiClient {
     delete room.newRoomHasSchedules;
     // call service
     const { status, error } = await makeRequest(
-      `room/${room.id}`,
+      `${this.baseUrl}/${room.id}`,
       "PATCH",
       {
         ...room,
@@ -162,18 +149,5 @@ export class RoomApiClient {
       for (const newPhoto of newPhotos360)
         this.photos360Rooms.create({ roomId: room.id, imageId: newPhoto.id });
     return { error, status: status === 204 ? 201 : status };
-  }
-
-  /**
-   * Remove elements by their id
-   * @param {number[]} ids to delete
-   * @returns Transaction status
-   */
-  async delete(ids) {
-    for (const id of ids)
-      await makeRequest(`room/${id}`, "DELETE", null, {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      });
-    return { status: 204 };
   }
 }

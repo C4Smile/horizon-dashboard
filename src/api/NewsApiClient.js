@@ -3,7 +3,6 @@ import draftToHtml from "draftjs-to-html";
 import { convertToRaw } from "draft-js";
 
 // utils
-import { SortOrder } from "../models/query/GenericFilter";
 import { parseManyToMany } from "./utils/relationships";
 import { fromLocal } from "../utils/local";
 
@@ -17,63 +16,23 @@ import { makeRequest } from "../db/services";
 import { TagsNewsApiClient } from "./TagsNewsApiClient";
 import { ImagesNewsApiClient } from "./ImagesNewsApiClient";
 
+// base
+import { BaseApiClient } from "./utils/BaseApiClient";
+
 /**
  * @class NewsApiClient
  * @description NewsApiClient
  */
-export class NewsApiClient {
+export class NewsApiClient extends BaseApiClient {
   tagsNews = new TagsNewsApiClient();
   photosNews = new ImagesNewsApiClient();
 
-  // private scripts
-  parseTags = (localTags = [], remoteTags = []) => {
-    const toAdd = [];
-    const toRemove = [];
-
-    // adding new tags
-    if (localTags)
-      for (const localTag of localTags) {
-        if (!remoteTags) {
-          toAdd.push({ tagId: localTag.id, delete: false });
-          continue;
-        }
-        const remoteTag = remoteTags.find((tag) => tag.tagId === localTag.id);
-        if (!remoteTag) toAdd.push({ tagId: localTag.id, delete: false });
-      }
-    // removing tags
-    if (remoteTags)
-      for (const remoteTag of remoteTags) {
-        if (!localTags) {
-          toRemove.push({ tagId: remoteTag.tagId, delete: true });
-          continue;
-        }
-        const localTag = localTags.find((tag) => tag.id === remoteTag.tagId);
-        if (!localTag) toRemove.push({ tagId: remoteTag.tagId, delete: true });
-      }
-    return [...toAdd, ...toRemove];
-  };
-
   /**
-   * @description Get all news
-   * @param {string} sort - Sort by
-   * @param {SortOrder} order - Order ASC/DESC
-   * @returns News list
+   * create base api client
    */
-  async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
-    const { error, data, status } = await makeRequest(`news?sort=${sort}&order=${order}`);
-    if (error !== null) return { status, error: { message: error.message } };
-    return data;
-  }
-
-  /**
-   * @description Get news by id
-   * @param {string} id - News id
-   * @returns News by id
-   */
-  async getById(id) {
-    const { error, data, status } = await makeRequest(`news/${id}`);
-    if (error !== null) return { status, error: { message: error.message } };
-    return data[0];
+  constructor() {
+    super();
+    this.baseUrl = "news";
   }
 
   /**
@@ -155,19 +114,5 @@ export class NewsApiClient {
         this.photosNews.create({ newsId: news.id, imageId: newPhoto.id });
 
     return { error, status: status === 204 ? 201 : status };
-  }
-
-  /**
-   * Remove elements by their id
-   * @param {number[]} ids ids to delete
-   * @returns Transaction status
-   */
-  async delete(ids) {
-    for (const id of ids)
-      await makeRequest(`news/${id}`, "DELETE", null, {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      });
-
-    return { status: 204 };
   }
 }

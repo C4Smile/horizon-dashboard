@@ -12,7 +12,7 @@ import config from "../../config";
  * @class BaseApiClient
  * @description it has all base method
  */
-export class BaseAPiClient {
+export class BaseApiClient {
   baseUrl = "";
 
   /**

@@ -2,38 +2,25 @@
 import { makeRequest } from "../db/services";
 
 // utils
-import { SortOrder } from "../models/query/GenericFilter";
 import { fromLocal } from "../utils/local";
 
 // config
 import config from "../config";
 
+// base
+import { BaseApiClient } from "./utils/BaseApiClient";
+
 /**
  * @class ExternalLinkApiClient
  * @description ExternalLinkApiClient
  */
-export class ExternalLinkApiClient {
+export class ExternalLinkApiClient extends BaseApiClient {
   /**
-   * @description Get all externalLink
-   * @param {string} sort - Sort by
-   * @param {SortOrder} order - Order ASC/DESC
-   * @returns {Promise<any[]>} ExternalLink
+   * create base api client
    */
-  async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
-    const { data, error, status } = await makeRequest(`externalLink?sort=${sort}&order=${order}`);
-    if (error !== null) return { status, error: { message: error.message } };
-    return data;
-  }
-
-  /**
-   * @description Get externalLink by id
-   * @param {string} id - ExternalLink id
-   * @returns {Promise<any[]>} ExternalLink
-   */
-  async getById(id) {
-    const { data, error, status } = await makeRequest(`externalLink/${id}`);
-    if (error !== null) return { status, error: { message: error.message } };
-    return data[0];
+  constructor() {
+    super();
+    this.baseUrl = "externalLink";
   }
 
   /**
@@ -43,7 +30,7 @@ export class ExternalLinkApiClient {
    */
   async create(externalLink) {
     // call service
-    const { error, data, status } = await makeRequest("externalLink", "POST", externalLink, {
+    const { error, data, status } = await makeRequest(this.baseUrl, "POST", externalLink, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     if (error !== null) return { status, error: { message: error.message } };
@@ -71,18 +58,5 @@ export class ExternalLinkApiClient {
     );
     if (error !== null) return { status, error: { message: error.message } };
     return { error, status: status === 204 ? 201 : status };
-  }
-
-  /**
-   * Remove elements by their id
-   * @param {number[]} ids to delete
-   * @returns Transaction status
-   */
-  async delete(ids) {
-    for (const id of ids)
-      await makeRequest(`externalLink/${id}`, "DELETE", null, {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      });
-    return { status: 204 };
   }
 }
