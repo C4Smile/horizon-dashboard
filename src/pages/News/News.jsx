@@ -6,9 +6,6 @@ import { useNavigate, Link } from "react-router-dom";
 // images
 import noProduct from "../../assets/images/no-product.jpg";
 
-// icons
-import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
-
 // dto
 import { News } from "../../models/news/News";
 
@@ -20,7 +17,7 @@ import { staticUrlPhoto } from "../../components/utils";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
+import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -85,9 +82,7 @@ function NewsPage() {
   const preparedRows = useMemo(() => {
     return localData.map((news) => {
       return {
-        id: news.id,
-        lastUpdate: new Date(news.lastUpdate).toLocaleDateString("es-ES"),
-        deleted: news.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
+        ...news,
         title: (
           <Link className="underline text-light-primary flex" to={`${news.id}`}>
             <span className="w-80 truncate">{news.title}</span>
@@ -121,7 +116,7 @@ function NewsPage() {
         ),
       };
     });
-  }, [localData, t]);
+  }, [localData]);
 
   useEffect(() => {
     const { data } = newsQuery;
@@ -132,32 +127,10 @@ function NewsPage() {
         setNotification(String(data.status));
       } else setLocalData(data ?? []);
     }
-  }, [newsQuery, navigate, setNotification]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newsQuery.data, navigate, setNotification]);
 
-  const getActions = [
-    {
-      id: "edit",
-      onClick: (e) => navigate(`/information/news/${e.id}`),
-      icon: faPencil,
-      tooltip: t("_accessibility:buttons.edit"),
-    },
-    {
-      id: "delete",
-      onClick: async (e) => {
-        const result = await museumApiClient.News.delete([e.id]);
-        const { error, status } = result;
-        setNotification(String(status), { model: t("_entities:entities.news") });
-
-        if (status !== 204) {
-          // eslint-disable-next-line no-console
-          console.error(error);
-          setNotification(String(status));
-        } else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.News] });
-      },
-      icon: faTrash,
-      tooltip: t("_accessibility:buttons.delete"),
-    },
-  ];
+  const getActions = [];
 
   return (
     <div className="p-5">
@@ -165,9 +138,11 @@ function NewsPage() {
       <Table
         isLoading={newsQuery.isLoading}
         rows={preparedRows}
+        apiClient={museumApiClient.News}
         columns={preparedColumns}
         actions={getActions}
         onSort={onTableSort}
+        queryKey={ReactQueryKeys.News}
       />
     </div>
   );
