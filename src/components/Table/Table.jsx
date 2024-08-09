@@ -155,7 +155,9 @@ function Table(props) {
                   onClick={() => localOnSort(column.id)}
                   className="flex items-center gap-2"
                 >
-                  {isBaseColumn(column.id) ? t(`_entities:base.${column.id}`) : column.label}
+                  <span className="whitespace-nowrap">
+                    {isBaseColumn(column.id) ? t(`_entities:base.${column.id}`) : column.label}
+                  </span>
                   {column.sortable && (
                     <span className={`${sortingBy === column.id ? "opacity-100" : "opacity-0"}`}>
                       {sortingOrder === SortOrder.ASC ? (
