@@ -1,10 +1,10 @@
 import { useMemo, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-// icons
-import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
+// images
+import noProduct from "../../assets/images/no-product.jpg";
 
 // dto
 import { RoomArea } from "../../models/roomArea/RoomArea";
@@ -17,7 +17,7 @@ import { staticUrlPhoto } from "../../components/utils";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
+import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -34,8 +34,6 @@ const noSortableColumns = {
  */
 function RoomAreas() {
   const { t } = useTranslation();
-
-  const navigate = useNavigate();
 
   const { setNotification } = useNotification();
   const museumApiClient = useMuseumApiClient();
@@ -73,52 +71,65 @@ function RoomAreas() {
     queryFn: () => museumApiClient.RoomArea.getAll(sort.attribute, sort.order),
   });
 
-  const [localData, setLocalData] = useState([]);
-
   const preparedRows = useMemo(() => {
-    return localData.map((roomArea) => {
-      return {
-        id: roomArea.id,
-        lastUpdate: new Date(roomArea.lastUpdate).toLocaleDateString("es-ES"),
-        deleted: roomArea.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
-        name: (
-          <Link className="underline text-light-primary" to={`${roomArea.id}`}>
-            {roomArea.name}
-          </Link>
-        ),
-        roomId: (
-          <Link className="underline text-light-primary" to={`/museum/rooms/${roomArea.room?.id}`}>
-            {roomArea.room?.name}
-          </Link>
-        ),
-        roomAreaHasImage360: (
-          <div className="flex items-center justify-start">
-            {roomArea.roomAreaHasImage360.map((image, i) => (
+    if (roomAreaQuery.data) {
+      const { data } = roomAreaQuery;
+      return data.map((roomArea) => {
+        return {
+          ...roomArea,
+          name: (
+            <Link className="underline text-light-primary" to={`${roomArea.id}`}>
+              {roomArea.name}
+            </Link>
+          ),
+          roomId: (
+            <Link className="underline text-light-primary" to={`/museum/rooms/${roomArea.room?.id}`}>
+              {roomArea.room?.name}
+            </Link>
+          ),
+          roomAreaHasImage360:
+            roomArea.roomAreaHasImage360 && roomArea.roomAreaHasImage360.length ? (
+              <div className="flex items-center justify-start">
+                {roomArea.roomAreaHasImage360.map((image, i) => (
+                  <img
+                    key={i}
+                    className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
+                    src={staticUrlPhoto(image.imageId.url)}
+                    alt={`${roomArea.name} ${i}`}
+                  />
+                ))}
+              </div>
+            ) : (
               <img
-                key={i}
-                className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
-                src={staticUrlPhoto(image.imageId.url)}
-                alt={`${roomArea.name} ${i}`}
+                className="small-image rounded-full object-cover"
+                src={noProduct}
+                alt={roomArea.title}
               />
-            ))}
-          </div>
-        ),
-        roomAreaHasImage: (
-          <div className="flex items-center justify-start">
-            {roomArea.roomAreaHasImage.map((image, i) => (
+            ),
+          roomAreaHasImage:
+            roomArea.roomAreaHasImage && roomArea.roomAreaHasImage.length ? (
+              <div className="flex items-center justify-start">
+                {roomArea.roomAreaHasImage.map((image, i) => (
+                  <img
+                    key={i}
+                    className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
+                    src={staticUrlPhoto(image.imageId.url)}
+                    alt={`${roomArea.name} ${i}`}
+                  />
+                ))}
+              </div>
+            ) : (
               <img
-                key={i}
-                className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
-                src={staticUrlPhoto(image.imageId.url)}
-                alt={`${roomArea.name} ${i}`}
+                className="small-image rounded-full object-cover"
+                src={noProduct}
+                alt={roomArea.title}
               />
-            ))}
-          </div>
-        ),
-        status: roomArea.status.name,
-      };
-    });
-  }, [localData, t]);
+            ),
+          status: roomArea.status.name,
+        };
+      });
+    }
+  }, [roomAreaQuery]);
 
   useEffect(() => {
     const { data } = roomAreaQuery;
@@ -127,31 +138,11 @@ function RoomAreas() {
         // eslint-disable-next-line no-console
         console.error(data.message);
         setNotification(String(data.status));
-      } else setLocalData(data ?? []);
+      }
     }
   }, [roomAreaQuery, setNotification]);
 
-  const getActions = [
-    {
-      id: "edit",
-      onClick: (e) => navigate(`/museum/room-areas/${e.id}`),
-      icon: faPencil,
-      tooltip: t("_accessibility:buttons.edit"),
-    },
-    {
-      id: "delete",
-      onClick: (e) => {
-        const { error, status } = museumApiClient.Customer.delete([e.id]);
-        setNotification(String(status), { model: t("_entities:entities.roomArea") });
-
-        // eslint-disable-next-line no-console
-        if (error && error !== null) console.error(error);
-        else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.RoomAreas] });
-      },
-      icon: faTrash,
-      tooltip: t("_accessibility:buttons.delete"),
-    },
-  ];
+  const getActions = [];
 
   return (
     <div className="p-5">
@@ -159,9 +150,11 @@ function RoomAreas() {
       <Table
         isLoading={roomAreaQuery.isLoading}
         rows={preparedRows}
+        apiClient={museumApiClient.RoomArea}
         columns={preparedColumns}
         actions={getActions}
         onSort={onTableSort}
+        queryKey={ReactQueryKeys.RoomAreas}
         parent="museum"
       />
     </div>
