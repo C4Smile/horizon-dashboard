@@ -22,6 +22,9 @@ import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvid
 import { localPhotoReducer } from "../../components/utils";
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
+// lazy components
+const HtmlInput = loadable(() => import("../../components/Forms/HtmlInput"));
+
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
 
@@ -167,7 +170,7 @@ function GuestBookForm() {
             />
           )}
         />
-        {/* PushNotification Sent Date */}
+        {/* GuestBook Date */}
         <Controller
           control={control}
           disabled={guestBookQuery.isLoading || saving}
@@ -181,6 +184,21 @@ function GuestBookForm() {
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               label={t("_entities:guestBook.date.label")}
               required
+            />
+          )}
+        />
+        {/* GuestBook content */}
+        <Controller
+          control={control}
+          name="content"
+          disabled={guestBookQuery.isLoading || saving}
+          render={({ field: { onChange, value, ...rest } }) => (
+            <HtmlInput
+              label={t("_entities:guestBook.content.label")}
+              wrapperClassName="mt-5 w-full"
+              {...rest}
+              value={value}
+              onChange={onChange}
             />
           )}
         />
