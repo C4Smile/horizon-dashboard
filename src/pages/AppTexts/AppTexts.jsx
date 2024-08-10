@@ -3,9 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { useNavigate, Link } from "react-router-dom";
 
-// icons
-import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
-
 // dto
 import { AppText } from "../../models/appText/AppText";
 
@@ -16,7 +13,7 @@ import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
+import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -34,7 +31,7 @@ function AppTexts() {
   const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
-    const keys = extractKeysFromObject(new AppText(), ["id", "dateOfCreation", "deleted"]);
+    const keys = extractKeysFromObject(new AppText(), ["id"]);
     return keys.map((key) => ({
       id: key,
       label: t(`_entities:appText.${key}.label`),
@@ -65,10 +62,7 @@ function AppTexts() {
   const preparedRows = useMemo(() => {
     return localData.map((appText) => {
       return {
-        id: appText.id,
-        dateOfCreation: new Date(appText.dateOfCreation).toLocaleDateString("es-ES"),
-        lastUpdate: new Date(appText.lastUpdate).toLocaleDateString("es-ES"),
-        deleted: appText.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
+        ...appText,
         title: (
           <Link className="underline text-light-primary" to={`${appText.id}`}>
             {appText.title}
@@ -76,7 +70,7 @@ function AppTexts() {
         ),
       };
     });
-  }, [localData, t]);
+  }, [localData]);
 
   useEffect(() => {
     const { data } = appTextQuery;
@@ -87,32 +81,10 @@ function AppTexts() {
         setNotification(String(data.status));
       } else setLocalData(data ?? []);
     }
-  }, [appTextQuery, navigate, setNotification]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appTextQuery.data, navigate, setNotification]);
 
-  const getActions = [
-    {
-      id: "edit",
-      onClick: (e) => navigate(`/management/app-texts/${e.id}`),
-      icon: faPencil,
-      tooltip: t("_accessibility:buttons.edit"),
-    },
-    {
-      id: "delete",
-      onClick: async (e) => {
-        const result = await museumApiClient.AppText.delete([e.id]);
-        const { error, status } = result;
-        setNotification(String(status), { model: t("_entities:entities.appText") });
-
-        if (status !== 204) {
-          // eslint-disable-next-line no-console
-          console.error(error);
-          setNotification(String(status));
-        } else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.AppTexts] });
-      },
-      icon: faTrash,
-      tooltip: t("_accessibility:buttons.delete"),
-    },
-  ];
+  const getActions = [];
 
   return (
     <div className="p-5">
@@ -120,9 +92,11 @@ function AppTexts() {
       <Table
         isLoading={appTextQuery.isLoading}
         rows={preparedRows}
+        apiClient={museumApiClient.AppText}
         columns={preparedColumns}
         actions={getActions}
         onSort={onTableSort}
+        queryKey={ReactQueryKeys.AppTexts}
         parent="management"
       />
     </div>
