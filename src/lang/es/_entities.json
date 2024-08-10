@@ -201,6 +201,9 @@
     },
     "date": {
       "label": "Fecha de la visita"
+    },
+    "content": {
+      "label": "Contenido"
     }
   },
   "roomArea": {
