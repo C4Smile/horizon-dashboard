@@ -33,7 +33,9 @@ export class BaseApiClient {
    * @returns {Promise<object>} object
    */
   async getById(id) {
-    const { data, error, status } = await makeRequest(`${this.baseUrl}/${id}`);
+    const { data, error, status } = await makeRequest(`${this.baseUrl}/${id}`, "GET", null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
     if (error !== null) return { status, error: { message: error.message } };
     return data[0];
   }
