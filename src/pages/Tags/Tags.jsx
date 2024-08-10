@@ -84,8 +84,7 @@ function Tags() {
         setNotification(String(data.status));
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tagQuery.data, setNotification]);
+  }, [tagQuery, setNotification]);
 
   const getActions = [];
 
