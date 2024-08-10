@@ -104,7 +104,7 @@ function Table(props) {
         tooltip: t("_accessibility:buttons.restore"),
       },
     ];
-  }, [actions, apiClient, navigate, queryKey, setNotification, t]);
+  }, [actions, apiClient, navigate, parent, queryKey, setNotification, t]);
 
   const parsedRows = useMemo(
     () =>
