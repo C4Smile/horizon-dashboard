@@ -1,10 +1,7 @@
-import { useMemo, useEffect, useState } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { useNavigate, Link } from "react-router-dom";
-
-// icons
-import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 // dto
 import { RoomType } from "../../models/roomType/RoomType";
@@ -16,7 +13,7 @@ import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
+import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -28,13 +25,11 @@ import Table from "../../components/Table/Table";
 function RoomTypes() {
   const { t } = useTranslation();
 
-  const navigate = useNavigate();
-
   const { setNotification } = useNotification();
   const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
-    const keys = extractKeysFromObject(new RoomType(), ["id", "dateOfCreation", "deleted"]);
+    const keys = extractKeysFromObject(new RoomType(), []);
     return keys.map((key) => ({
       id: key,
       label: t(`_entities:roomType.${key}.label`),
@@ -60,22 +55,22 @@ function RoomTypes() {
     queryFn: () => museumApiClient.RoomType.getAll(sort.attribute, sort.order),
   });
 
-  const [localData, setLocalData] = useState([]);
-
   const preparedRows = useMemo(() => {
-    return localData.map((roomType) => {
-      return {
-        id: roomType.id,
-        lastUpdate: new Date(roomType.lastUpdate).toLocaleDateString("es-ES"),
-        deleted: roomType.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
-        name: (
-          <Link className="underline text-light-primary" to={`${roomType.id}`}>
-            {roomType.name}
-          </Link>
-        ),
-      };
-    });
-  }, [localData, t]);
+    if (roomTypeQuery.data) {
+      const { data } = roomTypeQuery;
+      if (data && data !== null)
+        return data.map((roomType) => {
+          return {
+            ...roomType,
+            name: (
+              <Link className="underline text-light-primary" to={`${roomType.id}`}>
+                {roomType.name}
+              </Link>
+            ),
+          };
+        });
+    }
+  }, [roomTypeQuery]);
 
   useEffect(() => {
     const { data } = roomTypeQuery;
@@ -84,31 +79,11 @@ function RoomTypes() {
         // eslint-disable-next-line no-console
         console.error(data.message);
         setNotification(String(data.status));
-      } else setLocalData(data ?? []);
+      }
     }
   }, [roomTypeQuery, setNotification]);
 
-  const getActions = [
-    {
-      id: "edit",
-      onClick: (e) => navigate(`/museum/room-types/${e.id}`),
-      icon: faPencil,
-      tooltip: t("_accessibility:buttons.edit"),
-    },
-    {
-      id: "delete",
-      onClick: (e) => {
-        const { error, status } = museumApiClient.Customer.delete([e.id]);
-        setNotification(String(status), { model: t("_entities:entities.roomType") });
-
-        // eslint-disable-next-line no-console
-        if (error && error !== null) console.error(error);
-        else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.RoomTypes] });
-      },
-      icon: faTrash,
-      tooltip: t("_accessibility:buttons.delete"),
-    },
-  ];
+  const getActions = [];
 
   return (
     <div className="p-5">
@@ -116,9 +91,11 @@ function RoomTypes() {
       <Table
         isLoading={roomTypeQuery.isLoading}
         rows={preparedRows}
+        apiClient={museumApiClient.RoomType}
         columns={preparedColumns}
         actions={getActions}
         onSort={onTableSort}
+        queryKey={ReactQueryKeys.RoomTypes}
         parent="museum"
       />
     </div>
