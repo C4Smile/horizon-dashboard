@@ -71,7 +71,7 @@ function PushNotificationForm() {
   }, [entitiesQuery?.data, t]);
 
   useEffect(() => {
-    if (previousLink && entityList.length === 1) {
+    if (previousLink) {
       setEntityLinkId(entityList.find((el) => el.id === Number(previousLink)));
     } else setEntityLinkId();
   }, [entityLinkType, entityList, previousLink]);
@@ -129,6 +129,15 @@ function PushNotificationForm() {
     if (pushNotificationQuery.data) {
       const pushNotification = pushNotificationQuery.data;
       if (pushNotification?.imageId) setPhoto(pushNotification?.imageId);
+      //* PARSING ACTION
+      const action = pushNotification.action?.split(",");
+      if (action.length === 2) {
+        const [entity, id] = action;
+        setActionType(ActionTypes.Entity);
+        setEntityLinkType(entity);
+        setPreviousLink(id);
+      } else if (action.length === 1) setActionType(ActionTypes.Link);
+
       //* PARSING DATE
       if (pushNotification.sentDate)
         pushNotification.sentDate = `${new Date(pushNotification.sentDate).toISOString().slice(0, 16)}`;
