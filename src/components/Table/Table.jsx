@@ -1,14 +1,12 @@
 import PropTypes from "prop-types";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 
 // tippy
 import Tippy from "@tippyjs/react";
 
 // font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPencil, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 // components
@@ -18,8 +16,7 @@ import Loading from "../../partials/loading/Loading";
 import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
-import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient } from "../../providers/MuseumApiProvider";
+import { useTableOptions } from "./hooks/TableOptionsProvider";
 
 const baseColumns = ["id", "dateOfCreation", "lastUpdate", "deleted"];
 
@@ -33,83 +30,14 @@ const isBaseColumn = (column) => baseColumns.includes(column);
 function Table(props) {
   const { t } = useTranslation();
 
-  const navigate = useNavigate();
+  const { parseRows, isLoading = false, rows = [], actions = [], columns = [] } = props;
 
-  const { setNotification } = useNotification();
-
-  const { parent, columns, rows, isLoading, actions, apiClient, queryKey, onSort } = props;
-
-  const [sortingBy, setSortingBy] = useState("dateOfCreation");
-  const [sortingOrder, setSortingOrder] = useState(SortOrder.ASC);
-
-  const localOnSort = (attribute) => {
-    let localSortingOrder = sortingOrder;
-    if (sortingBy === attribute)
-      switch (sortingOrder) {
-        case SortOrder.ASC:
-          localSortingOrder = SortOrder.DESC;
-          break;
-        default:
-          localSortingOrder = SortOrder.ASC;
-          break;
-      }
-    setSortingBy(attribute);
-    setSortingOrder(localSortingOrder);
-    if (onSort) onSort(attribute, localSortingOrder);
-  };
-
-  const getActions = useMemo(() => {
-    return [
-      ...actions,
-      {
-        id: "edit",
-        onClick: (e) => navigate(`/${parent}/${queryKey}/${e.id}`),
-        icon: faPencil,
-        tooltip: t("_accessibility:buttons.edit"),
-      },
-      {
-        id: "delete",
-        hidden: (entity) => entity.deleted.value,
-        onClick: async (e) => {
-          const result = await apiClient.delete([e.id]);
-          const { error, status, data } = result;
-          if (data?.count) {
-            setNotification("deleted", { count: data.count });
-            queryClient.invalidateQueries({ queryKey: [queryKey] });
-          } else {
-            // eslint-disable-next-line no-console
-            console.error(error);
-            setNotification(String(status));
-          }
-        },
-        icon: faTrash,
-        tooltip: t("_accessibility:buttons.delete"),
-      },
-      {
-        id: "restore",
-        hidden: (entity) => !entity.deleted.value,
-        onClick: async (e) => {
-          const result = await apiClient.restore([e.id]);
-          const { error, status, data } = result;
-          if (data?.count) {
-            setNotification("restored", { count: data.count });
-            queryClient.invalidateQueries({ queryKey: [queryKey] });
-          } else {
-            // eslint-disable-next-line no-console
-            console.error(error);
-            setNotification(String(status));
-          }
-        },
-        icon: faArrowRotateLeft,
-        tooltip: t("_accessibility:buttons.restore"),
-      },
-    ];
-  }, [actions, apiClient, navigate, parent, queryKey, setNotification, t]);
+  const { onSort, sortingOrder, sortingBy } = useTableOptions();
 
   const parsedRows = useMemo(
     () =>
-      rows.map((row) => {
-        const parsedRow = { ...row };
+      rows?.map((row) => {
+        const parsedRow = parseRows(row);
         baseColumns.forEach((column) => {
           if (parsedRow[column] !== undefined && parsedRow[column] !== null) {
             switch (column) {
@@ -139,8 +67,8 @@ function Table(props) {
           }
         });
         return parsedRow;
-      }),
-    [rows, t],
+      }) ?? [],
+    [parseRows, rows, t],
   );
 
   return (
@@ -152,7 +80,7 @@ function Table(props) {
               <th key={column.id} scope="col" className={`px-6 py-3 ${column.className}`}>
                 <button
                   disabled={!column.sortable}
-                  onClick={() => localOnSort(column.id)}
+                  onClick={() => onSort(column.id)}
                   className="flex items-center gap-2"
                 >
                   <span className="whitespace-nowrap">
@@ -170,14 +98,14 @@ function Table(props) {
                 </button>
               </th>
             ))}
-            {Boolean(getActions.length) && (
+            {Boolean(actions.length) && (
               <th scope="col" className="px-6 py-3 text-center">
                 {t("_accessibility:labels.actions")}
               </th>
             )}
           </tr>
         </thead>
-        {!isLoading && Boolean(rows.length) && (
+        {!isLoading && Boolean(rows?.length) && (
           <tbody>
             {parsedRows.map((row) => (
               <tr
@@ -192,10 +120,10 @@ function Table(props) {
                     {row[column.id]?.render ?? row[column.id]}
                   </td>
                 ))}
-                {Boolean(getActions.length) && (
+                {Boolean(actions.length) && (
                   <td>
                     <div className="flex items-center gap-3 w-full justify-center">
-                      {getActions
+                      {actions
                         .filter((action) => !action.hidden || !action.hidden(row))
                         .map((action) => (
                           <Tippy key={action.id} content={action.tooltip}>
@@ -212,7 +140,7 @@ function Table(props) {
           </tbody>
         )}
       </table>
-      {!rows.length && !isLoading && (
+      {!rows?.length && !isLoading && (
         <div className="bg-gray-50 w-full flex items-center justify-center py-2 border-t-[1px]">
           <p>No data</p>
         </div>
@@ -222,20 +150,12 @@ function Table(props) {
   );
 }
 
-Table.defaultProps = {
-  columns: [],
-  rows: [],
-  isLoading: true,
-  actions: [],
-  onSort: (attribute) => attribute,
-};
-
 Table.propTypes = {
-  columns: PropTypes.array,
-  rows: PropTypes.array,
   isLoading: PropTypes.bool,
   actions: PropTypes.array,
-  onSort: PropTypes.func,
+  columns: PropTypes.array,
+  rows: PropTypes.array,
+  parseRows: PropTypes.func,
 };
 
 export default Table;

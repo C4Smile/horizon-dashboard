@@ -7,6 +7,7 @@ import config from "../config";
 // providers
 import { useAccount } from "../providers/AccountProvider";
 import { useMuseumApiClient } from "../providers/MuseumApiProvider";
+import { TableOptionsProvider } from "../components/Table/hooks/TableOptionsProvider";
 
 // components
 import ToTop from "../components/ToTop/ToTop";
@@ -81,7 +82,9 @@ function Dashboard() {
         {/*  Site header */}
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         <main>
-          <Outlet />
+          <TableOptionsProvider>
+            <Outlet />
+          </TableOptionsProvider>
         </main>
       </div>
       <ToTop dealer={main} />
