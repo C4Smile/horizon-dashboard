@@ -67,7 +67,7 @@ function ActivityForm() {
   }, [entitiesQuery?.data, t]);
 
   useEffect(() => {
-    if (previousLink && entityList.length === 1) {
+    if (previousLink) {
       setEntityLinkId(entityList.find((el) => el.id === Number(previousLink)));
     } else setEntityLinkId();
   }, [entityLinkType, entityList, previousLink]);

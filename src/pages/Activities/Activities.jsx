@@ -6,9 +6,6 @@ import { useNavigate, Link } from "react-router-dom";
 // images
 import noProduct from "../../assets/images/no-product.jpg";
 
-// icons
-import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
-
 // dto
 import { Activity } from "../../models/activity/Activity";
 
@@ -19,7 +16,7 @@ import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
+import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -81,35 +78,32 @@ function ActivitiesPage() {
     queryFn: () => museumApiClient.Activity.getAll(sort.attribute, sort.order),
   });
 
-  const [localData, setLocalData] = useState([]);
-
   const preparedRows = useMemo(() => {
-    return localData.map((activity) => {
-      let parsedAction = "-";
-      const sAction = activity?.entity?.split(",");
+    if (activityQuery.data) {
+      const { data } = activityQuery;
+      if (data && data !== null)
+        return data.map((activity) => {
+          let parsedAction = "-";
+          const sAction = activity?.entity?.split(",");
 
-      if (sAction?.length === 2)
-        parsedAction = (
-          <Link
-            className="underline text-light-primary flex"
-            to={`/${parents[sAction[0]]}/${sAction[0]}s/${sAction[1]}`}
-          >
-            <span className="w-80 truncate capitalize">{`${sAction[0]} - ${sAction[1]}`}</span>
-          </Link>
-        );
+          if (sAction?.length === 2)
+            parsedAction = (
+              <Link
+                className="underline text-light-primary flex"
+                to={`/${parents[sAction[0]]}/${sAction[0]}s/${sAction[1]}`}
+              >
+                <span className="w-80 truncate capitalize">{`${sAction[0]} - ${sAction[1]}`}</span>
+              </Link>
+            );
 
-      return {
-        id: activity.id,
-        lastUpdate: new Date(activity.lastUpdate).toLocaleDateString("es-ES"),
-        deleted: activity.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
-        title: (
-          <Link className="underline text-light-primary flex" to={`${activity.id}`}>
-            <span className="w-80 truncate">{activity.title}</span>
-          </Link>
-        ),
-        imageId: (
-          <>
-            {activity.imageId?.url ? (
+          return {
+            ...activity,
+            title: (
+              <Link className="underline text-light-primary flex" to={`${activity.id}`}>
+                <span className="w-80 truncate">{activity.title}</span>
+              </Link>
+            ),
+            imageId: activity.imageId?.url ? (
               <img
                 className={`w-10 h-10 rounded-full object-cover border-white border-2`}
                 src={staticUrlPhoto(activity.imageId.url)}
@@ -121,13 +115,12 @@ function ActivitiesPage() {
                 src={noProduct}
                 alt={activity.title}
               />
-            )}
-          </>
-        ),
-        entity: parsedAction,
-      };
-    });
-  }, [localData, t]);
+            ),
+            entity: parsedAction,
+          };
+        });
+    }
+  }, [activityQuery]);
 
   useEffect(() => {
     const { data } = activityQuery;
@@ -136,34 +129,11 @@ function ActivitiesPage() {
         // eslint-disable-next-line no-console
         console.error(data.message);
         setNotification(String(data.status));
-      } else setLocalData(data ?? []);
+      }
     }
   }, [activityQuery, navigate, setNotification]);
 
-  const getActions = [
-    {
-      id: "edit",
-      onClick: (e) => navigate(`/information/activities/${e.id}`),
-      icon: faPencil,
-      tooltip: t("_accessibility:buttons.edit"),
-    },
-    {
-      id: "delete",
-      onClick: async (e) => {
-        const result = await museumApiClient.Activity.delete([e.id]);
-        const { error, status } = result;
-        setNotification(String(status), { model: t("_entities:entities.activity") });
-
-        if (status !== 204) {
-          // eslint-disable-next-line no-console
-          console.error(error);
-          setNotification(String(status));
-        } else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Activities] });
-      },
-      icon: faTrash,
-      tooltip: t("_accessibility:buttons.delete"),
-    },
-  ];
+  const getActions = [];
 
   return (
     <div className="p-5">
@@ -173,9 +143,11 @@ function ActivitiesPage() {
       <Table
         isLoading={activityQuery.isLoading}
         rows={preparedRows}
+        apiClient={museumApiClient.Activity}
         columns={preparedColumns}
         actions={getActions}
         onSort={onTableSort}
+        queryKey={ReactQueryKeys.Activities}
         parent="information"
       />
     </div>
