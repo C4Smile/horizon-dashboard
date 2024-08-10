@@ -101,6 +101,9 @@ function GuestBookForm() {
           type: "set",
           items: guestBookQuery.data?.guestBookHasImage.map((image) => image.imageId),
         });
+      //* PARSING DATE
+      if (guestBookQuery.data.date)
+        guestBookQuery.data.date = `${new Date(guestBookQuery.data.date).toISOString().slice(0, 10)}`;
       //* PARSING CONTENT
       if (guestBookQuery.data?.content && typeof guestBookQuery.data?.content === "string") {
         const html = guestBookQuery.data?.content;
@@ -114,7 +117,6 @@ function GuestBookForm() {
       setLastUpdate(guestBookQuery?.data?.lastUpdate);
       reset({
         ...guestBookQuery.data,
-        roomId: { value: guestBookQuery.data.room?.name, id: guestBookQuery.data.room?.id },
       });
     }
 
