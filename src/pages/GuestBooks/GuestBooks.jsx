@@ -1,10 +1,10 @@
 import { useMemo, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-// icons
-import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
+// images
+import noProduct from "../../assets/images/no-product.jpg";
 
 // dto
 import { GuestBook } from "../../models/guestBook/GuestBook";
@@ -17,7 +17,7 @@ import { staticUrlPhoto } from "../../components/utils";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
+import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -32,8 +32,6 @@ const noSortableColumns = {
  */
 function GuestBooks() {
   const { t } = useTranslation();
-
-  const navigate = useNavigate();
 
   const { setNotification } = useNotification();
   const museumApiClient = useMuseumApiClient();
@@ -71,35 +69,42 @@ function GuestBooks() {
     queryFn: () => museumApiClient.GuestBook.getAll(sort.attribute, sort.order),
   });
 
-  const [localData, setLocalData] = useState([]);
-
   const preparedRows = useMemo(() => {
-    return localData.map((guestBook) => {
-      return {
-        id: guestBook.id,
-        lastUpdate: new Date(guestBook.lastUpdate).toLocaleDateString("es-ES"),
-        deleted: guestBook.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
-        date: new Date(guestBook.date).toLocaleDateString("es-ES"),
-        name: (
-          <Link className="underline text-light-primary" to={`${guestBook.id}`}>
-            {guestBook.name}
-          </Link>
-        ),
-        guestBookHasImage: (
-          <div className="flex items-center justify-start">
-            {guestBook.guestBookHasImage.map((image, i) => (
-              <img
-                key={i}
-                className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
-                src={staticUrlPhoto(image.imageId.url)}
-                alt={`${guestBook.name} ${i}`}
-              />
-            ))}
-          </div>
-        ),
-      };
-    });
-  }, [localData, t]);
+    if (guestBookQuery) {
+      const { data } = guestBookQuery;
+      if (data && data !== null)
+        return data.map((guestBook) => {
+          return {
+            ...guestBook,
+            date: new Date(guestBook.date).toLocaleDateString("es-ES"),
+            name: (
+              <Link className="underline text-light-primary" to={`${guestBook.id}`}>
+                {guestBook.name}
+              </Link>
+            ),
+            guestBookHasImage:
+              guestBook.guestBookHasImage && guestBook.guestBookHasImage.length ? (
+                <div className="flex items-center justify-start">
+                  {guestBook.guestBookHasImage.map((image, i) => (
+                    <img
+                      key={i}
+                      className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
+                      src={staticUrlPhoto(image.imageId.url)}
+                      alt={`${guestBook.name} ${i}`}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <img
+                  className="small-image rounded-full object-cover"
+                  src={noProduct}
+                  alt={guestBook.name}
+                />
+              ),
+          };
+        });
+    }
+  }, [guestBookQuery]);
 
   useEffect(() => {
     const { data } = guestBookQuery;
@@ -108,31 +113,11 @@ function GuestBooks() {
         // eslint-disable-next-line no-console
         console.error(data.message);
         setNotification(String(data.status));
-      } else setLocalData(data ?? []);
+      }
     }
   }, [guestBookQuery, setNotification]);
 
-  const getActions = [
-    {
-      id: "edit",
-      onClick: (e) => navigate(`/museum/guest-books/${e.id}`),
-      icon: faPencil,
-      tooltip: t("_accessibility:buttons.edit"),
-    },
-    {
-      id: "delete",
-      onClick: (e) => {
-        const { error, status } = museumApiClient.Customer.delete([e.id]);
-        setNotification(String(status), { model: t("_entities:entities.guestBook") });
-
-        // eslint-disable-next-line no-console
-        if (error && error !== null) console.error(error);
-        else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.GuestBooks] });
-      },
-      icon: faTrash,
-      tooltip: t("_accessibility:buttons.delete"),
-    },
-  ];
+  const getActions = [];
 
   return (
     <div className="p-5">
@@ -140,9 +125,11 @@ function GuestBooks() {
       <Table
         isLoading={guestBookQuery.isLoading}
         rows={preparedRows}
+        apiClient={museumApiClient.GuestBook}
         columns={preparedColumns}
         actions={getActions}
         onSort={onTableSort}
+        queryKey={ReactQueryKeys.GuestBooks}
         parent="museum"
       />
     </div>
