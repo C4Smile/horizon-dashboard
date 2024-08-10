@@ -78,45 +78,36 @@ function ServicesPage() {
     queryFn: () => museumApiClient.Service.getAll(sort.attribute, sort.order),
   });
 
-  const [localData, setLocalData] = useState([]);
-
-  const preparedRows = useMemo(() => {
-    return localData.map((service) => {
-      return {
+  const preparedRows = useMemo(
+    () =>
+      serviceQuery.data?.map((service) => ({
         ...service,
         name: (
           <Link className="underline text-light-primary flex" to={`${service.id}`}>
             <span className="w-80 truncate">{service.name}</span>
           </Link>
         ),
-        imageId: (
-          <>
-            {service.imageId?.url ? (
-              <img
-                className={`w-10 h-10 rounded-full object-cover border-white border-2`}
-                src={staticUrlPhoto(service.imageId.url)}
-                alt={`${service.name}`}
-              />
-            ) : (
-              <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={service.name} />
-            )}
-          </>
+        imageId: service.imageId?.url ? (
+          <img
+            className={`w-10 h-10 rounded-full object-cover border-white border-2`}
+            src={staticUrlPhoto(service.imageId.url)}
+            alt={`${service.name}`}
+          />
+        ) : (
+          <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={service.name} />
         ),
-      };
-    });
-  }, [localData]);
+      })) ?? [],
+    [serviceQuery],
+  );
 
   useEffect(() => {
     const { data } = serviceQuery;
-    if (data) {
-      if (data.status && data?.status !== 200) {
-        // eslint-disable-next-line no-console
-        console.error(data.message);
-        setNotification(String(data.status));
-      } else setLocalData(data ?? []);
+    if (data?.status && data?.status !== 200) {
+      // eslint-disable-next-line no-console
+      console.error(data.message);
+      setNotification(String(data.status));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [serviceQuery.data, setNotification]);
+  }, [serviceQuery, setNotification]);
 
   const getActions = [];
 
