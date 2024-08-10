@@ -106,22 +106,18 @@ function PushNotifications() {
                 {pushNotification.title}
               </Link>
             ),
-            imageId: (
-              <>
-                {pushNotification.imageId?.url ? (
-                  <img
-                    className={`w-10 h-10 rounded-full object-cover border-white border-2`}
-                    src={staticUrlPhoto(pushNotification.imageId.url)}
-                    alt={`${pushNotification.title}`}
-                  />
-                ) : (
-                  <img
-                    className="w-10 h-10 rounded-full object-cover"
-                    src={noProduct}
-                    alt={pushNotification.title}
-                  />
-                )}
-              </>
+            imageId: pushNotification.imageId?.url ? (
+              <img
+                className={`w-10 h-10 rounded-full object-cover border-white border-2`}
+                src={staticUrlPhoto(pushNotification.imageId.url)}
+                alt={`${pushNotification.title}`}
+              />
+            ) : (
+              <img
+                className="w-10 h-10 rounded-full object-cover"
+                src={noProduct}
+                alt={pushNotification.title}
+              />
             ),
             action: parsedAction,
           };
