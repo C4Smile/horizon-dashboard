@@ -18,19 +18,19 @@ export const sitemap = [
       },
       {
         label: "roomAreas",
-        path: "/room-areas",
+        path: "/roomAreas",
       },
       {
         label: "sortRooms",
-        path: "/sort-rooms",
+        path: "/sortRooms",
       },
       {
         label: "roomTypes",
-        path: "/room-types",
+        path: "/roomTypes",
       },
       {
         label: "guestBooks",
-        path: "/guest-books",
+        path: "/guestBooks",
       },
     ],
   },
@@ -66,7 +66,7 @@ export const sitemap = [
       },
       {
         label: "appTexts",
-        path: "/app-texts",
+        path: "/appTexts",
       },
     ],
   },
