@@ -145,31 +145,31 @@ function App() {
             </Route>
             <Route
               exact
-              path="/museum/room-areas"
+              path="/museum/roomAreas"
               element={<ModelNavigation parent="museum" model="roomAreas" />}
             >
               <Route index element={<RoomAreas />} />
-              <Route path="/museum/room-areas/new" element={<RoomAreaForm />} />
-              <Route path="/museum/room-areas/:id" element={<RoomAreaForm />} />
+              <Route path="/museum/roomAreas/new" element={<RoomAreaForm />} />
+              <Route path="/museum/roomAreas/:id" element={<RoomAreaForm />} />
             </Route>
-            <Route exact path="/museum/sort-rooms" element={<SortRooms />} />
+            <Route exact path="/museum/sortRooms" element={<SortRooms />} />
             <Route
-              exactp
-              path="/museum/room-types"
+              exact
+              path="/museum/roomTypes"
               element={<ModelNavigation parent="museum" model="roomTypes" />}
             >
               <Route index element={<RoomTypes />} />
-              <Route path="/museum/room-types/new" element={<RoomTypeForm />} />
-              <Route path="/museum/room-types/:id" element={<RoomTypeForm />} />
+              <Route path="/museum/roomTypes/new" element={<RoomTypeForm />} />
+              <Route path="/museum/roomTypes/:id" element={<RoomTypeForm />} />
             </Route>
             <Route
               exact
-              path="/museum/guest-books"
+              path="/museum/guestBooks"
               element={<ModelNavigation parent="museum" model="guestBooks" />}
             >
               <Route index element={<GuestBooks />} />
-              <Route path="/museum/guest-books/new" element={<GuestBookForm />} />
-              <Route path="/museum/guest-books/:id" element={<GuestBookForm />} />
+              <Route path="/museum/guestBooks/new" element={<GuestBookForm />} />
+              <Route path="/museum/guestBooks/:id" element={<GuestBookForm />} />
             </Route>
             {/* Information */}
             <Route
@@ -211,21 +211,21 @@ function App() {
             {/* Management */}
             <Route
               exact
-              path="/management/push-notifications"
+              path="/management/pushNotifications"
               element={<ModelNavigation parent="management" model="pushNotifications" />}
             >
               <Route index element={<PushNotifications />} />
-              <Route path="/management/push-notifications/new" element={<PushNotificationForm />} />
-              <Route path="/management/push-notifications/:id" element={<PushNotificationForm />} />
+              <Route path="/management/pushNotifications/new" element={<PushNotificationForm />} />
+              <Route path="/management/pushNotifications/:id" element={<PushNotificationForm />} />
             </Route>
             <Route
               exact
-              path="/management/app-texts"
+              path="/management/appTexts"
               element={<ModelNavigation parent="management" model="appTexts" />}
             >
               <Route index element={<AppTexts />} />
-              <Route path="/management/app-texts/new" element={<AppTextForm />} />
-              <Route path="/management/app-texts/:id" element={<AppTextForm />} />
+              <Route path="/management/appTexts/new" element={<AppTextForm />} />
+              <Route path="/management/appTexts/:id" element={<AppTextForm />} />
             </Route>
             <Route
               exact
