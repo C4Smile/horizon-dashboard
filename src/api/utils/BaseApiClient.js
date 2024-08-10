@@ -2,7 +2,6 @@
 import { makeRequest } from "../../db/services";
 
 // utils
-import { SortOrder } from "../../models/query/GenericFilter";
 import { fromLocal } from "../../utils/local";
 
 // config
@@ -17,12 +16,14 @@ export class BaseApiClient {
 
   /**
    * @description Get all objects
-   * @param {string} sort - Sort by
-   * @param {SortOrder} order - Order ASC/DESC
+   * @param {object} query - query parameters
    * @returns {Promise<object[]>} Result list
    */
-  async getAll(sort = "lastUpdate", order = SortOrder.ASC) {
-    const { data, error, status } = await makeRequest(`${this.baseUrl}?sort=${sort}&order=${order}`);
+  async getAll(query) {
+    const { sortingBy, sortingOrder, currentPage, pageSize } = query;
+    const { data, error, status } = await makeRequest(
+      `${this.baseUrl}?sort=${sortingBy}&order=${sortingOrder}&page=${currentPage}&count=${pageSize}`,
+    );
     if (error !== null) return { status, error: { message: error.message } };
     return data;
   }
