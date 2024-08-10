@@ -69,51 +69,47 @@ function GuestBooks() {
     queryFn: () => museumApiClient.GuestBook.getAll(sort.attribute, sort.order),
   });
 
-  const preparedRows = useMemo(() => {
-    if (guestBookQuery) {
-      const { data } = guestBookQuery;
-      if (data && data !== null)
-        return data.map((guestBook) => {
-          return {
-            ...guestBook,
-            date: new Date(guestBook.date).toLocaleDateString("es-ES"),
-            name: (
-              <Link className="underline text-light-primary" to={`${guestBook.id}`}>
-                {guestBook.name}
-              </Link>
+  const preparedRows = useMemo(
+    () =>
+      guestBookQuery.data?.map((guestBook) => {
+        return {
+          ...guestBook,
+          date: new Date(guestBook.date).toLocaleDateString("es-ES"),
+          name: (
+            <Link className="underline text-light-primary" to={`${guestBook.id}`}>
+              {guestBook.name}
+            </Link>
+          ),
+          guestBookHasImage:
+            guestBook.guestBookHasImage && guestBook.guestBookHasImage.length ? (
+              <div className="flex items-center justify-start">
+                {guestBook.guestBookHasImage.map((image, i) => (
+                  <img
+                    key={i}
+                    className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
+                    src={staticUrlPhoto(image.imageId.url)}
+                    alt={`${guestBook.name} ${i}`}
+                  />
+                ))}
+              </div>
+            ) : (
+              <img
+                className="small-image rounded-full object-cover"
+                src={noProduct}
+                alt={guestBook.name}
+              />
             ),
-            guestBookHasImage:
-              guestBook.guestBookHasImage && guestBook.guestBookHasImage.length ? (
-                <div className="flex items-center justify-start">
-                  {guestBook.guestBookHasImage.map((image, i) => (
-                    <img
-                      key={i}
-                      className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
-                      src={staticUrlPhoto(image.imageId.url)}
-                      alt={`${guestBook.name} ${i}`}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <img
-                  className="small-image rounded-full object-cover"
-                  src={noProduct}
-                  alt={guestBook.name}
-                />
-              ),
-          };
-        });
-    }
-  }, [guestBookQuery]);
+        };
+      }) ?? [],
+    [guestBookQuery],
+  );
 
   useEffect(() => {
     const { data } = guestBookQuery;
-    if (data) {
-      if (data.status && data?.status !== 200) {
-        // eslint-disable-next-line no-console
-        console.error(data.message);
-        setNotification(String(data.status));
-      }
+    if (data?.status && data?.status !== 200) {
+      // eslint-disable-next-line no-console
+      console.error(data.message);
+      setNotification(String(data.status));
     }
   }, [guestBookQuery, setNotification]);
 

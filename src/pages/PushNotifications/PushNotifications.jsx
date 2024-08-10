@@ -70,69 +70,65 @@ function PushNotifications() {
     queryFn: () => museumApiClient.PushNotification.getAll(sort.attribute, sort.order),
   });
 
-  const preparedRows = useMemo(() => {
-    if (pushNotificationQuery.data) {
-      const { data } = pushNotificationQuery;
-      if (data && data !== null)
-        return data.map((pushNotification) => {
-          let parsedAction = "-";
-          const sAction = pushNotification?.action?.split(",");
-          if (sAction?.length === 2)
-            parsedAction = (
-              <Link
-                className="underline text-light-primary flex"
-                to={`/${parents[sAction[0]]}/${sAction[0]}s/${sAction[1]}`}
-              >
-                <span className="w-80 truncate capitalize">{`${sAction[0]} - ${sAction[1]}`}</span>
-              </Link>
-            );
-          else if (sAction?.length === 1)
-            parsedAction = (
-              <a
-                href={`${sAction[0]}`}
-                target="_blank"
-                rel="noreferrer"
-                className="underline text-light-primary flex"
-              >
-                <span className="w-80 truncate capitalize">{`${sAction[0]}`}</span>
-              </a>
-            );
+  const preparedRows = useMemo(
+    () =>
+      pushNotificationQuery.data?.map((pushNotification) => {
+        let parsedAction = "-";
+        const sAction = pushNotification?.action?.split(",");
+        if (sAction?.length === 2)
+          parsedAction = (
+            <Link
+              className="underline text-light-primary flex"
+              to={`/${parents[sAction[0]]}/${sAction[0]}s/${sAction[1]}`}
+            >
+              <span className="truncate capitalize">{`${sAction[0]} - ${sAction[1]}`}</span>
+            </Link>
+          );
+        else if (sAction?.length === 1)
+          parsedAction = (
+            <a
+              href={`${sAction[0]}`}
+              target="_blank"
+              rel="noreferrer"
+              className="underline text-light-primary flex"
+            >
+              <span className="truncate capitalize">{`${sAction[0]}`}</span>
+            </a>
+          );
 
-          return {
-            ...pushNotification,
-            sentDate: new Date(pushNotification.sentDate).toLocaleDateString("es-ES"),
-            title: (
-              <Link className="underline text-light-primary" to={`${pushNotification.id}`}>
-                {pushNotification.title}
-              </Link>
-            ),
-            imageId: pushNotification.imageId?.url ? (
-              <img
-                className={`w-10 h-10 rounded-full object-cover border-white border-2`}
-                src={staticUrlPhoto(pushNotification.imageId.url)}
-                alt={`${pushNotification.title}`}
-              />
-            ) : (
-              <img
-                className="w-10 h-10 rounded-full object-cover"
-                src={noProduct}
-                alt={pushNotification.title}
-              />
-            ),
-            action: parsedAction,
-          };
-        });
-    }
-  }, [pushNotificationQuery]);
+        return {
+          ...pushNotification,
+          sentDate: new Date(pushNotification.sentDate).toLocaleDateString("es-ES"),
+          title: (
+            <Link className="underline text-light-primary" to={`${pushNotification.id}`}>
+              {pushNotification.title}
+            </Link>
+          ),
+          imageId: pushNotification.imageId?.url ? (
+            <img
+              className={`w-10 h-10 rounded-full object-cover border-white border-2`}
+              src={staticUrlPhoto(pushNotification.imageId.url)}
+              alt={`${pushNotification.title}`}
+            />
+          ) : (
+            <img
+              className="w-10 h-10 rounded-full object-cover"
+              src={noProduct}
+              alt={pushNotification.title}
+            />
+          ),
+          action: parsedAction,
+        };
+      }) ?? [],
+    [pushNotificationQuery],
+  );
 
   useEffect(() => {
     const { data } = pushNotificationQuery;
-    if (data) {
-      if (data.status && data?.status !== 200) {
-        // eslint-disable-next-line no-console
-        console.error(data.error.message);
-        setNotification(String(data.status));
-      }
+    if (data?.status && data?.status !== 200) {
+      // eslint-disable-next-line no-console
+      console.error(data.error.message);
+      setNotification(String(data.status));
     }
   }, [pushNotificationQuery, navigate, setNotification]);
 

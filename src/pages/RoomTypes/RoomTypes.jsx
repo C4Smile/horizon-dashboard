@@ -55,31 +55,27 @@ function RoomTypes() {
     queryFn: () => museumApiClient.RoomType.getAll(sort.attribute, sort.order),
   });
 
-  const preparedRows = useMemo(() => {
-    if (roomTypeQuery.data) {
-      const { data } = roomTypeQuery;
-      if (data && data !== null)
-        return data.map((roomType) => {
-          return {
-            ...roomType,
-            name: (
-              <Link className="underline text-light-primary" to={`${roomType.id}`}>
-                {roomType.name}
-              </Link>
-            ),
-          };
-        });
-    }
-  }, [roomTypeQuery]);
+  const preparedRows = useMemo(
+    () =>
+      roomTypeQuery.data?.map((roomType) => {
+        return {
+          ...roomType,
+          name: (
+            <Link className="underline text-light-primary" to={`${roomType.id}`}>
+              {roomType.name}
+            </Link>
+          ),
+        };
+      }) ?? [],
+    [roomTypeQuery],
+  );
 
   useEffect(() => {
     const { data } = roomTypeQuery;
-    if (data) {
-      if (data.status && data?.status !== 200) {
-        // eslint-disable-next-line no-console
-        console.error(data.message);
-        setNotification(String(data.status));
-      }
+    if (data?.status && data?.status !== 200) {
+      // eslint-disable-next-line no-console
+      console.error(data.message);
+      setNotification(String(data.status));
     }
   }, [roomTypeQuery, setNotification]);
 

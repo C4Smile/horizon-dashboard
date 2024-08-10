@@ -50,36 +50,32 @@ function Users() {
     queryFn: () => museumApiClient.User.getAll(sort.attribute, sort.order),
   });
 
-  const preparedRows = useMemo(() => {
-    if (userQuery.data) {
-      const { data } = userQuery.data;
-      if (data && data !== null)
-        return data.map((user) => {
-          return {
-            ...user,
-            username: (
-              <Link className="underline text-light-primary" to={`${user.id}`}>
-                {user.username}
-              </Link>
-            ),
-            name: user.name,
-            email: user.email,
-            phone: user.phone,
-            address: user.address,
-            identification: user.identification,
-          };
-        });
-    }
-  }, [userQuery]);
+  const preparedRows = useMemo(
+    () =>
+      userQuery.data?.map((user) => {
+        return {
+          ...user,
+          username: (
+            <Link className="underline text-light-primary" to={`${user.id}`}>
+              {user.username}
+            </Link>
+          ),
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+          address: user.address,
+          identification: user.identification,
+        };
+      }) ?? [],
+    [userQuery],
+  );
 
   useEffect(() => {
     const { data } = userQuery;
-    if (data) {
-      if (data.status && data?.status !== 200) {
-        // eslint-disable-next-line no-console
-        console.error(data.message);
-        setNotification(String(data.status));
-      }
+    if (data?.status && data?.status !== 200) {
+      // eslint-disable-next-line no-console
+      console.error(data.message);
+      setNotification(String(data.status));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userQuery.data, setNotification]);

@@ -55,34 +55,30 @@ function Tags() {
     queryFn: () => museumApiClient.Tag.getAll(sort.attribute, sort.order),
   });
 
-  const preparedRows = useMemo(() => {
-    if (tagQuery.data) {
-      const { data } = tagQuery;
-      if (data && data !== null)
-        return data.map((tag) => {
-          return {
-            ...tag,
-            name: {
-              value: tag.name,
-              render: (
-                <Link className="underline text-light-primary" to={`${tag.id}`}>
-                  {tag.name}
-                </Link>
-              ),
-            },
-          };
-        });
-    }
-  }, [tagQuery]);
+  const preparedRows = useMemo(
+    () =>
+      tagQuery.data?.map((tag) => {
+        return {
+          ...tag,
+          name: {
+            value: tag.name,
+            render: (
+              <Link className="underline text-light-primary" to={`${tag.id}`}>
+                {tag.name}
+              </Link>
+            ),
+          },
+        };
+      }) ?? [],
+    [tagQuery],
+  );
 
   useEffect(() => {
     const { data } = tagQuery;
-    if (data) {
-      if (data.status && data?.status !== 200) {
-        // eslint-disable-next-line no-console
-        console.error(data.message);
-        setNotification(String(data.status));
-      }
+    if (data?.status && data?.status !== 200) {
+      // eslint-disable-next-line no-console
+      console.error(data.message);
+      setNotification(String(data.status));
     }
   }, [tagQuery, setNotification]);
 
