@@ -1,10 +1,10 @@
 import { useMemo, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-// icons
-import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
+// images
+import noProduct from "../../assets/images/no-product.jpg";
 
 // dto
 import { Room } from "../../models/room/Room";
@@ -17,7 +17,7 @@ import { staticUrlPhoto } from "../../components/utils";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
+import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -33,8 +33,6 @@ const noSortableColumns = {
  */
 function Rooms() {
   const { t } = useTranslation();
-
-  const navigate = useNavigate();
 
   const { setNotification } = useNotification();
   const museumApiClient = useMuseumApiClient();
@@ -66,53 +64,57 @@ function Rooms() {
     queryFn: () => museumApiClient.Room.getAll(sort.attribute, sort.order),
   });
 
-  const [localData, setLocalData] = useState([]);
-
   const preparedRows = useMemo(() => {
-    return localData.map((room) => {
-      return {
-        id: room.id,
-        lastUpdate: new Date(room.lastUpdate).toLocaleDateString("es-ES"),
-        deleted: room.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
-        number: room.number,
-        name: (
-          <Link className="underline text-light-primary" to={`${room.id}`}>
-            {room.name}
-          </Link>
-        ),
-        type: (
-          <Link className="underline text-light-primary" to={`/museum/room-types/${room.id}`}>
-            {room.type.name}
-          </Link>
-        ),
-        roomHasImage360: (
-          <div className="flex items-center justify-start">
-            {room.roomHasImage360.map((image, i) => (
-              <img
-                key={i}
-                className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
-                src={staticUrlPhoto(image.imageId.url)}
-                alt={`${room.name} ${i}`}
-              />
-            ))}
-          </div>
-        ),
-        roomHasImage: (
-          <div className="flex items-center justify-start">
-            {room.roomHasImage.map((image, i) => (
-              <img
-                key={i}
-                className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
-                src={staticUrlPhoto(image.imageId.url)}
-                alt={`${room.name} ${i}`}
-              />
-            ))}
-          </div>
-        ),
-        status: room.status.name,
-      };
-    });
-  }, [localData, t]);
+    if (roomQuery.data) {
+      const { data } = roomQuery;
+      return data.map((room) => {
+        return {
+          ...room,
+          name: (
+            <Link className="underline text-light-primary" to={`${room.id}`}>
+              {room.name}
+            </Link>
+          ),
+          type: (
+            <Link className="underline text-light-primary" to={`/museum/room-types/${room.id}`}>
+              {room.type.name}
+            </Link>
+          ),
+          roomHasImage360:
+            room.roomHasImage360 && room.roomHasImage360.length ? (
+              <div className="flex items-center justify-start">
+                {room.roomHasImage360.map((image, i) => (
+                  <img
+                    key={i}
+                    className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
+                    src={staticUrlPhoto(image.imageId.url)}
+                    alt={`${room.name} ${i}`}
+                  />
+                ))}
+              </div>
+            ) : (
+              <img className="small-image rounded-full object-cover" src={noProduct} alt={room.title} />
+            ),
+          roomHasImage:
+            room.roomHasImage && room.roomHasImage.length ? (
+              <div className="flex items-center justify-start">
+                {room.roomHasImage.map((image, i) => (
+                  <img
+                    key={i}
+                    className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
+                    src={staticUrlPhoto(image.imageId.url)}
+                    alt={`${room.name} ${i}`}
+                  />
+                ))}
+              </div>
+            ) : (
+              <img className="small-image rounded-full object-cover" src={noProduct} alt={room.title} />
+            ),
+          status: room.status.name,
+        };
+      });
+    }
+  }, [roomQuery]);
 
   useEffect(() => {
     const { data } = roomQuery;
@@ -121,31 +123,11 @@ function Rooms() {
         // eslint-disable-next-line no-console
         console.error(data.message);
         setNotification(String(data.status));
-      } else setLocalData(data ?? []);
+      }
     }
   }, [roomQuery, setNotification]);
 
-  const getActions = [
-    {
-      id: "edit",
-      onClick: (e) => navigate(`/museum/rooms/${e.id}`),
-      icon: faPencil,
-      tooltip: t("_accessibility:buttons.edit"),
-    },
-    {
-      id: "delete",
-      onClick: (e) => {
-        const { error, status } = museumApiClient.Customer.delete([e.id]);
-        setNotification(String(status), { model: t("_entities:entities.room") });
-
-        // eslint-disable-next-line no-console
-        if (error && error !== null) console.error(error);
-        else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Rooms] });
-      },
-      icon: faTrash,
-      tooltip: t("_accessibility:buttons.delete"),
-    },
-  ];
+  const getActions = [];
 
   return (
     <div className="p-5">
@@ -153,9 +135,11 @@ function Rooms() {
       <Table
         isLoading={roomQuery.isLoading}
         rows={preparedRows}
+        apiClient={museumApiClient.Room}
         columns={preparedColumns}
         actions={getActions}
         onSort={onTableSort}
+        queryKey={ReactQueryKeys.Rooms}
         parent="museum"
       />
     </div>
