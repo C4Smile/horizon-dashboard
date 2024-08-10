@@ -25,7 +25,6 @@ import Table from "../../components/Table/Table";
 import { staticUrlPhoto } from "../../components/utils";
 
 const columnClasses = {
-  title: "max-w-40 overflow-hidden",
   lastUpdate: "w-56",
 };
 
@@ -47,12 +46,7 @@ function ActivitiesPage() {
   const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
-    const keys = extractKeysFromObject(new Activity(), [
-      "id",
-      "description",
-      "dateOfCreation",
-      "deleted",
-    ]);
+    const keys = extractKeysFromObject(new Activity(), ["id", "description", "dateOfCreation"]);
     return keys.map((key) => ({
       id: key,
       label: t(`_entities:activity.${key}.label`),
@@ -78,58 +72,50 @@ function ActivitiesPage() {
     queryFn: () => museumApiClient.Activity.getAll(sort.attribute, sort.order),
   });
 
-  const preparedRows = useMemo(() => {
-    if (activityQuery.data) {
-      const { data } = activityQuery;
-      if (data && data !== null)
-        return data.map((activity) => {
-          let parsedAction = "-";
-          const sAction = activity?.entity?.split(",");
+  const preparedRows = useMemo(
+    () =>
+      activityQuery.data?.map((activity) => {
+        let parsedAction = "-";
+        const sAction = activity?.entity?.split(",");
 
-          if (sAction?.length === 2)
-            parsedAction = (
-              <Link
-                className="underline text-light-primary flex"
-                to={`/${parents[sAction[0]]}/${sAction[0]}s/${sAction[1]}`}
-              >
-                <span className="w-80 truncate capitalize">{`${sAction[0]} - ${sAction[1]}`}</span>
-              </Link>
-            );
+        if (sAction?.length === 2)
+          parsedAction = (
+            <Link
+              className="underline text-light-primary flex"
+              to={`/${parents[sAction[0]]}/${sAction[0]}s/${sAction[1]}`}
+            >
+              <span className="truncate capitalize">{`${sAction[0]} - ${sAction[1]}`}</span>
+            </Link>
+          );
 
-          return {
-            ...activity,
-            title: (
-              <Link className="underline text-light-primary flex" to={`${activity.id}`}>
-                <span className="w-80 truncate">{activity.title}</span>
-              </Link>
-            ),
-            imageId: activity.imageId?.url ? (
-              <img
-                className={`w-10 h-10 rounded-full object-cover border-white border-2`}
-                src={staticUrlPhoto(activity.imageId.url)}
-                alt={`${activity.title}`}
-              />
-            ) : (
-              <img
-                className="w-10 h-10 rounded-full object-cover"
-                src={noProduct}
-                alt={activity.title}
-              />
-            ),
-            entity: parsedAction,
-          };
-        });
-    }
-  }, [activityQuery]);
+        return {
+          ...activity,
+          title: (
+            <Link className="underline text-light-primary flex" to={`${activity.id}`}>
+              <span className="truncate">{activity.title}</span>
+            </Link>
+          ),
+          imageId: activity.imageId?.url ? (
+            <img
+              className={`w-10 h-10 rounded-full object-cover border-white border-2`}
+              src={staticUrlPhoto(activity.imageId.url)}
+              alt={`${activity.title}`}
+            />
+          ) : (
+            <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={activity.title} />
+          ),
+          entity: parsedAction,
+        };
+      }) ?? [],
+    [activityQuery],
+  );
 
   useEffect(() => {
     const { data } = activityQuery;
-    if (data) {
-      if (data.status && data?.status !== 200) {
-        // eslint-disable-next-line no-console
-        console.error(data.message);
-        setNotification(String(data.status));
-      }
+    if (data?.status && data?.status !== 200) {
+      // eslint-disable-next-line no-console
+      console.error(data.message);
+      setNotification(String(data.status));
     }
   }, [activityQuery, navigate, setNotification]);
 
