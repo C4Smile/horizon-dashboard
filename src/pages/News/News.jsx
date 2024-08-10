@@ -77,46 +77,49 @@ function NewsPage() {
     queryFn: () => museumApiClient.News.getAll(sort.attribute, sort.order),
   });
 
-  const [localData, setLocalData] = useState([]);
-
   const preparedRows = useMemo(() => {
-    return localData.map((news) => {
-      return {
-        ...news,
-        title: (
-          <Link className="underline text-light-primary flex" to={`${news.id}`}>
-            <span className="w-80 truncate">{news.title}</span>
-          </Link>
-        ),
-        newsHasTag:
-          (
-            <div className="flex flex-wrap gap-3">
-              {news.newsHasTag?.map(({ tagId: tag }) => (
-                <Chip key={tag?.id} label={tag?.name} spanClassName="text-xs" />
-              ))}
-            </div>
-          ) ?? " - ",
-        newsHasImage: (
-          <>
-            {news.newsHasImage && news.newsHasImage.length ? (
-              <div className="flex items-center justify-start">
-                {news.newsHasImage.map((image, i) => (
-                  <img
-                    key={i}
-                    className={`small-image rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
-                    src={staticUrlPhoto(image.imageId.url)}
-                    alt={`${news.title} ${i}`}
-                  />
-                ))}
-              </div>
-            ) : (
-              <img className="small-image rounded-full object-cover" src={noProduct} alt={news.title} />
-            )}
-          </>
-        ),
-      };
-    });
-  }, [localData]);
+    if (newsQuery.data) {
+      const { data } = newsQuery;
+      if (data && data !== null)
+        return data.map((news) => {
+          return {
+            ...news,
+            title: (
+              <Link className="underline text-light-primary flex" to={`${news.id}`}>
+                <span className="w-80 truncate">{news.title}</span>
+              </Link>
+            ),
+            newsHasTag:
+              (
+                <div className="flex flex-wrap gap-3">
+                  {news.newsHasTag?.map(({ tagId: tag }) => (
+                    <Chip key={tag?.id} label={tag?.name} spanClassName="text-xs" />
+                  ))}
+                </div>
+              ) ?? " - ",
+            newsHasImage:
+              news.newsHasImage && news.newsHasImage.length ? (
+                <div className="flex items-center justify-start">
+                  {news.newsHasImage.map((image, i) => (
+                    <img
+                      key={i}
+                      className={`small-image rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
+                      src={staticUrlPhoto(image.imageId.url)}
+                      alt={`${news.title} ${i}`}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <img
+                  className="small-image rounded-full object-cover"
+                  src={noProduct}
+                  alt={news.title}
+                />
+              ),
+          };
+        });
+    }
+  }, [newsQuery]);
 
   useEffect(() => {
     const { data } = newsQuery;
@@ -125,10 +128,9 @@ function NewsPage() {
         // eslint-disable-next-line no-console
         console.error(data.message);
         setNotification(String(data.status));
-      } else setLocalData(data ?? []);
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newsQuery.data, navigate, setNotification]);
+  }, [newsQuery, navigate, setNotification]);
 
   const getActions = [];
 
