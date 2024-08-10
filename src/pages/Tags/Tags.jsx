@@ -55,23 +55,25 @@ function Tags() {
     queryFn: () => museumApiClient.Tag.getAll(sort.attribute, sort.order),
   });
 
-  const [localData, setLocalData] = useState([]);
-
   const preparedRows = useMemo(() => {
-    return localData.map((tag) => {
-      return {
-        ...tag,
-        name: {
-          value: tag.name,
-          render: (
-            <Link className="underline text-light-primary" to={`${tag.id}`}>
-              {tag.name}
-            </Link>
-          ),
-        },
-      };
-    });
-  }, [localData]);
+    if (tagQuery.data) {
+      const { data } = tagQuery;
+      if (data && data !== null)
+        return data.map((tag) => {
+          return {
+            ...tag,
+            name: {
+              value: tag.name,
+              render: (
+                <Link className="underline text-light-primary" to={`${tag.id}`}>
+                  {tag.name}
+                </Link>
+              ),
+            },
+          };
+        });
+    }
+  }, [tagQuery]);
 
   useEffect(() => {
     const { data } = tagQuery;
@@ -80,7 +82,7 @@ function Tags() {
         // eslint-disable-next-line no-console
         console.error(data.message);
         setNotification(String(data.status));
-      } else setLocalData(data ?? []);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tagQuery.data, setNotification]);
