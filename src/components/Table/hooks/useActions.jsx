@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { faTrash, faPencil, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
 
 // providers
-import { queryClient } from "../../providers/MuseumApiProvider";
+import { queryClient } from "../../../providers/MuseumApiProvider";
 import { useNotification } from "../../../providers/NotificationProvider";
 
 /**
@@ -71,6 +71,7 @@ export const useActions = (props) => {
           tooltip: t("_accessibility:buttons.restore"),
         },
       );
+    return toReturn;
   }, [actions, apiClient, canDelete, canEdit, navigate, parent, queryKey, setNotification, t]);
 
   return getActions;
