@@ -62,7 +62,7 @@ export const sitemap = [
     child: [
       {
         label: "pushNotifications",
-        path: "/push-notifications",
+        path: "/pushNotifications",
       },
       {
         label: "appTexts",
