@@ -6,9 +6,6 @@ import { useNavigate, Link } from "react-router-dom";
 // images
 import noProduct from "../../assets/images/no-product.jpg";
 
-// icons
-import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
-
 // dto
 import { PushNotification } from "../../models/pushNotification/PushNotification";
 
@@ -20,7 +17,7 @@ import { staticUrlPhoto } from "../../components/utils";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useMuseumApiClient, queryClient } from "../../providers/MuseumApiProvider";
+import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // components
 import Table from "../../components/Table/Table";
@@ -73,67 +70,64 @@ function PushNotifications() {
     queryFn: () => museumApiClient.PushNotification.getAll(sort.attribute, sort.order),
   });
 
-  const [localData, setLocalData] = useState([]);
-
   const preparedRows = useMemo(() => {
-    return localData.map((pushNotification) => {
-      let parsedAction = "-";
-      const sAction = pushNotification?.action?.split(",");
-      if (sAction?.length === 2)
-        parsedAction = (
-          <Link
-            className="underline text-light-primary flex"
-            to={`/${parents[sAction[0]]}/${sAction[0]}s/${sAction[1]}`}
-          >
-            <span className="w-80 truncate capitalize">{`${sAction[0]} - ${sAction[1]}`}</span>
-          </Link>
-        );
-      else if (sAction?.length === 1)
-        parsedAction = (
-          <a
-            href={`${sAction[0]}`}
-            target="_blank"
-            rel="noreferrer"
-            className="underline text-light-primary flex"
-          >
-            <span className="w-80 truncate capitalize">{`${sAction[0]}`}</span>
-          </a>
-        );
+    if (pushNotificationQuery.data) {
+      const { data } = pushNotificationQuery;
+      if (data && data !== null)
+        return data.map((pushNotification) => {
+          let parsedAction = "-";
+          const sAction = pushNotification?.action?.split(",");
+          if (sAction?.length === 2)
+            parsedAction = (
+              <Link
+                className="underline text-light-primary flex"
+                to={`/${parents[sAction[0]]}/${sAction[0]}s/${sAction[1]}`}
+              >
+                <span className="w-80 truncate capitalize">{`${sAction[0]} - ${sAction[1]}`}</span>
+              </Link>
+            );
+          else if (sAction?.length === 1)
+            parsedAction = (
+              <a
+                href={`${sAction[0]}`}
+                target="_blank"
+                rel="noreferrer"
+                className="underline text-light-primary flex"
+              >
+                <span className="w-80 truncate capitalize">{`${sAction[0]}`}</span>
+              </a>
+            );
 
-      return {
-        id: pushNotification.id,
-        dateOfCreation: new Date(pushNotification.dateOfCreation).toLocaleDateString("es-ES"),
-        lastUpdate: new Date(pushNotification.lastUpdate).toLocaleDateString("es-ES"),
-        sentDate: new Date(pushNotification.sentDate).toLocaleDateString("es-ES"),
-        deleted: pushNotification.deleted
-          ? t("_accessibility:buttons.yes")
-          : t("_accessibility:buttons.no"),
-        title: (
-          <Link className="underline text-light-primary" to={`${pushNotification.id}`}>
-            {pushNotification.title}
-          </Link>
-        ),
-        imageId: (
-          <>
-            {pushNotification.imageId?.url ? (
-              <img
-                className={`w-10 h-10 rounded-full object-cover border-white border-2`}
-                src={staticUrlPhoto(pushNotification.imageId.url)}
-                alt={`${pushNotification.title}`}
-              />
-            ) : (
-              <img
-                className="w-10 h-10 rounded-full object-cover"
-                src={noProduct}
-                alt={pushNotification.title}
-              />
-            )}
-          </>
-        ),
-        action: parsedAction,
-      };
-    });
-  }, [localData, t]);
+          return {
+            ...pushNotification,
+            sentDate: new Date(pushNotification.sentDate).toLocaleDateString("es-ES"),
+            title: (
+              <Link className="underline text-light-primary" to={`${pushNotification.id}`}>
+                {pushNotification.title}
+              </Link>
+            ),
+            imageId: (
+              <>
+                {pushNotification.imageId?.url ? (
+                  <img
+                    className={`w-10 h-10 rounded-full object-cover border-white border-2`}
+                    src={staticUrlPhoto(pushNotification.imageId.url)}
+                    alt={`${pushNotification.title}`}
+                  />
+                ) : (
+                  <img
+                    className="w-10 h-10 rounded-full object-cover"
+                    src={noProduct}
+                    alt={pushNotification.title}
+                  />
+                )}
+              </>
+            ),
+            action: parsedAction,
+          };
+        });
+    }
+  }, [pushNotificationQuery]);
 
   useEffect(() => {
     const { data } = pushNotificationQuery;
@@ -142,34 +136,11 @@ function PushNotifications() {
         // eslint-disable-next-line no-console
         console.error(data.error.message);
         setNotification(String(data.status));
-      } else setLocalData(data ?? []);
+      }
     }
   }, [pushNotificationQuery, navigate, setNotification]);
 
-  const getActions = [
-    {
-      id: "edit",
-      onClick: (e) => navigate(`/management/push-notifications/${e.id}`),
-      icon: faPencil,
-      tooltip: t("_accessibility:buttons.edit"),
-    },
-    {
-      id: "delete",
-      onClick: async (e) => {
-        const result = await museumApiClient.PushNotification.delete([e.id]);
-        const { error, status } = result;
-        setNotification(String(status), { model: t("_entities:entities.pushNotifications") });
-
-        if (status !== 204) {
-          // eslint-disable-next-line no-console
-          console.error(error);
-          setNotification(String(status));
-        } else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.PushNotifications] });
-      },
-      icon: faTrash,
-      tooltip: t("_accessibility:buttons.delete"),
-    },
-  ];
+  const getActions = [];
 
   return (
     <div className="p-5">
@@ -179,9 +150,11 @@ function PushNotifications() {
       <Table
         isLoading={pushNotificationQuery.isLoading}
         rows={preparedRows}
+        apiClient={museumApiClient.PushNotification}
         columns={preparedColumns}
         actions={getActions}
         onSort={onTableSort}
+        queryKey={ReactQueryKeys.PushNotifications}
         parent="management"
       />
     </div>
