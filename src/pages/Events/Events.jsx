@@ -215,6 +215,7 @@ function EventsPage() {
         columns={preparedColumns}
         actions={getActions}
         onSort={onTableSort}
+        parent="information"
       />
     </div>
   );

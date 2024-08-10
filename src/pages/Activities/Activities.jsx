@@ -176,6 +176,7 @@ function ActivitiesPage() {
         columns={preparedColumns}
         actions={getActions}
         onSort={onTableSort}
+        parent="information"
       />
     </div>
   );

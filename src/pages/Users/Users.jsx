@@ -109,6 +109,7 @@ function Users() {
         rows={preparedRows}
         columns={preparedColumns}
         actions={getActions}
+        parent="personal"
       />
     </div>
   );

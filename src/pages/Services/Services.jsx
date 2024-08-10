@@ -131,6 +131,7 @@ function ServicesPage() {
         actions={getActions}
         onSort={onTableSort}
         queryKey={ReactQueryKeys.Services}
+        parent="museum"
       />
     </div>
   );

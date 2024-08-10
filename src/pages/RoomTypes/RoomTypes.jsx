@@ -119,6 +119,7 @@ function RoomTypes() {
         columns={preparedColumns}
         actions={getActions}
         onSort={onTableSort}
+        parent="museum"
       />
     </div>
   );

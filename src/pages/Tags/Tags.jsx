@@ -98,6 +98,7 @@ function Tags() {
         actions={getActions}
         onSort={onTableSort}
         queryKey={ReactQueryKeys.Tags}
+        parent="information"
       />
     </div>
   );

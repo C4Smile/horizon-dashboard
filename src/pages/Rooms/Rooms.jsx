@@ -156,6 +156,7 @@ function Rooms() {
         columns={preparedColumns}
         actions={getActions}
         onSort={onTableSort}
+        parent="museum"
       />
     </div>
   );

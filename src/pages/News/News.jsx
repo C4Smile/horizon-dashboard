@@ -143,6 +143,7 @@ function NewsPage() {
         actions={getActions}
         onSort={onTableSort}
         queryKey={ReactQueryKeys.News}
+        parent="information"
       />
     </div>
   );

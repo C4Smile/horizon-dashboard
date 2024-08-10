@@ -37,7 +37,7 @@ function Table(props) {
 
   const { setNotification } = useNotification();
 
-  const { columns, rows, isLoading, actions, apiClient, queryKey, onSort } = props;
+  const { parent, columns, rows, isLoading, actions, apiClient, queryKey, onSort } = props;
 
   const [sortingBy, setSortingBy] = useState("dateOfCreation");
   const [sortingOrder, setSortingOrder] = useState(SortOrder.ASC);
@@ -63,7 +63,7 @@ function Table(props) {
       ...actions,
       {
         id: "edit",
-        onClick: (e) => navigate(`/information/${queryKey}/${e.id}`),
+        onClick: (e) => navigate(`/${parent}/${queryKey}/${e.id}`),
         icon: faPencil,
         tooltip: t("_accessibility:buttons.edit"),
       },

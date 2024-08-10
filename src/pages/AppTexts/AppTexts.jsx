@@ -123,6 +123,7 @@ function AppTexts() {
         columns={preparedColumns}
         actions={getActions}
         onSort={onTableSort}
+        parent="management"
       />
     </div>
   );
