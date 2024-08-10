@@ -146,7 +146,7 @@ function App() {
             <Route
               exact
               path="/museum/room-areas"
-              element={<ModelNavigation parent="museum" model="room-areas" />}
+              element={<ModelNavigation parent="museum" model="roomAreas" />}
             >
               <Route index element={<RoomAreas />} />
               <Route path="/museum/room-areas/new" element={<RoomAreaForm />} />
@@ -156,7 +156,7 @@ function App() {
             <Route
               exactp
               path="/museum/room-types"
-              element={<ModelNavigation parent="museum" model="room-types" />}
+              element={<ModelNavigation parent="museum" model="roomTypes" />}
             >
               <Route index element={<RoomTypes />} />
               <Route path="/museum/room-types/new" element={<RoomTypeForm />} />
@@ -165,7 +165,7 @@ function App() {
             <Route
               exact
               path="/museum/guest-books"
-              element={<ModelNavigation parent="museum" model="guest-books" />}
+              element={<ModelNavigation parent="museum" model="guestBooks" />}
             >
               <Route index element={<GuestBooks />} />
               <Route path="/museum/guest-books/new" element={<GuestBookForm />} />
@@ -212,7 +212,7 @@ function App() {
             <Route
               exact
               path="/management/push-notifications"
-              element={<ModelNavigation parent="management" model="push-notifications" />}
+              element={<ModelNavigation parent="management" model="pushNotifications" />}
             >
               <Route index element={<PushNotifications />} />
               <Route path="/management/push-notifications/new" element={<PushNotificationForm />} />
@@ -221,7 +221,7 @@ function App() {
             <Route
               exact
               path="/management/app-texts"
-              element={<ModelNavigation parent="management" model="app-texts" />}
+              element={<ModelNavigation parent="management" model="appTexts" />}
             >
               <Route index element={<AppTexts />} />
               <Route path="/management/app-texts/new" element={<AppTextForm />} />
