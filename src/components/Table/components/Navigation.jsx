@@ -25,17 +25,25 @@ function Navigation() {
     <div className="flex w-full items-center justify-between mt-5">
       <div className="flex w-full items-center justify-start gap-1">
         <p>{t("_accessibility:components.table.pageSizes")}</p>
-        <SelectInput
-          value={pageSize}
-          options={optionPageSize}
-          inputClassName="!py-0 !pl-2 !pr-7 !border-none font-bold"
-          containerClassName="!w-auto !mb-0 !border-none"
-          helperTextClassName="hidden"
-          onChange={(e) => setPageSize(e.target.value)}
-        />
+        {pageSizes[0] < total && (
+          <>
+            <p>
+              {t("_accessibility:components.table.from")} {currentPage + 1}{" "}
+              {t("_accessibility:components.table.to")}{" "}
+            </p>
+            <SelectInput
+              value={pageSize}
+              options={optionPageSize}
+              inputClassName="!py-0 !pl-2 !pr-7 !border-none font-bold"
+              containerClassName="!w-auto !mb-0 !border-none"
+              helperTextClassName="hidden"
+              onChange={(e) => setPageSize(e.target.value)}
+            />
+            <p>{t("_accessibility:components.table.of")} </p>
+          </>
+        )}
         <p>
-          {t("_accessibility:components.table.of")} {total}{" "}
-          {t("_accessibility:components.table.results")}
+          {total} {t("_accessibility:components.table.results")}
         </p>
       </div>
       <div className="flex gap-5 items-center justify-end">
