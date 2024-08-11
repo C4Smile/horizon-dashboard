@@ -42,7 +42,9 @@
     "add": "Add",
     "remove": "Remove",
     "previous": "Anterior",
-    "next": "Próximo"
+    "next": "Próximo",
+    "showFilters": "Mostrar filtros",
+    "apply": "Apply"
   },
   "labels": {
     "loading": "Cargando",
