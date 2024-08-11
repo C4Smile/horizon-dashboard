@@ -1,7 +1,7 @@
-import { useMemo, useEffect, useState } from "react";
+import { useMemo, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // images
 import noProduct from "../../assets/images/no-product.jpg";
@@ -12,17 +12,19 @@ import { Activity } from "../../models/activity/Activity";
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
 import { ReactQueryKeys, parents } from "../../utils/queryKeys";
-import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
-import { useNotification } from "../../providers/NotificationProvider";
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
+import { useTableOptions } from "../../components/Table/hooks/TableOptionsProvider";
 
 // components
 import Table from "../../components/Table/Table";
 
 // utils
 import { staticUrlPhoto } from "../../components/utils";
+
+// hooks
+import { useActions } from "../../components/Table/hooks/useActions";
 
 const columnClasses = {
   lastUpdate: "w-56",
@@ -40,9 +42,6 @@ const noSortableColumns = {
 function ActivitiesPage() {
   const { t } = useTranslation();
 
-  const navigate = useNavigate();
-
-  const { setNotification } = useNotification();
   const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
@@ -55,86 +54,65 @@ function ActivitiesPage() {
     }));
   }, [t]);
 
-  const [sort, setSort] = useState({
-    attribute: "lastUpdate",
-    order: SortOrder.ASC,
+  const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [ReactQueryKeys.Activities, sortingBy, sortingOrder, currentPage, pageSize],
+    queryFn: () => museumApiClient.Activity.getAll({ sortingBy, sortingOrder, currentPage, pageSize }),
   });
 
-  const onTableSort = (attribute, order) => setSort({ attribute, order });
+  const prepareRows = (activity) => {
+    let parsedAction = "-";
+    const sAction = activity?.entity?.split(",");
 
-  const activityQuery = useQuery({
-    queryKey: [
-      ReactQueryKeys.Activities,
-      {
-        ...sort,
-      },
-    ],
-    queryFn: () => museumApiClient.Activity.getAll(sort.attribute, sort.order),
-  });
-
-  const preparedRows = useMemo(
-    () =>
-      activityQuery.data?.map((activity) => {
-        let parsedAction = "-";
-        const sAction = activity?.entity?.split(",");
-
-        if (sAction?.length === 2)
-          parsedAction = (
-            <Link
-              className="underline text-light-primary flex"
-              to={`/${parents[sAction[0]]}/${sAction[0]}s/${sAction[1]}`}
-            >
-              <span className="truncate capitalize">{`${sAction[0]} - ${sAction[1]}`}</span>
-            </Link>
-          );
-
-        return {
-          ...activity,
-          title: (
-            <Link className="underline text-light-primary flex" to={`${activity.id}`}>
-              <span className="truncate">{activity.title}</span>
-            </Link>
-          ),
-          imageId: activity.imageId?.url ? (
-            <img
-              className={`w-10 h-10 rounded-full object-cover border-white border-2`}
-              src={staticUrlPhoto(activity.imageId.url)}
-              alt={`${activity.title}`}
-            />
-          ) : (
-            <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={activity.title} />
-          ),
-          entity: parsedAction,
-        };
-      }) ?? [],
-    [activityQuery],
-  );
+    if (sAction?.length === 2)
+      parsedAction = (
+        <Link
+          className="underline text-light-primary flex"
+          to={`/${parents[sAction[0]]}/${sAction[0]}s/${sAction[1]}`}
+        >
+          <span className="truncate capitalize">{`${sAction[0]} - ${sAction[1]}`}</span>
+        </Link>
+      );
+    return {
+      ...activity,
+      title: (
+        <Link className="underline text-light-primary flex" to={`${activity.id}`}>
+          <span className="truncate">{activity.title}</span>
+        </Link>
+      ),
+      imageId: activity.imageId?.url ? (
+        <img
+          className={`w-10 h-10 rounded-full object-cover border-white border-2`}
+          src={staticUrlPhoto(activity.imageId.url)}
+          alt={`${activity.title}`}
+        />
+      ) : (
+        <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={activity.title} />
+      ),
+      entity: parsedAction,
+    };
+  };
 
   useEffect(() => {
-    const { data } = activityQuery;
-    if (data?.status && data?.status !== 200) {
-      // eslint-disable-next-line no-console
-      console.error(data.message);
-      setNotification(String(data.status));
-    }
-  }, [activityQuery, navigate, setNotification]);
+    if (data) setTotal(data.total ?? 0);
+  }, [data, setTotal]);
 
-  const getActions = [];
+  const getActions = useActions({
+    apiClient: museumApiClient.Activity,
+    queryKey: ReactQueryKeys.Activities,
+    parent: "information",
+  });
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl md:text-3xl font-bold mb-5">
-        {t("_pages:information.links.activities")}
-      </h1>
       <Table
-        isLoading={activityQuery.isLoading}
-        rows={preparedRows}
-        apiClient={museumApiClient.Activity}
-        columns={preparedColumns}
+        rows={data?.items}
         actions={getActions}
-        onSort={onTableSort}
-        queryKey={ReactQueryKeys.Activities}
-        parent="information"
+        isLoading={isLoading}
+        parseRows={prepareRows}
+        columns={preparedColumns}
+        title={t("_pages:information.links.activities")}
       />
     </div>
   );
