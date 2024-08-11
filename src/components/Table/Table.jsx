@@ -78,7 +78,7 @@ function Table(props) {
     <div className="relative overflow-x-auto w-full h-full">
       <div className="mb-5">
         <h1 className="text-2xl md:text-3xl font-bold">{title}</h1>
-        <PageSize />
+        {rows?.length && !isLoading && <PageSize />}
       </div>
 
       <div className="h-[calc(100vh-300px)] overflow-auto">
