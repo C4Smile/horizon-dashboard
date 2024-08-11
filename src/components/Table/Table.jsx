@@ -10,9 +10,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // components
 import Loading from "../../partials/loading/Loading";
+
+// table components
+import Columns, { baseColumns } from "./components/Columns";
 import Navigation from "./components/Navigation";
 import PageSize from "./components/PageSize";
-import Columns, { baseColumns } from "./components/Columns";
+import Filters from "./components/Filters";
 import Empty from "./components/Empty";
 
 /**
@@ -73,12 +76,17 @@ function Table(props) {
 
   return (
     <div className="relative overflow-x-auto w-full h-full">
-      <div className="mb-5">
-        <h1 className="text-2xl md:text-3xl font-bold">{title}</h1>
-        {rows?.length && !isLoading && <PageSize />}
+      <div className="mb-5 flex w-full items-center justify-between">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold">{title}</h1>
+          {rows?.length && !isLoading && <PageSize />}
+        </div>
+        <div className="flex gap-5 items-center justify-end">
+          <Filters filters={[]} />
+        </div>
       </div>
 
-      <div className="h-[calc(100vh-300px)] overflow-auto">
+      <div className="h-[calc(100vh-280px)] overflow-auto">
         {!rows?.length && !isLoading ? (
           <Empty />
         ) : (
