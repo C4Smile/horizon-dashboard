@@ -10,22 +10,7 @@ import { useTableOptions } from "../hooks/TableOptionsProvider";
 function Navigation() {
   const { t } = useTranslation();
 
-  const { total, pageSize, pageSizes, /* setPageSize, */ currentPage, setCurrentPage } =
-    useTableOptions();
-
-  /*  const optionPageSize = useMemo(
-    () => pageSizes.map((size) => ({ label: size, value: size })),
-    [pageSizes],
-  ); */
-
-  /* <SelectInput
-              value={pageSize}
-              options={optionPageSize}
-              inputClassName="!py-0 !pl-2 !pr-7 !border-none font-bold"
-              containerClassName="!w-auto !mb-0 !border-none"
-              helperTextClassName="hidden"
-              onChange={(e) => setPageSize(e.target.value)}
-            /> */
+  const { total, pageSize, pageSizes, currentPage, setCurrentPage } = useTableOptions();
 
   const max = (currentPage + 1) * pageSize > total ? total : (currentPage + 1) * pageSize;
 
