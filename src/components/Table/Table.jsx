@@ -7,23 +7,13 @@ import Tippy from "@tippyjs/react";
 
 // font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 // components
 import Loading from "../../partials/loading/Loading";
 import Navigation from "./components/Navigation";
-import Empty from "./components/Empty";
-
-// models
-import { SortOrder } from "../../models/query/GenericFilter";
-
-// providers
-import { useTableOptions } from "./hooks/TableOptionsProvider";
 import PageSize from "./components/PageSize";
-
-const baseColumns = ["id", "dateOfCreation", "lastUpdate", "deleted"];
-
-const isBaseColumn = (column) => baseColumns.includes(column);
+import Columns, { baseColumns } from "./components/Columns";
+import Empty from "./components/Empty";
 
 /**
  * Table component
@@ -33,9 +23,16 @@ const isBaseColumn = (column) => baseColumns.includes(column);
 function Table(props) {
   const { t } = useTranslation();
 
-  const { title, parseRows, isLoading = false, rows, actions = [], columns = [] } = props;
-
-  const { onSort, sortingOrder, sortingBy } = useTableOptions();
+  const {
+    title,
+    rows,
+    parseRows,
+    entity = "",
+    isLoading = false,
+    actions = [],
+    columns = [],
+    columnsOptions = {},
+  } = props;
 
   const parsedRows = useMemo(
     () =>
@@ -86,37 +83,12 @@ function Table(props) {
           <Empty />
         ) : (
           <table className="w-full text-sm text-left text-gray-500">
-            <thead className="text-xs text-gray-700 bg-gray-50">
-              <tr>
-                {columns.map((column) => (
-                  <th key={column.id} scope="col" className={`px-6 py-3 ${column.className}`}>
-                    <button
-                      disabled={!column.sortable}
-                      onClick={() => onSort(column.id)}
-                      className="flex items-center gap-2"
-                    >
-                      <span className="whitespace-nowrap">
-                        {isBaseColumn(column.id) ? t(`_entities:base.${column.id}`) : column.label}
-                      </span>
-                      {column.sortable && (
-                        <span className={`${sortingBy === column.id ? "opacity-100" : "opacity-0"}`}>
-                          {sortingOrder === SortOrder.ASC ? (
-                            <FontAwesomeIcon icon={faChevronUp} />
-                          ) : (
-                            <FontAwesomeIcon icon={faChevronDown} />
-                          )}
-                        </span>
-                      )}
-                    </button>
-                  </th>
-                ))}
-                {Boolean(actions.length) && (
-                  <th scope="col" className="px-6 py-3 text-center">
-                    {t("_accessibility:labels.actions")}
-                  </th>
-                )}
-              </tr>
-            </thead>
+            <Columns
+              entity={entity}
+              columns={columns}
+              columnsOptions={columnsOptions}
+              hasAction={actions?.length > 0}
+            />
             {!isLoading && Boolean(rows?.length) && (
               <tbody>
                 {parsedRows.map((row) => (
@@ -126,10 +98,10 @@ function Table(props) {
                   >
                     {columns.map((column, i) => (
                       <td
-                        key={column.id}
+                        key={column}
                         className={`px-6 py-4 font-medium ${i === 0 ? "text-gray-900 whitespace-nowrap" : ""} ${column.className}`}
                       >
-                        {row[column.id]?.render ?? row[column.id]}
+                        {row[column]?.render ?? row[column]}
                       </td>
                     ))}
                     {Boolean(actions.length) && (
@@ -164,7 +136,12 @@ Table.propTypes = {
   title: PropTypes.string,
   isLoading: PropTypes.bool,
   actions: PropTypes.array,
-  columns: PropTypes.array,
+  entity: PropTypes.string,
+  columns: PropTypes.arrayOf(PropTypes.string),
+  columnsOptions: PropTypes.shape({
+    noSortableColumns: PropTypes.object,
+    columnClassNames: PropTypes.object,
+  }),
   rows: PropTypes.array,
   parseRows: PropTypes.func,
 };
