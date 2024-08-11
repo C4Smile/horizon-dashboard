@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -43,16 +43,6 @@ function ActivitiesPage() {
   const { t } = useTranslation();
 
   const museumApiClient = useMuseumApiClient();
-
-  const preparedColumns = useMemo(() => {
-    const keys = extractKeysFromObject(new Activity(), ["id", "description", "dateOfCreation"]);
-    return keys.map((key) => ({
-      id: key,
-      label: t(`_entities:activity.${key}.label`),
-      className: columnClasses[key] ?? "",
-      sortable: !noSortableColumns[key],
-    }));
-  }, [t]);
 
   const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
 
@@ -110,7 +100,9 @@ function ActivitiesPage() {
       actions={getActions}
       isLoading={isLoading}
       parseRows={prepareRows}
-      columns={preparedColumns}
+      entity={Activity.className}
+      columns={extractKeysFromObject(new Activity(), ["id", "description", "dateOfCreation"])}
+      columnsOptions={{ columnClasses, noSortableColumns }}
       title={t("_pages:information.links.activities")}
     />
   );

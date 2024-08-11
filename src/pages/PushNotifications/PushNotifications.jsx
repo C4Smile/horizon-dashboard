@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -41,16 +41,6 @@ function PushNotifications() {
   const { t } = useTranslation();
 
   const museumApiClient = useMuseumApiClient();
-
-  const preparedColumns = useMemo(() => {
-    const keys = extractKeysFromObject(new PushNotification(), ["id", "dateOfCreation", "deleted"]);
-    return keys.map((key) => ({
-      id: key,
-      label: t(`_entities:pushNotification.${key}.label`),
-      className: columnClasses[key] ?? "",
-      sortable: !noSortableColumns[key],
-    }));
-  }, [t]);
 
   const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
 
@@ -125,7 +115,9 @@ function PushNotifications() {
       actions={getActions}
       isLoading={isLoading}
       parseRows={prepareRows}
-      columns={preparedColumns}
+      entity={PushNotification.className}
+      columns={extractKeysFromObject(new PushNotification(), ["id", "dateOfCreation", "deleted"])}
+      columnsOptions={{ columnClasses, noSortableColumns }}
       title={t("_pages:management.links.pushNotifications")}
     />
   );

@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -28,16 +28,6 @@ function RoomTypes() {
   const { t } = useTranslation();
 
   const museumApiClient = useMuseumApiClient();
-
-  const preparedColumns = useMemo(() => {
-    const keys = extractKeysFromObject(new RoomType(), []);
-    return keys.map((key) => ({
-      id: key,
-      label: t(`_entities:roomType.${key}.label`),
-      className: "",
-      sortable: true,
-    }));
-  }, [t]);
 
   const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
 
@@ -73,7 +63,8 @@ function RoomTypes() {
       actions={getActions}
       isLoading={isLoading}
       parseRows={prepareRows}
-      columns={preparedColumns}
+      columns={extractKeysFromObject(new RoomType(), [])}
+      entity={RoomType.className}
       title={t("_pages:museum.links.roomTypes")}
     />
   );

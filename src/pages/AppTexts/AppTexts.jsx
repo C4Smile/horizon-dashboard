@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -28,16 +28,6 @@ function AppTexts() {
   const { t } = useTranslation();
 
   const museumApiClient = useMuseumApiClient();
-
-  const preparedColumns = useMemo(() => {
-    const keys = extractKeysFromObject(new AppText(), ["id"]);
-    return keys.map((key) => ({
-      id: key,
-      label: t(`_entities:appText.${key}.label`),
-      className: "",
-      sortable: true,
-    }));
-  }, [t]);
 
   const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
 
@@ -73,7 +63,8 @@ function AppTexts() {
       actions={getActions}
       isLoading={isLoading}
       parseRows={prepareRows}
-      columns={preparedColumns}
+      entity={AppText.className}
+      columns={extractKeysFromObject(new AppText(), ["id"])}
       title={t("_pages:management.links.appTexts")}
     />
   );

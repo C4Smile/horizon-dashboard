@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -37,16 +37,6 @@ function Rooms() {
   const { t } = useTranslation();
 
   const museumApiClient = useMuseumApiClient();
-
-  const preparedColumns = useMemo(() => {
-    const keys = extractKeysFromObject(new Room(), ["id", "dateOfCreation", "deleted", "content"]);
-    return keys.map((key) => ({
-      id: key,
-      label: t(`_entities:room.${key}.label`),
-      className: "",
-      sortable: !noSortableColumns[key],
-    }));
-  }, [t]);
 
   const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
 
@@ -117,7 +107,9 @@ function Rooms() {
       actions={getActions}
       isLoading={isLoading}
       parseRows={prepareRows}
-      columns={preparedColumns}
+      entity={Room.className}
+      columns={extractKeysFromObject(new Room(), ["id", "dateOfCreation", "deleted", "content"])}
+      columnsOptions={{ noSortableColumns }}
       title={t("_pages:museum.links.rooms")}
     />
   );
