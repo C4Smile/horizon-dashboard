@@ -32,6 +32,7 @@ export class GuestBook extends Entity {
     this.name = name;
     this.content = content;
     this.description = description;
+    GuestBook.className = "guestBook";
   }
 
   /**

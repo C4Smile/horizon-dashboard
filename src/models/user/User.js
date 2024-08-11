@@ -47,6 +47,7 @@ export class User extends Entity {
     this.phone = phone;
     this.address = address;
     this.identification = identification;
+    User.className = "user";
   }
 
   /**

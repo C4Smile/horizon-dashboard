@@ -33,6 +33,7 @@ export class News extends Entity {
     this.title = title;
     this.description = description;
     this.content = content;
+    News.className = "news";
   }
 
   /**

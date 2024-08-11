@@ -35,6 +35,7 @@ export class PushNotification extends Entity {
     this.action = action;
     this.imageId = imageId;
     this.sentDate = sentDate;
+    PushNotification.className = "pushNotification";
   }
 
   /**

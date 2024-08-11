@@ -46,6 +46,7 @@ export class Event extends Entity {
     this.subtitle = subtitle;
     this.address = address;
     this.location = location;
+    Event.className = "event";
   }
 
   /**

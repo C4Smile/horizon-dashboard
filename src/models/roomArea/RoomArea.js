@@ -38,6 +38,7 @@ export class RoomArea extends Entity {
     this.content = content;
     this.description = description;
     this.status = status;
+    RoomArea.className = "roomArea";
   }
 
   /**

@@ -17,6 +17,7 @@ export class AppText extends Entity {
   constructor(id, title, dateOfCreation = Date.now(), lastUpdate = Date.now(), deleted = false) {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.title = title;
+    AppText.className = "appText";
   }
 
   /**

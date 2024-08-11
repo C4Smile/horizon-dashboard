@@ -32,6 +32,7 @@ export class Activity extends Entity {
     this.title = title;
     this.description = description;
     this.entity = entity;
+    Activity.className = "activity";
   }
 
   /**

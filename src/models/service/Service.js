@@ -30,6 +30,7 @@ export class Service extends Entity {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.name = name;
     this.description = description;
+    Service.className = "service";
   }
 
   /**

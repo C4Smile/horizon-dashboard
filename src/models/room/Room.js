@@ -39,6 +39,7 @@ export class Room extends Entity {
     this.content = content;
     this.number = number;
     this.status = status;
+    Room.className = "room";
   }
 
   /**
