@@ -40,7 +40,9 @@ function ModelNavigation(props) {
           </Link>
         )}
       </nav>
-      <Outlet />
+      <div className="p-5">
+        <Outlet />
+      </div>
     </div>
   );
 }

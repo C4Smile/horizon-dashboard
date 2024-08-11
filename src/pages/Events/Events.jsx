@@ -158,16 +158,14 @@ function EventsPage() {
   });
 
   return (
-    <div className="p-5">
-      <Table
-        rows={data?.items}
-        actions={getActions}
-        isLoading={isLoading}
-        parseRows={prepareRows}
-        columns={preparedColumns}
-        title={t("_pages:information.links.events")}
-      />
-    </div>
+    <Table
+      rows={data?.items}
+      actions={getActions}
+      isLoading={isLoading}
+      parseRows={prepareRows}
+      columns={preparedColumns}
+      title={t("_pages:information.links.events")}
+    />
   );
 }
 

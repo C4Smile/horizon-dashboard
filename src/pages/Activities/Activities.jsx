@@ -105,16 +105,14 @@ function ActivitiesPage() {
   });
 
   return (
-    <div className="p-5">
-      <Table
-        rows={data?.items}
-        actions={getActions}
-        isLoading={isLoading}
-        parseRows={prepareRows}
-        columns={preparedColumns}
-        title={t("_pages:information.links.activities")}
-      />
-    </div>
+    <Table
+      rows={data?.items}
+      actions={getActions}
+      isLoading={isLoading}
+      parseRows={prepareRows}
+      columns={preparedColumns}
+      title={t("_pages:information.links.activities")}
+    />
   );
 }
 

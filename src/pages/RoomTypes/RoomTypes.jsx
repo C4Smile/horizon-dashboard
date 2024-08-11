@@ -68,16 +68,14 @@ function RoomTypes() {
   });
 
   return (
-    <div className="p-5">
-      <Table
-        rows={data?.items}
-        actions={getActions}
-        isLoading={isLoading}
-        parseRows={prepareRows}
-        columns={preparedColumns}
-        title={t("_pages:museum.links.roomTypes")}
-      />
-    </div>
+    <Table
+      rows={data?.items}
+      actions={getActions}
+      isLoading={isLoading}
+      parseRows={prepareRows}
+      columns={preparedColumns}
+      title={t("_pages:museum.links.roomTypes")}
+    />
   );
 }
 
