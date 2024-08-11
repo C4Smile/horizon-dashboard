@@ -9,20 +9,10 @@
     "6": "Sábado"
   },
   "components": {
-    "inputs": {
-      "dropzone": {
-        "text": "Arrastra archivos aquí o haz clic para cargar",
-        "previewText": "Vista previa"
-      },
-      "count": "Cantidad",
-      "message": {
-        "upload-success": "Archivo cargado exitosamente",
-        "too-many-files": "Demasiados archivos",
-        "delete-success:": "Archivo eliminado exitosamente",
-        "success": "Éxito",
-        "error": "Error"
-      },
-      "maxFiles": "Máximo de archivos"
+    "table": {
+      "pageSizes": "Mostrando",
+      "of": "of",
+      "results": "resultados"
     }
   },
   "appName": "Museo del Primer Frente José Martí",
