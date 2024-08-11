@@ -66,11 +66,13 @@ textarea {
 }
 
 .submit {
-  @apply relative text-white bg-light-primary transition enabled:hover:bg-primary disabled:bg-primary/40 enabled:focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center;
+  padding: 5px 20px;
+  @apply relative text-white border-2 border-light-primary bg-light-primary transition enabled:hover:bg-primary enabled:hover:border-light-primary disabled:bg-primary/40 font-medium rounded-full text-sm w-full sm:w-auto text-center;
 }
 
 .outlined {
-  @apply relative text-primary border-2 border-primary transition duration-300 enabled:hover:text-white enabled:hover:bg-primary rounded-full flex items-center justify-center;
+  padding: 5px 10px;
+  @apply relative text-primary border-2 border-primary transition duration-300 enabled:hover:text-white enabled:hover:bg-primary rounded-full flex items-center justify-center font-medium text-sm w-full sm:w-auto text-center;
 }
 
 .dashhed {
