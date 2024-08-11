@@ -14,7 +14,7 @@ function ModelNavigation(props) {
 
   return (
     <div>
-      <nav className="flex p-4 bg-slate-200 w-full">
+      <nav className="flex bg-slate-200 w-full">
         <Link
           disabled={pathname === `/${parent}/${model}`}
           className={`px-3 py-2 ${
