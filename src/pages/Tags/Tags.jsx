@@ -71,12 +71,12 @@ function Tags() {
   return (
     <div className="p-5">
       <Table
-        title={t("_pages:information.links.tags")}
         rows={data?.items}
         actions={getActions}
         isLoading={isLoading}
         parseRows={prepareRows}
         columns={preparedColumns}
+        title={t("_pages:information.links.tags")}
       />
     </div>
   );
