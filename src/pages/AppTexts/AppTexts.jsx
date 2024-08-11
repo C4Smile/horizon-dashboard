@@ -1,7 +1,7 @@
-import { useMemo, useEffect, useState } from "react";
+import { useMemo, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // dto
 import { AppText } from "../../models/appText/AppText";
@@ -9,14 +9,16 @@ import { AppText } from "../../models/appText/AppText";
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
 import { ReactQueryKeys } from "../../utils/queryKeys";
-import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
-import { useNotification } from "../../providers/NotificationProvider";
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
+import { useTableOptions } from "../../components/Table/hooks/TableOptionsProvider";
 
 // components
 import Table from "../../components/Table/Table";
+
+// hooks
+import { useActions } from "../../components/Table/hooks/useActions";
 
 /**
  * AppText page
@@ -25,9 +27,6 @@ import Table from "../../components/Table/Table";
 function AppTexts() {
   const { t } = useTranslation();
 
-  const navigate = useNavigate();
-
-  const { setNotification } = useNotification();
   const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
@@ -40,64 +39,43 @@ function AppTexts() {
     }));
   }, [t]);
 
-  const [sort, setSort] = useState({
-    attribute: "lastUpdate",
-    order: SortOrder.ASC,
+  const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [ReactQueryKeys.AppTexts, sortingBy, sortingOrder, currentPage, pageSize],
+    queryFn: () => museumApiClient.AppText.getAll({ sortingBy, sortingOrder, currentPage, pageSize }),
   });
-
-  const onTableSort = (attribute, order) => setSort({ attribute, order });
-
-  const appTextQuery = useQuery({
-    queryKey: [
-      ReactQueryKeys.AppTexts,
-      {
-        ...sort,
-      },
-    ],
-    queryFn: () => museumApiClient.AppText.getAll(sort.attribute, sort.order),
-  });
-
-  const [localData, setLocalData] = useState([]);
-
-  const preparedRows = useMemo(() => {
-    return localData.map((appText) => {
-      return {
-        ...appText,
-        title: (
-          <Link className="underline text-light-primary" to={`${appText.id}`}>
-            {appText.title}
-          </Link>
-        ),
-      };
-    });
-  }, [localData]);
 
   useEffect(() => {
-    const { data } = appTextQuery;
-    if (data) {
-      if (data.status && data?.status !== 200) {
-        // eslint-disable-next-line no-console
-        console.error(data.message);
-        setNotification(String(data.status));
-      } else setLocalData(data ?? []);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appTextQuery.data, navigate, setNotification]);
+    if (data) setTotal(data.total ?? 0);
+  }, [data, setTotal]);
 
-  const getActions = [];
+  const prepareRows = (appText) => {
+    return {
+      ...appText,
+      title: (
+        <Link className="underline text-light-primary" to={`${appText.id}`}>
+          {appText.title}
+        </Link>
+      ),
+    };
+  };
+
+  const getActions = useActions({
+    apiClient: museumApiClient.Tag,
+    queryKey: ReactQueryKeys.Tags,
+    parent: "management",
+  });
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:management.links.appTexts")}</h1>
       <Table
-        isLoading={appTextQuery.isLoading}
-        rows={preparedRows}
-        apiClient={museumApiClient.AppText}
-        columns={preparedColumns}
+        rows={data?.items}
         actions={getActions}
-        onSort={onTableSort}
-        queryKey={ReactQueryKeys.AppTexts}
-        parent="management"
+        isLoading={isLoading}
+        parseRows={prepareRows}
+        columns={preparedColumns}
+        title={t("_pages:management.links.appTexts")}
       />
     </div>
   );
