@@ -17,6 +17,7 @@ export class Tag extends Entity {
   constructor(id, name, dateOfCreation = Date.now(), lastUpdate = Date.now(), deleted = false) {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.name = name;
+    Tag.className = "tag";
   }
 
   /**

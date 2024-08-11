@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -28,16 +28,6 @@ function Tags() {
   const { t } = useTranslation();
 
   const museumApiClient = useMuseumApiClient();
-
-  const preparedColumns = useMemo(() => {
-    const keys = extractKeysFromObject(new Tag(), []);
-    return keys.map((key) => ({
-      id: key,
-      label: t(`_entities:tag.${key}.label`),
-      className: "",
-      sortable: true,
-    }));
-  }, [t]);
 
   const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
 
@@ -74,7 +64,8 @@ function Tags() {
       actions={getActions}
       isLoading={isLoading}
       parseRows={prepareRows}
-      columns={preparedColumns}
+      entity={Tag.className}
+      columns={extractKeysFromObject(new Tag(), [])}
       title={t("_pages:information.links.tags")}
     />
   );

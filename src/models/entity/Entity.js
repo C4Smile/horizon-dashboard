@@ -3,6 +3,8 @@
  * @description Base class for all entities
  */
 export class Entity {
+  static className = "";
+
   id = 0;
   dateOfCreation = null;
   lastUpdate = null;
