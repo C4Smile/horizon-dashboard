@@ -11,8 +11,11 @@
   "components": {
     "table": {
       "pageSizes": "Mostrando",
+      "from": "del",
+      "to": "al",
       "of": "de",
-      "results": "resultados"
+      "results": "resultados",
+      "empty": "No hay resultados"
     }
   },
   "appName": "Museo del Primer Frente José Martí",
@@ -39,7 +42,7 @@
     "add": "Add",
     "remove": "Remove",
     "previous": "Anterior",
-    "next": "Próxima"
+    "next": "Próximo"
   },
   "labels": {
     "loading": "Cargando",
