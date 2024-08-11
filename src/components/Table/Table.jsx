@@ -11,13 +11,14 @@ import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 // components
 import Loading from "../../partials/loading/Loading";
+import Navigation from "./components/Navigation";
+import Empty from "./components/Empty";
 
 // models
 import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
 import { useTableOptions } from "./hooks/TableOptionsProvider";
-import Navigation from "./components/Navigation";
 
 const baseColumns = ["id", "dateOfCreation", "lastUpdate", "deleted"];
 
@@ -74,78 +75,76 @@ function Table(props) {
 
   return (
     <div className="relative overflow-x-auto w-full h-full">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-        <thead className="text-xs text-gray-700 bg-gray-50">
-          <tr>
-            {columns.map((column) => (
-              <th key={column.id} scope="col" className={`px-6 py-3 ${column.className}`}>
-                <button
-                  disabled={!column.sortable}
-                  onClick={() => onSort(column.id)}
-                  className="flex items-center gap-2"
-                >
-                  <span className="whitespace-nowrap">
-                    {isBaseColumn(column.id) ? t(`_entities:base.${column.id}`) : column.label}
-                  </span>
-                  {column.sortable && (
-                    <span className={`${sortingBy === column.id ? "opacity-100" : "opacity-0"}`}>
-                      {sortingOrder === SortOrder.ASC ? (
-                        <FontAwesomeIcon icon={faChevronUp} />
-                      ) : (
-                        <FontAwesomeIcon icon={faChevronDown} />
-                      )}
-                    </span>
-                  )}
-                </button>
-              </th>
-            ))}
-            {Boolean(actions.length) && (
-              <th scope="col" className="px-6 py-3 text-center">
-                {t("_accessibility:labels.actions")}
-              </th>
-            )}
-          </tr>
-        </thead>
-        {!isLoading && Boolean(rows?.length) && (
-          <tbody>
-            {parsedRows.map((row) => (
-              <tr
-                key={row.id}
-                className={`border-b ${row.deleted.value ? "bg-secondary/10" : "bg-white"}`}
-              >
-                {columns.map((column, i) => (
-                  <td
-                    key={column.id}
-                    className={`px-6 py-4 font-medium ${i === 0 ? "text-gray-900 whitespace-nowrap" : ""} ${column.className}`}
+      <div className="h-[calc(100vh-280px)] overflow-auto">
+        <table className="w-full text-sm text-left text-gray-500">
+          <thead className="text-xs text-gray-700 bg-gray-50">
+            <tr>
+              {columns.map((column) => (
+                <th key={column.id} scope="col" className={`px-6 py-3 ${column.className}`}>
+                  <button
+                    disabled={!column.sortable}
+                    onClick={() => onSort(column.id)}
+                    className="flex items-center gap-2"
                   >
-                    {row[column.id]?.render ?? row[column.id]}
-                  </td>
-                ))}
-                {Boolean(actions.length) && (
-                  <td>
-                    <div className="flex items-center gap-3 w-full justify-center">
-                      {actions
-                        .filter((action) => !action.hidden || !action.hidden(row))
-                        .map((action) => (
-                          <Tippy key={action.id} content={action.tooltip}>
-                            <button onClick={() => action.onClick(row)}>
-                              <FontAwesomeIcon icon={action.icon} />
-                            </button>
-                          </Tippy>
-                        ))}
-                    </div>
-                  </td>
-                )}
-              </tr>
-            ))}
-          </tbody>
-        )}
-      </table>
-      {!rows?.length && !isLoading && (
-        <div className="bg-gray-50 w-full flex items-center justify-center py-2 border-t-[1px]">
-          <p>No data</p>
-        </div>
-      )}
+                    <span className="whitespace-nowrap">
+                      {isBaseColumn(column.id) ? t(`_entities:base.${column.id}`) : column.label}
+                    </span>
+                    {column.sortable && (
+                      <span className={`${sortingBy === column.id ? "opacity-100" : "opacity-0"}`}>
+                        {sortingOrder === SortOrder.ASC ? (
+                          <FontAwesomeIcon icon={faChevronUp} />
+                        ) : (
+                          <FontAwesomeIcon icon={faChevronDown} />
+                        )}
+                      </span>
+                    )}
+                  </button>
+                </th>
+              ))}
+              {Boolean(actions.length) && (
+                <th scope="col" className="px-6 py-3 text-center">
+                  {t("_accessibility:labels.actions")}
+                </th>
+              )}
+            </tr>
+          </thead>
+          {!isLoading && Boolean(rows?.length) && (
+            <tbody>
+              {parsedRows.map((row) => (
+                <tr
+                  key={row.id}
+                  className={`border-b ${row.deleted.value ? "bg-secondary/10" : "bg-white"}`}
+                >
+                  {columns.map((column, i) => (
+                    <td
+                      key={column.id}
+                      className={`px-6 py-4 font-medium ${i === 0 ? "text-gray-900 whitespace-nowrap" : ""} ${column.className}`}
+                    >
+                      {row[column.id]?.render ?? row[column.id]}
+                    </td>
+                  ))}
+                  {Boolean(actions.length) && (
+                    <td>
+                      <div className="flex items-center gap-3 w-full justify-center">
+                        {actions
+                          .filter((action) => !action.hidden || !action.hidden(row))
+                          .map((action) => (
+                            <Tippy key={action.id} content={action.tooltip}>
+                              <button onClick={() => action.onClick(row)}>
+                                <FontAwesomeIcon icon={action.icon} />
+                              </button>
+                            </Tippy>
+                          ))}
+                      </div>
+                    </td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          )}
+        </table>
+      </div>
+      {!rows?.length && !isLoading && <Empty />}
       {isLoading && <Loading className="bg-white top-0 left-0 w-full h-full" />}
       <Navigation />
     </div>
