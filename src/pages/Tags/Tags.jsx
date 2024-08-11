@@ -70,8 +70,8 @@ function Tags() {
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:information.links.tags")}</h1>
       <Table
+        title={t("_pages:information.links.tags")}
         rows={data?.items}
         actions={getActions}
         isLoading={isLoading}
