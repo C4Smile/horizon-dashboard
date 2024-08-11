@@ -17,7 +17,7 @@ function PageSize() {
   const { pageSizes, pageSize, setPageSize } = useTableOptions();
 
   const optionPageSize = useMemo(
-    () => pageSizes.map((size) => ({ label: size, value: size })),
+    () => pageSizes.map((size) => ({ id: size, value: size })),
     [pageSizes],
   );
 
