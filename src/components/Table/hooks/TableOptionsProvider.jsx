@@ -7,10 +7,12 @@ const pageSizes = [20, 50, 100];
 
 class TableOptions {
   onSort = (attribute) => attribute;
+  total = 0;
+  setTotal = (value) => value;
   sortingBy = "";
   sortingOrder = "";
   pageSize = 0;
-  pageSizes = 0;
+  pageSizes = [];
   setPageSize = (value) => value;
   currentPage = 0;
   setCurrentPage = (value) => value;
@@ -26,6 +28,7 @@ const TableOptionsContext = createContext(TableOptions);
 const TableOptionsProvider = (props) => {
   const { children } = props;
 
+  const [total, setTotal] = useState(0);
   const [pageSize, setPageSize] = useState(20);
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -52,6 +55,8 @@ const TableOptionsProvider = (props) => {
 
   const value = {
     onSort,
+    total,
+    setTotal,
     sortingBy,
     sortingOrder,
     pageSize,
