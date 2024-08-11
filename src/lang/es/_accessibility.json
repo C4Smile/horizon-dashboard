@@ -11,7 +11,7 @@
   "components": {
     "table": {
       "pageSizes": "Mostrando",
-      "of": "of",
+      "of": "de",
       "results": "resultados"
     }
   },
@@ -37,7 +37,9 @@
     "delete": "Eliminar",
     "restore": "Restaurar",
     "add": "Add",
-    "remove": "Remove"
+    "remove": "Remove",
+    "previous": "Anterior",
+    "next": "Próxima"
   },
   "labels": {
     "loading": "Cargando",
