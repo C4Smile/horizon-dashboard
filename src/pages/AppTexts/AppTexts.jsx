@@ -62,8 +62,8 @@ function AppTexts() {
   };
 
   const getActions = useActions({
-    apiClient: museumApiClient.Tag,
-    queryKey: ReactQueryKeys.Tags,
+    apiClient: museumApiClient.AppText,
+    queryKey: ReactQueryKeys.AppTexts,
     parent: "management",
   });
 

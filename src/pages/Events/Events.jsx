@@ -152,8 +152,8 @@ function EventsPage() {
   };
 
   const getActions = useActions({
-    apiClient: museumApiClient.Tag,
-    queryKey: ReactQueryKeys.Tags,
+    apiClient: museumApiClient.Event,
+    queryKey: ReactQueryKeys.Events,
     parent: "information",
   });
 

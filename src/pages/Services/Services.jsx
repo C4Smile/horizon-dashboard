@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useState } from "react";
+import { useMemo, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -14,17 +14,19 @@ import { Service } from "../../models/service/Service";
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
 import { ReactQueryKeys } from "../../utils/queryKeys";
-import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
-import { useNotification } from "../../providers/NotificationProvider";
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
+import { useTableOptions } from "../../components/Table/hooks/TableOptionsProvider";
 
 // utils
 import { staticUrlPhoto } from "../../components/utils";
 
 // components
 import Table from "../../components/Table/Table";
+
+// hooks
+import { useActions } from "../../components/Table/hooks/useActions";
 
 const columnClasses = {
   name: "max-w-40 overflow-hidden",
@@ -43,7 +45,6 @@ const noSortableColumns = {
 function ServicesPage() {
   const { t } = useTranslation();
 
-  const { setNotification } = useNotification();
   const museumApiClient = useMuseumApiClient();
 
   const preparedColumns = useMemo(() => {
@@ -61,68 +62,50 @@ function ServicesPage() {
     }));
   }, [t]);
 
-  const [sort, setSort] = useState({
-    attribute: "lastUpdate",
-    order: SortOrder.ASC,
+  const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [ReactQueryKeys.Services, sortingBy, sortingOrder, currentPage, pageSize],
+    queryFn: () => museumApiClient.Service.getAll({ sortingBy, sortingOrder, currentPage, pageSize }),
   });
-
-  const onTableSort = (attribute, order) => setSort({ attribute, order });
-
-  const serviceQuery = useQuery({
-    queryKey: [
-      ReactQueryKeys.Services,
-      {
-        ...sort,
-      },
-    ],
-    queryFn: () => museumApiClient.Service.getAll(sort.attribute, sort.order),
-  });
-
-  const preparedRows = useMemo(
-    () =>
-      serviceQuery.data?.map((service) => ({
-        ...service,
-        name: (
-          <Link className="underline text-light-primary flex" to={`${service.id}`}>
-            <span className="w-80 truncate">{service.name}</span>
-          </Link>
-        ),
-        imageId: service.imageId?.url ? (
-          <img
-            className={`w-10 h-10 rounded-full object-cover border-white border-2`}
-            src={staticUrlPhoto(service.imageId.url)}
-            alt={`${service.name}`}
-          />
-        ) : (
-          <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={service.name} />
-        ),
-      })) ?? [],
-    [serviceQuery],
-  );
 
   useEffect(() => {
-    const { data } = serviceQuery;
-    if (data?.status && data?.status !== 200) {
-      // eslint-disable-next-line no-console
-      console.error(data.message);
-      setNotification(String(data.status));
-    }
-  }, [serviceQuery, setNotification]);
+    if (data) setTotal(data.total ?? 0);
+  }, [data, setTotal]);
 
-  const getActions = [];
+  const prepareRows = (service) => ({
+    ...service,
+    name: (
+      <Link className="underline text-light-primary flex" to={`${service.id}`}>
+        <span className="w-80 truncate">{service.name}</span>
+      </Link>
+    ),
+    imageId: service.imageId?.url ? (
+      <img
+        className={`w-10 h-10 rounded-full object-cover border-white border-2`}
+        src={staticUrlPhoto(service.imageId.url)}
+        alt={`${service.name}`}
+      />
+    ) : (
+      <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={service.name} />
+    ),
+  });
+
+  const getActions = useActions({
+    apiClient: museumApiClient.Service,
+    queryKey: ReactQueryKeys.Services,
+    parent: "museum",
+  });
 
   return (
     <div className="p-5">
-      <h1 className="text-2xl md:text-3xl font-bold mb-5">{t("_pages:museum.links.services")}</h1>
       <Table
-        isLoading={serviceQuery.isLoading}
-        rows={preparedRows}
-        apiClient={museumApiClient.Service}
-        columns={preparedColumns}
+        rows={data?.items}
         actions={getActions}
-        onSort={onTableSort}
-        queryKey={ReactQueryKeys.Services}
-        parent="museum"
+        isLoading={isLoading}
+        parseRows={prepareRows}
+        columns={preparedColumns}
+        title={t("_pages:museum.links.services")}
       />
     </div>
   );
