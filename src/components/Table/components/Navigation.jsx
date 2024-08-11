@@ -49,13 +49,13 @@ function Navigation() {
       <div className="flex gap-5 items-center justify-end">
         <button
           className="disabled:text-light-primary/40"
-          disabled={Math.round(total / pageSize) === 0}
+          disabled={currentPage === 0}
           onClick={() => setCurrentPage(currentPage + 1)}
         >
           {t("_accessibility:buttons.previous")}
         </button>
         <button
-          disabled={currentPage === 0}
+          disabled={Math.round(total / pageSize) === 0}
           className="disabled:text-light-primary/40"
           onClick={() => setCurrentPage(currentPage - 1)}
         >
