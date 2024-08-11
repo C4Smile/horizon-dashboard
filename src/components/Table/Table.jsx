@@ -11,13 +11,13 @@ import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 
 // components
 import Loading from "../../partials/loading/Loading";
-import SelectInput from "../Forms/SelectInput";
 
 // models
 import { SortOrder } from "../../models/query/GenericFilter";
 
 // providers
 import { useTableOptions } from "./hooks/TableOptionsProvider";
+import Navigation from "./components/Navigation";
 
 const baseColumns = ["id", "dateOfCreation", "lastUpdate", "deleted"];
 
@@ -33,13 +33,7 @@ function Table(props) {
 
   const { parseRows, isLoading = false, rows, actions = [], columns = [] } = props;
 
-  const { onSort, total, pageSize, pageSizes, setPageSize, sortingOrder, sortingBy } =
-    useTableOptions();
-
-  const optionPageSize = useMemo(
-    () => pageSizes.map((size) => ({ label: size, value: size })),
-    [pageSizes],
-  );
+  const { onSort, sortingOrder, sortingBy } = useTableOptions();
 
   const parsedRows = useMemo(
     () =>
@@ -153,23 +147,7 @@ function Table(props) {
         </div>
       )}
       {isLoading && <Loading className="bg-white top-0 left-0 w-full h-full" />}
-      <div className="flex w-full items-center justify-between mt-5">
-        <div className="flex w-full items-center justify-start gap-2">
-          <p>{t("_accessibility:components.table.pageSizes")}</p>
-          <SelectInput
-            value={pageSize}
-            options={optionPageSize}
-            inputClassName="!py-0 !pl-2 !pr-10 !border-none"
-            containerClassName="!w-auto !mb-0 !border-none"
-            helperTextClassName="hidden"
-            onChange={(e) => setPageSize(e.target.value)}
-          />
-          <p>
-            {t("_accessibility:components.table.of")} {total}{" "}
-            {t("_accessibility:components.table.results")}
-          </p>
-        </div>
-      </div>
+      <Navigation />
     </div>
   );
 }
