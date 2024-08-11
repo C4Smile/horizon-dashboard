@@ -107,7 +107,7 @@ const ExternalLinkInput = forwardRef(function (props, ref) {
         }}
       />
       <div className="flex gap-5 items-center justify-start">
-        <button type="button" onClick={add} className="outlined">
+        <button type="button" onClick={add} className="outlined dashed icon-button">
           <FontAwesomeIcon icon={faAdd} />
         </button>
         <TextInput

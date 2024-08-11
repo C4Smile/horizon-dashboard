@@ -67,7 +67,7 @@ const ScheduleInput = forwardRef(function (props, ref) {
     <div className={`relative z-0 w-full mt-5 mb-10 group ${containerClassName}`}>
       <span className="">{label}</span>
       <div className="mt-5 flex gap-5 items-center justify-start">
-        <button type="button" onClick={add} className="outlined">
+        <button type="button" onClick={add} className="outlined dashed icon-button">
           <FontAwesomeIcon icon={faAdd} />
         </button>
         {onlyTime ? (

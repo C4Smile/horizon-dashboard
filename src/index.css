@@ -70,7 +70,15 @@ textarea {
 }
 
 .outlined {
-  @apply relative text-primary border-2 border-dashed border-primary transition duration-300 enabled:hover:text-white enabled:hover:bg-primary rounded-full min-w-10 w-10 min-h-10 h-10 flex items-center justify-center;
+  @apply relative text-primary border-2 border-primary transition duration-300 enabled:hover:text-white enabled:hover:bg-primary rounded-full flex items-center justify-center;
+}
+
+.dashhed {
+  @apply border-dashed;
+}
+
+.icon-button {
+  @apply min-w-10 w-10 min-h-10 h-10;
 }
 
 .appear {
