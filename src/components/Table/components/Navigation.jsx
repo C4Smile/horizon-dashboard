@@ -1,8 +1,4 @@
-import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-
-// components
-import SelectInput from "../../Forms/SelectInput";
 
 // hooks
 import { useTableOptions } from "../hooks/TableOptionsProvider";
@@ -14,12 +10,24 @@ import { useTableOptions } from "../hooks/TableOptionsProvider";
 function Navigation() {
   const { t } = useTranslation();
 
-  const { total, pageSize, pageSizes, setPageSize, currentPage, setCurrentPage } = useTableOptions();
+  const { total, pageSize, pageSizes, /* setPageSize, */ currentPage, setCurrentPage } =
+    useTableOptions();
 
-  const optionPageSize = useMemo(
+  /*  const optionPageSize = useMemo(
     () => pageSizes.map((size) => ({ label: size, value: size })),
     [pageSizes],
-  );
+  ); */
+
+  /* <SelectInput
+              value={pageSize}
+              options={optionPageSize}
+              inputClassName="!py-0 !pl-2 !pr-7 !border-none font-bold"
+              containerClassName="!w-auto !mb-0 !border-none"
+              helperTextClassName="hidden"
+              onChange={(e) => setPageSize(e.target.value)}
+            /> */
+
+  const max = (currentPage + 1) * pageSize > total ? total : (currentPage + 1) * pageSize;
 
   return (
     <div className="flex w-full items-center justify-between mt-5">
@@ -28,18 +36,9 @@ function Navigation() {
         {pageSizes[0] < total && (
           <>
             <p>
-              {t("_accessibility:components.table.from")} {currentPage + 1}{" "}
-              {t("_accessibility:components.table.to")}{" "}
+              {t("_accessibility:components.table.from")} {currentPage * pageSize + 1}{" "}
+              {t("_accessibility:components.table.to")} {max} {t("_accessibility:components.table.of")}
             </p>
-            <SelectInput
-              value={pageSize}
-              options={optionPageSize}
-              inputClassName="!py-0 !pl-2 !pr-7 !border-none font-bold"
-              containerClassName="!w-auto !mb-0 !border-none"
-              helperTextClassName="hidden"
-              onChange={(e) => setPageSize(e.target.value)}
-            />
-            <p>{t("_accessibility:components.table.of")} </p>
           </>
         )}
         <p>
@@ -50,14 +49,14 @@ function Navigation() {
         <button
           className="disabled:text-light-primary/40"
           disabled={currentPage === 0}
-          onClick={() => setCurrentPage(currentPage + 1)}
+          onClick={() => setCurrentPage(currentPage - 1)}
         >
           {t("_accessibility:buttons.previous")}
         </button>
         <button
-          disabled={Math.round(total / pageSize) === 0}
+          disabled={Math.floor(total / ((currentPage + 1) * pageSize)) === 0}
           className="disabled:text-light-primary/40"
-          onClick={() => setCurrentPage(currentPage - 1)}
+          onClick={() => setCurrentPage(currentPage + 1)}
         >
           {t("_accessibility:buttons.next")}
         </button>
