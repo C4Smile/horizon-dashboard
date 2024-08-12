@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -8,6 +8,8 @@ import loadable from "@loadable/component";
 // components
 import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
+import ImageUploader from "../../components/ImageUploader";
+import SelectInput from "../../components/Forms/SelectInput";
 import PasswordInput from "../../components/Forms/PasswordInput";
 
 // providers
@@ -35,8 +37,11 @@ function UserForm() {
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
+  const [lastUpdate, setLastUpdate] = useState();
 
   const { handleSubmit, reset, control } = useForm();
+
+  const [photo, setPhoto] = useState();
 
   const onSubmit = async (d) => {
     setSaving(true);
@@ -48,12 +53,12 @@ function UserForm() {
         console.error(t("_accessibility:errors.passwordDoNotMatch"));
         return setNotification(t("_accessibility:errors.passwordDoNotMatch"));
       }
-      if (!d.id) result = await museumApiClient.User.create(d);
-      else result = await museumApiClient.User.update(d);
+      if (!d.id) result = await museumApiClient.User.create(d, photo);
+      else result = await museumApiClient.User.update(d, photo);
       const { error, status } = result;
 
       setNotification(String(status), { model: t("_entities:entities.user") });
-
+      setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
       if (error && error !== null) console.error(error.message);
       else {
@@ -81,9 +86,22 @@ function UserForm() {
 
   const userQuery = useQuery({
     queryKey: [ReactQueryKeys.Users, id],
-    queryFn: () => museumApiClient.User.getById(id, "*", ["password", "rPassword"]),
+    queryFn: () => museumApiClient.User.getById(id),
     enabled: id !== undefined,
   });
+
+  const roleQuery = useQuery({
+    queryKey: [ReactQueryKeys.Roles],
+    queryFn: () => museumApiClient.Role.getAll(),
+  });
+
+  const roleList = useMemo(() => {
+    try {
+      return roleQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
+    } catch (err) {
+      return [];
+    }
+  }, [roleQuery]);
 
   useEffect(() => {
     const { data } = userQuery;
@@ -93,9 +111,13 @@ function UserForm() {
   }, [userQuery]);
 
   useEffect(() => {
-    if (userQuery.data) reset({ ...userQuery.data });
+    if (userQuery.data) {
+      reset({ ...userQuery.data });
+      setLastUpdate(userQuery?.data?.items?.lastUpdate);
+    }
 
     if (!id) {
+      setPhoto();
       reset({
         id: undefined,
         username: "",
@@ -117,6 +139,41 @@ function UserForm() {
         <h1 className="text-2xl md:text-3xl font-bold mb-5">
           {id ? `${t("_pages:users.editForm")} ${id}` : t("_pages:users.newForm")}
         </h1>
+        {userQuery.isLoading ? (
+          <Loading
+            className="bg-none w-6 h-6 mb-10"
+            strokeWidth="4"
+            loaderClass="!w-6"
+            color="stroke-primary"
+          />
+        ) : (
+          <div className={id && lastUpdate ? "" : "mt-5"}>
+            {id && lastUpdate && (
+              <p className="text-sm mb-10">
+                {t("_accessibility:labels.lastUpdate")}{" "}
+                {new Date(lastUpdate).toLocaleDateString("es-ES")}
+              </p>
+            )}
+          </div>
+        )}
+        <Controller
+          control={control}
+          name="roleId"
+          disabled={userQuery.isLoading || saving}
+          render={({ field: { onChange, value, ...rest } }) => (
+            <SelectInput
+              {...rest}
+              id="roleId"
+              name="roleId"
+              label={t("_entities:user.role.label")}
+              options={roleList}
+              value={value}
+              onChange={(e) => {
+                onChange(e.target.value);
+              }}
+            />
+          )}
+        />
         {/* User Name */}
         <Controller
           control={control}
@@ -223,6 +280,7 @@ function UserForm() {
             />
           )}
         />
+        {/* User Identification */}
         <Controller
           control={control}
           name="identification"
@@ -240,7 +298,7 @@ function UserForm() {
             />
           )}
         />
-
+        {/* User Phone */}
         <Controller
           control={control}
           name="phone"
@@ -258,6 +316,19 @@ function UserForm() {
             />
           )}
         />
+        {/* User Image */}
+        <div>
+          {userQuery.isLoading ? (
+            <Loading />
+          ) : (
+            <ImageUploader
+              photo={photo}
+              setPhoto={setPhoto}
+              label={`${t("_entities:user.imageId.label")}`}
+              folder={`${ReactQueryKeys.Services}`}
+            />
+          )}
+        </div>
 
         <button type="submit" disabled={userQuery.isLoading || saving} className="mb-5 submit">
           {(userQuery.isLoading || saving) && (
