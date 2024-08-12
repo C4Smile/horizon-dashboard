@@ -7,11 +7,14 @@ import Tippy from "@tippyjs/react";
 // font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
+
+// components
 import Popup from "../../Popup/Popup";
 
 /**
- *
- * @returns
+ * Filters component
+ * @param {object} props - Component props
+ * @returns Filters popup component
  */
 function Filters(props) {
   const { t } = useTranslation();
@@ -28,12 +31,15 @@ function Filters(props) {
         </button>
       </Tippy>
       <Popup className="right-2 top-6" show={showPopup} onClose={() => setShowPopup(false)}>
-        <div className="flex items-center gap-5">
-          <button type="submit" disabled={isLoading} className="submit">
-            {t("_accessibility:buttons.apply")}
-          </button>
-          <button className="outlined">{t("_accessibility:buttons.cancel")}</button>
-        </div>
+        <form>
+          <h3 className="mb-5">{t("_accessibility:components.table.filters.title")}</h3>
+          <div className="flex items-center gap-3">
+            <button type="submit" disabled={isLoading} className="submit">
+              {t("_accessibility:buttons.apply")}
+            </button>
+            <button className="outlined">{t("_accessibility:buttons.cancel")}</button>
+          </div>
+        </form>
       </Popup>
     </div>
   );
