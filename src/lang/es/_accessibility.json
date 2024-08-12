@@ -10,6 +10,9 @@
   },
   "components": {
     "table": {
+      "filters": {
+        "title": "Filtros"
+      },
       "pageSizes": "Mostrando",
       "from": "del",
       "to": "al",
