@@ -122,7 +122,7 @@ function NewsForm() {
 
   const tagsList = useMemo(() => {
     try {
-      return tagsQuery?.data?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
+      return tagsQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
     } catch (err) {
       return [];
     }
@@ -132,7 +132,7 @@ function NewsForm() {
     if (newsQuery.data) {
       //* PARSING TAGS
       const parsedTags = tagsList.filter((tag) =>
-        newsQuery?.data?.newsHasTag?.some((lTag) => lTag.tagId.id === tag.id),
+        newsQuery?.data?.items?.newsHasTag?.some((lTag) => lTag.tagId.id === tag.id),
       );
       //* PARSING CONTENT
       if (newsQuery.data?.content && typeof newsQuery.data?.content === "string") {
@@ -144,7 +144,7 @@ function NewsForm() {
           newsQuery.data.content = editorState;
         }
       }
-      setLastUpdate(newsQuery?.data?.lastUpdate);
+      setLastUpdate(newsQuery?.data?.items?.lastUpdate);
       reset({ ...newsQuery.data, tagsId: parsedTags });
     }
   }, [tagsList, newsQuery.data, reset]);

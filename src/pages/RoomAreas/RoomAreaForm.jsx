@@ -108,7 +108,7 @@ function RoomAreaForm() {
 
   const statusList = useMemo(() => {
     try {
-      return statusQuery?.data?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
+      return statusQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
     } catch (err) {
       return [];
     }
@@ -136,7 +136,7 @@ function RoomAreaForm() {
           roomAreaQuery.data.content = editorState;
         }
       }
-      setLastUpdate(roomAreaQuery?.data?.lastUpdate);
+      setLastUpdate(roomAreaQuery?.data?.items?.lastUpdate);
       reset({
         ...roomAreaQuery.data,
         roomId: { value: roomAreaQuery.data.room?.name, id: roomAreaQuery.data.room?.id },
@@ -162,7 +162,7 @@ function RoomAreaForm() {
 
   const roomsList = useMemo(() => {
     try {
-      return roomsQuery?.data?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
+      return roomsQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
     } catch (err) {
       return [];
     }

@@ -43,11 +43,11 @@ const ExternalLinkInput = forwardRef(function (props, ref) {
   const externalLinkList = useMemo(() => {
     try {
       if (externalLinkQuery?.data) {
-        setCurrentExternalLink(externalLinkQuery?.data?.at(0).id);
-        setCurrentPreview(externalLinkQuery?.data?.at(0).preview);
+        setCurrentExternalLink(externalLinkQuery?.data?.items?.at(0).id);
+        setCurrentPreview(externalLinkQuery?.data?.items?.at(0).preview);
       }
       return (
-        externalLinkQuery?.data?.map((c) => ({ value: `${c.name}`, id: c.id, preview: c.preview })) ??
+        externalLinkQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id, preview: c.preview })) ??
         []
       );
     } catch (err) {
@@ -100,7 +100,7 @@ const ExternalLinkInput = forwardRef(function (props, ref) {
         onChange={(e) => {
           setCurrentExternalLink(e.target.value);
           setError(false);
-          const link = externalLinkQuery?.data?.find(
+          const link = externalLinkQuery?.data?.items?.find(
             (extLink) => extLink.id === Number(e.target.value),
           );
           setCurrentPreview(link?.preview);

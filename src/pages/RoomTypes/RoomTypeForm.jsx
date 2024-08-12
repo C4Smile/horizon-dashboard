@@ -83,7 +83,7 @@ function RoomForm() {
 
   useEffect(() => {
     if (roomTypeQuery.data) {
-      setLastUpdate(roomTypeQuery?.data?.lastUpdate);
+      setLastUpdate(roomTypeQuery?.data?.items?.lastUpdate);
       reset({ ...roomTypeQuery.data });
     }
 

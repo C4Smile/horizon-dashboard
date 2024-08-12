@@ -91,7 +91,7 @@ function AppTextForm() {
 
   useEffect(() => {
     if (appTextQuery.data) {
-      setLastUpdate(appTextQuery?.data?.lastUpdate);
+      setLastUpdate(appTextQuery?.data?.items?.lastUpdate);
       if (appTextQuery.data?.content && typeof appTextQuery.data?.content === "string") {
         const html = appTextQuery.data?.content;
         const contentBlock = htmlToDraft(html);

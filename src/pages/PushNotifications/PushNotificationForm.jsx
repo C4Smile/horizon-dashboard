@@ -60,7 +60,7 @@ function PushNotificationForm() {
   const entityList = useMemo(() => {
     try {
       return (
-        entitiesQuery?.data?.map((c) => ({
+        entitiesQuery?.data?.items?.map((c) => ({
           value: `${c.name ?? c.title ?? `${t(`_entities:entities.room`)} ${c.number}`}`,
           id: c.id,
         })) ?? []

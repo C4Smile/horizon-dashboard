@@ -74,7 +74,7 @@ function SortRooms() {
 
   const roomsList = useMemo(() => {
     try {
-      return roomsQuery?.data?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
+      return roomsQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
     } catch (err) {
       return [];
     }
@@ -90,7 +90,7 @@ function SortRooms() {
     setRoomAreas({
       type: "set",
       items:
-        roomAreasQuery?.data?.map((c) => ({ value: `${c.name}`, number: `${c.number}`, id: c.id })) ??
+        roomAreasQuery?.data?.items?.map((c) => ({ value: `${c.name}`, number: `${c.number}`, id: c.id })) ??
         [],
     });
   }, [roomAreasQuery.data]);

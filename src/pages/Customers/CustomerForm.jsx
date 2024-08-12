@@ -109,7 +109,7 @@ function CustomerForm() {
 
   const countryList = useMemo(() => {
     try {
-      return countryQuery?.data?.map((c) => ({ value: `${c.name} - ${c.iso}`, id: c.id })) || [];
+      return countryQuery?.data?.items?.map((c) => ({ value: `${c.name} - ${c.iso}`, id: c.id })) || [];
     } catch (err) {
       return [];
     }

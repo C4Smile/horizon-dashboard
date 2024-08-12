@@ -106,7 +106,7 @@ function RoomForm() {
 
   const typesList = useMemo(() => {
     try {
-      return typesQuery?.data?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
+      return typesQuery?.data?.items?.items?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
     } catch (err) {
       return [];
     }
@@ -119,7 +119,7 @@ function RoomForm() {
 
   const statusList = useMemo(() => {
     try {
-      return statusQuery?.data?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
+      return statusQuery?.data?.items?.items?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
     } catch (err) {
       return [];
     }
@@ -146,7 +146,7 @@ function RoomForm() {
           roomQuery.data.content = editorState;
         }
       }
-      setLastUpdate(roomQuery?.data?.lastUpdate);
+      setLastUpdate(roomQuery?.data?.items?.lastUpdate);
       reset({ ...roomQuery.data });
     }
 

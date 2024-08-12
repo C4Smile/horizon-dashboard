@@ -134,7 +134,7 @@ function EventForm() {
 
   const tagsList = useMemo(() => {
     try {
-      return tagsQuery?.data?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
+      return tagsQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
     } catch (err) {
       return [];
     }
@@ -152,7 +152,7 @@ function EventForm() {
       eventQuery.data.newEventHasSchedule = eventQuery.data?.eventHasSchedule;
       //* PARSING TAGS
       const parsedTags = tagsList.filter((tag) =>
-        eventQuery?.data?.eventHasTag?.some((lTag) => lTag.id === tag.id),
+        eventQuery?.data?.items?.eventHasTag?.some((lTag) => lTag.id === tag.id),
       );
       if (eventQuery.data?.content && typeof eventQuery.data?.content === "string") {
         const html = eventQuery.data?.content;
@@ -163,7 +163,7 @@ function EventForm() {
           eventQuery.data.content = editorState;
         }
       }
-      setLastUpdate(eventQuery?.data?.lastUpdate);
+      setLastUpdate(eventQuery?.data?.items?.lastUpdate);
       reset({ ...eventQuery.data, tagsId: parsedTags });
     }
   }, [tagsList, eventQuery.data, reset]);

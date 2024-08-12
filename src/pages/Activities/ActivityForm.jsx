@@ -56,7 +56,7 @@ function ActivityForm() {
   const entityList = useMemo(() => {
     try {
       return (
-        entitiesQuery?.data?.map((c) => ({
+        entitiesQuery?.data?.items?.map((c) => ({
           value: `${c.name ?? c.title ?? `${t(`_entities:entities.room`)} ${c.number}`}`,
           id: c.id,
         })) ?? []
@@ -128,7 +128,7 @@ function ActivityForm() {
   }, [activityQuery]);
 
   useEffect(() => {
-    if (activityQuery.data?.imageId) setPhoto(activityQuery?.data?.imageId);
+    if (activityQuery.data?.imageId) setPhoto(activityQuery?.data?.items?.imageId);
 
     if (!id) {
       setPhoto();
@@ -143,12 +143,12 @@ function ActivityForm() {
   useEffect(() => {
     if (activityQuery.data) {
       //* PARSING ENTITY
-      if (activityQuery?.data?.entity && activityQuery?.data?.entity?.length) {
+      if (activityQuery?.data?.items?.entity && activityQuery?.data?.items?.entity?.length) {
         const [entityType, entityId] = activityQuery.data.entity.split(",");
         if (entityType) setEntityLinkType(entityType);
         if (entityId) setPreviousLink(entityId);
       }
-      setLastUpdate(activityQuery?.data?.lastUpdate);
+      setLastUpdate(activityQuery?.data?.items?.lastUpdate);
       reset({ ...activityQuery.data });
     }
   }, [activityQuery.data, reset]);

@@ -78,7 +78,7 @@ function PersonalInfo() {
 
   const roleList = useMemo(() => {
     try {
-      return rolesQuery?.data?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
+      return rolesQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
     } catch (err) {
       return [];
     }
