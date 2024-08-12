@@ -12,8 +12,8 @@ import htmlToDraft from "html-to-draftjs";
 // components
 import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
-import ParagraphInput from "../../components/Forms/ParagraphInput";
 import ImageUploader from "../../components/ImageUploader";
+import ParagraphInput from "../../components/Forms/ParagraphInput";
 import AutocompleteInput from "../../components/Forms/AutocompleteInput";
 
 // providers
