@@ -7,11 +7,22 @@ import { fromLocal, toLocal } from "../utils/local";
 // config
 import config from "../config";
 
+// base
+import { BaseApiClient } from "./utils/BaseApiClient";
+
 /**
  * @class UserApiClient
  * @description UserApiClient
  */
-export class UserApiClient {
+export class UserApiClient extends BaseApiClient {
+  /**
+   * create base api client
+   */
+  constructor() {
+    super();
+    this.baseUrl = "museumUser";
+  }
+
   /**
    * Logs an user
    * @param {string} user - username
@@ -79,54 +90,21 @@ export class UserApiClient {
   // TODO ALL DOWN BELOW
 
   /**
-   * @description Get all countries
-   * @returns Province list
-   */
-  async getAll() {
-    const request = await fetch(`user`, {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
-    });
-    return await request.json();
-  }
-
-  /**
-   * @description Get user by id
-   * @param {string} id - Province id
-   * @returns Province by id
-   */
-  async getById(id) {
-    const request = await fetch(`user/${id}`, {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
-    });
-    return await request.json();
-  }
-
-  /**
    * @description Create user
    * @param {object} user - Province
    * @returns  Transaction status
    */
   async create(user) {
-    const request = await fetch(`user`, {
-      method: "POST",
-      body: JSON.stringify(user),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+    // deleting rPassword
+    delete user.rPassword;
+    return;
+    // call service
+    const { error, data, status } = await makeRequest(this.baseUrl, "POST", user, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
-    return request;
+    if (error !== null) return { status, error: { message: error.message } };
+
+    return { error, data, status: status === 204 ? 201 : status };
   }
 
   /**
@@ -135,15 +113,19 @@ export class UserApiClient {
    * @returns Transaction status
    */
   async update(user) {
-    const request = await fetch(`user/${user.id}`, {
-      method: "PATCH",
-      body: JSON.stringify(user),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
+    // call service
+    const { status, error } = await makeRequest(
+      `${this.baseUrl}/${user.id}`,
+      "PATCH",
+      {
+        ...user,
+        lastUpdate: new Date().toISOString(),
+      },
+      {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       },
-    });
-    return request;
+    );
+    if (error !== null) return { status, error: { message: error.message } };
+    return { error, status: status === 204 ? 201 : status };
   }
 }
