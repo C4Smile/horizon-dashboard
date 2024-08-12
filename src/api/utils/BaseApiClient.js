@@ -19,7 +19,7 @@ export class BaseApiClient {
    * @param {object} query - query parameters
    * @returns {Promise<object[]>} Result list
    */
-  async getAll(query) {
+  async getAll(query = { sortingBy: "id", sortingOrder: "asc", currentPage: 0, pageSize: 50 }) {
     const { sortingBy, sortingOrder, currentPage, pageSize } = query;
     const { data, error, status } = await makeRequest(
       `${this.baseUrl}?sort=${sortingBy}&order=${sortingOrder}&page=${currentPage}&count=${pageSize}`,
