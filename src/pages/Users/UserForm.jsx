@@ -317,7 +317,7 @@ function UserForm() {
           )}
         />
         {/* User Image */}
-        <div>
+        <div className="mb-5">
           {userQuery.isLoading ? (
             <Loading />
           ) : (
