@@ -168,7 +168,10 @@
     "phone": { "label": "Teléfono", "placeholder": "ej: +5352574839" },
     "address": { "label": "Dirección", "placeholder": "ej: Calle #57 % Calle y Calle" },
     "country": { "label": "País" },
-    "identification": { "label": "Identificación", "placeholder": "ej: A9012M" }
+    "identification": { "label": "Identificación", "placeholder": "ej: A9012M" },
+    "imageId": {
+      "label": "Foto de perfil"
+    }
   },
   "room": {
     "lastUpdate": { "label": "Última actualización" },
