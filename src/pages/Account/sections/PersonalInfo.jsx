@@ -1,92 +1,127 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
-
-// config
-import config from "../../../config";
+import loadable from "@loadable/component";
 
 // components
 import Loading from "../../../partials/loading/Loading";
-import SelectInput from "../../../components/Forms/SelectInput";
 import TextInput from "../../../components/Forms/TextInput";
+import ImageUploader from "../../../components/ImageUploader";
 
 // providers
 import { useNotification } from "../../../providers/NotificationProvider";
-import { useMuseumApiClient } from "../../../providers/MuseumApiProvider";
+import { useAccount } from "../../../providers/AccountProvider";
+import { queryClient, useMuseumApiClient } from "../../../providers/MuseumApiProvider";
 
 // utils
 import { ReactQueryKeys } from "../../../utils/queryKeys";
-import { fromLocal } from "../../../utils/local";
+
+// pages
+const NotFound = loadable(() => import("../../NotFound/NotFound"));
 
 /**
- * Personal Info section
- * @returns Personal Info component
+ * PersonalInfo
+ * @returns PersonalInfo page Component
  */
 function PersonalInfo() {
   const { t } = useTranslation();
 
+  const { account } = useAccount();
   const museumApiClient = useMuseumApiClient();
 
-  const userId = fromLocal(config.user, "object")?.user?.id ?? 0;
+  const id = account?.museumUser?.id;
+
+  const [notFound, setNotFound] = useState(false);
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
+  const [lastUpdate, setLastUpdate] = useState();
 
   const { handleSubmit, reset, control } = useForm();
 
-  const userQuery = useQuery({
-    queryKey: [ReactQueryKeys.Users, userId],
-    queryFn: () => museumApiClient.User.getById(userId),
-    enabled: userId !== undefined,
-  });
-
-  useEffect(() => {
-    const { error } = userQuery;
-    // eslint-disable-next-line no-console
-    if (error && error !== null) console.error(error);
-  }, [userQuery]);
-
-  useEffect(() => {
-    if (userQuery.data) {
-      const data = userQuery.data;
-      // eslint-disable-next-line no-console
-      if (data && data !== null) reset({ ...data });
-    }
-  }, [userQuery.data, userId, reset]);
+  const [photo, setPhoto] = useState();
 
   const onSubmit = async (d) => {
+    if (!photo) {
+      setNotification("images", {}, "bad");
+      return;
+    }
+
     setSaving(true);
     try {
-      const { error, status } = await museumApiClient.User.update({ ...d });
-      setNotification(String(status), { model: t("_entities:entities.user") });
+      const result = await museumApiClient.User.update(d, photo);
+      const { error, status } = result;
 
+      setNotification(String(status), { model: t("_entities:entities.user") });
+      setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
-      if (error && error !== null) console.error(error);
+      if (error && error !== null) console.error(error.message);
+      else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users, id] });
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
-      setNotification(String(e.status));
+      setNotification(String(e.status), { model: t("_entities:entities.user") });
     }
     setSaving(false);
   };
 
-  const rolesQuery = useQuery({
-    queryKey: [ReactQueryKeys.UserRoles],
-    queryFn: () => museumApiClient.UserRole.getAll(),
+  const userQuery = useQuery({
+    queryKey: [ReactQueryKeys.Users, id],
+    queryFn: () => museumApiClient.User.getById(id),
+    enabled: id !== undefined,
   });
 
-  const roleList = useMemo(() => {
-    try {
-      return rolesQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
-    } catch (err) {
-      return [];
-    }
-  }, [rolesQuery.data]);
+  useEffect(() => {
+    const { data } = userQuery;
+    // eslint-disable-next-line no-console
+    if (data && data.error) console.error(data.error.message);
+    if (data?.status === 404) setNotFound(true);
+  }, [userQuery]);
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} className="form pt-10">
-      <h2 className="text-1xl md:text-2xl font-bold mb-5">{t("_pages:settings.links.account")}</h2>
+  useEffect(() => {
+    if (userQuery.data) {
+      if (userQuery.data?.imageId) setPhoto(userQuery?.data?.imageId);
+      reset({ ...userQuery.data });
+      setLastUpdate(userQuery?.data?.lastUpdate);
+    }
+
+    if (!id) {
+      setPhoto();
+      reset({
+        id: undefined,
+        username: "",
+        password: "",
+        name: "",
+        email: "",
+        phone: "",
+        address: "",
+        identification: "",
+      });
+    }
+  }, [id, reset, userQuery.data]);
+
+  return notFound ? (
+    <NotFound />
+  ) : (
+    <form onSubmit={handleSubmit(onSubmit)} className="form">
+      <h2 className="text-1xl md:text-2xl font-bold">{t("_pages:settings.links.account")}</h2>
+      {userQuery.isLoading ? (
+        <Loading
+          className="bg-none w-6 h-6 mb-10"
+          strokeWidth="4"
+          loaderClass="!w-6"
+          color="stroke-primary"
+        />
+      ) : (
+        <div className={id && lastUpdate ? "" : "mt-5"}>
+          {id && lastUpdate && (
+            <p className="text-sm mb-10">
+              {t("_accessibility:labels.lastUpdate")} {new Date(lastUpdate).toLocaleDateString("es-ES")}
+            </p>
+          )}
+        </div>
+      )}
       {/* User Name */}
       <Controller
         control={control}
@@ -98,7 +133,7 @@ function PersonalInfo() {
             type="text"
             name="name"
             id="name"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder={t("_entities:user.name.placeholder")}
             label={t("_entities:user.name.label")}
             required
@@ -116,7 +151,7 @@ function PersonalInfo() {
             type="email"
             name="email"
             id="email"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder={t("_entities:user.email.placeholder")}
             label={t("_entities:user.email.label")}
             required
@@ -134,10 +169,9 @@ function PersonalInfo() {
             type="text"
             name="username"
             id="username"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder={t("_entities:user.username.placeholder")}
             label={t("_entities:user.username.label")}
-            disabled
             required
           />
         )}
@@ -153,7 +187,7 @@ function PersonalInfo() {
             type="text"
             name="address"
             id="address"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder={t("_entities:user.address.placeholder")}
             label={t("_entities:user.address.label")}
             required
@@ -171,7 +205,7 @@ function PersonalInfo() {
             type="text"
             name="identification"
             id="identification"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder={t("_entities:user.identification.placeholder")}
             label={t("_entities:user.identification.label")}
             required
@@ -188,7 +222,7 @@ function PersonalInfo() {
             type="tel"
             name="phone"
             id="phone"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder={t("_entities:user.phone.placeholder")}
             label={t("_entities:user.phone.label")}
             required
@@ -196,26 +230,19 @@ function PersonalInfo() {
           />
         )}
       />
-      {/* User Role */}
-      <Controller
-        control={control}
-        name="role"
-        disabled={userQuery.isLoading || rolesQuery.isLoading || saving}
-        render={({ field: { onChange, value, ...rest } }) => (
-          <SelectInput
-            {...rest}
-            id="role"
-            disabled
-            name="role"
-            label={t("_entities:user.role.label")}
-            options={roleList}
-            value={value}
-            onChange={(e) => {
-              onChange(e.target.value);
-            }}
+      {/* User Image */}
+      <div className="mb-5">
+        {userQuery.isLoading ? (
+          <Loading />
+        ) : (
+          <ImageUploader
+            photo={photo}
+            setPhoto={setPhoto}
+            label={`${t("_entities:user.imageId.label")}`}
+            folder={`${ReactQueryKeys.Users}`}
           />
         )}
-      />
+      </div>
 
       <button type="submit" disabled={userQuery.isLoading || saving} className="mb-5 submit">
         {(userQuery.isLoading || saving) && (
