@@ -332,7 +332,7 @@ function UserForm() {
               photo={photo}
               setPhoto={setPhoto}
               label={`${t("_entities:user.imageId.label")}`}
-              folder={`${ReactQueryKeys.Services}`}
+              folder={`${ReactQueryKeys.Users}`}
             />
           )}
         </div>
