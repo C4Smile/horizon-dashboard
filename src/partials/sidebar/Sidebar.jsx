@@ -23,6 +23,9 @@ import SidebarItem from "./SidebarItem";
 import { sitemap } from "../sitemap";
 import { useTranslation } from "react-i18next";
 
+// providers
+import { useAccount } from "../../providers/AccountProvider";
+
 /**
  * Sidebar
  * @param {object} props - React props
@@ -82,6 +85,9 @@ function Sidebar(props) {
     }
   }, [sidebarExpanded]);
 
+  const { account } = useAccount();
+  const userRole = account?.museumUser?.roleId;
+
   return (
     <div>
       {/* Sidebar backdrop (mobile only) */}
@@ -134,26 +140,28 @@ function Sidebar(props) {
           {/* Pages group */}
           <div>
             <ul className="mt-3">
-              {sitemap.map((item) => (
-                <SidebarLinkGroup
-                  key={item.page}
-                  hi={item.page}
-                  activeCondition={pathname === item.path || pathname.includes(item.page)}
-                >
-                  {(handleClick, open) => (
-                    <SidebarItem
-                      page={item.page}
-                      path={item.path}
-                      handleClick={() => {
-                        sidebarExpanded ? handleClick() : setSidebarExpanded(true);
-                      }}
-                      open={open}
-                      child={item.child}
-                      icon={icons[item.page]}
-                    />
-                  )}
-                </SidebarLinkGroup>
-              ))}
+              {sitemap
+                .filter((sideMenu) => (sideMenu.role ? sideMenu.role.indexOf(userRole) >= 0 : true))
+                .map((item) => (
+                  <SidebarLinkGroup
+                    key={item.page}
+                    hi={item.page}
+                    activeCondition={pathname === item.path || pathname.includes(item.page)}
+                  >
+                    {(handleClick, open) => (
+                      <SidebarItem
+                        page={item.page}
+                        path={item.path}
+                        handleClick={() => {
+                          sidebarExpanded ? handleClick() : setSidebarExpanded(true);
+                        }}
+                        open={open}
+                        child={item.child}
+                        icon={icons[item.page]}
+                      />
+                    )}
+                  </SidebarLinkGroup>
+                ))}
             </ul>
           </div>
         </div>
