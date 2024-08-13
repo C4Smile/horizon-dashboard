@@ -129,7 +129,7 @@ function UpdatePassword() {
         >
           {saving && (
             <Loading
-              className="bg-primary w-full h-full absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] rounded-lg "
+              className="button-loading"
               strokeWidth="4"
               loaderClass="!w-6"
               color="stroke-white"

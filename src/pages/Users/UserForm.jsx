@@ -44,9 +44,15 @@ function UserForm() {
   const [photo, setPhoto] = useState();
 
   const onSubmit = async (d) => {
+    if (!photo) {
+      setNotification("images", {}, "bad");
+      return;
+    }
+
     setSaving(true);
     try {
       let result;
+
       if (d.password !== d.rPassword) {
         setSaving(false);
         // eslint-disable-next-line no-console
@@ -334,7 +340,7 @@ function UserForm() {
         <button type="submit" disabled={userQuery.isLoading || saving} className="mb-5 submit">
           {(userQuery.isLoading || saving) && (
             <Loading
-              className="bg-primary w-full h-full absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] rounded-lg "
+              className="button-loading"
               strokeWidth="4"
               loaderClass="!w-6"
               color="stroke-white"
