@@ -235,7 +235,7 @@ function CustomerForm() {
         >
           {(customerQuery.isLoading || saving) && (
             <Loading
-              className="bg-primary w-full h-full absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] rounded-lg "
+              className="bg-primary w-full h-full absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] rounded-full"
               strokeWidth="4"
               loaderClass="!w-6"
               color="stroke-white"

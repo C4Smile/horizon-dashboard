@@ -47,8 +47,11 @@ const ExternalLinkInput = forwardRef(function (props, ref) {
         setCurrentPreview(externalLinkQuery?.data?.items?.at(0).preview);
       }
       return (
-        externalLinkQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id, preview: c.preview })) ??
-        []
+        externalLinkQuery?.data?.items?.map((c) => ({
+          value: `${c.name}`,
+          id: c.id,
+          preview: c.preview,
+        })) ?? []
       );
     } catch (err) {
       return [];
