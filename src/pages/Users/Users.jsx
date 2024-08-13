@@ -61,11 +61,9 @@ function Users() {
       </Link>
     ),
     roleId: user.roleId?.name,
-    name: user.name,
+    name: <p className="whitespace-nowrap">{user.name}</p>,
     email: user.email,
     phone: user.phone,
-    address: user.address,
-    identification: user.identification,
   });
 
   const getActions = useActions({
@@ -86,6 +84,8 @@ function Users() {
           "id",
           "deleted",
           "password",
+          "address",
+          "identification",
           "dateOfCreation",
           "lastUpdate",
         ])}
