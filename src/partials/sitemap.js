@@ -1,3 +1,5 @@
+import { Role } from "../api/RoleApiClient";
+
 export const sitemap = [
   {
     path: "/",
@@ -73,6 +75,7 @@ export const sitemap = [
   {
     path: "/personal",
     page: "personal",
+    role: [Role.administrator],
     child: [
       {
         label: "users",
