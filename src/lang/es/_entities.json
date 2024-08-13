@@ -158,7 +158,7 @@
     }
   },
   "user": {
-    "role": { "label": "Rol" },
+    "roleId": { "label": "Rol" },
     "lastUpdate": { "label": "Última actualización" },
     "username": { "label": "Nombre de usuario", "placeholder": "ej: juanperez" },
     "password": { "label": "Contraseña", "placeholder": "ej: *******" },
