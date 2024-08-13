@@ -219,12 +219,7 @@ function PersonalInfo() {
 
       <button type="submit" disabled={userQuery.isLoading || saving} className="mb-5 submit">
         {(userQuery.isLoading || saving) && (
-          <Loading
-            className="bg-primary w-full h-full absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] rounded-full"
-            strokeWidth="4"
-            loaderClass="!w-6"
-            color="stroke-white"
-          />
+          <Loading className="button-loading" strokeWidth="4" loaderClass="!w-6" color="stroke-white" />
         )}
         {t("_accessibility:buttons.save")}
       </button>
