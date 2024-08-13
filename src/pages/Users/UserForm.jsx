@@ -143,7 +143,7 @@ function UserForm() {
   ) : (
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="form">
-        <h1 className="text-2xl md:text-3xl font-bold mb-5">
+        <h1 className="text-2xl md:text-3xl font-bold">
           {id ? `${t("_pages:users.editForm")} ${id}` : t("_pages:users.newForm")}
         </h1>
         {userQuery.isLoading ? (
@@ -172,7 +172,7 @@ function UserForm() {
               {...rest}
               id="roleId"
               name="roleId"
-              label={t("_entities:user.role.label")}
+              label={t("_entities:user.roleId.label")}
               options={roleList}
               value={value}
               onChange={(e) => {
