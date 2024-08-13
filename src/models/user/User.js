@@ -5,6 +5,7 @@ import { Entity } from "../entity/Entity";
  * @description Represents a user
  */
 export class User extends Entity {
+  imageId = 0;
   username = "";
   password = "";
   name = "";
