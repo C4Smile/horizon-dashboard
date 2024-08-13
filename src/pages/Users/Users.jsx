@@ -60,6 +60,7 @@ function Users() {
         {user.username}
       </Link>
     ),
+    roleId: user.roleId?.name,
     name: user.name,
     email: user.email,
     phone: user.phone,

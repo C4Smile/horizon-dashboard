@@ -12,6 +12,7 @@ export class User extends Entity {
   email = "";
   phone = "";
   address = "";
+  roleId = 0;
   identification = "";
 
   /**
