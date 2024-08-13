@@ -91,12 +91,7 @@ function Security() {
       />
       <button type="submit" disabled={saving} className="mb-5 submit">
         {saving && (
-          <Loading
-            className="button-loading"
-            strokeWidth="4"
-            loaderClass="!w-6"
-            color="stroke-white"
-          />
+          <Loading className="button-loading" strokeWidth="4" loaderClass="!w-6" color="stroke-white" />
         )}
         {t("_accessibility:buttons.save")}
       </button>
