@@ -10,6 +10,12 @@ import config from "../config";
 // base
 import { BaseApiClient } from "./utils/BaseApiClient";
 
+export const Role = {
+  administrator: 1,
+  communicator: 2,
+  museologist: 3,
+};
+
 /**
  * @class RoleApiClient
  * @description RoleApiClient
