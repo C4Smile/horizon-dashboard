@@ -82,7 +82,7 @@ function TagForm() {
 
   useEffect(() => {
     if (tagQuery.data) {
-      setLastUpdate(tagQuery?.data?.items?.lastUpdate);
+      setLastUpdate(tagQuery?.data?.lastUpdate);
       reset({ ...tagQuery.data });
     }
 

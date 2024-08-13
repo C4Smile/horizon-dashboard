@@ -136,7 +136,7 @@ function RoomAreaForm() {
           roomAreaQuery.data.content = editorState;
         }
       }
-      setLastUpdate(roomAreaQuery?.data?.items?.lastUpdate);
+      setLastUpdate(roomAreaQuery?.data?.lastUpdate);
       reset({
         ...roomAreaQuery.data,
         roomId: { value: roomAreaQuery.data.room?.name, id: roomAreaQuery.data.room?.id },

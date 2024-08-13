@@ -102,7 +102,7 @@ function ServiceForm() {
   }, [serviceQuery]);
 
   useEffect(() => {
-    if (serviceQuery.data?.imageId) setPhoto(serviceQuery?.data?.items?.imageId);
+    if (serviceQuery.data?.imageId) setPhoto(serviceQuery?.data?.imageId);
 
     if (!id) {
       setPhoto();
@@ -133,7 +133,7 @@ function ServiceForm() {
     if (serviceQuery.data) {
       //* PARSING PLACES
       const parsedRooms = roomsList.filter((room) =>
-        serviceQuery?.data?.items?.serviceRoom?.some((lRoom) => lRoom.roomId === room.id),
+        serviceQuery?.data?.serviceRoom?.some((lRoom) => lRoom.roomId === room.id),
       );
       //* PARSING SCHEDULE
       serviceQuery.data.newServiceHasSchedule = serviceQuery.data?.serviceHasSchedule;
@@ -147,7 +147,7 @@ function ServiceForm() {
           serviceQuery.data.content = editorState;
         }
       }
-      setLastUpdate(serviceQuery?.data?.items?.lastUpdate);
+      setLastUpdate(serviceQuery?.data?.lastUpdate);
       reset({ ...serviceQuery.data, roomsId: parsedRooms });
     }
   }, [serviceQuery.data, reset, roomsList]);

@@ -3,12 +3,16 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+// images
+import noUserPhoto from "../../assets/images/user-no-image.webp";
+
 // dto
 import { User } from "../../models/user/User";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
 import { ReactQueryKeys } from "../../utils/queryKeys";
+import { staticUrlPhoto } from "../../components/utils";
 
 // providers
 import { useTableOptions } from "../../components/Table/hooks/TableOptionsProvider";
@@ -42,6 +46,15 @@ function Users() {
 
   const prepareRows = (user) => ({
     ...user,
+    imageId: user.imageId?.url ? (
+      <img
+        className={`w-10 h-10 rounded-full object-cover border-white border-2`}
+        src={staticUrlPhoto(user.imageId.url)}
+        alt={`${user.name}`}
+      />
+    ) : (
+      <img className="w-10 h-10 rounded-full object-cover" src={noUserPhoto} alt={user.name} />
+    ),
     username: (
       <Link className="underline text-light-primary" to={`${user.id}`}>
         {user.username}
@@ -68,7 +81,13 @@ function Users() {
         isLoading={isLoading}
         parseRows={prepareRows}
         entity={User.className}
-        columns={extractKeysFromObject(new User(), ["id", "password", "dateOfCreation", "lastUpdate"])}
+        columns={extractKeysFromObject(new User(), [
+          "id",
+          "deleted",
+          "password",
+          "dateOfCreation",
+          "lastUpdate",
+        ])}
         title={t("_pages:personal.links.users")}
       />
     </div>

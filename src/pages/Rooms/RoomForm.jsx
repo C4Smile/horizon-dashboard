@@ -146,7 +146,7 @@ function RoomForm() {
           roomQuery.data.content = editorState;
         }
       }
-      setLastUpdate(roomQuery?.data?.items?.lastUpdate);
+      setLastUpdate(roomQuery?.data?.lastUpdate);
       reset({ ...roomQuery.data });
     }
 

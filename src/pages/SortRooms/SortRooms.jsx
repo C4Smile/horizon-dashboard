@@ -90,8 +90,11 @@ function SortRooms() {
     setRoomAreas({
       type: "set",
       items:
-        roomAreasQuery?.data?.items?.map((c) => ({ value: `${c.name}`, number: `${c.number}`, id: c.id })) ??
-        [],
+        roomAreasQuery?.data?.items?.map((c) => ({
+          value: `${c.name}`,
+          number: `${c.number}`,
+          id: c.id,
+        })) ?? [],
     });
   }, [roomAreasQuery.data]);
 

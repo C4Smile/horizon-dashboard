@@ -128,7 +128,7 @@ function ActivityForm() {
   }, [activityQuery]);
 
   useEffect(() => {
-    if (activityQuery.data?.imageId) setPhoto(activityQuery?.data?.items?.imageId);
+    if (activityQuery.data?.imageId) setPhoto(activityQuery?.data?.imageId);
 
     if (!id) {
       setPhoto();
@@ -143,12 +143,12 @@ function ActivityForm() {
   useEffect(() => {
     if (activityQuery.data) {
       //* PARSING ENTITY
-      if (activityQuery?.data?.items?.entity && activityQuery?.data?.items?.entity?.length) {
+      if (activityQuery?.data?.entity && activityQuery?.data?.entity?.length) {
         const [entityType, entityId] = activityQuery.data.entity.split(",");
         if (entityType) setEntityLinkType(entityType);
         if (entityId) setPreviousLink(entityId);
       }
-      setLastUpdate(activityQuery?.data?.items?.lastUpdate);
+      setLastUpdate(activityQuery?.data?.lastUpdate);
       reset({ ...activityQuery.data });
     }
   }, [activityQuery.data, reset]);

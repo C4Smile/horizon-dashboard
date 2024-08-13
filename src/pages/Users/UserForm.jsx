@@ -112,8 +112,9 @@ function UserForm() {
 
   useEffect(() => {
     if (userQuery.data) {
+      if (userQuery.data?.imageId) setPhoto(userQuery?.data?.imageId);
       reset({ ...userQuery.data });
-      setLastUpdate(userQuery?.data?.items?.lastUpdate);
+      setLastUpdate(userQuery?.data?.lastUpdate);
     }
 
     if (!id) {

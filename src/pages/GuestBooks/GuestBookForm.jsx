@@ -114,7 +114,7 @@ function GuestBookForm() {
           guestBookQuery.data.content = editorState;
         }
       }
-      setLastUpdate(guestBookQuery?.data?.items?.lastUpdate);
+      setLastUpdate(guestBookQuery?.data?.lastUpdate);
       reset({
         ...guestBookQuery.data,
       });
