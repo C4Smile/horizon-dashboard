@@ -1,27 +1,18 @@
 import { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowLeftLong,
-  faArrowRightLong,
-  faBuildingColumns,
-  faChartLine,
-  faGear,
-  faRss,
-  faTableList,
-  faUsers,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeftLong, faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
 
 // components
+import SidebarItem from "./SidebarItem";
 import Logo from "../../components/Logo/Logo";
 import SidebarLinkGroup from "./SidebarLinkGroup";
-import SidebarItem from "./SidebarItem";
 
-// sitemap
-import { sitemap } from "../sitemap";
-import { useTranslation } from "react-i18next";
+// menuMap
+import { menuMap } from "../../pages/menuMap";
 
 // providers
 import { useAccount } from "../../providers/AccountProvider";
@@ -37,15 +28,6 @@ function Sidebar(props) {
 
   const { sidebarOpen, setSidebarOpen } = props;
   const { pathname } = location;
-
-  const icons = {
-    dashboard: <FontAwesomeIcon icon={faChartLine} />,
-    information: <FontAwesomeIcon icon={faRss} />,
-    management: <FontAwesomeIcon icon={faTableList} />,
-    personal: <FontAwesomeIcon icon={faUsers} />,
-    museum: <FontAwesomeIcon icon={faBuildingColumns} />,
-    settings: <FontAwesomeIcon icon={faGear} />,
-  };
 
   const trigger = useRef(null);
   const sidebar = useRef(null);
@@ -140,7 +122,7 @@ function Sidebar(props) {
           {/* Pages group */}
           <div>
             <ul className="mt-3">
-              {sitemap
+              {menuMap
                 .filter((sideMenu) => (sideMenu.role ? sideMenu.role.indexOf(userRole) >= 0 : true))
                 .map((item) => (
                   <SidebarLinkGroup
@@ -157,7 +139,7 @@ function Sidebar(props) {
                         }}
                         open={open}
                         child={item.child}
-                        icon={icons[item.page]}
+                        icon={item.icon}
                       />
                     )}
                   </SidebarLinkGroup>

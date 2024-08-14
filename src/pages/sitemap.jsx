@@ -1,6 +1,18 @@
 import { Role } from "../api/RoleApiClient";
+import { Route } from "react-router-dom";
+
+// layouts
+
+// pages
+
+export const pageId = {
+  auth: "/auth",
+};
 
 export const sitemap = [
+  {
+    
+  },
   {
     path: "/",
     page: "dashboard",
