@@ -107,7 +107,7 @@ function UserForm() {
     } catch (err) {
       return [];
     }
-  }, [roleQuery]);
+  }, [roleQuery.data]);
 
   useEffect(() => {
     const { data } = userQuery;
@@ -119,7 +119,8 @@ function UserForm() {
   useEffect(() => {
     if (userQuery.data) {
       if (userQuery.data?.imageId) setPhoto(userQuery?.data?.imageId);
-      reset({ ...userQuery.data });
+      const roleId = roleList.find((role) => role.id === userQuery.data?.roleId?.id);
+      reset({ ...userQuery.data, roleId: roleId.id });
       setLastUpdate(userQuery?.data?.lastUpdate);
     }
 
@@ -136,7 +137,7 @@ function UserForm() {
         identification: "",
       });
     }
-  }, [id, reset, userQuery.data]);
+  }, [id, reset, roleList, userQuery.data]);
 
   return notFound ? (
     <NotFound />

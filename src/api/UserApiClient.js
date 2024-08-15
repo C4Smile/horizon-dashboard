@@ -96,6 +96,8 @@ export class UserApiClient extends BaseApiClient {
   async create(user, photo) {
     // deleting rPassword
     delete user.rPassword;
+    // parsing role
+    user.roleId = user.roleId.id;
     // saving image
     if (photo) user.imageId = photo.id;
     // call service
@@ -116,6 +118,8 @@ export class UserApiClient extends BaseApiClient {
   async update(user, photo) {
     // deleting rPassword
     delete user.rPassword;
+    // parsing role
+    user.roleId = user.roleId.id;
     // saving photo
     if (photo) user.imageId = photo.id;
     // call service
