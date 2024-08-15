@@ -87,8 +87,6 @@ export class UserApiClient extends BaseApiClient {
     // await supabase.auth.signOut();
   }
 
-  // TODO ALL DOWN BELOW
-
   /**
    * @description Create user
    * @param {object} user - User
