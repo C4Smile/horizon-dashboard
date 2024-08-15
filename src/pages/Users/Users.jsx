@@ -73,25 +73,23 @@ function Users() {
   });
 
   return (
-    <div className="p-5 relative">
-      <Table
-        rows={data?.items}
-        actions={getActions}
-        isLoading={isLoading}
-        parseRows={prepareRows}
-        entity={User.className}
-        columns={extractKeysFromObject(new User(), [
-          "id",
-          "deleted",
-          "password",
-          "address",
-          "identification",
-          "dateOfCreation",
-          "lastUpdate",
-        ])}
-        title={t("_pages:personal.links.users")}
-      />
-    </div>
+    <Table
+      rows={data?.items}
+      actions={getActions}
+      isLoading={isLoading}
+      parseRows={prepareRows}
+      entity={User.className}
+      columns={extractKeysFromObject(new User(), [
+        "id",
+        "deleted",
+        "password",
+        "address",
+        "identification",
+        "dateOfCreation",
+        "lastUpdate",
+      ])}
+      title={t("_pages:personal.links.users")}
+    />
   );
 }
 
