@@ -36,7 +36,7 @@ function Users() {
   const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
 
   const { data, isLoading } = useQuery({
-    queryKey: [ReactQueryKeys.Tags, sortingBy, sortingOrder, currentPage, pageSize],
+    queryKey: [ReactQueryKeys.Users, sortingBy, sortingOrder, currentPage, pageSize],
     queryFn: () => museumApiClient.User.getAll({ sortingBy, sortingOrder, currentPage, pageSize }),
   });
 
