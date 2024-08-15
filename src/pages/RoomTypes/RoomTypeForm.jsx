@@ -23,7 +23,7 @@ const NotFound = loadable(() => import("../NotFound/NotFound"));
  * Room Form page component
  * @returns Room Form page component
  */
-function RoomForm() {
+function RoomTypeForm() {
   const { id } = useParams();
 
   const { t } = useTranslation();
@@ -153,4 +153,4 @@ function RoomForm() {
   );
 }
 
-export default RoomForm;
+export default RoomTypeForm;
