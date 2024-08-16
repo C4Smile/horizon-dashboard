@@ -86,7 +86,7 @@ function Table(props) {
         </div>
       </div>
 
-      <div className="h-[calc(100vh-280px)] overflow-auto">
+      <div className="h-[calc(100vh-300px)] overflow-auto">
         {!rows?.length && !isLoading ? (
           <Empty />
         ) : (
@@ -134,7 +134,7 @@ function Table(props) {
           </table>
         )}
       </div>
-      {isLoading && <Loading className="bg-white top-0 left-0 w-full h-full" />}
+      {isLoading && <Loading className="bg-white top-0 left-0 w-full h-full absolute" />}
       {!isLoading && rows?.length && <Navigation />}
     </div>
   );
