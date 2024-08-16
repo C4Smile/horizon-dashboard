@@ -20,12 +20,16 @@ import ServiceForm from "./Services/ServiceForm";
 // room
 import RoomsPage from "./Rooms/Rooms";
 import RoomForm from "./Rooms/RoomForm";
+import SortRooms from "./SortRooms/SortRooms";
 // roomArea
 import RoomAreasPage from "./RoomAreas/RoomAreas";
 import RoomAreaForm from "./RoomAreas/RoomAreaForm";
 // roomType
 import RoomTypesPage from "./RoomTypes/RoomTypes";
 import RoomTypeForm from "./RoomTypes/RoomTypeForm";
+// guestBook
+import GuestBooksPage from "./GuestBooks/GuestBooks";
+import GuestBookForm from "./GuestBooks/GuestBookForm";
 // information
 // activity
 import ActivitiesPage from "./Activities/Activities";
@@ -64,6 +68,7 @@ export const pageId = {
   rooms: "rooms",
   roomsNew: "roomsNew",
   roomsEdit: "roomsEdit",
+  sortRooms: "sortRooms",
   roomAreas: "roomAreas",
   roomAreasNew: "roomAreasNew",
   roomAreasEdit: "roomAreasEdit",
@@ -150,6 +155,12 @@ export const sitemap = [
         ],
       },
       {
+        key: pageId.sortRooms,
+        path: "/museum/sortRooms",
+        role: [Role.administrator, Role.museologist],
+        component: <SortRooms />,
+      },
+      {
         key: pageId.roomAreas,
         path: "/museum/roomAreas",
         role: [Role.administrator, Role.museologist],
@@ -169,6 +180,17 @@ export const sitemap = [
           { key: pageId.roomTypes, path: "/", component: <RoomTypesPage /> },
           { key: pageId.roomTypesNew, path: "/new", component: <RoomTypeForm /> },
           { key: pageId.roomTypesEdit, path: "/:id", component: <RoomTypeForm /> },
+        ],
+      },
+      {
+        key: pageId.gustBooks,
+        path: "/museum/gustBooks",
+        role: [Role.administrator, Role.museologist],
+        component: <ModelNavigation parent="museum" model="gustBooks" />,
+        children: [
+          { key: pageId.gustBooks, path: "/", component: <GuestBooksPage /> },
+          { key: pageId.gustBooksNew, path: "/new", component: <GuestBookForm /> },
+          { key: pageId.gustBooksEdit, path: "/:id", component: <GuestBookForm /> },
         ],
       },
       // activities
