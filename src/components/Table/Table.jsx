@@ -102,7 +102,7 @@ function Table(props) {
                 {parsedRows.map((row) => (
                   <tr
                     key={row.id}
-                    className={`border-b ${row.deleted.value ? "bg-secondary/10" : "bg-white"}`}
+                    className={`border-b ${row.deleted.value ? "bg-error/10" : "bg-white"}`}
                   >
                     {columns.map((column, i) => (
                       <td
