@@ -43,11 +43,10 @@
     "delete": "Eliminar",
     "restore": "Restaurar",
     "add": "Add",
-    "remove": "Remove",
     "previous": "Anterior",
     "next": "Próximo",
     "showFilters": "Mostrar filtros",
-    "apply": "Apply"
+    "apply": "Aplicar"
   },
   "labels": {
     "loading": "Cargando",
