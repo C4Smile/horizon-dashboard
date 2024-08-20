@@ -68,7 +68,9 @@ function App() {
   const routes = useMemo(() => {
     setLoaded(true);
     const routes = renderRoutes(sitemap, userRole);
-    setLoaded(false);
+    setTimeout(() => {
+      setLoaded(false);
+    }, 1000);
     return routes;
   }, [userRole]);
 
