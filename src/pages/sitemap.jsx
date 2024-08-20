@@ -75,6 +75,9 @@ export const pageId = {
   roomTypes: "roomTypes",
   roomTypesNew: "roomTypesNew",
   roomTypesEdit: "roomTypesEdit",
+  guestBooks: "guestBooks",
+  guestBooksNew: "guestBooksNew",
+  guestBooksEdit: "guestBooksEdit",
   // information
   activities: "activities",
   activitiesNew: "activitiesNew",
@@ -183,14 +186,14 @@ export const sitemap = [
         ],
       },
       {
-        key: pageId.gustBooks,
+        key: pageId.guestBooks,
         path: "/museum/gustBooks",
         role: [Role.administrator, Role.museologist],
         component: <ModelNavigation parent="museum" model="gustBooks" />,
         children: [
-          { key: pageId.gustBooks, path: "/", component: <GuestBooksPage /> },
-          { key: pageId.gustBooksNew, path: "/new", component: <GuestBookForm /> },
-          { key: pageId.gustBooksEdit, path: "/:id", component: <GuestBookForm /> },
+          { key: pageId.guestBooks, path: "/", component: <GuestBooksPage /> },
+          { key: pageId.guestBooksNew, path: "/new", component: <GuestBookForm /> },
+          { key: pageId.guestBooksEdit, path: "/:id", component: <GuestBookForm /> },
         ],
       },
       // activities
