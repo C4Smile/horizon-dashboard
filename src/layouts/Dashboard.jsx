@@ -4,10 +4,12 @@ import { getCookie } from "some-javascript-utils/browser";
 
 import config from "../config";
 
+// @sito/dashboard
+import { TableOptionsProvider, TranslationProvider } from "@sito/dashboard";
+
 // providers
 import { useAccount } from "../providers/AccountProvider";
 import { useMuseumApiClient } from "../providers/MuseumApiProvider";
-import { TableOptionsProvider } from "../components/Table/hooks/TableOptionsProvider";
 
 // components
 import ToTop from "../components/ToTop/ToTop";
@@ -19,12 +21,15 @@ import Header from "../partials/Header";
 
 // utils
 import { fromLocal, toLocal } from "../utils/local";
+import { useTranslation } from "react-i18next";
 
 /**
  * Dashboard layout
  * @returns Dashboard layout component
  */
 function Dashboard() {
+  const { t } = useTranslation();
+
   const { account, logoutUser } = useAccount();
 
   const museumApiClient = useMuseumApiClient();
@@ -83,7 +88,9 @@ function Dashboard() {
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         <main>
           <TableOptionsProvider>
-            <Outlet />
+            <TranslationProvider t={t}>
+              <Outlet />
+            </TranslationProvider>
           </TableOptionsProvider>
         </main>
       </div>

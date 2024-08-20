@@ -3,6 +3,9 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
+// @sito/dashboard
+import { Table, useTableOptions } from "@sito/dashboard";
+
 // dto
 import { Tag } from "../../models/tag/Tag";
 
@@ -12,13 +15,10 @@ import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // providers
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
-import { useTableOptions } from "../../components/Table/hooks/TableOptionsProvider";
-
-// components
-import Table from "../../components/Table/Table";
 
 // hooks
 import { useActions } from "../../components/Table/hooks/useActions";
+import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
 
 /**
  * Tag page
@@ -58,14 +58,18 @@ function Tags() {
     parent: "information",
   });
 
+  const { columns } = useParseColumns(extractKeysFromObject(new Tag(), []), Tag.className);
+
+  const { parse } = useParseRows(prepareRows);
+
   return (
     <Table
       rows={data?.items}
       actions={getActions}
       isLoading={isLoading}
-      parseRows={prepareRows}
+      parseRows={parse}
       entity={Tag.className}
-      columns={extractKeysFromObject(new Tag(), [])}
+      columns={columns}
       title={t("_pages:information.links.tags")}
     />
   );
