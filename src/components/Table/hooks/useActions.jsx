@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 // icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencil, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
 
 // providers
@@ -29,7 +30,7 @@ export const useActions = (props) => {
       toReturn.push({
         id: "edit",
         onClick: (e) => navigate(`/${parent}/${queryKey}/${e.id}`),
-        icon: faPencil,
+        icon: <FontAwesomeIcon icon={faPencil} />,
         tooltip: t("_accessibility:buttons.edit"),
       });
     if (canDelete)
@@ -49,7 +50,7 @@ export const useActions = (props) => {
               setNotification(String(status));
             }
           },
-          icon: faTrash,
+          icon: <FontAwesomeIcon icon={faTrash} />,
           tooltip: t("_accessibility:buttons.delete"),
         },
         {
@@ -67,7 +68,7 @@ export const useActions = (props) => {
               setNotification(String(status));
             }
           },
-          icon: faArrowRotateLeft,
+          icon: <FontAwesomeIcon icon={faArrowRotateLeft} />,
           tooltip: t("_accessibility:buttons.restore"),
         },
       );
