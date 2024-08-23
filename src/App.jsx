@@ -66,11 +66,12 @@ function App() {
   }, [logUserFromLocal]);
 
   const routes = useMemo(() => {
-    setLoaded(true);
+    if (!userRole) setLoaded(true);
     const routes = renderRoutes(sitemap, userRole);
-    setTimeout(() => {
-      setLoaded(false);
-    }, 1000);
+    if (!userRole)
+      setTimeout(() => {
+        setLoaded(false);
+      }, 1000);
     return routes;
   }, [userRole]);
 
