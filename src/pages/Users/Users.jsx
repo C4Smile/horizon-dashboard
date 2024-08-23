@@ -3,6 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+// @sito/dashboard
+import { Table, useTableOptions } from "@sito/dashboard";
+
 // images
 import noUserPhoto from "../../assets/images/user-no-image.webp";
 
@@ -15,11 +18,7 @@ import { ReactQueryKeys } from "../../utils/queryKeys";
 import { staticUrlPhoto } from "../../components/utils";
 
 // providers
-import { useTableOptions } from "../../components/Table/hooks/TableOptionsProvider";
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
-
-// components
-import Table from "../../components/Table/Table";
 
 // hooks
 import { useActions } from "../../components/Table/hooks/useActions";
