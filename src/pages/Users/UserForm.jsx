@@ -70,7 +70,8 @@ function UserForm() {
       else {
         queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users] });
         if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users, id] });
-        else
+        else {
+          setPhoto();
           reset({
             id: undefined,
             username: "",
@@ -81,6 +82,7 @@ function UserForm() {
             address: "",
             identification: "",
           });
+        }
       }
     } catch (e) {
       // eslint-disable-next-line no-console
@@ -118,6 +120,7 @@ function UserForm() {
 
   useEffect(() => {
     if (userQuery.data) {
+      console.log(userQuery);
       if (userQuery.data?.imageId) setPhoto(userQuery?.data?.imageId);
       const roleId = roleList.find((role) => role.id === userQuery.data?.roleId?.id);
       reset({ ...userQuery.data, roleId: roleId.id });
