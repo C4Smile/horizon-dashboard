@@ -38,7 +38,7 @@ export const useParseColumns = (columns, entity) => {
 export const useParseRows = (parseRows) => {
   const { t } = useTranslation();
 
-  const parse = useCallback(
+  const rows = useCallback(
     (row) => {
       const parsedRow = parseRows(row);
       baseColumns.forEach((column) => {
@@ -72,5 +72,5 @@ export const useParseRows = (parseRows) => {
     [parseRows, t],
   );
 
-  return { parse };
+  return { rows };
 };
