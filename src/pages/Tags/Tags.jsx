@@ -60,14 +60,14 @@ function Tags() {
 
   const { columns } = useParseColumns(extractKeysFromObject(new Tag(), []), Tag.className);
 
-  const { parse } = useParseRows(prepareRows);
+  const { rows } = useParseRows(prepareRows);
 
   return (
     <Table
       rows={data?.items}
       actions={getActions}
       isLoading={isLoading}
-      parseRows={parse}
+      parseRows={rows}
       entity={Tag.className}
       columns={columns}
       title={t("_pages:information.links.tags")}
