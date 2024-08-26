@@ -3,10 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+// @sito/dashboard
+import { Table, useTableOptions } from "@sito/dashboard";
+
 // images
 import noProduct from "../../assets/images/no-product.jpg";
-
-// icons
 
 // dto
 import { Service } from "../../models/service/Service";
@@ -17,16 +18,13 @@ import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // providers
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
-import { useTableOptions } from "../../components/Table/hooks/TableOptionsProvider";
 
 // utils
 import { staticUrlPhoto } from "../../components/utils";
 
-// components
-import Table from "../../components/Table/Table";
-
 // hooks
-import { useActions } from "../../components/Table/hooks/useActions";
+import { useActions } from "../../hooks/useActions";
+import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
 
 const columnClasses = {
   lastUpdate: "w-56",
@@ -81,18 +79,24 @@ function ServicesPage() {
     parent: "museum",
   });
 
+  const { columns } = useParseColumns(
+    extractKeysFromObject(new Service(), [
+      "description",
+      "dateOfCreation",
+      "serviceRoom",
+      "serviceHasSchedule",
+    ]),
+  );
+
+  const { rows } = useParseRows(prepareRows);
+
   return (
     <Table
       rows={data?.items}
       actions={getActions}
       isLoading={isLoading}
-      parseRows={prepareRows}
-      columns={extractKeysFromObject(new Service(), [
-        "description",
-        "dateOfCreation",
-        "serviceRoom",
-        "serviceHasSchedule",
-      ])}
+      parseRows={rows}
+      columns={columns}
       columnsOptions={{
         noSortableColumns,
         columnClasses,

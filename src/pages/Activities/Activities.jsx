@@ -3,6 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+// @sito/dashboard
+import { Table, useTableOptions } from "@sito/dashboard";
+
 // images
 import noProduct from "../../assets/images/no-product.jpg";
 
@@ -15,16 +18,13 @@ import { ReactQueryKeys, parents } from "../../utils/queryKeys";
 
 // providers
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
-import { useTableOptions } from "../../components/Table/hooks/TableOptionsProvider";
-
-// components
-import Table from "../../components/Table/Table";
 
 // utils
 import { staticUrlPhoto } from "../../components/utils";
 
 // hooks
-import { useActions } from "../../components/Table/hooks/useActions";
+import { useActions } from "../../hooks/useActions";
+import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
 
 const columnClasses = {
   lastUpdate: "w-56",
@@ -94,14 +94,20 @@ function ActivitiesPage() {
     parent: "information",
   });
 
+  const { columns } = useParseColumns(
+    extractKeysFromObject(new Activity(), ["id", "description", "dateOfCreation"]),
+  );
+
+  const { rows } = useParseRows(prepareRows);
+
   return (
     <Table
       rows={data?.items}
       actions={getActions}
       isLoading={isLoading}
-      parseRows={prepareRows}
+      parseRows={rows}
       entity={Activity.className}
-      columns={extractKeysFromObject(new Activity(), ["id", "description", "dateOfCreation"])}
+      columns={columns}
       columnsOptions={{ columnClasses, noSortableColumns }}
       title={t("_pages:information.links.activities")}
     />

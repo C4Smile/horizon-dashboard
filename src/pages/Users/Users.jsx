@@ -21,7 +21,7 @@ import { staticUrlPhoto } from "../../components/utils";
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // hooks
-import { useActions } from "../../components/Table/hooks/useActions";
+import { useActions } from "../../hooks/useActions";
 import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
 
 /**

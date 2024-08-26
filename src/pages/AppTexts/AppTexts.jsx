@@ -3,6 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+// @sito/dashboard
+import { Table, useTableOptions } from "@sito/dashboard";
+
 // dto
 import { AppText } from "../../models/appText/AppText";
 
@@ -12,13 +15,10 @@ import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // providers
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
-import { useTableOptions } from "../../components/Table/hooks/TableOptionsProvider";
-
-// components
-import Table from "../../components/Table/Table";
 
 // hooks
-import { useActions } from "../../components/Table/hooks/useActions";
+import { useActions } from "../../hooks/useActions";
+import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
 
 /**
  * AppText page
@@ -57,14 +57,18 @@ function AppTexts() {
     parent: "management",
   });
 
+  const { columns } = useParseColumns(extractKeysFromObject(new AppText(), ["id"]));
+
+  const { rows } = useParseRows(prepareRows);
+
   return (
     <Table
       rows={data?.items}
       actions={getActions}
       isLoading={isLoading}
-      parseRows={prepareRows}
+      parseRows={rows}
       entity={AppText.className}
-      columns={extractKeysFromObject(new AppText(), ["id"])}
+      columns={columns}
       title={t("_pages:management.links.appTexts")}
     />
   );

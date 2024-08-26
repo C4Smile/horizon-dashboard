@@ -3,6 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+// @sito/dashboard
+import { Table, useTableOptions } from "@sito/dashboard";
+
 // dto
 import { RoomType } from "../../models/roomType/RoomType";
 
@@ -12,13 +15,10 @@ import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // providers
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
-import { useTableOptions } from "../../components/Table/hooks/TableOptionsProvider";
-
-// components
-import Table from "../../components/Table/Table";
 
 // hooks
-import { useActions } from "../../components/Table/hooks/useActions";
+import { useActions } from "../../hooks/useActions";
+import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
 
 /**
  * RoomType page
@@ -57,14 +57,18 @@ function RoomTypes() {
     parent: "museum",
   });
 
+  const { columns } = useParseColumns(extractKeysFromObject(new RoomType(), []));
+
+  const { rows } = useParseRows(prepareRows);
+
   return (
     <Table
       rows={data?.items}
       actions={getActions}
       isLoading={isLoading}
-      parseRows={prepareRows}
-      columns={extractKeysFromObject(new RoomType(), [])}
+      parseRows={rows}
       entity={RoomType.className}
+      columns={columns}
       title={t("_pages:museum.links.roomTypes")}
     />
   );

@@ -3,6 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+// @sito/dashboard
+import { Table, useTableOptions } from "@sito/dashboard";
+
 // images
 import noProduct from "../../assets/images/no-product.jpg";
 
@@ -20,14 +23,13 @@ import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // providers
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
-import { useTableOptions } from "../../components/Table/hooks/TableOptionsProvider";
 
 // hooks
-import { useActions } from "../../components/Table/hooks/useActions";
+import { useActions } from "../../hooks/useActions";
+import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
 
 // components
 import LinkChip from "../../components/Chip/LinkChip";
-import Table from "../../components/Table/Table";
 import Chip from "../../components/Chip/Chip";
 
 const columnClasses = {
@@ -138,22 +140,28 @@ function EventsPage() {
     parent: "information",
   });
 
+  const { columns } = useParseColumns(
+    extractKeysFromObject(new Event(), [
+      "id",
+      "description",
+      "subtitle",
+      "dateOfCreation",
+      "deleted",
+      "content",
+      "address",
+    ]),
+  );
+
+  const { rows } = useParseRows(prepareRows);
+
   return (
     <Table
       rows={data?.items}
       actions={getActions}
       isLoading={isLoading}
-      parseRows={prepareRows}
+      parseRows={rows}
       entity={Event.className}
-      columns={extractKeysFromObject(new Event(), [
-        "id",
-        "description",
-        "subtitle",
-        "dateOfCreation",
-        "deleted",
-        "content",
-        "address",
-      ])}
+      columns={columns}
       columnsOptions={{ columnClasses, noSortableColumns }}
       title={t("_pages:information.links.events")}
     />

@@ -3,6 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+// @sito/dashboard
+import { Table, useTableOptions } from "@sito/dashboard";
+
 // images
 import noProduct from "../../assets/images/no-product.jpg";
 
@@ -16,13 +19,10 @@ import { staticUrlPhoto } from "../../components/utils";
 
 // providers
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
-import { useTableOptions } from "../../components/Table/hooks/TableOptionsProvider";
-
-// components
-import Table from "../../components/Table/Table";
 
 // hooks
-import { useActions } from "../../components/Table/hooks/useActions";
+import { useActions } from "../../hooks/useActions";
+import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
 
 const noSortableColumns = {
   roomHasImage: true,
@@ -101,14 +101,20 @@ function Rooms() {
     parent: "museum",
   });
 
+  const { columns } = useParseColumns(
+    extractKeysFromObject(new Room(), ["id", "dateOfCreation", "deleted", "content"]),
+  );
+
+  const { rows } = useParseRows(prepareRows);
+
   return (
     <Table
       rows={data?.items}
       actions={getActions}
       isLoading={isLoading}
-      parseRows={prepareRows}
+      parseRows={rows}
       entity={Room.className}
-      columns={extractKeysFromObject(new Room(), ["id", "dateOfCreation", "deleted", "content"])}
+      columns={columns}
       columnsOptions={{ noSortableColumns }}
       title={t("_pages:museum.links.rooms")}
     />

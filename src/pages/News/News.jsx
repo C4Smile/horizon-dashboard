@@ -3,6 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+// @sito/dashboard
+import { Table, useTableOptions } from "@sito/dashboard";
+
 // images
 import noProduct from "../../assets/images/no-product.jpg";
 
@@ -16,14 +19,13 @@ import { staticUrlPhoto } from "../../components/utils";
 
 // providers
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
-import { useTableOptions } from "../../components/Table/hooks/TableOptionsProvider";
 
 // components
-import Table from "../../components/Table/Table";
 import Chip from "../../components/Chip/Chip";
 
 // hooks
-import { useActions } from "../../components/Table/hooks/useActions";
+import { useActions } from "../../hooks/useActions";
+import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
 
 const columnClasses = {
   lastUpdate: "w-56",
@@ -94,20 +96,20 @@ function NewsPage() {
     parent: "information",
   });
 
+  const { columns } = useParseColumns(
+    extractKeysFromObject(new News(), ["id", "description", "dateOfCreation", "deleted", "content"]),
+  );
+
+  const { rows } = useParseRows(prepareRows);
+
   return (
     <Table
       rows={data?.items}
       actions={getActions}
       isLoading={isLoading}
-      parseRows={prepareRows}
+      parseRows={rows}
       entity={News.className}
-      columns={extractKeysFromObject(new News(), [
-        "id",
-        "description",
-        "dateOfCreation",
-        "deleted",
-        "content",
-      ])}
+      columns={columns}
       columnsOptions={{ columnClasses, noSortableColumns }}
       title={t("_pages:information.links.news")}
     />
