@@ -96,10 +96,9 @@ export class UserApiClient extends BaseApiClient {
   async create(user, photo) {
     // deleting rPassword
     delete user.rPassword;
-    // parsing role
-    user.roleId = user.roleId.id;
     // saving image
     if (photo) user.imageId = photo.id;
+
     // call service
     const { error, data, status } = await makeRequest(this.baseUrl, "POST", user, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
@@ -118,10 +117,9 @@ export class UserApiClient extends BaseApiClient {
   async update(user, photo) {
     // deleting rPassword
     delete user.rPassword;
-    // parsing role
-    user.roleId = user.roleId.id;
     // saving photo
     if (photo) user.imageId = photo.id;
+
     // call service
     const { status, error } = await makeRequest(
       `${this.baseUrl}/${user.id}`,
