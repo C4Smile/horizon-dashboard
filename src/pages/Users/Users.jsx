@@ -22,6 +22,7 @@ import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // hooks
 import { useActions } from "../../components/Table/hooks/useActions";
+import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
 
 /**
  * Users page
@@ -71,22 +72,29 @@ function Users() {
     parent: "personal",
   });
 
+  const { columns } = useParseColumns(
+    extractKeysFromObject(new User(), [
+      "id",
+      "deleted",
+      "password",
+      "address",
+      "identification",
+      "dateOfCreation",
+      "lastUpdate",
+    ]),
+    User.className,
+  );
+
+  const { rows } = useParseRows(prepareRows);
+
   return (
     <Table
       rows={data?.items}
       actions={getActions}
       isLoading={isLoading}
-      parseRows={prepareRows}
+      parseRows={rows}
       entity={User.className}
-      columns={extractKeysFromObject(new User(), [
-        "id",
-        "deleted",
-        "password",
-        "address",
-        "identification",
-        "dateOfCreation",
-        "lastUpdate",
-      ])}
+      columns={columns}
       title={t("_pages:personal.links.users")}
     />
   );
