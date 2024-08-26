@@ -14,6 +14,7 @@ export const Role = {
   administrator: 1,
   communicator: 2,
   museologist: 3,
+  guest: 4,
 };
 
 /**
