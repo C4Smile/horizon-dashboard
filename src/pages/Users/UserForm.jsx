@@ -120,10 +120,9 @@ function UserForm() {
 
   useEffect(() => {
     if (userQuery.data) {
-      console.log(userQuery);
       if (userQuery.data?.imageId) setPhoto(userQuery?.data?.imageId);
       const roleId = roleList.find((role) => role.id === userQuery.data?.roleId?.id);
-      reset({ ...userQuery.data, roleId: roleId.id });
+      reset({ ...userQuery.data, roleId: roleId?.id });
       setLastUpdate(userQuery?.data?.lastUpdate);
     }
 
