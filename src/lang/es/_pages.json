@@ -3,6 +3,9 @@
     "dashboard": {
       "link": "/"
     },
+    "devices": {
+      "link": "dispositivos"
+    },
     "museum": {
       "link": "/museo"
     },
@@ -65,6 +68,14 @@
     "links": {
       "main": "Principal",
       "analytics": "Análisis"
+    }
+  },
+  "devices": {
+    "title": "Dispositivos",
+    "links": {
+      "statuses": "Estados",
+      "applications": "Aplicaciones",
+      "translations": "Traducciones"
     }
   },
   "museum": {
