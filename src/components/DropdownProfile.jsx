@@ -3,7 +3,11 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import Transition from "../utils/Transition";
 
-import UserAvatar from "../images/user-avatar-32.png";
+// providers
+import { useAccount } from "../providers/AccountProvider";
+
+// images
+import noProducts from "../assets/images/no-product.jpg";
 
 /**
  * DropdownProfile
@@ -16,6 +20,8 @@ function DropdownProfile({ align }) {
 
   const trigger = useRef(null);
   const dropdown = useRef(null);
+
+  const { account } = useAccount();
 
   // close on click outside
   useEffect(() => {
@@ -48,10 +54,10 @@ function DropdownProfile({ align }) {
         onClick={() => setDropdownOpen(!dropdownOpen)}
         aria-expanded={dropdownOpen}
       >
-        <img className="w-8 h-8 rounded-full" src={UserAvatar} width="32" height="32" alt="User" />
+        <img className="w-8 h-8 rounded-full" src={noProducts} width="32" height="32" alt="User" />
         <div className="flex items-center truncate">
           <span className="truncate ml-2 text-sm font-medium dark:text-slate-300 group-hover:text-slate-800 dark:group-hover:text-slate-200">
-            {t("_accessibility:appName")}
+            {account?.museumUser?.name}
           </span>
           <svg className="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400" viewBox="0 0 12 12">
             <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
@@ -79,20 +85,20 @@ function DropdownProfile({ align }) {
           <ul>
             <li>
               <Link
-                className="font-medium text-sm text-primary hover:text-light-primary dark:hover:text-light-primary flex items-center py-1 px-3"
-                to="/settings"
+                className="font-medium text-sm text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center py-1 px-3"
+                to="/ajustes"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
-                Settings
+                {t("_accessibility:buttons.settings")}
               </Link>
             </li>
             <li>
               <Link
-                className="font-medium text-sm text-primary hover:text-light-primary dark:hover:text-light-primary flex items-center py-1 px-3"
-                to="/signin"
+                className="font-medium text-sm text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center py-1 px-3"
+                to="/cerrar-sesion"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
-                Sign Out
+                {t("_accessibility:buttons.signOut")}
               </Link>
             </li>
           </ul>

@@ -2,7 +2,18 @@ import { createContext, useContext } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MuseumApiClient } from "../api/MuseumApiClient";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchInterval: false,
+      refetchOnMount: true,
+      refetchOnReconnect: false,
+      retry: false,
+      retryOnMount: true,
+      refetchOnWindowFocus: false, // default: true
+    },
+  },
+});
 
 const MuseumApiClientContext = createContext({});
 
@@ -24,7 +35,7 @@ const MuseumApiClientProvider = (props) => {
 };
 
 /**
- * @returns MuseumApiClient
+ * @returns {MuseumApiClient} MuseumApiClient
  */
 const useMuseumApiClient = () => {
   const context = useContext(MuseumApiClientContext);

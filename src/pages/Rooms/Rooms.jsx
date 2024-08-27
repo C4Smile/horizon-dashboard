@@ -1,39 +1,33 @@
-import React, { useMemo } from "react";
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+
+// @sito/dashboard
+import { Table, useTableOptions } from "@sito/dashboard";
+
+// images
+import noProduct from "../../assets/images/no-product.jpg";
 
 // dto
-import { Room, RoomStatus } from "../../models/Room";
-import { RoomType } from "../../models/RoomType";
+import { Room } from "../../models/room/Room";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
+import { ReactQueryKeys } from "../../utils/queryKeys";
+import { staticUrlPhoto } from "../../components/utils";
 
-// components
-import Table from "../../components/Table/Table";
-import Loading from "../../partials/loading/Loading";
+// providers
+import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
-const roomQuery = [
-  {
-    id: 1,
-    dateOfCreation: Date.now(),
-    lastUpdate: Date.now(),
-    deleted: true,
-    number: 101,
-    type: new RoomType(1, "Single"),
-    description: "Single bed with private bathroom",
-    status: RoomStatus.free,
-  },
-  {
-    id: 2,
-    dateOfCreation: Date.now(),
-    lastUpdate: Date.now(),
-    deleted: false,
-    number: 102,
-    type: new RoomType(2, "Double"),
-    description: "Double bed with private bathroom",
-    status: RoomStatus.occupied,
-  },
-];
+// hooks
+import { useActions } from "../../hooks/useActions";
+import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
+
+const noSortableColumns = {
+  roomHasImage: true,
+  roomHasImage360: true,
+};
 
 /**
  * Room page
@@ -42,39 +36,88 @@ const roomQuery = [
 function Rooms() {
   const { t } = useTranslation();
 
-  const preparedColumns = useMemo(() => {
-    const keys = extractKeysFromObject(new Room(), ["id", "dateOfCreation", "lastUpdate", "deleted"]);
-    return keys.map((key) => ({
-      id: key,
-      label: t(`_entities:room.${key}.label`),
-      className: "",
-    }));
-  }, [t]);
+  const museumApiClient = useMuseumApiClient();
 
-  const preparedRows = useMemo(() => {
-    return roomQuery.map((room) => {
-      return {
-        id: room.id,
-        dateOfCreation: new Date(room.dateOfCreation).toLocaleDateString(),
-        lastUpdate: new Date(room.lastUpdate).toLocaleDateString(),
-        deleted: room.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
-        number: room.number,
-        type: room.type.Name,
-        description: room.description,
-        status: t(`_entities:room.status.${room.status}`),
-      };
-    });
-  }, [t]);
+  const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
 
-  const loading = useMemo(() => false, []);
+  const { data, isLoading } = useQuery({
+    queryKey: [ReactQueryKeys.Rooms, sortingBy, sortingOrder, currentPage, pageSize],
+    queryFn: () => museumApiClient.Room.getAll({ sortingBy, sortingOrder, currentPage, pageSize }),
+  });
+
+  useEffect(() => {
+    if (data) setTotal(data.total ?? 0);
+  }, [data, setTotal]);
+
+  const prepareRows = (room) => {
+    return {
+      ...room,
+      name: (
+        <Link className="underline text-light-primary" to={`${room.id}`}>
+          {room.name}
+        </Link>
+      ),
+      type: (
+        <Link className="underline text-light-primary" to={`/museum/room-types/${room.id}`}>
+          {room.type.name}
+        </Link>
+      ),
+      roomHasImage360:
+        room.roomHasImage360 && room.roomHasImage360.length ? (
+          <div className="flex items-center justify-start">
+            {room.roomHasImage360.map((image, i) => (
+              <img
+                key={i}
+                className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
+                src={staticUrlPhoto(image.imageId.url)}
+                alt={`${room.name} ${i}`}
+              />
+            ))}
+          </div>
+        ) : (
+          <img className="small-image rounded-full object-cover" src={noProduct} alt={room.title} />
+        ),
+      roomHasImage:
+        room.roomHasImage && room.roomHasImage.length ? (
+          <div className="flex items-center justify-start">
+            {room.roomHasImage.map((image, i) => (
+              <img
+                key={i}
+                className={`w-10 h-10 rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
+                src={staticUrlPhoto(image.imageId.url)}
+                alt={`${room.name} ${i}`}
+              />
+            ))}
+          </div>
+        ) : (
+          <img className="small-image rounded-full object-cover" src={noProduct} alt={room.title} />
+        ),
+      status: room.status.name,
+    };
+  };
+  const getActions = useActions({
+    apiClient: museumApiClient.Room,
+    queryKey: ReactQueryKeys.Rooms,
+    parent: "museum",
+  });
+
+  const { columns } = useParseColumns(
+    extractKeysFromObject(new Room(), ["id", "dateOfCreation", "deleted", "content"]),
+  );
+
+  const { rows } = useParseRows(prepareRows);
 
   return (
-    <div className="p-5">
-      <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
-        {t("_pages:management.links.rooms")}
-      </h1>
-      {loading ? <Loading /> : <Table rows={preparedRows} columns={preparedColumns} />}
-    </div>
+    <Table
+      rows={data?.items}
+      actions={getActions}
+      isLoading={isLoading}
+      parseRows={rows}
+      entity={Room.className}
+      columns={columns}
+      columnsOptions={{ noSortableColumns }}
+      title={t("_pages:museum.links.rooms")}
+    />
   );
 }
 

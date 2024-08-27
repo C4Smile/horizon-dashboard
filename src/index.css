@@ -1,6 +1,43 @@
+/* Additional styles */
+@import "css/additional-styles/utility-patterns.css";
+@import "css/additional-styles/flatpickr.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.small-image {
+  @apply w-10 h-10 min-h-10 min-w-10;
+}
+
+input[type="file"] {
+  visibility: hidden;
+  position: absolute;
+}
+
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+.segoe * {
+  font-family: "Segoe UI", sans-serif !important;
+}
+
+.poppins {
+  font-family: "Poppins", sans-serif !important;
+}
+
+a,
+button,
+p {
+  font-weight: 500;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 900;
+}
 
 :root {
   line-height: 1.5;
@@ -18,4 +55,76 @@
 
 .disabled-link {
   pointer-events: none;
+}
+
+textarea {
+  resize: none;
+}
+
+.form {
+  @apply w-full flex items-start justify-start flex-col;
+}
+
+.submit {
+  padding: 5px 20px;
+  @apply relative text-white border-2 border-light-primary bg-light-primary transition enabled:hover:bg-primary enabled:hover:border-primary disabled:bg-primary/40 font-medium rounded-full text-sm w-full sm:w-auto text-center;
+}
+
+.outlined {
+  padding: 5px 10px;
+  @apply relative text-primary border-2 border-primary transition duration-300 enabled:hover:text-white enabled:hover:bg-primary rounded-full flex items-center justify-center font-medium text-sm w-full sm:w-auto text-center;
+}
+
+.dashhed {
+  @apply border-dashed;
+}
+
+.icon-button {
+  @apply min-w-10 w-10 min-h-10 h-10;
+}
+
+.appear {
+  animation: appear 0.5s ease 1;
+}
+
+.disappear {
+  animation: disappear 0.5s ease 1;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes disappear {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+}
+
+.rotate {
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

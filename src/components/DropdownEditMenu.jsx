@@ -3,13 +3,11 @@ import Transition from "../utils/Transition";
 
 /**
  * DropdownEditMenu
- * @param {object} children - React children
- * @param {string} align - Alignment
- * @param {object} rest - Other props
+ * @param {object} props - component props
  * @returns {object} React component
- *
  */
-function DropdownEditMenu({ children, align, ...rest }) {
+function DropdownEditMenu(props) {
+  const { children, align, ...rest } = props;
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef(null);

@@ -3,11 +3,12 @@ import Transition from "../utils/Transition";
 
 /**
  * Tooltip
- * @param {object} props - Props
- * @returns React component
+ * @param {object} props - component props
+ * @returns {object} React component
  */
 function Tooltip(props) {
   const { children, className, bg, size, position } = props;
+
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
   const positionOuterClasses = (position) => {
@@ -43,7 +44,7 @@ function Tooltip(props) {
       case "dark":
         return "bg-slate-700 text-slate-100 border-slate-600";
       default:
-        return "text-slate-600 bg-white dark:bg-slate-700 dark:text-slate-100 border-slate-200 dark:border-slate-600";
+        return "text-slate-600 bg-white border-slate-200";
     }
   };
 
@@ -74,7 +75,7 @@ function Tooltip(props) {
         aria-expanded={tooltipOpen}
         onClick={(e) => e.preventDefault()}
       >
-        <svg className="w-4 h-4 fill-current text-slate-400 dark:text-slate-500" viewBox="0 0 16 16">
+        <svg className="w-4 h-4 fill-current text-slate-400" viewBox="0 0 16 16">
           <path d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm0 12c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1zm1-3H7V4h2v5z" />
         </svg>
       </button>

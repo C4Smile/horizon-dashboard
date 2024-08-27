@@ -3,28 +3,110 @@
     "dashboard": {
       "link": "/"
     },
+    "devices": {
+      "link": "dispositivos"
+    },
+    "museum": {
+      "link": "/museo"
+    },
+    "information": {
+      "link": "/informacion"
+    },
     "management": {
       "link": "/gestion"
     },
     "personal": {
       "link": "/personal"
+    },
+    "settings": {
+      "link": "/ajustes"
+    }
+  },
+  "chat": {
+    "you": "Tú",
+    "bot": "Bot",
+    "at": "a las",
+    "tooltips": {
+      "minimize": "Minimizar chat",
+      "close": "Cerrar chat",
+      "delete": "Eliminar historial de chat"
+    },
+    "title": "Asistencia en línea",
+    "input": "Escribe un mensaje"
+  },
+  "home": {
+    "welcome": "Bienvenido"
+  },
+  "search": {
+    "label": "Buscar",
+    "placeholder": "Buscar algo...",
+    "recentSearches": "Búsquedas recientes",
+    "noRecentSearches": "No hay búsquedas recientes",
+    "recentPages": "Páginas recientes",
+    "noRecentPages": "Sin navegación reciente",
+    "result": "Resultados de búsqueda"
+  },
+  "auth": {
+    "recovery": {
+      "title": "Recuperación de contraseña",
+      "sent": "Revise su correo electrónico para restablecer su contraseña"
+    },
+    "updatePassword": {
+      "title": "Actualizar contraseña",
+      "sent": "La contraseña ha sido actualizada"
+    },
+    "signIn": {
+      "title": "Iniciar sesión",
+      "passwordRecovery": "¿Olvidó su contraseña?"
+    },
+    "signOut": {
+      "title": "Cerrar sesión"
     }
   },
   "dashboard": {
-    "title": "Tablero",
+    "title": "Panel Administrativo",
     "links": {
       "main": "Principal",
-      "analytics": "Analítica"
+      "analytics": "Análisis"
+    }
+  },
+  "devices": {
+    "title": "Dispositivos",
+    "links": {
+      "statuses": "Estados",
+      "applications": "Aplicaciones",
+      "translations": "Traducciones"
+    }
+  },
+  "museum": {
+    "title": "Museo",
+    "links": {
+      "customers": "Clientes",
+      "services": "Services",
+      "rooms": "Salas",
+      "roomAreas": "Área de salas",
+      "sortRooms": "Organizar Salas",
+      "roomTypes": "Tipos de salas",
+      "guestBooks": "Libro de visitas"
+    }
+  },
+  "information": {
+    "title": "Información",
+    "links": {
+      "activities": "Actividades",
+      "news": "Noticias",
+      "events": "Eventos",
+      "tags": "Etiquetas"
     }
   },
   "management": {
     "title": "Gestión",
     "links": {
-      "customers": "Clientes",
-      "reservations": "Reservas",
       "invoices": "Facturas",
-      "rooms": "Salas",
-      "roomTypes": "Tipos de Salas"
+      "appTexts": "Textos del App",
+      "currencies": "Monedas",
+      "paymentMethods": "Métodos de pago",
+      "pushNotifications": "Notificaciones instantáneas"
     }
   },
   "personal": {
@@ -34,11 +116,15 @@
     }
   },
   "settings": {
-    "title": "Configuración",
+    "title": "Configuraciones",
     "links": {
       "account": "Cuenta",
-      "notifications": "Notificaciones"
+      "security": "Seguridad"
     }
+  },
+  "services": {
+    "editForm": "Editar Servicio",
+    "newForm": "Nuevo Servicio"
   },
   "users": {
     "editForm": "Editar Usuario",
@@ -47,5 +133,53 @@
   "customers": {
     "editForm": "Editar Cliente",
     "newForm": "Nuevo Cliente"
+  },
+  "sortRooms": {
+    "title": "Organizar Sala",
+    "areas": "Áreas de la Sala {{room}}",
+    "saved": "Orden guardado correctamente"
+  },
+  "rooms": {
+    "editForm": "Editar Sala",
+    "newForm": "Nueva Sala"
+  },
+  "roomAreas": {
+    "editForm": "Editar Área de Sala",
+    "newForm": "Nueva Área de Sala"
+  },
+  "roomTypes": {
+    "editForm": "Editar Tipo de Sala",
+    "newForm": "Nuevo Tipo de Sala"
+  },
+  "news": {
+    "editForm": "Editar Noticia",
+    "newForm": "Nueva Noticia"
+  },
+  "events": {
+    "editForm": "Editar Evento",
+    "newForm": "Nuevo Evento"
+  },
+  "tags": {
+    "editForm": "Editar Etiqueta",
+    "newForm": "Nueva Etiqueta"
+  },
+  "activities": {
+    "editForm": "Editar Actividad",
+    "newForm": "Nueva Actividad"
+  },
+  "appTexts": {
+    "editForm": "Editar Texto para la Aplicación",
+    "newForm": "Nueva Texto para la Aplicación"
+  },
+  "pushNotifications": {
+    "editForm": "Editar Notificación instantánea",
+    "newForm": "Nueva Notificación instantánea"
+  },
+  "guestBooks": {
+    "editForm": "Editar Visita",
+    "newForm": "Nueva Visita"
+  },
+  "notFound": {
+    "title": "No encontrado"
   }
 }

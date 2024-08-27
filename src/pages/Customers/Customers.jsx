@@ -1,10 +1,13 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 
+// icons
+import { faTrash, faPencil } from "@fortawesome/free-solid-svg-icons";
+
 // dto
-import { Customer } from "../../models/Customer";
+import { Customer } from "../../models/customer/Customer";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
@@ -44,51 +47,69 @@ function Customers() {
     queryFn: () => museumApiClient.Customer.getAll(),
   });
 
+  const [localData, setLocalData] = useState([]);
+
   const preparedRows = useMemo(() => {
-    if (customerQuery.data) {
-      const { data } = customerQuery.data;
-      if (data && data !== null)
-        return data.map((customer) => {
-          return {
-            id: customer.id,
-            dateOfCreation: new Date(customer.dateOfCreation).toLocaleDateString(),
-            lastUpdate: new Date(customer.lastUpdate).toLocaleDateString(),
-            deleted: customer.deleted
-              ? t("_accessibility:buttons.yes")
-              : t("_accessibility:buttons.no"),
-            name: (
-              <Link className="underline text-light-primary" to={`${customer.id}`}>
-                {customer.name}
-              </Link>
-            ),
-            email: customer.email,
-            phone: customer.phone,
-            address: customer.address,
-            identification: customer.identification,
-            country: customer.country?.Name,
-          };
-        });
-    }
-  }, [t, customerQuery]);
+    return localData.map((customer) => {
+      return {
+        id: customer.id,
+        dateOfCreation: new Date(customer.dateOfCreation).toLocaleDateString(),
+        lastUpdate: new Date(customer.lastUpdate).toLocaleDateString(),
+        deleted: customer.deleted ? t("_accessibility:buttons.yes") : t("_accessibility:buttons.no"),
+        name: (
+          <Link className="underline text-light-primary" to={`${customer.id}`}>
+            {customer.name}
+          </Link>
+        ),
+        email: customer.email,
+        phone: customer.phone,
+        address: customer.address,
+        identification: customer.identification,
+        country: (
+          <Link
+            className="underline text-light-primary"
+            to={`/management/countries/${customer.countryId}`}
+          >
+            {customer.country?.name}
+          </Link>
+        ),
+      };
+    });
+  }, [localData, t]);
 
   useEffect(() => {
-    const { error } = customerQuery;
-    // eslint-disable-next-line no-console
-    if (error && error !== null) console.error(customerQuery.error);
-  }, [customerQuery]);
+    const { data } = customerQuery;
+    if (data) {
+      if (data.status && data?.status !== 200) {
+        // eslint-disable-next-line no-console
+        console.error(data.message);
+        setNotification(String(data.status));
+      } else setLocalData(data ?? []);
+    }
+  }, [customerQuery, navigate, setNotification]);
 
   const getActions = [
-    { id: "edit", onClick: (e) => navigate(e.id) },
+    {
+      id: "edit",
+      onClick: (e) => navigate(`/management/customers/${e.id}`),
+      icon: faPencil,
+      tooltip: t("_accessibility:buttons.edit"),
+    },
     {
       id: "delete",
-      onClick: (e) => {
-        const { error, status } = museumApiClient.Customer.delete([e.id]);
-        setNotification(String(status));
+      onClick: async (e) => {
+        const result = await museumApiClient.Customer.delete([e.id]);
+        const { error, status } = result;
+        setNotification(String(status), { model: t("_entities:entities.customer") });
 
-        // eslint-disable-next-line no-console
-        if (error && error !== null) console.error(error);
-        else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers] });
+        if (status !== 204) {
+          // eslint-disable-next-line no-console
+          console.error(error);
+          setNotification(String(status));
+        } else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers] });
       },
+      icon: faTrash,
+      tooltip: t("_accessibility:buttons.delete"),
     },
   ];
 
@@ -102,6 +123,7 @@ function Customers() {
         rows={preparedRows}
         columns={preparedColumns}
         actions={getActions}
+        parent="management"
       />
     </div>
   );

@@ -11,6 +11,7 @@ import { inputStateClassName, labelStateClassName, helperTextStateClassName } fr
  */
 const TextInput = forwardRef(function (props, ref) {
   const {
+    children,
     value,
     onChange,
     state,
@@ -47,7 +48,9 @@ const TextInput = forwardRef(function (props, ref) {
         className={`peer-focus:font-medium absolute text-sm duration-300 transform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7 ${labelStateClassName(state)} ${labelClassName}`}
       >
         {label}
+        {required ? " *" : ""}
       </label>
+      {children}
       <p className={`mt-2 text-sm ${helperTextStateClassName(state)} ${helperTextClassName}`}>
         {state !== "error" && state !== "good" ? placeholder : helperText}
       </p>
@@ -66,9 +69,9 @@ TextInput.defaultProps = {
 };
 
 TextInput.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.any,
   onChange: PropTypes.func.isRequired,
-  state: PropTypes.oneOf(["error", "good", "default"]),
+  state: PropTypes.oneOf(["", "error", "good", "default"]),
   name: PropTypes.string,
   id: PropTypes.string,
   type: PropTypes.string,

@@ -1,43 +1,80 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, memo, useState, useMemo, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+
+// providers
 import { useNotification } from "../providers/NotificationProvider";
 
 /**
  * Notification
  * @returns {object} React component
  */
-function Notification() {
+const Notification = memo(() => {
+  const location = useLocation();
   const { t } = useTranslation();
-  const { notification } = useNotification();
+  const { notification, setNotification, params, state } = useNotification();
 
   const [notificationOpen, setNotificationOpen] = useState(Boolean(notification.length));
-  const [state, setState] = useState("");
-  const [notificationClass, setNotificationClass] = useState("");
 
-  useEffect(() => {
-    setNotificationOpen(Boolean(notification.length));
+  const localState = useMemo(() => {
     switch (notification) {
+      case "notConnected":
+      case "images":
       case "400":
       case "401":
-        return setState("bad");
+      case "403":
+      case "404":
+      case "409":
+      case "429":
+        return "bad";
       case "500":
-        return setState("ugly");
+        return "ugly";
+      case "deleted":
+      case "restored":
       case "200":
       case "201":
-        return setState("good");
+      case "204":
+        return "good";
       default:
-        return setState("");
+        return "";
     }
   }, [notification]);
 
-  useEffect(() => {
+  const notificationClass = useMemo(() => {
     const lNotificationClasses = {
-      good: "bg-green-500",
+      good: "bg-green-500 text-black",
       bad: "bg-red-500",
       ugly: "bg-red-500",
     };
-    setNotificationClass(lNotificationClasses[state]);
-  }, [state]);
+    if (state.length) return lNotificationClasses[state];
+    return localState === "" ? lNotificationClasses.bad : lNotificationClasses[localState];
+  }, [localState, state]);
+
+  useEffect(() => {
+    setNotificationOpen(Boolean(notification.length));
+  }, [notification]);
+
+  const clean = useCallback(() => {
+    setNotificationOpen(false);
+    setTimeout(() => {
+      setNotification("");
+    }, 1000);
+  }, [setNotification]);
+
+  useEffect(() => {
+    clean();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
+
+  useEffect(() => {
+    if (notification !== "") {
+      window.addEventListener("click", clean);
+    }
+
+    return () => {
+      window.removeEventListener("click", clean);
+    };
+  }, [notification, clean]);
 
   return (
     <>
@@ -49,7 +86,7 @@ function Notification() {
             className={`${notificationClass} border border-transparent dark:border-slate-700 text-white text-sm p-3 md:rounded shadow-lg flex justify-between`}
           >
             <div className={`text-white inline-flex`}>
-              {t(`_accessibility:messages.${notification}`)}
+              {localState === "" ? notification : t(`_accessibility:messages.${notification}`, params)}
             </div>
             <button
               className="text-white hover:text-[red] pl-2 ml-3 border-l border-slate-200"
@@ -65,6 +102,6 @@ function Notification() {
       }
     </>
   );
-}
+});
 
 export default Notification;

@@ -1,9 +1,27 @@
-import { useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import { useForm, Controller } from "react-hook-form";
+import loadable from "@loadable/component";
 
 // components
 import Loading from "../../partials/loading/Loading";
+import TextInput from "../../components/Forms/TextInput";
+import ImageUploader from "../../components/ImageUploader";
+import SelectInput from "../../components/Forms/SelectInput";
+import PasswordInput from "../../components/Forms/PasswordInput";
+
+// providers
+import { useNotification } from "../../providers/NotificationProvider";
+import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvider";
+
+// utils
+import { ReactQueryKeys } from "../../utils/queryKeys";
+
+// pages
+const NotFound = loadable(() => import("../NotFound/NotFound"));
+
 /**
  * UserForm
  * @returns UserForm page Component
@@ -13,108 +31,328 @@ function UserForm() {
 
   const { t } = useTranslation();
 
-  const loading = useMemo(() => {
-    return false;
-  }, []);
+  const museumApiClient = useMuseumApiClient();
 
-  return (
+  const [notFound, setNotFound] = useState(false);
+
+  const { setNotification } = useNotification();
+  const [saving, setSaving] = useState(false);
+  const [lastUpdate, setLastUpdate] = useState();
+
+  const { handleSubmit, reset, control } = useForm();
+
+  const [photo, setPhoto] = useState();
+
+  const onSubmit = async (d) => {
+    if (!photo) {
+      setNotification("images", {}, "bad");
+      return;
+    }
+
+    setSaving(true);
+    try {
+      let result;
+
+      if (d.password !== d.rPassword) {
+        setSaving(false);
+        // eslint-disable-next-line no-console
+        console.error(t("_accessibility:errors.passwordDoNotMatch"));
+        return setNotification(t("_accessibility:errors.passwordDoNotMatch"));
+      }
+      if (!d.id) result = await museumApiClient.User.create(d, photo);
+      else result = await museumApiClient.User.update(d, photo);
+      const { error, status } = result;
+
+      setNotification(String(status), { model: t("_entities:entities.user") });
+      setLastUpdate(new Date().toDateString());
+      // eslint-disable-next-line no-console
+      if (error && error !== null) console.error(error.message);
+      else {
+        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users] });
+        if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users, id] });
+        else {
+          setPhoto();
+          reset({
+            id: undefined,
+            username: "",
+            password: "",
+            name: "",
+            email: "",
+            phone: "",
+            address: "",
+            identification: "",
+          });
+        }
+      }
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+      setNotification(String(e.status), { model: t("_entities:entities.user") });
+    }
+    setSaving(false);
+  };
+
+  const userQuery = useQuery({
+    queryKey: [ReactQueryKeys.Users, id],
+    queryFn: () => museumApiClient.User.getById(id),
+    enabled: id !== undefined,
+  });
+
+  const roleQuery = useQuery({
+    queryKey: [ReactQueryKeys.Roles],
+    queryFn: () => museumApiClient.Role.getAll(),
+  });
+
+  const roleList = useMemo(() => {
+    try {
+      return roleQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
+    } catch (err) {
+      return [];
+    }
+  }, [roleQuery.data]);
+
+  useEffect(() => {
+    const { data } = userQuery;
+    // eslint-disable-next-line no-console
+    if (data && data.error) console.error(data.error.message);
+    if (data?.status === 404) setNotFound(true);
+  }, [userQuery]);
+
+  useEffect(() => {
+    if (userQuery.data) {
+      if (userQuery.data?.imageId) setPhoto(userQuery?.data?.imageId);
+      const roleId = roleList.find((role) => role.id === userQuery.data?.roleId?.id);
+      reset({ ...userQuery.data, roleId: roleId?.id });
+      setLastUpdate(userQuery?.data?.lastUpdate);
+    }
+
+    if (!id) {
+      setPhoto();
+      reset({
+        id: undefined,
+        username: "",
+        password: "",
+        name: "",
+        email: "",
+        phone: "",
+        address: "",
+        identification: "",
+      });
+    }
+  }, [id, reset, roleList, userQuery.data]);
+
+  return notFound ? (
+    <NotFound />
+  ) : (
     <div className="px-5 pt-10 flex items-start justify-start">
-      {loading ? (
-        <Loading />
-      ) : (
-        <form className="w-full">
-          <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
-            {id ? `${t("_pages:users.editForm")} ${id}` : t("_pages:users.newForm")}
-          </h1>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="email"
-              name="floating_email"
-              id="floating_email"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
-            <label
-              htmlFor="floating_email"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              {t("_entities:user.email")}
-            </label>
+      <form onSubmit={handleSubmit(onSubmit)} className="form">
+        <h1 className="text-2xl md:text-3xl font-bold">
+          {id ? `${t("_pages:users.editForm")} ${id}` : t("_pages:users.newForm")}
+        </h1>
+        {userQuery.isLoading ? (
+          <Loading
+            className="bg-none w-6 h-6 mb-10"
+            strokeWidth="4"
+            loaderClass="!w-6"
+            color="stroke-primary"
+          />
+        ) : (
+          <div className={id && lastUpdate ? "" : "mt-5"}>
+            {id && lastUpdate && (
+              <p className="text-sm mb-10">
+                {t("_accessibility:labels.lastUpdate")}{" "}
+                {new Date(lastUpdate).toLocaleDateString("es-ES")}
+              </p>
+            )}
           </div>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
+        )}
+        {/* User Role */}
+        <Controller
+          control={control}
+          name="roleId"
+          disabled={userQuery.isLoading || saving}
+          render={({ field: { onChange, value, ...rest } }) => (
+            <SelectInput
+              {...rest}
+              id="roleId"
+              name="roleId"
+              label={t("_entities:user.roleId.label")}
+              options={roleList}
+              value={value}
+              onChange={(e) => {
+                onChange(e.target.value);
+              }}
+            />
+          )}
+        />
+        {/* User Name */}
+        <Controller
+          control={control}
+          disabled={userQuery.isLoading || saving}
+          name="name"
+          render={({ field }) => (
+            <TextInput
+              {...field}
               type="text"
-              name="floating_name"
-              id="floating_name"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
+              name="name"
+              id="name"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder={t("_entities:user.name.placeholder")}
+              label={t("_entities:user.name.label")}
               required
             />
-            <label
-              htmlFor="floating_email"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              {t("_entities:user.name")}
-            </label>
-          </div>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
+          )}
+        />
+        {/* User Email */}
+        <Controller
+          control={control}
+          name="email"
+          disabled={userQuery.isLoading || saving}
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="email"
+              name="email"
+              id="email"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder={t("_entities:user.email.placeholder")}
+              label={t("_entities:user.email.label")}
+              required
+            />
+          )}
+        />
+        {/* User Username */}
+        <Controller
+          control={control}
+          disabled={userQuery.isLoading || saving}
+          name="username"
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="text"
+              name="username"
+              id="username"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder={t("_entities:user.username.placeholder")}
+              label={t("_entities:user.username.label")}
+              required
+            />
+          )}
+        />
+        {/* User Password */}
+        <Controller
+          control={control}
+          disabled={userQuery.isLoading || saving}
+          name="password"
+          render={({ field }) => (
+            <PasswordInput
+              {...field}
+              name="password"
+              id="password"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder={t("_entities:user.password.placeholder")}
+              label={t("_entities:user.password.label")}
+              required
+            />
+          )}
+        />
+        {/* User RPassword */}
+        <Controller
+          control={control}
+          disabled={userQuery.isLoading || saving}
+          name="rPassword"
+          render={({ field }) => (
+            <PasswordInput
+              {...field}
+              name="rPassword"
+              id="rPassword"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder={t("_entities:user.rPassword.placeholder")}
+              label={t("_entities:user.rPassword.label")}
+              required
+            />
+          )}
+        />
+        {/* User Address */}
+        <Controller
+          control={control}
+          name="address"
+          disabled={userQuery.isLoading || saving}
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="text"
+              name="address"
+              id="address"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder={t("_entities:user.address.placeholder")}
+              label={t("_entities:user.address.label")}
+              required
+            />
+          )}
+        />
+        {/* User Identification */}
+        <Controller
+          control={control}
+          name="identification"
+          disabled={userQuery.isLoading || saving}
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="text"
+              name="identification"
+              id="identification"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder={t("_entities:user.identification.placeholder")}
+              label={t("_entities:user.identification.label")}
+              required
+            />
+          )}
+        />
+        {/* User Phone */}
+        <Controller
+          control={control}
+          name="phone"
+          disabled={userQuery.isLoading || saving}
+          render={({ field }) => (
+            <TextInput
               type="tel"
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              name="floating_phone"
-              id="floating_phone"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
+              name="phone"
+              id="phone"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder={t("_entities:user.phone.placeholder")}
+              label={t("_entities:user.phone.label")}
               required
+              {...field}
             />
-            <label
-              htmlFor="floating_phone"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              {t("_entities:user.phone")}
-            </label>
-          </div>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="password"
-              name="floating_password"
-              id="floating_password"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
+          )}
+        />
+        {/* User Image */}
+        <div className="mb-5">
+          {userQuery.isLoading ? (
+            <Loading />
+          ) : (
+            <ImageUploader
+              photo={photo}
+              setPhoto={setPhoto}
+              label={`${t("_entities:user.imageId.label")}`}
+              folder={`${ReactQueryKeys.Users}`}
             />
-            <label
-              htmlFor="floating_password"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              {t("_entities:user.password")}
-            </label>
-          </div>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="password"
-              name="repeat_password"
-              id="floating_repeat_password"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
+          )}
+        </div>
+
+        <button type="submit" disabled={userQuery.isLoading || saving} className="mb-5 submit">
+          {(userQuery.isLoading || saving) && (
+            <Loading
+              className="button-loading"
+              strokeWidth="4"
+              loaderClass="!w-6"
+              color="stroke-white"
             />
-            <label
-              htmlFor="floating_repeat_password"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              {t("_entities:user.rPassword")}
-            </label>
-          </div>
-          <button
-            type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            {t("_accessibility:buttons.submit")}
-          </button>
-        </form>
-      )}
+          )}
+          {t("_accessibility:buttons.save")}
+        </button>
+      </form>
     </div>
   );
 }

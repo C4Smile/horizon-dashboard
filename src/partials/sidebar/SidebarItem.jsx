@@ -29,9 +29,7 @@ function SidebarItem(props) {
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             {icon}
-            <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-              {t(`_pages:${page}.title`)}
-            </span>
+            <span className="text-sm font-medium ml-3 duration-200">{t(`_pages:${page}.title`)}</span>
           </div>
           {/* Icon */}
           <div className="flex shrink-0 ml-2">
@@ -39,13 +37,13 @@ function SidebarItem(props) {
           </div>
         </div>
       </button>
-      <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
+      <div className="lg:block 2xl:block">
         <ul className={`pl-9 mt-1 ${!open && "hidden"}`}>
           {child.map((item) => (
             <li key={item.label} className="mb-1 last:mb-0">
               <NavLink
                 end
-                to={`${page !== "dashboard" ? `/${page}` : ""}${item.path}`}
+                to={`${path !== "/" ? path : ""}${item.path}`}
                 className={({ isActive }) =>
                   "block transition duration-150 truncate " +
                   (isActive
@@ -53,7 +51,7 @@ function SidebarItem(props) {
                     : "dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200")
                 }
               >
-                <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                <span className="text-sm font-medium duration-200">
                   {t(`_pages:${page}.links.${item.label}`)}
                 </span>
               </NavLink>

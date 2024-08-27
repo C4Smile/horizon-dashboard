@@ -1,6 +1,4 @@
-/* eslint-disable react/function-component-definition */
-/* eslint-disable react/jsx-no-constructed-context-values */
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useCallback } from "react";
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
@@ -15,8 +13,21 @@ const NotificationContext = createContext();
 const NotificationProvider = (props) => {
   const { children } = props;
   const [notification, setNotification] = useState("");
+  const [params, setParams] = useState({});
+  const [state, setState] = useState("good");
 
-  const value = { notification, setNotification };
+  /**
+   *
+   * @param {string} string string to parse
+   * @param  {...string} params array of params
+   */
+  const setNotificationFunction = useCallback((string, params = {}, state = "") => {
+    setNotification(string);
+    setParams(params);
+    setState(state);
+  }, []);
+
+  const value = { notification, setNotification: setNotificationFunction, params, state };
   return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>;
 };
 

@@ -23,12 +23,13 @@ const SelectInput = forwardRef(function (props, ref) {
     labelClassName,
     helperText,
     helperTextClassName,
+    placeholder,
     ...rest
   } = props;
 
   // setting default value
   useEffect(() => {
-    if (value === "") onChange({ target: { value: "0" } });
+    if ((!value || value === "") && options?.length) onChange({ target: { value: options[0]?.id } });
   }, [onChange, options, value]);
 
   return (
@@ -42,9 +43,9 @@ const SelectInput = forwardRef(function (props, ref) {
         onChange={onChange}
         className={`block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 disabled:text-[#6b7280] ${inputStateClassName(state)} peer ${inputClassName}`}
       >
-        {options.map((option, index) => (
-          <option key={index} value={index}>
-            {option}
+        {options.map((option) => (
+          <option key={option.id} value={option.id}>
+            {option.value}
           </option>
         ))}
       </select>
@@ -54,11 +55,9 @@ const SelectInput = forwardRef(function (props, ref) {
       >
         {label}
       </label>
-      {(state === "error" || state === "good") && (
-        <p className={`mt-2 text-sm ${helperTextStateClassName(state)} ${helperTextClassName}`}>
-          {helperText}
-        </p>
-      )}
+      <p className={`mt-2 text-sm ${helperTextStateClassName(state)} ${helperTextClassName}`}>
+        {state !== "error" && state !== "good" ? placeholder : helperText}
+      </p>
     </div>
   );
 });
@@ -74,7 +73,7 @@ SelectInput.defaultProps = {
 };
 
 SelectInput.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.any,
   onChange: PropTypes.func.isRequired,
   state: PropTypes.oneOf(["error", "good", "default"]),
   name: PropTypes.string,

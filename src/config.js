@@ -12,9 +12,11 @@ const {
   VITE_RECOVERING_COOKIE,
   // COMMUNICATION
   VITE_CRYPTO,
-  // SUPABASE
-  VITE_SUPABASE_CO,
-  VITE_SUPABASE_ANON,
+  // CACHE
+  VITE_RECENT_SEARCHES,
+  VITE_RECENT_SEARCHES_LIMIT,
+  VITE_RECENT_PAGES,
+  VITE_RECENT_PAGES_LIMIT,
 } = import.meta.env;
 
 const config = {
@@ -31,9 +33,11 @@ const config = {
   recovering: VITE_RECOVERING_COOKIE,
   // COMMUNICATION
   crypto: VITE_CRYPTO,
-  // SUPABASE
-  supabaseCO: VITE_SUPABASE_CO,
-  supabaseANON: VITE_SUPABASE_ANON,
+  // CACHE
+  recentSearches: VITE_RECENT_SEARCHES,
+  recentSearchesLimit: VITE_RECENT_SEARCHES_LIMIT,
+  recentPages: VITE_RECENT_PAGES,
+  recentPagesLimit: VITE_RECENT_PAGES_LIMIT,
 };
 
 export default config;

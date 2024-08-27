@@ -5,11 +5,12 @@ export const darkMode = "class";
 export const theme = {
   extend: {
     colors: {
-      primary: "#363E15",
+      primary: "#6B702E",
       "light-primary": "#8D924C",
-      secondary: "#FAA7A7",
+      secondary: "#E11F1C",
       dark: "#2B2926",
       navbar: "#8D924C",
+      error: "#ff0033",
     },
     boxShadow: {
       DEFAULT: "0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.02)",

@@ -1,19 +1,78 @@
 {
-  "appName": "Museo Primer Frente",
+  "daysOfTheWeek": {
+    "0": "Domingo",
+    "1": "Lunes",
+    "2": "Martes",
+    "3": "Miércoles",
+    "4": "Jueves",
+    "5": "Viernes",
+    "6": "Sábado"
+  },
+  "components": {
+    "table": {
+      "filters": {
+        "title": "Filtros"
+      },
+      "pageSizes": "Mostrando",
+      "from": "del",
+      "to": "al",
+      "of": "de",
+      "results": "resultados",
+      "empty": "No hay resultados"
+    }
+  },
+  "appName": "Museo del Primer Frente José Martí",
   "buttons": {
-    "openSidebar": "Abrir Barra Lateral",
+    "expandSidebar": "Abrir / cerrar barra lateral",
+    "goHome": "Inicio",
+    "settings": "Configuración",
+    "signIn": "Iniciar sesión",
+    "signOut": "Cerrar sesión",
+    "closeSidebar": "Cerrar barra lateral",
+    "openSidebar": "Abrir barra lateral",
     "search": "Buscar",
+    "cancel": "Cancelar",
     "list": "Lista",
     "insert": "Insertar",
     "yes": "Sí",
     "no": "No",
+    "save": "Guardar",
     "submit": "Enviar",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "restore": "Restaurar",
+    "add": "Add",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "showFilters": "Mostrar filtros",
+    "apply": "Aplicar"
+  },
+  "labels": {
+    "loading": "Cargando",
+    "lastUpdate": "Última actualización",
+    "actions": "Acciones",
+    "none": "-"
   },
   "tooltips": "",
   "ariaLabels": "",
+  "errors": {
+    "passwordDoNotMatch": "Las contraseñas no coinciden"
+  },
   "messages": {
+    "notConnected": "No se estableció conexión con el servidor",
+    "images": "Se debe subir una imagen",
     "200": "Guardado exitosamente",
-    "401": "Error: Acceso denegado"
+    "201": "{{model}} guardado exitosamente",
+    "204": "{{count}} object(s) eliminado(s) exitosamente",
+    "deleted": "{{count}} objeto(s) eliminado(s) exitosamente",
+    "restored": "{{count}} objeto(s) restaurados(s) exitosamente",
+    "400": "Error al procesar los datos",
+    "401": "Usuario o contraseña incorrectos",
+    "403": "Error: Acceso denegado",
+    "404": "{{model}} no encontrado",
+    "409": "{{model}} ya existe",
+    "429": "Límite de correos electrónicos excedido",
+    "500": "Algo salió mal"
   }
 }

@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
+import loadable from "@loadable/component";
 
 // components
 import Loading from "../../partials/loading/Loading";
@@ -16,7 +17,8 @@ import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvid
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
-const countries = ["United States", "Canada", "France", "Germany"];
+// pages
+const NotFound = loadable(() => import("../NotFound/NotFound"));
 
 /**
  * CustomerForm
@@ -29,30 +31,44 @@ function CustomerForm() {
 
   const museumApiClient = useMuseumApiClient();
 
+  const [notFound, setNotFound] = useState(false);
+
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
 
   const { handleSubmit, reset, control } = useForm();
 
   const onSubmit = async (d) => {
-    setNotification("");
     setSaving(true);
     try {
       let result;
-      if (d.id) result = await museumApiClient.Customer.create(d);
-      else result = await museumApiClient.Customer.update(d);
-      const { error, status } = result;
-      setNotification(String(status));
 
+      if (!d.id) result = await museumApiClient.Customer.create(d);
+      else result = await museumApiClient.Customer.update(d);
+
+      const { error, status } = result;
+      setNotification(String(status), { model: t("_entities:entities.customer") });
       // eslint-disable-next-line no-console
-      if (error && error !== null) console.error(error);
-      else if (id !== undefined)
-        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers, id] });
-      else reset({});
+      if (error && error !== null) console.error(error.message);
+      else {
+        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers] });
+        if (id !== undefined)
+          queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Customers, id] });
+        else
+          reset({
+            id: undefined,
+            name: "",
+            email: "",
+            phone: "",
+            address: "",
+            identification: "",
+            country: undefined,
+          });
+      }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
-      setNotification(String(e.status));
+      setNotification(String(e.status), { model: t("_entities:entities.customer") });
     }
     setSaving(false);
   };
@@ -61,24 +77,47 @@ function CustomerForm() {
     queryKey: [ReactQueryKeys.Customers, id],
     queryFn: () => museumApiClient.Customer.getById(id),
     enabled: id !== undefined,
-    retry: false,
   });
 
   useEffect(() => {
-    const { error } = customerQuery;
+    const { data } = customerQuery;
     // eslint-disable-next-line no-console
-    if (error && error !== null) console.error(error);
+    if (data && data.error) console.error(data.error.message);
+    if (data?.status === 404) setNotFound(true);
   }, [customerQuery]);
 
   useEffect(() => {
-    if (customerQuery.data) {
-      const { data } = customerQuery.data;
-      // eslint-disable-next-line no-console
-      if (data && data !== null) reset({ ...data });
+    if (customerQuery.data) reset({ ...customerQuery.data });
+
+    if (!id) {
+      reset({
+        id: undefined,
+        name: "",
+        email: "",
+        phone: "",
+        address: "",
+        identification: "",
+        country: undefined,
+      });
     }
   }, [customerQuery.data, id, reset]);
 
-  return (
+  const countryQuery = useQuery({
+    queryKey: [ReactQueryKeys.Countries],
+    queryFn: () => museumApiClient.Country.getAll(),
+  });
+
+  const countryList = useMemo(() => {
+    try {
+      return countryQuery?.data?.items?.map((c) => ({ value: `${c.name} - ${c.iso}`, id: c.id })) || [];
+    } catch (err) {
+      return [];
+    }
+  }, [countryQuery.data]);
+
+  return notFound ? (
+    <NotFound />
+  ) : (
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
@@ -91,10 +130,10 @@ function CustomerForm() {
           render={({ field }) => (
             <TextInput
               {...field}
-              type="name"
+              type="text"
               name="name"
               id="name"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder={t("_entities:customer.name.placeholder")}
               label={t("_entities:customer.name.label")}
               required
@@ -108,10 +147,10 @@ function CustomerForm() {
           render={({ field }) => (
             <TextInput
               {...field}
-              type="text"
+              type="email"
               name="email"
               id="email"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder={t("_entities:customer.email.placeholder")}
               label={t("_entities:customer.email.label")}
               required
@@ -128,7 +167,7 @@ function CustomerForm() {
               type="text"
               name="address"
               id="address"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder={t("_entities:customer.address.placeholder")}
               label={t("_entities:customer.address.label")}
               required
@@ -145,7 +184,7 @@ function CustomerForm() {
               type="text"
               name="identification"
               id="identification"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder={t("_entities:customer.identification.placeholder")}
               label={t("_entities:customer.identification.label")}
               required
@@ -159,10 +198,10 @@ function CustomerForm() {
           disabled={customerQuery.isLoading || saving}
           render={({ field }) => (
             <TextInput
-              type="text"
+              type="tel"
               name="phone"
               id="phone"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder={t("_entities:customer.phone.placeholder")}
               label={t("_entities:customer.phone.label")}
               required
@@ -170,18 +209,17 @@ function CustomerForm() {
             />
           )}
         />
-
         <Controller
           control={control}
-          name="country"
-          disabled={customerQuery.isLoading || saving}
+          name="countryId"
+          disabled={customerQuery.isLoading || countryQuery.isLoading || saving}
           render={({ field: { onChange, value, ...rest } }) => (
             <SelectInput
               {...rest}
-              id="country"
-              name="country"
+              id="countryId"
+              name="countryId"
               label={t("_entities:customer.country.label")}
-              options={countries}
+              options={countryList}
               value={value}
               onChange={(e) => {
                 onChange(e.target.value);
@@ -197,7 +235,7 @@ function CustomerForm() {
         >
           {(customerQuery.isLoading || saving) && (
             <Loading
-              className="bg-primary w-full h-full absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] rounded-lg "
+              className="button-loading"
               strokeWidth="4"
               loaderClass="!w-6"
               color="stroke-white"
