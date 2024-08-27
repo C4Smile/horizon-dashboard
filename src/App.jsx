@@ -81,7 +81,7 @@ function App() {
       <Suspense>
         <Routes>
           {routes}
-          <Route path="/sign-out" element={<SignOut />} />
+          <Route path="/cerrar-sesion" element={<SignOut />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

@@ -64,7 +64,7 @@ function Recovery() {
         onSubmit={handleSubmit(onSubmit)}
         className="w-3/5 max-sm:w-10/12 px-5 pt-10 flex flex-col items-center justify-start"
       >
-        <Link to="/auth">
+        <Link to="/autentificacion">
           <img
             src={logoVertical}
             alt="museum's logo"

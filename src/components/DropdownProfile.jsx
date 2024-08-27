@@ -86,7 +86,7 @@ function DropdownProfile({ align }) {
             <li>
               <Link
                 className="font-medium text-sm text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center py-1 px-3"
-                to="/settings"
+                to="/ajustes"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 {t("_accessibility:buttons.settings")}
@@ -95,7 +95,7 @@ function DropdownProfile({ align }) {
             <li>
               <Link
                 className="font-medium text-sm text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center py-1 px-3"
-                to="/sign-out"
+                to="/cerrar-sesion"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 {t("_accessibility:buttons.signOut")}

@@ -48,7 +48,7 @@ function UpdatePassword() {
       setNotification(t("_pages:auth.updatePassword.sent"), {}, "good");
 
       deleteCookie(config.recovering);
-      setTimeout(() => navigate("/sign-out"), 2000);
+      setTimeout(() => navigate("/cerrar-sesion"), 2000);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
@@ -70,7 +70,7 @@ function UpdatePassword() {
         onSubmit={handleSubmit(onSubmit)}
         className="w-3/5 max-sm:w-10/12 px-5 pt-10 flex flex-col items-center justify-start"
       >
-        <Link to="/auth">
+        <Link to="/autentificacion">
           <img
             src={logoVertical}
             alt="museum's logo"

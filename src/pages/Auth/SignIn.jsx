@@ -133,7 +133,7 @@ function SignIn() {
         </div>
         <div className="w-full mb-5">
           <Link
-            to="/auth/recovery"
+            to="/autentificacion/recuperar"
             className={`underline text-left transition-all duration-500 ease-in-out delay-[500ms] ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
           >
             {t("_pages:auth.signIn.passwordRecovery")}

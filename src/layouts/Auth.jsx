@@ -21,7 +21,7 @@ function Auth() {
 
   useEffect(() => {
     const recovering = getCookie(config.recovering);
-    if (recovering?.length) navigate("/auth/update-password");
+    if (recovering?.length) navigate("/autentificacion/cambiar-contrasena");
     else {
       if (account.user) navigate("/");
     }

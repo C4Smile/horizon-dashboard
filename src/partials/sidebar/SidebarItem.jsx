@@ -43,7 +43,7 @@ function SidebarItem(props) {
             <li key={item.label} className="mb-1 last:mb-0">
               <NavLink
                 end
-                to={`${page !== "dashboard" ? `/${page}` : ""}${item.path}`}
+                to={`${path !== "/" ? path : ""}${item.path}`}
                 className={({ isActive }) =>
                   "block transition duration-150 truncate " +
                   (isActive

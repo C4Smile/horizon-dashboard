@@ -65,12 +65,12 @@ function Dashboard() {
       if (value.status === 401) throw Error("401");
       if (value.status === 403) throw Error("403");
       const recovering = getCookie(config.recovering);
-      if (recovering?.length) navigate("/auth/update-password");
+      if (recovering?.length) navigate("/autentificacion/cambiar-contrasena");
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);
       logoutUser();
-      navigate("/sign-out");
+      navigate("/cerrar-sesion");
     }
   }, [logoutUser, museumApiClient.User, navigate]);
 
