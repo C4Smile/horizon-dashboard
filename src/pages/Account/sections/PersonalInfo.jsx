@@ -30,7 +30,7 @@ function PersonalInfo() {
   const { account } = useAccount();
   const museumApiClient = useMuseumApiClient();
 
-  const id = account?.user?.id;
+  const id = account?.museumUser?.id;
 
   const [notFound, setNotFound] = useState(false);
 
