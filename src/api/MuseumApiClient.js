@@ -1,5 +1,6 @@
 import { ActivityApiClient } from "./ActivityApiClient";
 import { ApplicationApiClient } from "./ApplicationApiClient";
+import { ApplicationTranslationApiClient } from "./ApplicationTranslationApiClient";
 import { AppTextApiClient } from "./AppTextApiClient";
 import { EventApiClient } from "./EventApiClient";
 import { ExternalLinkApiClient } from "./ExternalLinkApiClient";
@@ -37,6 +38,7 @@ export class MuseumApiClient {
   constructor() {
     this.activity = new ActivityApiClient();
     this.application = new ApplicationApiClient();
+    this.applicationTranslation = new ApplicationTranslationApiClient();
     this.appText = new AppTextApiClient();
     this.events = new EventApiClient();
     this.externalLink = new ExternalLinkApiClient();
@@ -94,6 +96,13 @@ export class MuseumApiClient {
    */
   get Application() {
     return this.application;
+  }
+
+  /**
+   * @returns {ApplicationTranslationApiClient} Application
+   */
+  get ApplicationTranslation() {
+    return this.applicationTranslation;
   }
 
   /**
