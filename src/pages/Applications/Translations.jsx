@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 // api
@@ -18,16 +18,25 @@ import TabComponent from "../../components/TabComponent/TabComponent";
 function Translations() {
   const museumApiClient = useMuseumApiClient();
 
-  const { data, isLoading } = useQuery({
+  const appsQuery = useQuery({
     queryKey: [ReactQueryKeys.Applications],
     queryFn: () => museumApiClient.Application.getAll(),
   });
 
+  const [currentApp, setCurrentApp] = useState(0);
+
+  const translationsQuery = useQuery({
+    queryKey: [ReactQueryKeys.Translations],
+    queryFn: () => museumApiClient.ApplicationTranslation.getByApplication(currentApp),
+    enabled: !!currentApp,
+  });
+
   return (
     <div className="p-7">
-      {!isLoading ? (
+      {!appsQuery.isLoading && !translationsQuery.isLoading ? (
         <TabComponent
-          tabs={data?.items?.map((app) => ({ id: app.id, label: app.name })) ?? []}
+          onTabChange={(id) => setCurrentApp(id)}
+          tabs={appsQuery.data?.items?.map((app) => ({ id: app.id, label: app.name })) ?? []}
           content={{}}
         />
       ) : (
