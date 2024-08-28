@@ -9,13 +9,20 @@ import Tabs from "./Tabs";
  * @returns TabComponent
  */
 function TabComponent(props) {
-  const { tabs, content = {} } = props;
+  const { tabs, content = {}, onTabChange } = props;
 
   const [currentTab, setCurrentTab] = useState(tabs[0]?.id);
 
   return (
     <div>
-      <Tabs currentTab={currentTab} tabs={tabs} onTabClick={(id) => setCurrentTab(id)} />
+      <Tabs
+        currentTab={currentTab}
+        tabs={tabs}
+        onTabClick={(id) => {
+          setCurrentTab(id);
+          onTabChange(id);
+        }}
+      />
       {content[currentTab] ? content[currentTab] : null}
     </div>
   );
