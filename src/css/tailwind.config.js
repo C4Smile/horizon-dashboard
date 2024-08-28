@@ -59,6 +59,7 @@ export const theme = {
     },
   },
 };
+
 export const plugins = [
   require("@tailwindcss/forms"),
   // add custom variant for expanding sidebar
