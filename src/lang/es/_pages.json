@@ -122,6 +122,10 @@
       "security": "Seguridad"
     }
   },
+  "applications": {
+    "editForm": "Editar Aplicación",
+    "newForm": "Nuevo Aplicación"
+  },
   "services": {
     "editForm": "Editar Servicio",
     "newForm": "Nuevo Servicio"

@@ -4,6 +4,7 @@
     "user": "Usuario",
     "role": "Rol",
     "country": "País",
+    "application": "Aplicación",
     "customer": "Cliente",
     "province": "Provincia",
     "room": "Sala",
@@ -235,6 +236,10 @@
   "roomType": {
     "lastUpdate": { "label": "Última actualización" },
     "name": { "label": "Nombre", "placeholder": "ej: Museable" }
+  },
+  "application": {
+    "lastUpdate": { "label": "Última actualización" },
+    "name": { "label": "Nombre", "placeholder": "ej: Historia de un símbolo" }
   },
   "pushNotification": {
     "actionType": {
