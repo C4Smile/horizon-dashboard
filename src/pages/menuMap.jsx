@@ -77,7 +77,7 @@ export const menuMap = [
       },
       {
         label: submenuKeys.Rooms,
-        path: "/salass",
+        path: "/salas",
       },
       {
         label: submenuKeys.RoomAreas,
