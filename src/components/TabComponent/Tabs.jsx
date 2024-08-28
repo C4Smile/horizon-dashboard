@@ -6,13 +6,17 @@ import React from "react";
  * @returns Tabs component
  */
 function Tabs(props) {
-  const { tabs, onTabClick } = props;
+  const { tabs, onTabClick, currentTab } = props;
 
   return (
-    <ul>
+    <ul className="flex gap-5 items-center justify-start bg-slate-200 w-full p-5">
       {tabs?.map((tab) => (
         <li key={tab.id}>
-          <button onClick={onTabClick} name={tab.label}>
+          <button
+            className={`text-sm ${currentTab === tab.id ? "text-light-primary/60 disabled-link" : "text-primary hover:text-dark-primary"}`}
+            onClick={() => onTabClick(tab.id)}
+            name={tab.label}
+          >
             {tab.label}
           </button>
         </li>
