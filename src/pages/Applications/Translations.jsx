@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState, useReducer, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 // api
@@ -10,6 +10,21 @@ import { ReactQueryKeys } from "../../utils/queryKeys";
 // components
 import Loading from "../../partials/loading/Loading";
 import TabComponent from "../../components/TabComponent/TabComponent";
+import TranslationForm from "./components/TranslationForm";
+
+const translationsReducer = (state, action) => {
+  const { type } = action;
+  switch (type) {
+    case "add": {
+      const newState = { ...state };
+      const { component, key } = action;
+      newState[key] = component;
+      return newState;
+    }
+    default:
+      return state;
+  }
+};
 
 /**
  *
@@ -26,10 +41,27 @@ function Translations() {
   const [currentApp, setCurrentApp] = useState(0);
 
   const translationsQuery = useQuery({
-    queryKey: [ReactQueryKeys.Translations],
+    queryKey: [ReactQueryKeys.Translations, currentApp],
     queryFn: () => museumApiClient.ApplicationTranslation.getByApplication(currentApp),
     enabled: !!currentApp,
   });
+
+  const [translations, setTranslations] = useReducer(translationsReducer, {});
+
+  useEffect(() => {
+    const { data } = translationsQuery;
+    const component = (
+      <ul id={currentApp}>
+        {data?.items?.map((translation) => (
+          <TranslationForm key={translation.id} {...translation} />
+        ))}
+      </ul>
+    );
+
+    setTranslations({ type: "add", key: currentApp, component });
+  }, [currentApp, translationsQuery.data]);
+
+  console.log(translations);
 
   return (
     <div className="p-7">
@@ -37,7 +69,7 @@ function Translations() {
         <TabComponent
           onTabChange={(id) => setCurrentApp(id)}
           tabs={appsQuery.data?.items?.map((app) => ({ id: app.id, label: app.name })) ?? []}
-          content={{}}
+          content={translations}
         />
       ) : (
         <Loading
