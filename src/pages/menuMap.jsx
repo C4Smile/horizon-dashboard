@@ -60,7 +60,7 @@ export const menuMap = [
     path: "/dispositivos",
     icon: <FontAwesomeIcon icon={faComputer} />,
     child: [
-      { label: submenuKeys.Statuses, path: "/" },
+      { label: submenuKeys.Statuses, path: "/estados" },
       { label: submenuKeys.Applications, path: "/aplicaciones" },
       { label: submenuKeys.Translations, path: "/traducciones" },
     ],

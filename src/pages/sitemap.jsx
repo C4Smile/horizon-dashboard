@@ -13,6 +13,10 @@ import UpdatePassword from "./Auth/UpdatePassword";
 // dashboard
 import Home from "./Home";
 import Account from "./Account/Account";
+// devices
+import Applications from "./Applications/Applications";
+import ApplicationForm from "./Applications/ApplicationForm";
+import Translations from "./Applications/Translations";
 // museum
 // services
 import ServicesPage from "./Services/Services";
@@ -151,15 +155,15 @@ export const sitemap = [
         component: <ModelNavigation parent="dispositivos" model="aplicaciones" />,
         role: [Role.administrator],
         children: [
-          { key: pageId.services, path: "/", component: <></> },
-          { key: pageId.servicesNew, path: "/nuevo", component: <></> },
-          { key: pageId.servicesEdit, path: "/:id", component: <></> },
+          { key: pageId.services, path: "/", component: <Applications /> },
+          { key: pageId.servicesNew, path: "/nuevo", component: <ApplicationForm /> },
+          { key: pageId.servicesEdit, path: "/:id", component: <ApplicationForm /> },
         ],
       },
       {
         key: pageId.translations,
         path: "/dispositivos/traducciones",
-        component: <></>,
+        component: <Translations />,
         role: [Role.administrator, Role.museologist],
       },
       {
