@@ -48,6 +48,7 @@ import EventForm from "./Events/EventForm";
 import TagsPage from "./Tags/Tags";
 import TagForm from "./Tags/TagForm";
 // management
+// pushNotifications
 import PushNotificationsPage from "./PushNotifications/PushNotifications";
 import PushNotificationForm from "./PushNotifications/PushNotificationForm";
 // appTexts
@@ -284,7 +285,7 @@ export const sitemap = [
         key: pageId.pushNotifications,
         path: "/gestion/notificaciones",
         role: [Role.administrator, Role.communicator],
-        component: <ModelNavigation parent="gestion" model="etiquetas" />,
+        component: <ModelNavigation parent="gestion" model="notificaciones" />,
         children: [
           { key: pageId.pushNotifications, path: "/", component: <PushNotificationsPage /> },
           { key: pageId.pushNotificationsNew, path: "/nuevo", component: <PushNotificationForm /> },
