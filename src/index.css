@@ -79,8 +79,16 @@ textarea {
   @apply border-dashed;
 }
 
+.button {
+  @apply flex items-center justify-center;
+}
+
+.filled.primary {
+  @apply bg-primary text-white;
+}
+
 .icon-button {
-  @apply min-w-10 w-10 min-h-10 h-10;
+  @apply min-w-10 w-10 min-h-10 h-10 rounded-full;
 }
 
 .appear {
