@@ -77,4 +77,25 @@ export class ApplicationTranslationApiClient extends BaseApiClient {
     if (error !== null) return { status, error: { message: error.message } };
     return { error, status: status === 204 ? 201 : status };
   }
+
+  /**
+   *
+   * @param {string} csvContent - csv content
+   * @param {number} appId - app to upload to
+   * @returns {Promise<object>} result
+   */
+  async uploadFile(csvContent, appId) {
+    const { status, error } = await makeRequest(
+      `${this.baseUrl}/${appId}/upload-translations`,
+      "POST",
+      {
+        content: csvContent,
+      },
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
+    if (error !== null) return { status, error: { message: error.message } };
+    return { error, status: status === 204 ? 201 : status };
+  }
 }
