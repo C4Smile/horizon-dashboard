@@ -1,6 +1,10 @@
 import { useMemo, useState, useReducer, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
+// icons
+import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 // api
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
@@ -59,9 +63,21 @@ function Translations() {
     );
 
     setTranslations({ type: "add", key: currentApp, component });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentApp, translationsQuery.data]);
 
-  console.log(translations);
+  const onCSVSelected = async (event) => {
+    const [file] = event.target.files;
+    const readFileContent = async (file) =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsText(file);
+      });
+    const content = await readFileContent(file);
+    const response = await museumApiClient.ApplicationTranslation.uploadFile(content, currentApp);
+  };
 
   return (
     <div className="p-7">
@@ -79,6 +95,10 @@ function Translations() {
           color="stroke-primary"
         />
       )}
+      <label className="absolute bottom-3 right-3 icon-button filled primary button cursor-pointer">
+        <FontAwesomeIcon icon={faUpload} />
+        <input type="file" accept=".csv" onChange={onCSVSelected} />
+      </label>
     </div>
   );
 }
