@@ -23,6 +23,18 @@ export class ApplicationTranslationApiClient extends BaseApiClient {
   constructor() {
     super();
     this.baseUrl = "applicationTranslation";
+    this.langTranslation = "langTranslation";
+  }
+
+  /**
+   *
+   * @param {number} langId - lang id
+   * @returns list of translations
+   */
+  async getLangTranslations(langId) {
+    const { error, data, status } = await makeRequest(`${this.langTranslation}/byLangId/${langId}`);
+    if (error !== null) return { status, error: { message: error.message } };
+    return data;
   }
 
   /**
