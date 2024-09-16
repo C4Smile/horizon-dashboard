@@ -204,7 +204,7 @@ function EventForm() {
               type="text"
               name="title"
               id="title"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="text-input peer"
               placeholder={t("_entities:event.title.placeholder")}
               label={t("_entities:event.title.label")}
               required
@@ -222,7 +222,7 @@ function EventForm() {
               type="text"
               name="subtitle"
               id="subtitle"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="text-input peer"
               placeholder={t("_entities:event.subtitle.placeholder")}
               label={t("_entities:event.subtitle.label")}
               required
@@ -240,7 +240,7 @@ function EventForm() {
               type="text"
               name="address"
               id="address"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="text-input peer"
               placeholder={t("_entities:event.address.placeholder")}
               label={t("_entities:event.address.label")}
               required
@@ -267,7 +267,7 @@ function EventForm() {
               type="text"
               name="location"
               id="location"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="text-input peer"
               placeholder={t("_entities:event.location.placeholder")}
               label={t("_entities:event.location.label")}
               required

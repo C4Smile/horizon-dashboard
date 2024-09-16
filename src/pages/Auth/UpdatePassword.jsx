@@ -78,7 +78,7 @@ function UpdatePassword() {
           />
         </Link>
         <h1
-          className={`w-full text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5 transition-all duration-500 ease-in-out delay-100 ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
+          className={`w-full text-2xl md:text-3xl text-slate-800 font-bold mb-5 transition-all duration-500 ease-in-out delay-100 ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
         >
           {t("_pages:auth.updatePassword.title")}
         </h1>
@@ -125,7 +125,7 @@ function UpdatePassword() {
         <button
           type="submit"
           disabled={saving}
-          className={`mb-5 relative text-white self-start bg-light-primary transition-all enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 duration-500 ease-in-out delay-[400ms] ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
+          className={`submit primary delay-[400ms] ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
         >
           {saving && (
             <Loading

@@ -29,14 +29,14 @@ function DashboardCard12() {
                 <div className="grow flex justify-between">
                   <div className="self-center">
                     <a
-                      className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white"
+                      className="font-medium text-slate-800 hover:text-slate-900 dark:hover:text-white"
                       href="#0"
                     >
                       Nick Mark
                     </a>{" "}
                     mentioned{" "}
                     <a
-                      className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white"
+                      className="font-medium text-slate-800 hover:text-slate-900 dark:hover:text-white"
                       href="#0"
                     >
                       Sara Smith
@@ -66,14 +66,14 @@ function DashboardCard12() {
                   <div className="self-center">
                     The post{" "}
                     <a
-                      className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white"
+                      className="font-medium text-slate-800 hover:text-slate-900 dark:hover:text-white"
                       href="#0"
                     >
                       Post Name
                     </a>{" "}
                     was removed by{" "}
                     <a
-                      className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white"
+                      className="font-medium text-slate-800 hover:text-slate-900 dark:hover:text-white"
                       href="#0"
                     >
                       Nick Mark
@@ -101,14 +101,14 @@ function DashboardCard12() {
                 <div className="grow flex justify-between">
                   <div className="self-center">
                     <a
-                      className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white"
+                      className="font-medium text-slate-800 hover:text-slate-900 dark:hover:text-white"
                       href="#0"
                     >
                       Patrick Sullivan
                     </a>{" "}
                     published a new{" "}
                     <a
-                      className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white"
+                      className="font-medium text-slate-800 hover:text-slate-900 dark:hover:text-white"
                       href="#0"
                     >
                       post
@@ -144,14 +144,14 @@ function DashboardCard12() {
                 <div className="grow flex justify-between">
                   <div className="self-center">
                     <a
-                      className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white"
+                      className="font-medium text-slate-800 hover:text-slate-900 dark:hover:text-white"
                       href="#0"
                     >
                       240+
                     </a>{" "}
                     users have subscribed to{" "}
                     <a
-                      className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white"
+                      className="font-medium text-slate-800 hover:text-slate-900 dark:hover:text-white"
                       href="#0"
                     >
                       Newsletter #1
@@ -180,14 +180,14 @@ function DashboardCard12() {
                   <div className="self-center">
                     The post{" "}
                     <a
-                      className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white"
+                      className="font-medium text-slate-800 hover:text-slate-900 dark:hover:text-white"
                       href="#0"
                     >
                       Post Name
                     </a>{" "}
                     was suspended by{" "}
                     <a
-                      className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white"
+                      className="font-medium text-slate-800 hover:text-slate-900 dark:hover:text-white"
                       href="#0"
                     >
                       Nick Mark

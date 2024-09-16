@@ -115,7 +115,7 @@ function Customers() {
 
   return (
     <div className="p-5 relative">
-      <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
+      <h1 className="text-2xl md:text-3xl text-slate-800 font-bold mb-5">
         {t("_pages:management.links.customers")}
       </h1>
       <Table

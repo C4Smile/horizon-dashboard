@@ -99,6 +99,10 @@ textarea {
   animation: disappear 0.5s ease 1;
 }
 
+.submit.primary {
+  @apply mb-5 relative text-white self-start bg-light-primary transition-all enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 duration-500 ease-in-out;
+}
+
 @keyframes appear {
   0% {
     opacity: 0;

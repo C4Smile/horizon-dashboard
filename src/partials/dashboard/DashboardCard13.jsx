@@ -29,7 +29,7 @@ function DashboardCard13() {
                 <div className="grow flex justify-between">
                   <div className="self-center">
                     <a
-                      className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white"
+                      className="font-medium text-slate-800 hover:text-slate-900 dark:hover:text-white"
                       href="#0"
                     >
                       Qonto
@@ -53,7 +53,7 @@ function DashboardCard13() {
                 <div className="grow flex justify-between">
                   <div className="self-center">
                     <a
-                      className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white"
+                      className="font-medium text-slate-800 hover:text-slate-900 dark:hover:text-white"
                       href="#0"
                     >
                       Cruip.com
@@ -77,7 +77,7 @@ function DashboardCard13() {
                 <div className="grow flex justify-between">
                   <div className="self-center">
                     <a
-                      className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white"
+                      className="font-medium text-slate-800 hover:text-slate-900 dark:hover:text-white"
                       href="#0"
                     >
                       Notion Labs Inc
@@ -100,7 +100,7 @@ function DashboardCard13() {
                 <div className="grow flex justify-between">
                   <div className="self-center">
                     <a
-                      className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white"
+                      className="font-medium text-slate-800 hover:text-slate-900 dark:hover:text-white"
                       href="#0"
                     >
                       Market Cap Ltd
@@ -123,7 +123,7 @@ function DashboardCard13() {
                 <div className="grow flex justify-between">
                   <div className="self-center">
                     <a
-                      className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white"
+                      className="font-medium text-slate-800 hover:text-slate-900 dark:hover:text-white"
                       href="#0"
                     >
                       App.com
@@ -131,7 +131,7 @@ function DashboardCard13() {
                     Market Ltd 70 Wilson St London
                   </div>
                   <div className="shrink-0 self-start ml-2">
-                    <span className="font-medium text-slate-800 dark:text-slate-100 line-through">
+                    <span className="font-medium text-slate-800 line-through">
                       +$99.99
                     </span>
                   </div>
@@ -149,7 +149,7 @@ function DashboardCard13() {
                 <div className="grow flex justify-between">
                   <div className="self-center">
                     <a
-                      className="font-medium text-slate-800 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white"
+                      className="font-medium text-slate-800 hover:text-slate-900 dark:hover:text-white"
                       href="#0"
                     >
                       App.com

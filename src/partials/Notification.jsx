@@ -83,7 +83,7 @@ const Notification = memo(() => {
           className={`${notificationOpen ? "opacity-1 scale-100" : "pointer-events-none opacity-0"} transition-all fixed bottom-0 right-0 w-full md:bottom-8 md:right-12 md:w-auto z-50`}
         >
           <div
-            className={`${notificationClass} border border-transparent dark:border-slate-700 text-white text-sm p-3 md:rounded shadow-lg flex justify-between`}
+            className={`${notificationClass} border border-transparent text-white text-sm p-3 md:rounded shadow-lg flex justify-between`}
           >
             <div className={`text-white inline-flex`}>
               {localState === "" ? notification : t(`_accessibility:messages.${notification}`, params)}

@@ -162,7 +162,7 @@ function RealtimeChart({ data, width, height }) {
     <React.Fragment>
       <div className="px-5 py-3">
         <div className="flex items-start">
-          <div className="text-3xl font-bold text-slate-800 dark:text-slate-100 mr-2 tabular-nums">
+          <div className="text-3xl font-bold text-slate-800 mr-2 tabular-nums">
             $<span ref={chartValue}>57.81</span>
           </div>
           <div

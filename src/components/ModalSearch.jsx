@@ -158,7 +158,7 @@ function ModalSearch(props) {
                   {recentSearches.map((search, i) => (
                     <li key={i}>
                       <Link
-                        className="flex items-center p-2 text-slate-800 dark:text-slate-100 hover:text-white hover:bg-primary rounded group"
+                        className="flex items-center p-2 text-slate-800 hover:text-white hover:bg-primary rounded group"
                         to={search.link}
                         onClick={() => setModalOpen(!modalOpen)}
                       >
@@ -188,7 +188,7 @@ function ModalSearch(props) {
                     {recentPages.map((page, i) => (
                       <li key={i}>
                         <Link
-                          className="flex items-center p-2 text-slate-800 dark:text-slate-100 hover:text-white hover:bg-primary rounded group"
+                          className="flex items-center p-2 text-slate-800 hover:text-white hover:bg-primary rounded group"
                           to={page.link}
                           onClick={() => {
                             saveNewSearch(page.text, page.link);

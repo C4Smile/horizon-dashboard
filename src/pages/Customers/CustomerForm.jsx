@@ -120,7 +120,7 @@ function CustomerForm() {
   ) : (
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-5">
+        <h1 className="text-2xl md:text-3xl text-slate-800 font-bold mb-5">
           {id ? `${t("_pages:customers.editForm")} ${id}` : t("_pages:customers.newForm")}
         </h1>
         <Controller
@@ -228,11 +228,7 @@ function CustomerForm() {
           )}
         />
 
-        <button
-          type="submit"
-          disabled={customerQuery.isLoading || saving}
-          className="mb-5 relative text-white bg-light-primary transition enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
+        <button type="submit" disabled={customerQuery.isLoading || saving} className="submit primary">
           {(customerQuery.isLoading || saving) && (
             <Loading
               className="button-loading"

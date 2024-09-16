@@ -30,7 +30,7 @@ function Datepicker({ align }) {
   return (
     <div className="relative">
       <Flatpickr
-        className="form-input pl-9 dark:bg-slate-800 text-slate-500 hover:text-slate-600 dark:text-slate-300 dark:hover:text-slate-200 font-medium w-[15.5rem]"
+        className="form-input pl-9 dark:bg-slate-800 text-slate-500 hover:text-slate-600 dark:text-slate-300  font-medium w-[15.5rem]"
         options={options}
       />
       <div className="absolute inset-0 right-auto flex items-center pointer-events-none">

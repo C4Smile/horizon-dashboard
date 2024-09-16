@@ -19,10 +19,8 @@ function SidebarItem(props) {
   return (
     <>
       <button
-        className={`w-full block ${open ? "dark:text-slate-200" : "dark:text-slate-200"} truncate transition duration-150 ${
-          pathname === path || pathname.includes(page)
-            ? "hover:text-slate-800 dark:hover:text-slate-200"
-            : "hover:text-slate-800 dark:hover:text-white"
+        className={`w-full block truncate transition duration-150 ${
+          pathname === path || pathname.includes(page) ? "" : "hover:text-slate-800"
         }`}
         onClick={handleClick}
       >
@@ -46,9 +44,7 @@ function SidebarItem(props) {
                 to={`${path !== "/" ? path : ""}${item.path}`}
                 className={({ isActive }) =>
                   "block transition duration-150 truncate " +
-                  (isActive
-                    ? "text-primary"
-                    : "dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200")
+                  (isActive ? "text-primary" : "hover:text-slate-800 ")
                 }
               >
                 <span className="text-sm font-medium duration-200">
