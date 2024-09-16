@@ -133,7 +133,7 @@ function CustomerForm() {
               type="text"
               name="name"
               id="name"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              inputClassName="text-input peer"
               placeholder={t("_entities:customer.name.placeholder")}
               label={t("_entities:customer.name.label")}
               required
@@ -150,7 +150,7 @@ function CustomerForm() {
               type="email"
               name="email"
               id="email"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              inputClassName="text-input peer"
               placeholder={t("_entities:customer.email.placeholder")}
               label={t("_entities:customer.email.label")}
               required
@@ -167,7 +167,7 @@ function CustomerForm() {
               type="text"
               name="address"
               id="address"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              inputClassName="text-input peer"
               placeholder={t("_entities:customer.address.placeholder")}
               label={t("_entities:customer.address.label")}
               required
@@ -184,7 +184,7 @@ function CustomerForm() {
               type="text"
               name="identification"
               id="identification"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              inputClassName="text-input peer"
               placeholder={t("_entities:customer.identification.placeholder")}
               label={t("_entities:customer.identification.label")}
               required
@@ -201,7 +201,7 @@ function CustomerForm() {
               type="tel"
               name="phone"
               id="phone"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              inputClassName="text-input peer"
               placeholder={t("_entities:customer.phone.placeholder")}
               label={t("_entities:customer.phone.label")}
               required

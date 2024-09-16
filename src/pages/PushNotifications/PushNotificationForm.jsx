@@ -199,7 +199,7 @@ function PushNotificationForm() {
               type="text"
               name="title"
               id="title"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              inputClassName="text-input peer"
               placeholder={t("_entities:pushNotification.title.placeholder")}
               label={t("_entities:pushNotification.title.label")}
               required
@@ -217,7 +217,7 @@ function PushNotificationForm() {
               type="datetime-local"
               name="sentDate"
               id="sentDate"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              inputClassName="text-input peer"
               label={t("_entities:pushNotification.sentDate.label")}
               required
             />
@@ -233,7 +233,7 @@ function PushNotificationForm() {
               {...field}
               name="description"
               id="description"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer h-48"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer h-48"
               placeholder={t("_entities:pushNotification.description.placeholder")}
               label={t("_entities:pushNotification.description.label")}
             />
@@ -292,7 +292,7 @@ function PushNotificationForm() {
                 type="url"
                 name="action"
                 id="action"
-                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                inputClassName="text-input peer"
                 placeholder={t("_entities:pushNotification.action.placeholder")}
                 label={t("_entities:pushNotification.action.label")}
                 required

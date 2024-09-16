@@ -1,4 +1,4 @@
-import { useMemo, useState, useReducer, useEffect } from "react";
+import { useCallback, useState, useReducer, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 // icons
@@ -66,18 +66,26 @@ function Translations() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentApp, translationsQuery.data]);
 
-  const onCSVSelected = async (event) => {
-    const [file] = event.target.files;
-    const readFileContent = async (file) =>
-      new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsText(file);
-      });
-    const content = await readFileContent(file);
-    const response = await museumApiClient.ApplicationTranslation.uploadFile(content, currentApp);
-  };
+  const onCSVSelected = useCallback(
+    async (event) => {
+      console.log(currentApp);
+      const [file] = event.target.files;
+      const readFileContent = async (file) =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsText(file);
+        });
+      const content = await readFileContent(file);
+      const response = await museumApiClient.ApplicationTranslation.uploadFile(content, currentApp);
+    },
+    [currentApp, museumApiClient.ApplicationTranslation],
+  );
+
+  useEffect(() => {
+    setCurrentApp(appsQuery?.data?.items[0]?.id);
+  }, [appsQuery?.data?.items]);
 
   return (
     <div className="p-7">

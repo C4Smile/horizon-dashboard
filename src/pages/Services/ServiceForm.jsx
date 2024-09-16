@@ -188,7 +188,7 @@ function ServiceForm() {
               type="text"
               name="name"
               id="name"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              inputClassName="text-input peer"
               placeholder={t("_entities:service.name.placeholder")}
               label={t("_entities:service.name.label")}
               required
@@ -218,7 +218,7 @@ function ServiceForm() {
               {...field}
               name="description"
               id="description"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer h-48"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer h-48"
               placeholder={t("_entities:service.description.placeholder")}
               label={t("_entities:service.description.label")}
             />

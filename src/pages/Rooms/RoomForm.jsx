@@ -219,7 +219,7 @@ function RoomForm() {
               type="string"
               name="number"
               id="number"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              inputClassName="text-input peer"
               placeholder={t("_entities:room.number.placeholder")}
               label={t("_entities:room.number.label")}
             />
@@ -236,7 +236,7 @@ function RoomForm() {
               type="text"
               name="name"
               id="name"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              inputClassName="text-input peer"
               placeholder={t("_entities:room.name.placeholder")}
               label={t("_entities:room.name.label")}
             />
