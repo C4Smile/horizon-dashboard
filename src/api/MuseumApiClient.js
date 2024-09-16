@@ -26,6 +26,7 @@ import { fromLocal } from "../utils/local";
 
 // config
 import config from "../config";
+import { LanguageApiClient } from "./LanguageApiClient";
 
 /**
  * @class MuseumApiClient
@@ -55,6 +56,7 @@ export class MuseumApiClient {
     this.user = new UserApiClient();
     this.image = new ImageApiClient();
     this.image360 = new Image360ApiClient();
+    this.language = new LanguageApiClient();
   }
 
   /**
@@ -96,6 +98,13 @@ export class MuseumApiClient {
    */
   get Application() {
     return this.application;
+  }
+
+  /**
+   * @returns {LanguageApiClient} Language
+   */
+  get Language() {
+    return this.language;
   }
 
   /**
