@@ -70,6 +70,9 @@
       "analytics": "Análisis"
     }
   },
+  "translations": {
+    "languages": "Idiomas"
+  },
   "devices": {
     "title": "Dispositivos",
     "links": {
