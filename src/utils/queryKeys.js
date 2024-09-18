@@ -14,7 +14,9 @@ export const ReactQueryKeys = {
   News: "news",
   Tags: "tags",
   GuestBooks: "guestBooks",
-  Language: "lang",
+  Languages: "langs",
+  ApplicationTranslations: "appTranslations",
+  Applications: "applications",
 };
 
 export const entities = ["room", "roomArea", "activity", "events", "news"];
