@@ -6,16 +6,17 @@ import { useQuery } from "@tanstack/react-query";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-// api
+// providers
+import { useNotification } from "../../providers/NotificationProvider";
 import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvider";
 
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // components
+import TranslationForm from "./components/TranslationForm";
 import Loading from "../../partials/loading/Loading";
 import TabComponent from "../../components/TabComponent/TabComponent";
-import TranslationForm from "./components/TranslationForm";
 
 const translationsReducer = (state, action) => {
   const { type } = action;
@@ -39,6 +40,7 @@ function Translations() {
   const { t } = useTranslation();
 
   const museumApiClient = useMuseumApiClient();
+  const { setNotification } = useNotification();
 
   const appsQuery = useQuery({
     queryKey: [ReactQueryKeys.Applications],
@@ -49,12 +51,12 @@ function Translations() {
 
   const [currentLanguage, setCurrentLanguage] = useState(0);
   const languagesQuery = useQuery({
-    queryKey: [ReactQueryKeys.Language],
+    queryKey: [ReactQueryKeys.Languages],
     queryFn: () => museumApiClient.Language.getAll(),
   });
 
   const translationsQuery = useQuery({
-    queryKey: [ReactQueryKeys.Translations, currentApp],
+    queryKey: [ReactQueryKeys.ApplicationTranslations, currentApp],
     queryFn: () => museumApiClient.ApplicationTranslation.getByApplication(currentApp),
     enabled: !!currentApp,
   });
@@ -63,23 +65,31 @@ function Translations() {
     if (languagesQuery.data?.items) {
       setCurrentLanguage(languagesQuery.data?.items[0].id);
     }
-  }, [languagesQuery.data?.items]);
+  }, [languagesQuery.data]);
 
   const [translations, setTranslations] = useReducer(translationsReducer, {});
 
   useEffect(() => {
     const { data } = translationsQuery;
+
     const component = (
       <ul id={currentApp}>
-        {data?.items?.map((translation) => (
-          <TranslationForm key={translation.id} {...translation} />
-        ))}
+        {data?.map((translation) => {
+          return (
+            <TranslationForm
+              app={currentApp}
+              language={currentLanguage}
+              key={translation.id}
+              {...translation}
+            />
+          );
+        })}
       </ul>
     );
-    console.log(data);
+
     setTranslations({ type: "add", key: currentApp, component });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentApp, translationsQuery.data]);
+  }, [currentApp, translationsQuery.data, currentLanguage]);
 
   const onCSVSelected = useCallback(
     async (event) => {
@@ -95,10 +105,11 @@ function Translations() {
       const response = await museumApiClient.ApplicationTranslation.uploadFile(content, currentApp);
 
       if (response.status === 201) {
+        setNotification("200");
         queryClient.invalidateQueries([ReactQueryKeys.Translations, currentApp]);
       }
     },
-    [currentApp, museumApiClient.ApplicationTranslation],
+    [currentApp, museumApiClient, setNotification],
   );
 
   useEffect(() => {
@@ -112,14 +123,15 @@ function Translations() {
         {languagesQuery.data?.items?.map((language) => (
           <li key={language.id}>
             <button
-              onClick={() => setCurrentLanguage(language.code)}
-              className={`text-sm  px-5 py-2 ${currentLanguage === language.code ? "bg-slate-200 text-light-primary/60 disabled-link" : "text-primary hover:text-dark-primary"}`}
+              onClick={() => setCurrentLanguage(language.id)}
+              className={`text-sm  px-5 py-2 ${currentLanguage === language.id ? "bg-slate-200 text-light-primary/60 disabled-link" : "text-primary hover:text-dark-primary"}`}
             >
-              {language.code}
+              {language.code.toUpperCase()}
             </button>
           </li>
         ))}
       </ul>
+
       {!appsQuery.isLoading && !translationsQuery.isLoading ? (
         <TabComponent
           onTabChange={(id) => setCurrentApp(id)}
@@ -134,7 +146,7 @@ function Translations() {
           color="stroke-primary"
         />
       )}
-      <label className="absolute bottom-3 right-3 icon-button filled primary button cursor-pointer">
+      <label className="fixed bottom-5 right-24 icon-button filled primary button cursor-pointer">
         <FontAwesomeIcon icon={faUpload} />
         <input type="file" accept=".csv" onChange={onCSVSelected} />
       </label>
