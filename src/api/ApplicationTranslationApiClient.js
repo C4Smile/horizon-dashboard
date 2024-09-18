@@ -50,12 +50,9 @@ export class ApplicationTranslationApiClient extends BaseApiClient {
   /**
    * @description Create applicationTranslation
    * @param {ApplicationTranslation} applicationTranslation - ApplicationTranslation
-   * @param {object} photo - ApplicationTranslation photo
    * @returns {Promise<ApplicationTranslation>} ApplicationTranslation
    */
-  async create(applicationTranslation, photo) {
-    // saving image
-    if (photo) applicationTranslation.imageId = photo.id;
+  async create(applicationTranslation) {
     // call service
     const { error, data, status } = await makeRequest(this.baseUrl, "POST", applicationTranslation, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
@@ -68,19 +65,17 @@ export class ApplicationTranslationApiClient extends BaseApiClient {
   /**
    * @description Update applicationTranslation
    * @param {ApplicationTranslation} applicationTranslation - ApplicationTranslation
-   * @param {object} photo - Photo to keep
    * @returns {Promise<ApplicationTranslation>} ApplicationTranslation
    */
-  async update(applicationTranslation, photo) {
-    // saving photo
-    if (photo) applicationTranslation.imageId = photo.id;
+  async update(applicationTranslation) {
     // call service
     const { status, error } = await makeRequest(
-      `${this.baseUrl}/${applicationTranslation.id}`,
-      "PATCH",
+      `${this.baseUrl}/updateLangTranslation`,
+      "POST",
       {
-        ...applicationTranslation,
-        lastUpdate: new Date().toISOString(),
+        appTranslationId: applicationTranslation.id,
+        langId: applicationTranslation.langId,
+        content: applicationTranslation.content,
       },
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
