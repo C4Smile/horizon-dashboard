@@ -34,7 +34,7 @@ export class ChatBotApiClient {
    * @returns data
    */
   async loadContext() {
-    const { data, error, status } = await makeRequest(`${this.baseUrl}`, "GET", null, {
+    const { data, error, status } = await makeRequest(`${this.baseUrl}/context`, "GET", null, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     })
       .from("chatBotSettings")
@@ -51,24 +51,14 @@ export class ChatBotApiClient {
    */
   async updateContext(instructions, id) {
     try {
-      const response = await makeRequest(
-        `${config.chatBotUrl}ia-instructions/${id}`,
-        "PUT",
+      const result = await makeRequest(
+        `${this.baseUrl}/update`,
+        "POST",
+        { id, instructions },
         {
-          data: { instructions },
-        },
-        {
-          Authorization: `Bearer ${config.chatBotToken}`,
+          Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
         },
       );
-
-      const { status, error } = response;
-
-      if (error !== null) return { status, error: { message: error.message } };
-
-      const result = await makeRequest(`${this.baseUrl}/update`, "POST", instructions, {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      });
 
       if (result.error !== null)
         return { status: result.status, error: { message: result.error.message } };
@@ -87,8 +77,8 @@ export class ChatBotApiClient {
    */
   async createContext(instructions) {
     try {
-      const response = await makeRequest(
-        `${config.chatBotUrl}ia-instructions`,
+      const result = await makeRequest(
+        `${this.baseUrl}/create`,
         "POST",
         {
           instructions,
@@ -96,25 +86,9 @@ export class ChatBotApiClient {
           entity: 1,
         },
         {
-          Authorization: `Bearer ${config.chatBotToken}`,
+          Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
         },
       );
-
-      const { data, status, error } = response;
-      let dataToSave = data;
-
-      if (error !== null) return { status, error: { message: error.message } };
-
-      if (data.data) dataToSave = data;
-      dataToSave.dateOfCreation = dataToSave.createdAt;
-      delete dataToSave.response;
-      delete dataToSave.createdAt;
-      delete dataToSave.updatedAt;
-      delete dataToSave.publishedAt;
-
-      const result = await makeRequest(`${this.baseUrl}`, "POST", dataToSave, {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      });
 
       if (result.error !== null)
         return { status: result.status, error: { message: result.error.message } };
