@@ -26,7 +26,7 @@ export class ChatBotApiClient {
    * create base api client
    */
   constructor() {
-    this.baseUrl = "chatBotSettings";
+    this.baseUrl = "chatBot";
   }
 
   /**
