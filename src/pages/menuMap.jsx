@@ -25,7 +25,6 @@ export const menuKeys = {
 export const submenuKeys = {
   Main: "main",
   // devices
-  Statuses: "statuses",
   Applications: "applications",
   Translations: "translations",
   // museum
@@ -41,6 +40,7 @@ export const submenuKeys = {
   Events: "events",
   Tags: "tags",
   // management
+  ChatBot: "chatbot",
   PushNotifications: "pushNotifications",
   AppTexts: "appTexts",
   // personal
@@ -127,6 +127,10 @@ export const menuMap = [
     icon: <FontAwesomeIcon icon={faTableList} />,
     role: [Role.administrator, Role.communicator],
     child: [
+      {
+        label: submenuKeys.ChatBot,
+        path: "/chatbot",
+      },
       {
         label: submenuKeys.PushNotifications,
         path: "/notificaciones",

@@ -57,6 +57,8 @@ import AppTextForm from "./AppTexts/AppTextForm";
 // personal
 import UsersPage from "./Users/Users";
 import UserForm from "./Users/UserForm";
+// Chat
+import ChatBotForm from "./Chatbot/Chatbot";
 
 export const pageId = {
   auth: "auth",
@@ -67,7 +69,6 @@ export const pageId = {
   home: "home",
   settings: "settings",
   // devices
-  statuses: "statuses",
   applications: "applications",
   translations: "translations",
   // museum
@@ -101,6 +102,7 @@ export const pageId = {
   tagsNew: "tagsNew",
   tagsEdit: "tagsEdit",
   // management
+  chatBot: "chatBot",
   pushNotifications: "pushNotifications",
   pushNotificationsNew: "pushNotificationsNew",
   pushNotificationsEdit: "pushNotificationsEdit",
@@ -144,12 +146,6 @@ export const sitemap = [
       { key: pageId.home, path: "/", component: <Home /> },
       { key: pageId.settings, path: "/ajustes/cuenta", component: <Account /> },
       // devices
-      {
-        key: pageId.statuses,
-        path: "/dispositivos/estados",
-        component: <></>,
-        role: [],
-      },
       {
         key: pageId.applications,
         path: "/dispositivos/aplicaciones",
@@ -281,6 +277,12 @@ export const sitemap = [
         ],
       },
       // management
+      {
+        key: pageId.chatBot,
+        path: "/management/chatbot",
+        role: [Role.administrator],
+        component: <ChatBotForm />,
+      },
       {
         key: pageId.pushNotifications,
         path: "/gestion/notificaciones",

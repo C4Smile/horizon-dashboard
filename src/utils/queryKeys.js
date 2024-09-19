@@ -17,9 +17,13 @@ export const ReactQueryKeys = {
   Languages: "langs",
   ApplicationTranslations: "appTranslations",
   Applications: "applications",
+  ChatBot: "ChatBot",
+  ChatBotContext: "ChatBotContext",
 };
 
 export const entities = ["room", "roomArea", "activity", "events", "news"];
+
+export const chatBotEntities = ["room"];
 
 export const parents = {
   room: "museum",
