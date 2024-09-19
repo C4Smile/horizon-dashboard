@@ -23,6 +23,14 @@
     }
   },
   "chat": {
+    "form": {
+      "title": "Ajustes del Chatbot",
+      "context": {
+        "label": "Contexto",
+        "placeholder": "Escriba cual es la base de conocimiento del chatbot"
+      },
+      "reset": "Restablecer valor por defecto"
+    },
     "you": "Tú",
     "bot": "Bot",
     "at": "a las",
@@ -105,6 +113,7 @@
   "management": {
     "title": "Gestión",
     "links": {
+      "chatbot": "ChatBot",
       "invoices": "Facturas",
       "appTexts": "Textos del App",
       "currencies": "Monedas",
