@@ -17,6 +17,7 @@ import { TagApiClient } from "./TagApiClient";
 import { UserApiClient } from "./UserApiClient";
 import { ImageApiClient } from "./ImageApiClient";
 import { Image360ApiClient } from "./Image360ApiClient";
+import { ChatBotApiClient } from "./ChatBotApiClient";
 
 // services
 import { makeRequest } from "../db/services";
@@ -57,6 +58,7 @@ export class MuseumApiClient {
     this.image = new ImageApiClient();
     this.image360 = new Image360ApiClient();
     this.language = new LanguageApiClient();
+    this.chatBot = new ChatBotApiClient();
   }
 
   /**
@@ -210,5 +212,12 @@ export class MuseumApiClient {
    */
   get GuestBook() {
     return this.guestBook;
+  }
+
+  /**
+   * @returns {ChatBotApiClient} ChatBotApiClient
+   */
+  get ChatBot() {
+    return this.chatBot;
   }
 }
