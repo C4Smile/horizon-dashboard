@@ -279,7 +279,7 @@ export const sitemap = [
       // management
       {
         key: pageId.chatBot,
-        path: "/management/chatbot",
+        path: "/gestion/chatbot",
         role: [Role.administrator],
         component: <ChatBotForm />,
       },
