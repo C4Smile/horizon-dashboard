@@ -17,6 +17,10 @@ const {
   VITE_RECENT_SEARCHES_LIMIT,
   VITE_RECENT_PAGES,
   VITE_RECENT_PAGES_LIMIT,
+  //CHATBOT
+  VITE_CHATBOT_CONTEXT,
+  VITE_CHATBOT_URL,
+  VITE_CHATBOT_TOKEN,
 } = import.meta.env;
 
 const config = {
@@ -38,6 +42,10 @@ const config = {
   recentSearchesLimit: VITE_RECENT_SEARCHES_LIMIT,
   recentPages: VITE_RECENT_PAGES,
   recentPagesLimit: VITE_RECENT_PAGES_LIMIT,
+  // CHATBOT
+  chatBotContext: VITE_CHATBOT_CONTEXT,
+  chatBotUrl: VITE_CHATBOT_URL,
+  chatBotToken: VITE_CHATBOT_TOKEN,
 };
 
 export default config;
