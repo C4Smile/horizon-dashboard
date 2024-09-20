@@ -98,6 +98,7 @@ function NewsPage() {
 
   const { columns } = useParseColumns(
     extractKeysFromObject(new News(), ["id", "description", "dateOfCreation", "deleted", "content"]),
+    News.className,
   );
 
   const { rows } = useParseRows(prepareRows);
