@@ -75,6 +75,18 @@ export class MuseumApiClient {
   }
 
   /**
+   *
+   * @param entity - entity
+   * @returns string
+   */
+  async getChatBotContent(entity) {
+    switch (entity) {
+      default: //room
+        return this.room.getCurrentContent();
+    }
+  }
+
+  /**
    * @returns {ImageApiClient} Image
    */
   get Image() {
