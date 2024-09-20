@@ -41,6 +41,14 @@ export class RoomApiClient extends BaseApiClient {
   }
 
   /**
+   * @description Group by room type
+   * @returns text
+   */
+  async getCurrentContent() {
+    return "";
+  }
+
+  /**
    * @description Create room
    * @param {object} room - Room
    * @param {object[]} photos - Room photos
