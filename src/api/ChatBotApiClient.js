@@ -36,9 +36,8 @@ export class ChatBotApiClient {
   async loadContext() {
     const { data, error, status } = await makeRequest(`${this.baseUrl}/context`, "GET", null, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    })
-      .from("chatBotSettings")
-      .select("*");
+    });
+
     if (error !== null) return { status, error: { message: error.message } };
     return data;
   }
