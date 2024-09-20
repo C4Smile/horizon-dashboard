@@ -64,8 +64,10 @@ function Chatbot() {
       const entityText = await museumApiClient.getChatBotContent(item);
       text += entityText;
     }
+
     setDefaultContext(text);
-  }, [museumApiClient]);
+    reset({ context: text });
+  }, [museumApiClient, reset]);
 
   useEffect(() => {
     if (contextQuery.data) {
@@ -82,11 +84,7 @@ function Chatbot() {
           <h1 className="text-2xl md:text-3xl font-bold">{t("_pages:chat.form.title")}</h1>
           <div className="flex items-center justify-end gap-2">
             <Tippy content={t("_pages:chat.form.reset")}>
-              <button
-                onClick={() => reset({ context: defaultContext })}
-                className="icon-button primary"
-                type="button"
-              >
+              <button onClick={() => loadDefault()} className="icon-button primary" type="button">
                 <FontAwesomeIcon icon={faArrowRotateLeft} />
               </button>
             </Tippy>
