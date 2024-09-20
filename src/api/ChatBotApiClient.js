@@ -82,7 +82,7 @@ export class ChatBotApiClient {
         {
           instructions,
           response: "Entiendo solo responderé sobre la base de lo descrito anteriormente",
-          entity: 1,
+          entity: 2,
         },
         {
           Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
