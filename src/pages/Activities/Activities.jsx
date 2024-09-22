@@ -14,7 +14,7 @@ import { Activity } from "../../models/activity/Activity";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { ReactQueryKeys, parents } from "../../utils/queryKeys";
+import { ReactQueryKeys, Parents } from "../../utils/queryKeys";
 
 // providers
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
@@ -59,7 +59,7 @@ function ActivitiesPage() {
       parsedAction = (
         <Link
           className="underline text-light-primary flex"
-          to={`/${parents[sAction[0]]}/${sAction[0]}s/${sAction[1]}`}
+          to={`/${Parents[sAction[0]]}/${sAction[0]}s/${sAction[1]}`}
         >
           <span className="truncate capitalize">{`${sAction[0]} - ${sAction[1]}`}</span>
         </Link>
@@ -91,11 +91,12 @@ function ActivitiesPage() {
   const getActions = useActions({
     apiClient: museumApiClient.Activity,
     queryKey: ReactQueryKeys.Activities,
-    parent: "information",
+    parent: Parents.activity,
   });
 
   const { columns } = useParseColumns(
     extractKeysFromObject(new Activity(), ["id", "description", "dateOfCreation"]),
+    Activity.className,
   );
 
   const { rows } = useParseRows(prepareRows);

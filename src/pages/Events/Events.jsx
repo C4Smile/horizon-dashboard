@@ -19,7 +19,7 @@ import { Event } from "../../models/event/Event";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { ReactQueryKeys } from "../../utils/queryKeys";
+import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
 
 // providers
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
@@ -137,7 +137,7 @@ function EventsPage() {
   const getActions = useActions({
     apiClient: museumApiClient.Event,
     queryKey: ReactQueryKeys.Events,
-    parent: "information",
+    parent: Parents.events,
   });
 
   const { columns } = useParseColumns(
@@ -150,6 +150,7 @@ function EventsPage() {
       "content",
       "address",
     ]),
+    Event.className,
   );
 
   const { rows } = useParseRows(prepareRows);

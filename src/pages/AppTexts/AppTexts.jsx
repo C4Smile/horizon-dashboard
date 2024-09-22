@@ -11,7 +11,7 @@ import { AppText } from "../../models/appText/AppText";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { ReactQueryKeys } from "../../utils/queryKeys";
+import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
 
 // providers
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
@@ -54,10 +54,10 @@ function AppTexts() {
   const getActions = useActions({
     apiClient: museumApiClient.AppText,
     queryKey: ReactQueryKeys.AppTexts,
-    parent: "management",
+    parent: Parents.appTexts,
   });
 
-  const { columns } = useParseColumns(extractKeysFromObject(new AppText(), ["id"]));
+  const { columns } = useParseColumns(extractKeysFromObject(new AppText(), ["id"]), AppText.className);
 
   const { rows } = useParseRows(prepareRows);
 

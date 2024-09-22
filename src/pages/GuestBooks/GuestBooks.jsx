@@ -14,7 +14,7 @@ import { GuestBook } from "../../models/guestBook/GuestBook";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { ReactQueryKeys } from "../../utils/queryKeys";
+import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
 import { staticUrlPhoto } from "../../components/utils";
 
 // providers
@@ -77,7 +77,7 @@ function GuestBooks() {
   const getActions = useActions({
     apiClient: museumApiClient.GuestBook,
     queryKey: ReactQueryKeys.GuestBooks,
-    parent: "museum",
+    parent: Parents.guestBooks,
   });
 
   const { columns } = useParseColumns(
@@ -88,6 +88,7 @@ function GuestBooks() {
       "content",
       "description",
     ]),
+    GuestBook.className,
   );
 
   const { rows } = useParseRows(prepareRows);

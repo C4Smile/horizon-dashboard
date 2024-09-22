@@ -14,7 +14,7 @@ import { Service } from "../../models/service/Service";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { ReactQueryKeys } from "../../utils/queryKeys";
+import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
 
 // providers
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
@@ -76,7 +76,7 @@ function ServicesPage() {
   const getActions = useActions({
     apiClient: museumApiClient.Service,
     queryKey: ReactQueryKeys.Services,
-    parent: "museum",
+    parent: Parents.service,
   });
 
   const { columns } = useParseColumns(
@@ -86,6 +86,7 @@ function ServicesPage() {
       "serviceRoom",
       "serviceHasSchedule",
     ]),
+    Service.className,
   );
 
   const { rows } = useParseRows(prepareRows);

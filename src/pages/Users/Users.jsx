@@ -14,7 +14,7 @@ import { User } from "../../models/user/User";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { ReactQueryKeys } from "../../utils/queryKeys";
+import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
 import { staticUrlPhoto } from "../../components/utils";
 
 // providers
@@ -69,7 +69,7 @@ function Users() {
   const getActions = useActions({
     apiClient: museumApiClient.User,
     queryKey: ReactQueryKeys.Users,
-    parent: "personal",
+    parent: Parents.user,
   });
 
   const { columns } = useParseColumns(

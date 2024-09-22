@@ -11,7 +11,7 @@ import { Tag } from "../../models/tag/Tag";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { ReactQueryKeys } from "../../utils/queryKeys";
+import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
 
 // providers
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
@@ -55,7 +55,7 @@ function Tags() {
   const getActions = useActions({
     apiClient: museumApiClient.Tag,
     queryKey: ReactQueryKeys.Tags,
-    parent: "information",
+    parent: Parents.tag,
   });
 
   const { columns } = useParseColumns(extractKeysFromObject(new Tag(), []), Tag.className);

@@ -14,7 +14,7 @@ import { News } from "../../models/news/News";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { ReactQueryKeys } from "../../utils/queryKeys";
+import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
 import { staticUrlPhoto } from "../../components/utils";
 
 // providers
@@ -93,7 +93,7 @@ function NewsPage() {
   const getActions = useActions({
     apiClient: museumApiClient.News,
     queryKey: ReactQueryKeys.News,
-    parent: "information",
+    parent: Parents.news,
   });
 
   const { columns } = useParseColumns(

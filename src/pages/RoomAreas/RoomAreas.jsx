@@ -14,7 +14,7 @@ import { RoomArea } from "../../models/roomArea/RoomArea";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { ReactQueryKeys } from "../../utils/queryKeys";
+import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
 import { staticUrlPhoto } from "../../components/utils";
 
 // providers
@@ -100,7 +100,7 @@ function RoomAreas() {
   const getActions = useActions({
     apiClient: museumApiClient.RoomArea,
     queryKey: ReactQueryKeys.RoomAreas,
-    parent: "museum",
+    parent: Parents.roomArea,
   });
 
   const { columns } = useParseColumns(
@@ -111,6 +111,7 @@ function RoomAreas() {
       "content",
       "description",
     ]),
+    RoomArea.className,
   );
 
   const { rows } = useParseRows(prepareRows);

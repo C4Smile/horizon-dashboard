@@ -14,7 +14,7 @@ import { PushNotification } from "../../models/pushNotification/PushNotification
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { parents, ReactQueryKeys } from "../../utils/queryKeys";
+import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
 import { staticUrlPhoto } from "../../components/utils";
 
 // providers
@@ -61,7 +61,7 @@ function PushNotifications() {
       parsedAction = (
         <Link
           className="whitespace-nowrap underline text-light-primary flex"
-          to={`/${parents[sAction[0]]}/${sAction[0]}s/${sAction[1]}`}
+          to={`/${Parents[sAction[0]]}/${sAction[0]}s/${sAction[1]}`}
         >
           <span className="truncate capitalize">{`${sAction[0]} - ${sAction[1]}`}</span>
         </Link>
@@ -106,11 +106,12 @@ function PushNotifications() {
   const getActions = useActions({
     apiClient: museumApiClient.PushNotification,
     queryKey: ReactQueryKeys.PushNotifications,
-    parent: "management",
+    parent: Parents.pushNotifications,
   });
 
   const { columns } = useParseColumns(
     extractKeysFromObject(new PushNotification(), ["id", "dateOfCreation", "deleted"]),
+    PushNotification.className,
   );
 
   const { rows } = useParseRows(prepareRows);

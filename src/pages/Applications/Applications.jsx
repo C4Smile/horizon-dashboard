@@ -11,7 +11,7 @@ import { Application } from "../../models/application/Application";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { ReactQueryKeys } from "../../utils/queryKeys";
+import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
 
 // providers
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
@@ -55,10 +55,13 @@ function Applications() {
   const getActions = useActions({
     apiClient: museumApiClient.Application,
     queryKey: ReactQueryKeys.Applications,
-    parent: "museum",
+    parent: Parents.applications,
   });
 
-  const { columns } = useParseColumns(extractKeysFromObject(new Application(), []));
+  const { columns } = useParseColumns(
+    extractKeysFromObject(new Application(), []),
+    Application.className,
+  );
 
   const { rows } = useParseRows(prepareRows);
 

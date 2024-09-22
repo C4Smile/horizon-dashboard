@@ -11,7 +11,7 @@ import { RoomType } from "../../models/roomType/RoomType";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { ReactQueryKeys } from "../../utils/queryKeys";
+import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
 
 // providers
 import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
@@ -54,10 +54,10 @@ function RoomTypes() {
   const getActions = useActions({
     apiClient: museumApiClient.RoomType,
     queryKey: ReactQueryKeys.RoomTypes,
-    parent: "museum",
+    parent: Parents.roomType,
   });
 
-  const { columns } = useParseColumns(extractKeysFromObject(new RoomType(), []));
+  const { columns } = useParseColumns(extractKeysFromObject(new RoomType(), []), RoomType.className);
 
   const { rows } = useParseRows(prepareRows);
 

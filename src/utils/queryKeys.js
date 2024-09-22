@@ -17,17 +17,26 @@ export const ReactQueryKeys = {
   Languages: "langs",
   ApplicationTranslations: "appTranslations",
   Applications: "applications",
-  ChatBot: "ChatBot",
-  ChatBotContext: "ChatBotContext",
+  ChatBot: "chatBot",
+  ChatBotContext: "chatBotContext",
 };
 
 export const entities = ["room", "roomArea", "activity", "events", "news"];
 
 export const chatBotEntities = ["room"];
 
-export const parents = {
-  room: "museum",
-  activity: "information",
-  events: "information",
-  news: "information",
+export const Parents = {
+  room: "museo",
+  roomArea: "museo",
+  guestBook: "museo",
+  service: "museo",
+  roomType: "museo",
+  activity: "informacion",
+  event: "informacion",
+  news: "informacion",
+  tag: "informacion",
+  application: "dispositivos",
+  appText: "gestion",
+  pushNotification: "gestion",
+  user: "personal",
 };
