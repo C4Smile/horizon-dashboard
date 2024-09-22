@@ -39,3 +39,16 @@ export function localPhotoReducer(state, action) {
  * @returns {string} static url photo
  */
 export const staticUrlPhoto = (string) => `${config.apiUrl}public/images/${string}`;
+
+/**
+ *
+ * @param {string} str string to parse
+ * @returns camelized string
+ */
+export function camelize(str) {
+  return str
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+      return index === 0 ? word.toLowerCase() : word.toUpperCase();
+    })
+    .replace(/\s+/g, "");
+}
