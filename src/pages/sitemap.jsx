@@ -85,9 +85,9 @@ export const pageId = {
   roomTypes: "tiposDeSalas",
   roomTypesNew: "tiposDeSalasNuevo",
   roomTypesEdit: "tiposDeSalasEdit",
-  guestBooks: "librosDeVisitas",
-  guestBooksNew: "librosDeVisitasNuevo",
-  guestBooksEdit: "librosDeVisitasEditar",
+  guestBooks: "libroDeVisitas",
+  guestBooksNew: "libroDeVisitasNuevo",
+  guestBooksEdit: "libroDeVisitasEditar",
   // information
   activities: "actividades",
   activitiesNew: "actividadesNueva",
