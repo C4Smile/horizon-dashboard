@@ -7,8 +7,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencil, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
 
 // providers
-import { queryClient } from "../providers/MuseumApiProvider";
 import { useNotification } from "../providers/NotificationProvider";
+
+// utils
+import { queryClient } from "../providers/MuseumApiProvider";
+
+// pages
+import { pageId } from "../pages/sitemap";
 
 /**
  * useActions hook
@@ -29,7 +34,7 @@ export const useActions = (props) => {
     if (canEdit)
       toReturn.push({
         id: "edit",
-        onClick: (e) => navigate(`/${parent}/${queryKey}/${e.id}`),
+        onClick: (e) => navigate(`/${parent}/${pageId[queryKey]}/${e.id}`),
         icon: <FontAwesomeIcon icon={faPencil} />,
         tooltip: t("_accessibility:buttons.edit"),
       });
