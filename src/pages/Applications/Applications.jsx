@@ -55,7 +55,7 @@ function Applications() {
   const getActions = useActions({
     apiClient: museumApiClient.Application,
     queryKey: ReactQueryKeys.Applications,
-    parent: Parents.applications,
+    parent: Parents.application,
   });
 
   const { columns } = useParseColumns(

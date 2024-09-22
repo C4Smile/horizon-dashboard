@@ -135,9 +135,9 @@ function EventsPage() {
   };
 
   const getActions = useActions({
-    apiClient: museumApiClient.Event,
+    apiClient: museumApiClient.Events,
     queryKey: ReactQueryKeys.Events,
-    parent: Parents.events,
+    parent: Parents.event,
   });
 
   const { columns } = useParseColumns(

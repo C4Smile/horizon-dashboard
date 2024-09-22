@@ -106,7 +106,7 @@ function PushNotifications() {
   const getActions = useActions({
     apiClient: museumApiClient.PushNotification,
     queryKey: ReactQueryKeys.PushNotifications,
-    parent: Parents.pushNotifications,
+    parent: Parents.pushNotification,
   });
 
   const { columns } = useParseColumns(

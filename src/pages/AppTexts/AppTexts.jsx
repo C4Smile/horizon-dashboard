@@ -54,7 +54,7 @@ function AppTexts() {
   const getActions = useActions({
     apiClient: museumApiClient.AppText,
     queryKey: ReactQueryKeys.AppTexts,
-    parent: Parents.appTexts,
+    parent: Parents.appText,
   });
 
   const { columns } = useParseColumns(extractKeysFromObject(new AppText(), ["id"]), AppText.className);

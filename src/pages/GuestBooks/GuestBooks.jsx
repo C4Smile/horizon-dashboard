@@ -77,7 +77,7 @@ function GuestBooks() {
   const getActions = useActions({
     apiClient: museumApiClient.GuestBook,
     queryKey: ReactQueryKeys.GuestBooks,
-    parent: Parents.guestBooks,
+    parent: Parents.guestBook,
   });
 
   const { columns } = useParseColumns(
