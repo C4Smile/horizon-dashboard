@@ -70,7 +70,7 @@ function ImageUploaderMultiple(props) {
                   <FontAwesomeIcon icon={faTrash} />
                 </button>
                 <img
-                  className="w-20 h-20 rounded-full"
+                  className="w-20 h-20 rounded-full object-cover"
                   src={photo?.url ? staticUrlPhoto(photo?.url) : noPhoto}
                   alt="upload"
                 />
