@@ -67,9 +67,14 @@ export class MuseumApiClient {
    * @returns {Promise<any>} some entity
    */
   async getEntity(entity) {
-    const { data, error, status } = await makeRequest(`${entity}`, "GET", null, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
+    const { data, error, status } = await makeRequest(
+      `${entity}?sort=lastUpdate&order=desc&page=0&count=999`,
+      "GET",
+      null,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     if (error !== null) return { status, error: { message: error.message } };
     return data;
   }

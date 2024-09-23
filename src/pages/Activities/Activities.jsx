@@ -25,6 +25,7 @@ import { staticUrlPhoto } from "../../components/utils";
 // hooks
 import { useActions } from "../../hooks/useActions";
 import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
+import { pageId } from "../sitemap";
 
 const columnClasses = {
   lastUpdate: "w-56",
@@ -59,7 +60,7 @@ function ActivitiesPage() {
       parsedAction = (
         <Link
           className="underline text-light-primary flex"
-          to={`/${Parents[sAction[0]]}/${sAction[0]}s/${sAction[1]}`}
+          to={`/${Parents[sAction[0]]}/${pageId[`${sAction[0]}s`]}/${sAction[1]}`}
         >
           <span className="truncate capitalize">{`${sAction[0]} - ${sAction[1]}`}</span>
         </Link>
