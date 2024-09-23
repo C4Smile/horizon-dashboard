@@ -23,6 +23,7 @@ import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
 // hooks
 import { useActions } from "../../hooks/useActions";
 import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
+import { pageId } from "../sitemap";
 
 const noSortableColumns = {
   roomAreaHasImage: true,
@@ -59,7 +60,10 @@ function RoomAreas() {
         </Link>
       ),
       roomId: (
-        <Link className="underline text-light-primary" to={`/museum/rooms/${roomArea.room?.id}`}>
+        <Link
+          className="underline text-light-primary"
+          to={`/${Parents.room}/${pageId.rooms}/${roomArea.room?.id}`}
+        >
           {roomArea.room?.name}
         </Link>
       ),
