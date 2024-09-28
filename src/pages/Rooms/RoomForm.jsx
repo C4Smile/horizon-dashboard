@@ -301,7 +301,7 @@ function RoomForm() {
           )}
         </div>
         {/* Room Images */}
-        <div>
+        <div className="my-5">
           {roomQuery.isLoading ? (
             <Loading />
           ) : (
