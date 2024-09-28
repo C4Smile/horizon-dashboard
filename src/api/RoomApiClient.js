@@ -103,7 +103,7 @@ export class RoomApiClient extends BaseApiClient {
    */
   async update(room, photos, photos360) {
     // default values
-    room.urlName = toSlug(room.number);
+    room.urlName = toSlug(room.name);
     // parsing html
     room.content = room.content ? draftToHtml(convertToRaw(room.content.getCurrentContent())) : "";
     // parsing schedule
