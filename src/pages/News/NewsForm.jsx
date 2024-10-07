@@ -23,7 +23,6 @@ import { ReactQueryKeys } from "../../utils/queryKeys";
 // loadable
 const TextInput = loadable(() => import("../../components/Forms/TextInput"));
 const HtmlInput = loadable(() => import("../../components/Forms/HtmlInput"));
-const ParagraphInput = loadable(() => import("../../components/Forms/ParagraphInput"));
 const AutocompleteInput = loadable(() => import("../../components/Forms/AutocompleteInput"));
 const ImageUploaderMultiple = loadable(() => import("../../components/ImageUploaderMultiple"));
 
@@ -73,7 +72,6 @@ function NewsForm() {
             id: undefined,
             title: "",
             subtitle: "",
-            description: "",
             tagsId: [],
           });
         }
@@ -109,7 +107,6 @@ function NewsForm() {
         id: undefined,
         title: "",
         subtitle: "",
-        description: "",
         tagsId: [],
       });
     }
@@ -207,22 +204,6 @@ function NewsForm() {
               placeholder={t("_entities:news.subtitle.placeholder")}
               label={t("_entities:news.subtitle.label")}
               required
-            />
-          )}
-        />
-        {/* News Description */}
-        <Controller
-          control={control}
-          disabled={newsQuery.isLoading || saving}
-          name="description"
-          render={({ field }) => (
-            <ParagraphInput
-              {...field}
-              name="description"
-              id="description"
-              className="paragraph-input peer"
-              placeholder={t("_entities:news.description.placeholder")}
-              label={t("_entities:news.description.label")}
             />
           )}
         />
