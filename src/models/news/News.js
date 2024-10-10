@@ -6,7 +6,7 @@ import { Entity } from "../entity/Entity";
  */
 export class News extends Entity {
   title = "";
-  description = "";
+  subtitle = "";
   content = "";
   newsHasTag = [];
   newsHasImage = [];
@@ -14,7 +14,7 @@ export class News extends Entity {
   /**
    * @param {number} id - News id
    * @param {string} title - News title
-   * @param {string} description - News description
+   * @param {string} subtitle - News subtitle
    * @param {string} content - News content
    * @param {Date} dateOfCreation - News date of creation
    * @param {Date} lastUpdate - News last update
@@ -23,7 +23,7 @@ export class News extends Entity {
   constructor(
     id,
     title,
-    description,
+    subtitle,
     content,
     dateOfCreation = Date.now(),
     lastUpdate = Date.now(),
@@ -31,7 +31,7 @@ export class News extends Entity {
   ) {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.title = title;
-    this.description = description;
+    this.subtitle = subtitle;
     this.content = content;
     News.className = "news";
   }
@@ -45,7 +45,7 @@ export class News extends Entity {
     return new News(
       json.id,
       json.title,
-      json.description,
+      json.subtitle,
       json.content,
       json.dateOfCreation,
       json.lastUpdate,
@@ -64,7 +64,7 @@ export class News extends Entity {
    * @returns ISO
    */
   get Description() {
-    return this.description;
+    return this.subtitle;
   }
 
   /**
