@@ -59,7 +59,11 @@ export class GuestBookApiClient extends BaseApiClient {
     // saving image
     if (photos)
       for (const photo of photos)
-        await this.photosGuestBooks.create({ guestBookId: data[0].id, imageId: photo.id });
+        await this.photosGuestBooks.create({
+          guestBookId: data[0].id,
+          imageId: photo.id,
+          alt: guestBook.name,
+        });
 
     return { error, data, status: status === 204 ? 201 : status };
   }
@@ -100,7 +104,11 @@ export class GuestBookApiClient extends BaseApiClient {
     // saving photo
     if (newPhotos.length)
       for (const newPhoto of newPhotos)
-        this.photosGuestBooks.create({ guestBookId: guestBook.id, imageId: newPhoto.id });
+        this.photosGuestBooks.create({
+          guestBookId: guestBook.id,
+          imageId: newPhoto.id,
+          alt: guestBook.name,
+        });
 
     return { error, status: status === 204 ? 201 : status };
   }

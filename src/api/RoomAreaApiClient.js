@@ -75,11 +75,19 @@ export class RoomAreaApiClient extends BaseApiClient {
     // saving image
     if (photos)
       for (const photo of photos)
-        await this.photosRoomAreas.create({ roomAreaId: data[0].id, imageId: photo.id });
+        await this.photosRoomAreas.create({
+          roomAreaId: data[0].id,
+          imageId: photo.id,
+          alt: roomArea.name,
+        });
     // saving image360
     if (photos360)
       for (const photo of photos360)
-        await this.photos360RoomAreas.create({ roomAreaId: data[0].id, imageId: photo.id });
+        await this.photos360RoomAreas.create({
+          roomAreaId: data[0].id,
+          imageId: photo.id,
+          alt: roomArea.name,
+        });
 
     return { error, data, status: status === 204 ? 201 : status };
   }
@@ -141,12 +149,20 @@ export class RoomAreaApiClient extends BaseApiClient {
     // saving photo
     if (newPhotos.length)
       for (const newPhoto of newPhotos)
-        this.photosRoomAreas.create({ roomAreaId: roomArea.id, imageId: newPhoto.id });
+        this.photosRoomAreas.create({
+          roomAreaId: roomArea.id,
+          imageId: newPhoto.id,
+          alt: roomArea.name,
+        });
 
     // saving photo
     if (newPhotos360.length)
       for (const newPhoto of newPhotos360)
-        this.photos360RoomAreas.create({ roomAreaId: roomArea.id, imageId: newPhoto.id });
+        this.photos360RoomAreas.create({
+          roomAreaId: roomArea.id,
+          imageId: newPhoto.id,
+          alt: roomArea.name,
+        });
     return { error, status: status === 204 ? 201 : status };
   }
 }

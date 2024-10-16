@@ -82,7 +82,7 @@ export class EventApiClient extends BaseApiClient {
     // saving image
     if (photos)
       for (const photo of photos)
-        await this.photosEvents.create({ eventId: data[0].id, imageId: photo.id });
+        await this.photosEvents.create({ eventId: data[0].id, imageId: photo.id, alt: event.title });
 
     return { error, data, status: status === 204 ? 201 : status };
   }
@@ -154,7 +154,7 @@ export class EventApiClient extends BaseApiClient {
     // saving photo
     if (newPhotos.length)
       for (const newPhoto of newPhotos)
-        this.photosEvents.create({ eventId: event.id, imageId: newPhoto.id });
+        this.photosEvents.create({ eventId: event.id, imageId: newPhoto.id, alt: event.title });
     return { error, status: status === 204 ? 201 : status };
   }
 }

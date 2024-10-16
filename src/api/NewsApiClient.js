@@ -61,7 +61,7 @@ export class NewsApiClient extends BaseApiClient {
     // saving image
     if (photos)
       for (const photo of photos)
-        await this.photosNews.create({ newsId: data[0].id, imageId: photo.id });
+        await this.photosNews.create({ newsId: data[0].id, imageId: photo.id, alt: news.title });
 
     return { error, data, status: status === 204 ? 201 : status };
   }
@@ -111,7 +111,7 @@ export class NewsApiClient extends BaseApiClient {
     // saving photo
     if (newPhotos.length)
       for (const newPhoto of newPhotos)
-        this.photosNews.create({ newsId: news.id, imageId: newPhoto.id });
+        this.photosNews.create({ newsId: news.id, imageId: newPhoto.id, alt: news.title });
 
     return { error, status: status === 204 ? 201 : status };
   }
