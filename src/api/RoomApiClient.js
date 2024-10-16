@@ -85,11 +85,15 @@ export class RoomApiClient extends BaseApiClient {
     // saving image
     if (photos)
       for (const photo of photos)
-        await this.photosRooms.create({ roomId: data[0].id, imageId: photo.id });
+        await this.photosRooms.create({
+          roomId: data[0].id,
+          imageId: photo.id,
+          alt: room.name,
+        });
     // saving image360
     if (photos360)
       for (const photo of photos360)
-        await this.photos360Rooms.create({ roomId: data[0].id, imageId: photo.id });
+        await this.photos360Rooms.create({ roomId: data[0].id, imageId: photo.id, alt: room.name });
 
     return { error, data, status: status === 204 ? 201 : status };
   }
@@ -150,12 +154,12 @@ export class RoomApiClient extends BaseApiClient {
     // saving photo
     if (newPhotos.length)
       for (const newPhoto of newPhotos)
-        this.photosRooms.create({ roomId: room.id, imageId: newPhoto.id });
+        this.photosRooms.create({ roomId: room.id, imageId: newPhoto.id, alt: room.name });
 
     // saving photo
     if (newPhotos360.length)
       for (const newPhoto of newPhotos360)
-        this.photos360Rooms.create({ roomId: room.id, imageId: newPhoto.id });
+        this.photos360Rooms.create({ roomId: room.id, imageId: newPhoto.id, alt: room.name });
     return { error, status: status === 204 ? 201 : status };
   }
 }
