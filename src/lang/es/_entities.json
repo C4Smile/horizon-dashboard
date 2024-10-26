@@ -3,28 +3,7 @@
     "image": "Imagen",
     "user": "Usuario",
     "role": "Rol",
-    "country": "País",
-    "application": "Aplicación",
-    "customer": "Cliente",
-    "province": "Provincia",
-    "room": "Sala",
-    "roomArea": "Área de sala",
-    "roomType": "Tipo de Sala",
-    "roomStatus": "Estado de Sala",
-    "invoice": "Factura",
-    "currency": "Moneda",
-    "news": "Noticia",
-    "event": "Evento",
-    "events": "Eventos",
-    "place": "Lugar",
-    "tag": "Etiqueta",
-    "activity": "Actividad",
-    "service": "Servicio",
-    "externalLink": "Enlace externo",
-    "paymentMethod": "Método de Pago",
-    "appText": "Texto para la App",
-    "pushNotification": "Notificación instantánea",
-    "guestBook": "Libro de Visita"
+    "building": "Edificio"
   },
   "base": {
     "id": { "label": "Id" },
@@ -36,126 +15,38 @@
     "admin": "Administrador",
     "user": "Usuario"
   },
-  "appText": {
-    "lastUpdate": { "label": "Última actualización" },
-    "title": {
-      "label": "Título",
-      "placeholder": "ej: Acerca de"
+  "building": {
+    "name": {
+      "label": "Nombre",
+      "placeholder": "ej: Granja"
     },
-    "content": {
-      "label": "Contenido"
-    }
-  },
-  "service": {
-    "lastUpdate": { "label": "Última actualización" },
-    "name": { "label": "Nombre", "placeholder": "ej: Sala" },
-    "imageId": {
-      "label": "Imagen"
+    "baseFactor": {
+      "label": "Factor base de producción",
+      "placeholder": "ej: 1"
     },
+    "baseUpkeep": {
+      "label": "Manutención base",
+      "placeholder": "ej: 1"
+    },
+    "lastUpdate": { "label": "Última actualización" },
     "description": {
       "label": "Descripción",
       "placeholder": "Alguna descripción"
     },
-    "serviceRoom": {
-      "label": "Sala con este servicio",
-      "placeholder": "ej: Librería"
+    "production": {
+      "label": "Produce"
     },
-    "content": {
-      "label": "Contenido"
+    "techRequirements": {
+      "label": "Requerimientos tecnológicos"
     },
-    "serviceHasSchedule": {
-      "label": "Horario"
-    }
-  },
-  "activity": {
-    "entity": {
-      "label": "Redirección",
-      "typePlaceholder": "Selecciona a el tipo de entidad",
-      "idPlaceholder": "Selecciona la {{entity}} al cual redireccionará esta oferta"
+    "costs": {
+      "label": "Costos"
     },
-    "description": {
-      "label": "Descripción",
-      "placeholder": "Alguna descripción"
+    "upkeeps": {
+      "label": "Manutención"
     },
-    "lastUpdate": {
-      "label": "Última actualización"
-    },
-    "imageId": {
-      "label": "Imagen"
-    },
-    "title": {
-      "label": "Título",
-      "placeholder": "ej: El museo abre una nueva sala"
-    },
-    "subtitle": {
-      "label": "Subtítulo",
-      "placeholder": "Información para una previsualización rápida"
-    }
-  },
-  "news": {
-    "content": {
-      "label": "Contenido"
-    },
-    "lastUpdate": { "label": "Última actualización" },
-    "title": {
-      "label": "Título",
-      "placeholder": "ej: El museo abre una nueva sala"
-    },
-    "subtitle": {
-      "label": "Subtítulo",
-      "placeholder": "Información para una previsualización rápida"
-    },
-    "description": {
-      "label": "Descripción",
-      "placeholder": "Alguna descripción"
-    },
-    "newsHasTag": {
-      "label": "Etiquetas",
-      "placeholder": "ej: Cultural"
-    },
-    "newsHasImage": {
+    "buildingHasImage": {
       "label": "Imágenes"
-    }
-  },
-  "event": {
-    "content": {
-      "label": "Contenido"
-    },
-    "lastUpdate": { "label": "Última actualización" },
-    "title": {
-      "label": "Título",
-      "placeholder": "ej: El museo abre una nueva exposición"
-    },
-    "description": {
-      "label": "Descripción",
-      "placeholder": "Alguna descripción para promoción"
-    },
-    "eventHasTag": {
-      "label": "Etiquetas",
-      "placeholder": "ej: Cultural"
-    },
-    "eventHasImage": {
-      "label": "Imágenes"
-    },
-    "subtitle": {
-      "label": "Subtítulo",
-      "placeholder": "Información para una previsualización rápida"
-    },
-    "address": {
-      "label": "Dirección",
-      "placeholder": "Calle #3 % Calle #2 y Calle #4"
-    },
-    "eventHasLink": {
-      "label": "Enlaces externos",
-      "placeholder": "previsualización:"
-    },
-    "location": {
-      "label": "Ubicación",
-      "placeholder": "ej: 20.0237273,-75.8332217"
-    },
-    "eventHasSchedule": {
-      "label": "Horario",
-      "placeholder": "ej: Apertura del evento"
     }
   },
   "user": {
@@ -172,128 +63,6 @@
     "identification": { "label": "Identificación", "placeholder": "ej: A9012M" },
     "imageId": {
       "label": "Foto de perfil"
-    }
-  },
-  "room": {
-    "lastUpdate": { "label": "Última actualización" },
-    "number": { "label": "Número", "placeholder": "ej: I" },
-    "name": { "label": "Nombre", "placeholder": "ej: Historia de un símbolo" },
-    "type": { "label": "Tipo", "placeholder": "ej: Museable" },
-    "description": {
-      "label": "Descripción",
-      "placeholder": "ej: En esta sala se puede..."
-    },
-    "status": { "label": "Estado" },
-    "roomHasImage": {
-      "label": "Imágenes"
-    },
-    "roomHasImage360": {
-      "label": "Imagen 360"
-    },
-    "content": {
-      "label": "Contenido"
-    },
-    "roomHasSchedule": {
-      "label": "Horario"
-    }
-  },
-  "guestBook": {
-    "lastUpdate": { "label": "Última actualización" },
-    "name": { "label": "Nombre", "placeholder": "ej: Visita del ministro de..." },
-    "guestBookHasImage": {
-      "label": "Imágenes"
-    },
-    "date": {
-      "label": "Fecha de la visita"
-    },
-    "content": {
-      "label": "Contenido"
-    }
-  },
-  "roomArea": {
-    "lastUpdate": { "label": "Última actualización" },
-    "order": { "label": "Orden", "placeholder": "La posición en el orden de la sala (ej: 1, 2, 3)" },
-    "name": { "label": "Nombre", "placeholder": "ej: Héroes Caídos" },
-    "description": {
-      "label": "Descripción",
-      "placeholder": "ej: En esta sala se puede..."
-    },
-    "status": { "label": "Estado" },
-    "roomId": {
-      "label": "Sala",
-      "placeholder": "ej: Historia de un símbolo"
-    },
-    "roomAreaHasImage": {
-      "label": "Imágenes"
-    },
-    "roomAreaHasImage360": {
-      "label": "Imagen 360"
-    },
-    "content": {
-      "label": "Contenido"
-    }
-  },
-  "roomType": {
-    "lastUpdate": { "label": "Última actualización" },
-    "name": { "label": "Nombre", "placeholder": "ej: Museable" }
-  },
-  "application": {
-    "lastUpdate": { "label": "Última actualización" },
-    "name": { "label": "Nombre", "placeholder": "ej: Historia de un símbolo" }
-  },
-  "pushNotification": {
-    "actionType": {
-      "link": "Enlace a una página",
-      "entity": "Enlace a otra entidad"
-    },
-    "lastUpdate": { "label": "Última actualización" },
-    "title": { "label": "Título", "placeholder": "ej: Nueva sala ha abierto" },
-    "description": {
-      "label": "Descripción",
-      "placeholder": "ej: Alguna descripción para la notificación"
-    },
-    "entity": {
-      "label": "Redirección",
-      "typePlaceholder": "Selecciona a el tipo de entidad",
-      "idPlaceholder": "Selecciona la {{entity}} al cual redireccionará esta oferta"
-    },
-    "action": {
-      "label": "Acción",
-      "placeholder": "Enlace al cual redirigirá la notificación"
-    },
-    "sentDate": {
-      "label": "Fecha de envío"
-    },
-    "imageId": {
-      "label": "Imagen"
-    }
-  },
-  "tag": {
-    "lastUpdate": { "label": "Última actualización" },
-    "name": { "label": "Nombre", "placeholder": "ej: Cultural" }
-  },
-  "externalLink": {
-    "url": {
-      "label": "Dirección url"
-    }
-  },
-  "schedule": {
-    "description": {
-      "label": "Descripción",
-      "placeholder": "ej: Apertura",
-      "notEmpty": "La descripción es requerida"
-    },
-    "day": {
-      "label": "Día de la semana",
-      "placeholder": "ej: Lunes"
-    },
-    "date": {
-      "label": "Fecha",
-      "placeholder": "ej: 24-12-2024 08:30 AM"
-    },
-    "time": {
-      "label": "Hora",
-      "placeholder": "ej: 08:30 AM"
     }
   }
 }
