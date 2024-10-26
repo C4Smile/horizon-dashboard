@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { getCookie } from "some-javascript-utils/browser";
@@ -9,7 +10,7 @@ import { TableOptionsProvider, TranslationProvider } from "@sito/dashboard";
 
 // providers
 import { useAccount } from "../providers/AccountProvider";
-import { useMuseumApiClient } from "../providers/MuseumApiProvider";
+import { useHorizonApiClient } from "../providers/HorizonApiProvider";
 
 // components
 import ToTop from "../components/ToTop/ToTop";
@@ -21,7 +22,9 @@ import Header from "../partials/Header";
 
 // utils
 import { fromLocal, toLocal } from "../utils/local";
-import { useTranslation } from "react-i18next";
+
+// pages
+import { findPath, pageId } from "../pages/sitemap";
 
 /**
  * Dashboard layout
@@ -32,7 +35,7 @@ function Dashboard() {
 
   const { account, logoutUser } = useAccount();
 
-  const museumApiClient = useMuseumApiClient();
+  const horizonApiClient = useHorizonApiClient();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const mainRef = useRef(null);
@@ -60,19 +63,19 @@ function Dashboard() {
 
   const refreshToken = useCallback(async () => {
     try {
-      const value = await museumApiClient.User.validates();
+      const value = await horizonApiClient.User.validates();
       if (value.status === 400) throw Error("400");
       if (value.status === 401) throw Error("401");
       if (value.status === 403) throw Error("403");
       const recovering = getCookie(config.recovering);
-      if (recovering?.length) navigate("/autentificacion/cambiar-contrasena");
+      if (recovering?.length) navigate(findPath(pageId.updatePassword));
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);
       logoutUser();
-      navigate("/cerrar-sesion");
+      navigate(findPath(pageId.signOut));
     }
-  }, [logoutUser, museumApiClient.User, navigate]);
+  }, [logoutUser, horizonApiClient.User, navigate]);
 
   useEffect(() => {
     refreshToken();

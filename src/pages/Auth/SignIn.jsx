@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 // components
+import Logo from "../../components/Logo/Logo";
 import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
 import PasswordInput from "../../components/Forms/PasswordInput";
@@ -11,10 +12,10 @@ import PasswordInput from "../../components/Forms/PasswordInput";
 // providers
 import { useAccount } from "../../providers/AccountProvider";
 import { useNotification } from "../../providers/NotificationProvider";
-import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
+import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
-// images
-import logoVertical from "../../assets/images/logo-vertical.png";
+// pages
+import { findPath, pageId } from "../sitemap";
 
 /**
  * Sign Page
@@ -27,7 +28,7 @@ function SignIn() {
 
   const [appear, setAppear] = useState(false);
 
-  const museumApiClient = useMuseumApiClient();
+  const horizonApiClient = useHorizonApiClient();
 
   const [userError, setUserError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -42,7 +43,7 @@ function SignIn() {
     setPasswordError("");
     setSaving(true);
     try {
-      const result = await museumApiClient.User.login(d.email, d.password);
+      const result = await horizonApiClient.User.login(d.email, d.password);
       const data = await result.json();
       // set server status to notification
       if (data.status) {
@@ -51,9 +52,9 @@ function SignIn() {
         else if (data.status === 401 || data.status === 400)
           setPasswordError(t("_accessibility:messages.401"));
         else {
-          const request = await museumApiClient.User.fetchOwner(data.user.id);
-          const museumUser = await request.json();
-          if (museumUser) logUser({ ...data, museumUser });
+          const request = await horizonApiClient.User.fetchOwner(data.user.id);
+          const horizonUser = await request.json();
+          if (horizonUser) logUser({ ...data, horizonUser });
           else logUser({ ...data });
         }
       }
@@ -76,12 +77,10 @@ function SignIn() {
     <div className="w-full h-screen flex items-start justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-96 max-sm:w-10/12 px-5 pt-10 flex flex-col items-center justify-start"
+        className="w-96 max-sm:w-10/12 px-5 flex flex-col items-center justify-start m-auto"
       >
-        <img
-          src={logoVertical}
-          alt="logo del museo"
-          className={`w-28 mb-10 transition-all duration-500 ease-in-out ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
+        <Logo
+          className={`w-28 h-28 mb-10 transition-all duration-500 ease-in-out ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
         />
         <h1
           className={`w-full text-2xl md:text-3xl mb-5 transition-all duration-500 ease-in-out delay-200 ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
@@ -133,7 +132,7 @@ function SignIn() {
         </div>
         <div className="w-full mb-5">
           <Link
-            to="/autentificacion/recuperar"
+            to={findPath(pageId.recovery)}
             className={`underline text-left transition-all duration-500 ease-in-out delay-[500ms] ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
           >
             {t("_pages:auth.signIn.passwordRecovery")}

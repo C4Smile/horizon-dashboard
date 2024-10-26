@@ -5,17 +5,18 @@ import { Link } from "react-router-dom";
 import { createCookie } from "some-javascript-utils/browser";
 
 // components
+import Logo from "../../components/Logo/Logo";
 import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
-
-// images
-import logoVertical from "../../assets/images/logo-vertical.png";
+import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 import config from "../../config";
+
+// pages
+import { findPath, pageId } from "../sitemap";
 
 /**
  * Recovery page
@@ -24,7 +25,7 @@ import config from "../../config";
 function Recovery() {
   const { t } = useTranslation();
 
-  const museumApiClient = useMuseumApiClient();
+  const horizonApiClient = useHorizonApiClient();
 
   const [appear, setAppear] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -36,7 +37,7 @@ function Recovery() {
   const onSubmit = async (d) => {
     setSaving(true);
     try {
-      const response = await museumApiClient.User.recovery(d.email);
+      const response = await horizonApiClient.User.recovery(d.email);
       const data = await response.json();
       if (data !== null && data.status) setNotification(String(data.status));
       else {
@@ -62,12 +63,10 @@ function Recovery() {
     <div className="w-full h-screen flex items-start justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-3/5 max-sm:w-10/12 px-5 pt-10 flex flex-col items-center justify-start"
+        className="w-3/5 max-sm:w-10/12 px-5 flex flex-col items-center justify-start m-auto"
       >
-        <Link to="/autentificacion">
-          <img
-            src={logoVertical}
-            alt="museum's logo"
+        <Link to={findPath(pageId.auth)}>
+          <Logo
             className={`md:mt-5 w-28 mb-10 transition-all duration-500 ease-in-out ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
           />
         </Link>

@@ -4,7 +4,7 @@ import { createContext, useState, useContext, useCallback } from "react";
 import PropTypes from "prop-types";
 
 // providers
-import { useMuseumApiClient } from "./MuseumApiProvider";
+import { useHorizonApiClient } from "./HorizonApiProvider";
 
 // utils
 import { toLocal, fromLocal, removeFromLocal } from "../utils/local";
@@ -22,7 +22,7 @@ const AccountContext = createContext();
 const AccountProvider = (props) => {
   const { children } = props;
 
-  const museumApiClient = useMuseumApiClient();
+  const horizonApiClient = useHorizonApiClient();
 
   const [account, setAccount] = useState({});
 
@@ -38,13 +38,13 @@ const AccountProvider = (props) => {
 
   const logUserFromLocal = useCallback(async () => {
     try {
-      const { status } = await museumApiClient.User.getSession();
+      const { status } = await horizonApiClient.User.getSession();
       if (status === 200) {
         const loggedUser = fromLocal(config.user, "object");
         if (loggedUser) {
-          const request = await museumApiClient.User.fetchOwner(loggedUser.user.id);
-          const museumUser = await request.json();
-          if (museumUser) setAccount({ ...loggedUser, museumUser });
+          const request = await horizonApiClient.User.fetchOwner(loggedUser.user.id);
+          const horizonUser = await request.json();
+          if (horizonUser) setAccount({ ...loggedUser, horizonUser });
           else setAccount(loggedUser);
         }
       } else logoutUser();
@@ -53,7 +53,7 @@ const AccountProvider = (props) => {
       console.error(err);
       logoutUser();
     }
-  }, [logoutUser, museumApiClient.User]);
+  }, [logoutUser, horizonApiClient.User]);
 
   const value = { account, logUser, logoutUser, logUserFromLocal };
   return <AccountContext.Provider value={value}>{children}</AccountContext.Provider>;

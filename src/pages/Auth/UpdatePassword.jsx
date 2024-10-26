@@ -5,16 +5,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { deleteCookie } from "some-javascript-utils/browser";
 
 // components
+import Logo from "../../components/Logo/Logo";
 import Loading from "../../partials/loading/Loading";
 import PasswordInput from "../../components/Forms/PasswordInput";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
+import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
-// images
-import logoVertical from "../../assets/images/logo-vertical.png";
+// config
 import config from "../../config";
+
+// pages
+import { findPath, pageId } from "../sitemap";
 
 /**
  * UpdatePassword page
@@ -24,7 +27,7 @@ function UpdatePassword() {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
-  const museumApiClient = useMuseumApiClient();
+  const horizonApiClient = useHorizonApiClient();
 
   const [appear, setAppear] = useState(false);
   const [passwordError, setPasswordError] = useState("");
@@ -44,11 +47,11 @@ function UpdatePassword() {
       return setNotification(t("_accessibility:errors.passwordDoNotMatch"));
     }
     try {
-      await museumApiClient.User.updatePassword(d.password);
+      await horizonApiClient.User.updatePassword(d.password);
       setNotification(t("_pages:auth.updatePassword.sent"), {}, "good");
 
       deleteCookie(config.recovering);
-      setTimeout(() => navigate("/cerrar-sesion"), 2000);
+      setTimeout(() => navigate(findPath(pageId.signOut)), 2000);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
@@ -68,13 +71,11 @@ function UpdatePassword() {
     <div className="w-full h-screen flex items-start justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-3/5 max-sm:w-10/12 px-5 pt-10 flex flex-col items-center justify-start"
+        className="w-3/5 max-sm:w-10/12 px-5 flex flex-col items-center justify-start m-auto"
       >
-        <Link to="/autentificacion">
-          <img
-            src={logoVertical}
-            alt="museum's logo"
-            className={`md:mt-5 w-28 mb-10 transition-all duration-500 ease-in-out ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
+        <Link to={findPath(pageId.auth)}>
+          <Logo
+            className={`md:mt-5 w-28 h-28 mb-10 transition-all duration-500 ease-in-out ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
           />
         </Link>
         <h1

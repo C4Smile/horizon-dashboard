@@ -9,6 +9,7 @@ import { useAccount } from "../providers/AccountProvider";
 import Notification from "../partials/Notification";
 
 import config from "../config";
+import { findPath, pageId } from "../pages/sitemap";
 
 /**
  * Auth layout
@@ -21,9 +22,9 @@ function Auth() {
 
   useEffect(() => {
     const recovering = getCookie(config.recovering);
-    if (recovering?.length) navigate("/autentificacion/cambiar-contrasena");
+    if (recovering?.length) navigate(findPath(pageId.updatePassword));
     else {
-      if (account.user) navigate("/");
+      if (account.user) navigate(findPath(pageId.dashboard));
     }
   }, [account, navigate]);
 
