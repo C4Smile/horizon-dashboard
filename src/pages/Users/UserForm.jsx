@@ -14,7 +14,7 @@ import PasswordInput from "../../components/Forms/PasswordInput";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient, useMuseumApiClient } from "../../providers/MuseumApiProvider";
+import { queryClient, useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
@@ -31,7 +31,7 @@ function UserForm() {
 
   const { t } = useTranslation();
 
-  const museumApiClient = useMuseumApiClient();
+  const horizonApiClient = useHorizonApiClient();
 
   const [notFound, setNotFound] = useState(false);
 
@@ -59,8 +59,8 @@ function UserForm() {
         console.error(t("_accessibility:errors.passwordDoNotMatch"));
         return setNotification(t("_accessibility:errors.passwordDoNotMatch"));
       }
-      if (!d.id) result = await museumApiClient.User.create(d, photo);
-      else result = await museumApiClient.User.update(d, photo);
+      if (!d.id) result = await horizonApiClient.User.create(d, photo);
+      else result = await horizonApiClient.User.update(d, photo);
       const { error, status } = result;
 
       setNotification(String(status), { model: t("_entities:entities.user") });
@@ -94,13 +94,13 @@ function UserForm() {
 
   const userQuery = useQuery({
     queryKey: [ReactQueryKeys.Users, id],
-    queryFn: () => museumApiClient.User.getById(id),
+    queryFn: () => horizonApiClient.User.getById(id),
     enabled: id !== undefined,
   });
 
   const roleQuery = useQuery({
     queryKey: [ReactQueryKeys.Roles],
-    queryFn: () => museumApiClient.Role.getAll(),
+    queryFn: () => horizonApiClient.Role.getAll(),
   });
 
   const roleList = useMemo(() => {

@@ -10,7 +10,7 @@ import { faTrash, faPencil, faArrowRotateLeft } from "@fortawesome/free-solid-sv
 import { useNotification } from "../providers/NotificationProvider";
 
 // utils
-import { queryClient } from "../providers/MuseumApiProvider";
+import { queryClient } from "../providers/HorizonApiProvider";
 
 // pages
 import { pageId } from "../pages/sitemap";

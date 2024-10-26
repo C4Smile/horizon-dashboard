@@ -16,7 +16,7 @@ import { staticUrlPhoto } from "./utils";
 
 // providers
 import { useNotification } from "../providers/NotificationProvider";
-import { useMuseumApiClient } from "../providers/MuseumApiProvider";
+import { useHorizonApiClient } from "../providers/HorizonApiProvider";
 
 /**
  * ImageUploader component
@@ -31,11 +31,11 @@ function ImageUploader(props) {
 
   const [loadingPhoto, setLoadingPhoto] = useState(false);
 
-  const museumApiClient = useMuseumApiClient();
+  const horizonApiClient = useHorizonApiClient();
 
   const onUploadFile = async (e) => {
     setLoadingPhoto(true);
-    const uploads = await museumApiClient.Image.insertImages(e.target.files, folder);
+    const uploads = await horizonApiClient.Image.insertImages(e.target.files, folder);
     if (uploads.error)
       setNotification(String(uploads.error.status), { model: t("_entities:entities.image") });
     else setPhoto(uploads[0]);
@@ -43,7 +43,7 @@ function ImageUploader(props) {
   };
 
   const onDelete = async () => {
-    const status = await museumApiClient.Image.deleteImage(photo?.fileId ?? photo?.fileName);
+    const status = await horizonApiClient.Image.deleteImage(photo?.fileId ?? photo?.fileName);
     if (status === 200) setPhoto();
     // eslint-disable-next-line no-console
     else console.error(status);

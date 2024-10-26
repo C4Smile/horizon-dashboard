@@ -12,7 +12,7 @@ import ImageUploader from "../../../components/ImageUploader";
 // providers
 import { useNotification } from "../../../providers/NotificationProvider";
 import { useAccount } from "../../../providers/AccountProvider";
-import { queryClient, useMuseumApiClient } from "../../../providers/MuseumApiProvider";
+import { queryClient, useHorizonApiClient } from "../../../providers/HorizonApiProvider";
 
 // utils
 import { ReactQueryKeys } from "../../../utils/queryKeys";
@@ -28,9 +28,9 @@ function PersonalInfo() {
   const { t } = useTranslation();
 
   const { account } = useAccount();
-  const museumApiClient = useMuseumApiClient();
+  const horizonApiClient = useHorizonApiClient();
 
-  const id = account?.museumUser?.id;
+  const id = account?.horizonUser?.id;
 
   const [notFound, setNotFound] = useState(false);
 
@@ -50,7 +50,7 @@ function PersonalInfo() {
 
     setSaving(true);
     try {
-      const result = await museumApiClient.User.update(d, photo);
+      const result = await horizonApiClient.User.update(d, photo);
       const { error, status } = result;
 
       setNotification(String(status), { model: t("_entities:entities.user") });
@@ -68,7 +68,7 @@ function PersonalInfo() {
 
   const userQuery = useQuery({
     queryKey: [ReactQueryKeys.Users, id],
-    queryFn: () => museumApiClient.User.getById(id),
+    queryFn: () => horizonApiClient.User.getById(id),
     enabled: id !== undefined,
   });
 

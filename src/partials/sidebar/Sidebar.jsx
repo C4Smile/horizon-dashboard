@@ -68,7 +68,7 @@ function Sidebar(props) {
   }, [sidebarExpanded]);
 
   const { account } = useAccount();
-  const userRole = account?.museumUser?.roleId;
+  const userRole = account?.horizonUser?.roleId;
 
   return (
     <div>

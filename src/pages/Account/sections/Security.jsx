@@ -8,7 +8,7 @@ import PasswordInput from "../../../components/Forms/PasswordInput";
 
 // providers
 import { useNotification } from "../../../providers/NotificationProvider";
-import { useMuseumApiClient } from "../../../providers/MuseumApiProvider";
+import { useHorizonApiClient } from "../../../providers/HorizonApiProvider";
 
 // utils
 import { fromLocal } from "../../../utils/local";
@@ -21,7 +21,7 @@ import config from "../../../config";
 function Security() {
   const { t } = useTranslation();
 
-  const museumApiClient = useMuseumApiClient();
+  const horizonApiClient = useHorizonApiClient();
 
   const userId = fromLocal(config.user, "object")?.id;
 
@@ -39,7 +39,7 @@ function Security() {
         console.error(t("_accessibility:errors.passwordDoNotMatch"));
         return setNotification(t("_accessibility:errors.passwordDoNotMatch"));
       }
-      const { error, status } = await museumApiClient.User.update({ ...d, id: userId });
+      const { error, status } = await horizonApiClient.User.update({ ...d, id: userId });
       setNotification(String(status));
 
       // eslint-disable-next-line no-console

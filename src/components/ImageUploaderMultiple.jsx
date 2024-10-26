@@ -16,7 +16,7 @@ import { staticUrlPhoto } from "./utils";
 
 // providers
 import { useNotification } from "../providers/NotificationProvider";
-import { useMuseumApiClient } from "../providers/MuseumApiProvider";
+import { useHorizonApiClient } from "../providers/HorizonApiProvider";
 
 /**
  * ImageUploader component
@@ -31,12 +31,12 @@ function ImageUploaderMultiple(props) {
 
   const [loadingPhotos, setLoadingPhotos] = useState(false);
 
-  const museumApiClient = useMuseumApiClient();
+  const horizonApiClient = useHorizonApiClient();
 
   const apiClient = useMemo(() => {
     if (props.apiClient) return props.apiClient;
-    return museumApiClient.Image;
-  }, [props.apiClient, museumApiClient]);
+    return horizonApiClient.Image;
+  }, [props.apiClient, horizonApiClient]);
 
   const onUploadFile = async (e) => {
     setLoadingPhotos(true);

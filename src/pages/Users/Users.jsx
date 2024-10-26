@@ -18,7 +18,7 @@ import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
 import { staticUrlPhoto } from "../../components/utils";
 
 // providers
-import { useMuseumApiClient } from "../../providers/MuseumApiProvider";
+import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // hooks
 import { useActions } from "../../hooks/useActions";
@@ -31,13 +31,13 @@ import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
 function Users() {
   const { t } = useTranslation();
 
-  const museumApiClient = useMuseumApiClient();
+  const horizonApiClient = useHorizonApiClient();
 
   const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
 
   const { data, isLoading } = useQuery({
     queryKey: [ReactQueryKeys.Users, sortingBy, sortingOrder, currentPage, pageSize],
-    queryFn: () => museumApiClient.User.getAll({ sortingBy, sortingOrder, currentPage, pageSize }),
+    queryFn: () => horizonApiClient.User.getAll({ sortingBy, sortingOrder, currentPage, pageSize }),
   });
 
   useEffect(() => {
@@ -67,7 +67,7 @@ function Users() {
   });
 
   const getActions = useActions({
-    apiClient: museumApiClient.User,
+    apiClient: horizonApiClient.User,
     queryKey: ReactQueryKeys.Users,
     parent: Parents.user,
   });
