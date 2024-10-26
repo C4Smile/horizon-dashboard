@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 // Provider
 import ThemeProvider from "./utils/ThemeContext";
-import { MuseumApiClientProvider } from "./providers/MuseumApiProvider";
+import { HorizonApiClientProvider } from "./providers/HorizonApiProvider";
 import { AccountProvider } from "./providers/AccountProvider";
 import { NotificationProvider } from "./providers/NotificationProvider.jsx";
 
@@ -21,13 +21,13 @@ import "./components/Forms/styles.css";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Router>
     <ThemeProvider>
-      <MuseumApiClientProvider>
+      <HorizonApiClientProvider>
         <AccountProvider>
           <NotificationProvider>
             <App />
           </NotificationProvider>
         </AccountProvider>
-      </MuseumApiClientProvider>
+      </HorizonApiClientProvider>
     </ThemeProvider>
   </Router>,
 );

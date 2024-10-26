@@ -20,7 +20,7 @@ export class UserApiClient extends BaseApiClient {
    */
   constructor() {
     super();
-    this.baseUrl = "museumUser";
+    this.baseUrl = "horizonUser";
   }
 
   /**
@@ -49,7 +49,7 @@ export class UserApiClient extends BaseApiClient {
    * @returns Owner
    */
   async fetchOwner(userId) {
-    const { data, error } = await makeRequest(`museumUser/byUserId/${userId}`, "GET", null, {
+    const { data, error } = await makeRequest(`horizonUser/byUserId/${userId}`, "GET", null, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     return {
