@@ -2,48 +2,20 @@ import { Role } from "../api/RoleApiClient";
 
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBuildingColumns,
-  faChartLine,
-  faComputer,
-  faGear,
-  faRss,
-  faTableList,
-  faUsers,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChartLine, faGamepad, faGear, faUsers } from "@fortawesome/free-solid-svg-icons";
 
 export const menuKeys = {
   Dashboard: "dashboard",
-  Devices: "devices",
-  Museum: "museum",
-  Information: "information",
-  Management: "management",
-  Personal: "personal",
+  Game: "game",
+  Players: "players",
   Settings: "settings",
 };
 
 export const submenuKeys = {
   Main: "main",
-  // devices
-  Applications: "applications",
-  Translations: "translations",
-  // museum
-  Services: "services",
-  Rooms: "rooms",
-  RoomAreas: "roomAreas",
-  SortRooms: "sortRooms",
-  RoomTypes: "roomTypes",
-  GuestBooks: "guestBooks",
-  // activities
-  Activities: "activities",
-  News: "news",
-  Events: "events",
-  Tags: "tags",
-  // management
-  ChatBot: "chatbot",
-  PushNotifications: "pushNotifications",
-  AppTexts: "appTexts",
-  // personal
+  // Game
+  Buildings: "buildings",
+  // players
   Users: "users",
   Account: "account",
 };
@@ -56,93 +28,20 @@ export const menuMap = [
     child: [{ label: submenuKeys.Main, path: "/" }],
   },
   {
-    page: menuKeys.Devices,
-    path: "/dispositivos",
-    icon: <FontAwesomeIcon icon={faComputer} />,
-    child: [
-      { label: submenuKeys.Applications, path: "/aplicaciones" },
-      { label: submenuKeys.Translations, path: "/traducciones" },
-    ],
-  },
-  {
-    page: menuKeys.Museum,
-    path: "/museo",
-    icon: <FontAwesomeIcon icon={faBuildingColumns} />,
+    page: menuKeys.Game,
+    path: "/game",
+    icon: <FontAwesomeIcon icon={faGamepad} />,
     role: [Role.administrator, Role.museologist],
     child: [
       {
-        label: submenuKeys.Services,
-        path: "/servicios",
-      },
-      {
-        label: submenuKeys.Rooms,
-        path: "/salas",
-      },
-      {
-        label: submenuKeys.RoomAreas,
-        path: "/areasDeSalas",
-      },
-      {
-        label: submenuKeys.SortRooms,
-        path: "/ordenarSalas",
-      },
-      {
-        label: submenuKeys.RoomTypes,
-        path: "/tiposDeSalas",
-      },
-      {
-        label: submenuKeys.GuestBooks,
-        path: "/libroDeVisitas",
+        label: submenuKeys.Buildings,
+        path: "/buildings",
       },
     ],
   },
   {
-    page: menuKeys.Information,
-    path: "/informacion",
-    icon: <FontAwesomeIcon icon={faRss} />,
-    role: [Role.administrator, Role.communicator],
-    child: [
-      {
-        label: submenuKeys.Activities,
-        path: "/actividades",
-      },
-      {
-        label: submenuKeys.News,
-        path: "/noticias",
-      },
-      {
-        label: submenuKeys.Events,
-        path: "/eventos",
-      },
-      {
-        label: submenuKeys.Tags,
-        path: "/etiquetas",
-      },
-    ],
-  },
-  {
-    page: menuKeys.Management,
-    path: "/gestion",
-    icon: <FontAwesomeIcon icon={faTableList} />,
-    role: [Role.administrator, Role.communicator],
-    child: [
-      {
-        label: submenuKeys.ChatBot,
-        path: "/chatbot",
-      },
-      {
-        label: submenuKeys.PushNotifications,
-        path: "/notificaciones",
-      },
-      {
-        label: submenuKeys.AppTexts,
-        path: "/traducciones",
-      },
-    ],
-  },
-  {
-    page: menuKeys.Personal,
-    path: "/personal",
+    page: menuKeys.Players,
+    path: "/players",
     icon: <FontAwesomeIcon icon={faUsers} />,
     role: [Role.administrator],
     child: [
