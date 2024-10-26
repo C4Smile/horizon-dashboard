@@ -25,7 +25,7 @@ export class RoleApiClient extends BaseApiClient {
    */
   constructor() {
     super();
-    this.baseUrl = "museumRole";
+    this.baseUrl = "horizonRole";
   }
 
   /**
