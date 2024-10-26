@@ -21,8 +21,6 @@ import SplashScreen from "./partials/loading/SplashScreen";
 // layouts
 
 // Import pages
-// Auth
-const SignOut = loadable(() => import("./pages/Auth/SignOut"));
 // Generals
 const NotFound = loadable(() => import("./pages/NotFound/NotFound"));
 
@@ -51,7 +49,7 @@ function App() {
   const [loaded, setLoaded] = useState(true);
 
   const { account, logUserFromLocal } = useAccount();
-  const userRole = account?.museumUser?.roleId;
+  const userRole = account?.horizonUser?.roleId;
 
   const location = useLocation();
 
@@ -81,7 +79,6 @@ function App() {
       <Suspense>
         <Routes>
           {routes}
-          <Route path="/cerrar-sesion" element={<SignOut />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
