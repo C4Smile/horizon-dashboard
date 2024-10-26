@@ -7,8 +7,6 @@ import "tippy.js/dist/tippy.css"; // optional
 
 import "./css/style.css";
 
-import "./charts/ChartjsConfig";
-
 // sitemap
 import { sitemap } from "./pages/sitemap";
 
