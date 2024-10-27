@@ -32,8 +32,11 @@ const columnClasses = {
 };
 
 const noSortableColumns = {
-  buildingHasTag: true,
-  buildingHasImage: true,
+  imageId: true,
+  costs: true,
+  produces: true,
+  upkeeps: true,
+  techRequirements: true,
 };
 
 /**
@@ -48,7 +51,7 @@ function BuildingPage() {
   const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
 
   const { data, isLoading } = useQuery({
-    queryKey: [ReactQueryKeys.Building, sortingBy, sortingOrder, currentPage, pageSize],
+    queryKey: [ReactQueryKeys.Buildings, sortingBy, sortingOrder, currentPage, pageSize],
     queryFn: () => horizonApiClient.Building.getAll({ sortingBy, sortingOrder, currentPage, pageSize }),
   });
 
@@ -64,29 +67,47 @@ function BuildingPage() {
           <span className="truncate">{building.title}</span>
         </Link>
       ),
-      buildingHasTag:
+      costs:
         (
           <div className="flex flex-wrap gap-3">
-            {building.buildingHasTag?.map(({ tagId: tag }) => (
-              <Chip key={tag?.id} label={tag?.name} spanClassName="text-xs" />
+            {building.buildingHasTag?.map(({ resourceId: resource }) => (
+              <Chip key={resource?.id} label={resource?.name} spanClassName="text-xs" />
             ))}
           </div>
         ) ?? " - ",
-      buildingHasImage:
-        building.buildingHasImage && building.buildingHasImage.length ? (
-          <div className="flex items-center justify-start">
-            {building.buildingHasImage.map((image, i) => (
-              <img
-                key={i}
-                className={`small-image rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
-                src={staticUrlPhoto(image.imageId.url)}
-                alt={`${building.title} ${i}`}
-              />
+      produces:
+        (
+          <div className="flex flex-wrap gap-3">
+            {building.buildingHasTag?.map(({ resourceId: resource }) => (
+              <Chip key={resource?.id} label={resource?.name} spanClassName="text-xs" />
             ))}
           </div>
-        ) : (
-          <img className="small-image rounded-full object-cover" src={noProduct} alt={building.title} />
-        ),
+        ) ?? " - ",
+      upkeeps:
+        (
+          <div className="flex flex-wrap gap-3">
+            {building.buildingHasTag?.map(({ resourceId: resource }) => (
+              <Chip key={resource?.id} label={resource?.name} spanClassName="text-xs" />
+            ))}
+          </div>
+        ) ?? " - ",
+      techRequirements:
+        (
+          <div className="flex flex-wrap gap-3">
+            {building.buildingHasTag?.map(({ techId: tech }) => (
+              <Chip key={tech?.id} label={tech?.name} spanClassName="text-xs" />
+            ))}
+          </div>
+        ) ?? " - ",
+      imageId: building.image?.url ? (
+        <img
+          className={`w-10 h-10 rounded-full object-cover border-white border-2`}
+          src={staticUrlPhoto(building.image.url)}
+          alt={`${building.name}`}
+        />
+      ) : (
+        <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={building.name} />
+      ),
     };
   };
 

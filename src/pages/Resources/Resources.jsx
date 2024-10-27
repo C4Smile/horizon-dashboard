@@ -29,8 +29,7 @@ const columnClasses = {
 };
 
 const noSortableColumns = {
-  resourceHasTag: true,
-  resourceHasImage: true,
+  imageId: true,
 };
 
 /**
