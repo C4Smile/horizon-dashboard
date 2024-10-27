@@ -21,6 +21,9 @@ import BuildingForm from "./Buildings/BuildingForm";
 // resources
 import ResourcesPage from "./Resources/Resources";
 import ResourceForm from "./Resources/ResourceForm";
+// techs
+import TechsPage from "./Techs/Techs";
+import TechForm from "./Techs/TechForm";
 // techTypes
 import TechTypesPage from "./TechTypes/TechTypes";
 import TechTypeForm from "./TechTypes/TechTypeForm";
@@ -38,12 +41,19 @@ export const pageId = {
   home: "home",
   settings: "settings",
   // game
+  // buildings
   buildings: "buildings",
   buildingsNew: "buildingsNew",
   buildingsEdit: "buildingsEdit",
+  // resources
   resources: "resources",
   resourcesNew: "resourcesNew",
   resourcesEdit: "resourcesEdit",
+  // techs
+  techs: "techs",
+  techsNew: "techsNew",
+  techsEdit: "techsEdit",
+  // tech types
   techTypes: "techTypes",
   techTypesNew: "techTypesNew",
   techTypesEdit: "techTypesEdit",
@@ -115,6 +125,17 @@ export const sitemap = [
           { key: pageId.techTypes, path: "/", component: <TechTypesPage /> },
           { key: pageId.techTypesNew, path: "/new", component: <TechTypeForm /> },
           { key: pageId.techTypesEdit, path: "/:id", component: <TechTypeForm /> },
+        ],
+      },
+      {
+        key: pageId.techs,
+        path: "/game/techs",
+        component: <ModelNavigation pageKey={pageId.techs} />,
+        role: [Role.administrator],
+        children: [
+          { key: pageId.techs, path: "/", component: <TechsPage /> },
+          { key: pageId.techsNew, path: "/new", component: <TechForm /> },
+          { key: pageId.techsEdit, path: "/:id", component: <TechForm /> },
         ],
       },
       // players

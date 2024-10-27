@@ -16,6 +16,7 @@ export const submenuKeys = {
   // Game
   Buildings: "buildings",
   Resources: "resources",
+  Techs: "techs",
   TechTypes: "techTypes",
   // players
   Users: "users",
@@ -42,6 +43,10 @@ export const menuMap = [
       {
         label: submenuKeys.Resources,
         path: "/resources",
+      },
+      {
+        label: submenuKeys.Techs,
+        path: "/techs",
       },
       {
         label: submenuKeys.TechTypes,
