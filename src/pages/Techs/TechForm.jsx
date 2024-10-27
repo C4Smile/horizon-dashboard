@@ -112,16 +112,14 @@ function TechForm() {
   useEffect(() => {
     if (techQuery.data) {
       //* PARSING PHOTO
-      setPhoto(techQuery.data?.techHasImage.imageId);
+      setPhoto(techQuery.data?.image);
 
       //* PARSING CONTENT
       if (techQuery.data?.description && typeof techQuery.data?.description === "string") {
         const html = techQuery.data?.description;
         const descriptionBlock = htmlToDraft(html);
         if (descriptionBlock) {
-          const descriptionState = ContentState.createFromBlockArray(
-            descriptionBlock.descriptionBlocks,
-          );
+          const descriptionState = ContentState.createFromBlockArray(descriptionBlock);
           const editorState = EditorState.createWithContent(descriptionState);
           techQuery.data.description = editorState;
         }

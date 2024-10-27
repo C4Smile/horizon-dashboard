@@ -62,10 +62,6 @@ export class TechApiClient extends BaseApiClient {
     tech.description = draftToHtml(convertToRaw(tech.description.getCurrentContent()));
     // saving photo
     if (photo) tech.imageId = photo.id;
-    // cleaning relation ships
-    delete tech.tagsId;
-    delete tech.techHasTag;
-    delete tech.techHasImage;
     // call service
     const { status, error } = await makeRequest(
       `techs/${tech.id}`,
