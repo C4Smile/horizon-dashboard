@@ -21,6 +21,9 @@ import BuildingForm from "./Buildings/BuildingForm";
 // resources
 import ResourcesPage from "./Resources/Resources";
 import ResourceForm from "./Resources/ResourceForm";
+// techTypes
+import TechTypesPage from "./TechTypes/TechTypes";
+import TechTypeForm from "./TechTypes/TechTypeForm";
 // players
 import UsersPage from "./Users/Users";
 import UserForm from "./Users/UserForm";
@@ -41,6 +44,9 @@ export const pageId = {
   resources: "resources",
   resourcesNew: "resourcesNew",
   resourcesEdit: "resourcesEdit",
+  techTypes: "techTypes",
+  techTypesNew: "techTypesNew",
+  techTypesEdit: "techTypesEdit",
   // players
   users: "users",
   usersNew: "usersNew",
@@ -81,7 +87,7 @@ export const sitemap = [
       {
         key: pageId.buildings,
         path: "/game/buildings",
-        component: <ModelNavigation parent="game" model="buildings" />,
+        component: <ModelNavigation pageKey={pageId.buildings} />,
         role: [Role.administrator],
         children: [
           { key: pageId.buildings, path: "/", component: <BuildingsPage /> },
@@ -92,7 +98,7 @@ export const sitemap = [
       {
         key: pageId.resources,
         path: "/game/resources",
-        component: <ModelNavigation parent="game" model="resources" />,
+        component: <ModelNavigation pageKey={pageId.resources} />,
         role: [Role.administrator],
         children: [
           { key: pageId.resources, path: "/", component: <ResourcesPage /> },
@@ -100,12 +106,23 @@ export const sitemap = [
           { key: pageId.resourcesEdit, path: "/:id", component: <ResourceForm /> },
         ],
       },
+      {
+        key: pageId.techTypes,
+        path: "/game/tech-types",
+        component: <ModelNavigation pageKey={pageId.techTypes} />,
+        role: [Role.administrator],
+        children: [
+          { key: pageId.techTypes, path: "/", component: <TechTypesPage /> },
+          { key: pageId.techTypesNew, path: "/new", component: <TechTypeForm /> },
+          { key: pageId.techTypesEdit, path: "/:id", component: <TechTypeForm /> },
+        ],
+      },
       // players
       {
         key: pageId.users,
         path: "/players/users",
         role: [Role.administrator],
-        component: <ModelNavigation parent="players" model="users" />,
+        component: <ModelNavigation pageKey={pageId.users} />,
         children: [
           { key: pageId.users, path: "/", component: <UsersPage /> },
           { key: pageId.usersNew, path: "/new", component: <UserForm /> },
@@ -153,7 +170,7 @@ export const findPath = (targetPageId) => {
     const page = sitemap[i];
     if (page.key === targetPageId) return page.path;
     if (page.children) {
-      path = findPathInChildren(targetPageId, page, page.path);
+      path = findPathInChildren(targetPageId, page, page.path === "/" ? "" : page.path);
       if (path) {
         break;
       }
