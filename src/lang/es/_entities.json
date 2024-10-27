@@ -4,7 +4,9 @@
     "user": "Usuario",
     "role": "Rol",
     "building": "Edificio",
-    "resource": "Recurso"
+    "resource": "Recurso",
+    "tech": "Tecnología",
+    "techType": "Tipo de Tecnología"
   },
   "base": {
     "id": { "label": "Id" },
@@ -67,6 +69,33 @@
     "imageId": {
       "label": "Imagen"
     }
+  },
+  "tech": {
+    "name": {
+      "label": "Nombre",
+      "placeholder": "ej: Casco refinado"
+    },
+    "creationTime": {
+      "label": "Tiempo de investigación"
+    },
+    "typeId": {
+      "label": "Tipo"
+    },
+    "lastUpdate": { "label": "Última actualización" },
+    "description": {
+      "label": "Descripción",
+      "placeholder": "Alguna descripción"
+    },
+    "imageId": {
+      "label": "Imagen"
+    }
+  },
+  "techType": {
+    "name": {
+      "label": "Nombre",
+      "placeholder": "ej: Mejora"
+    },
+    "lastUpdate": { "label": "Última actualización" }
   },
   "user": {
     "roleId": { "label": "Rol" },

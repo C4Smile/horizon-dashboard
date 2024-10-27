@@ -4,6 +4,8 @@ import { PushNotificationApiClient } from "./PushNotificationApiClient";
 import { RoleApiClient } from "./RoleApiClient";
 import { UserApiClient } from "./UserApiClient";
 import { ImageApiClient } from "./ImageApiClient";
+import { TechTypeApiClient } from "./TechTypeApiClient";
+import { TechApiClient } from "./TechApiClient";
 
 // services
 import { makeRequest } from "../db/services";
@@ -29,6 +31,8 @@ export class HorizonApiClient {
     this.role = new RoleApiClient();
     this.user = new UserApiClient();
     this.image = new ImageApiClient();
+    this.tech = new TechApiClient();
+    this.techType = new TechTypeApiClient();
   }
 
   /**
@@ -101,5 +105,19 @@ export class HorizonApiClient {
    */
   get User() {
     return this.user;
+  }
+
+  /**
+   * @returns {TechApiClient} TechType
+   */
+  get Tech() {
+    return this.tech;
+  }
+
+  /**
+   * @returns {TechTypeApiClient} TechType
+   */
+  get TechType() {
+    return this.techType;
   }
 }
