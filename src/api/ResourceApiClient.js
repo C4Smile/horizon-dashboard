@@ -52,7 +52,7 @@ export class ResourceApiClient extends BaseApiClient {
   /**
    * @description Update resource
    * @param {object} resource - Resource
-   * @param {object[]} photo -
+   * @param {object[]} photo - photo
    * @returns Transaction status
    */
   async update(resource, photo) {

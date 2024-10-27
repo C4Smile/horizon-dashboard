@@ -30,7 +30,7 @@ export class BuildingApiClient extends BaseApiClient {
    */
   constructor() {
     super();
-    this.baseUrl = "building";
+    this.baseUrl = "buildings";
   }
 
   /**
