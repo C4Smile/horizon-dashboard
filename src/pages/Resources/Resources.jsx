@@ -20,9 +20,6 @@ import { staticUrlPhoto } from "../../components/utils";
 // providers
 import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
-// components
-import Chip from "../../components/Chip/Chip";
-
 // hooks
 import { useActions } from "../../hooks/useActions";
 import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
@@ -64,35 +61,21 @@ function ResourcePage() {
           <span className="truncate">{resource.title}</span>
         </Link>
       ),
-      resourceHasTag:
-        (
-          <div className="flex flex-wrap gap-3">
-            {resource.resourceHasTag?.map(({ tagId: tag }) => (
-              <Chip key={tag?.id} label={tag?.name} spanClassName="text-xs" />
-            ))}
-          </div>
-        ) ?? " - ",
-      resourceHasImage:
-        resource.resourceHasImage && resource.resourceHasImage.length ? (
-          <div className="flex items-center justify-start">
-            {resource.resourceHasImage.map((image, i) => (
-              <img
-                key={i}
-                className={`small-image rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
-                src={staticUrlPhoto(image.imageId.url)}
-                alt={`${resource.title} ${i}`}
-              />
-            ))}
-          </div>
-        ) : (
-          <img className="small-image rounded-full object-cover" src={noProduct} alt={resource.title} />
-        ),
+      imageId: resource.image?.url ? (
+        <img
+          className={`w-10 h-10 rounded-full object-cover border-white border-2`}
+          src={staticUrlPhoto(resource.image.url)}
+          alt={`${resource.title}`}
+        />
+      ) : (
+        <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={resource.title} />
+      ),
     };
   };
 
   const getActions = useActions({
     apiClient: horizonApiClient.Resource,
-    queryKey: ReactQueryKeys.Resource,
+    queryKey: ReactQueryKeys.Resources,
     parent: Parents.resource,
   });
 

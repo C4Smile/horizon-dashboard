@@ -3,7 +3,8 @@
     "image": "Imagen",
     "user": "Usuario",
     "role": "Rol",
-    "building": "Edificio"
+    "building": "Edificio",
+    "resource": "Recurso"
   },
   "base": {
     "id": { "label": "Id" },

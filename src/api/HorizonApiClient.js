@@ -1,4 +1,5 @@
 import { BuildingApiClient } from "./BuildingApiClient";
+import { ResourceApiClient } from "./ResourceApiClient";
 import { PushNotificationApiClient } from "./PushNotificationApiClient";
 import { RoleApiClient } from "./RoleApiClient";
 import { UserApiClient } from "./UserApiClient";
@@ -23,6 +24,7 @@ export class HorizonApiClient {
    */
   constructor() {
     this.building = new BuildingApiClient();
+    this.resource = new ResourceApiClient();
     this.pushNotifications = new PushNotificationApiClient();
     this.role = new RoleApiClient();
     this.user = new UserApiClient();
@@ -71,6 +73,13 @@ export class HorizonApiClient {
    */
   get Building() {
     return this.building;
+  }
+
+  /**
+   * @returns {ResourceApiClient} Resource
+   */
+  get Resource() {
+    return this.resource;
   }
 
   /**
