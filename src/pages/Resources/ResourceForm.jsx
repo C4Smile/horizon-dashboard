@@ -71,6 +71,7 @@ function ResourceForm() {
             id: undefined,
             name: "",
             baseFactor: 0,
+            description: "",
           });
         }
       }
