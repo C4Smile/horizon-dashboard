@@ -20,7 +20,7 @@ function TabComponent(props) {
         tabs={tabs}
         onTabClick={(id) => {
           setCurrentTab(id);
-          onTabChange(id);
+          if (onTabChange) onTabChange(id);
         }}
       />
       {content[currentTab] ? content[currentTab] : null}
