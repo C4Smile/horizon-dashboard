@@ -2,39 +2,44 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, Outlet, Link } from "react-router-dom";
 
+// pages
+import { findPath } from "../pages/sitemap";
+
 /**
  * ModelNavigation layout
  * @param {object} props - Props
  * @returns ModelNavigation layout component
  */
 function ModelNavigation(props) {
-  const { model, parent, noInsert } = props;
+  const { pageKey, noInsert } = props;
   const { pathname } = useLocation();
   const { t } = useTranslation();
+
+  const pathName = findPath(pageKey);
 
   return (
     <div>
       <nav className="flex bg-slate-200 w-full px-4">
         <Link
-          disabled={pathname === `/${parent}/${model}`}
+          disabled={pathname === pathName}
           className={`px-3 py-2 ${
-            pathname === `/${parent}/${model}`
+            pathname === pathName
               ? "text-light-primary/40 disabled-link"
               : "text-primary hover:text-dark-primary"
           }`}
-          to={`/${parent}/${model}`}
+          to={pathName}
         >
           {t("_accessibility:buttons.list")}
         </Link>
         {!noInsert && (
           <Link
-            disabled={pathname === `/${parent}/${model}/new` || pathname.match(/^\/[^/]+\/[^/]+\/\d+$/)}
+            disabled={pathname === `${pathName}/new` || pathname.match(/^\/[^/]+\/[^/]+\/\d+$/)}
             className={`px-3 py-2 ${
-              pathname === `/${parent}/${model}/new` || pathname.match(/^\/[^/]+\/[^/]+\/\d+$/)
+              pathname === `${pathName}/new` || pathname.match(/^\/[^/]+\/[^/]+\/\d+$/)
                 ? "text-light-primary/40 disabled-link"
                 : "text-primary hover:text-dark-primary"
             }`}
-            to={`/${parent}/${model}/new`}
+            to={`${pathName}/new`}
           >
             {t("_accessibility:buttons.insert")}
           </Link>
