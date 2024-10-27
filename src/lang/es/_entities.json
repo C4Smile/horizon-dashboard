@@ -33,7 +33,7 @@
       "label": "Descripción",
       "placeholder": "Alguna descripción"
     },
-    "production": {
+    "produces": {
       "label": "Produce"
     },
     "techRequirements": {
@@ -45,8 +45,26 @@
     "upkeeps": {
       "label": "Manutención"
     },
-    "buildingHasImage": {
-      "label": "Imágenes"
+    "imageId": {
+      "label": "Imagen"
+    }
+  },
+  "resource": {
+    "name": {
+      "label": "Nombre",
+      "placeholder": "ej: Materiales"
+    },
+    "baseFactor": {
+      "label": "Factor base de producción",
+      "placeholder": "ej: 1"
+    },
+    "lastUpdate": { "label": "Última actualización" },
+    "description": {
+      "label": "Descripción",
+      "placeholder": "Alguna descripción"
+    },
+    "imageId": {
+      "label": "Imagen"
     }
   },
   "user": {

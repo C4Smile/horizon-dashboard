@@ -18,6 +18,9 @@ import Account from "./Account/Account";
 // buildings
 import BuildingsPage from "./Buildings/Buildings";
 import BuildingForm from "./Buildings/BuildingForm";
+// resources
+import ResourcesPage from "./Resources/Resources";
+import ResourceForm from "./Resources/ResourceForm";
 // players
 import UsersPage from "./Users/Users";
 import UserForm from "./Users/UserForm";
@@ -35,6 +38,9 @@ export const pageId = {
   buildings: "buildings",
   buildingsNew: "buildingsNew",
   buildingsEdit: "buildingsEdit",
+  resources: "resources",
+  resourcesNew: "resourcesNew",
+  resourcesEdit: "resourcesEdit",
   // players
   users: "users",
   usersNew: "usersNew",
@@ -81,6 +87,17 @@ export const sitemap = [
           { key: pageId.buildings, path: "/", component: <BuildingsPage /> },
           { key: pageId.buildingsNew, path: "/new", component: <BuildingForm /> },
           { key: pageId.buildingsEdit, path: "/:id", component: <BuildingForm /> },
+        ],
+      },
+      {
+        key: pageId.resources,
+        path: "/game/resources",
+        component: <ModelNavigation parent="game" model="resources" />,
+        role: [Role.administrator],
+        children: [
+          { key: pageId.resources, path: "/", component: <ResourcesPage /> },
+          { key: pageId.resourcesNew, path: "/new", component: <ResourceForm /> },
+          { key: pageId.resourcesEdit, path: "/:id", component: <ResourceForm /> },
         ],
       },
       // players

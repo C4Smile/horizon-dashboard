@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useReducer, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -17,23 +17,21 @@ import { useNotification } from "../../providers/NotificationProvider";
 import { queryClient, useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // utils
-import { localPhotoReducer } from "../../components/utils";
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // loadable
 const TextInput = loadable(() => import("../../components/Forms/TextInput"));
 const HtmlInput = loadable(() => import("../../components/Forms/HtmlInput"));
-const AutocompleteInput = loadable(() => import("../../components/Forms/AutocompleteInput"));
 const ImageUploader = loadable(() => import("../../components/ImageUploader"));
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
 
 /**
- * Building Form page component
- * @returns Building Form page component
+ * Resource Form page component
+ * @returns Resource Form page component
  */
-function BuildingForm() {
+function ResourceForm() {
   const { id } = useParams();
 
   const { t } = useTranslation();
@@ -48,107 +46,86 @@ function BuildingForm() {
 
   const { handleSubmit, reset, control } = useForm();
 
-  const [photos, setPhotos] = useReducer(localPhotoReducer, []);
+  const [photo, setPhoto] = useState();
 
   const onSubmit = async (d) => {
     setSaving(true);
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.Building.create(d, photos);
-      else result = await horizonApiClient.Building.update(d, photos);
+      if (!d.id) result = await horizonApiClient.Resource.create(d, photo);
+      else result = await horizonApiClient.Resource.update(d, photo);
 
       const { error, status } = result;
-      setNotification(String(status), { model: t("_entities:entities.building") });
+      setNotification(String(status), { model: t("_entities:entities.resource") });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
       if (error && error !== null) console.error(error.message);
       else {
-        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Buildings] });
+        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Resources] });
         if (id !== undefined)
-          queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Buildings, id] });
+          queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Resources, id] });
         else {
-          setPhotos({ type: "set", items: [] });
+          setPhoto();
           reset({
             id: undefined,
             name: "",
+            baseFactor: 0,
           });
         }
       }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
-      setNotification(String(e.status), { model: t("_entities:entities.building") });
+      setNotification(String(e.status), { model: t("_entities:entities.resource") });
     }
     setSaving(false);
   };
 
-  const buildingQuery = useQuery({
-    queryKey: [ReactQueryKeys.Building, id],
-    queryFn: () => horizonApiClient.Building.getById(id),
+  const resourceQuery = useQuery({
+    queryKey: [ReactQueryKeys.Resources, id],
+    queryFn: () => horizonApiClient.Resource.getById(id),
     enabled: id !== undefined,
   });
 
   useEffect(() => {
-    const { data } = buildingQuery;
+    const { data } = resourceQuery;
     // eslint-disable-next-line no-console
     if (data && data.error) console.error(data.error.message);
     if (data?.status === 404) setNotFound(true);
-  }, [buildingQuery]);
+  }, [resourceQuery]);
 
   useEffect(() => {
-    if (buildingQuery.data?.buildingHasImage?.length)
-      setPhotos({
-        type: "set",
-        items: buildingQuery.data?.buildingHasImage.map((image) => image.imageId),
-      });
+    if (resourceQuery.data) {
+      //* PARSING PHOTO
+      setPhoto(resourceQuery.data?.resourceHasImage.imageId);
 
-    if (!id) {
-      setPhotos({ type: "set", items: [] });
-      reset({
-        id: undefined,
-        name: "",
-        subname: "",
-        resourcesId: [],
-      });
-    }
-  }, [buildingQuery.data, id, reset]);
-
-  const resourcesQuery = useQuery({
-    queryKey: [ReactQueryKeys.Resources],
-    queryFn: () => horizonApiClient.Resource.getAll(),
-  });
-
-  const resourcesList = useMemo(() => {
-    try {
-      return resourcesQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
-    } catch (err) {
-      return [];
-    }
-  }, [resourcesQuery.data]);
-
-  useEffect(() => {
-    if (buildingQuery.data) {
-      //* PARSING TAGS
-      const parsedTags = resourcesList.filter((tag) =>
-        buildingQuery?.data?.produces?.some((lTag) => lTag.tagId.id === tag.id),
-      );
       //* PARSING CONTENT
-      if (buildingQuery.data?.description && typeof buildingQuery.data?.description === "string") {
-        const html = buildingQuery.data?.description;
+      if (resourceQuery.data?.description && typeof resourceQuery.data?.description === "string") {
+        const html = resourceQuery.data?.description;
         const descriptionBlock = htmlToDraft(html);
         if (descriptionBlock) {
           const descriptionState = ContentState.createFromBlockArray(
             descriptionBlock.descriptionBlocks,
           );
           const editorState = EditorState.createWithContent(descriptionState);
-          buildingQuery.data.description = editorState;
+          resourceQuery.data.description = editorState;
         }
       }
-      setLastUpdate(buildingQuery?.data?.lastUpdate);
-      reset({ ...buildingQuery.data, resourcesId: parsedTags });
+      setLastUpdate(resourceQuery?.data?.lastUpdate);
+      reset({ ...resourceQuery.data });
     }
-  }, [resourcesList, buildingQuery.data, reset]);
+
+    if (!id) {
+      setPhoto();
+      reset({
+        id: undefined,
+        name: "",
+        baseFactor: 0,
+        description: "",
+      });
+    }
+  }, [resourceQuery.data, reset, id]);
 
   return notFound ? (
     <NotFound />
@@ -156,9 +133,9 @@ function BuildingForm() {
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <h1 className="text-2xl md:text-3xl font-bold">
-          {id ? `${t("_pages:buildings.editForm")} ${id}` : t("_pages:buildings.newForm")}
+          {id ? `${t("_pages:resources.editForm")} ${id}` : t("_pages:resources.newForm")}
         </h1>
-        {buildingQuery.isLoading ? (
+        {resourceQuery.isLoading ? (
           <Loading
             className="bg-none w-6 h-6 mb-10"
             strokeWidth="4"
@@ -175,10 +152,10 @@ function BuildingForm() {
             )}
           </div>
         )}
-        {/* Building Name */}
+        {/* Resource Name */}
         <Controller
           control={control}
-          disabled={buildingQuery.isLoading || saving}
+          disabled={resourceQuery.isLoading || saving}
           name="name"
           render={({ field }) => (
             <TextInput
@@ -187,55 +164,52 @@ function BuildingForm() {
               name="name"
               id="name"
               className="text-input peer"
-              placeholder={t("_entities:building.name.placeholder")}
-              label={t("_entities:building.name.label")}
+              placeholder={t("_entities:resource.name.placeholder")}
+              label={t("_entities:resource.name.label")}
+              required
+            />
+          )}
+        />
+        {/* Resource Base Factor */}
+        <Controller
+          control={control}
+          disabled={resourceQuery.isLoading || saving}
+          name="baseFactor"
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="text"
+              name="baseFactor"
+              id="baseFactor"
+              className="text-input peer"
+              placeholder={t("_entities:resource.baseFactor.placeholder")}
+              label={t("_entities:resource.baseFactor.label")}
               required
             />
           )}
         />
 
-        {/* Building Produces */}
-        <Controller
-          control={control}
-          name="resourcesId"
-          disabled={buildingQuery.isLoading || resourcesQuery.isLoading || saving}
-          render={({ field: { onChange, value, ...rest } }) => (
-            <AutocompleteInput
-              {...rest}
-              id="resourcesId"
-              name="resourcesId"
-              label={t("_entities:building.produces.label")}
-              placeholder={t("_entities:building.produces.placeholder")}
-              options={resourcesList}
-              value={value}
-              multiple
-              onChange={(v) => {
-                onChange(v);
-              }}
-            />
-          )}
-        />
-        {/* Building Images */}
+        {/* Resource Image */}
         <div className="my-5">
-          {buildingQuery.isLoading ? (
+          {resourceQuery.isLoading ? (
             <Loading />
           ) : (
             <ImageUploader
-              photos={photos}
-              setPhotos={setPhotos}
-              label={`${t("_entities:building.buildingHasImage.label")}`}
-              folder={`${ReactQueryKeys.Buildings}`}
+              photo={photo}
+              setPhoto={setPhoto}
+              label={`${t("_entities:resource.imageId.label")}`}
+              folder={`${ReactQueryKeys.Resources}`}
             />
           )}
         </div>
-        {/* Building description */}
+        {/* Resource description */}
         <Controller
           control={control}
           name="description"
-          disabled={buildingQuery.isLoading || resourcesQuery.isLoading || saving}
+          disabled={resourceQuery.isLoading || saving}
           render={({ field: { onChange, value, ...rest } }) => (
             <HtmlInput
-              label={t("_entities:building.description.label")}
+              label={t("_entities:resource.description.label")}
               wrapperClassName="mt-5 w-full"
               {...rest}
               value={value}
@@ -244,8 +218,8 @@ function BuildingForm() {
           )}
         />
 
-        <button type="submit" disabled={buildingQuery.isLoading || saving} className="my-5 submit">
-          {(buildingQuery.isLoading || saving) && (
+        <button type="submit" disabled={resourceQuery.isLoading || saving} className="my-5 submit">
+          {(resourceQuery.isLoading || saving) && (
             <Loading
               className="button-loading"
               strokeWidth="4"
@@ -260,4 +234,4 @@ function BuildingForm() {
   );
 }
 
-export default BuildingForm;
+export default ResourceForm;

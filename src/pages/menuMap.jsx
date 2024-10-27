@@ -15,6 +15,7 @@ export const submenuKeys = {
   Main: "main",
   // Game
   Buildings: "buildings",
+  Resources: "resources",
   // players
   Users: "users",
   Account: "account",
@@ -36,6 +37,10 @@ export const menuMap = [
       {
         label: submenuKeys.Buildings,
         path: "/buildings",
+      },
+      {
+        label: submenuKeys.Resources,
+        path: "/resources",
       },
     ],
   },

@@ -1,6 +1,7 @@
 export const ReactQueryKeys = {
   Roles: "roles",
   Buildings: "buildings",
+  Resources: "resources",
   Users: "users",
 };
 
