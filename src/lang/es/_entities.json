@@ -23,13 +23,8 @@
       "label": "Nombre",
       "placeholder": "ej: Granja"
     },
-    "baseFactor": {
-      "label": "Factor base de producción",
-      "placeholder": "ej: 1"
-    },
-    "baseUpkeep": {
-      "label": "Manutención base",
-      "placeholder": "ej: 1"
+    "imageId": {
+      "label": "Imagen"
     },
     "lastUpdate": { "label": "Última actualización" },
     "description": {
@@ -37,19 +32,44 @@
       "placeholder": "Alguna descripción"
     },
     "produces": {
-      "label": "Produce"
+      "label": "Produce",
+      "resourceId": {
+        "label": "Resource"
+      },
+      "factor": {
+        "label": "Factor base de producción",
+        "placeholder": "ej: 1"
+      }
     },
     "techRequirements": {
-      "label": "Requerimientos tecnológicos"
+      "label": "Requerimientos tecnológicos",
+      "techId": {
+        "label": "Resource"
+      },
+      "level": {
+        "label": "Nivel de tecnología",
+        "placeholder": "ej: 1"
+      }
     },
     "costs": {
-      "label": "Costos"
+      "label": "Costos",
+      "resourceId": {
+        "label": "Resource"
+      },
+      "factor": {
+        "label": "Factor base de costo",
+        "placeholder": "ej: 1"
+      }
     },
     "upkeeps": {
-      "label": "Manutención"
-    },
-    "imageId": {
-      "label": "Imagen"
+      "label": "Manutención",
+      "resourceId": {
+        "label": "Resource"
+      },
+      "factor": {
+        "label": "Factor base de costo",
+        "placeholder": "ej: 1"
+      }
     }
   },
   "resource": {
@@ -76,7 +96,8 @@
       "placeholder": "ej: Casco refinado"
     },
     "creationTime": {
-      "label": "Tiempo de investigación"
+      "label": "Tiempo de investigación",
+      "placeholder": "Se mide en días"
     },
     "typeId": {
       "label": "Tipo"
