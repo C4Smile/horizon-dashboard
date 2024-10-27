@@ -56,19 +56,19 @@ function ResourcePage() {
   const prepareRows = (resource) => {
     return {
       ...resource,
-      title: (
+      name: (
         <Link className="underline text-light-primary flex" to={`${resource.id}`}>
-          <span className="truncate">{resource.title}</span>
+          <span className="truncate">{resource.name}</span>
         </Link>
       ),
       imageId: resource.image?.url ? (
         <img
           className={`w-10 h-10 rounded-full object-cover border-white border-2`}
           src={staticUrlPhoto(resource.image.url)}
-          alt={`${resource.title}`}
+          alt={`${resource.name}`}
         />
       ) : (
-        <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={resource.title} />
+        <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={resource.name} />
       ),
     };
   };
@@ -95,7 +95,7 @@ function ResourcePage() {
       entity={Resource.className}
       columns={columns}
       columnsOptions={{ columnClasses, noSortableColumns }}
-      title={t("_pages:game.links.resources")}
+      name={t("_pages:game.links.resources")}
     />
   );
 }
