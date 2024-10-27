@@ -94,7 +94,7 @@ function ResourcePage() {
       entity={Resource.className}
       columns={columns}
       columnsOptions={{ columnClasses, noSortableColumns }}
-      name={t("_pages:game.links.resources")}
+      title={t("_pages:game.links.resources")}
     />
   );
 }

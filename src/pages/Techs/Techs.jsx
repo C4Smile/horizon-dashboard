@@ -23,6 +23,7 @@ import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 // hooks
 import { useActions } from "../../hooks/useActions";
 import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
+import { findPath, pageId } from "../sitemap";
 
 const columnClasses = {
   lastUpdate: "w-56",
@@ -60,6 +61,14 @@ function TechPage() {
           <span className="truncate">{tech.name}</span>
         </Link>
       ),
+      typeId: (
+        <Link
+          className="underline text-light-primary flex"
+          to={`${findPath(pageId.techTypesEdit)}/${tech.typeId}`}
+        >
+          <span className="truncate">{tech?.type?.name}</span>
+        </Link>
+      ),
       imageId: tech.image?.url ? (
         <img
           className={`w-10 h-10 rounded-full object-cover border-white border-2`}
@@ -94,7 +103,7 @@ function TechPage() {
       entity={Tech.className}
       columns={columns}
       columnsOptions={{ columnClasses, noSortableColumns }}
-      name={t("_pages:game.links.techs")}
+      title={t("_pages:game.links.techs")}
     />
   );
 }

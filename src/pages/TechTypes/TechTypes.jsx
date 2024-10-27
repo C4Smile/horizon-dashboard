@@ -77,7 +77,7 @@ function TechTypePage() {
       entity={TechType.className}
       columns={columns}
       columnsOptions={{ columnClasses }}
-      name={t("_pages:game.links.techTypes")}
+      title={t("_pages:game.links.techTypes")}
     />
   );
 }
