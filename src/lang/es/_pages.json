@@ -80,6 +80,12 @@
     "newForm": "Nuevo Recurso"
   },
   "techs": {
+    "tabs": {
+      "general": "Información",
+      "produces": "Producción",
+      "costs": "Costo",
+      "techRequirements": "Requerimientos tecnológicos"
+    },
     "editForm": "Editar Tecnología",
     "newForm": "Nuevo Tecnología"
   },
