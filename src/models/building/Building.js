@@ -6,6 +6,7 @@ import { Entity } from "../entity/Entity";
  */
 export class Building extends Entity {
   name = "";
+  imageId = 0;
   baseFactor = 0;
   baseUpkeep = 0;
 
