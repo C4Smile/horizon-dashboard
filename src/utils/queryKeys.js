@@ -4,6 +4,7 @@ export const ReactQueryKeys = {
   Resources: "resources",
   Users: "users",
   Techs: "techs",
+  TechCosts: "techCosts",
   TechTypes: "techTypes",
 };
 
