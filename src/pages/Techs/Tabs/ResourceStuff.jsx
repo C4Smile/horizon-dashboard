@@ -20,9 +20,9 @@ import ResourceForm from "../components/ResourceForm";
 /**
  *
  * @param {object} props component props
- * @returns TechCosts component
+ * @returns ResourceStuff component
  */
-function TechCosts(props) {
+function ResourceStuff(props) {
   const { t } = useTranslation();
 
   const { setNotification } = useNotification();
@@ -30,7 +30,7 @@ function TechCosts(props) {
 
   const [saving, setSaving] = useState(false);
 
-  const { id } = props;
+  const { id, label, entity, getFunction, queryKey } = props;
 
   const [costs, setCosts] = useReducer((state, action) => {
     const { type } = action;
@@ -61,8 +61,9 @@ function TechCosts(props) {
   }, []);
 
   const costQuery = useQuery({
-    queryKey: [ReactQueryKeys.TechCosts, id],
-    queryFn: () => horizonApiClient.Tech.getCosts(id),
+    queryKey,
+    queryFn: getFunction,
+    enabled: !!getFunction && !!queryKey,
   });
 
   useEffect(() => {
@@ -107,8 +108,6 @@ function TechCosts(props) {
     setSaving(false);
   }, [costs, horizonApiClient, id, setNotification, t]);
 
-  console.log(costs, costQuery.data);
-
   return (
     <div className="form mt-5 gap-5 w-full">
       {costs?.map((cost, i) => (
@@ -116,7 +115,7 @@ function TechCosts(props) {
           value={cost}
           resources={resourcesList}
           key={cost.resource ?? i}
-          label={`${t("_entities:tech.cost.label")} ${i + 1}`}
+          label={`${t(`_entities:${entity}.resource.${label}`)} ${i + 1}`}
           inputLabel={t("_entities:base.baseCost.label")}
           inputPlaceholder={t("_entities:base.baseCost.placeholder")}
           onChange={(value) => setCosts({ type: "modify", item: { value } })}
@@ -152,4 +151,4 @@ function TechCosts(props) {
   );
 }
 
-export default TechCosts;
+export default ResourceStuff;

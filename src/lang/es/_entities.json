@@ -113,8 +113,9 @@
     "imageId": {
       "label": "Imagen"
     },
-    "cost": {
-      "label": "Costo"
+    "resource": {
+      "cost": "Costo",
+      "production": "Producción"
     }
   },
   "techType": {

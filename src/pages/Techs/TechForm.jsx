@@ -17,7 +17,10 @@ import TabComponent from "../../components/TabComponent/TabComponent";
 import { techTabs } from "./types";
 
 // tabs
-import { GeneralInfo, Produces, Costs, TechRequirements } from "./tabs";
+import { GeneralInfo, ResourceStuff, TechRequirements } from "./tabs";
+
+// entity
+import { Tech } from "../../models/tech/Tech";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
@@ -56,11 +59,27 @@ function TechForm() {
   const content = useMemo(
     () => ({
       general: <GeneralInfo techQuery={techQuery} />,
-      produces: <Produces id={id} />,
-      costs: <Costs id={id} />,
+      produces: (
+        <ResourceStuff
+          id={id}
+          entity={Tech.className}
+          label={"production"}
+          queryKey={[ReactQueryKeys.TechProduces, id]}
+          queryFn={() => horizonApiClient.Tech.getProductions(id)}
+        />
+      ),
+      costs: (
+        <ResourceStuff
+          id={id}
+          entity={Tech.className}
+          label={"cost"}
+          queryKey={[ReactQueryKeys.TechCosts, id]}
+          queryFn={() => horizonApiClient.Tech.getCosts(id)}
+        />
+      ),
       techRequirements: <TechRequirements id={id} />,
     }),
-    [id, techQuery],
+    [horizonApiClient, id, techQuery],
   );
 
   return notFound ? <NotFound /> : <TabComponent tabs={tabs} content={content} />;
