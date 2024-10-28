@@ -17,10 +17,7 @@ import TabComponent from "../../components/TabComponent/TabComponent";
 import { techTabs } from "./types";
 
 // tabs
-import GeneralInfo from "./Tabs/GeneralInfo";
-import Produces from "./Tabs/Produces";
-import Costs from "./Tabs/Costs";
-import TechRequirements from "./Tabs/TechRequirements";
+import { GeneralInfo, Produces, Costs, TechRequirements } from "./tabs";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
