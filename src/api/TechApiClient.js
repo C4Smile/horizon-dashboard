@@ -14,17 +14,41 @@ import { makeRequest } from "../db/services";
 // base
 import { BaseApiClient } from "./utils/BaseApiClient";
 
+// api
+import { TechCostsApiClient } from "./TechCostsApiClient";
+
 /**
  * @class TechApiClient
  * @description TechApiClient
  */
 export class TechApiClient extends BaseApiClient {
+  techCosts = new TechCostsApiClient();
+
   /**
    * create base api client
    */
   constructor() {
     super();
     this.baseUrl = "techs";
+  }
+
+  /**
+   *
+   * @param {number} techId id of the tech
+   * @returns tech costs
+   */
+  async getCosts(techId) {
+    return this.techCosts.get(techId);
+  }
+
+  /**
+   *
+   * @param {number} techId tech id
+   * @param {object[]} costs costs to save
+   * @returns saved list
+   */
+  async saveCosts(techId, costs) {
+    return this.techCosts.create(techId, costs);
   }
 
   /**
