@@ -15,7 +15,8 @@
     "lastUpdate": { "label": "Última actualización" },
     "dateOfCreation": { "label": "Fecha de creación" },
     "factor": { "label": "Factor", "placeholder": "ej: 1.1" },
-    "baseCost": { "label": "Costo base", "placeholder": "ej: 100" }
+    "baseCost": { "label": "Costo base", "placeholder": "ej: 100" },
+    "baseProduction": { "label": "Producción base", "placeholder": "ej:100" }
   },
   "roles": {
     "admin": "Administrador",
