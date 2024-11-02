@@ -8,8 +8,10 @@ import { useAccount } from "../providers/AccountProvider";
 // partial
 import Notification from "../partials/Notification";
 
-import config from "../config";
+// pages
 import { findPath, pageId } from "../pages/sitemap";
+
+import config from "../config";
 
 /**
  * Auth layout
