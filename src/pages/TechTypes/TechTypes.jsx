@@ -6,12 +6,16 @@ import { Link } from "react-router-dom";
 // @sito/dashboard
 import { Table, useTableOptions } from "@sito/dashboard";
 
+// images
+import noProduct from "../../assets/images/no-product.jpg";
+
 // dto
 import { TechType } from "../../models/techType/TechType";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
+import { ReactQueryKeys } from "../../utils/queryKeys";
+import { staticUrlPhoto } from "../../components/utils";
 
 // providers
 import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
@@ -22,6 +26,10 @@ import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
 
 const columnClasses = {
   lastUpdate: "w-56",
+};
+
+const noSortableColumns = {
+  imageId: true,
 };
 
 /**
@@ -36,7 +44,7 @@ function TechTypePage() {
   const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
 
   const { data, isLoading } = useQuery({
-    queryKey: [ReactQueryKeys.TechType, sortingBy, sortingOrder, currentPage, pageSize],
+    queryKey: [ReactQueryKeys.TechTypes, sortingBy, sortingOrder, currentPage, pageSize],
     queryFn: () => horizonApiClient.TechType.getAll({ sortingBy, sortingOrder, currentPage, pageSize }),
   });
 
@@ -52,13 +60,21 @@ function TechTypePage() {
           <span className="truncate">{techType.name}</span>
         </Link>
       ),
+      imageId: techType.image?.url ? (
+        <img
+          className={`w-10 h-10 rounded-full object-cover border-white border-2`}
+          src={staticUrlPhoto(techType.image.url)}
+          alt={`${techType.name}`}
+        />
+      ) : (
+        <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={techType.name} />
+      ),
     };
   };
 
   const getActions = useActions({
     apiClient: horizonApiClient.TechType,
     queryKey: ReactQueryKeys.TechTypes,
-    parent: Parents.techType,
   });
 
   const { columns } = useParseColumns(
@@ -76,7 +92,7 @@ function TechTypePage() {
       parseRows={rows}
       entity={TechType.className}
       columns={columns}
-      columnsOptions={{ columnClasses }}
+      columnsOptions={{ columnClasses, noSortableColumns }}
       title={t("_pages:game.links.techTypes")}
     />
   );

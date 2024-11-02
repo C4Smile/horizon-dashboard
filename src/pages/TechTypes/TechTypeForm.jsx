@@ -5,13 +5,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 import loadable from "@loadable/component";
 
-// editor
-import { EditorState, ContentState } from "draft-js";
-import htmlToDraft from "html-to-draftjs";
-
 // components
 import Loading from "../../partials/loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
+import ImageUploader from "../../components/ImageUploader";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
@@ -40,6 +37,8 @@ function TechTypeForm() {
   const [saving, setSaving] = useState(false);
   const [lastUpdate, setLastUpdate] = useState();
 
+  const [photo, setPhoto] = useState();
+
   const { handleSubmit, reset, control } = useForm();
 
   const onSubmit = async (d) => {
@@ -47,8 +46,8 @@ function TechTypeForm() {
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.TechType.create(d);
-      else result = await horizonApiClient.TechType.update(d);
+      if (!d.id) result = await horizonApiClient.TechType.create(d, photo);
+      else result = await horizonApiClient.TechType.update(d, photo);
 
       const { error, status } = result;
       setNotification(String(status), { model: t("_entities:entities.techType") });
@@ -60,6 +59,7 @@ function TechTypeForm() {
         if (id !== undefined)
           queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.TechTypes, id] });
         else {
+          setPhoto();
           reset({
             id: undefined,
             name: "",
@@ -89,23 +89,15 @@ function TechTypeForm() {
 
   useEffect(() => {
     if (techTypeQuery.data) {
-      //* PARSING CONTENT
-      if (techTypeQuery.data?.description && typeof techTypeQuery.data?.description === "string") {
-        const html = techTypeQuery.data?.description;
-        const descriptionBlock = htmlToDraft(html);
-        if (descriptionBlock) {
-          const descriptionState = ContentState.createFromBlockArray(
-            descriptionBlock.descriptionBlocks,
-          );
-          const editorState = EditorState.createWithContent(descriptionState);
-          techTypeQuery.data.description = editorState;
-        }
-      }
+      //* PARSING PHOTO
+      setPhoto(techTypeQuery.data?.image);
+
       setLastUpdate(techTypeQuery?.data?.lastUpdate);
       reset({ ...techTypeQuery.data });
     }
 
     if (!id) {
+      setPhoto();
       reset({
         id: undefined,
         name: "",
@@ -140,6 +132,7 @@ function TechTypeForm() {
             )}
           </div>
         )}
+
         {/* TechType Name */}
         <Controller
           control={control}
@@ -158,6 +151,20 @@ function TechTypeForm() {
             />
           )}
         />
+
+        {/* Tech Image */}
+        <div className="my-5">
+          {techTypeQuery.isLoading ? (
+            <Loading />
+          ) : (
+            <ImageUploader
+              photo={photo}
+              setPhoto={setPhoto}
+              label={`${t("_entities:techType.imageId.label")}`}
+              folder={`${ReactQueryKeys.TechTypes}`}
+            />
+          )}
+        </div>
 
         <button type="submit" disabled={techTypeQuery.isLoading || saving} className="my-5 submit">
           {(techTypeQuery.isLoading || saving) && (
