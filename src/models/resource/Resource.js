@@ -9,6 +9,8 @@ export class Resource extends Entity {
   imageId = 0;
   baseFactor = 0;
 
+  static className = "resource";
+
   /**
    * @param {number} id - Resource id
    * @param {string} name - Resource name
@@ -28,6 +30,5 @@ export class Resource extends Entity {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.name = name;
     this.baseFactor = baseFactor;
-    Resource.className = "resource";
   }
 }

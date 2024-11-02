@@ -15,6 +15,8 @@ export class User extends Entity {
   roleId = 0;
   identification = "";
 
+  static className = "user";
+
   /**
    * @param {number} id - user id
    * @param {string} username - username
@@ -49,7 +51,6 @@ export class User extends Entity {
     this.phone = phone;
     this.address = address;
     this.identification = identification;
-    User.className = "user";
   }
 
   /**

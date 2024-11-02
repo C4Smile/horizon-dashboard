@@ -10,6 +10,8 @@ export class Tech extends Entity {
   typeId = 0;
   creationTime = 0;
 
+  static className = "tech";
+
   /**
    * @param {number} id - Tech id
    * @param {string} name - Tech name
@@ -29,6 +31,5 @@ export class Tech extends Entity {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.name = name;
     this.creationTime = creationTime;
-    Tech.className = "tech";
   }
 }

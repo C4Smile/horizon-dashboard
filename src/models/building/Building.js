@@ -10,6 +10,8 @@ export class Building extends Entity {
   baseFactor = 0;
   baseUpkeep = 0;
 
+  static className = "building";
+
   /**
    * @param {number} id - Building id
    * @param {string} name - Building name
@@ -32,6 +34,5 @@ export class Building extends Entity {
     this.name = name;
     this.baseFactor = baseFactor;
     this.baseUpkeep = baseUpkeep;
-    Building.className = "building";
   }
 }
