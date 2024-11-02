@@ -28,11 +28,14 @@ export class TechTypeApiClient extends BaseApiClient {
   /**
    * @description Create techType
    * @param {object} techType - TechType
+   * @param {object} photo - Photo
    * @returns Transaction status
    */
-  async create(techType) {
+  async create(techType, photo) {
     // default values
     techType.urlName = toSlug(techType.name);
+    // saving photo
+    if (photo) techType.imageId = photo.id;
     // call service
     const { error, data, status } = await makeRequest("techTypes", "POST", techType, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
@@ -45,11 +48,14 @@ export class TechTypeApiClient extends BaseApiClient {
   /**
    * @description Update techType
    * @param {object} techType - TechType
+   * @param {object} photo - Photo
    * @returns Transaction status
    */
-  async update(techType) {
+  async update(techType, photo) {
     // default values
     techType.urlName = toSlug(techType.name);
+    // saving photo
+    if (photo) techType.imageId = photo.id;
     // cleaning relation ships
     delete techType.tagsId;
     delete techType.techTypeHasTag;
