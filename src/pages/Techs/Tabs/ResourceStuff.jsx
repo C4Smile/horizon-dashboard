@@ -30,7 +30,7 @@ function ResourceStuff(props) {
 
   const [saving, setSaving] = useState(false);
 
-  const { id, label, entity, getFunction, queryKey } = props;
+  const { id, label, inputKey, entity, getFunction, queryKey } = props;
 
   const [costs, setCosts] = useReducer((state, action) => {
     const { type } = action;
@@ -116,8 +116,8 @@ function ResourceStuff(props) {
           resources={resourcesList}
           key={cost.resource ?? i}
           label={`${t(`_entities:${entity}.resource.${label}`)} ${i + 1}`}
-          inputLabel={t("_entities:base.baseCost.label")}
-          inputPlaceholder={t("_entities:base.baseCost.placeholder")}
+          inputLabel={t(`_entities:base.${inputKey}.label`)}
+          inputPlaceholder={t(`_entities:base.${inputKey}.placeholder`)}
           onChange={(value) => setCosts({ type: "modify", item: { value } })}
         />
       ))}
