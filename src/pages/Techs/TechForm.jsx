@@ -63,20 +63,24 @@ function TechForm() {
         <ResourceStuff
           id={id}
           entity={Tech.className}
+          entityToSave={Tech.productions}
           label={"production"}
           inputKey={"baseProduction"}
           queryKey={[ReactQueryKeys.TechProduces, id]}
           queryFn={() => horizonApiClient.Tech.getProductions(id)}
+          saveFn={async (id, data) => horizonApiClient.Tech.saveProductions(id, data)}
         />
       ),
       costs: (
         <ResourceStuff
           id={id}
           entity={Tech.className}
+          entityToSave={Tech.costs}
           label={"cost"}
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.TechCosts, id]}
           queryFn={() => horizonApiClient.Tech.getCosts(id)}
+          saveFn={async (id, data) => horizonApiClient.Tech.saveCosts(id, data)}
         />
       ),
       techRequirements: <TechRequirements id={id} />,

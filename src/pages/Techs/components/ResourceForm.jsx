@@ -20,7 +20,7 @@ const ResourceForm = memo(
     const { resources, value, onChange, label, inputLabel, inputPlaceholder } = props;
 
     const [resourceId, setResourceId] = useState(value?.resourceId);
-    const [baseCost, setBaseCost] = useState(value?.baseCost);
+    const [base, setBase] = useState(value?.base);
     const [factor, setFactor] = useState(value?.factor);
 
     const selected = useMemo(
@@ -30,7 +30,9 @@ const ResourceForm = memo(
 
     return (
       <div className="flex flex-col w-full gap-5">
-        <p className="min-w-20">{label}</p>
+        <p className="min-w-20">
+          {label} {selected?.value}
+        </p>
         <div className="flex items-start justify-start w-full gap-10">
           {selected ? (
             <img
@@ -45,15 +47,15 @@ const ResourceForm = memo(
             options={resources}
             onChange={(e) => {
               setResourceId(e.target.value);
-              onChange({ ...value, resourceId: e.target.value });
+              onChange({ ...value, resourceId: e.target.value }, "resource");
             }}
           />
           <TextInput
-            value={baseCost}
+            value={base}
             label={inputLabel}
             onChange={(e) => {
-              setBaseCost(e.target.value);
-              onChange({ ...value, baseCost: e.target.value });
+              setBase(e.target.value);
+              onChange({ ...value, base: e.target.value }, "base");
             }}
             placeholder={inputPlaceholder}
           />
@@ -62,7 +64,7 @@ const ResourceForm = memo(
             label={t("_entities:base.factor.label")}
             onChange={(e) => {
               setFactor(e.target.value);
-              onChange({ ...value, factor: e.target.value });
+              onChange({ ...value, factor: e.target.value }, "factor");
             }}
             placeholder={t("_entities:base.factor.placeholder")}
           />
