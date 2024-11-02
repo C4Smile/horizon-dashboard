@@ -123,6 +123,9 @@
       "label": "Nombre",
       "placeholder": "ej: Mejora"
     },
+    "imageId": {
+      "label": "Imagen"
+    },
     "lastUpdate": { "label": "Última actualización" }
   },
   "user": {
