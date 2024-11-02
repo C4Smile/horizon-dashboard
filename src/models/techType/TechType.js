@@ -6,6 +6,7 @@ import { Entity } from "../entity/Entity";
  */
 export class TechType extends Entity {
   name = "";
+  imageId = 0;
 
   /**
    * @param {number} id - TechType id
