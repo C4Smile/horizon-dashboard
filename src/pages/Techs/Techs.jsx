@@ -84,7 +84,7 @@ function TechPage() {
   const getActions = useActions({
     apiClient: horizonApiClient.Tech,
     queryKey: ReactQueryKeys.Techs,
-    parent: Parents.tech,
+    parent: Parents.game,
   });
 
   const { columns } = useParseColumns(

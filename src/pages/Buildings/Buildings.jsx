@@ -113,8 +113,8 @@ function BuildingPage() {
 
   const getActions = useActions({
     apiClient: horizonApiClient.Building,
-    queryKey: ReactQueryKeys.Building,
-    parent: Parents.building,
+    queryKey: ReactQueryKeys.Buildings,
+    parent: Parents.game,
   });
 
   const { columns } = useParseColumns(

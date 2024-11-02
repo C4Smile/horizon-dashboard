@@ -12,6 +12,6 @@ export const ReactQueryKeys = {
 export const entities = ["building"];
 
 export const Parents = {
-  building: "game",
+  game: "game",
   user: "players",
 };

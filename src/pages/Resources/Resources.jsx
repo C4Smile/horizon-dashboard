@@ -75,7 +75,7 @@ function ResourcePage() {
   const getActions = useActions({
     apiClient: horizonApiClient.Resource,
     queryKey: ReactQueryKeys.Resources,
-    parent: Parents.resource,
+    parent: Parents.game,
   });
 
   const { columns } = useParseColumns(
