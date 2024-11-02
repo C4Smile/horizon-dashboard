@@ -64,6 +64,7 @@ function TechForm() {
           id={id}
           entity={Tech.className}
           label={"production"}
+          inputKey={"baseProduction"}
           queryKey={[ReactQueryKeys.TechProduces, id]}
           queryFn={() => horizonApiClient.Tech.getProductions(id)}
         />
@@ -73,6 +74,7 @@ function TechForm() {
           id={id}
           entity={Tech.className}
           label={"cost"}
+          inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.TechCosts, id]}
           queryFn={() => horizonApiClient.Tech.getCosts(id)}
         />
