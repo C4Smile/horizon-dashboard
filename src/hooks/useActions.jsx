@@ -13,7 +13,7 @@ import { useNotification } from "../providers/NotificationProvider";
 import { queryClient } from "../providers/HorizonApiProvider";
 
 // pages
-import { pageId } from "../pages/sitemap";
+import { findPath } from "../pages/sitemap";
 
 /**
  * useActions hook
@@ -27,14 +27,14 @@ export const useActions = (props) => {
 
   const { setNotification } = useNotification();
 
-  const { parent, apiClient, queryKey, actions = [], canEdit = true, canDelete = true } = props;
+  const { apiClient, queryKey, actions = [], canEdit = true, canDelete = true } = props;
 
   const getActions = useMemo(() => {
     const toReturn = [...actions];
     if (canEdit)
       toReturn.push({
         id: "edit",
-        onClick: (e) => navigate(`/${parent}/${pageId[queryKey]}/${e.id}`),
+        onClick: (e) => navigate(`${findPath(queryKey)}/${e.id}`),
         icon: <FontAwesomeIcon icon={faPencil} />,
         tooltip: t("_accessibility:buttons.edit"),
       });
@@ -78,7 +78,7 @@ export const useActions = (props) => {
         },
       );
     return toReturn;
-  }, [actions, apiClient, canDelete, canEdit, navigate, parent, queryKey, setNotification, t]);
+  }, [actions, apiClient, canDelete, canEdit, navigate, queryKey, setNotification, t]);
 
   return getActions;
 };
