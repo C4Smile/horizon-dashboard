@@ -54,7 +54,7 @@ export class TechApiClient extends BaseApiClient {
   /**
    * @description Create tech
    * @param {object} tech - Tech
-   * @param {object[]} photo - Photo
+   * @param {object} photo - Photo
    * @returns Transaction status
    */
   async create(tech, photo) {
@@ -76,7 +76,7 @@ export class TechApiClient extends BaseApiClient {
   /**
    * @description Update tech
    * @param {object} tech - Tech
-   * @param {object[]} photo - photo
+   * @param {object} photo - photo
    * @returns Transaction status
    */
   async update(tech, photo) {
