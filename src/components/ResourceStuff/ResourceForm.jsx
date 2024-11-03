@@ -1,14 +1,16 @@
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+// icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+
 // utils
 import { staticUrlPhoto } from "../utils";
 
 // components
 import TextInput from "../Forms/TextInput";
 import SelectInput from "../Forms/SelectInput";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 /**
  *
@@ -84,15 +86,13 @@ const ResourceForm = memo(
       prev.inputLabel !== next.inputLabel ||
       prev.inputPlaceholder !== next.inputPlaceholder ||
       prev.label !== next.label
-    )
+    ) {
       return false;
+    }
 
-    if (
-      prev.value?.resource !== next.value?.resource ||
-      prev.value?.base !== next.value?.base ||
-      prev.value?.factor !== next.value?.factor
-    )
+    if (prev.value !== next.value) {
       return false;
+    }
 
     return true;
   },
