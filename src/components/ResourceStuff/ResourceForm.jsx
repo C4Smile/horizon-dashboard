@@ -1,4 +1,4 @@
-import { memo, useMemo, useState } from "react";
+import { memo, useMemo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 // icons
@@ -26,6 +26,13 @@ const ResourceForm = memo(
     const [resourceId, setResourceId] = useState(value?.resourceId);
     const [base, setBase] = useState(value?.base);
     const [factor, setFactor] = useState(value?.factor);
+
+    // Sincroniza el estado local con el valor prop
+    useEffect(() => {
+      setResourceId(value?.resourceId);
+      setBase(value?.base);
+      setFactor(value?.factor);
+    }, [value]);
 
     const selected = useMemo(
       () => resources.find((item) => Number(value?.resourceId) === item.id),
