@@ -23,17 +23,17 @@ const TechForm = memo(
 
     const { techs, value, onChange, onDelete, label, inputLabel, inputPlaceholder } = props;
 
-    const [techId, setTechId] = useState(value?.techId);
+    const [techReqId, setTechReqId] = useState(value?.techReqId);
     const [level, setLevel] = useState(value?.level);
 
     useEffect(() => {
-      setTechId(value?.techId);
+      setTechReqId(value?.techReqId);
       setLevel(value?.level);
     }, [value]);
 
     const selected = useMemo(
-      () => techs.find((item) => Number(value?.techId) === item.id),
-      [techs, value?.techId],
+      () => techs.find((item) => Number(value?.techReqId) === item.id),
+      [techs, value?.techReqId],
     );
 
     return (
@@ -51,11 +51,11 @@ const TechForm = memo(
           ) : null}
           <SelectInput
             label={t("_entities:entities.tech")}
-            value={techId}
+            value={techReqId}
             options={techs}
             onChange={(e) => {
-              setTechId(e.target.value);
-              onChange({ ...value, techId: e.target.value }, "tech");
+              setTechReqId(e.target.value);
+              onChange({ ...value, techReqId: e.target.value }, "tech");
             }}
           />
           <TextInput
@@ -67,7 +67,10 @@ const TechForm = memo(
             }}
             placeholder={inputPlaceholder}
           />
-          <button onClick={() => onDelete(techId)} className="">
+          <button
+            onClick={() => onDelete(techReqId)}
+            className="w-10 h-10 min-w-10 rounded-full bg-red-600 text-white self-center"
+          >
             <FontAwesomeIcon icon={faTrash} />
           </button>
         </div>

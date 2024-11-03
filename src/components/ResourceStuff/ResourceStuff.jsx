@@ -28,6 +28,8 @@ function ResourceStuff(props) {
   const { setNotification } = useNotification();
   const horizonApiClient = useHorizonApiClient();
 
+  const [old, setOld] = useState();
+
   const [saving, setSaving] = useState(false);
 
   const { id, label, inputKey, entity, entityToSave, queryFn, saveFn, queryKey } = props;
@@ -91,6 +93,10 @@ function ResourceStuff(props) {
     }
   }, [resourcesQuery.data]);
 
+  useEffect(() => {
+    setOld(resourcesList);
+  }, [resourcesList]);
+
   const save = useCallback(async () => {
     setSaving(true);
     try {
@@ -118,7 +124,7 @@ function ResourceStuff(props) {
         <ResourceForm
           value={cost}
           resources={resourcesList}
-          key={i}
+          key={`${cost.resourceId}-${i}`}
           label={`${t(`_entities:${entity}.resource.${label}`)}`}
           inputLabel={t(`_entities:base.${inputKey}.label`)}
           inputPlaceholder={t(`_entities:base.${inputKey}.placeholder`)}

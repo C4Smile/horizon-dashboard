@@ -63,7 +63,7 @@ function TechForm() {
         <ResourceStuff
           id={id}
           entity={Tech.className}
-          entityToSave={Tech.production}
+          entityToSave={Tech.resourceUpgrade}
           label={"production"}
           inputKey={"baseProduction"}
           queryKey={[ReactQueryKeys.TechProduces, id]}
@@ -87,7 +87,7 @@ function TechForm() {
         <TechsStuff
           id={id}
           entity={Tech.className}
-          entityToSave={Tech.requirement}
+          entityToSave={Tech.techRequirement}
           label={"req"}
           inputKey={"techLevel"}
           queryKey={[ReactQueryKeys.techReqTechs, id]}

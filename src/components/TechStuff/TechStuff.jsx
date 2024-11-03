@@ -45,17 +45,17 @@ function TechStuff(props) {
       }
       case "modify": {
         const { item } = action;
-        const found = state.findIndex((jtem) =>
+        const found = state.findIndex((jtem, i) =>
           item.attribute === "tech"
-            ? item.value.level === jtem.level
-            : item.value.techId === jtem.techId,
+            ? item.value.level === jtem.level && item.index === i
+            : item.value.techReqId === jtem.techReqId,
         );
         if (found >= 0) state[found] = item.value;
         return [...state];
       }
       case "delete": {
-        const { techId } = action;
-        const found = state.findIndex((jtem) => techId === jtem.techId);
+        const { techReqId } = action;
+        const found = state.findIndex((jtem) => techReqId === jtem.techReqId);
         if (found >= 0) state.splice(found, 1);
         return [...state];
       }
@@ -113,16 +113,18 @@ function TechStuff(props) {
 
   return (
     <div className="form mt-5 gap-5 w-full">
-      {lists?.map((cost, i) => (
+      {lists?.map((techReq, i) => (
         <TechForm
-          value={cost}
+          value={techReq}
           techs={techsList}
-          key={i}
+          key={`${techReq.techReqId}-${i}`}
           label={`${t(`_entities:${entity}.tech.${label}`)}`}
           inputLabel={t(`_entities:base.${inputKey}.label`)}
           inputPlaceholder={t(`_entities:base.${inputKey}.placeholder`)}
-          onChange={(value, attribute) => setLists({ type: "modify", item: { value, attribute } })}
-          onDelete={(techId) => setLists({ type: "delete", techId })}
+          onChange={(value, attribute) =>
+            setLists({ type: "modify", item: { value, attribute, index: i } })
+          }
+          onDelete={(techReqId) => setLists({ type: "delete", techReqId, index: i })}
         />
       ))}
       <div className="flex gap-3 absolute bottom-6 left-6">
@@ -143,7 +145,7 @@ function TechStuff(props) {
           onClick={() =>
             setLists({
               type: "add",
-              item: { techId: techsList[0].id, level: 1 },
+              item: { techReqId: techsList[0].id, level: 1 },
             })
           }
           className={`${lists.length >= techsList.length ? "bg-ocean/80 text-white/60" : "bg-ocean text-white"} w-10 h-10 rounded-full`}
