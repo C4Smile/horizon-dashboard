@@ -49,9 +49,10 @@ export class TechApiClient extends BaseApiClient {
    *
    * @param {number} techId tech id
    * @param {object[]} costs costs to save
+   * @param {object[]} oldList old items
    * @returns saved list
    */
-  async saveCosts(techId, costs) {
+  async saveCosts(techId, costs, oldList) {
     return this.techCosts.create(techId, costs);
   }
 
@@ -68,10 +69,11 @@ export class TechApiClient extends BaseApiClient {
    *
    * @param {number} techId tech id
    * @param {object[]} productions productions to save
+   * @param {object[]} oldList old items
    * @returns saved list
    */
-  async saveProductions(techId, productions) {
-    return this.techProductions.create(techId, productions);
+  async saveProductions(techId, productions, oldList) {
+    return this.techProductions.create(techId, productions, oldList);
   }
 
   /**
@@ -87,10 +89,11 @@ export class TechApiClient extends BaseApiClient {
    *
    * @param {number} techId tech id
    * @param {object[]} techRequirements productions to save
+   * @param {object[]} oldList old items
    * @returns saved list
    */
-  async saveReqTechs(techId, techRequirements) {
-    return this.techReqTechs.create(techId, techRequirements);
+  async saveReqTechs(techId, techRequirements, oldList) {
+    return this.techReqTechs.create(techId, techRequirements, oldList);
   }
 
   /**
