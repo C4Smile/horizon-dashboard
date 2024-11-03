@@ -57,7 +57,6 @@ function ResourceStuff(props) {
         const { resourceId } = action;
         const found = state.findIndex((jtem) => resourceId === jtem.resourceId);
         if (found >= 0) state.splice(found, 1);
-        console.log(state);
         return [...state];
       }
       default:
