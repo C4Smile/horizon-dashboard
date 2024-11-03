@@ -44,7 +44,7 @@ const TechForm = memo(
         <div className="flex items-start justify-start w-full gap-10">
           {selected ? (
             <img
-              className="w-10 h-10 rounded-full object-cover"
+              className="w-10 h-10 rounded-full object-cover self-center"
               src={staticUrlPhoto(selected.image.url)}
               alt={selected.value}
             />
