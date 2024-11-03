@@ -18,6 +18,9 @@ import "./i18.js";
 import "./index.css";
 import "./components/Forms/styles.css";
 
+// fonts
+import "@fontsource/poppins";
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Router>
     <ThemeProvider>
