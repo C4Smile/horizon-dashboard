@@ -1,5 +1,5 @@
 import GeneralInfo from "./GeneralInfo";
 import ResourceStuff from "../../../components/ResourceStuff/ResourceStuff";
-import TechRequirements from "./TechRequirements";
+import TechsStuff from "../../../components/TechStuff/TechStuff";
 
-export { GeneralInfo, ResourceStuff, TechRequirements };
+export { GeneralInfo, ResourceStuff, TechsStuff };

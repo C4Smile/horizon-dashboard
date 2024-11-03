@@ -7,6 +7,7 @@ export const ReactQueryKeys = {
   TechCosts: "techCosts",
   TechProduces: "techProduces",
   TechTypes: "techTypes",
+  TechRequirements: "techReqTechs",
 };
 
 export const entities = ["building"];

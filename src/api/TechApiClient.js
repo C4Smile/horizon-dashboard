@@ -17,6 +17,7 @@ import { BaseApiClient } from "./utils/BaseApiClient";
 // api
 import { TechCostsApiClient } from "./TechCostsApiClient";
 import { TechProducesApiClient } from "./TechProducesApiClient";
+import { TechReqTechsApiClient } from "./TechReqTechsApiClient";
 
 /**
  * @class TechApiClient
@@ -25,6 +26,7 @@ import { TechProducesApiClient } from "./TechProducesApiClient";
 export class TechApiClient extends BaseApiClient {
   techCosts = new TechCostsApiClient();
   techProductions = new TechProducesApiClient();
+  techReqTechs = new TechReqTechsApiClient();
 
   /**
    * create base api client
@@ -70,6 +72,25 @@ export class TechApiClient extends BaseApiClient {
    */
   async saveProductions(techId, productions) {
     return this.techProductions.create(techId, productions);
+  }
+
+  /**
+   *
+   * @param {number} techId id of the tech
+   * @returns tech costs
+   */
+  async getReqTechs(techId) {
+    return this.techReqTechs.get(techId);
+  }
+
+  /**
+   *
+   * @param {number} techId tech id
+   * @param {object[]} techRequirements productions to save
+   * @returns saved list
+   */
+  async saveReqTechs(techId, techRequirements) {
+    return this.techReqTechs.create(techId, techRequirements);
   }
 
   /**

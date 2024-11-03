@@ -1,1 +1,1 @@
-export const techTabs = ["general", "produces", "costs", "techRequirements"];
+export const techTabs = ["general", "produces", "costs", "techReqTechs"];

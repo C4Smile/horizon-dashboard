@@ -8,6 +8,7 @@
     "tech": "Tecnología",
     "techCost": "Coste de Tecnología",
     "techProduction": "Producción de tecnología",
+    "reqTech": "Requerimiento tecnológico",
     "techType": "Tipo de Tecnología"
   },
   "base": {
@@ -17,7 +18,8 @@
     "dateOfCreation": { "label": "Fecha de creación" },
     "factor": { "label": "Factor", "placeholder": "ej: 1.1" },
     "baseCost": { "label": "Costo base", "placeholder": "ej: 100" },
-    "baseProduction": { "label": "Producción base", "placeholder": "ej:100" }
+    "baseProduction": { "label": "Producción base", "placeholder": "ej:100" },
+    "techLevel": { "label": "Nivel de investigación", "placeholder": "ej:1" }
   },
   "roles": {
     "admin": "Administrador",
@@ -46,10 +48,10 @@
         "placeholder": "ej: 1"
       }
     },
-    "techRequirements": {
+    "techReqTechs": {
       "label": "Requerimientos tecnológicos",
       "techId": {
-        "label": "Resource"
+        "label": "Tecnologia"
       },
       "level": {
         "label": "Nivel de tecnología",
@@ -118,6 +120,9 @@
     "resource": {
       "cost": "Costo",
       "production": "Producción"
+    },
+    "tech": {
+      "req": "Requiere"
     }
   },
   "techType": {

@@ -17,7 +17,7 @@ import TabComponent from "../../components/TabComponent/TabComponent";
 import { techTabs } from "./types";
 
 // tabs
-import { GeneralInfo, ResourceStuff, TechRequirements } from "./tabs";
+import { GeneralInfo, ResourceStuff, TechsStuff } from "./tabs";
 
 // entity
 import { Tech } from "../../models/tech/Tech";
@@ -83,7 +83,18 @@ function TechForm() {
           saveFn={async (id, data) => horizonApiClient.Tech.saveCosts(id, data)}
         />
       ),
-      techRequirements: <TechRequirements id={id} />,
+      techReqTechs: (
+        <TechsStuff
+          id={id}
+          entity={Tech.className}
+          entityToSave={Tech.requirement}
+          label={"req"}
+          inputKey={"techLevel"}
+          queryKey={[ReactQueryKeys.techReqTechs, id]}
+          queryFn={() => horizonApiClient.Tech.getReqTechs(id)}
+          saveFn={async (id, data) => horizonApiClient.Tech.saveReqTechs(id, data)}
+        />
+      ),
     }),
     [horizonApiClient, id, techQuery],
   );
