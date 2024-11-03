@@ -45,7 +45,7 @@ function TechPage() {
   const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
 
   const { data, isLoading } = useQuery({
-    queryKey: [ReactQueryKeys.Tech, sortingBy, sortingOrder, currentPage, pageSize],
+    queryKey: [ReactQueryKeys.Techs, sortingBy, sortingOrder, currentPage, pageSize],
     queryFn: () => horizonApiClient.Tech.getAll({ sortingBy, sortingOrder, currentPage, pageSize }),
   });
 
