@@ -47,7 +47,7 @@ const ResourceForm = memo(
         <div className="flex items-start justify-start w-full gap-10">
           {selected ? (
             <img
-              className="w-10 h-10 rounded-full object-cover"
+              className="w-10 h-10 rounded-full object-cover self-center"
               src={staticUrlPhoto(selected.image.url)}
               alt={selected.value}
             />
@@ -79,7 +79,10 @@ const ResourceForm = memo(
             }}
             placeholder={t("_entities:base.factor.placeholder")}
           />
-          <button onClick={() => onDelete(resourceId)} className="">
+          <button
+            onClick={() => onDelete(resourceId)}
+            className="w-10 h-10 min-w-10 rounded-full bg-red-600 text-white self-center"
+          >
             <FontAwesomeIcon icon={faTrash} />
           </button>
         </div>
