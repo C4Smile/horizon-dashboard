@@ -6,9 +6,9 @@
     "building": "Edificio",
     "resource": "Recurso",
     "tech": "Tecnología",
-    "techCost": "Coste de Tecnología",
-    "techProduction": "Producción de tecnología",
-    "reqTech": "Requerimiento tecnológico",
+    "techCosts": "Coste de Tecnología",
+    "techProduces": "Producción de tecnología",
+    "techReqTechs": "Requerimiento tecnológico",
     "techType": "Tipo de Tecnología"
   },
   "base": {
@@ -119,7 +119,7 @@
     },
     "resource": {
       "cost": "Costo",
-      "production": "Producción"
+      "production": "Mejora de producción"
     },
     "tech": {
       "req": "Requiere"
