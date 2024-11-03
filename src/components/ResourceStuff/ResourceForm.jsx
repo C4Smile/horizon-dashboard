@@ -2,11 +2,13 @@ import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 // utils
-import { staticUrlPhoto } from "../../../components/utils";
+import { staticUrlPhoto } from "../utils";
 
 // components
-import TextInput from "../../../components/Forms/TextInput";
-import SelectInput from "../../../components/Forms/SelectInput";
+import TextInput from "../Forms/TextInput";
+import SelectInput from "../Forms/SelectInput";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 /**
  *
@@ -17,7 +19,7 @@ const ResourceForm = memo(
   function ResourceForm(props) {
     const { t } = useTranslation();
 
-    const { resources, value, onChange, label, inputLabel, inputPlaceholder } = props;
+    const { resources, value, onChange, onDelete, label, inputLabel, inputPlaceholder } = props;
 
     const [resourceId, setResourceId] = useState(value?.resourceId);
     const [base, setBase] = useState(value?.base);
@@ -68,6 +70,9 @@ const ResourceForm = memo(
             }}
             placeholder={t("_entities:base.factor.placeholder")}
           />
+          <button onClick={() => onDelete(resourceId)} className="">
+            <FontAwesomeIcon icon={faTrash} />
+          </button>
         </div>
       </div>
     );

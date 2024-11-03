@@ -3,19 +3,19 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
 // utils
-import { ReactQueryKeys } from "../../../utils/queryKeys";
+import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // providers
-import { useNotification } from "../../../providers/NotificationProvider";
-import { queryClient, useHorizonApiClient } from "../../../providers/HorizonApiProvider";
+import { useNotification } from "../../providers/NotificationProvider";
+import { queryClient, useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faSave } from "@fortawesome/free-solid-svg-icons";
 
 // components
-import Loading from "../../../partials/loading/Loading";
-import ResourceForm from "../components/ResourceForm";
+import Loading from "../../partials/loading/Loading";
+import ResourceForm from "./ResourceForm";
 
 /**
  *
@@ -54,9 +54,10 @@ function ResourceStuff(props) {
         return [...state];
       }
       case "delete": {
-        const { item } = action;
-        const found = state.findIndex((jtem) => item.resourceId === jtem.resourceId);
+        const { resourceId } = action;
+        const found = state.findIndex((jtem) => resourceId === jtem.resourceId);
         if (found >= 0) state.splice(found, 1);
+        console.log(state);
         return [...state];
       }
       default:
@@ -123,6 +124,7 @@ function ResourceStuff(props) {
           inputLabel={t(`_entities:base.${inputKey}.label`)}
           inputPlaceholder={t(`_entities:base.${inputKey}.placeholder`)}
           onChange={(value, attribute) => setLists({ type: "modify", item: { value, attribute } })}
+          onDelete={(resourceId) => setLists({ type: "delete", resourceId })}
         />
       ))}
       <div className="flex gap-3 absolute bottom-6 left-6">
