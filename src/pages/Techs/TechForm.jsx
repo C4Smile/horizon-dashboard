@@ -67,8 +67,11 @@ function TechForm() {
           label={"production"}
           inputKey={"baseProduction"}
           queryKey={[ReactQueryKeys.TechProduces, id]}
-          queryFn={() => horizonApiClient.Tech.getProductions(id)}
-          saveFn={async (id, data) => horizonApiClient.Tech.saveProductions(id, data)}
+          queryFn={() => horizonApiClient.Tech.techProductions.get(id)}
+          saveFn={async (id, data) => horizonApiClient.Tech.techProductions.create(id, data)}
+          deleteFn={async (id, resourceId) =>
+            horizonApiClient.Tech.techProductions.deleteSingle(id, resourceId)
+          }
         />
       ),
       costs: (
@@ -79,8 +82,11 @@ function TechForm() {
           label={"cost"}
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.TechCosts, id]}
-          queryFn={() => horizonApiClient.Tech.getCosts(id)}
-          saveFn={async (id, data) => horizonApiClient.Tech.saveCosts(id, data)}
+          queryFn={() => horizonApiClient.Tech.techCosts.get(id)}
+          saveFn={async (id, data) => horizonApiClient.Tech.techCosts.create(id, data)}
+          deleteFn={async (id, resourceId) =>
+            horizonApiClient.Tech.techCosts.deleteSingle(id, resourceId)
+          }
         />
       ),
       techReqTechs: (
@@ -91,8 +97,11 @@ function TechForm() {
           label={"req"}
           inputKey={"techLevel"}
           queryKey={[ReactQueryKeys.techReqTechs, id]}
-          queryFn={() => horizonApiClient.Tech.getReqTechs(id)}
-          saveFn={async (id, data) => horizonApiClient.Tech.saveReqTechs(id, data)}
+          queryFn={() => horizonApiClient.Tech.techReqTechs.get(id)}
+          saveFn={async (id, data) => horizonApiClient.Tech.techReqTechs.create(id, data)}
+          deleteFn={async (id, resourceId) =>
+            horizonApiClient.Tech.techReqTechs.deleteSingle(id, resourceId)
+          }
         />
       ),
     }),

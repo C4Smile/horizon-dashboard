@@ -11,11 +11,18 @@ import { queryClient, useHorizonApiClient } from "../../providers/HorizonApiProv
 
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd, faSave } from "@fortawesome/free-solid-svg-icons";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
+
+// hooks
+import { useFormDialog } from "../Dialogs/useFormDialog";
+
+// partials
+import Loading from "../../partials/loading/Loading";
 
 // components
-import Loading from "../../partials/loading/Loading";
+import FormDialog from "../Dialogs/FormDialog";
 import TechForm from "./TechForm";
+import TechRow from "./TechRow";
 
 /**
  *
@@ -30,8 +37,9 @@ function TechStuff(props) {
 
   const [saving, setSaving] = useState(false);
 
-  const { id, label, inputKey, entity, entityToSave, queryFn, saveFn, queryKey } = props;
+  const { id, label, inputKey, entity, entityToSave, queryFn, saveFn, deleteFn, queryKey } = props;
 
+  const [initial, setInitial] = useState({});
   const [lists, setLists] = useReducer((state, action) => {
     const { type } = action;
     switch (type) {
@@ -45,11 +53,7 @@ function TechStuff(props) {
       }
       case "modify": {
         const { item } = action;
-        const found = state.findIndex((jtem, i) =>
-          item.attribute === "tech"
-            ? item.value.level === jtem.level && item.index === i
-            : item.value.techReqId === jtem.techReqId,
-        );
+        const found = state.findIndex((jtem) => item.value.techReqId === jtem.techReqId);
         if (found >= 0) state[found] = item.value;
         return [...state];
       }
@@ -90,67 +94,113 @@ function TechStuff(props) {
     }
   }, [techsQuery.data]);
 
-  const save = useCallback(async () => {
-    setSaving(true);
-    try {
-      const result = await saveFn(id, lists);
+  const save = useCallback(
+    async (value) => {
+      setSaving(true);
+      try {
+        const { error, status } = await saveFn(id, value);
+        setNotification(String(status), { model: t(`_entities:entities.${entityToSave}`) });
 
-      const { error, status } = result;
-      setNotification(String(status), { model: t(`_entities:entities.${entityToSave}`) });
-
-      // eslint-disable-next-line no-console
-      if (error && error !== null) console.error(error.message);
-      else {
-        queryClient.invalidateQueries({ queryKey: [queryKey] });
+        // eslint-disable-next-line no-console
+        if (error && error !== null) console.error(error.message);
+        else {
+          queryClient.invalidateQueries({ queryKey });
+        }
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(e);
+        setNotification(String(e.status), { model: t(`_entities:entities.${entityToSave}`) });
       }
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(e);
-      setNotification(String(e.status), { model: t(`_entities:entities.${entityToSave}`) });
-    }
-    setSaving(false);
-  }, [lists, entityToSave, id, queryKey, saveFn, setNotification, t]);
+      setSaving(false);
+    },
+    [saveFn, id, setNotification, t, entityToSave, queryKey],
+  );
+
+  const onSubmit = useCallback(
+    (d) => {
+      const value = { techReqId: d.techReqId, base: Number(d.base), factor: Number(d.factor) };
+      setInitial();
+      save(value);
+    },
+    [save],
+  );
+
+  const formProps = useFormDialog({
+    initial,
+    submit: onSubmit,
+  });
+
+  const openDialog = useCallback(
+    (techReqId) => {
+      const selected = lists.find((res) => res.techReqId === techReqId);
+      if (selected) setInitial(selected);
+      formProps.dialogProps.open();
+    },
+    [formProps.dialogProps, lists],
+  );
+
+  const onDelete = useCallback(
+    async (techReqId) => {
+      setSaving(true);
+      try {
+        const { error } = await deleteFn(id, techReqId);
+        setNotification("deleted", { count: 1 });
+
+        // eslint-disable-next-line no-console
+        if (error && error !== null) console.error(error.message);
+        else queryClient.invalidateQueries({ queryKey });
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(e);
+        setNotification(String(e.status), { model: t(`_entities:entities.${entityToSave}`) });
+      }
+
+      setSaving(false);
+    },
+    [deleteFn, entityToSave, id, queryKey, setNotification, t],
+  );
 
   return (
     <div className="form mt-5 gap-5 w-full">
-      {lists?.map((techReq, i) => (
+      <FormDialog {...formProps}>
         <TechForm
+          currentList={lists}
+          techs={techsList}
+          label={`${t(`_entities:${entity}.tech.${label}`)}`}
+          inputLabel={t(`_entities:base.${inputKey}.label`)}
+          inputPlaceholder={t(`_entities:base.${inputKey}.placeholder`)}
+          {...formProps}
+        />
+      </FormDialog>
+      {lists?.map((techReq, i) => (
+        <TechRow
           value={techReq}
           techs={techsList}
+          disabled={saving}
           key={`${techReq.techReqId}-${i}`}
           label={`${t(`_entities:${entity}.tech.${label}`)}`}
           inputLabel={t(`_entities:base.${inputKey}.label`)}
           inputPlaceholder={t(`_entities:base.${inputKey}.placeholder`)}
-          onChange={(value, attribute) =>
-            setLists({ type: "modify", item: { value, attribute, index: i } })
-          }
-          onDelete={(techReqId) => setLists({ type: "delete", techReqId, index: i })}
+          onEdit={(techReqId) => openDialog(techReqId)}
+          onDelete={onDelete}
         />
       ))}
       <div className="flex gap-3 absolute bottom-6 left-6">
-        <button onClick={save} className={"bg-primary text-white w-10 h-10 rounded-full"}>
+        <button
+          disabled={saving || lists.length >= techsList.length}
+          onClick={() => openDialog()}
+          className={`${lists.length >= techsList.length ? "bg-ocean/80 text-white/60" : "bg-ocean text-white"} w-10 h-10 rounded-full`}
+        >
           {saving ? (
             <Loading
-              className="button-loading"
+              className="button-loading no-bg"
               strokeWidth="4"
               loaderClass="!w-6"
               color="stroke-white"
             />
           ) : (
-            <FontAwesomeIcon icon={faSave} />
+            <FontAwesomeIcon icon={faAdd} />
           )}
-        </button>
-        <button
-          disabled={saving || lists.length >= techsList.length}
-          onClick={() =>
-            setLists({
-              type: "add",
-              item: { techReqId: techsList[0].id, level: 1 },
-            })
-          }
-          className={`${lists.length >= techsList.length ? "bg-ocean/80 text-white/60" : "bg-ocean text-white"} w-10 h-10 rounded-full`}
-        >
-          <FontAwesomeIcon icon={faAdd} />
         </button>
       </div>
     </div>

@@ -11,7 +11,7 @@ import { queryClient, useHorizonApiClient } from "../../providers/HorizonApiProv
 
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAdd, faSave } from "@fortawesome/free-solid-svg-icons";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 // hooks
 import { useFormDialog } from "../Dialogs/useFormDialog";
@@ -35,11 +35,9 @@ function ResourceStuff(props) {
   const { setNotification } = useNotification();
   const horizonApiClient = useHorizonApiClient();
 
-  const [old, setOld] = useState([]);
-
   const [saving, setSaving] = useState(false);
 
-  const { id, label, inputKey, entity, entityToSave, queryFn, saveFn, queryKey } = props;
+  const { id, label, inputKey, entity, entityToSave, queryFn, saveFn, deleteFn, queryKey } = props;
 
   const [initial, setInitial] = useState({});
   const [lists, setLists] = useReducer((state, action) => {
@@ -97,44 +95,35 @@ function ResourceStuff(props) {
     }
   }, [resourcesQuery.data]);
 
-  useEffect(() => {
-    setOld(costQuery?.data?.items);
-  }, [costQuery?.data?.items]);
+  const save = useCallback(
+    async (value) => {
+      setSaving(true);
+      try {
+        const { error, status } = await saveFn(id, value);
+        setNotification(String(status), { model: t(`_entities:entities.${entityToSave}`) });
 
-  const save = useCallback(async () => {
-    setSaving(true);
-    try {
-      console.log(lists, old, id);
-      const result = await saveFn(id, lists, old);
-
-      const { error, status } = result;
-      setNotification(String(status), { model: t(`_entities:entities.${entityToSave}`) });
-
-      // eslint-disable-next-line no-console
-      if (error && error !== null) console.error(error.message);
-      else {
-        queryClient.invalidateQueries({ queryKey: [queryKey] });
+        // eslint-disable-next-line no-console
+        if (error && error !== null) console.error(error.message);
+        else {
+          queryClient.invalidateQueries({ queryKey });
+        }
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(e);
+        setNotification(String(e.status), { model: t(`_entities:entities.${entityToSave}`) });
       }
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(e);
-      setNotification(String(e.status), { model: t(`_entities:entities.${entityToSave}`) });
-    }
-    setSaving(false);
-  }, [saveFn, id, lists, old, setNotification, t, entityToSave, queryKey]);
+      setSaving(false);
+    },
+    [saveFn, id, setNotification, t, entityToSave, queryKey],
+  );
 
   const onSubmit = useCallback(
     (d) => {
       const value = { resourceId: d.resourceId, base: Number(d.base), factor: Number(d.factor) };
-      if (initial) setLists({ type: "modify", item: { value } });
-      else
-        setLists({
-          type: "add",
-          item: { value },
-        });
       setInitial();
+      save(value);
     },
-    [initial],
+    [save],
   );
 
   const formProps = useFormDialog({
@@ -144,12 +133,32 @@ function ResourceStuff(props) {
 
   const openDialog = useCallback(
     (resourceId) => {
-      console.log(resourceId);
       const selected = lists.find((res) => res.resourceId === resourceId);
       if (selected) setInitial(selected);
       formProps.dialogProps.open();
     },
     [formProps.dialogProps, lists],
+  );
+
+  const onDelete = useCallback(
+    async (resourceId) => {
+      setSaving(true);
+      try {
+        const { error } = await deleteFn(id, resourceId);
+        setNotification("deleted", { count: 1 });
+
+        // eslint-disable-next-line no-console
+        if (error && error !== null) console.error(error.message);
+        else queryClient.invalidateQueries({ queryKey });
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(e);
+        setNotification(String(e.status), { model: t(`_entities:entities.${entityToSave}`) });
+      }
+
+      setSaving(false);
+    },
+    [deleteFn, entityToSave, id, queryKey, setNotification, t],
   );
 
   return (
@@ -167,33 +176,32 @@ function ResourceStuff(props) {
       {lists?.map((cost, i) => (
         <ResourceRow
           value={cost}
+          disabled={saving}
           resources={resourcesList}
           key={`${cost.resourceId}-${i}`}
           label={`${t(`_entities:${entity}.resource.${label}`)}`}
           inputLabel={t(`_entities:base.${inputKey}.label`)}
           onEdit={(resourceId) => openDialog(resourceId)}
-          onDelete={(resourceId) => setLists({ type: "delete", resourceId })}
+          onDelete={onDelete}
         />
       ))}
+
       <div className="flex gap-3 absolute bottom-6 left-6">
-        <button onClick={save} className={"bg-primary text-white w-10 h-10 rounded-full"}>
-          {saving ? (
-            <Loading
-              className="button-loading"
-              strokeWidth="4"
-              loaderClass="!w-6"
-              color="stroke-white"
-            />
-          ) : (
-            <FontAwesomeIcon icon={faSave} />
-          )}
-        </button>
         <button
           disabled={saving || lists.length >= resourcesList.length}
           onClick={() => openDialog()}
           className={`${lists.length >= resourcesList.length ? "bg-ocean/80 text-white/60" : "bg-ocean text-white"} w-10 h-10 rounded-full`}
         >
-          <FontAwesomeIcon icon={faAdd} />
+          {saving ? (
+            <Loading
+              className="button-loading no-bg"
+              strokeWidth="4"
+              loaderClass="!w-6"
+              color="stroke-white"
+            />
+          ) : (
+            <FontAwesomeIcon icon={faAdd} />
+          )}
         </button>
       </div>
     </div>

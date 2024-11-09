@@ -1,99 +1,53 @@
-import { memo, useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-
-// icons
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-
-// utils
-import { staticUrlPhoto } from "../utils";
 
 // components
 import TextInput from "../Forms/TextInput";
 import SelectInput from "../Forms/SelectInput";
+import { Controller } from "react-hook-form";
 
 /**
  *
  * @param {*} props - component form
  * @returns TechForm component
  */
-const TechForm = memo(
-  function TechForm(props) {
-    const { t } = useTranslation();
+const TechForm = function TechForm(props) {
+  const { t } = useTranslation();
 
-    const { techs, value, onChange, onDelete, label, inputLabel, inputPlaceholder } = props;
+  const { currentList, techs, label, inputLabel, inputPlaceholder, control } = props;
 
-    const [techReqId, setTechReqId] = useState(value?.techReqId);
-    const [level, setLevel] = useState(value?.level);
+  const options = useMemo(
+    () => techs.filter((res) => !currentList.some((rex) => rex.resourceId === res.id)),
+    [currentList, techs],
+  );
 
-    useEffect(() => {
-      setTechReqId(value?.techReqId);
-      setLevel(value?.level);
-    }, [value]);
-
-    const selected = useMemo(
-      () => techs.find((item) => Number(value?.techReqId) === item.id),
-      [techs, value?.techReqId],
-    );
-
-    return (
-      <div className="flex flex-col w-full gap-5">
-        <p className="min-w-20">
-          {label} {selected?.value}
-        </p>
-        <div className="flex items-start justify-start w-full gap-10">
-          {selected ? (
-            <img
-              className="w-10 h-10 rounded-full object-cover self-center"
-              src={staticUrlPhoto(selected.image.url)}
-              alt={selected.value}
-            />
-          ) : null}
+  return (
+    <div className="flex flex-col w-full gap-5">
+      <p className="min-w-20">{label}</p>
+      <Controller
+        control={control}
+        name="techReqId"
+        render={({ field: { onChange, value, ...rest } }) => (
           <SelectInput
             label={t("_entities:entities.tech")}
-            value={techReqId}
-            options={techs}
+            value={value}
+            options={options}
             onChange={(e) => {
-              setTechReqId(e.target.value);
-              onChange({ ...value, techReqId: e.target.value }, "tech");
+              onChange(e.target.value);
             }}
+            {...rest}
           />
-          <TextInput
-            value={level}
-            label={inputLabel}
-            onChange={(e) => {
-              setLevel(e.target.value);
-              onChange({ ...value, level: e.target.value }, "level");
-            }}
-            placeholder={inputPlaceholder}
-          />
-          <button
-            onClick={() => onDelete(techReqId)}
-            className="w-10 h-10 min-w-10 rounded-full bg-red-600 text-white self-center"
-          >
-            <FontAwesomeIcon icon={faTrash} />
-          </button>
-        </div>
-      </div>
-    );
-  },
-  (prev, next) => {
-    if (
-      prev.techs !== next.techs ||
-      prev.onChange !== next.onChange ||
-      prev.inputLabel !== next.inputLabel ||
-      prev.inputPlaceholder !== next.inputPlaceholder ||
-      prev.label !== next.label
-    ) {
-      return false;
-    }
-
-    if (prev.value !== next.value) {
-      return false;
-    }
-
-    return true;
-  },
-);
+        )}
+      />
+      <Controller
+        control={control}
+        name="level"
+        render={({ field }) => (
+          <TextInput label={inputLabel} placeholder={inputPlaceholder} {...field} />
+        )}
+      />
+    </div>
+  );
+};
 
 export default TechForm;

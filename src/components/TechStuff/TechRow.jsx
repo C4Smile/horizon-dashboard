@@ -1,4 +1,4 @@
-import { memo, useMemo, useState, useEffect } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 // icons
@@ -11,65 +11,59 @@ import { staticUrlPhoto } from "../utils";
 /**
  *
  * @param {*} props - component form
- * @returns ResourceRow component
+ * @returns TechRow component
  */
-const ResourceRow = memo(
-  function ResourceRow(props) {
+const TechRow = memo(
+  function TechRow(props) {
     const { t } = useTranslation();
 
-    const { disabled, resources, value, onDelete, onEdit, label, inputLabel } = props;
+    const { disabled, techs, value, onDelete, onEdit, label, inputLabel } = props;
 
-    const [resourceId, setResourceId] = useState(value?.resourceId);
-    const [base, setBase] = useState(value?.base);
-    const [factor, setFactor] = useState(value?.factor);
+    const [techReqId, setTechReqId] = useState(value?.techReqId);
+    const [level, setLevel] = useState(value?.level);
 
     useEffect(() => {
-      setResourceId(value?.resourceId);
-      setBase(value?.base);
-      setFactor(value?.factor);
+      setTechReqId(value?.techReqId);
+      setLevel(value?.level);
     }, [value]);
 
-    const resource = useMemo(
-      () => resources?.find((res) => res.id === value?.resourceId),
-      [resources, value?.resourceId],
+    const selected = useMemo(
+      () => techs.find((item) => Number(value?.techReqId) === item.id),
+      [techs, value?.techReqId],
     );
 
     return (
       <div className="flex flex-col w-full gap-5">
         <p className="min-w-20">
-          {label} {resource?.value}
+          {label} {selected?.value}
         </p>
         <div className="flex items-start justify-start w-full gap-10">
-          {resource ? (
+          {selected ? (
             <img
               className="w-16 h-16 rounded-full object-cover self-center"
-              src={staticUrlPhoto(resource?.image.url)}
-              alt={resource?.value}
+              src={staticUrlPhoto(selected.image.url)}
+              alt={selected.value}
             />
           ) : null}
-          <p>
-            {t("_entities:entities.resource")} <br />
-            <span className="text-primary text-xl">{resource?.value}</span>
+          <p className="text-base">
+            {t("_entities:entities.tech")} <br />
+            <span className="text-primary text-xl">{selected?.value}</span>
           </p>
           <p className="text-base">
             {inputLabel} <br />
-            <span className="text-primary text-xl">{base}</span>
-          </p>
-          <p className="text-base">
-            {t("_entities:base.factor.label")} <br />
-            <span className="text-primary text-xl">{factor}</span>
+            <span className="text-primary text-xl">{level}</span>
           </p>
           <div className="flex gap-2 my-auto">
             <button
               disabled={disabled}
-              onClick={() => onEdit(resourceId)}
+              onClick={() => onEdit(techReqId)}
               className="w-10 h-10 min-w-10 rounded-full bg-primary text-white self-center"
             >
               <FontAwesomeIcon icon={faPencil} />
             </button>
             <button
               disabled={disabled}
-              onClick={() => onDelete(resourceId)}
+              onClick={() => onDelete(techReqId)}
               className="w-10 h-10 min-w-10 rounded-full bg-red-600 text-white self-center"
             >
               <FontAwesomeIcon icon={faTrash} />
@@ -81,7 +75,8 @@ const ResourceRow = memo(
   },
   (prev, next) => {
     if (
-      prev.resource !== next.resource ||
+      prev.techs !== next.techs ||
+      prev.onChange !== next.onChange ||
       prev.inputLabel !== next.inputLabel ||
       prev.inputPlaceholder !== next.inputPlaceholder ||
       prev.label !== next.label
@@ -97,4 +92,4 @@ const ResourceRow = memo(
   },
 );
 
-export default ResourceRow;
+export default TechRow;
