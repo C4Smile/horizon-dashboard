@@ -10,6 +10,10 @@
   @apply w-10 h-10 min-h-10 min-w-10;
 }
 
+.no-bg {
+  background: none !important;
+}
+
 input[type="file"] {
   visibility: hidden;
   position: absolute;
