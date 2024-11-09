@@ -59,33 +59,3 @@ export const parseManyToMany = (remoteAttribute, localList = [], remoteList = []
     }
   return [...toAdd, ...toRemove];
 };
-
-/**
- *
- * @param {object[]} newArr new array
- * @param {object[]} oldArr old array
- * @returns parsed array to add
- */
-export const toAdd = (newArr, oldArr) =>
-  newArr.map((obj) => {
-    const existsInOld = oldArr.some((oldObj) => oldObj.id === obj.id);
-    return {
-      ...obj,
-      toAdded: !existsInOld,
-    };
-  });
-
-/**
- *
- * @param {object[]} newArr new array
- * @param {object[]} oldArr old array
- * @returns parsed array to delete
- */
-export const toDelete = (newArr, oldArr) =>
-  oldArr.map((obj) => {
-    const existsInNew = newArr.some((newObj) => newObj.id === obj.id);
-    return {
-      ...obj,
-      toDelete: !existsInNew,
-    };
-  });
