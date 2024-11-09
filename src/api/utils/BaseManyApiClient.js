@@ -44,12 +44,12 @@ export class BaseManyApiClient {
   /**
    * @description Create techCosts
    * @param {number} entityId tech to save
-   * @param {object} list - BaseMany
+   * @param {object} object - BaseMany
    * @returns Transaction status
    */
-  async create(entityId, list) {
+  async create(entityId, object) {
     // call service
-    const { error, data, status } = await makeRequest(`${this.baseUrl}/${entityId}`, "POST", list, {
+    const { error, data, status } = await makeRequest(`${this.baseUrl}/${entityId}`, "POST", object, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
 
@@ -63,11 +63,20 @@ export class BaseManyApiClient {
    * @returns Status
    */
   async delete(entityId, list) {
-    const body = {};
-    body[this.idAttribute] = entityId;
-    body[this.idsAttribute] = list;
+    await makeRequest(`${this.baseUrl}/${entityId}`, "DELETE", list, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
+    return { status: 204 };
+  }
 
-    await makeRequest(`${this.baseUrl}`, "DELETE", body, {
+  /**
+   * @description Get a techCosts by newsId
+   * @param {number} entityId - Entity id
+   * @param {number} remoteId - Remote id
+   * @returns Status
+   */
+  async deleteSingle(entityId, remoteId) {
+    await makeRequest(`${this.baseUrl}/${entityId}/${remoteId}`, "DELETE", null, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     return { status: 204 };
