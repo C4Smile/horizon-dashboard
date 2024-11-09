@@ -37,66 +37,6 @@ export class TechApiClient extends BaseApiClient {
   }
 
   /**
-   *
-   * @param {number} techId id of the tech
-   * @returns tech costs
-   */
-  async getCosts(techId) {
-    return this.techCosts.get(techId);
-  }
-
-  /**
-   *
-   * @param {number} techId tech id
-   * @param {object[]} costs costs to save
-   * @param {object[]} oldList old items
-   * @returns saved list
-   */
-  async saveCosts(techId, costs, oldList) {
-    return this.techCosts.create(techId, costs);
-  }
-
-  /**
-   *
-   * @param {number} techId id of the tech
-   * @returns tech costs
-   */
-  async getProductions(techId) {
-    return this.techProductions.get(techId);
-  }
-
-  /**
-   *
-   * @param {number} techId tech id
-   * @param {object[]} productions productions to save
-   * @param {object[]} oldList old items
-   * @returns saved list
-   */
-  async saveProductions(techId, productions, oldList) {
-    return this.techProductions.create(techId, productions, oldList);
-  }
-
-  /**
-   *
-   * @param {number} techId id of the tech
-   * @returns tech costs
-   */
-  async getReqTechs(techId) {
-    return this.techReqTechs.get(techId);
-  }
-
-  /**
-   *
-   * @param {number} techId tech id
-   * @param {object[]} techRequirements productions to save
-   * @param {object[]} oldList old items
-   * @returns saved list
-   */
-  async saveReqTechs(techId, techRequirements, oldList) {
-    return this.techReqTechs.create(techId, techRequirements, oldList);
-  }
-
-  /**
    * @description Create tech
    * @param {object} tech - Tech
    * @param {object} photo - Photo
