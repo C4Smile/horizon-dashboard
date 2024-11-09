@@ -18,8 +18,8 @@
     "dateOfCreation": { "label": "Fecha de creación" },
     "factor": { "label": "Factor", "placeholder": "ej: 1.1" },
     "baseCost": { "label": "Costo base", "placeholder": "ej: 100" },
-    "baseProduction": { "label": "Producción base", "placeholder": "ej:100" },
-    "techLevel": { "label": "Nivel de investigación", "placeholder": "ej:1" }
+    "baseProduction": { "label": "Producción base", "placeholder": "ej: 100" },
+    "techLevel": { "label": "Nivel de investigación", "placeholder": "ej: 1" }
   },
   "roles": {
     "admin": "Administrador",
