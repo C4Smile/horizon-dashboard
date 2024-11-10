@@ -17,10 +17,11 @@ import TabComponent from "../../components/TabComponent/TabComponent";
 import { techTabs } from "./types";
 
 // tabs
-import { GeneralInfo, ResourceStuff, TechsStuff } from "./tabs";
+import { GeneralInfo, ResourceStuff, TechsStuff, BuildingStuff } from "./tabs";
 
 // entity
 import { Tech } from "../../models/tech/Tech";
+import { Building } from "../../models/building/Building";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
@@ -96,11 +97,26 @@ function TechForm() {
           entityToSave={Tech.techRequirement}
           label={"req"}
           inputKey={"techLevel"}
-          queryKey={[ReactQueryKeys.techReqTechs, id]}
+          queryKey={[ReactQueryKeys.TechRequirements, ReactQueryKeys.Techs, id]}
           queryFn={() => horizonApiClient.Tech.techReqTechs.get(id)}
           saveFn={async (id, data) => horizonApiClient.Tech.techReqTechs.create(id, data)}
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Tech.techReqTechs.deleteSingle(id, resourceId)
+          }
+        />
+      ),
+      techReqBuildings: (
+        <BuildingStuff
+          id={id}
+          entity={Building.className}
+          entityToSave={Tech.buildingRequirement}
+          label={"req"}
+          inputKey={"techLevel"}
+          queryKey={[ReactQueryKeys.TechRequirements, ReactQueryKeys.Buildings, id]}
+          queryFn={() => horizonApiClient.Tech.techReqBuildings.get(id)}
+          saveFn={async (id, data) => horizonApiClient.Tech.techReqBuildings.create(id, data)}
+          deleteFn={async (id, resourceId) =>
+            horizonApiClient.Tech.techReqBuildings.deleteSingle(id, resourceId)
           }
         />
       ),

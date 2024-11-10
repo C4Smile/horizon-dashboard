@@ -9,6 +9,7 @@
     "techCosts": "Coste de Tecnología",
     "techProduces": "Producción de tecnología",
     "techReqTechs": "Requerimiento tecnológico",
+    "techReqBuildings": "Requerimiento de edificio",
     "techType": "Tipo de Tecnología"
   },
   "base": {

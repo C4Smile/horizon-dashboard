@@ -84,7 +84,8 @@
       "general": "Información",
       "produces": "Producción",
       "costs": "Costo",
-      "techReqTechs": "Requerimientos tecnológicos"
+      "techReqTechs": "Requerimientos tecnológicos",
+      "techReqBuildings": "Requerimientos de edificios"
     },
     "editForm": "Editar Tecnología",
     "newForm": "Nuevo Tecnología"

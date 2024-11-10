@@ -18,6 +18,7 @@ import { BaseApiClient } from "./utils/BaseApiClient";
 import { TechCostsApiClient } from "./TechCostsApiClient";
 import { TechProducesApiClient } from "./TechProducesApiClient";
 import { TechReqTechsApiClient } from "./TechReqTechsApiClient";
+import { TechReqBuildingsApiClient } from "./TechReqBuildingsApiClient";
 
 /**
  * @class TechApiClient
@@ -27,6 +28,7 @@ export class TechApiClient extends BaseApiClient {
   techCosts = new TechCostsApiClient();
   techProductions = new TechProducesApiClient();
   techReqTechs = new TechReqTechsApiClient();
+  techReqBuildings = new TechReqBuildingsApiClient();
 
   /**
    * create base api client

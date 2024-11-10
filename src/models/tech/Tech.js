@@ -14,6 +14,7 @@ export class Tech extends Entity {
   static costs = "techCosts";
   static resourceUpgrade = "techProduces";
   static techRequirement = "techReqTechs";
+  static buildingRequirement = "techReqBuildings";
 
   /**
    * @param {number} id - Tech id
