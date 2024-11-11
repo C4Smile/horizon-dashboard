@@ -1,7 +1,7 @@
 {
   "hosting": {
     "public": "dist",
-    "site": "museo-dashboard",
+    "site": "horizon-dashboard",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
