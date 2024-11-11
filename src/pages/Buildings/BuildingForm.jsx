@@ -1,30 +1,27 @@
-import { useEffect, useMemo, useReducer, useState } from "react";
-import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { useForm, Controller } from "react-hook-form";
 import loadable from "@loadable/component";
 
-// editor
-import { EditorState, ContentState } from "draft-js";
-import htmlToDraft from "html-to-draftjs";
-
-// components
-import Loading from "../../partials/loading/Loading";
-
 // providers
-import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient, useHorizonApiClient } from "../../providers/HorizonApiProvider";
+import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // utils
-import { localPhotoReducer } from "../../components/utils";
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
-// loadable
-const TextInput = loadable(() => import("../../components/Forms/TextInput"));
-const HtmlInput = loadable(() => import("../../components/Forms/HtmlInput"));
-const AutocompleteInput = loadable(() => import("../../components/Forms/AutocompleteInput"));
-const ImageUploader = loadable(() => import("../../components/ImageUploader"));
+// components
+import TabComponent from "../../components/TabComponent/TabComponent";
+
+// types
+import { buildingTabs } from "./types";
+
+// tabs
+import { GeneralInfo, ResourceStuff, TechsStuff, BuildingStuff } from "./tabs";
+
+// entity
+import { Tech } from "../../models/tech/Tech";
+import { Building } from "../../models/building/Building";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
@@ -42,49 +39,8 @@ function BuildingForm() {
 
   const [notFound, setNotFound] = useState(false);
 
-  const { setNotification } = useNotification();
-  const [saving, setSaving] = useState(false);
-  const [lastUpdate, setLastUpdate] = useState();
-
-  const { handleSubmit, reset, control } = useForm();
-
-  const [photos, setPhotos] = useReducer(localPhotoReducer, []);
-
-  const onSubmit = async (d) => {
-    setSaving(true);
-
-    try {
-      let result;
-      if (!d.id) result = await horizonApiClient.Building.create(d, photos);
-      else result = await horizonApiClient.Building.update(d, photos);
-
-      const { error, status } = result;
-      setNotification(String(status), { model: t("_entities:entities.building") });
-      setLastUpdate(new Date().toDateString());
-      // eslint-disable-next-line no-console
-      if (error && error !== null) console.error(error.message);
-      else {
-        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Buildings] });
-        if (id !== undefined)
-          queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Buildings, id] });
-        else {
-          setPhotos({ type: "set", items: [] });
-          reset({
-            id: undefined,
-            name: "",
-          });
-        }
-      }
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(e);
-      setNotification(String(e.status), { model: t("_entities:entities.building") });
-    }
-    setSaving(false);
-  };
-
   const buildingQuery = useQuery({
-    queryKey: [ReactQueryKeys.Building, id],
+    queryKey: [ReactQueryKeys.Buildings, id],
     queryFn: () => horizonApiClient.Building.getById(id),
     enabled: id !== undefined,
   });
@@ -96,168 +52,94 @@ function BuildingForm() {
     if (data?.status === 404) setNotFound(true);
   }, [buildingQuery]);
 
-  useEffect(() => {
-    if (buildingQuery.data?.buildingHasImage?.length)
-      setPhotos({
-        type: "set",
-        items: buildingQuery.data?.buildingHasImage.map((image) => image.imageId),
-      });
-
-    if (!id) {
-      setPhotos({ type: "set", items: [] });
-      reset({
-        id: undefined,
-        name: "",
-        subname: "",
-        resourcesId: [],
-      });
-    }
-  }, [buildingQuery.data, id, reset]);
-
-  const resourcesQuery = useQuery({
-    queryKey: [ReactQueryKeys.Resources],
-    queryFn: () => horizonApiClient.Resource.getAll(),
-  });
-
-  const resourcesList = useMemo(() => {
-    try {
-      return resourcesQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
-    } catch (err) {
-      return [];
-    }
-  }, [resourcesQuery.data]);
-
-  useEffect(() => {
-    if (buildingQuery.data) {
-      //* PARSING TAGS
-      const parsedTags = resourcesList.filter((tag) =>
-        buildingQuery?.data?.produces?.some((lTag) => lTag.tagId.id === tag.id),
-      );
-      //* PARSING CONTENT
-      if (buildingQuery.data?.description && typeof buildingQuery.data?.description === "string") {
-        const html = buildingQuery.data?.description;
-        const descriptionBlock = htmlToDraft(html);
-        if (descriptionBlock) {
-          const descriptionState = ContentState.createFromBlockArray(
-            descriptionBlock.descriptionBlocks,
-          );
-          const editorState = EditorState.createWithContent(descriptionState);
-          buildingQuery.data.description = editorState;
-        }
-      }
-      setLastUpdate(buildingQuery?.data?.lastUpdate);
-      reset({ ...buildingQuery.data, resourcesId: parsedTags });
-    }
-  }, [resourcesList, buildingQuery.data, reset]);
-
-  return notFound ? (
-    <NotFound />
-  ) : (
-    <div className="px-5 pt-10 flex items-start justify-start">
-      <form onSubmit={handleSubmit(onSubmit)} className="form">
-        <h1 className="text-2xl md:text-3xl font-bold">
-          {id ? `${t("_pages:buildings.editForm")} ${id}` : t("_pages:buildings.newForm")}
-        </h1>
-        {buildingQuery.isLoading ? (
-          <Loading
-            className="bg-none w-6 h-6 mb-10"
-            strokeWidth="4"
-            loaderClass="!w-6"
-            color="stroke-primary"
-          />
-        ) : (
-          <div className={id && lastUpdate ? "" : "mt-5"}>
-            {id && lastUpdate && (
-              <p className="text-sm mb-10">
-                {t("_accessibility:labels.lastUpdate")}{" "}
-                {new Date(lastUpdate).toLocaleDateString("es-ES")}
-              </p>
-            )}
-          </div>
-        )}
-        {/* Building Name */}
-        <Controller
-          control={control}
-          disabled={buildingQuery.isLoading || saving}
-          name="name"
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              type="text"
-              name="name"
-              id="name"
-              className="text-input peer"
-              placeholder={t("_entities:building.name.placeholder")}
-              label={t("_entities:building.name.label")}
-              required
-            />
-          )}
-        />
-
-        {/* Building Produces */}
-        <Controller
-          control={control}
-          name="resourcesId"
-          disabled={buildingQuery.isLoading || resourcesQuery.isLoading || saving}
-          render={({ field: { onChange, value, ...rest } }) => (
-            <AutocompleteInput
-              {...rest}
-              id="resourcesId"
-              name="resourcesId"
-              label={t("_entities:building.produces.label")}
-              placeholder={t("_entities:building.produces.placeholder")}
-              options={resourcesList}
-              value={value}
-              multiple
-              onChange={(v) => {
-                onChange(v);
-              }}
-            />
-          )}
-        />
-        {/* Building Images */}
-        <div className="my-5">
-          {buildingQuery.isLoading ? (
-            <Loading />
-          ) : (
-            <ImageUploader
-              photos={photos}
-              setPhotos={setPhotos}
-              label={`${t("_entities:building.buildingHasImage.label")}`}
-              folder={`${ReactQueryKeys.Buildings}`}
-            />
-          )}
-        </div>
-        {/* Building description */}
-        <Controller
-          control={control}
-          name="description"
-          disabled={buildingQuery.isLoading || resourcesQuery.isLoading || saving}
-          render={({ field: { onChange, value, ...rest } }) => (
-            <HtmlInput
-              label={t("_entities:building.description.label")}
-              wrapperClassName="mt-5 w-full"
-              {...rest}
-              value={value}
-              onChange={onChange}
-            />
-          )}
-        />
-
-        <button type="submit" disabled={buildingQuery.isLoading || saving} className="my-5 submit">
-          {(buildingQuery.isLoading || saving) && (
-            <Loading
-              className="button-loading"
-              strokeWidth="4"
-              loaderClass="!w-6"
-              color="stroke-white"
-            />
-          )}
-          {t("_accessibility:buttons.save")}
-        </button>
-      </form>
-    </div>
+  const tabs = useMemo(
+    () => buildingTabs.map((tab) => ({ id: tab, label: t(`_pages:buildings.tabs.${tab}`) })),
+    [t],
   );
+
+  const content = useMemo(
+    () => ({
+      general: <GeneralInfo buildingQuery={buildingQuery} />,
+      produces: (
+        <ResourceStuff
+          id={id}
+          entity={Building.className}
+          entityToSave={Building.resourceUpgrade}
+          label={"production"}
+          inputKey={"baseProduction"}
+          queryKey={[ReactQueryKeys.BuildingProduces, id]}
+          queryFn={() => horizonApiClient.Building.buildingProductions.get(id)}
+          saveFn={async (id, data) => horizonApiClient.Building.buildingProductions.create(id, data)}
+          deleteFn={async (id, resourceId) =>
+            horizonApiClient.Building.buildingProductions.deleteSingle(id, resourceId)
+          }
+        />
+      ),
+      costs: (
+        <ResourceStuff
+          id={id}
+          entity={Building.className}
+          entityToSave={Building.costs}
+          label={"cost"}
+          inputKey={"baseCost"}
+          queryKey={[ReactQueryKeys.BuildingCosts, id]}
+          queryFn={() => horizonApiClient.Building.buildingCosts.get(id)}
+          saveFn={async (id, data) => horizonApiClient.Building.buildingCosts.create(id, data)}
+          deleteFn={async (id, resourceId) =>
+            horizonApiClient.Building.buildingCosts.deleteSingle(id, resourceId)
+          }
+        />
+      ),
+      upkeeps: (
+        <ResourceStuff
+          id={id}
+          entity={Building.className}
+          entityToSave={Building.upkeeps}
+          label={"upkeep"}
+          inputKey={"baseUpkeep"}
+          queryKey={[ReactQueryKeys.BuildingUpkeeps, id]}
+          queryFn={() => horizonApiClient.Building.buildingUpkeeps.get(id)}
+          saveFn={async (id, data) => horizonApiClient.Building.buildingUpkeeps.create(id, data)}
+          deleteFn={async (id, resourceId) =>
+            horizonApiClient.Building.buildingUpkeeps.deleteSingle(id, resourceId)
+          }
+        />
+      ),
+      buildingReqTechs: (
+        <TechsStuff
+          id={id}
+          entity={Tech.className}
+          entityToSave={Building.techRequirement}
+          label={"req"}
+          inputKey={"techLevel"}
+          queryKey={[ReactQueryKeys.BuildingRequirements, ReactQueryKeys.Techs, id]}
+          queryFn={() => horizonApiClient.Building.buildingReqTechs.get(id)}
+          saveFn={async (id, data) => horizonApiClient.Building.buildingReqTechs.create(id, data)}
+          deleteFn={async (id, resourceId) =>
+            horizonApiClient.Building.buildingReqTechs.deleteSingle(id, resourceId)
+          }
+        />
+      ),
+      buildingReqBuildings: (
+        <BuildingStuff
+          id={id}
+          entity={Building.className}
+          entityToSave={Building.buildingRequirement}
+          label={"req"}
+          inputKey={"buildingLevel"}
+          queryKey={[ReactQueryKeys.BuildingRequirements, ReactQueryKeys.Buildings, id]}
+          queryFn={() => horizonApiClient.Building.buildingReqBuildings.get(id)}
+          saveFn={async (id, data) => horizonApiClient.Building.buildingReqBuildings.create(id, data)}
+          deleteFn={async (id, resourceId) =>
+            horizonApiClient.Building.buildingReqBuildings.deleteSingle(id, resourceId)
+          }
+        />
+      ),
+    }),
+    [horizonApiClient, id, buildingQuery],
+  );
+
+  return notFound ? <NotFound /> : <TabComponent tabs={tabs} content={content} />;
 }
 
 export default BuildingForm;
