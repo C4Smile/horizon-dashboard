@@ -1,5 +1,5 @@
 /**
- * @type {import('postcss').Postcss}
+ * @type {import("postcss").Postcss}
  */
 module.exports = ({ env }) => ({
   plugins: [
