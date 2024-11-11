@@ -72,6 +72,14 @@
     }
   },
   "buildings": {
+    "tabs": {
+      "general": "Información",
+      "ships": "Barcos",
+      "produces": "Producción",
+      "costs": "Costo",
+      "buildingReqTechs": "Requerimientos tecnológicos",
+      "buildingReqBuildings": "Requerimientos de edificios"
+    },
     "editForm": "Editar Edificio",
     "newForm": "Nuevo Edificio"
   },
