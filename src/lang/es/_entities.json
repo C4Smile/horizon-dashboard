@@ -4,6 +4,11 @@
     "user": "Usuario",
     "role": "Rol",
     "building": "Edificio",
+    "techCosts": "Coste de Tecnología",
+    "techProduces": "Producción de tecnología",
+    "techReqTechs": "Requerimiento tecnológico",
+    "techReqBuildings": "Requerimiento de edificio",
+    "techType": "Tipo de Tecnología"
     "resource": "Recurso",
     "tech": "Tecnología",
     "techCosts": "Coste de Tecnología",
