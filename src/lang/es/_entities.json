@@ -4,11 +4,11 @@
     "user": "Usuario",
     "role": "Rol",
     "building": "Edificio",
-    "techCosts": "Coste de Tecnología",
-    "techProduces": "Producción de tecnología",
-    "techReqTechs": "Requerimiento tecnológico",
-    "techReqBuildings": "Requerimiento de edificio",
-    "techType": "Tipo de Tecnología"
+    "buildingCosts": "Coste de Edificio",
+    "buildingProduces": "Producción de edificio",
+    "buildingReqTechs": "Requerimiento tecnológico",
+    "buildingReqBuildings": "Requerimiento de edificio",
+    "buildingType": "Tipo de Edificio",
     "resource": "Recurso",
     "tech": "Tecnología",
     "techCosts": "Coste de Tecnología",
@@ -25,7 +25,11 @@
     "factor": { "label": "Factor", "placeholder": "ej: 1.1" },
     "baseCost": { "label": "Costo base", "placeholder": "ej: 100" },
     "baseProduction": { "label": "Producción base", "placeholder": "ej: 100" },
-    "techLevel": { "label": "Nivel de investigación", "placeholder": "ej: 1" }
+    "techLevel": { "label": "Nivel de investigación", "placeholder": "ej: 1" },
+    "buildingLevel": {
+      "label": "Nivel de edificio",
+      "placeholder": "ej: 1"
+    }
   },
   "roles": {
     "admin": "Administrador",
@@ -44,45 +48,23 @@
       "label": "Descripción",
       "placeholder": "Alguna descripción"
     },
-    "produces": {
-      "label": "Produce",
-      "resourceId": {
-        "label": "Resource"
-      },
-      "factor": {
-        "label": "Factor base de producción",
-        "placeholder": "ej: 1"
-      }
+    "creationTime": {
+      "label": "Tiempo de construcción",
+      "placeholder": "Se mide en días"
     },
-    "techReqTechs": {
-      "label": "Requerimientos tecnológicos",
-      "techId": {
-        "label": "Tecnologia"
-      },
-      "level": {
-        "label": "Nivel de tecnología",
-        "placeholder": "ej: 1"
-      }
+    "typeId": {
+      "label": "Tipo"
     },
-    "costs": {
-      "label": "Costos",
-      "resourceId": {
-        "label": "Resource"
-      },
-      "factor": {
-        "label": "Factor base de costo",
-        "placeholder": "ej: 1"
-      }
+    "resource": {
+      "cost": "Costo",
+      "upkeep": "Manutención",
+      "production": "Produce"
     },
-    "upkeeps": {
-      "label": "Manutención",
-      "resourceId": {
-        "label": "Resource"
-      },
-      "factor": {
-        "label": "Factor base de costo",
-        "placeholder": "ej: 1"
-      }
+    "tech": {
+      "req": "Requiere"
+    },
+    "building": {
+      "req": "Requiere"
     }
   },
   "resource": {
@@ -128,6 +110,9 @@
       "production": "Mejora de producción"
     },
     "tech": {
+      "req": "Requiere"
+    },
+    "building": {
       "req": "Requiere"
     }
   },
