@@ -12,7 +12,10 @@ import config from "../config";
 import { makeRequest } from "../db/services";
 
 // apis
-import { BuildingProducesApiClient } from "./BuildingProducesApiClient";
+import { BuildingCostsApiClient } from "./BuildingCostsApiClient.js";
+import { BuildingProducesApiClient } from "./BuildingProducesApiClient.js";
+import { BuildingReqTechsApiClient } from "./BuildingReqTechsApiClient.js";
+import { BuildingReqBuildingsApiClient } from "./BuildingReqBuildingsApiClient.js";
 
 // base
 import { BaseApiClient } from "./utils/BaseApiClient";
@@ -26,7 +29,10 @@ import { Photo } from "../models/Photo/Photo.js";
  * @description BuildingApiClient
  */
 export class BuildingApiClient extends BaseApiClient {
-  buildingProduces = new BuildingProducesApiClient();
+  buildingCosts = new BuildingCostsApiClient();
+  buildingProductions = new BuildingProducesApiClient();
+  buildingReqTechs = new BuildingReqTechsApiClient();
+  buildingReqBuildings = new BuildingReqBuildingsApiClient();
 
   /**
    * create base api client
@@ -46,7 +52,7 @@ export class BuildingApiClient extends BaseApiClient {
     // default values
     building.urlName = toSlug(building.name);
     // parsing html
-    building.content = draftToHtml(convertToRaw(building.content.getCurrentContent()));
+    building.description = draftToHtml(convertToRaw(building.description.getCurrentContent()));
     // saving photo
     if (photo) building.imageId = photo.id;
     // call service
