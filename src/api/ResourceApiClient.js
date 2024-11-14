@@ -14,6 +14,10 @@ import { makeRequest } from "../db/services";
 // base
 import { BaseApiClient } from "./utils/BaseApiClient";
 
+// types
+import { Resource } from "../models/resource/Resource.js";
+import { Photo } from "../models/Photo/Photo.js";
+
 /**
  * @class ResourceApiClient
  * @description ResourceApiClient
@@ -29,8 +33,8 @@ export class ResourceApiClient extends BaseApiClient {
 
   /**
    * @description Create resource
-   * @param {object} resource - Resource
-   * @param {object[]} photo - Photo
+   * @param {Resource} resource - Resource
+   * @param {Photo} photo - Photo
    * @returns Transaction status
    */
   async create(resource, photo) {
@@ -51,8 +55,8 @@ export class ResourceApiClient extends BaseApiClient {
 
   /**
    * @description Update resource
-   * @param {object} resource - Resource
-   * @param {object[]} photo - photo
+   * @param {Resource} resource - Resource
+   * @param {Photo} photo - photo
    * @returns Transaction status
    */
   async update(resource, photo) {
@@ -62,10 +66,6 @@ export class ResourceApiClient extends BaseApiClient {
     resource.description = draftToHtml(convertToRaw(resource.description.getCurrentContent()));
     // saving photo
     if (photo) resource.imageId = photo.id;
-    // cleaning relation ships
-    delete resource.tagsId;
-    delete resource.resourceHasTag;
-    delete resource.resourceHasImage;
     // call service
     const { status, error } = await makeRequest(
       `resources/${resource.id}`,

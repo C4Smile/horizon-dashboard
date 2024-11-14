@@ -14,6 +14,7 @@ import { BaseApiClient } from "./utils/BaseApiClient";
 
 // type
 import { TechType } from "../models/techType/TechType.js";
+import { Photo } from "../models/Photo/Photo.js";
 
 /**
  * @class TechTypeApiClient
@@ -31,7 +32,7 @@ export class TechTypeApiClient extends BaseApiClient {
   /**
    * @description Create techType
    * @param {TechType} techType - TechType
-   * @param {object} photo - Photo
+   * @param {Photo} photo - Photo
    * @returns Transaction status
    */
   async create(techType, photo) {
@@ -51,7 +52,7 @@ export class TechTypeApiClient extends BaseApiClient {
   /**
    * @description Update techType
    * @param {TechType} techType - TechType
-   * @param {object} photo - Photo
+   * @param {Photo} photo - Photo
    * @returns Transaction status
    */
   async update(techType, photo) {

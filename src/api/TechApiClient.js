@@ -20,6 +20,10 @@ import { TechProducesApiClient } from "./TechProducesApiClient";
 import { TechReqTechsApiClient } from "./TechReqTechsApiClient";
 import { TechReqBuildingsApiClient } from "./TechReqBuildingsApiClient";
 
+// types
+import { Tech } from "../models/tech/Tech.js";
+import { Photo } from "../models/Photo/Photo.js";
+
 /**
  * @class TechApiClient
  * @description TechApiClient
@@ -40,8 +44,8 @@ export class TechApiClient extends BaseApiClient {
 
   /**
    * @description Create tech
-   * @param {object} tech - Tech
-   * @param {object} photo - Photo
+   * @param {Tech} tech - Tech
+   * @param {Photo} photo - Photo
    * @returns Transaction status
    */
   async create(tech, photo) {
@@ -62,8 +66,8 @@ export class TechApiClient extends BaseApiClient {
 
   /**
    * @description Update tech
-   * @param {object} tech - Tech
-   * @param {object} photo - photo
+   * @param {Tech} tech - Tech
+   * @param {Photo} photo - photo
    * @returns Transaction status
    */
   async update(tech, photo) {

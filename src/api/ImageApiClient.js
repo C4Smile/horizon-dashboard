@@ -7,6 +7,9 @@ import { fromLocal } from "../utils/local";
 // services
 import { makeRequest } from "../db/services";
 
+// types
+import { Photo } from "../models/Photo/Photo.js";
+
 /**
  * ImageApiClient
  */
@@ -22,7 +25,7 @@ export class ImageApiClient {
 
   /**
    * Save photo into database
-   * @param {object} photo photo object
+   * @param {Photo} photo photo object
    * @returns {Promise<{data: any, error: any}>} response
    */
   async insertImage(photo) {
@@ -48,7 +51,7 @@ export class ImageApiClient {
 
   /**
    *
-   * @param {object[]} photos list of images
+   * @param {Photo[]} photos list of images
    * @param {string} folder where to save images
    * @returns {Promise<any[]>} uploaded images
    */
