@@ -12,6 +12,9 @@ import { makeRequest } from "../db/services";
 // base
 import { BaseApiClient } from "./utils/BaseApiClient";
 
+// type
+import { TechType } from "../models/techType/TechType.js";
+
 /**
  * @class TechTypeApiClient
  * @description TechTypeApiClient
@@ -27,7 +30,7 @@ export class TechTypeApiClient extends BaseApiClient {
 
   /**
    * @description Create techType
-   * @param {object} techType - TechType
+   * @param {TechType} techType - TechType
    * @param {object} photo - Photo
    * @returns Transaction status
    */
@@ -47,7 +50,7 @@ export class TechTypeApiClient extends BaseApiClient {
 
   /**
    * @description Update techType
-   * @param {object} techType - TechType
+   * @param {TechType} techType - TechType
    * @param {object} photo - Photo
    * @returns Transaction status
    */
@@ -56,10 +59,6 @@ export class TechTypeApiClient extends BaseApiClient {
     techType.urlName = toSlug(techType.name);
     // saving photo
     if (photo) techType.imageId = photo.id;
-    // cleaning relation ships
-    delete techType.tagsId;
-    delete techType.techTypeHasTag;
-    delete techType.techTypeHasImage;
     // call service
     const { status, error } = await makeRequest(
       `techTypes/${techType.id}`,

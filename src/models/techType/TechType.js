@@ -6,6 +6,7 @@ import { Entity } from "../entity/Entity";
  */
 export class TechType extends Entity {
   name = "";
+  urlName = "";
   imageId = 0;
 
   /**
