@@ -67,6 +67,16 @@
       "req": "Requiere"
     }
   },
+  "buildingType": {
+    "name": {
+      "label": "Nombre",
+      "placeholder": "ej: Producción"
+    },
+    "imageId": {
+      "label": "Imagen"
+    },
+    "lastUpdate": { "label": "Última actualización" }
+  },
   "resource": {
     "name": {
       "label": "Nombre",

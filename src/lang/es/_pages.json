@@ -53,9 +53,10 @@
     "title": "Juego",
     "links": {
       "buildings": "Edificios",
+      "buildingTypes": "Tipos de Edificios",
       "resources": "Recursos",
       "techs": "Tecnologías",
-      "techTypes": "Tipos de Tecnología"
+      "techTypes": "Tipos de Tecnologías"
     }
   },
   "players": {
@@ -83,6 +84,10 @@
     "editForm": "Editar Edificio",
     "newForm": "Nuevo Edificio"
   },
+  "buildingTypes": {
+    "editForm": "Editar Tipo de Edificio",
+    "newForm": "Nuevo Tipo de Edificio"
+  },
   "resources": {
     "editForm": "Editar Recurso",
     "newForm": "Nuevo Recurso"
@@ -99,8 +104,8 @@
     "newForm": "Nuevo Tecnología"
   },
   "techTypes": {
-    "editForm": "Editar Tipo Tecnología",
-    "newForm": "Nuevo Tipo Tecnología"
+    "editForm": "Editar Tipo de Tecnología",
+    "newForm": "Nuevo Tipo de Tecnología"
   },
   "notFound": {
     "title": "No encontrado"
