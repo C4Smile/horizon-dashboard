@@ -1,4 +1,5 @@
 const {
+  VITE_APP_NAME,
   VITE_API_URL,
   VITE_THIS_URL,
   // cookies
@@ -20,6 +21,7 @@ const {
 } = import.meta.env;
 
 const config = {
+  appName: VITE_APP_NAME,
   apiUrl: VITE_API_URL,
   thisUrl: VITE_THIS_URL,
   // cookie
