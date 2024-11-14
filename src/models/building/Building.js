@@ -7,7 +7,7 @@ import { Entity } from "../entity/Entity";
 export class Building extends Entity {
   name = "";
   urlName = "";
-  content = "";
+  description = "";
   imageId = 0;
   baseFactor = 0;
   baseUpkeep = 0;
