@@ -13,6 +13,10 @@ export class Building extends Entity {
   baseUpkeep = 0;
 
   static className = "building";
+  static costs = "buildingCosts";
+  static resourceUpgrade = "buildingProduces";
+  static techRequirement = "buildingReqTechs";
+  static buildingRequirement = "buildingReqBuildings";
 
   /**
    * @param {number} id - Building id
@@ -28,8 +32,8 @@ export class Building extends Entity {
     name,
     baseFactor,
     baseUpkeep,
-    dateOfCreation = Date.now(),
-    lastUpdate = Date.now(),
+    dateOfCreation = new Date(),
+    lastUpdate = new Date(),
     deleted = false,
   ) {
     super(id, dateOfCreation, lastUpdate, deleted);

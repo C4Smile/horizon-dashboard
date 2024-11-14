@@ -30,8 +30,8 @@ export class Tech extends Entity {
     id,
     name,
     creationTime,
-    dateOfCreation = Date.now(),
-    lastUpdate = Date.now(),
+    dateOfCreation = new Date(),
+    lastUpdate = new Date(),
     deleted = false,
   ) {
     super(id, dateOfCreation, lastUpdate, deleted);
