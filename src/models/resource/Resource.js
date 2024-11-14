@@ -6,6 +6,8 @@ import { Entity } from "../entity/Entity";
  */
 export class Resource extends Entity {
   name = "";
+  urlName = "";
+  description = "";
   imageId = 0;
   baseFactor = 0;
 
