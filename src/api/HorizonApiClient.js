@@ -15,6 +15,7 @@ import { fromLocal } from "../utils/local";
 
 // config
 import config from "../config";
+import { BuildingTypeApiClient } from "./BuildingTypeApiClient.js";
 
 /**
  * @class HorizonApiClient
@@ -26,6 +27,7 @@ export class HorizonApiClient {
    */
   constructor() {
     this.building = new BuildingApiClient();
+    this.buildingType = new BuildingTypeApiClient();
     this.resource = new ResourceApiClient();
     this.pushNotifications = new PushNotificationApiClient();
     this.role = new RoleApiClient();
@@ -54,18 +56,6 @@ export class HorizonApiClient {
   }
 
   /**
-   *
-   * @param entity - entity
-   * @returns string
-   */
-  async getChatBotContent(entity) {
-    switch (entity) {
-      default: //room
-        return this.room.getCurrentContent();
-    }
-  }
-
-  /**
    * @returns {ImageApiClient} Image
    */
   get Image() {
@@ -77,6 +67,13 @@ export class HorizonApiClient {
    */
   get Building() {
     return this.building;
+  }
+
+  /**
+   * @returns {BuildingTypeApiClient} Building
+   */
+  get BuildingType() {
+    return this.buildingType;
   }
 
   /**
