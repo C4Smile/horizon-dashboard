@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import loadable from "@loadable/component";
 
 // editor
-import { EditorState, ContentState } from "draft-js";
+import { ContentState, EditorState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
 
 // components
@@ -38,7 +38,7 @@ function GeneralInfo(props) {
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [lastUpdate, setLastUpdate] = useState();
+  const [lastUpdate, setLastUpdate] = useState("");
 
   const { handleSubmit, reset, control, getValues } = useForm();
 
@@ -69,13 +69,13 @@ function GeneralInfo(props) {
       setNotification(String(status), { model: t("_entities:entities.building") });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
-      if (error && error !== null) console.error(error.message);
+      if (error !== null && error) console.error(error.message);
       else {
-        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Buildings] });
+        await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Buildings] });
         if (d.id !== undefined)
-          queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Buildings, id] });
+          await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Buildings, id] });
         else {
-          setPhoto();
+          setPhoto(null);
           reset({
             id: undefined,
             name: "",
@@ -103,8 +103,7 @@ function GeneralInfo(props) {
         const descriptionBlock = htmlToDraft(html);
         if (descriptionBlock) {
           const descriptionState = ContentState.createFromBlockArray(descriptionBlock);
-          const editorState = EditorState.createWithContent(descriptionState);
-          buildingQuery.data.description = editorState;
+          buildingQuery.data.description = EditorState.createWithContent(descriptionState);
         }
       }
       setLastUpdate(buildingQuery?.data?.lastUpdate);
@@ -112,7 +111,7 @@ function GeneralInfo(props) {
     }
 
     if (!buildingQuery.data?.id) {
-      setPhoto();
+      setPhoto(null);
       reset({
         id: undefined,
         name: "",
@@ -139,8 +138,8 @@ function GeneralInfo(props) {
         />
       ) : id ? (
         <>
-          <div className={lastUpdate ? "" : "mt-5"}>
-            {lastUpdate && (
+          <div className={lastUpdate?.length ? "" : "mt-5"}>
+            {lastUpdate?.length && (
               <p className="text-sm mb-10">
                 {t("_accessibility:labels.lastUpdate")}{" "}
                 {new Date(lastUpdate).toLocaleDateString("es-ES")}
