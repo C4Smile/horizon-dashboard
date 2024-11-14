@@ -18,6 +18,9 @@ import Account from "./Account/Account";
 // buildings
 import BuildingsPage from "./Buildings/Buildings";
 import BuildingForm from "./Buildings/BuildingForm";
+// buildingTypes
+import BuildingTypesPage from "./BuildingTypes/BuildingTypes";
+import BuildingTypeForm from "./BuildingTypes/BuildingTypeForm";
 // resources
 import ResourcesPage from "./Resources/Resources";
 import ResourceForm from "./Resources/ResourceForm";
@@ -45,6 +48,10 @@ export const pageId = {
   buildings: "buildings",
   buildingsNew: "buildingsNew",
   buildingsEdit: "buildingsEdit",
+  // buildingTypes
+  buildingTypes: "buildingTypes",
+  buildingTypesNew: "buildingTypesNew",
+  buildingTypesEdit: "buildingTypesEdit",
   // resources
   resources: "resources",
   resourcesNew: "resourcesNew",
@@ -103,6 +110,17 @@ export const sitemap = [
           { key: pageId.buildings, path: "/", component: <BuildingsPage /> },
           { key: pageId.buildingsNew, path: "/new", component: <BuildingForm /> },
           { key: pageId.buildingsEdit, path: "/:id", component: <BuildingForm /> },
+        ],
+      },
+      {
+        key: pageId.buildingTypes,
+        path: "/game/building-types",
+        component: <ModelNavigation pageKey={pageId.buildingTypes} />,
+        role: [Role.administrator],
+        children: [
+          { key: pageId.buildingTypes, path: "/", component: <BuildingTypesPage /> },
+          { key: pageId.buildingTypesNew, path: "/new", component: <BuildingTypeForm /> },
+          { key: pageId.buildingTypesEdit, path: "/:id", component: <BuildingTypeForm /> },
         ],
       },
       {
