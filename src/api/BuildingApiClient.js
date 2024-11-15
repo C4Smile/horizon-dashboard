@@ -15,6 +15,7 @@ import { makeRequest } from "../db/services";
 import { BuildingCostsApiClient } from "./BuildingCostsApiClient.js";
 import { BuildingProducesApiClient } from "./BuildingProducesApiClient.js";
 import { BuildingReqTechsApiClient } from "./BuildingReqTechsApiClient.js";
+import { BuildingUpkeepsApiClient } from "./BuildingUpkeepsApiClient.js";
 import { BuildingReqBuildingsApiClient } from "./BuildingReqBuildingsApiClient.js";
 
 // base
@@ -30,6 +31,7 @@ import { Photo } from "../models/Photo/Photo.js";
  */
 export class BuildingApiClient extends BaseApiClient {
   buildingCosts = new BuildingCostsApiClient();
+  buildingUpkeeps = new BuildingUpkeepsApiClient();
   buildingProductions = new BuildingProducesApiClient();
   buildingReqTechs = new BuildingReqTechsApiClient();
   buildingReqBuildings = new BuildingReqBuildingsApiClient();
