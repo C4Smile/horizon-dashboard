@@ -88,7 +88,7 @@ function TechPage() {
   });
 
   const { columns } = useParseColumns(
-    extractKeysFromObject(new Tech(), ["id", "dateOfCreation", "deleted", "content"]),
+    extractKeysFromObject(new Tech(), ["id", "dateOfCreation", "deleted", "description", "urlName"]),
     Tech.className,
   );
 

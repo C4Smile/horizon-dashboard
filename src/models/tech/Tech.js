@@ -27,9 +27,9 @@ export class Tech extends Entity {
    * @param {boolean} deleted - Tech deleted
    */
   constructor(
-    id,
-    name,
-    creationTime,
+    id = 0,
+    name = "",
+    creationTime = 0,
     dateOfCreation = new Date(),
     lastUpdate = new Date(),
     deleted = false,
