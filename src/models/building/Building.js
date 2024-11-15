@@ -9,8 +9,6 @@ export class Building extends Entity {
   urlName = "";
   description = "";
   imageId = 0;
-  baseFactor = 0;
-  baseUpkeep = 0;
 
   static className = "building";
   static costs = "buildingCosts";
@@ -21,24 +19,18 @@ export class Building extends Entity {
   /**
    * @param {number} id - Building id
    * @param {string} name - Building name
-   * @param {number} baseFactor - Building baseFactor
-   * @param {number} baseUpkeep - Building baseUpkeep
    * @param {Date} dateOfCreation - Building date of creation
    * @param {Date} lastUpdate - Building last update
    * @param {boolean} deleted - Building deleted
    */
   constructor(
-    id,
-    name,
-    baseFactor,
-    baseUpkeep,
+    id = 0,
+    name = "",
     dateOfCreation = new Date(),
     lastUpdate = new Date(),
     deleted = false,
   ) {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.name = name;
-    this.baseFactor = baseFactor;
-    this.baseUpkeep = baseUpkeep;
   }
 }
