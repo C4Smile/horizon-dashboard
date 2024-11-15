@@ -11,6 +11,6 @@ export class BuildingReqTechsApiClient extends BaseManyApiClient {
    * constructor
    */
   constructor() {
-    super(Building.buildingRequirement, "buildingId", "buildingReqId");
+    super(Building.techRequirement, "buildingId", "buildingReqId");
   }
 }
