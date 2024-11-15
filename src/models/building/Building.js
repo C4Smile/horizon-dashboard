@@ -12,6 +12,7 @@ export class Building extends Entity {
 
   static className = "building";
   static costs = "buildingCosts";
+  static upkeeps = "buildingUpkeeps";
   static resourceUpgrade = "buildingProduces";
   static techRequirement = "buildingReqTechs";
   static buildingRequirement = "buildingReqBuildings";
