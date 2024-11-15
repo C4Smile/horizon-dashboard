@@ -20,12 +20,10 @@ import { staticUrlPhoto } from "../../components/utils";
 // providers
 import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
-// components
-import Chip from "../../components/Chip/Chip";
-
 // hooks
 import { useActions } from "../../hooks/useActions";
 import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
+import { findPath, pageId } from "../sitemap.jsx";
 
 const columnClasses = {
   lastUpdate: "w-56",
@@ -67,38 +65,14 @@ function BuildingPage() {
           <span className="truncate">{building.title}</span>
         </Link>
       ),
-      costs:
-        (
-          <div className="flex flex-wrap gap-3">
-            {building.buildingHasTag?.map(({ resourceId: resource }) => (
-              <Chip key={resource?.id} label={resource?.name} spanClassName="text-xs" />
-            ))}
-          </div>
-        ) ?? " - ",
-      produces:
-        (
-          <div className="flex flex-wrap gap-3">
-            {building.buildingHasTag?.map(({ resourceId: resource }) => (
-              <Chip key={resource?.id} label={resource?.name} spanClassName="text-xs" />
-            ))}
-          </div>
-        ) ?? " - ",
-      upkeeps:
-        (
-          <div className="flex flex-wrap gap-3">
-            {building.buildingHasTag?.map(({ resourceId: resource }) => (
-              <Chip key={resource?.id} label={resource?.name} spanClassName="text-xs" />
-            ))}
-          </div>
-        ) ?? " - ",
-      techRequirements:
-        (
-          <div className="flex flex-wrap gap-3">
-            {building.buildingHasTag?.map(({ techId: tech }) => (
-              <Chip key={tech?.id} label={tech?.name} spanClassName="text-xs" />
-            ))}
-          </div>
-        ) ?? " - ",
+      typeId: (
+        <Link
+          className="underline text-light-primary flex"
+          to={`${findPath(pageId.buildingTypesEdit)}/${building.typeId}`}
+        >
+          <span className="truncate">{building?.type?.name}</span>
+        </Link>
+      ),
       imageId: building.image?.url ? (
         <img
           className={`w-10 h-10 rounded-full object-cover border-white border-2`}
@@ -118,7 +92,13 @@ function BuildingPage() {
   });
 
   const { columns } = useParseColumns(
-    extractKeysFromObject(new Building(), ["id", "dateOfCreation", "deleted", "content"]),
+    extractKeysFromObject(new Building(), [
+      "id",
+      "dateOfCreation",
+      "deleted",
+      "description",
+      "urlName",
+    ]),
     Building.className,
   );
 
