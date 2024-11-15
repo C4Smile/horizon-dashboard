@@ -60,9 +60,9 @@ function BuildingPage() {
   const prepareRows = (building) => {
     return {
       ...building,
-      title: (
+      name: (
         <Link className="underline text-light-primary flex" to={`${building.id}`}>
-          <span className="truncate">{building.title}</span>
+          <span className="truncate">{building.name}</span>
         </Link>
       ),
       typeId: (
