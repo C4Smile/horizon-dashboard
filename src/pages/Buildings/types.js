@@ -2,7 +2,7 @@ export const buildingTabs = [
   "general",
   "produces",
   "costs",
-  "upkeeps",
+  "upkeep",
   "buildingReqTechs",
   "buildingReqBuildings",
   "ships",
