@@ -90,11 +90,6 @@ function BuildingForm() {
     }
   }, [techsQuery.data]);
 
-  const tabs = useMemo(
-    () => buildingTabs.map((tab) => ({ id: tab, label: t(`_pages:buildings.tabs.${tab}`) })),
-    [t],
-  );
-
   //#endregion techs
 
   //#region buildings
@@ -121,6 +116,11 @@ function BuildingForm() {
   }, [buildingsQuery?.data?.items, id]);
 
   //#endregion buildings
+
+  const tabs = useMemo(
+    () => buildingTabs.map((tab) => ({ id: tab, label: t(`_pages:buildings.tabs.${tab}`) })),
+    [t],
+  );
 
   const content = useMemo(
     () => ({
@@ -196,7 +196,6 @@ function BuildingForm() {
           attributeId="buildingReqId"
           entity={Building.className}
           entityToSave={Building.buildingRequirement}
-          label={"req"}
           inputKey={"buildingLevel"}
           queryKey={[ReactQueryKeys.BuildingRequirements, ReactQueryKeys.Buildings, id]}
           queryFn={() => horizonApiClient.Building.buildingReqBuildings.get(id)}
@@ -207,7 +206,7 @@ function BuildingForm() {
         />
       ),
     }),
-    [horizonApiClient, id, buildingQuery],
+    [buildingQuery, id, resourcesList, techsList, buildingsList, horizonApiClient],
   );
 
   return notFound ? <NotFound /> : <TabComponent tabs={tabs} content={content} />;
