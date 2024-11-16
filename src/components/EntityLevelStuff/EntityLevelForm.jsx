@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 import TextInput from "../Forms/TextInput";
 import SelectInput from "../Forms/SelectInput";
 
-
 /**
  *
  * @param {*} props - component form
@@ -15,11 +14,12 @@ import SelectInput from "../Forms/SelectInput";
 const EntityLevelForm = function EntityForm(props) {
   const { t } = useTranslation();
 
-  const { currentList, entities, inputLabel, inputPlaceholder, control, entityLabel, attributeId } = props;
+  const { currentList, entities, inputLabel, inputPlaceholder, control, entityLabel, attributeId } =
+    props;
 
   const options = useMemo(
     () => entities.filter((res) => !currentList.some((rex) => rex[attributeId] === res.id)),
-    [currentList, entities],
+    [attributeId, currentList, entities],
   );
 
   return (
@@ -27,7 +27,7 @@ const EntityLevelForm = function EntityForm(props) {
       <p className="min-w-20">{t("_accessibility:labels.require")}</p>
       <Controller
         control={control}
-        name="entityReqId"
+        name={attributeId}
         render={({ field: { onChange, value, ...rest } }) => (
           <SelectInput
             label={t(`_entities:entities.${entityLabel}`)}

@@ -93,9 +93,7 @@ function EntityLevelStuff(props) {
 
         // eslint-disable-next-line no-console
         if (error) console.error(error.message);
-        else {
-          await queryClient.invalidateQueries({ queryKey });
-        }
+        else await queryClient.invalidateQueries({ queryKey });
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error(e);
@@ -113,7 +111,7 @@ function EntityLevelStuff(props) {
       setInitial();
       save(value);
     },
-    [save],
+    [attributeId, save],
   );
 
   const formProps = useFormDialog({
@@ -127,7 +125,7 @@ function EntityLevelStuff(props) {
       if (selected) setInitial(selected);
       formProps.dialogProps.open();
     },
-    [formProps.dialogProps, lists],
+    [attributeId, formProps.dialogProps, lists],
   );
 
   const onDelete = useCallback(
