@@ -78,6 +78,7 @@
       "ships": "Barcos",
       "produces": "Producción",
       "costs": "Costo",
+      "upkeep": "Manutención",
       "buildingReqTechs": "Requerimientos tecnológicos",
       "buildingReqBuildings": "Requerimientos de edificios"
     },
