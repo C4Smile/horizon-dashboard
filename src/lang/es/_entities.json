@@ -18,14 +18,38 @@
     "techType": "Tipo de Tecnología"
   },
   "base": {
-    "id": { "label": "Id" },
-    "deleted": { "label": "Eliminado" },
-    "lastUpdate": { "label": "Última actualización" },
-    "dateOfCreation": { "label": "Fecha de creación" },
-    "factor": { "label": "Factor", "placeholder": "ej: 1.1" },
-    "baseCost": { "label": "Costo base", "placeholder": "ej: 100" },
-    "baseProduction": { "label": "Producción base", "placeholder": "ej: 100" },
-    "techLevel": { "label": "Nivel de investigación", "placeholder": "ej: 1" },
+    "id": {
+      "label": "Id"
+    },
+    "deleted": {
+      "label": "Eliminado"
+    },
+    "lastUpdate": {
+      "label": "Última actualización"
+    },
+    "dateOfCreation": {
+      "label": "Fecha de creación"
+    },
+    "factor": {
+      "label": "Factor",
+      "placeholder": "ej: 1.1"
+    },
+    "baseUpkeep": {
+      "label": "Manutención base",
+      "placeholder": "ej: 100"
+    },
+    "baseCost": {
+      "label": "Costo base",
+      "placeholder": "ej: 100"
+    },
+    "baseProduction": {
+      "label": "Producción base",
+      "placeholder": "ej: 100"
+    },
+    "techLevel": {
+      "label": "Nivel de investigación",
+      "placeholder": "ej: 1"
+    },
     "buildingLevel": {
       "label": "Nivel de edificio",
       "placeholder": "ej: 1"
@@ -43,7 +67,9 @@
     "imageId": {
       "label": "Imagen"
     },
-    "lastUpdate": { "label": "Última actualización" },
+    "lastUpdate": {
+      "label": "Última actualización"
+    },
     "description": {
       "label": "Descripción",
       "placeholder": "Alguna descripción"
@@ -75,7 +101,9 @@
     "imageId": {
       "label": "Imagen"
     },
-    "lastUpdate": { "label": "Última actualización" }
+    "lastUpdate": {
+      "label": "Última actualización"
+    }
   },
   "resource": {
     "name": {
@@ -86,7 +114,9 @@
       "label": "Factor base de producción",
       "placeholder": "ej: 1"
     },
-    "lastUpdate": { "label": "Última actualización" },
+    "lastUpdate": {
+      "label": "Última actualización"
+    },
     "description": {
       "label": "Descripción",
       "placeholder": "Alguna descripción"
@@ -107,7 +137,9 @@
     "typeId": {
       "label": "Tipo"
     },
-    "lastUpdate": { "label": "Última actualización" },
+    "lastUpdate": {
+      "label": "Última actualización"
+    },
     "description": {
       "label": "Descripción",
       "placeholder": "Alguna descripción"
@@ -134,20 +166,52 @@
     "imageId": {
       "label": "Imagen"
     },
-    "lastUpdate": { "label": "Última actualización" }
+    "lastUpdate": {
+      "label": "Última actualización"
+    }
   },
   "user": {
-    "roleId": { "label": "Rol" },
-    "lastUpdate": { "label": "Última actualización" },
-    "username": { "label": "Nombre de usuario", "placeholder": "ej: juanperez" },
-    "password": { "label": "Contraseña", "placeholder": "ej: *******" },
-    "rPassword": { "label": "Confirmar contraseña", "placeholder": "ej: *******" },
-    "name": { "label": "Nombre", "placeholder": "ej: Juan Pérez" },
-    "email": { "label": "Correo electrónico", "placeholder": "ej: juanperez@gmail.com" },
-    "phone": { "label": "Teléfono", "placeholder": "ej: +5352574839" },
-    "address": { "label": "Dirección", "placeholder": "ej: Calle #57 % Calle y Calle" },
-    "country": { "label": "País" },
-    "identification": { "label": "Identificación", "placeholder": "ej: A9012M" },
+    "roleId": {
+      "label": "Rol"
+    },
+    "lastUpdate": {
+      "label": "Última actualización"
+    },
+    "username": {
+      "label": "Nombre de usuario",
+      "placeholder": "ej: juanperez"
+    },
+    "password": {
+      "label": "Contraseña",
+      "placeholder": "ej: *******"
+    },
+    "rPassword": {
+      "label": "Confirmar contraseña",
+      "placeholder": "ej: *******"
+    },
+    "name": {
+      "label": "Nombre",
+      "placeholder": "ej: Juan Pérez"
+    },
+    "email": {
+      "label": "Correo electrónico",
+      "placeholder": "ej: juanperez@gmail.com"
+    },
+    "phone": {
+      "label": "Teléfono",
+      "placeholder": "ej: +5352574839"
+    },
+    "address": {
+      "label": "Dirección",
+      "placeholder": "ej: Calle #57 % Calle y Calle"
+    },
+    "country": {
+      "label": "País"
+    },
+    "identification": {
+      "label": "Identificación",
+      "placeholder": "ej: A9012M"
+    },
     "imageId": {
       "label": "Foto de perfil"
     }
