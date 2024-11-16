@@ -49,6 +49,7 @@
     "apply": "Aplicar"
   },
   "labels": {
+    "require": "Requiere",
     "loading": "Cargando",
     "lastUpdate": "Última actualización",
     "actions": "Acciones",
