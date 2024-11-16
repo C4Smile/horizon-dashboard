@@ -168,14 +168,12 @@ function ResourceStuff(props) {
         <ResourceRow
           value={cost}
           disabled={saving}
-          entities={resources}
+          resources={resources}
           key={`${cost.resourceId}-${i}`}
           label={`${t(`_entities:${entity}.resource.${label}`)}`}
           inputLabel={t(`_entities:base.${inputKey}.label`)}
           onEdit={(resourceId) => openDialog(resourceId)}
           onDelete={onDelete}
-          entityLabel="resource"
-          attributeId="resourceId"
         />
       ))}
 
