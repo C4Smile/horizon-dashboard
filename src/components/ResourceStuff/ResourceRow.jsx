@@ -30,8 +30,8 @@ const ResourceRow = memo(
     }, [value]);
 
     const resource = useMemo(
-      () => resources?.find((res) => res.id === value?.resourceId),
-      [resources, value?.resourceId],
+      () => resources?.find((res) => res.id === resourceId),
+      [resources, resourceId],
     );
 
     return (
@@ -89,11 +89,7 @@ const ResourceRow = memo(
       return false;
     }
 
-    if (prev.value !== next.value) {
-      return false;
-    }
-
-    return true;
+    return prev.value === next.value;
   },
 );
 
