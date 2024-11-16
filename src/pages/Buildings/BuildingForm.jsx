@@ -107,13 +107,18 @@ function BuildingForm() {
   const buildingsList = useMemo(() => {
     try {
       return (
-        buildingsQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id, image: c.image })) ??
-        []
+        buildingsQuery?.data?.items
+          ?.filter((c) => c.id !== Number(id))
+          ?.map((c) => ({
+            value: `${c.name}`,
+            id: c.id,
+            image: c.image,
+          })) ?? []
       );
     } catch (err) {
       return [];
     }
-  }, [buildingsQuery.data]);
+  }, [buildingsQuery?.data?.items, id]);
 
   //#endregion buildings
 
@@ -152,7 +157,7 @@ function BuildingForm() {
           }
         />
       ),
-      upkeeps: (
+      upkeep: (
         <ResourceStuff
           id={id}
           resources={resourcesList}
@@ -188,6 +193,7 @@ function BuildingForm() {
         <EntityLevelStuff
           id={id}
           entities={buildingsList}
+          attributeId="buildingReqId"
           entity={Building.className}
           entityToSave={Building.buildingRequirement}
           label={"req"}
