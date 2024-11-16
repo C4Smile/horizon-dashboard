@@ -12,12 +12,13 @@ import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // components
 import TabComponent from "../../components/TabComponent/TabComponent";
+import { EntityLevelStuff } from "../../components/EntityLevelStuff/index.js";
 
 // types
 import { buildingTabs } from "./types";
 
 // tabs
-import { GeneralInfo, ResourceStuff, TechsStuff, BuildingStuff } from "./tabs";
+import { GeneralInfo, ResourceStuff } from "./tabs";
 
 // entity
 import { Tech } from "../../models/tech/Tech";
@@ -52,10 +53,69 @@ function BuildingForm() {
     if (data?.status === 404) setNotFound(true);
   }, [buildingQuery]);
 
+  //#region resources
+
+  const resourcesQuery = useQuery({
+    queryKey: [ReactQueryKeys.Resources],
+    queryFn: () => horizonApiClient.Resource.getAll(),
+  });
+
+  const resourcesList = useMemo(() => {
+    try {
+      return (
+        resourcesQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id, image: c.image })) ??
+        []
+      );
+    } catch (err) {
+      return [];
+    }
+  }, [resourcesQuery.data]);
+
+  //#endregion resources
+
+  //#region techs
+
+  const techsQuery = useQuery({
+    queryKey: [ReactQueryKeys.Techs],
+    queryFn: () => horizonApiClient.Tech.getAll(),
+  });
+
+  const techsList = useMemo(() => {
+    try {
+      return (
+        techsQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id, image: c.image })) ?? []
+      );
+    } catch (err) {
+      return [];
+    }
+  }, [techsQuery.data]);
+
   const tabs = useMemo(
     () => buildingTabs.map((tab) => ({ id: tab, label: t(`_pages:buildings.tabs.${tab}`) })),
     [t],
   );
+
+  //#endregion techs
+
+  //#region buildings
+
+  const buildingsQuery = useQuery({
+    queryKey: [ReactQueryKeys.Buildings],
+    queryFn: () => horizonApiClient.Building.getAll(),
+  });
+
+  const buildingsList = useMemo(() => {
+    try {
+      return (
+        buildingsQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id, image: c.image })) ??
+        []
+      );
+    } catch (err) {
+      return [];
+    }
+  }, [buildingsQuery.data]);
+
+  //#endregion buildings
 
   const content = useMemo(
     () => ({
@@ -63,6 +123,7 @@ function BuildingForm() {
       produces: (
         <ResourceStuff
           id={id}
+          resources={resourcesList}
           entity={Building.className}
           entityToSave={Building.resourceUpgrade}
           label={"production"}
@@ -78,6 +139,7 @@ function BuildingForm() {
       costs: (
         <ResourceStuff
           id={id}
+          resources={resourcesList}
           entity={Building.className}
           entityToSave={Building.costs}
           label={"cost"}
@@ -93,6 +155,7 @@ function BuildingForm() {
       upkeeps: (
         <ResourceStuff
           id={id}
+          resources={resourcesList}
           entity={Building.className}
           entityToSave={Building.upkeeps}
           label={"upkeep"}
@@ -106,11 +169,12 @@ function BuildingForm() {
         />
       ),
       buildingReqTechs: (
-        <TechsStuff
+        <EntityLevelStuff
           id={id}
+          entities={techsList}
+          attributeId="techReqId"
           entity={Tech.className}
           entityToSave={Building.techRequirement}
-          label={"req"}
           inputKey={"techLevel"}
           queryKey={[ReactQueryKeys.BuildingRequirements, ReactQueryKeys.Techs, id]}
           queryFn={() => horizonApiClient.Building.buildingReqTechs.get(id)}
@@ -121,8 +185,9 @@ function BuildingForm() {
         />
       ),
       buildingReqBuildings: (
-        <BuildingStuff
+        <EntityLevelStuff
           id={id}
+          entities={buildingsList}
           entity={Building.className}
           entityToSave={Building.buildingRequirement}
           label={"req"}
