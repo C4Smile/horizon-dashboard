@@ -106,7 +106,7 @@ function EntityLevelStuff(props) {
 
   const onSubmit = useCallback(
     (d) => {
-      const value = { base: Number(d.base), factor: Number(d.factor) };
+      const value = { level: Number(d.level) };
       value[attributeId] = d[attributeId];
       setInitial();
       save(value);
