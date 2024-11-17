@@ -1,4 +1,7 @@
 {
+  "common": {
+    "emptyEntityLevel": "Haz click en el botón para añadir elementos"
+  },
   "routes": {
     "dashboard": {
       "link": "/"
