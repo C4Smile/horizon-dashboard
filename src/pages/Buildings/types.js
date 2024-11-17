@@ -5,5 +5,4 @@ export const buildingTabs = [
   "upkeep",
   "buildingReqTechs",
   "buildingReqBuildings",
-  "ships",
 ];
