@@ -18,7 +18,7 @@ import Loading from "../../partials/loading/Loading";
 
 // components
 import FormDialog from "../Dialogs/FormDialog";
-import { EntityLevelForm, EntityLevelRow } from "./index.js";
+import { EntityLevelForm, EntityLevelRow, Empty } from "./index.js";
 
 /**
  *
@@ -162,20 +162,24 @@ function EntityLevelStuff(props) {
           {...formProps}
         />
       </FormDialog>
-      {lists?.map((entityReq, i) => (
-        <EntityLevelRow
-          value={entityReq}
-          entities={entities}
-          disabled={saving}
-          key={`${entityReq[attributeId]}-${i}`}
-          inputLabel={t(`_entities:base.${inputKey}.label`)}
-          inputPlaceholder={t(`_entities:base.${inputKey}.placeholder`)}
-          onEdit={(entityReqId) => openDialog(entityReqId)}
-          onDelete={onDelete}
-          entityLabel={entity}
-          attributeId={attributeId}
-        />
-      ))}
+      {lists?.length ? (
+        lists?.map((entityReq, i) => (
+          <EntityLevelRow
+            value={entityReq}
+            entities={entities}
+            disabled={saving}
+            key={`${entityReq[attributeId]}-${i}`}
+            inputLabel={t(`_entities:base.${inputKey}.label`)}
+            inputPlaceholder={t(`_entities:base.${inputKey}.placeholder`)}
+            onEdit={(entityReqId) => openDialog(entityReqId)}
+            onDelete={onDelete}
+            entityLabel={entity}
+            attributeId={attributeId}
+          />
+        ))
+      ) : (
+        <Empty />
+      )}
       <div className="flex gap-3 absolute bottom-6 left-6">
         <button
           disabled={saving || lists.length >= entities.length}
