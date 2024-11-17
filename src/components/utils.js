@@ -43,7 +43,7 @@ export const staticUrlPhoto = (string) => `${config.apiUrl}public/images/${strin
 /**
  *
  * @param {string} str string to parse
- * @returns camelized string
+ * @returns caramelized string
  */
 export function camelize(str) {
   return str
