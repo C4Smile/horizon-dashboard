@@ -118,8 +118,14 @@ function BuildingForm() {
   //#endregion buildings
 
   const tabs = useMemo(
-    () => buildingTabs.map((tab) => ({ id: tab, label: t(`_pages:buildings.tabs.${tab}`) })),
-    [t],
+    () =>
+      buildingTabs
+        .filter((tab) => (tab.hide ? tab.hide(!!id) : true))
+        .map(({ id }) => ({
+          id: id,
+          label: t(`_pages:buildings.tabs.${id}`),
+        })),
+    [id, t],
   );
 
   const content = useMemo(
