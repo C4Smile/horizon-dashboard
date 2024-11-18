@@ -118,8 +118,14 @@ function TechForm() {
   //#endregion buildings
 
   const tabs = useMemo(
-    () => techTabs.map((tab) => ({ id: tab, label: t(`_pages:techs.tabs.${tab}`) })),
-    [t],
+    () =>
+      techTabs
+        .filter((tab) => (tab.hide ? tab.hide(!!id) : true))
+        .map(({ id }) => ({
+          id,
+          label: t(`_pages:techs.tabs.${id}`),
+        })),
+    [id, t],
   );
 
   const content = useMemo(
