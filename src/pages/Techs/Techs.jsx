@@ -9,20 +9,28 @@ import { Table, useTableOptions } from "@sito/dashboard";
 // images
 import noProduct from "../../assets/images/no-product.jpg";
 
+// icons
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
+
+// components
+import { staticUrlPhoto } from "../../components/utils";
+import { FloatingButton } from "../../components/FloatingButton/FloatingButton.jsx";
+
 // dto
 import { Tech } from "../../models/tech/Tech";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
 import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
-import { staticUrlPhoto } from "../../components/utils";
+import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
 
 // providers
 import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // hooks
 import { useActions } from "../../hooks/useActions";
-import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
+
+// sitemap
 import { findPath, pageId } from "../sitemap";
 
 const columnClasses = {
@@ -95,16 +103,19 @@ function TechPage() {
   const { rows } = useParseRows(prepareRows);
 
   return (
-    <Table
-      rows={data?.items}
-      actions={getActions}
-      isLoading={isLoading}
-      parseRows={rows}
-      entity={Tech.className}
-      columns={columns}
-      columnsOptions={{ columnClasses, noSortableColumns }}
-      title={t("_pages:game.links.techs")}
-    />
+    <>
+      <Table
+        rows={data?.items}
+        actions={getActions}
+        isLoading={isLoading}
+        parseRows={rows}
+        entity={Tech.className}
+        columns={columns}
+        columnsOptions={{ columnClasses, noSortableColumns }}
+        title={t("_pages:game.links.techs")}
+      />
+      <FloatingButton component="link" href="new" icon={faAdd} />
+    </>
   );
 }
 
