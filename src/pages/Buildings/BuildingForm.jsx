@@ -122,7 +122,7 @@ function BuildingForm() {
       buildingTabs
         .filter((tab) => (tab.hide ? tab.hide(!!id) : true))
         .map(({ id }) => ({
-          id: id,
+          id,
           label: t(`_pages:buildings.tabs.${id}`),
         })),
     [id, t],
