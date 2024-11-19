@@ -99,16 +99,14 @@ function SkillForm() {
   useEffect(() => {
     if (skillQuery.data) {
       //* PARSING PHOTO
-      setPhoto(skillQuery.data?.skillHasImage.imageId);
+      setPhoto(skillQuery.data?.image);
 
       //* PARSING CONTENT
       if (skillQuery.data?.description && typeof skillQuery.data?.description === "string") {
         const html = skillQuery.data?.description;
         const descriptionBlock = htmlToDraft(html);
         if (descriptionBlock) {
-          const descriptionState = ContentState.createFromBlockArray(
-            descriptionBlock.descriptionBlocks,
-          );
+          const descriptionState = ContentState.createFromBlockArray(descriptionBlock);
           skillQuery.data.description = EditorState.createWithContent(descriptionState);
         }
       }
@@ -170,25 +168,6 @@ function SkillForm() {
             />
           )}
         />
-        {/* Skill Base Factor */}
-        <Controller
-          control={control}
-          disabled={skillQuery.isLoading || saving}
-          name="baseFactor"
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              type="text"
-              name="baseFactor"
-              id="baseFactor"
-              className="text-input peer"
-              placeholder={t("_entities:skill.baseFactor.placeholder")}
-              label={t("_entities:skill.baseFactor.label")}
-              required
-            />
-          )}
-        />
-
         {/* Skill Image */}
         <div className="my-5">
           {skillQuery.isLoading ? (
