@@ -14,6 +14,7 @@ export const menuKeys = {
 export const submenuKeys = {
   Main: "main",
   // Game
+  Skills: "skills",
   Buildings: "buildings",
   BuildingTypes: "buildingTypes",
   Resources: "resources",
@@ -35,8 +36,12 @@ export const menuMap = [
     page: menuKeys.Game,
     path: "/game",
     icon: <FontAwesomeIcon icon={faGamepad} />,
-    role: [Role.administrator, Role.museologist],
+    role: [Role.administrator],
     child: [
+      {
+        label: submenuKeys.Skills,
+        path: "/skills",
+      },
       {
         label: submenuKeys.Buildings,
         path: "/buildings",

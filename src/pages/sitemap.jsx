@@ -15,6 +15,9 @@ import UpdatePassword from "./Auth/UpdatePassword";
 import Home from "./Home";
 import Account from "./Account/Account";
 // game
+// skills
+import SkillsPage from "./Skills/Skills";
+import SkillForm from "./Skills/SkillForm";
 // buildings
 import BuildingsPage from "./Buildings/Buildings";
 import BuildingForm from "./Buildings/BuildingForm";
@@ -44,6 +47,10 @@ export const pageId = {
   home: "home",
   settings: "settings",
   // game
+  // skills
+  skills: "skills",
+  skillsNew: "skillsNew",
+  skillsEdit: "skillsEdit",
   // buildings
   buildings: "buildings",
   buildingsNew: "buildingsNew",
@@ -101,6 +108,17 @@ export const sitemap = [
       { key: pageId.home, path: "/", component: <Home /> },
       { key: pageId.settings, path: "/settings/account", component: <Account /> },
       // game
+      {
+        key: pageId.skills,
+        path: "/game/skills",
+        component: <ModelNavigation pageKey={pageId.skills} />,
+        role: [Role.administrator],
+        children: [
+          { key: pageId.skills, path: "/", component: <SkillsPage /> },
+          { key: pageId.skillsNew, path: "/new", component: <SkillForm /> },
+          { key: pageId.skillsEdit, path: "/:id", component: <SkillForm /> },
+        ],
+      },
       {
         key: pageId.buildings,
         path: "/game/buildings",
