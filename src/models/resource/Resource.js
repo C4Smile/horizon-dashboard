@@ -22,9 +22,9 @@ export class Resource extends Entity {
    * @param {boolean} deleted - Resource deleted
    */
   constructor(
-    id,
-    name,
-    baseFactor,
+    id = 0,
+    name = "",
+    baseFactor= 0,
     dateOfCreation = Date.now(),
     lastUpdate = Date.now(),
     deleted = false,
