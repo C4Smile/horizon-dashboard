@@ -79,7 +79,7 @@ function SkillPage() {
   });
 
   const { columns } = useParseColumns(
-    extractKeysFromObject(new Skill(), ["id", "dateOfCreation", "deleted", "content"]),
+    extractKeysFromObject(new Skill(), ["id", "dateOfCreation", "deleted", "description", "urlName"]),
     Skill.className,
   );
 
