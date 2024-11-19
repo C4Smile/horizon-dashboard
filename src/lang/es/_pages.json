@@ -55,6 +55,7 @@
   "game": {
     "title": "Juego",
     "links": {
+      "skills": "Habilidades",
       "buildings": "Edificios",
       "buildingTypes": "Tipos de Edificios",
       "resources": "Recursos",
@@ -95,6 +96,10 @@
   "resources": {
     "editForm": "Editar Recurso",
     "newForm": "Nuevo Recurso"
+  },
+  "skills": {
+    "editForm": "Editar Skill",
+    "newForm": "Nuevo Skill"
   },
   "techs": {
     "tabs": {
