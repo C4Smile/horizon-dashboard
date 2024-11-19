@@ -79,7 +79,13 @@ function ResourcePage() {
   });
 
   const { columns } = useParseColumns(
-    extractKeysFromObject(new Resource(), ["id", "dateOfCreation", "deleted", "content"]),
+    extractKeysFromObject(new Resource(), [
+      "id",
+      "dateOfCreation",
+      "deleted",
+      "description",
+      "urlName",
+    ]),
     Resource.className,
   );
 

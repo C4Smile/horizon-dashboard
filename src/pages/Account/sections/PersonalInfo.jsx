@@ -81,7 +81,7 @@ function PersonalInfo() {
 
   useEffect(() => {
     if (userQuery.data) {
-      if (userQuery.data?.imageId) setPhoto(userQuery?.data?.imageId);
+      if (userQuery.data?.image) setPhoto(userQuery?.data?.image);
       reset({ ...userQuery.data });
       setLastUpdate(userQuery?.data?.lastUpdate);
     }

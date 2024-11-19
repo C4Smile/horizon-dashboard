@@ -99,16 +99,13 @@ function ResourceForm() {
   useEffect(() => {
     if (resourceQuery.data) {
       //* PARSING PHOTO
-      setPhoto(resourceQuery.data?.resourceHasImage.imageId);
-
+      setPhoto(resourceQuery.data?.image);
       //* PARSING CONTENT
       if (resourceQuery.data?.description && typeof resourceQuery.data?.description === "string") {
         const html = resourceQuery.data?.description;
         const descriptionBlock = htmlToDraft(html);
         if (descriptionBlock) {
-          const descriptionState = ContentState.createFromBlockArray(
-            descriptionBlock.descriptionBlocks,
-          );
+          const descriptionState = ContentState.createFromBlockArray(descriptionBlock);
           resourceQuery.data.description = EditorState.createWithContent(descriptionState);
         }
       }
