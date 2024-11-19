@@ -44,7 +44,7 @@ function ResourcePage() {
   const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
 
   const { data, isLoading } = useQuery({
-    queryKey: [ReactQueryKeys.Resource, sortingBy, sortingOrder, currentPage, pageSize],
+    queryKey: [ReactQueryKeys.Resources, sortingBy, sortingOrder, currentPage, pageSize],
     queryFn: () => horizonApiClient.Resource.getAll({ sortingBy, sortingOrder, currentPage, pageSize }),
   });
 

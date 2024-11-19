@@ -60,13 +60,13 @@ function ResourceForm() {
       setNotification(String(status), { model: t("_entities:entities.resource") });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
-      if (error && error !== null) console.error(error.message);
+      if (error) console.error(error.message);
       else {
-        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Resources] });
+        await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Resources] });
         if (id !== undefined)
-          queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Resources, id] });
+          await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Resources, id] });
         else {
-          setPhoto();
+          setPhoto(null);
           reset({
             id: undefined,
             name: "",
@@ -109,8 +109,7 @@ function ResourceForm() {
           const descriptionState = ContentState.createFromBlockArray(
             descriptionBlock.descriptionBlocks,
           );
-          const editorState = EditorState.createWithContent(descriptionState);
-          resourceQuery.data.description = editorState;
+          resourceQuery.data.description = EditorState.createWithContent(descriptionState);
         }
       }
       setLastUpdate(resourceQuery?.data?.lastUpdate);
