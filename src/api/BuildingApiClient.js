@@ -75,7 +75,7 @@ export class BuildingApiClient extends BaseApiClient {
     // default values
     building.urlName = toSlug(building.name);
     // parsing html
-    building.content = draftToHtml(convertToRaw(building.content.getCurrentContent()));
+    building.description = draftToHtml(convertToRaw(building.description.getCurrentContent()));
     // saving photo
     if (photo) building.imageId = photo.id;
     // call service
