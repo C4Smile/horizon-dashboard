@@ -16,7 +16,8 @@
     "techReqTechs": "Requerimiento tecnológico",
     "techReqBuildings": "Requerimiento de edificio",
     "techType": "Tipo de Tecnología",
-    "skill": "Skill"
+    "skill": "Skill",
+    "ship": "Ship"
   },
   "base": {
     "id": {
@@ -86,6 +87,48 @@
       "cost": "Costo",
       "upkeep": "Manutención",
       "production": "Produce"
+    },
+    "tech": {
+      "req": "Requiere"
+    },
+    "building": {
+      "req": "Requiere"
+    }
+  },
+  "ship": {
+    "name": {
+      "label": "Nombre",
+      "placeholder": "ej: Goleta"
+    },
+    "imageId": {
+      "label": "Imagen"
+    },
+    "lastUpdate": {
+      "label": "Última actualización"
+    },
+    "description": {
+      "label": "Descripción",
+      "placeholder": "Alguna descripción"
+    },
+    "capacity": {
+      "label": "Capacidad",
+      "placeholder": "En toneladas"
+    },
+    "baseSpeed": {
+      "label": "Velocidad base",
+      "placeholder": "En nudos"
+    },
+    "crew": {
+      "label": "Tripulación",
+      "placeholder": "Cantidad de hombres a bordo"
+    },
+    "creationTime": {
+      "label": "Tiempo de construcción",
+      "placeholder": "Se mide en días"
+    },
+    "resource": {
+      "cost": "Costo",
+      "upkeep": "Manutención"
     },
     "tech": {
       "req": "Requiere"

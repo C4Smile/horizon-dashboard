@@ -55,6 +55,7 @@
   "game": {
     "title": "Juego",
     "links": {
+      "ships": "Barcos",
       "skills": "Habilidades",
       "buildings": "Edificios",
       "buildingTypes": "Tipos de Edificios",
@@ -79,7 +80,6 @@
   "buildings": {
     "tabs": {
       "general": "Información",
-      "ships": "Barcos",
       "produces": "Producción",
       "costs": "Costo",
       "upkeep": "Manutención",
@@ -88,6 +88,17 @@
     },
     "editForm": "Editar Edificio",
     "newForm": "Nuevo Edificio"
+  },
+  "ships": {
+    "tabs": {
+      "general": "Información",
+      "costs": "Costo",
+      "upkeep": "Manutención",
+      "shipReqTechs": "Requerimientos tecnológicos",
+      "shipReqBuildings": "Requerimientos de edificios"
+    },
+    "editForm": "Editar Barco",
+    "newForm": "Nuevo Barco"
   },
   "buildingTypes": {
     "editForm": "Editar Tipo de Edificio",
