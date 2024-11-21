@@ -1,6 +1,8 @@
 // base
 import { BaseManyApiClient } from "./utils/BaseManyApiClient";
-import { Building } from "../models/building/Building";
+
+// entity
+import { Ship } from "../models/ship/Ship.js";
 
 /**
  * @class ShipUpkeepsApiClient
@@ -11,6 +13,6 @@ export class ShipUpkeepsApiClient extends BaseManyApiClient {
    * constructor
    */
   constructor() {
-    super(Building.upkeeps, "shipId", "resourceId");
+    super(Ship.upkeeps, "shipId", "resourceId");
   }
 }
