@@ -160,7 +160,7 @@ function TechTypeForm() {
             <ImageUploader
               photo={photo}
               setPhoto={setPhoto}
-              label={`${t("_entities:techType.imageId.label")}`}
+              label={`${t("_entities:techType.image.label")}`}
               folder={`${ReactQueryKeys.TechTypes}`}
             />
           )}

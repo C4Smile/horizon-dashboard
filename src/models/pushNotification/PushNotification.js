@@ -14,7 +14,7 @@ export class PushNotification extends Entity {
    * @param {number} id - PushNotification id
    * @param {string} title - PushNotification title
    * @param {string} action - PushNotification action
-   * @param {object} image - PushNotification imageId
+   * @param {object} image - PushNotification image
    * @param {Date} sentDate - PushNotification sentDate
    * @param {Date} dateOfCreation - PushNotification date of creation
    * @param {Date} lastUpdate - PushNotification last update
@@ -48,18 +48,11 @@ export class PushNotification extends Entity {
       json.id,
       json.title,
       json.action,
-      json.imageId,
+      json.image,
       json.sentDate,
       json.dateOfCreation,
       json.lastUpdate,
       json.deleted,
     );
-  }
-
-  /**
-   * @returns Title
-   */
-  get Title() {
-    return this.title;
   }
 }

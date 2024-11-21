@@ -335,7 +335,7 @@ function UserForm() {
             <ImageUploader
               photo={photo}
               setPhoto={setPhoto}
-              label={`${t("_entities:user.imageId.label")}`}
+              label={`${t("_entities:user.image.label")}`}
               folder={`${ReactQueryKeys.Users}`}
             />
           )}

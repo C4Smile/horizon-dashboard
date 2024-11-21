@@ -29,7 +29,7 @@ const columnClasses = {
 };
 
 const noSortableColumns = {
-  imageId: true,
+  image: true,
 };
 
 /**
@@ -45,7 +45,8 @@ function BuildingTypePage() {
 
   const { data, isLoading } = useQuery({
     queryKey: [ReactQueryKeys.BuildingTypes, sortingBy, sortingOrder, currentPage, pageSize],
-    queryFn: () => horizonApiClient.BuildingType.getAll({ sortingBy, sortingOrder, currentPage, pageSize }),
+    queryFn: () =>
+      horizonApiClient.BuildingType.getAll({ sortingBy, sortingOrder, currentPage, pageSize }),
   });
 
   useEffect(() => {
@@ -60,7 +61,7 @@ function BuildingTypePage() {
           <span className="truncate">{buildingType.name}</span>
         </Link>
       ),
-      imageId: buildingType.image?.url ? (
+      image: buildingType.image?.url ? (
         <img
           className={`w-10 h-10 rounded-full object-cover border-white border-2`}
           src={staticUrlPhoto(buildingType.image.url)}

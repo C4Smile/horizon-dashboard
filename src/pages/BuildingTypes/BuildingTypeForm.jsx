@@ -160,7 +160,7 @@ function BuildingTypeForm() {
             <ImageUploader
               photo={photo}
               setPhoto={setPhoto}
-              label={`${t("_entities:buildingType.imageId.label")}`}
+              label={`${t("_entities:buildingType.image.label")}`}
               folder={`${ReactQueryKeys.BuildingTypes}`}
             />
           )}

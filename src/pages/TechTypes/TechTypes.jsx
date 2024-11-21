@@ -29,7 +29,7 @@ const columnClasses = {
 };
 
 const noSortableColumns = {
-  imageId: true,
+  image: true,
 };
 
 /**
