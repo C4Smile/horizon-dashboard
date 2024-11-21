@@ -5,7 +5,7 @@ import { Entity } from "../entity/Entity";
  * @description Represents a user
  */
 export class User extends Entity {
-  imageId = 0;
+  image = {};
   username = "";
   password = "";
   name = "";
@@ -39,8 +39,8 @@ export class User extends Entity {
     phone,
     address,
     identification,
-    dateOfCreation = Date.now(),
-    lastUpdate = Date.now(),
+    dateOfCreation = new Date(),
+    lastUpdate = new Date(),
     deleted = false,
   ) {
     super(id, dateOfCreation, lastUpdate, deleted);
@@ -72,54 +72,5 @@ export class User extends Entity {
       json.lastUpdate,
       json.deleted,
     );
-  }
-
-  /**
-   * @returns Name
-   */
-  get Name() {
-    return this.name;
-  }
-
-  /**
-   * @returns Email
-   */
-  get Email() {
-    return this.email;
-  }
-
-  /**
-   * @returns Username
-   */
-  get Username() {
-    return this.username;
-  }
-
-  /**
-   * @returns Password
-   */
-  get Password() {
-    return this.password;
-  }
-
-  /**
-   * @returns Phone
-   */
-  get Phone() {
-    return this.phone;
-  }
-
-  /**
-   * @returns Address
-   */
-  get Address() {
-    return this.address;
-  }
-
-  /**
-   * @returns Identification
-   */
-  get Identification() {
-    return this.identification;
   }
 }

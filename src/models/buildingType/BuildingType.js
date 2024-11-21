@@ -7,7 +7,7 @@ import { Entity } from "../entity/Entity";
 export class BuildingType extends Entity {
   name = "";
   urlName = "";
-  imageId = 0;
+  image = {};
 
   /**
    * @param {number} id - BuildingType id

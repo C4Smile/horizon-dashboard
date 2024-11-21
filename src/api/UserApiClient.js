@@ -97,7 +97,7 @@ export class UserApiClient extends BaseApiClient {
     // deleting rPassword
     delete user.rPassword;
     // saving image
-    if (photo) user.imageId = photo.id;
+    if (photo) user.image = photo;
 
     // call service
     const { error, data, status } = await makeRequest(this.baseUrl, "POST", user, {
@@ -118,7 +118,7 @@ export class UserApiClient extends BaseApiClient {
     // deleting rPassword
     delete user.rPassword;
     // saving photo
-    if (photo) user.imageId = photo.id;
+    if (photo) user.image = photo;
 
     // call service
     const { status, error } = await makeRequest(

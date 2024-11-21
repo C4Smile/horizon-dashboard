@@ -56,7 +56,7 @@ export class BuildingApiClient extends BaseApiClient {
     // parsing html
     building.description = draftToHtml(convertToRaw(building.description.getCurrentContent()));
     // saving photo
-    if (photo) building.imageId = photo.id;
+    if (photo) building.image = photo;
     // call service
     const { error, data, status } = await makeRequest("buildings", "POST", building, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
@@ -68,7 +68,7 @@ export class BuildingApiClient extends BaseApiClient {
   /**
    * @description Update building
    * @param {Building} building - Building
-   * @param {Photo[]} photo - Photo
+   * @param {Photo} photo - Photo
    * @returns Transaction status
    */
   async update(building, photo) {
@@ -77,7 +77,7 @@ export class BuildingApiClient extends BaseApiClient {
     // parsing html
     building.description = draftToHtml(convertToRaw(building.description.getCurrentContent()));
     // saving photo
-    if (photo) building.imageId = photo.id;
+    if (photo) building.image = photo;
     // call service
     const { status, error } = await makeRequest(
       `buildings/${building.id}`,

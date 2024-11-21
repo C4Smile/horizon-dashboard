@@ -39,7 +39,7 @@ export class TechTypeApiClient extends BaseApiClient {
     // default values
     techType.urlName = toSlug(techType.name);
     // saving photo
-    if (photo) techType.imageId = photo.id;
+    if (photo) techType.image = photo;
     // call service
     const { error, data, status } = await makeRequest("techTypes", "POST", techType, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
@@ -59,7 +59,7 @@ export class TechTypeApiClient extends BaseApiClient {
     // default values
     techType.urlName = toSlug(techType.name);
     // saving photo
-    if (photo) techType.imageId = photo.id;
+    if (photo) techType.image = photo;
     // call service
     const { status, error } = await makeRequest(
       `techTypes/${techType.id}`,

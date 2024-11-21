@@ -54,7 +54,7 @@ export class ShipApiClient extends BaseApiClient {
     // parsing html
     ship.description = draftToHtml(convertToRaw(ship.description.getCurrentContent()));
     // saving photo
-    if (photo) ship.imageId = photo.id;
+    if (photo) ship.image = photo;
     // call service
     const { error, data, status } = await makeRequest("ships", "POST", ship, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
@@ -66,7 +66,7 @@ export class ShipApiClient extends BaseApiClient {
   /**
    * @description Update ship
    * @param {Ship} ship - Ship
-   * @param {Photo[]} photo - Photo
+   * @param {Photo} photo - Photo
    * @returns Transaction status
    */
   async update(ship, photo) {
@@ -75,7 +75,7 @@ export class ShipApiClient extends BaseApiClient {
     // parsing html
     ship.description = draftToHtml(convertToRaw(ship.description.getCurrentContent()));
     // saving photo
-    if (photo) ship.imageId = photo.id;
+    if (photo) ship.image = photo;
     // call service
     const { status, error } = await makeRequest(
       `ships/${ship.id}`,

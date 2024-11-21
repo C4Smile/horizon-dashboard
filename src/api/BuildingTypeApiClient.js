@@ -38,7 +38,7 @@ export class BuildingTypeApiClient extends BaseApiClient {
     // default values
     buildingType.urlName = toSlug(buildingType.name);
     // saving photo
-    if (photo) buildingType.imageId = photo.id;
+    if (photo) buildingType.image = photo;
     // call service
     const { error, data, status } = await makeRequest("buildingTypes", "POST", buildingType, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
@@ -58,7 +58,7 @@ export class BuildingTypeApiClient extends BaseApiClient {
     // default values
     buildingType.urlName = toSlug(buildingType.name);
     // saving photo
-    if (photo) buildingType.imageId = photo.id;
+    if (photo) buildingType.image = photo;
     // call service
     const { status, error } = await makeRequest(
       `buildingTypes/${buildingType.id}`,

@@ -54,7 +54,7 @@ export class TechApiClient extends BaseApiClient {
     // parsing html
     tech.description = draftToHtml(convertToRaw(tech.description.getCurrentContent()));
     // saving photo
-    if (photo) tech.imageId = photo.id;
+    if (photo) tech.image = photo;
     // call service
     const { error, data, status } = await makeRequest("techs", "POST", tech, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
@@ -76,7 +76,7 @@ export class TechApiClient extends BaseApiClient {
     // parsing html
     tech.description = draftToHtml(convertToRaw(tech.description.getCurrentContent()));
     // saving photo
-    if (photo) tech.imageId = photo.id;
+    if (photo) tech.image = photo;
     // call service
     const { status, error } = await makeRequest(
       `techs/${tech.id}`,

@@ -43,7 +43,7 @@ export class SkillApiClient extends BaseApiClient {
     // parsing html
     skill.description = draftToHtml(convertToRaw(skill.description.getCurrentContent()));
     // saving photo
-    if (photo) skill.imageId = photo.id;
+    if (photo) skill.image = photo;
     // call service
     const { error, data, status } = await makeRequest("skills", "POST", skill, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
@@ -65,7 +65,7 @@ export class SkillApiClient extends BaseApiClient {
     // parsing html
     skill.description = draftToHtml(convertToRaw(skill.description.getCurrentContent()));
     // saving photo
-    if (photo) skill.imageId = photo.id;
+    if (photo) skill.image = photo;
     // call service
     const { status, error } = await makeRequest(
       `skills/${skill.id}`,

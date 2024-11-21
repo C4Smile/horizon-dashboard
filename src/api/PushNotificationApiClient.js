@@ -36,7 +36,7 @@ export class PushNotificationApiClient extends BaseApiClient {
     // parsing sent date
     pushNotification.sentDate = new Date(pushNotification?.sentDate ?? Date.now()).toISOString();
     // saving image
-    if (photo) pushNotification.imageId = photo.id;
+    if (photo) pushNotification.image = photo;
     // call service
     const { error, status } = await makeRequest(this.baseUrl, "POST", pushNotification, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
@@ -55,7 +55,7 @@ export class PushNotificationApiClient extends BaseApiClient {
     // parsing sent date
     pushNotification.sentDate = new Date(pushNotification?.sentDate ?? Date.now()).toISOString();
     // saving photo
-    if (photo) pushNotification.imageId = photo.id;
+    if (photo) pushNotification.image = photo;
     // call service
     const { status, error } = await makeRequest(
       `${this.baseUrl}/${pushNotification.id}`,

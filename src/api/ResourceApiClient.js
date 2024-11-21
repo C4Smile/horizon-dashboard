@@ -43,7 +43,7 @@ export class ResourceApiClient extends BaseApiClient {
     // parsing html
     resource.description = draftToHtml(convertToRaw(resource.description.getCurrentContent()));
     // saving photo
-    if (photo) resource.imageId = photo.id;
+    if (photo) resource.image = photo;
     // call service
     const { error, data, status } = await makeRequest("resources", "POST", resource, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
@@ -65,7 +65,7 @@ export class ResourceApiClient extends BaseApiClient {
     // parsing html
     resource.description = draftToHtml(convertToRaw(resource.description.getCurrentContent()));
     // saving photo
-    if (photo) resource.imageId = photo.id;
+    if (photo) resource.image = photo;
     // call service
     const { status, error } = await makeRequest(
       `resources/${resource.id}`,
