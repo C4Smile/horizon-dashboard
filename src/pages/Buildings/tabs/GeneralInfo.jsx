@@ -176,7 +176,7 @@ function GeneralInfo(props) {
         render={({ field }) => (
           <TextInput
             {...field}
-            type="text"
+            type="number"
             name="creationTime"
             id="creationTime"
             className="text-input peer"
