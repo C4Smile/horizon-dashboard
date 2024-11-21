@@ -7,7 +7,8 @@ import { ImageApiClient } from "./ImageApiClient";
 import { TechTypeApiClient } from "./TechTypeApiClient";
 import { TechApiClient } from "./TechApiClient";
 import { BuildingTypeApiClient } from "./BuildingTypeApiClient.js";
-import {SkillApiClient} from "./SkillApiClient.js";
+import { SkillApiClient } from "./SkillApiClient.js";
+import { ShipApiClient } from "./ShipApiClient.js";
 
 // services
 import { makeRequest } from "../db/services";
@@ -17,7 +18,6 @@ import { fromLocal } from "../utils/local";
 
 // config
 import config from "../config";
-
 
 /**
  * @class HorizonApiClient
@@ -38,6 +38,7 @@ export class HorizonApiClient {
     this.tech = new TechApiClient();
     this.techType = new TechTypeApiClient();
     this.skill = new SkillApiClient();
+    this.ship = new ShipApiClient();
   }
 
   /**
@@ -127,5 +128,13 @@ export class HorizonApiClient {
    */
   get Skill() {
     return this.skill;
+  }
+
+  /**
+   *
+   * @returns {ShipApiClient} Ship
+   */
+  get Ship() {
+    return this.ship;
   }
 }
