@@ -18,7 +18,7 @@ export class Ship extends Entity {
   static costs = "shipCosts";
   static upkeeps = "shipUpkeeps";
   static techRequirement = "shipReqTechs";
-  static buildRequirement = "shipReqBuildings";
+  static buildingRequirement = "shipReqBuildings";
 
   /**
    * @param {number} id - Ship id
