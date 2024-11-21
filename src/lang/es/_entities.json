@@ -198,7 +198,7 @@
       "label": "Tiempo de investigación",
       "placeholder": "Se mide en días"
     },
-    "typeId": {
+    "type": {
       "label": "Tipo"
     },
     "lastUpdate": {
