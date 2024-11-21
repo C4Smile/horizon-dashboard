@@ -78,7 +78,7 @@ function TechTypePage() {
   });
 
   const { columns } = useParseColumns(
-    extractKeysFromObject(new TechType(), ["id", "dateOfCreation", "deleted", "content"]),
+    extractKeysFromObject(new TechType(), ["id", "dateOfCreation", "deleted", "urlName"]),
     TechType.className,
   );
 
