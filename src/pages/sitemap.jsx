@@ -15,6 +15,9 @@ import UpdatePassword from "./Auth/UpdatePassword";
 import Home from "./Home";
 import Account from "./Account/Account";
 // game
+// ships
+import ShipsPage from "./Ships/Ships.jsx";
+import ShipForm from "./Ships/ShipForm.jsx";
 // skills
 import SkillsPage from "./Skills/Skills";
 import SkillForm from "./Skills/SkillForm";
@@ -47,6 +50,10 @@ export const pageId = {
   home: "home",
   settings: "settings",
   // game
+  // ships
+  ships: "ships",
+  shipsNew: "shipsNew",
+  shipsEdit: "shipsEdit",
   // skills
   skills: "skills",
   skillsNew: "skillsNew",
@@ -108,6 +115,17 @@ export const sitemap = [
       { key: pageId.home, path: "/", component: <Home /> },
       { key: pageId.settings, path: "/settings/account", component: <Account /> },
       // game
+      {
+        key: pageId.ships,
+        path: "/game/ships",
+        component: <ModelNavigation pageKey={pageId.ships} />,
+        role: [Role.administrator],
+        children: [
+          { key: pageId.ships, path: "/", component: <ShipsPage /> },
+          { key: pageId.shipsNew, path: "/new", component: <ShipForm /> },
+          { key: pageId.shipsEdit, path: "/:id", component: <ShipForm /> },
+        ],
+      },
       {
         key: pageId.skills,
         path: "/game/skills",
