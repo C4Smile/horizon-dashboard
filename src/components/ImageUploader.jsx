@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useMemo, useState } from "react";
 
 // font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,7 +14,6 @@ import noPhoto from "../assets/images/no-product.jpg";
 import { staticUrlPhoto } from "./utils";
 
 // providers
-import { useNotification } from "../providers/NotificationProvider";
 import { useHorizonApiClient } from "../providers/HorizonApiProvider";
 
 /**
@@ -26,8 +24,7 @@ import { useHorizonApiClient } from "../providers/HorizonApiProvider";
 function ImageUploader(props) {
   const { label, folder, photo, setPhoto } = props;
 
-  const { t } = useTranslation();
-  const { setNotification } = useNotification();
+  const [preview, setPreview] = useState(null);
 
   const [loadingPhoto, setLoadingPhoto] = useState(false);
 
@@ -35,19 +32,24 @@ function ImageUploader(props) {
 
   const onUploadFile = async (e) => {
     setLoadingPhoto(true);
-    const uploads = await horizonApiClient.Image.insertImages(e.target.files, folder);
-    if (uploads.error)
-      setNotification(String(uploads.error.status), { model: t("_entities:entities.image") });
-    else setPhoto(uploads[0]);
+    if (e.target.files.length) {
+      const preview = await horizonApiClient.Image.readFileAsBase64(e.target.files[0]);
+      setPreview(preview);
+      setPhoto({ base64: preview, folder, fileName: e.target.files[0].name });
+    }
     setLoadingPhoto(false);
   };
 
   const onDelete = async () => {
-    const status = await horizonApiClient.Image.deleteImage(photo?.fileId ?? photo?.fileName);
-    if (status === 200) setPhoto();
-    // eslint-disable-next-line no-console
-    else console.error(status);
+    setPhoto(null);
+    setPreview(null);
   };
+
+  const photoToShow = useMemo(() => {
+    if (photo && photo.url) return staticUrlPhoto(photo.url);
+    if (preview) return preview;
+    return noPhoto;
+  }, [photo, preview]);
 
   return (
     <label className="flex flex-col items-start gap-4">
@@ -56,7 +58,7 @@ function ImageUploader(props) {
         <Loading className="w-60 h-60 bg-black/20 rounded-full" />
       ) : (
         <>
-          {photo && photo.id ? (
+          {photoToShow !== noPhoto ? (
             <>
               <div className="flex flex-col relative">
                 <button
@@ -66,11 +68,7 @@ function ImageUploader(props) {
                 >
                   <FontAwesomeIcon icon={faTrash} />
                 </button>
-                <img
-                  className="w-60 h-60 rounded-full object-cover"
-                  src={photo?.url ? staticUrlPhoto(photo?.url) : noPhoto}
-                  alt="upload"
-                />
+                <img className="w-60 h-60 rounded-full object-cover" src={photoToShow} alt="upload" />
               </div>
             </>
           ) : (
