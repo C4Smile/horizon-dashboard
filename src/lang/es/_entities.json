@@ -16,8 +16,8 @@
     "techReqTechs": "Requerimiento tecnológico",
     "techReqBuildings": "Requerimiento de edificio",
     "techType": "Tipo de Tecnología",
-    "skill": "Skill",
-    "ship": "Ship"
+    "skill": "Habilidad",
+    "ship": "Barco"
   },
   "base": {
     "id": {
@@ -66,7 +66,7 @@
       "label": "Nombre",
       "placeholder": "ej: Granja"
     },
-    "imageId": {
+    "image": {
       "label": "Imagen"
     },
     "lastUpdate": {
@@ -100,7 +100,7 @@
       "label": "Nombre",
       "placeholder": "ej: Goleta"
     },
-    "imageId": {
+    "image": {
       "label": "Imagen"
     },
     "lastUpdate": {
@@ -142,7 +142,7 @@
       "label": "Nombre",
       "placeholder": "ej: Producción"
     },
-    "imageId": {
+    "image": {
       "label": "Imagen"
     },
     "lastUpdate": {
@@ -165,7 +165,7 @@
       "label": "Descripción",
       "placeholder": "Alguna descripción"
     },
-    "imageId": {
+    "image": {
       "label": "Imagen"
     }
   },
@@ -185,7 +185,7 @@
       "label": "Descripción",
       "placeholder": "Alguna descripción"
     },
-    "imageId": {
+    "image": {
       "label": "Imagen"
     }
   },
@@ -208,7 +208,7 @@
       "label": "Descripción",
       "placeholder": "Alguna descripción"
     },
-    "imageId": {
+    "image": {
       "label": "Imagen"
     },
     "resource": {
@@ -227,7 +227,7 @@
       "label": "Nombre",
       "placeholder": "ej: Mejora"
     },
-    "imageId": {
+    "image": {
       "label": "Imagen"
     },
     "lastUpdate": {
@@ -276,7 +276,7 @@
       "label": "Identificación",
       "placeholder": "ej: A9012M"
     },
-    "imageId": {
+    "image": {
       "label": "Foto de perfil"
     }
   }
