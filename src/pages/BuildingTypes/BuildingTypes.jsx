@@ -79,7 +79,7 @@ function BuildingTypePage() {
   });
 
   const { columns } = useParseColumns(
-    extractKeysFromObject(new BuildingType(), ["id", "dateOfCreation", "deleted", "content"]),
+    extractKeysFromObject(new BuildingType(), ["id", "dateOfCreation", "deleted", "urlName"]),
     BuildingType.className,
   );
 
