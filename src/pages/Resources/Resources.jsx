@@ -60,7 +60,7 @@ function ResourcePage() {
           <span className="truncate">{resource.name}</span>
         </Link>
       ),
-      imageId: resource.image?.url ? (
+      image: resource.image?.url ? (
         <img
           className={`w-10 h-10 rounded-full object-cover border-white border-2`}
           src={staticUrlPhoto(resource.image.url)}

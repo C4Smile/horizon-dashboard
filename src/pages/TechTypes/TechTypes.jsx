@@ -60,7 +60,7 @@ function TechTypePage() {
           <span className="truncate">{techType.name}</span>
         </Link>
       ),
-      imageId: techType.image?.url ? (
+      image: techType.image?.url ? (
         <img
           className={`w-10 h-10 rounded-full object-cover border-white border-2`}
           src={staticUrlPhoto(techType.image.url)}

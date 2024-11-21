@@ -60,7 +60,7 @@ function SkillPage() {
           <span className="truncate">{skill.name}</span>
         </Link>
       ),
-      imageId: skill.image?.url ? (
+      image: skill.image?.url ? (
         <img
           className={`w-10 h-10 rounded-full object-cover border-white border-2`}
           src={staticUrlPhoto(skill.image.url)}

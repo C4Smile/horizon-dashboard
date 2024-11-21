@@ -31,7 +31,7 @@ import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 import { useActions } from "../../hooks/useActions";
 
 const columnClasses = {
-  lastUpdate: "w-56",
+  lastUpdate: "w-44",
 };
 
 const noSortableColumns = {
@@ -64,12 +64,32 @@ function ShipPage() {
   const prepareRows = (ship) => {
     return {
       ...ship,
+      capacity: {
+        value: ship.capacity,
+        render: (
+          <span className="w-36 flex">{`${ship.capacity} ${t("_accessibility:labels.tons")}`}</span>
+        ),
+      },
+      crew: {
+        value: ship.crew,
+        render: (
+          <span className="w-36 flex">{`${ship.crew} ${t("_accessibility:labels.sailors")}`}</span>
+        ),
+      },
+      baseSpeed: {
+        value: ship.baseSpeed,
+        render: `${ship.baseSpeed} ${t("_accessibility:labels.knots")}`,
+      },
+      creationTime: {
+        value: ship.creationTime,
+        render: `${ship.creationTime} ${t("_accessibility:labels.days")}`,
+      },
       name: (
         <Link className="underline text-light-primary flex" to={`${ship.id}`}>
           <span className="truncate">{ship.name}</span>
         </Link>
       ),
-      imageId: ship.image?.url ? (
+      image: ship.image?.url ? (
         <img
           className={`w-10 h-10 rounded-full object-cover border-white border-2`}
           src={staticUrlPhoto(ship.image.url)}

@@ -69,7 +69,7 @@ function TechPage() {
           <span className="truncate">{tech.name}</span>
         </Link>
       ),
-      typeId: (
+      type: (
         <Link
           className="underline text-light-primary flex"
           to={`${findPath(pageId.techTypesEdit)}/${tech.typeId}`}
@@ -77,7 +77,7 @@ function TechPage() {
           <span className="truncate">{tech?.type?.name}</span>
         </Link>
       ),
-      imageId: tech.image?.url ? (
+      image: tech.image?.url ? (
         <img
           className={`w-10 h-10 rounded-full object-cover border-white border-2`}
           src={staticUrlPhoto(tech.image.url)}

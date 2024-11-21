@@ -46,10 +46,10 @@ function Users() {
 
   const prepareRows = (user) => ({
     ...user,
-    imageId: user.imageId?.url ? (
+    image: user.image?.url ? (
       <img
         className={`w-10 h-10 rounded-full object-cover border-white border-2`}
-        src={staticUrlPhoto(user.imageId.url)}
+        src={staticUrlPhoto(user.image.url)}
         alt={`${user.name}`}
       />
     ) : (
