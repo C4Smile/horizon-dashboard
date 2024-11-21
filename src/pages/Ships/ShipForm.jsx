@@ -41,8 +41,8 @@ function ShipForm() {
   const [notFound, setNotFound] = useState(false);
 
   const shipQuery = useQuery({
-    queryKey: [ReactQueryKeys.Buildings, id],
-    queryFn: () => horizonApiClient.Building.getById(id),
+    queryKey: [ReactQueryKeys.Ships, id],
+    queryFn: () => horizonApiClient.Ship.getById(id),
     enabled: id !== undefined,
   });
 
@@ -102,18 +102,16 @@ function ShipForm() {
   const buildingsList = useMemo(() => {
     try {
       return (
-        buildingsQuery?.data?.items
-          ?.filter((c) => c.id !== Number(id))
-          ?.map((c) => ({
-            value: `${c.name}`,
-            id: c.id,
-            image: c.image,
-          })) ?? []
+        buildingsQuery?.data?.items?.map((c) => ({
+          value: `${c.name}`,
+          id: c.id,
+          image: c.image,
+        })) ?? []
       );
     } catch (err) {
       return [];
     }
-  }, [buildingsQuery?.data?.items, id]);
+  }, [buildingsQuery?.data?.items]);
 
   //#endregion buildings
 
