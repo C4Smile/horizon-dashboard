@@ -194,7 +194,7 @@ function ResourceForm() {
             <ImageUploader
               photo={photo}
               setPhoto={setPhoto}
-              label={`${t("_entities:resource.imageId.label")}`}
+              label={`${t("_entities:resource.image.label")}`}
               folder={`${ReactQueryKeys.Resources}`}
             />
           )}

@@ -176,7 +176,7 @@ function SkillForm() {
             <ImageUploader
               photo={photo}
               setPhoto={setPhoto}
-              label={`${t("_entities:skill.imageId.label")}`}
+              label={`${t("_entities:skill.image.label")}`}
               folder={`${ReactQueryKeys.Skills}`}
             />
           )}

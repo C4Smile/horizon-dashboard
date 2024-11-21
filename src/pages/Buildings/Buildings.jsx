@@ -38,7 +38,7 @@ const columnClasses = {
 };
 
 const noSortableColumns = {
-  imageId: true,
+  image: true,
   costs: true,
   produces: true,
   upkeeps: true,
@@ -81,7 +81,7 @@ function BuildingPage() {
           <span className="truncate">{building?.type?.name}</span>
         </Link>
       ),
-      imageId: building.image?.url ? (
+      image: building.image?.url ? (
         <img
           className={`w-10 h-10 rounded-full object-cover border-white border-2`}
           src={staticUrlPhoto(building.image.url)}

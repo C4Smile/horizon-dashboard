@@ -35,7 +35,7 @@ const columnClasses = {
 };
 
 const noSortableColumns = {
-  imageId: true,
+  image: true,
   costs: true,
   upkeeps: true,
   techRequirements: true,

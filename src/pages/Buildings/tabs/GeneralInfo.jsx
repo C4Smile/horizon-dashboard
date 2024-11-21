@@ -215,7 +215,7 @@ function GeneralInfo(props) {
           <ImageUploader
             photo={photo}
             setPhoto={setPhoto}
-            label={`${t("_entities:building.imageId.label")}`}
+            label={`${t("_entities:building.image.label")}`}
             folder={`${ReactQueryKeys.Buildings}`}
           />
         )}

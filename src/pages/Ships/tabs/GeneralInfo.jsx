@@ -237,7 +237,7 @@ function GeneralInfo(props) {
           <ImageUploader
             photo={photo}
             setPhoto={setPhoto}
-            label={`${t("_entities:ship.imageId.label")}`}
+            label={`${t("_entities:ship.image.label")}`}
             folder={`${ReactQueryKeys.Ships}`}
           />
         )}
