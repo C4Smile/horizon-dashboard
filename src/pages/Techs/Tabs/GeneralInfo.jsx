@@ -190,14 +190,14 @@ function GeneralInfo(props) {
       {/* Tech Type */}
       <Controller
         control={control}
-        name="typeId"
+        name="type"
         disabled={techQuery.isLoading || typesQuery.isLoading || saving}
         render={({ field: { onChange, value, ...rest } }) => (
           <SelectInput
             {...rest}
-            id="typeId"
-            name="typeId"
-            label={t("_entities:tech.typeId.label")}
+            id="type"
+            name="type"
+            label={t("_entities:tech.type.label")}
             options={typesList}
             value={value}
             onChange={(e) => {
