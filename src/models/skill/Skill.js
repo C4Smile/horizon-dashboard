@@ -8,7 +8,7 @@ export class Skill extends Entity {
   name = "";
   urlName = "";
   description = "";
-  imageId = 0;
+  image = {};
 
   static className = "skill";
 

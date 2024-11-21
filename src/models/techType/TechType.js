@@ -7,7 +7,7 @@ import { Entity } from "../entity/Entity";
 export class TechType extends Entity {
   name = "";
   urlName = "";
-  imageId = 0;
+  image = {};
 
   /**
    * @param {number} id - TechType id
@@ -16,7 +16,7 @@ export class TechType extends Entity {
    * @param {Date} lastUpdate - TechType last update
    * @param {boolean} deleted - TechType deleted
    */
-  constructor(id, name, dateOfCreation = Date.now(), lastUpdate = Date.now(), deleted = false) {
+  constructor(id, name, dateOfCreation = new Date(), lastUpdate = new Date(), deleted = false) {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.name = name;
     TechType.className = "techType";

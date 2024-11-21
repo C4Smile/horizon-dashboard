@@ -12,7 +12,7 @@ export class Ship extends Entity {
   creationTime = 0;
   urlName = "";
   description = "";
-  imageId = 0;
+  image = {};
 
   static className = "ship";
   static costs = "shipCosts";

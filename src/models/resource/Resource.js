@@ -8,7 +8,7 @@ export class Resource extends Entity {
   name = "";
   urlName = "";
   description = "";
-  imageId = 0;
+  image = {};
   baseFactor = 0;
 
   static className = "resource";

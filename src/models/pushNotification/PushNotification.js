@@ -7,14 +7,14 @@ import { Entity } from "../entity/Entity";
 export class PushNotification extends Entity {
   title = "";
   action = "";
-  imageId = 0;
+  image = {};
   sentDate = null;
 
   /**
    * @param {number} id - PushNotification id
    * @param {string} title - PushNotification title
    * @param {string} action - PushNotification action
-   * @param {number} imageId - PushNotification imageId
+   * @param {object} image - PushNotification imageId
    * @param {Date} sentDate - PushNotification sentDate
    * @param {Date} dateOfCreation - PushNotification date of creation
    * @param {Date} lastUpdate - PushNotification last update
@@ -24,16 +24,16 @@ export class PushNotification extends Entity {
     id,
     title,
     action,
-    imageId,
+    image,
     sentDate,
-    dateOfCreation = Date.now(),
-    lastUpdate = Date.now(),
+    dateOfCreation = new Date(),
+    lastUpdate = new Date(),
     deleted = false,
   ) {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.title = title;
     this.action = action;
-    this.imageId = imageId;
+    this.image = image;
     this.sentDate = sentDate;
     PushNotification.className = "pushNotification";
   }
