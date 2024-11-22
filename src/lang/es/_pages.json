@@ -56,6 +56,7 @@
     "title": "Juego",
     "links": {
       "ships": "Barcos",
+      "cannons": "Cañones",
       "skills": "Habilidades",
       "buildings": "Edificios",
       "buildingTypes": "Tipos de Edificios",
@@ -99,6 +100,16 @@
     },
     "editForm": "Editar Barco",
     "newForm": "Nuevo Barco"
+  },
+  "cannons": {
+    "tabs": {
+      "general": "Información",
+      "costs": "Costo",
+      "cannonReqTechs": "Requerimientos tecnológicos",
+      "cannonReqBuildings": "Requerimientos de edificios"
+    },
+    "editForm": "Editar Cañón",
+    "newForm": "Nuevo Cañón"
   },
   "buildingTypes": {
     "editForm": "Editar Tipo de Edificio",

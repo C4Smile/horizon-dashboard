@@ -17,7 +17,8 @@
     "techReqBuildings": "Requerimiento de edificio",
     "techType": "Tipo de Tecnología",
     "skill": "Habilidad",
-    "ship": "Barco"
+    "ship": "Barco",
+    "cannon": "Cañón"
   },
   "base": {
     "id": {
@@ -129,6 +130,43 @@
     "resource": {
       "cost": "Costo",
       "upkeep": "Manutención"
+    },
+    "tech": {
+      "req": "Requiere"
+    },
+    "building": {
+      "req": "Requiere"
+    }
+  },
+  "cannon": {
+    "name": {
+      "label": "Nombre",
+      "placeholder": "ej: Cañón de 18 libras"
+    },
+    "image": {
+      "label": "Imagen"
+    },
+    "lastUpdate": {
+      "label": "Última actualización"
+    },
+    "description": {
+      "label": "Descripción",
+      "placeholder": "Alguna descripción"
+    },
+    "weight": {
+      "label": "Peso",
+      "placeholder": "En toneladas"
+    },
+    "baseDamage": {
+      "label": "Dañp base",
+      "placeholder": "Ej: 100 puntos de casco"
+    },
+    "creationTime": {
+      "label": "Tiempo de construcción",
+      "placeholder": "Se mide en días"
+    },
+    "resource": {
+      "cost": "Costo"
     },
     "tech": {
       "req": "Requiere"
