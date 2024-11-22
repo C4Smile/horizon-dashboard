@@ -1,5 +1,9 @@
 import { useTranslation } from "react-i18next";
 
+/**
+ *
+ * @returns Empty component
+ */
 const Empty = () => {
   const { t } = useTranslation();
 
