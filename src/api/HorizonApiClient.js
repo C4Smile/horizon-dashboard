@@ -9,6 +9,7 @@ import { TechApiClient } from "./TechApiClient";
 import { BuildingTypeApiClient } from "./BuildingTypeApiClient.js";
 import { SkillApiClient } from "./SkillApiClient.js";
 import { ShipApiClient } from "./ShipApiClient.js";
+import { CannonApiClient } from "./CannonApiClient.js";
 
 // services
 import { makeRequest } from "../db/services";
@@ -39,6 +40,7 @@ export class HorizonApiClient {
     this.techType = new TechTypeApiClient();
     this.skill = new SkillApiClient();
     this.ship = new ShipApiClient();
+    this.cannon = new CannonApiClient();
   }
 
   /**
@@ -136,5 +138,13 @@ export class HorizonApiClient {
    */
   get Ship() {
     return this.ship;
+  }
+
+  /**
+   *
+   * @returns {CannonApiClient} Ship
+   */
+  get Cannon() {
+    return this.cannon;
   }
 }
