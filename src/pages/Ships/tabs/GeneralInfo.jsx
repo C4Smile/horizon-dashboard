@@ -172,7 +172,7 @@ function GeneralInfo(props) {
         )}
       />
 
-      {/* Ship Capacity */}
+      {/* Ship Base Speed */}
       <Controller
         control={control}
         disabled={shipQuery.isLoading || saving}
@@ -191,7 +191,7 @@ function GeneralInfo(props) {
         )}
       />
 
-    {/* Ship Crew */}
+      {/* Ship Crew */}
       <Controller
         control={control}
         disabled={shipQuery.isLoading || saving}
