@@ -19,6 +19,9 @@ export const ReactQueryKeys = {
   ShipCosts: "shipCosts",
   ShipUpkeeps: "shipUpkeeps",
   ShipRequirements: "shipRequirements",
+  Cannons: "cannons",
+  CannonCosts: "cannonCosts",
+  CannonRequirements: "cannonRequirements",
 };
 
 export const entities = ["building"];
