@@ -15,6 +15,7 @@ export const submenuKeys = {
   Main: "main",
   // Game
   Ships: "ships",
+  Cannons: "cannons",
   Skills: "skills",
   Buildings: "buildings",
   BuildingTypes: "buildingTypes",
@@ -42,6 +43,10 @@ export const menuMap = [
       {
         label: submenuKeys.Ships,
         path: "/ships",
+      },
+      {
+        label: submenuKeys.Cannons,
+        path: "/cannons",
       },
       {
         label: submenuKeys.Skills,

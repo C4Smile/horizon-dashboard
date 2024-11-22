@@ -18,6 +18,9 @@ import Account from "./Account/Account";
 // ships
 import ShipsPage from "./Ships/Ships.jsx";
 import ShipForm from "./Ships/ShipForm.jsx";
+// cannons
+import CannonsPage from "./Cannons/Cannons.jsx";
+import CannonForm from "./Cannons/CannonForm.jsx";
 // skills
 import SkillsPage from "./Skills/Skills";
 import SkillForm from "./Skills/SkillForm";
@@ -54,6 +57,10 @@ export const pageId = {
   ships: "ships",
   shipsNew: "shipsNew",
   shipsEdit: "shipsEdit",
+  // cannons
+  cannons: "cannons",
+  cannonsNew: "cannonsNew",
+  cannonsEdit: "cannonsEdit",
   // skills
   skills: "skills",
   skillsNew: "skillsNew",
@@ -124,6 +131,17 @@ export const sitemap = [
           { key: pageId.ships, path: "/", component: <ShipsPage /> },
           { key: pageId.shipsNew, path: "/new", component: <ShipForm /> },
           { key: pageId.shipsEdit, path: "/:id", component: <ShipForm /> },
+        ],
+      },
+      {
+        key: pageId.cannons,
+        path: "/game/cannons",
+        component: <ModelNavigation pageKey={pageId.cannons} />,
+        role: [Role.administrator],
+        children: [
+          { key: pageId.cannons, path: "/", component: <CannonsPage /> },
+          { key: pageId.cannonsNew, path: "/new", component: <CannonForm /> },
+          { key: pageId.cannonsEdit, path: "/:id", component: <CannonForm /> },
         ],
       },
       {
