@@ -22,7 +22,7 @@ import { TechReqBuildingsApiClient } from "./TechReqBuildingsApiClient";
 
 // types
 import { Tech } from "../models/tech/Tech.js";
-import { Photo } from "../models/Photo/Photo.js";
+import { Photo } from "../models/photo/Photo.js";
 
 /**
  * @class TechApiClient

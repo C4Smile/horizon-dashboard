@@ -14,7 +14,7 @@ import { BaseApiClient } from "./utils/BaseApiClient";
 
 // type
 import { TechType } from "../models/techType/TechType.js";
-import { Photo } from "../models/Photo/Photo.js";
+import { Photo } from "../models/photo/Photo.js";
 
 /**
  * @class TechTypeApiClient

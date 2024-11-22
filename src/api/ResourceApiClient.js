@@ -16,7 +16,7 @@ import { BaseApiClient } from "./utils/BaseApiClient";
 
 // types
 import { Resource } from "../models/resource/Resource.js";
-import { Photo } from "../models/Photo/Photo.js";
+import { Photo } from "../models/photo/Photo.js";
 
 /**
  * @class ResourceApiClient

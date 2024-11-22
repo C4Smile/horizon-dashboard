@@ -23,7 +23,7 @@ import { BaseApiClient } from "./utils/BaseApiClient";
 
 // types
 import { Building } from "../models/building/Building.js";
-import { Photo } from "../models/Photo/Photo.js";
+import { Photo } from "../models/photo/Photo.js";
 
 /**
  * @class BuildingApiClient
