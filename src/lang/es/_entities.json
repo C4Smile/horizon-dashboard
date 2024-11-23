@@ -113,7 +113,7 @@
     },
     "capacity": {
       "label": "Capacidad",
-      "placeholder": "En toneladas"
+      "placeholder": "En libras"
     },
     "baseSpeed": {
       "label": "Velocidad base",
@@ -155,7 +155,7 @@
     },
     "weight": {
       "label": "Peso",
-      "placeholder": "En toneladas"
+      "placeholder": "En libras"
     },
     "baseDamage": {
       "label": "Daño base",
