@@ -13,10 +13,10 @@ export class Cannon extends Entity {
   description = "";
   image = {};
 
-  static className = "ship";
-  static costs = "shipCosts";
-  static techRequirement = "shipReqTechs";
-  static buildingRequirement = "shipReqBuildings";
+  static className = "cannon";
+  static costs = "cannonCosts";
+  static techRequirement = "cannonReqTechs";
+  static buildingRequirement = "cannonReqBuildings";
 
   /**
    * @param {number} id - Ship id
