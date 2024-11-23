@@ -18,7 +18,14 @@
     "techType": "Tipo de Tecnología",
     "skill": "Habilidad",
     "ship": "Barco",
-    "cannon": "Cañón"
+    "shipCosts": "Coste de Barco",
+    "shipUpkeeps": "Manutención",
+    "shipReqTechs": "Requerimiento tecnológico",
+    "shipReqBuildings": "Requerimiento de edificio",
+    "cannon": "Cañón",
+    "cannonCosts": "Coste del cañón",
+    "cannonReqTechs": "Requerimiento tecnológico",
+    "cannonReqBuildings": "Requerimiento de edificio"
   },
   "base": {
     "id": {
