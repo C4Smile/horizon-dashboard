@@ -17,8 +17,7 @@ const EntityLevelRow = memo(
   function EntityRow(props) {
     const { t } = useTranslation();
 
-    const { disabled, entities, value, onDelete, onEdit, inputLabel, entityLabel, attributeId } =
-      props;
+    const { disabled, entities, value, onDelete, onEdit, inputLabel, entityLabel, attributeId } = props;
 
     const [entityReqId, setEntityReqId] = useState(value ? value[attributeId] : null);
     const [level, setLevel] = useState(value?.level);
