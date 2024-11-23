@@ -158,7 +158,7 @@
       "placeholder": "En toneladas"
     },
     "baseDamage": {
-      "label": "Dañp base",
+      "label": "Daño base",
       "placeholder": "Ej: 100 puntos de casco"
     },
     "creationTime": {
