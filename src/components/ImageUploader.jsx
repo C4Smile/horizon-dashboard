@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 // font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -50,6 +50,10 @@ function ImageUploader(props) {
     if (preview) return preview;
     return noPhoto;
   }, [photo, preview]);
+
+  useEffect(() => {
+    setPreview(photo?.url ?? null);
+  }, [photo]);
 
   return (
     <label className="flex flex-col items-start gap-4">
