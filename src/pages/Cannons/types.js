@@ -1,4 +1,4 @@
-export const shipTabs = [
+export const cannonTabs = [
   { id: "general" },
   { id: "costs", hide: (condition) => condition },
   { id: "weightReqTechs", hide: (condition) => condition },
