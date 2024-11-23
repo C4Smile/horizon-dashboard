@@ -67,7 +67,7 @@ function CannonPage() {
       weight: {
         value: cannon.weight,
         render: (
-          <span className="w-36 flex">{`${cannon.weight} ${t("_accessibility:labels.tons")}`}</span>
+          <span className="w-36 flex">{`${cannon.weight} ${t("_accessibility:labels.pounds")}`}</span>
         ),
       },
       baseDamage: {
