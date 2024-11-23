@@ -145,22 +145,6 @@ function CannonForm() {
           }
         />
       ),
-      upkeep: (
-        <ResourceStuff
-          id={id}
-          resources={resourcesList}
-          entity={Cannon.className}
-          entityToSave={Cannon.upkeeps}
-          label={"upkeep"}
-          inputKey={"baseUpkeep"}
-          queryKey={[ReactQueryKeys.CannonUpkeeps, id]}
-          queryFn={() => horizonApiClient.Cannon.cannonUpkeeps.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Cannon.cannonUpkeeps.create(id, data)}
-          deleteFn={async (id, resourceId) =>
-            horizonApiClient.Cannon.cannonUpkeeps.deleteSingle(id, resourceId)
-          }
-        />
-      ),
       cannonReqTechs: (
         <EntityLevelStuff
           id={id}
@@ -183,7 +167,7 @@ function CannonForm() {
           entities={buildingsList}
           attributeId="buildingReqId"
           entity={Cannon.className}
-          entityToSave={Cannon.buildRequirement}
+          entityToSave={Cannon.buildingRequirement}
           inputKey={"buildingLevel"}
           queryKey={[ReactQueryKeys.CannonRequirements, ReactQueryKeys.Buildings, id]}
           queryFn={() => horizonApiClient.Cannon.cannonReqBuildings.get(id)}
