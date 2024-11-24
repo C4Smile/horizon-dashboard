@@ -51,11 +51,12 @@ export const formatValue = (value) =>
  * @param {Entity} entity entity to check
  * @returns {boolean} true if is locked by userId, false otherwise
  */
-export const isLockedBy = (userId, entity) => entity.lockedBy && entity.lockedBy === userId;
+export const isTableLockedBy = (userId, entity) =>
+  entity.lockedBy?.value && entity.lockedBy?.value === userId;
 
 /**
  *
  * @param entity entity to check
  * @returns {boolean} true if is locked, false otherwise
  */
-export const isLocked = (entity) => !!entity.lockedBy;
+export const isTableLocked = (entity) => !!entity.lockedBy?.value;
