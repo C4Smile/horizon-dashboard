@@ -67,7 +67,7 @@ function ShipPage() {
       capacity: {
         value: ship.capacity,
         render: (
-          <span className="w-36 flex">{`${ship.capacity} ${t("_accessibility:labels.pounds")}`}</span>
+          <span className="w-36 flex">{`${ship.capacity} ${t("_accessibility:labels.tons")}`}</span>
         ),
       },
       crew: {
