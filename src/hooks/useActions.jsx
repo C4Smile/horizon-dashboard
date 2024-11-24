@@ -15,7 +15,7 @@ import { queryClient } from "../providers/HorizonApiProvider";
 
 // pages
 import { findPath } from "../pages/sitemap";
-import { isLocked, isLockedBy } from "../utils/Utils.js";
+import { isTableLocked, isTableLockedBy } from "../utils/Utils.js";
 
 /**
  * useActions hook
@@ -37,7 +37,7 @@ export const useActions = (props) => {
     if (canEdit)
       toReturn.push({
         id: "edit",
-        hidden: (entity) => !isLockedBy(account.user.userId, entity) || isLocked(entity),
+        hidden: (entity) => isTableLocked(entity) && !isTableLockedBy(account.user.userId, entity),
         onClick: (e) => navigate(`${findPath(queryKey)}/${e.id}`),
         icon: <FontAwesomeIcon icon={faPencil} />,
         tooltip: t("_accessibility:buttons.edit"),
@@ -46,7 +46,7 @@ export const useActions = (props) => {
       toReturn.push(
         {
           id: "delete",
-          hidden: (entity) => isLocked(entity) || entity.deleted.value,
+          hidden: (entity) => isTableLocked(entity) || entity.deleted.value,
           onClick: async (e) => {
             const result = await apiClient.delete([e.id]);
             const { error, status, data } = result;
@@ -82,5 +82,5 @@ export const useActions = (props) => {
         },
       );
     return toReturn;
-  }, [actions, apiClient, canDelete, canEdit, navigate, queryKey, setNotification, t]);
+  }, [account, actions, apiClient, canDelete, canEdit, navigate, queryKey, setNotification, t]);
 };
