@@ -17,7 +17,7 @@ const AccountContext = createContext();
 /**
  * Account Provider
  * @param {object} props - provider props
- * @returns Provider
+ * @returns JSX.Element
  */
 const AccountProvider = (props) => {
   const { children } = props;
