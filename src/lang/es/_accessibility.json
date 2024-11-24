@@ -57,7 +57,8 @@
     "tons": "toneladas",
     "sailors": "marineros",
     "knots": "nudos",
-    "days": "días"
+    "days": "días",
+    "locked": "This record is blocked"
   },
   "tooltips": "",
   "ariaLabels": "",

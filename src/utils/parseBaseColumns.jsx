@@ -1,8 +1,9 @@
+import Tippy from "@tippyjs/react";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 // icons
-import { faLock, faLockOpen } from "@fortawesome/free-solid-svg-icons";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const baseColumns = ["id", "dateOfCreation", "lastUpdate", "deleted", "lockedBy"];
@@ -51,7 +52,11 @@ export const useParseRows = (parseRows) => {
             case "lockedBy":
               parsedRow[column] = {
                 value: row.lockedBy,
-                render: <FontAwesomeIcon icon={row.lockedBy ? faLock : faLockOpen} />,
+                render: row.lockedBy ? (
+                  <Tippy content={t("_accessibility:labels.locked")}>
+                    <FontAwesomeIcon icon={faLock} />
+                  </Tippy>
+                ) : null,
               };
               break;
             case "deleted":
