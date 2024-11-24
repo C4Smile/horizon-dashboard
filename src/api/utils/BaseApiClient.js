@@ -15,9 +15,20 @@ export class BaseApiClient {
   baseUrl = "";
 
   /**
+   * @param userId user locker
+   * @param entityId entity id to lock
+   * @returns {Promise<{error: {message: string}, status: number}|any>} result of http
+   */
+  async lock(userId, entityId) {
+    const { data, error, status } = await makeRequest(`${this.baseUrl}/${entityId}/lock`);
+    if (error !== null) return { status, error: { message: error.message } };
+    return data;
+  }
+
+  /**
    * @description Get all objects
    * @param {object} query - query parameters
-   * @returns {Promise<object[]>} Result list
+   * @returns {Promise<object[]> | object} Result list
    */
   async getAll(query = { sortingBy: "id", sortingOrder: "asc", currentPage: 0, pageSize: 50 }) {
     const { sortingBy, sortingOrder, currentPage, pageSize } = query;

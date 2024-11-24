@@ -34,6 +34,7 @@ export const useActions = (props) => {
     if (canEdit)
       toReturn.push({
         id: "edit",
+        hidden: (entity) => entity.lockedBy,
         onClick: (e) => navigate(`${findPath(queryKey)}/${e.id}`),
         icon: <FontAwesomeIcon icon={faPencil} />,
         tooltip: t("_accessibility:buttons.edit"),
@@ -42,13 +43,13 @@ export const useActions = (props) => {
       toReturn.push(
         {
           id: "delete",
-          hidden: (entity) => entity.deleted.value,
+          hidden: (entity) => entity.lockedBy || entity.deleted.value,
           onClick: async (e) => {
             const result = await apiClient.delete([e.id]);
             const { error, status, data } = result;
             if (data?.count) {
               setNotification("deleted", { count: data.count });
-              queryClient.invalidateQueries({ queryKey: [queryKey] });
+              await queryClient.invalidateQueries({ queryKey: [queryKey] });
             } else {
               // eslint-disable-next-line no-console
               console.error(error);
