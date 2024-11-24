@@ -56,7 +56,9 @@ export const useParseRows = (parseRows) => {
                   <Tippy content={t("_accessibility:labels.locked")}>
                     <FontAwesomeIcon icon={faLock} />
                   </Tippy>
-                ) : null,
+                ) : (
+                  ""
+                ),
               };
               break;
             case "deleted":
@@ -82,6 +84,7 @@ export const useParseRows = (parseRows) => {
           }
         }
       });
+      console.log(parsedRow);
       return parsedRow;
     },
     [parseRows, t],
