@@ -84,7 +84,6 @@ export const useParseRows = (parseRows) => {
           }
         }
       });
-      console.log(parsedRow);
       return parsedRow;
     },
     [parseRows, t],
