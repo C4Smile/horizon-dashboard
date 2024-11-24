@@ -9,6 +9,7 @@ export class Entity {
   dateOfCreation = null;
   lastUpdate = null;
   deleted = false;
+  lockedBy = 0;
 
   /**
    * @param {number} id - Entity id
@@ -17,7 +18,7 @@ export class Entity {
    * @param {boolean} deleted - Entity deleted
    * @returns Entity instance
    */
-  constructor(id, dateOfCreation = Date.now(), lastUpdate = Date.now(), deleted = false) {
+  constructor(id, dateOfCreation = new Date(), lastUpdate = new Date(), deleted = false) {
     this.id = id;
     this.dateOfCreation = dateOfCreation;
     this.lastUpdate = lastUpdate;

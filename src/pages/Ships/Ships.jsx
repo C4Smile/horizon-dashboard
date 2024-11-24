@@ -22,7 +22,7 @@ import { Ship } from "../../models/ship/Ship";
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
 import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
-import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
+import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.jsx";
 
 // providers
 import { useHorizonApiClient } from "../../providers/HorizonApiProvider";

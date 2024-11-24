@@ -1,7 +1,11 @@
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-export const baseColumns = ["id", "dateOfCreation", "lastUpdate", "deleted"];
+// icons
+import { faLock, faLockOpen } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+export const baseColumns = ["id", "dateOfCreation", "lastUpdate", "deleted", "lockedBy"];
 
 /**
  *
@@ -44,6 +48,12 @@ export const useParseRows = (parseRows) => {
       baseColumns.forEach((column) => {
         if (parsedRow[column] !== undefined && parsedRow[column] !== null) {
           switch (column) {
+            case "lockedBy":
+              parsedRow[column] = {
+                value: row.lockedBy,
+                render: <FontAwesomeIcon icon={row.lockedBy ? faLock : faLockOpen} />,
+              };
+              break;
             case "deleted":
               parsedRow[column] = {
                 value: row.deleted,

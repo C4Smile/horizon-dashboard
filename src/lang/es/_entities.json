@@ -31,6 +31,9 @@
     "id": {
       "label": "Id"
     },
+    "lockedBy": {
+      "label": "Bloqueado"
+    },
     "deleted": {
       "label": "Eliminado"
     },

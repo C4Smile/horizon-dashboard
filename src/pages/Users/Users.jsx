@@ -22,7 +22,7 @@ import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // hooks
 import { useActions } from "../../hooks/useActions";
-import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
+import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.jsx";
 
 /**
  * Users page

@@ -16,13 +16,13 @@ import { TechType } from "../../models/techType/TechType";
 import { extractKeysFromObject } from "../../utils/parser";
 import { ReactQueryKeys } from "../../utils/queryKeys";
 import { staticUrlPhoto } from "../../components/utils";
+import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.jsx";
 
 // providers
 import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // hooks
 import { useActions } from "../../hooks/useActions";
-import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns";
 
 const columnClasses = {
   lastUpdate: "w-56",

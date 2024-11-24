@@ -31,14 +31,14 @@ export class User extends Entity {
    * @param {boolean} deleted - user deleted
    */
   constructor(
-    id,
-    username,
-    password,
-    name,
-    email,
-    phone,
-    address,
-    identification,
+    id = 0,
+    username = "",
+    password = "",
+    name = "",
+    email = "",
+    phone = "",
+    address = "",
+    identification = "",
     dateOfCreation = new Date(),
     lastUpdate = new Date(),
     deleted = false,
