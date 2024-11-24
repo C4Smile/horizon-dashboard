@@ -1,4 +1,5 @@
 import resolveConfig from "tailwindcss/resolveConfig";
+import { Entity } from "../models/entity/Entity.js";
 
 /**
  * Tailwind config
@@ -43,3 +44,18 @@ export const formatValue = (value) =>
     maximumSignificantDigits: 3,
     notation: "compact",
   }).format(value);
+
+/**
+ *
+ * @param {number} userId user locker
+ * @param {Entity} entity entity to check
+ * @returns {boolean} true if is locked by userId, false otherwise
+ */
+export const isLockedBy = (userId, entity) => entity.lockedBy && entity.lockedBy === userId;
+
+/**
+ *
+ * @param entity entity to check
+ * @returns {boolean} true if is locked, false otherwise
+ */
+export const isLocked = (entity) => !!entity.lockedBy;

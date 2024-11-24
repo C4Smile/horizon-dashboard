@@ -8,12 +8,14 @@ import { faArrowRotateLeft, faPencil, faTrash } from "@fortawesome/free-solid-sv
 
 // providers
 import { useNotification } from "../providers/NotificationProvider";
+import { useAccount } from "../providers/AccountProvider.jsx";
 
 // utils
 import { queryClient } from "../providers/HorizonApiProvider";
 
 // pages
 import { findPath } from "../pages/sitemap";
+import { isLocked, isLockedBy } from "../utils/Utils.js";
 
 /**
  * useActions hook
@@ -25,6 +27,7 @@ export const useActions = (props) => {
 
   const navigate = useNavigate();
 
+  const { account } = useAccount();
   const { setNotification } = useNotification();
 
   const { apiClient, queryKey, actions = [], canEdit = true, canDelete = true } = props;
@@ -34,7 +37,7 @@ export const useActions = (props) => {
     if (canEdit)
       toReturn.push({
         id: "edit",
-        hidden: (entity) => entity.lockedBy,
+        hidden: (entity) => !isLockedBy(account.user.userId, entity) || isLocked(entity),
         onClick: (e) => navigate(`${findPath(queryKey)}/${e.id}`),
         icon: <FontAwesomeIcon icon={faPencil} />,
         tooltip: t("_accessibility:buttons.edit"),
@@ -43,7 +46,7 @@ export const useActions = (props) => {
       toReturn.push(
         {
           id: "delete",
-          hidden: (entity) => entity.lockedBy || entity.deleted.value,
+          hidden: (entity) => isLocked(entity) || entity.deleted.value,
           onClick: async (e) => {
             const result = await apiClient.delete([e.id]);
             const { error, status, data } = result;
@@ -67,7 +70,7 @@ export const useActions = (props) => {
             const { error, status, data } = result;
             if (data?.count) {
               setNotification("restored", { count: data.count });
-              queryClient.invalidateQueries({ queryKey: [queryKey] });
+              await queryClient.invalidateQueries({ queryKey: [queryKey] });
             } else {
               // eslint-disable-next-line no-console
               console.error(error);
