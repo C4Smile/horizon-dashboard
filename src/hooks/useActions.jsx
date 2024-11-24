@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPencil, faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRotateLeft, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 // providers
 import { useNotification } from "../providers/NotificationProvider";
@@ -29,7 +29,7 @@ export const useActions = (props) => {
 
   const { apiClient, queryKey, actions = [], canEdit = true, canDelete = true } = props;
 
-  const getActions = useMemo(() => {
+  return useMemo(() => {
     const toReturn = [...actions];
     if (canEdit)
       toReturn.push({
@@ -79,6 +79,4 @@ export const useActions = (props) => {
       );
     return toReturn;
   }, [actions, apiClient, canDelete, canEdit, navigate, queryKey, setNotification, t]);
-
-  return getActions;
 };
