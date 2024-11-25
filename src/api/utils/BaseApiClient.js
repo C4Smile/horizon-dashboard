@@ -20,7 +20,33 @@ export class BaseApiClient {
    * @returns {Promise<{error: {message: string}, status: number}|any>} result of http
    */
   async lock(userId, entityId) {
-    const { data, error, status } = await makeRequest(`${this.baseUrl}/${entityId}/lock`);
+    const { data, error, status } = await makeRequest(
+      `${this.baseUrl}/${entityId}/lock`,
+      "PATCH",
+      {
+        userId,
+      },
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
+    if (error !== null) return { status, error: { message: error.message } };
+    return data;
+  }
+
+  /**
+   * @param entityId entity id to lock
+   * @returns {Promise<{error: {message: string}, status: number}|any>} result of http
+   */
+  async release(entityId) {
+    const { data, error, status } = await makeRequest(
+      `${this.baseUrl}/${entityId}/release`,
+      "PATCH",
+      null,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     if (error !== null) return { status, error: { message: error.message } };
     return data;
   }
