@@ -82,18 +82,18 @@ export const menuMap = [
     child: [
       {
         label: submenuKeys.Users,
-        path: "/usuarios",
+        path: "/users",
       },
     ],
   },
   {
     page: menuKeys.Settings,
-    path: "/ajustes",
+    path: "/settings",
     icon: <FontAwesomeIcon icon={faGear} />,
     child: [
       {
         label: submenuKeys.Account,
-        path: "/cuenta",
+        path: "/account",
       },
     ],
   },
