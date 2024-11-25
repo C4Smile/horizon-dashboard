@@ -17,12 +17,16 @@ import { extractKeysFromObject } from "../../utils/parser";
 import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
 import { staticUrlPhoto } from "../../components/utils";
 
+// components
+import { FloatingButton } from "../../components/FloatingButton/FloatingButton.jsx";
+
 // providers
 import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // hooks
 import { useActions } from "../../hooks/useActions";
 import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.jsx";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 /**
  * Users page
@@ -88,15 +92,18 @@ function Users() {
   const { rows } = useParseRows(prepareRows);
 
   return (
-    <Table
-      rows={data?.items}
-      actions={getActions}
-      isLoading={isLoading}
-      parseRows={rows}
-      entity={User.className}
-      columns={columns}
-      title={t("_pages:personal.links.users")}
-    />
+    <>
+      <Table
+        rows={data?.items}
+        actions={getActions}
+        isLoading={isLoading}
+        parseRows={rows}
+        entity={User.className}
+        columns={columns}
+        title={t("_pages:players.links.users")}
+      />
+      <FloatingButton component="link" href="new" icon={faAdd} />
+    </>
   );
 }
 
