@@ -58,7 +58,7 @@
     "sailors": "marineros",
     "knots": "nudos",
     "days": "días",
-    "locked": "This record is blocked"
+    "locked": "Este elemento está bloqueado por otro usuario"
   },
   "tooltips": "",
   "ariaLabels": "",
