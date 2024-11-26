@@ -66,10 +66,11 @@ function UserForm() {
       setNotification(String(status), { model: t("_entities:entities.user") });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
-      if (error && error !== null) console.error(error.message);
+      if (error) console.error(error.message);
       else {
-        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users] });
-        if (id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users, id] });
+        await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users] });
+        if (id !== undefined)
+          await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users, id] });
         else {
           setPhoto();
           reset({
@@ -79,8 +80,6 @@ function UserForm() {
             name: "",
             email: "",
             phone: "",
-            address: "",
-            identification: "",
           });
         }
       }
@@ -135,8 +134,6 @@ function UserForm() {
         name: "",
         email: "",
         phone: "",
-        address: "",
-        identification: "",
       });
     }
   }, [id, reset, roleList, userQuery.data]);
@@ -269,42 +266,6 @@ function UserForm() {
               inputClassName="text-input peer"
               placeholder={t("_entities:user.rPassword.placeholder")}
               label={t("_entities:user.rPassword.label")}
-              required
-            />
-          )}
-        />
-        {/* User Address */}
-        <Controller
-          control={control}
-          name="address"
-          disabled={userQuery.isLoading || saving}
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              type="text"
-              name="address"
-              id="address"
-              inputClassName="text-input peer"
-              placeholder={t("_entities:user.address.placeholder")}
-              label={t("_entities:user.address.label")}
-              required
-            />
-          )}
-        />
-        {/* User Identification */}
-        <Controller
-          control={control}
-          name="identification"
-          disabled={userQuery.isLoading || saving}
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              type="text"
-              name="identification"
-              id="identification"
-              inputClassName="text-input peer"
-              placeholder={t("_entities:user.identification.placeholder")}
-              label={t("_entities:user.identification.label")}
               required
             />
           )}
