@@ -14,6 +14,7 @@ const PasswordInput = forwardRef(function (props, ref) {
     <TextInput {...props} type={showPassword ? "text" : "password"} ref={ref}>
       <button
         type="button"
+        tabIndex={-1}
         className="absolute right-0 top-[9px]"
         onClick={() => setShowPassword(!showPassword)}
       >
