@@ -18,6 +18,9 @@ const {
   VITE_RECENT_SEARCHES_LIMIT,
   VITE_RECENT_PAGES,
   VITE_RECENT_PAGES_LIMIT,
+  // SUPABASE
+  VITE_SUPABASE_CO,
+  VITE_SUPABASE_ANON,
 } = import.meta.env;
 
 const config = {
@@ -40,6 +43,9 @@ const config = {
   recentSearchesLimit: VITE_RECENT_SEARCHES_LIMIT,
   recentPages: VITE_RECENT_PAGES,
   recentPagesLimit: VITE_RECENT_PAGES_LIMIT,
+  // SUPABASE
+  supabaseCO: VITE_SUPABASE_CO,
+  supabaseANON: VITE_SUPABASE_ANON,
 };
 
 export default config;
