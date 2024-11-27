@@ -24,8 +24,6 @@ import { useHorizonApiClient } from "../providers/HorizonApiProvider";
 function ImageUploader(props) {
   const { label, folder, photo, setPhoto } = props;
 
-  const [preview, setPreview] = useState(null);
-
   const [loadingPhoto, setLoadingPhoto] = useState(false);
 
   const horizonApiClient = useHorizonApiClient();
@@ -34,7 +32,6 @@ function ImageUploader(props) {
     setLoadingPhoto(true);
     if (e.target.files.length) {
       const preview = await horizonApiClient.Image.readFileAsBase64(e.target.files[0]);
-      setPreview(preview);
       setPhoto({ base64: preview, folder, fileName: e.target.files[0].name });
     }
     setLoadingPhoto(false);
@@ -42,17 +39,11 @@ function ImageUploader(props) {
 
   const onDelete = async () => {
     setPhoto(null);
-    setPreview(null);
   };
 
   const photoToShow = useMemo(() => {
-    if (photo && photo.url) return staticUrlPhoto(photo.url);
-    if (preview) return preview;
-    return noPhoto;
-  }, [photo, preview]);
-
-  useEffect(() => {
-    setPreview(photo?.url ?? null);
+    if (photo && (photo.url || photo.base64)) return photo.base64 ?? staticUrlPhoto(photo.url);
+    return null;
   }, [photo]);
 
   return (
@@ -62,7 +53,7 @@ function ImageUploader(props) {
         <Loading className="w-60 h-60 bg-black/20 rounded-full" />
       ) : (
         <>
-          {photoToShow !== noPhoto ? (
+          {photoToShow ? (
             <>
               <div className="flex flex-col relative">
                 <button
