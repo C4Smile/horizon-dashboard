@@ -9,6 +9,9 @@ import { Table, useTableOptions } from "@sito/dashboard";
 // images
 import noProduct from "../../assets/images/no-product.jpg";
 
+// icons
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
+
 // dto
 import { Resource } from "../../models/resource/Resource";
 
@@ -16,6 +19,9 @@ import { Resource } from "../../models/resource/Resource";
 import { extractKeysFromObject } from "../../utils/parser";
 import { ReactQueryKeys } from "../../utils/queryKeys";
 import { staticUrlPhoto } from "../../components/utils";
+
+// components
+import { FloatingButton } from "../../components/FloatingButton/FloatingButton.jsx";
 
 // providers
 import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
@@ -113,16 +119,19 @@ function ResourcePage() {
   const { rows } = useParseRows(prepareRows);
 
   return (
-    <Table
-      rows={data?.items}
-      actions={getActions}
-      isLoading={isLoading}
-      parseRows={rows}
-      entity={Resource.className}
-      columns={columns}
-      columnsOptions={{ columnClasses, noSortableColumns }}
-      title={t("_pages:game.links.resources")}
-    />
+    <>
+      <Table
+        rows={data?.items}
+        actions={getActions}
+        isLoading={isLoading}
+        parseRows={rows}
+        entity={Resource.className}
+        columns={columns}
+        columnsOptions={{ columnClasses, noSortableColumns }}
+        title={t("_pages:game.links.resources")}
+      />
+      <FloatingButton component="link" href="new" icon={faAdd} />
+    </>
   );
 }
 
