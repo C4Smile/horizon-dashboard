@@ -47,6 +47,13 @@ export const formatValue = (value) =>
 
 /**
  *
+ * @param entity entity to check
+ * @returns {boolean} true is if deleted, false otherwise
+ */
+export const isDeleted = (entity) => entity.deleted?.value;
+
+/**
+ *
  * @param {number} userId user locker
  * @param {Entity} entity entity to check
  * @returns {boolean} true if is locked by userId, false otherwise
