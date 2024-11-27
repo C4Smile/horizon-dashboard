@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -14,14 +14,14 @@ import { Resource } from "../../models/resource/Resource";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
+import { ReactQueryKeys } from "../../utils/queryKeys";
 import { staticUrlPhoto } from "../../components/utils";
 
 // providers
 import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // hooks
-import { useActions } from "../../hooks/useActions";
+import { useRestoreAction, useDeleteAction, useEditAction } from "../../hooks";
 import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.jsx";
 
 const columnClasses = {
@@ -60,6 +60,10 @@ function ResourcePage() {
           <span className="truncate">{resource.name}</span>
         </Link>
       ),
+      baseFactor: {
+        value: resource.baseFactor,
+        render: `x ${resource.baseFactor}`,
+      },
       image: resource.image?.url ? (
         <img
           className={`w-10 h-10 rounded-full object-cover border-white border-2`}
@@ -72,11 +76,28 @@ function ResourcePage() {
     };
   };
 
-  const getActions = useActions({
-    apiClient: horizonApiClient.Resource,
-    queryKey: ReactQueryKeys.Resources,
-    parent: Parents.game,
+  //#region Actions
+
+  const editAction = useEditAction({
+    entity: ReactQueryKeys.Resources,
   });
+
+  const restoreAction = useRestoreAction({
+    entity: ReactQueryKeys.Resources,
+    apiClient: horizonApiClient.Resource,
+  });
+
+  const deleteAction = useDeleteAction({
+    entity: ReactQueryKeys.Resources,
+    apiClient: horizonApiClient.Resource,
+  });
+
+  const getActions = useCallback(
+    (row) => [editAction.action(row), restoreAction.action(row), deleteAction.action(row)],
+    [deleteAction, editAction, restoreAction],
+  );
+
+  //#endregion Actions
 
   const { columns } = useParseColumns(
     extractKeysFromObject(new Resource(), [

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useMutation } from "@tanstack/react-query";
 
 // base
-import { BaseActions } from "./useBaseAction.jsx";
+import { BaseActions } from "./types.js";
 
 // utils
 import { isDeleted, isTableLocked } from "../../utils/Utils.js";

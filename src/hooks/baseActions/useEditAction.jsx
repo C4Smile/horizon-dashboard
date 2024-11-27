@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 // base
-import { BaseActions } from "./useBaseAction.jsx";
+import { BaseActions } from "./types.js";
 
 // utils
 import { isDeleted, isTableLocked, isTableLockedBy } from "../../utils/Utils.js";
@@ -39,7 +39,7 @@ export const useEditAction = (props) => {
         hidden ||
         isDeleted(row) ||
         (isTableLocked(row) && !isTableLockedBy(account?.horizonUser?.id, row)),
-      onClick: () => navigate(`${findPath(entity)}/${row.id}}`),
+      onClick: () => navigate(`${findPath(entity)}/${row.id}`),
       icon: <FontAwesomeIcon icon={faPencil} />,
       tooltip: t("_accessibility:buttons.edit"),
     }),
