@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -9,6 +9,9 @@ import { Table, useTableOptions } from "@sito/dashboard";
 // images
 import noProduct from "../../assets/images/no-product.jpg";
 
+// icons
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
+
 // dto
 import { TechType } from "../../models/techType/TechType";
 
@@ -18,11 +21,14 @@ import { ReactQueryKeys } from "../../utils/queryKeys";
 import { staticUrlPhoto } from "../../components/utils";
 import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.jsx";
 
+// components
+import { FloatingButton } from "../../components/FloatingButton/FloatingButton.jsx";
+
 // providers
 import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // hooks
-import { useActions } from "../../hooks/useActions";
+import { useRestoreAction, useDeleteAction, useEditAction } from "../../hooks";
 
 const columnClasses = {
   lastUpdate: "w-56",
@@ -72,10 +78,28 @@ function TechTypePage() {
     };
   };
 
-  const getActions = useActions({
-    apiClient: horizonApiClient.TechType,
-    queryKey: ReactQueryKeys.TechTypes,
+  //#region Actions
+
+  const editAction = useEditAction({
+    entity: ReactQueryKeys.TechTypes,
   });
+
+  const restoreAction = useRestoreAction({
+    entity: ReactQueryKeys.TechTypes,
+    apiClient: horizonApiClient.TechType,
+  });
+
+  const deleteAction = useDeleteAction({
+    entity: ReactQueryKeys.TechTypes,
+    apiClient: horizonApiClient.TechType,
+  });
+
+  const getActions = useCallback(
+    (row) => [editAction.action(row), restoreAction.action(row), deleteAction.action(row)],
+    [deleteAction, editAction, restoreAction],
+  );
+
+  //#endregion Actions
 
   const { columns } = useParseColumns(
     extractKeysFromObject(new TechType(), ["id", "dateOfCreation", "deleted", "urlName"]),
@@ -85,16 +109,19 @@ function TechTypePage() {
   const { rows } = useParseRows(prepareRows);
 
   return (
-    <Table
-      rows={data?.items}
-      actions={getActions}
-      isLoading={isLoading}
-      parseRows={rows}
-      entity={TechType.className}
-      columns={columns}
-      columnsOptions={{ columnClasses, noSortableColumns }}
-      title={t("_pages:game.links.techTypes")}
-    />
+    <>
+      <Table
+        rows={data?.items}
+        actions={getActions}
+        isLoading={isLoading}
+        parseRows={rows}
+        entity={TechType.className}
+        columns={columns}
+        columnsOptions={{ columnClasses, noSortableColumns }}
+        title={t("_pages:game.links.techTypes")}
+      />
+      <FloatingButton component="link" href="new" icon={faAdd} />
+    </>
   );
 }
 
