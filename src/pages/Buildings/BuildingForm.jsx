@@ -141,7 +141,7 @@ function BuildingForm() {
           inputKey={"baseProduction"}
           queryKey={[ReactQueryKeys.BuildingProduces, id]}
           queryFn={() => horizonApiClient.Building.buildingProductions.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Building.buildingProductions.create(id, data)}
+          saveFn={async (id, data) => horizonApiClient.Building.buildingProductions.save(id, data)}
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Building.buildingProductions.deleteSingle(id, resourceId)
           }
@@ -157,7 +157,7 @@ function BuildingForm() {
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.BuildingCosts, id]}
           queryFn={() => horizonApiClient.Building.buildingCosts.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Building.buildingCosts.create(id, data)}
+          saveFn={async (id, data) => horizonApiClient.Building.buildingCosts.save(id, data)}
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Building.buildingCosts.deleteSingle(id, resourceId)
           }
@@ -173,7 +173,7 @@ function BuildingForm() {
           inputKey={"baseUpkeep"}
           queryKey={[ReactQueryKeys.BuildingUpkeeps, id]}
           queryFn={() => horizonApiClient.Building.buildingUpkeeps.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Building.buildingUpkeeps.create(id, data)}
+          saveFn={async (id, data) => horizonApiClient.Building.buildingUpkeeps.save(id, data)}
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Building.buildingUpkeeps.deleteSingle(id, resourceId)
           }
@@ -189,7 +189,7 @@ function BuildingForm() {
           inputKey={"techLevel"}
           queryKey={[ReactQueryKeys.BuildingRequirements, ReactQueryKeys.Techs, id]}
           queryFn={() => horizonApiClient.Building.buildingReqTechs.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Building.buildingReqTechs.create(id, data)}
+          saveFn={async (id, data) => horizonApiClient.Building.buildingReqTechs.save(id, data)}
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Building.buildingReqTechs.deleteSingle(id, resourceId)
           }
@@ -205,7 +205,7 @@ function BuildingForm() {
           inputKey={"buildingLevel"}
           queryKey={[ReactQueryKeys.BuildingRequirements, ReactQueryKeys.Buildings, id]}
           queryFn={() => horizonApiClient.Building.buildingReqBuildings.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Building.buildingReqBuildings.create(id, data)}
+          saveFn={async (id, data) => horizonApiClient.Building.buildingReqBuildings.save(id, data)}
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Building.buildingReqBuildings.deleteSingle(id, resourceId)
           }

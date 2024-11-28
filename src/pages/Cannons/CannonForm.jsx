@@ -139,7 +139,7 @@ function CannonForm() {
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.CannonCosts, id]}
           queryFn={() => horizonApiClient.Cannon.cannonCosts.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Cannon.cannonCosts.create(id, data)}
+          saveFn={async (id, data) => horizonApiClient.Cannon.cannonCosts.save(id, data)}
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Cannon.cannonCosts.deleteSingle(id, resourceId)
           }
@@ -155,7 +155,7 @@ function CannonForm() {
           inputKey={"techLevel"}
           queryKey={[ReactQueryKeys.CannonRequirements, ReactQueryKeys.Techs, id]}
           queryFn={() => horizonApiClient.Cannon.cannonReqTechs.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Cannon.cannonReqTechs.create(id, data)}
+          saveFn={async (id, data) => horizonApiClient.Cannon.cannonReqTechs.save(id, data)}
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Cannon.cannonReqTechs.deleteSingle(id, resourceId)
           }
@@ -171,7 +171,7 @@ function CannonForm() {
           inputKey={"buildingLevel"}
           queryKey={[ReactQueryKeys.CannonRequirements, ReactQueryKeys.Buildings, id]}
           queryFn={() => horizonApiClient.Cannon.cannonReqBuildings.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Cannon.cannonReqBuildings.create(id, data)}
+          saveFn={async (id, data) => horizonApiClient.Cannon.cannonReqBuildings.save(id, data)}
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Cannon.cannonReqBuildings.deleteSingle(id, resourceId)
           }

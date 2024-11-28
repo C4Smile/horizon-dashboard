@@ -47,7 +47,7 @@ export class BaseManyApiClient {
    * @param {object} object - BaseMany
    * @returns Transaction status
    */
-  async create(entityId, object) {
+  async save(entityId, object) {
     // call service
     const { error, data, status } = await makeRequest(`${this.baseUrl}/${entityId}`, "POST", object, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,

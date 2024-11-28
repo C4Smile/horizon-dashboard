@@ -139,7 +139,7 @@ function ShipForm() {
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.ShipCosts, id]}
           queryFn={() => horizonApiClient.Ship.shipCosts.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Ship.shipCosts.create(id, data)}
+          saveFn={async (id, data) => horizonApiClient.Ship.shipCosts.save(id, data)}
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Ship.shipCosts.deleteSingle(id, resourceId)
           }
@@ -155,7 +155,7 @@ function ShipForm() {
           inputKey={"baseUpkeep"}
           queryKey={[ReactQueryKeys.ShipUpkeeps, id]}
           queryFn={() => horizonApiClient.Ship.shipUpkeeps.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Ship.shipUpkeeps.create(id, data)}
+          saveFn={async (id, data) => horizonApiClient.Ship.shipUpkeeps.save(id, data)}
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Ship.shipUpkeeps.deleteSingle(id, resourceId)
           }
@@ -171,7 +171,7 @@ function ShipForm() {
           inputKey={"techLevel"}
           queryKey={[ReactQueryKeys.ShipRequirements, ReactQueryKeys.Techs, id]}
           queryFn={() => horizonApiClient.Ship.shipReqTechs.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Ship.shipReqTechs.create(id, data)}
+          saveFn={async (id, data) => horizonApiClient.Ship.shipReqTechs.save(id, data)}
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Ship.shipReqTechs.deleteSingle(id, resourceId)
           }
@@ -187,7 +187,7 @@ function ShipForm() {
           inputKey={"buildingLevel"}
           queryKey={[ReactQueryKeys.ShipRequirements, ReactQueryKeys.Buildings, id]}
           queryFn={() => horizonApiClient.Ship.shipReqBuildings.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Ship.shipReqBuildings.create(id, data)}
+          saveFn={async (id, data) => horizonApiClient.Ship.shipReqBuildings.save(id, data)}
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Ship.shipReqBuildings.deleteSingle(id, resourceId)
           }

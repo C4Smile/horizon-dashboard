@@ -141,7 +141,7 @@ function TechForm() {
           inputKey={"baseProduction"}
           queryKey={[ReactQueryKeys.TechProduces, id]}
           queryFn={() => horizonApiClient.Tech.techProductions.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Tech.techProductions.create(id, data)}
+          saveFn={async (id, data) => horizonApiClient.Tech.techProductions.save(id, data)}
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Tech.techProductions.deleteSingle(id, resourceId)
           }
@@ -157,7 +157,7 @@ function TechForm() {
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.TechCosts, id]}
           queryFn={() => horizonApiClient.Tech.techCosts.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Tech.techCosts.create(id, data)}
+          saveFn={async (id, data) => horizonApiClient.Tech.techCosts.save(id, data)}
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Tech.techCosts.deleteSingle(id, resourceId)
           }
@@ -174,7 +174,7 @@ function TechForm() {
           inputKey={"techLevel"}
           queryKey={[ReactQueryKeys.TechRequirements, ReactQueryKeys.Techs, id]}
           queryFn={() => horizonApiClient.Tech.techReqTechs.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Tech.techReqTechs.create(id, data)}
+          saveFn={async (id, data) => horizonApiClient.Tech.techReqTechs.save(id, data)}
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Tech.techReqTechs.deleteSingle(id, resourceId)
           }
@@ -190,7 +190,7 @@ function TechForm() {
           inputKey={"buildingLevel"}
           queryKey={[ReactQueryKeys.TechRequirements, ReactQueryKeys.Buildings, id]}
           queryFn={() => horizonApiClient.Tech.techReqBuildings.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Tech.techReqBuildings.create(id, data)}
+          saveFn={async (id, data) => horizonApiClient.Tech.techReqBuildings.save(id, data)}
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Tech.techReqBuildings.deleteSingle(id, resourceId)
           }
