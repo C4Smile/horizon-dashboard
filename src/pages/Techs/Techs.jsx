@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -28,7 +28,7 @@ import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.jsx"
 import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // hooks
-import { useActions } from "../../hooks/useActions";
+import { useRestoreAction, useDeleteAction, useEditAction } from "../../hooks";
 
 // sitemap
 import { findPath, pageId } from "../sitemap";
@@ -89,11 +89,28 @@ function TechPage() {
     };
   };
 
-  const getActions = useActions({
-    apiClient: horizonApiClient.Tech,
-    queryKey: ReactQueryKeys.Techs,
-    parent: Parents.game,
+  //#region Actions
+
+  const editAction = useEditAction({
+    entity: ReactQueryKeys.Techs,
   });
+
+  const restoreAction = useRestoreAction({
+    entity: ReactQueryKeys.Techs,
+    apiClient: horizonApiClient.Tech,
+  });
+
+  const deleteAction = useDeleteAction({
+    entity: ReactQueryKeys.Techs,
+    apiClient: horizonApiClient.Tech,
+  });
+
+  const getActions = useCallback(
+    (row) => [editAction.action(row), restoreAction.action(row), deleteAction.action(row)],
+    [deleteAction, editAction, restoreAction],
+  );
+
+  //#endregion Actions
 
   const { columns } = useParseColumns(
     extractKeysFromObject(new Tech(), ["id", "dateOfCreation", "deleted", "description", "urlName"]),
