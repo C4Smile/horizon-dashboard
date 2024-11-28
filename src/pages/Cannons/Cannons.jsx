@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -28,7 +28,7 @@ import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.jsx"
 import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // hooks
-import { useActions } from "../../hooks/useActions";
+import { useRestoreAction, useDeleteAction, useEditAction } from "../../hooks";
 
 const columnClasses = {
   lastUpdate: "w-44",
@@ -95,11 +95,28 @@ function CannonPage() {
     };
   };
 
-  const getActions = useActions({
-    apiClient: horizonApiClient.Cannon,
-    queryKey: ReactQueryKeys.Cannons,
-    parent: Parents.game,
+  //#region Actions
+
+  const editAction = useEditAction({
+    entity: ReactQueryKeys.Cannons,
   });
+
+  const restoreAction = useRestoreAction({
+    entity: ReactQueryKeys.Cannons,
+    apiClient: horizonApiClient.Cannon,
+  });
+
+  const deleteAction = useDeleteAction({
+    entity: ReactQueryKeys.Cannons,
+    apiClient: horizonApiClient.Cannon,
+  });
+
+  const getActions = useCallback(
+    (row) => [editAction.action(row), restoreAction.action(row), deleteAction.action(row)],
+    [deleteAction, editAction, restoreAction],
+  );
+
+  //#endregion Actions
 
   const { columns } = useParseColumns(
     extractKeysFromObject(new Cannon(), ["id", "dateOfCreation", "deleted", "description", "urlName"]),

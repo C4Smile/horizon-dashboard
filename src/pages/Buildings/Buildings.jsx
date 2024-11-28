@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -21,14 +21,14 @@ import { Building } from "../../models/building/Building";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
+import { ReactQueryKeys } from "../../utils/queryKeys";
 import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.jsx";
 
 // providers
 import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // hooks
-import { useActions } from "../../hooks/useActions";
+import { useRestoreAction, useDeleteAction, useEditAction } from "../../hooks";
 
 // sitemap
 import { findPath, pageId } from "../sitemap.jsx";
@@ -93,11 +93,26 @@ function BuildingPage() {
     };
   };
 
-  const getActions = useActions({
-    apiClient: horizonApiClient.Building,
-    queryKey: ReactQueryKeys.Buildings,
-    parent: Parents.game,
+  //#region Actions
+
+  const editAction = useEditAction({
+    entity: ReactQueryKeys.Buildings,
   });
+
+  const restoreAction = useRestoreAction({
+    entity: ReactQueryKeys.Buildings,
+    apiClient: horizonApiClient.Building,
+  });
+
+  const deleteAction = useDeleteAction({
+    entity: ReactQueryKeys.Buildings,
+    apiClient: horizonApiClient.Building,
+  });
+
+  const getActions = useCallback(
+    (row) => [editAction.action(row), restoreAction.action(row), deleteAction.action(row)],
+    [deleteAction, editAction, restoreAction],
+  );
 
   const { columns } = useParseColumns(
     extractKeysFromObject(new Building(), [
