@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -8,6 +8,9 @@ import { Table, useTableOptions } from "@sito/dashboard";
 
 // images
 import noUserPhoto from "../../assets/images/user-no-image.webp";
+
+// icons
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 // dto
 import { User } from "../../models/user/User";
@@ -24,9 +27,16 @@ import { FloatingButton } from "../../components/FloatingButton/FloatingButton.j
 import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // hooks
-import { useActions } from "../../hooks/useActions";
+import { useRestoreAction, useDeleteAction, useEditAction } from "../../hooks";
 import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.jsx";
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
+
+const columnClasses = {
+  lastUpdate: "w-56",
+};
+
+const noSortableColumns = {
+  image: true,
+};
 
 /**
  * Users page
@@ -70,11 +80,27 @@ function Users() {
     phone: user.phone,
   });
 
-  const getActions = useActions({
+  //#region Actions
+
+  const editAction = useEditAction({ entity: ReactQueryKeys.Users });
+
+  const restoreAction = useRestoreAction({
+    entity: ReactQueryKeys.Users,
     apiClient: horizonApiClient.User,
-    queryKey: ReactQueryKeys.Users,
-    parent: Parents.user,
   });
+
+  const deleteAction = useDeleteAction({
+    entity: ReactQueryKeys.Users,
+    apiClient: horizonApiClient.User,
+  });
+
+  const getActions = useCallback((row) => [
+    editAction.action(row),
+    restoreAction.action(row),
+    deleteAction.action(row),
+  ],[]);
+
+  //#endregion Actions
 
   const { columns } = useParseColumns(
     extractKeysFromObject(new User(), [
