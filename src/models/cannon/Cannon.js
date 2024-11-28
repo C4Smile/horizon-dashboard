@@ -11,7 +11,6 @@ export class Cannon extends Entity {
   creationTime = 0;
   urlName = "";
   description = "";
-  image = {};
 
   static className = "cannon";
   static costs = "cannonCosts";

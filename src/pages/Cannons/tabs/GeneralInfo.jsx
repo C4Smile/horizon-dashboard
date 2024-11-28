@@ -10,7 +10,6 @@ import htmlToDraft from "html-to-draftjs";
 // components
 import Loading from "../../../partials/loading/Loading";
 import TextInput from "../../../components/Forms/TextInput";
-import ImageUploader from "../../../components/ImageUploader";
 
 // providers
 import { useNotification } from "../../../providers/NotificationProvider";
@@ -209,20 +208,6 @@ function GeneralInfo(props) {
           />
         )}
       />
-
-      {/* Cannon Image */}
-      <div className="my-5">
-        {cannonQuery.isLoading ? (
-          <Loading />
-        ) : (
-          <ImageUploader
-            photo={photo}
-            setPhoto={setPhoto}
-            label={`${t("_entities:cannon.image.label")}`}
-            folder={`${ReactQueryKeys.Cannons}`}
-          />
-        )}
-      </div>
 
       {/* Cannon description */}
       <Controller
