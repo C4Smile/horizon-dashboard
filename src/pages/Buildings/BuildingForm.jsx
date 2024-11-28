@@ -220,7 +220,7 @@ function BuildingForm() {
   ) : (
     <>
       <h1 className="text-2xl md:text-3xl font-bold">
-        {id ? `${t("_pages:buildings.editForm")} ${id}` : t("_pages:buildings.newForm")}
+        {id ? `${t("_accessibility:components.form.editing")} ${id}` : t("_pages:buildings.newForm")}
       </h1>
       <TabComponent tabs={tabs} content={content} />
     </>

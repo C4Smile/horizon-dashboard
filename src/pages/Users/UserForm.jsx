@@ -144,7 +144,7 @@ function UserForm() {
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <h1 className="text-2xl md:text-3xl font-bold">
-          {id ? `${t("_pages:users.editForm")} ${id}` : t("_pages:users.newForm")}
+          {id ? `${t("_accessibility:components.form.editing")} ${id}` : t("_pages:users.newForm")}
         </h1>
         {userQuery.isLoading ? (
           <Loading

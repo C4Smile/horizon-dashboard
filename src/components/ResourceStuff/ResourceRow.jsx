@@ -19,12 +19,12 @@ const ResourceRow = memo(
 
     const { disabled, resources, value, onDelete, onEdit, label, inputLabel } = props;
 
-    const [resourceId, setResourceId] = useState(value?.resourceId);
+    const [resourceId, setResourceId] = useState(value?.resource?.id);
     const [base, setBase] = useState(value?.base);
     const [factor, setFactor] = useState(value?.factor);
 
     useEffect(() => {
-      setResourceId(value?.resourceId);
+      setResourceId(value?.resource?.id);
       setBase(value?.base);
       setFactor(value?.factor);
     }, [value]);

@@ -205,7 +205,7 @@ function TechForm() {
   ) : (
     <>
       <h1 className="text-2xl md:text-3xl font-bold mb-2">
-        {id ? `${t("_pages:techs.editForm")} ${id}` : t("_pages:techs.newForm")}
+        {id ? `${t("_accessibility:components.form.editing")} ${id}` : t("_pages:techs.newForm")}
       </h1>
       <TabComponent tabs={tabs} content={content} />
     </>

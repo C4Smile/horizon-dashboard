@@ -53,11 +53,11 @@ function BuildingTypeForm() {
       setNotification(String(status), { model: t("_entities:entities.buildingType") });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
-      if (error && error !== null) console.error(error.message);
+      if (error) console.error(error.message);
       else {
-        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.BuildingTypes] });
+        await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.BuildingTypes] });
         if (id !== undefined)
-          queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.BuildingTypes, id] });
+          await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.BuildingTypes, id] });
         else {
           setPhoto();
           reset({
@@ -113,7 +113,7 @@ function BuildingTypeForm() {
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <h1 className="text-2xl md:text-3xl font-bold">
-          {id ? `${t("_pages:buildingTypes.editForm")} ${id}` : t("_pages:buildingTypes.newForm")}
+          {id ? `${t("_accessibility:components.form.editing")} ${id}` : t("_pages:buildingTypes.newForm")}
         </h1>
         {buildingTypeQuery.isLoading ? (
           <Loading

@@ -88,6 +88,7 @@ function ResourceStuff(props) {
 
   const save = useCallback(
     async (value) => {
+      //return;
       setSaving(true);
       try {
         const { error, status } = await saveFn(id, value);
@@ -110,7 +111,12 @@ function ResourceStuff(props) {
 
   const onSubmit = useCallback(
     (d) => {
-      const value = { resourceId: d.resourceId, base: Number(d.base), factor: Number(d.factor) };
+      const value = {
+        id: d.id,
+        resourceId: d.resourceId,
+        base: Number(d.base),
+        factor: Number(d.factor),
+      };
       setInitial();
       save(value);
     },
@@ -126,6 +132,13 @@ function ResourceStuff(props) {
     (resourceId) => {
       const selected = lists.find((res) => res.resourceId === resourceId);
       if (selected) setInitial(selected);
+      else
+        setInitial({
+          id: null,
+          resourceId: "",
+          base: "",
+          factor: "",
+        });
       formProps.dialogProps.open();
     },
     [formProps.dialogProps, lists],
