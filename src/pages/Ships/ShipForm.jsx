@@ -197,7 +197,16 @@ function ShipForm() {
     [shipQuery, id, resourcesList, techsList, buildingsList, horizonApiClient],
   );
 
-  return notFound ? <NotFound /> : <TabComponent tabs={tabs} content={content} />;
+  return notFound ? (
+    <NotFound />
+  ) : (
+    <>
+      <h1 className="text-2xl md:text-3xl font-bold">
+        {id ? `${t("_pages:ships.editForm")} ${id}` : t("_pages:ships.newForm")}
+      </h1>
+      <TabComponent tabs={tabs} content={content} />
+    </>
+  );
 }
 
 export default ShipForm;

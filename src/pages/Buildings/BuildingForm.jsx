@@ -215,7 +215,16 @@ function BuildingForm() {
     [buildingQuery, id, resourcesList, techsList, buildingsList, horizonApiClient],
   );
 
-  return notFound ? <NotFound /> : <TabComponent tabs={tabs} content={content} />;
+  return notFound ? (
+    <NotFound />
+  ) : (
+    <>
+      <h1 className="text-2xl md:text-3xl font-bold">
+        {id ? `${t("_pages:buildings.editForm")} ${id}` : t("_pages:buildings.newForm")}
+      </h1>
+      <TabComponent tabs={tabs} content={content} />
+    </>
+  );
 }
 
 export default BuildingForm;

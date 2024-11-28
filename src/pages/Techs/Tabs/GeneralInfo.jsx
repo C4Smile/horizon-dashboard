@@ -125,9 +125,7 @@ function GeneralInfo(props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form mt-5 gap-5">
-      <h1 className="text-2xl md:text-3xl font-bold">
-        {id ? `${t("_pages:techs.editForm")} ${id}` : t("_pages:techs.newForm")}
-      </h1>
+
 
       {techQuery.isLoading ? (
         <Loading

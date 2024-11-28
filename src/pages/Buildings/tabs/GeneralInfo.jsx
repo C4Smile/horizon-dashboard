@@ -125,10 +125,6 @@ function GeneralInfo(props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form mt-5 gap-5">
-      <h1 className="text-2xl md:text-3xl font-bold">
-        {id ? `${t("_pages:buildings.editForm")} ${id}` : t("_pages:buildings.newForm")}
-      </h1>
-
       {buildingQuery.isLoading ? (
         <Loading
           className="bg-none w-6 h-6 mb-10"
