@@ -181,7 +181,18 @@ function CannonForm() {
     [cannonQuery, id, resourcesList, techsList, buildingsList, horizonApiClient],
   );
 
-  return notFound ? <NotFound /> : <TabComponent tabs={tabs} content={content} />;
+  return notFound ? (
+    <NotFound />
+  ) : (
+    <>
+      <h1 className="text-2xl md:text-3xl font-bold mb-2">
+        {id
+          ? `${t("_pages:cannons.editForm")} ${cannonQuery?.data?.name}`
+          : t("_pages:cannons.newForm")}
+      </h1>
+      <TabComponent tabs={tabs} content={content} />
+    </>
+  );
 }
 
 export default CannonForm;
