@@ -9,6 +9,9 @@
     "6": "Sábado"
   },
   "components": {
+    "form": {
+      "editing": "Editando"
+    },
     "table": {
       "filters": {
         "title": "Filtros"

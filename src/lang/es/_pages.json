@@ -87,7 +87,6 @@
       "buildingReqTechs": "Requerimientos tecnológicos",
       "buildingReqBuildings": "Requerimientos de edificios"
     },
-    "editForm": "Editando edificio",
     "newForm": "Nuevo edificio"
   },
   "ships": {
@@ -98,7 +97,6 @@
       "shipReqTechs": "Requerimientos tecnológicos",
       "shipReqBuildings": "Requerimientos de edificios"
     },
-    "editForm": "Editando barco",
     "newForm": "Nuevo barco"
   },
   "cannons": {
@@ -108,19 +106,15 @@
       "cannonReqTechs": "Requerimientos tecnológicos",
       "cannonReqBuildings": "Requerimientos de edificios"
     },
-    "editForm": "Editando Cañón",
     "newForm": "Nuevo Cañón"
   },
   "buildingTypes": {
-    "editForm": "Editando tipo de edificio",
     "newForm": "Nuevo tipo de edificio"
   },
   "resources": {
-    "editForm": "Editando recurso",
     "newForm": "Nuevo recurso"
   },
   "skills": {
-    "editForm": "Editando habilidad",
     "newForm": "Nuevo habilidad"
   },
   "techs": {
@@ -131,11 +125,9 @@
       "techReqTechs": "Requerimientos tecnológicos",
       "techReqBuildings": "Requerimientos de edificios"
     },
-    "editForm": "Editando tecnología",
     "newForm": "Nuevo tecnología"
   },
   "techTypes": {
-    "editForm": "Editando tipo de tcecnología",
     "newForm": "Nuevo tipo de tecnología"
   },
   "notFound": {
