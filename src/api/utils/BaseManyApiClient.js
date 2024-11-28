@@ -49,9 +49,14 @@ export class BaseManyApiClient {
    */
   async save(entityId, object) {
     // call service
-    const { error, data, status } = await makeRequest(`${this.baseUrl}/${entityId}`, "POST", object, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
+    const { error, data, status } = await makeRequest(
+      `${this.baseUrl}/${entityId}`,
+      object.id ? "PATCH" : "POST",
+      object,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
 
     return { error, data, status: status === 204 ? 201 : status };
   }
