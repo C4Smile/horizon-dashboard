@@ -16,7 +16,13 @@ export class TechType extends Entity {
    * @param {Date} lastUpdate - TechType last update
    * @param {boolean} deleted - TechType deleted
    */
-  constructor(id, name, dateOfCreation = new Date(), lastUpdate = new Date(), deleted = false) {
+  constructor(
+    id = 0,
+    name = "",
+    dateOfCreation = new Date(),
+    lastUpdate = new Date(),
+    deleted = false,
+  ) {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.name = name;
     TechType.className = "techType";
