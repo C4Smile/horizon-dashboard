@@ -21,7 +21,7 @@ import { Cannon } from "../../models/cannon/Cannon";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
+import { ReactQueryKeys } from "../../utils/queryKeys";
 import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.jsx";
 
 // providers
