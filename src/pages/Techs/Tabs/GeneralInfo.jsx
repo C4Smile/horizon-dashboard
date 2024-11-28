@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import loadable from "@loadable/component";
 
 // editor
-import { EditorState, ContentState } from "draft-js";
+import { ContentState, EditorState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
 
 // components
@@ -69,10 +69,11 @@ function GeneralInfo(props) {
       setNotification(String(status), { model: t("_entities:entities.tech") });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
-      if (error && error !== null) console.error(error.message);
+      if (error) console.error(error.message);
       else {
-        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Techs] });
-        if (d.id !== undefined) queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Techs, id] });
+        await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Techs] });
+        if (d.id !== undefined)
+          await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Techs, id] });
         else {
           setPhoto();
           reset({
@@ -102,8 +103,7 @@ function GeneralInfo(props) {
         const descriptionBlock = htmlToDraft(html);
         if (descriptionBlock) {
           const descriptionState = ContentState.createFromBlockArray(descriptionBlock);
-          const editorState = EditorState.createWithContent(descriptionState);
-          techQuery.data.description = editorState;
+          techQuery.data.description = EditorState.createWithContent(descriptionState);
         }
       }
       setLastUpdate(techQuery?.data?.lastUpdate);
