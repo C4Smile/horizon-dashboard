@@ -1,5 +1,7 @@
-import TabComponent from "./TabComponent.jsx";
 import { useTranslation } from "react-i18next";
+
+// component
+import TabComponent from "./TabComponent.jsx";
 
 /**
  *
@@ -8,8 +10,6 @@ import { useTranslation } from "react-i18next";
  */
 export const TabLayout = (props) => {
   const { id, entity, tabs, content, name } = props;
-
-  console.log(id, entity, tabs, content);
 
   const { t } = useTranslation();
 
