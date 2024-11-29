@@ -8,6 +8,8 @@ export class Building extends Entity {
   name = "";
   urlName = "";
   description = "";
+  creationTime = 0;
+  type = 0;
   image = {};
 
   static className = "building";
