@@ -87,12 +87,12 @@
       "label": "Descripción",
       "placeholder": "Alguna descripción"
     },
+    "type": {
+      "label": "Tipo"
+    },
     "creationTime": {
       "label": "Tiempo de construcción",
       "placeholder": "Se mide en días"
-    },
-    "typeId": {
-      "label": "Tipo"
     },
     "resource": {
       "cost": "Costo",
