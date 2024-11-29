@@ -72,7 +72,7 @@ function TechPage() {
       type: (
         <Link
           className="underline text-light-primary flex"
-          to={`${findPath(pageId.techTypesEdit)}/${tech.typeId}`}
+          to={`${findPath(pageId.techTypesEdit)}/${tech.type?.id}`}
         >
           <span className="truncate">{tech?.type?.name}</span>
         </Link>
