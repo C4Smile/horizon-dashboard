@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Controller } from "react-hook-form";
+import { Controller, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 // components
@@ -16,15 +16,18 @@ const ResourceForm = function ResourceForm(props) {
 
   const { currentList, resources, label, inputLabel, inputPlaceholder, control } = props;
 
+  const id = useWatch({ control, name: "id" });
+
   const options = useMemo(
     () =>
-      resources.filter(
-        (res) =>
-          !currentList.some((rex) => {
-            return rex.resourceId === res.id;
-          }),
+      resources.filter((res) =>
+        !!id && typeof id === "number"
+          ? currentList
+          : !currentList.some((rex) => {
+              return rex.resourceId === res.id;
+            }),
       ),
-    [currentList, resources],
+    [currentList, resources, id],
   );
 
   return (

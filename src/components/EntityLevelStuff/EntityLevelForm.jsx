@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Controller } from "react-hook-form";
+import { Controller, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 // components
@@ -17,8 +17,15 @@ const EntityLevelForm = function EntityForm(props) {
   const { currentList, entities, inputLabel, inputPlaceholder, control, entityLabel, attributeId } =
     props;
 
+  const id = useWatch({ control, name: "id" });
+
   const options = useMemo(
-    () => entities.filter((res) => !currentList.some((rex) => rex[attributeId] === res.id)),
+    () =>
+      entities.filter((res) =>
+        !!id && typeof id === "number"
+          ? currentList
+          : !currentList.some((rex) => rex[attributeId] === res.id),
+      ),
     [attributeId, currentList, entities],
   );
 
