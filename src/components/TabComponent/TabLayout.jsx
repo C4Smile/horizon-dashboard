@@ -6,7 +6,7 @@ import TabComponent from "./TabComponent.jsx";
 /**
  *
  * @param props component properties
- * @returns {JSX.Element} tab layout
+ * @returns tab layout
  */
 export const TabLayout = (props) => {
   const { id, entity, tabs, content, name } = props;

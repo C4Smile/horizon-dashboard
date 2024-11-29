@@ -11,6 +11,7 @@ import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // components
+import { TabLayout } from "../../components/TabComponent/TabLayout.jsx";
 import { EntityLevelStuff } from "../../components/EntityLevelStuff/index.js";
 
 // types
@@ -22,8 +23,6 @@ import { GeneralInfo, ResourceStuff } from "./tabs";
 // entity
 import { Tech } from "../../models/tech/Tech";
 import { Building } from "../../models/building/Building";
-import { TabLayout } from "../../components/TabComponent/TabLayout.jsx";
-import { TechApiClient } from "../../api/TechApiClient.js";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
