@@ -26,7 +26,7 @@ const EntityLevelForm = function EntityForm(props) {
           ? currentList
           : !currentList.some((rex) => rex[attributeId] === res.id),
       ),
-    [attributeId, currentList, entities],
+    [attributeId, currentList, entities, id],
   );
 
   return (
