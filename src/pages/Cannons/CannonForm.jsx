@@ -11,7 +11,7 @@ import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // components
-import TabComponent from "../../components/TabComponent/TabComponent";
+import { TabLayout } from "../../components/TabComponent/TabLayout.jsx";
 import { EntityLevelStuff } from "../../components/EntityLevelStuff/index.js";
 
 // types
@@ -184,14 +184,13 @@ function CannonForm() {
   return notFound ? (
     <NotFound />
   ) : (
-    <>
-      <h1 className="text-2xl md:text-3xl font-bold mb-2">
-        {id
-          ? `${t("_accessibility:components.form.editing")} ${cannonQuery?.data?.name}`
-          : t("_pages:cannons.newForm")}
-      </h1>
-      <TabComponent tabs={tabs} content={content} />
-    </>
+    <TabLayout
+      name={cannonQuery?.data?.name}
+      entity={ReactQueryKeys.Cannons}
+      id={id}
+      tabs={tabs}
+      content={content}
+    />
   );
 }
 

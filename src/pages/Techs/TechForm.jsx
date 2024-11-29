@@ -11,7 +11,6 @@ import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // components
-import TabComponent from "../../components/TabComponent/TabComponent";
 import { EntityLevelStuff } from "../../components/EntityLevelStuff/index.js";
 
 // types
@@ -23,6 +22,8 @@ import { GeneralInfo, ResourceStuff } from "./tabs";
 // entity
 import { Tech } from "../../models/tech/Tech";
 import { Building } from "../../models/building/Building";
+import { TabLayout } from "../../components/TabComponent/TabLayout.jsx";
+import { TechApiClient } from "../../api/TechApiClient.js";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
@@ -203,12 +204,13 @@ function TechForm() {
   return notFound ? (
     <NotFound />
   ) : (
-    <>
-      <h1 className="text-2xl md:text-3xl font-bold mb-2">
-        {id ? `${t("_accessibility:components.form.editing")} ${id}` : t("_pages:techs.newForm")}
-      </h1>
-      <TabComponent tabs={tabs} content={content} />
-    </>
+    <TabLayout
+      name={techQuery?.data?.name}
+      entity={ReactQueryKeys.Techs}
+      id={id}
+      tabs={tabs}
+      content={content}
+    />
   );
 }
 
