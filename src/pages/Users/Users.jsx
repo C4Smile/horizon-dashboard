@@ -17,7 +17,7 @@ import { User } from "../../models/user/User";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
-import { Parents, ReactQueryKeys } from "../../utils/queryKeys";
+import { ReactQueryKeys } from "../../utils/queryKeys";
 import { staticUrlPhoto } from "../../components/utils";
 
 // components
