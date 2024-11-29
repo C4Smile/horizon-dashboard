@@ -73,10 +73,14 @@ function BuildingPage() {
           <span className="truncate">{building.name}</span>
         </Link>
       ),
-      typeId: (
+      creationTime: {
+        value: building.creationTime,
+        render: `${building.creationTime} ${t("_accessibility:labels.days")}`,
+      },
+      type: (
         <Link
           className="underline text-light-primary flex"
-          to={`${findPath(pageId.buildingTypesEdit)}/${building.typeId}`}
+          to={`${findPath(pageId.buildingTypesEdit)}/${building.type?.id}`}
         >
           <span className="truncate">{building?.type?.name}</span>
         </Link>
