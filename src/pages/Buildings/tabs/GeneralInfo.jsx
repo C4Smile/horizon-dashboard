@@ -186,14 +186,14 @@ function GeneralInfo(props) {
       {/* Building Type */}
       <Controller
         control={control}
-        name="typeId"
+        name="type"
         disabled={buildingQuery.isLoading || typesQuery.isLoading || saving}
         render={({ field: { onChange, value, ...rest } }) => (
           <SelectInput
             {...rest}
-            id="typeId"
-            name="typeId"
-            label={t("_entities:building.typeId.label")}
+            id="type"
+            name="type"
+            label={t("_entities:building.type.label")}
             options={typesList}
             value={value}
             onChange={(e) => {
