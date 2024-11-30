@@ -118,6 +118,8 @@ function BuildingPage() {
     [deleteAction, editAction, restoreAction],
   );
 
+  //#endregion Actions
+
   const { columns } = useParseColumns(
     extractKeysFromObject(new Building(), [
       "id",
