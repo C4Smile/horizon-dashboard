@@ -77,6 +77,10 @@ function TechPage() {
           <span className="truncate">{tech?.type?.name}</span>
         </Link>
       ),
+      creationTime: {
+        value: tech.creationTime,
+        render: `${tech.creationTime} ${t("_accessibility:labels.days")}`,
+      },
       image: tech.image?.url ? (
         <img
           className={`w-10 h-10 rounded-full object-cover border-white border-2`}
