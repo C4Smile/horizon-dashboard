@@ -70,15 +70,31 @@ function ShipPage() {
           <span className="w-36 flex">{`${ship.capacity} ${t("_accessibility:labels.tons")}`}</span>
         ),
       },
-      crew: {
-        value: ship.crew,
+      minCrew: {
+        value: ship.minCrew,
         render: (
-          <span className="w-36 flex">{`${ship.crew} ${t("_accessibility:labels.sailors")}`}</span>
+          <span className="w-36 flex">{`${ship.minCrew} ${t("_accessibility:labels.sailors")}`}</span>
         ),
       },
-      baseSpeed: {
-        value: ship.baseSpeed,
-        render: `${ship.baseSpeed} ${t("_accessibility:labels.knots")}`,
+      bestCrew: {
+        value: ship.bestCrew,
+        render: (
+          <span className="w-36 flex">{`${ship.bestCrew} ${t("_accessibility:labels.sailors")}`}</span>
+        ),
+      },
+      maxCrew: {
+        value: ship.maxCrew,
+        render: (
+          <span className="w-36 flex">{`${ship.maxCrew} ${t("_accessibility:labels.sailors")}`}</span>
+        ),
+      },
+      minKnots: {
+        value: ship.minKnots,
+        render: `${ship.minKnots} ${t("_accessibility:labels.knots")}`,
+      },
+      maxKnots: {
+        value: ship.maxKnots,
+        render: `${ship.maxKnots} ${t("_accessibility:labels.knots")}`,
       },
       creationTime: {
         value: ship.creationTime,
