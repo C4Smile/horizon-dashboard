@@ -125,12 +125,8 @@
       "label": "Capacidad de carga",
       "placeholder": "En toneladas"
     },
-    "minKnots": {
-      "label": "Velocidad base mínima",
-      "placeholder": "En nudos"
-    },
-    "maxKnots": {
-      "label": "Velocidad base máxima",
+    "knots": {
+      "label": "Velocidad base",
       "placeholder": "En nudos"
     },
     "minCrew": {
