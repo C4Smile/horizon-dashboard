@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
 import loadable from "@loadable/component";
@@ -25,7 +25,7 @@ const HtmlInput = loadable(() => import("../../../components/Forms/HtmlInput"));
 /**
  * General Info
  * @param {*} props - component props
- * @returns GeneralInfo
+ * @returns {JSX.Element} GeneralInfo
  */
 function GeneralInfo(props) {
   const { t } = useTranslation();
@@ -64,6 +64,11 @@ function GeneralInfo(props) {
           reset({
             id: undefined,
             name: "",
+            capacity: 0,
+            baseSpeed: 0,
+            crew: 0,
+            guns: 0,
+            hull: 0,
             creationTime: 0,
             description: "",
           });
@@ -100,6 +105,11 @@ function GeneralInfo(props) {
       reset({
         id: undefined,
         name: "",
+        capacity: 0,
+        baseSpeed: 0,
+        crew: 0,
+        guns: 0,
+        hull: 0,
         creationTime: 0,
         description: "",
       });
@@ -168,39 +178,135 @@ function GeneralInfo(props) {
         )}
       />
 
-      {/* Ship Base Speed */}
+      <div className="flex gap-2 w-full">
+        {/* Ship Min Knots */}
+        <Controller
+          control={control}
+          disabled={shipQuery.isLoading || saving}
+          name="minKnots"
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="number"
+              name="minKnots"
+              id="minKnots"
+              className="text-input peer"
+              placeholder={t("_entities:ship.minKnots.placeholder")}
+              label={t("_entities:ship.minKnots.label")}
+              required
+            />
+          )}
+        />
+        {/* Ship Max Knots */}
+        <Controller
+          control={control}
+          disabled={shipQuery.isLoading || saving}
+          name="maxKnots"
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="number"
+              name="maxKnots"
+              id="maxKnots"
+              className="text-input peer"
+              placeholder={t("_entities:ship.maxKnots.placeholder")}
+              label={t("_entities:ship.maxKnots.label")}
+              required
+            />
+          )}
+        />
+      </div>
+
+      <div className="flex gap-2 w-full">
+        {/* Ship Min Crew */}
+        <Controller
+          control={control}
+          disabled={shipQuery.isLoading || saving}
+          name="minCrew"
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="number"
+              name="minCrew"
+              id="minCrew"
+              className="text-input peer w-full"
+              placeholder={t("_entities:ship.minCrew.placeholder")}
+              label={t("_entities:ship.minCrew.label")}
+              required
+            />
+          )}
+        />
+        {/* Ship Best Crew */}
+        <Controller
+          control={control}
+          disabled={shipQuery.isLoading || saving}
+          name="bestCrew"
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="number"
+              name="bestCrew"
+              id="bestCrew"
+              className="text-input peer w-full"
+              placeholder={t("_entities:ship.bestCrew.placeholder")}
+              label={t("_entities:ship.bestCrew.label")}
+              required
+            />
+          )}
+        />
+        {/* Ship Max Crew */}
+        <Controller
+          control={control}
+          disabled={shipQuery.isLoading || saving}
+          name="maxCrew"
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="number"
+              name="maxCrew"
+              id="maxCrew"
+              className="text-input peer w-full"
+              placeholder={t("_entities:ship.maxCrew.placeholder")}
+              label={t("_entities:ship.maxCrew.label")}
+              required
+            />
+          )}
+        />
+      </div>
+
+      {/* Ship Guns */}
       <Controller
         control={control}
         disabled={shipQuery.isLoading || saving}
-        name="baseSpeed"
+        name="guns"
         render={({ field }) => (
           <TextInput
             {...field}
             type="number"
-            name="baseSpeed"
-            id="baseSpeed"
+            name="guns"
+            id="guns"
             className="text-input peer"
-            placeholder={t("_entities:ship.baseSpeed.placeholder")}
-            label={t("_entities:ship.baseSpeed.label")}
+            placeholder={t("_entities:ship.guns.placeholder")}
+            label={t("_entities:ship.guns.label")}
             required
           />
         )}
       />
 
-      {/* Ship Crew */}
+      {/* Ship Hull */}
       <Controller
         control={control}
         disabled={shipQuery.isLoading || saving}
-        name="crew"
+        name="hull"
         render={({ field }) => (
           <TextInput
             {...field}
             type="number"
-            name="crew"
-            id="crew"
+            name="hull"
+            id="hull"
             className="text-input peer"
-            placeholder={t("_entities:ship.crew.placeholder")}
-            label={t("_entities:ship.crew.label")}
+            placeholder={t("_entities:ship.hull.placeholder")}
+            label={t("_entities:ship.hull.label")}
             required
           />
         )}
