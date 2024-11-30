@@ -122,20 +122,40 @@
       "placeholder": "Alguna descripción"
     },
     "capacity": {
-      "label": "Capacidad",
+      "label": "Capacidad de carga",
       "placeholder": "En toneladas"
     },
-    "baseSpeed": {
-      "label": "Velocidad base",
+    "minKnots": {
+      "label": "Velocidad base mínima",
       "placeholder": "En nudos"
     },
-    "crew": {
-      "label": "Tripulación",
-      "placeholder": "Cantidad de hombres a bordo"
+    "maxKnots": {
+      "label": "Velocidad base máxima",
+      "placeholder": "En nudos"
+    },
+    "minCrew": {
+      "label": "Tripulación mín",
+      "placeholder": "Cantidad de hombres a bordo mínimo para navegar"
+    },
+    "bestCrew": {
+      "label": "Tripulación óptima",
+      "placeholder": "Cantidad de hombres a bordo óptima para navegar"
+    },
+    "maxCrew": {
+      "label": "Tripulación Mán",
+      "placeholder": "Cantidad de hombres a bordo máxima para navegar"
     },
     "creationTime": {
       "label": "Tiempo de construcción",
       "placeholder": "Se mide en días"
+    },
+    "guns": {
+      "label": "Capacidad de cañones",
+      "placeholder": "Ej: 10"
+    },
+    "hull": {
+      "label": "Puntos de casco",
+      "placeholder": "Ej: 300"
     },
     "resource": {
       "cost": "Costo",
