@@ -83,12 +83,18 @@ function TechForm() {
   const techsList = useMemo(() => {
     try {
       return (
-        techsQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id, image: c.image })) ?? []
+        techsQuery?.data?.items
+          ?.filter((c) => c.id !== Number(id))
+          ?.map((c) => ({
+            value: `${c.name}`,
+            id: c.id,
+            image: c.image,
+          })) ?? []
       );
     } catch (err) {
       return [];
     }
-  }, [techsQuery.data]);
+  }, [id, techsQuery?.data?.items]);
 
   //#endregion techs
 
@@ -102,18 +108,16 @@ function TechForm() {
   const buildingsList = useMemo(() => {
     try {
       return (
-        buildingsQuery?.data?.items
-          ?.filter((c) => c.id !== Number(id))
-          ?.map((c) => ({
-            value: `${c.name}`,
-            id: c.id,
-            image: c.image,
-          })) ?? []
+        buildingsQuery?.data?.items?.map((c) => ({
+          value: `${c.name}`,
+          id: c.id,
+          image: c.image,
+        })) ?? []
       );
     } catch (err) {
       return [];
     }
-  }, [buildingsQuery?.data?.items, id]);
+  }, [buildingsQuery?.data?.items]);
 
   //#endregion buildings
 
