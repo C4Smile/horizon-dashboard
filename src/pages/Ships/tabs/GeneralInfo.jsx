@@ -179,38 +179,20 @@ function GeneralInfo(props) {
       />
 
       <div className="flex gap-2 w-full">
-        {/* Ship Min Knots */}
+        {/* Ship Max knots */}
         <Controller
           control={control}
           disabled={shipQuery.isLoading || saving}
-          name="minKnots"
+          name="knots"
           render={({ field }) => (
             <TextInput
               {...field}
               type="number"
-              name="minKnots"
-              id="minKnots"
+              name="knots"
+              id="knots"
               className="text-input peer"
-              placeholder={t("_entities:ship.minKnots.placeholder")}
-              label={t("_entities:ship.minKnots.label")}
-              required
-            />
-          )}
-        />
-        {/* Ship Max Knots */}
-        <Controller
-          control={control}
-          disabled={shipQuery.isLoading || saving}
-          name="maxKnots"
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              type="number"
-              name="maxKnots"
-              id="maxKnots"
-              className="text-input peer"
-              placeholder={t("_entities:ship.maxKnots.placeholder")}
-              label={t("_entities:ship.maxKnots.label")}
+              placeholder={t("_entities:ship.knots.placeholder")}
+              label={t("_entities:ship.knots.label")}
               required
             />
           )}
