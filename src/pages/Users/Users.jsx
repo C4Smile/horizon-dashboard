@@ -1,10 +1,9 @@
-import { useCallback, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 // @sito/dashboard
-import { Table, useTableOptions } from "@sito/dashboard";
+import { Table } from "@sito/dashboard";
 
 // images
 import noUserPhoto from "../../assets/images/user-no-image.webp";
@@ -29,14 +28,7 @@ import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 // hooks
 import { useRestoreAction, useDeleteAction, useEditAction } from "../../hooks";
 import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.jsx";
-
-const columnClasses = {
-  lastUpdate: "w-56",
-};
-
-const noSortableColumns = {
-  image: true,
-};
+import { useHorizonQuery } from "../../hooks/query/useHorizonQuery.jsx";
 
 /**
  * Users page
@@ -47,16 +39,10 @@ function Users() {
 
   const horizonApiClient = useHorizonApiClient();
 
-  const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
-
-  const { data, isLoading } = useQuery({
-    queryKey: [ReactQueryKeys.Users, sortingBy, sortingOrder, currentPage, pageSize],
-    queryFn: () => horizonApiClient.User.getAll({ sortingBy, sortingOrder, currentPage, pageSize }),
+  const { data, isLoading } = useHorizonQuery({
+    entity: ReactQueryKeys.Users,
+    queryFn: (data) => horizonApiClient.User.getAll(data),
   });
-
-  useEffect(() => {
-    if (data) setTotal(data.total ?? 0);
-  }, [data, setTotal]);
 
   const prepareRows = (user) => ({
     ...user,
@@ -94,11 +80,10 @@ function Users() {
     apiClient: horizonApiClient.User,
   });
 
-  const getActions = useCallback((row) => [
-    editAction.action(row),
-    restoreAction.action(row),
-    deleteAction.action(row),
-  ],[]);
+  const getActions = useCallback(
+    (row) => [editAction.action(row), restoreAction.action(row), deleteAction.action(row)],
+    [deleteAction, editAction, restoreAction],
+  );
 
   //#endregion Actions
 

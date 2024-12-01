@@ -1,10 +1,9 @@
-import { useCallback, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 // @sito/dashboard
-import { Table, useTableOptions } from "@sito/dashboard";
+import { Table } from "@sito/dashboard";
 
 // images
 import noProduct from "../../assets/images/no-product.jpg";
@@ -29,6 +28,7 @@ import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // hooks
 import { useRestoreAction, useDeleteAction, useEditAction } from "../../hooks";
+import { useHorizonQuery } from "../../hooks/query/useHorizonQuery.js";
 
 const columnClasses = {
   lastUpdate: "w-44",
@@ -50,16 +50,10 @@ function ShipPage() {
 
   const horizonApiClient = useHorizonApiClient();
 
-  const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
-
-  const { data, isLoading } = useQuery({
-    queryKey: [ReactQueryKeys.Ships, sortingBy, sortingOrder, currentPage, pageSize],
-    queryFn: () => horizonApiClient.Ship.getAll({ sortingBy, sortingOrder, currentPage, pageSize }),
+  const { data, isLoading } = useHorizonQuery({
+    entity: ReactQueryKeys.Ships,
+    queryFn: (data) => horizonApiClient.Ship.getAll(data),
   });
-
-  useEffect(() => {
-    if (data) setTotal(data.total ?? 0);
-  }, [data, setTotal]);
 
   const prepareRows = (ship) => {
     return {
@@ -88,13 +82,9 @@ function ShipPage() {
           <span className="w-36 flex">{`${ship.maxCrew} ${t("_accessibility:labels.sailors")}`}</span>
         ),
       },
-      minKnots: {
-        value: ship.minKnots,
-        render: `${ship.minKnots} ${t("_accessibility:labels.knots")}`,
-      },
-      maxKnots: {
-        value: ship.maxKnots,
-        render: `${ship.maxKnots} ${t("_accessibility:labels.knots")}`,
+      knots: {
+        value: ship.knots,
+        render: `${ship.knots} ${t("_accessibility:labels.knots")}`,
       },
       creationTime: {
         value: ship.creationTime,

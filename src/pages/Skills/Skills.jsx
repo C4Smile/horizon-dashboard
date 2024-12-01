@@ -1,10 +1,9 @@
-import { useCallback, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 // @sito/dashboard
-import { Table, useTableOptions } from "@sito/dashboard";
+import { Table } from "@sito/dashboard";
 
 // images
 import noProduct from "../../assets/images/no-product.jpg";
@@ -29,6 +28,7 @@ import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 // hooks
 import { useRestoreAction, useDeleteAction, useEditAction } from "../../hooks";
 import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.jsx";
+import { useHorizonQuery } from "../../hooks/query/useHorizonQuery.jsx";
 
 const columnClasses = {
   lastUpdate: "w-56",
@@ -47,16 +47,10 @@ function SkillPage() {
 
   const horizonApiClient = useHorizonApiClient();
 
-  const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
-
-  const { data, isLoading } = useQuery({
-    queryKey: [ReactQueryKeys.Skill, sortingBy, sortingOrder, currentPage, pageSize],
-    queryFn: () => horizonApiClient.Skill.getAll({ sortingBy, sortingOrder, currentPage, pageSize }),
+  const { data, isLoading } = useHorizonQuery({
+    entity: ReactQueryKeys.Skills,
+    queryFn: (data) => horizonApiClient.Skill.getAll(data),
   });
-
-  useEffect(() => {
-    if (data) setTotal(data.total ?? 0);
-  }, [data, setTotal]);
 
   const prepareRows = (skill) => {
     return {

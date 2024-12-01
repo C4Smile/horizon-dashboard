@@ -1,10 +1,9 @@
-import { useCallback, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 // @sito/dashboard
-import { Table, useTableOptions } from "@sito/dashboard";
+import { Table } from "@sito/dashboard";
 
 // images
 import noProduct from "../../assets/images/no-product.jpg";
@@ -29,6 +28,7 @@ import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // hooks
 import { useRestoreAction, useDeleteAction, useEditAction } from "../../hooks";
+import { useHorizonQuery } from "../../hooks/query/useHorizonQuery.js";
 
 const columnClasses = {
   lastUpdate: "w-44",
@@ -50,16 +50,10 @@ function CannonPage() {
 
   const horizonApiClient = useHorizonApiClient();
 
-  const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
-
-  const { data, isLoading } = useQuery({
-    queryKey: [ReactQueryKeys.Cannons, sortingBy, sortingOrder, currentPage, pageSize],
-    queryFn: () => horizonApiClient.Cannon.getAll({ sortingBy, sortingOrder, currentPage, pageSize }),
+  const { data, isLoading } = useHorizonQuery({
+    entity: ReactQueryKeys.Cannons,
+    queryFn: (data) => horizonApiClient.Cannon.getAll(data),
   });
-
-  useEffect(() => {
-    if (data) setTotal(data.total ?? 0);
-  }, [data, setTotal]);
 
   const prepareRows = (cannon) => {
     return {

@@ -1,10 +1,10 @@
-import { useCallback, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useCallback } from "react";
+
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 // @sito/dashboard
-import { Table, useTableOptions } from "@sito/dashboard";
+import { Table } from "@sito/dashboard";
 
 // images
 import noProduct from "../../assets/images/no-product.jpg";
@@ -32,6 +32,7 @@ import { useRestoreAction, useDeleteAction, useEditAction } from "../../hooks";
 
 // sitemap
 import { findPath, pageId } from "../sitemap.jsx";
+import { useHorizonQuery } from "../../hooks/query/useHorizonQuery.js";
 
 const columnClasses = {
   lastUpdate: "w-56",
@@ -54,16 +55,10 @@ function BuildingPage() {
 
   const horizonApiClient = useHorizonApiClient();
 
-  const { sortingBy, setTotal, sortingOrder, currentPage, pageSize } = useTableOptions();
-
-  const { data, isLoading } = useQuery({
-    queryKey: [ReactQueryKeys.Buildings, sortingBy, sortingOrder, currentPage, pageSize],
-    queryFn: () => horizonApiClient.Building.getAll({ sortingBy, sortingOrder, currentPage, pageSize }),
+  const { data, isLoading } = useHorizonQuery({
+    entity: ReactQueryKeys.Buildings,
+    queryFn: (data) => horizonApiClient.Building.getAll(data),
   });
-
-  useEffect(() => {
-    if (data) setTotal(data.total ?? 0);
-  }, [data, setTotal]);
 
   const prepareRows = (building) => {
     return {
