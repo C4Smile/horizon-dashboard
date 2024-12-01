@@ -7,8 +7,11 @@ import { Entity } from "../entity/Entity";
 export class Ship extends Entity {
   name = "";
   capacity = 0;
-  baseSpeed = 0;
-  crew = 0;
+  hull = 0;
+  knots = 0;
+  minCrew = 0;
+  bestCrew = 0;
+  maxCrew = 0;
   creationTime = 0;
   urlName = "";
   description = "";
