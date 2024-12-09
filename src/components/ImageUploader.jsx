@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 // font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,9 +6,6 @@ import { faTrash, faAdd } from "@fortawesome/free-solid-svg-icons";
 
 // components
 import Loading from "../partials/loading/Loading";
-
-// image
-import noPhoto from "../assets/images/no-product.jpg";
 
 // utils
 import { staticUrlPhoto } from "./utils";
