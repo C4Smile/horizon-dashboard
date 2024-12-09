@@ -16,9 +16,6 @@ import { useAccount } from "./providers/AccountProvider";
 // components
 import SplashScreen from "./partials/loading/SplashScreen";
 
-// layouts
-
-// Import pages
 // Generals
 const NotFound = loadable(() => import("./pages/NotFound/NotFound"));
 
