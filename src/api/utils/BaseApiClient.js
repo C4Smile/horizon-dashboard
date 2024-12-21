@@ -75,7 +75,7 @@ export class BaseApiClient {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     if (error !== null) return { status, error: { message: error.message } };
-    return data[0];
+    return data;
   }
 
   /**
