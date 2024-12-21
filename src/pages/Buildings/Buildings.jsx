@@ -29,10 +29,10 @@ import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // hooks
 import { useRestoreAction, useDeleteAction, useEditAction } from "../../hooks";
+import { useHorizonQuery } from "../../hooks/query/useHorizonQuery.jsx";
 
 // sitemap
 import { findPath, pageId } from "../sitemap.jsx";
-import { useHorizonQuery } from "../../hooks/query/useHorizonQuery.js";
 
 const columnClasses = {
   lastUpdate: "w-56",
