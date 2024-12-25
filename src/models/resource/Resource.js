@@ -24,7 +24,7 @@ export class Resource extends Entity {
   constructor(
     id = 0,
     name = "",
-    baseFactor= 0,
+    baseFactor = 0,
     dateOfCreation = Date.now(),
     lastUpdate = Date.now(),
     deleted = false,

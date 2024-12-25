@@ -125,8 +125,6 @@ function GeneralInfo(props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form mt-5 gap-5">
-
-
       {techQuery.isLoading ? (
         <Loading
           className="bg-none w-6 h-6 mb-10"

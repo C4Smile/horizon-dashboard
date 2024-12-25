@@ -24,7 +24,6 @@ import { GeneralInfo, ResourceStuff } from "./tabs";
 import { Tech } from "../../models/tech/Tech";
 import { Building } from "../../models/building/Building";
 
-
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
 

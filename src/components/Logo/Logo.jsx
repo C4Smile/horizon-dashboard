@@ -6,12 +6,7 @@ import React from "react";
  * @returns Logo component
  */
 function Logo(props) {
-  const {
-    className,
-    primary = "fill-secondary",
-    secondary = "fill-primary",
-    fill = "fill-white",
-  } = props;
+  const { className } = props;
 
   return (
     <svg

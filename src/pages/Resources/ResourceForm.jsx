@@ -11,6 +11,8 @@ import htmlToDraft from "html-to-draftjs";
 
 // components
 import Loading from "../../partials/loading/Loading";
+import TextInput from "../../components/Forms/TextInput";
+import ImageUploader from "../../components/ImageUploader";
 
 // providers
 import { useNotification } from "../../providers/NotificationProvider";
@@ -20,9 +22,7 @@ import { queryClient, useHorizonApiClient } from "../../providers/HorizonApiProv
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // loadable
-const TextInput = loadable(() => import("../../components/Forms/TextInput"));
 const HtmlInput = loadable(() => import("../../components/Forms/HtmlInput"));
-const ImageUploader = loadable(() => import("../../components/ImageUploader"));
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));

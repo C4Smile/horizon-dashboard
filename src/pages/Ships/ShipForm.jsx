@@ -24,7 +24,6 @@ import { GeneralInfo, ResourceStuff } from "./tabs";
 import { Tech } from "../../models/tech/Tech";
 import { Ship } from "../../models/ship/Ship.js";
 
-
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
 

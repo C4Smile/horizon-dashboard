@@ -113,7 +113,9 @@ function BuildingTypeForm() {
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <h1 className="text-2xl md:text-3xl font-bold">
-          {id ? `${t("_accessibility:components.form.editing")} ${id}` : t("_pages:buildingTypes.newForm")}
+          {id
+            ? `${t("_accessibility:components.form.editing")} ${id}`
+            : t("_pages:buildingTypes.newForm")}
         </h1>
         {buildingTypeQuery.isLoading ? (
           <Loading
