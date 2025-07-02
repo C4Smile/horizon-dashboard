@@ -2,7 +2,7 @@
 import { BaseManyApiClient } from "./utils/BaseManyApiClient";
 
 // types
-import { Building } from "../models/building/Building";
+import { Building } from "../lib/models/building/Building";
 
 /**
  * @class BuildingReqBuildingsApiClient

@@ -12,7 +12,7 @@ import noProduct from "../../assets/images/no-product.jpg";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 // dto
-import { Skill } from "../../models/skill/Skill";
+import { Skill } from "../../lib/models/skill/Skill.js";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";

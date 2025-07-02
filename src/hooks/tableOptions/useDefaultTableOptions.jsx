@@ -1,6 +1,6 @@
 import { useTableOptions } from "@sito/dashboard";
 
-import { SortOrder } from "../../models/query/GenericFilter.js";
+import { SortOrder } from "../../lib/models/query/GenericFilter.js";
 import { useEffect } from "react";
 
 /**

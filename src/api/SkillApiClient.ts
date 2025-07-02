@@ -15,8 +15,8 @@ import { makeRequest } from "../db/services";
 import { BaseApiClient } from "./utils/BaseApiClient";
 
 // types
-import { Skill } from "../models/skill/Skill.js";
-import { Photo } from "../models/photo/Photo.js";
+import { Skill } from "../lib/models/skill/Skill.js";
+import { Photo } from "../lib/models/photo/Photo.js";
 
 /**
  * @class SkillApiClient

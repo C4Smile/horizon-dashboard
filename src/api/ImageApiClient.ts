@@ -8,7 +8,7 @@ import { fromLocal } from "../utils/local.js";
 import { makeRequest } from "../db/services.js";
 
 // types
-import { Photo } from "../models/photo/Photo.js";
+import { Photo } from "../lib/models/photo/Photo.js";
 
 /**
  * ImageApiClient

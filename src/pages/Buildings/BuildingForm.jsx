@@ -21,8 +21,8 @@ import { buildingTabs } from "./types";
 import { GeneralInfo, ResourceStuff } from "./tabs";
 
 // entity
-import { Tech } from "../../models/tech/Tech";
-import { Building } from "../../models/building/Building";
+import { Tech } from "../../lib/models/tech/Tech.js";
+import { Building } from "../../lib/models/building/Building.js";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));

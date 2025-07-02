@@ -1,5 +1,5 @@
 import resolveConfig from "tailwindcss/resolveConfig";
-import { Entity } from "../models/entity/Entity.js";
+import { Entity } from "../lib/models/base/BaseDto.js";
 
 /**
  * Tailwind config

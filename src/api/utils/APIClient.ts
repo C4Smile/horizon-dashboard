@@ -12,8 +12,8 @@ export class APIClient {
   async doQuery<TResponse, TBody = unknown>(
     endpoint: string,
     method = "GET",
-    query?: any,
-    body?: TBody,
+    query?: string,
+    body?: TBody
   ) {
     const builtUrl = buildQueryUrl(endpoint, query);
     const { data: result, error } = await makeRequest(builtUrl, method, body);
@@ -45,11 +45,12 @@ export class APIClient {
   async patch<TDto, TUpdateDto>(
     endpoint: string,
     data: TUpdateDto,
+    headers:
   ): Promise<TDto> {
     const { error, data: result } = await makeRequest<TUpdateDto, TDto>(
       endpoint,
       "PATCH",
-      data,
+      data
     );
 
     if (error) throw new Error(error.message);
@@ -62,11 +63,11 @@ export class APIClient {
    * @param  data - value to insert
    * @returns delete result
    */
-  async delete(endpoint: string, data: any) {
+  async delete(endpoint: string, data: number[]) {
     const { error, data: result } = await makeRequest<number[], number>(
       endpoint,
       "DELETE",
-      data,
+      data
     );
 
     if (error) throw new Error(error.message);
@@ -84,7 +85,7 @@ export class APIClient {
     const { error, data: result } = await makeRequest<TAddDto, TDto>(
       endpoint,
       "POST",
-      data,
+      data
     );
 
     if (error) throw new Error(error.message);

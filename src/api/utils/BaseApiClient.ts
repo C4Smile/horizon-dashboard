@@ -1,5 +1,5 @@
 // services
-import { makeRequest } from "db/services";
+import { makeRequest } from "./services";
 
 // utils
 import { fromLocal } from "../../utils/local";
@@ -10,13 +10,36 @@ import config from "../../config";
 // base
 import { APIClient } from "./APIClient";
 
+// types
+import {
+  BaseCommonEntityDto,
+  BaseEntityDto,
+  DeleteDto,
+  QueryResult,
+} from "lib";
+import { Tables } from "../types";
+
 /**
  * @class BaseApiClient
  * @description it has all base method
  */
-export class BaseApiClient {
-  baseUrl = "";
-  api = new APIClient();
+export class BaseApiClient<
+  TDto extends BaseEntityDto,
+  TCommonDto extends BaseCommonEntityDto,
+  TAddDto,
+  TUpdateDto extends DeleteDto,
+  TFilter,
+> {
+  table: Tables;
+  api: APIClient = new APIClient();
+
+  /**
+   *
+   * @param table
+   */
+  constructor(table: Tables) {
+    this.table = table;
+  }
 
   /**
    * @param userId user locker
@@ -24,15 +47,14 @@ export class BaseApiClient {
    * @returns result of http
    */
   async lock(userId: number, entityId: number) {
-    const { data, error, status } = await makeRequest(
-      `${this.baseUrl}/${entityId}/lock`,
-      "PATCH",
+    const { data, error, status } = await this.api.patch(
+      `${this.table}/${entityId}/lock`,
       {
         userId,
       },
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+      }
     );
     if (error !== null) return { status, error: { message: error.message } };
     return data;
@@ -49,7 +71,7 @@ export class BaseApiClient {
       null,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+      }
     );
     if (error !== null) return { status, error: { message: error.message } };
     return data;
@@ -66,11 +88,11 @@ export class BaseApiClient {
       sortingOrder: "asc",
       currentPage: 0,
       pageSize: 50,
-    },
+    }
   ) {
     const { sortingBy, sortingOrder, currentPage, pageSize } = query;
     const { data, error, status } = await makeRequest(
-      `${this.baseUrl}?sort=${sortingBy}&order=${sortingOrder}&page=${currentPage}&count=${pageSize}`,
+      `${this.baseUrl}?sort=${sortingBy}&order=${sortingOrder}&page=${currentPage}&count=${pageSize}`
     );
     if (error !== null) return { status, error: { message: error.message } };
     return data;
@@ -88,7 +110,7 @@ export class BaseApiClient {
       null,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+      }
     );
     if (error !== null) return { status, error: { message: error.message } };
     return data;
@@ -106,7 +128,7 @@ export class BaseApiClient {
       ids,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+      }
     );
     return { data, error, status: status === 200 ? 204 : status };
   }
@@ -123,7 +145,7 @@ export class BaseApiClient {
       ids,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+      }
     );
     return { data, error, status: status === 200 ? 204 : status };
   }

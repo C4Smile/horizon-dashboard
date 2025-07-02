@@ -17,7 +17,7 @@ import { staticUrlPhoto } from "../../components/utils";
 import { FloatingButton } from "../../components/FloatingButton/FloatingButton.jsx";
 
 // dto
-import { Building } from "../../models/building/Building";
+import { Building } from "../../lib/models/building/Building.js";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";

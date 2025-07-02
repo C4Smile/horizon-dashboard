@@ -2,7 +2,7 @@
 import { BaseManyApiClient } from "./utils/BaseManyApiClient";
 
 // types
-import { Tech } from "../models/tech/Tech";
+import { Tech } from "../lib/models/tech/Tech";
 
 /**
  * @class TechReqTechsApiClient

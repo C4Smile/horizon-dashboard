@@ -12,7 +12,7 @@ import noUserPhoto from "../../assets/images/user-no-image.webp";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 // dto
-import { User } from "../../models/user/User";
+import { User } from "../../lib/models/user/User.js";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";

@@ -22,8 +22,8 @@ import { BuildingReqBuildingsApiClient } from "./BuildingReqBuildingsApiClient.j
 import { BaseApiClient } from "./utils/BaseApiClient.js";
 
 // types
-import { Building } from "../models/building/Building.js";
-import { Photo } from "../models/photo/Photo.js";
+import { Building } from "../lib/models/building/Building.js";
+import { Photo } from "../lib/models/photo/Photo.js";
 
 /**
  * @class BuildingApiClient

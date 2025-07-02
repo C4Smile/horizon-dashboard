@@ -1,6 +1,6 @@
 // types
-import { PushNotification } from "../models/pushNotification/PushNotification";
-import { Photo } from "src/models/photo/Photo";
+import { PushNotification } from "../lib/models/pushNotification/PushNotification";
+import { Photo } from "src/lib/models/photo/Photo";
 
 // services
 import { makeRequest } from "../db/services";

@@ -14,3 +14,6 @@ export * from "./api";
 
 // utils
 export * from "./utils";
+
+// models
+export * from "./models";

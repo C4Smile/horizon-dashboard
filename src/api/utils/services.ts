@@ -1,4 +1,4 @@
-import config from "../config";
+import config from "src/config";
 
 const isAnError = (status: number) => status < 200 || status > 299;
 
@@ -13,8 +13,8 @@ const isAnError = (status: number) => status < 200 || status > 299;
 export async function makeRequest<TBody, TResponse>(
   url: string,
   method = "GET",
-  body: TBody,
-  h = null,
+  body?: TBody,
+  h?: HeadersInit
 ) {
   const headers = {
     "Content-Type": "application/json",
@@ -40,14 +40,14 @@ export async function makeRequest<TBody, TResponse>(
 
 export function buildQueryUrl<TFilter>(
   endpoint: string,
-  params?: TFilter,
+  params?: TFilter
 ): string {
   if (params) {
     const queryString = Object.entries(params)
       .filter(([, value]) => value !== undefined && value !== null)
       .map(
         ([key, value]) =>
-          `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`,
+          `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`
       )
       .join("&");
 

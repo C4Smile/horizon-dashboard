@@ -20,8 +20,8 @@ import { CannonReqBuildingsApiClient } from "./CannonReqBuildingsApiClient.js";
 import { BaseApiClient } from "./utils/BaseApiClient";
 
 // types
-import { Cannon } from "../models/cannon/Cannon.js";
-import { Photo } from "../models/photo/Photo.js";
+import { Cannon } from "../lib/models/cannon/Cannon.js";
+import { Photo } from "../lib/models/photo/Photo.js";
 
 /**
  * @class CannonApiClient

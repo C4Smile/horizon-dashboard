@@ -9,7 +9,7 @@ import config from "../config";
 
 // base
 import { BaseApiClient } from "./utils/BaseApiClient";
-import { User } from "src/models/user/User";
+import { User } from "src/lib/models/user/User";
 
 /**
  * @class UserApiClient

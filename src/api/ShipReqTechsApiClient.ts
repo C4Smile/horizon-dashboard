@@ -2,7 +2,7 @@
 import { BaseManyApiClient } from "./utils/BaseManyApiClient";
 
 // types
-import { Ship } from "../models/ship/Ship.js";
+import { Ship } from "../lib/models/ship/Ship.js";
 
 /**
  * @class ShipReqTechsApiClient

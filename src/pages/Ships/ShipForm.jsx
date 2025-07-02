@@ -21,8 +21,8 @@ import { shipTabs } from "./types";
 import { GeneralInfo, ResourceStuff } from "./tabs";
 
 // entity
-import { Tech } from "../../models/tech/Tech";
-import { Ship } from "../../models/ship/Ship.js";
+import { Tech } from "../../lib/models/tech/Tech.js";
+import { Ship } from "../../lib/models/ship/Ship.js";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));

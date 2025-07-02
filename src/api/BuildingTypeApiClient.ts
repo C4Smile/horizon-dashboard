@@ -13,8 +13,8 @@ import { makeRequest } from "../db/services";
 import { BaseApiClient } from "./utils/BaseApiClient";
 
 // types
-import { BuildingType } from "../models/buildingType/BuildingType.js";
-import { Photo } from "src/models/photo/Photo.js";
+import { BuildingType } from "../lib/models/buildingType/BuildingType.js";
+import { Photo } from "src/lib/models/photo/Photo.js";
 
 /**
  * @class BuildingTypeApiClient

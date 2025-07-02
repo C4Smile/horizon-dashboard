@@ -2,7 +2,7 @@
 import { BaseManyApiClient } from "./utils/BaseManyApiClient";
 
 // types
-import { Cannon } from "../models/cannon/Cannon.js";
+import { Cannon } from "../lib/models/cannon/Cannon.js";
 
 /**
  * @class CannonReqBuildingsApiClient

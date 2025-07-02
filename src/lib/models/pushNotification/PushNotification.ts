@@ -1,5 +1,5 @@
 // types
-import { Entity } from "../entity/Entity";
+import { Entity } from "../base/BaseDto";
 import { Photo } from "../photo/Photo";
 
 /**

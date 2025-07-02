@@ -16,7 +16,7 @@ import { staticUrlPhoto } from "../../components/utils";
 import { FloatingButton } from "../../components/FloatingButton/FloatingButton.jsx";
 
 // dto
-import { Cannon } from "../../models/cannon/Cannon";
+import { Cannon } from "../../lib/models/cannon/Cannon.js";
 
 // utils
 import { extractKeysFromObject } from "../../utils/parser";

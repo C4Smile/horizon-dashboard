@@ -21,8 +21,8 @@ import { ShipReqBuildingsApiClient } from "./ShipReqBuildingsApiClient.js";
 import { BaseApiClient } from "./utils/BaseApiClient";
 
 // types
-import { Ship } from "../models/ship/Ship.js";
-import { Photo } from "../models/photo/Photo.js";
+import { Ship } from "../lib/models/ship/Ship.js";
+import { Photo } from "../lib/models/photo/Photo.js";
 
 /**
  * @class ShipApiClient
