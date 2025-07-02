@@ -1,5 +1,7 @@
 // base
 import { BaseManyApiClient } from "./utils/BaseManyApiClient";
+
+// types
 import { Ship } from "../models/ship/Ship";
 
 /**

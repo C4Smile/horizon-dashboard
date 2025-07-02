@@ -1,4 +1,6 @@
 import { toSlug } from "some-javascript-utils";
+import draftToHtml from "draftjs-to-html";
+import { convertToRaw } from "draft-js";
 
 // utils
 import { fromLocal } from "../utils/local";
@@ -12,36 +14,40 @@ import { makeRequest } from "../db/services";
 // base
 import { BaseApiClient } from "./utils/BaseApiClient";
 
-// type
-import { TechType } from "../models/techType/TechType.js";
+// types
+import { Skill } from "../models/skill/Skill.js";
 import { Photo } from "../models/photo/Photo.js";
 
 /**
- * @class TechTypeApiClient
- * @description TechTypeApiClient
+ * @class SkillApiClient
+ * @description SkillApiClient
  */
-export class TechTypeApiClient extends BaseApiClient {
+export class SkillApiClient extends BaseApiClient {
   /**
    * create base api client
    */
   constructor() {
     super();
-    this.baseUrl = "techTypes";
+    this.baseUrl = "skills";
   }
 
   /**
-   * @description Create techType
-   * @param {TechType} techType - TechType
-   * @param {Photo} photo - Photo
+   * @description Create skill
+   * @param skill - Skill
+   * @param photo - Photo
    * @returns Transaction status
    */
-  async create(techType, photo) {
+  async create(skill: Skill, photo: Photo) {
     // default values
-    techType.urlName = toSlug(techType.name);
+    skill.urlName = toSlug(skill.name);
+    // parsing html
+    skill.description = draftToHtml(
+      convertToRaw(skill.description.getCurrentContent())
+    );
     // saving photo
-    if (photo) techType.image = photo;
+    if (photo) skill.image = photo;
     // call service
-    const { error, data, status } = await makeRequest("techTypes", "POST", techType, {
+    const { error, data, status } = await makeRequest("skills", "POST", skill, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
     if (error !== null) return { status, error: { message: error.message } };
@@ -50,27 +56,31 @@ export class TechTypeApiClient extends BaseApiClient {
   }
 
   /**
-   * @description Update techType
-   * @param {TechType} techType - TechType
-   * @param {Photo} photo - Photo
+   * @description Update skill
+   * @param skill - Skill
+   * @param photo - photo
    * @returns Transaction status
    */
-  async update(techType, photo) {
+  async update(skill: Skill, photo: Photo) {
     // default values
-    techType.urlName = toSlug(techType.name);
+    skill.urlName = toSlug(skill.name);
+    // parsing html
+    skill.description = draftToHtml(
+      convertToRaw(skill.description.getCurrentContent())
+    );
     // saving photo
-    if (photo) techType.image = photo;
+    if (photo) skill.image = photo;
     // call service
     const { status, error } = await makeRequest(
-      `techTypes/${techType.id}`,
+      `skills/${skill.id}`,
       "PATCH",
       {
-        ...techType,
+        ...skill,
         lastUpdate: new Date().toISOString(),
       },
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+      }
     );
     if (error !== null) return { status, error: { message: error.message } };
 

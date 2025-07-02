@@ -13,63 +13,69 @@ import { makeRequest } from "../db/services";
 import { BaseApiClient } from "./utils/BaseApiClient";
 
 // type
-import { BuildingType } from "../models/buildingType/BuildingType.js";
+import { TechType } from "../models/techType/TechType.js";
+import { Photo } from "../models/photo/Photo.js";
 
 /**
- * @class BuildingTypeApiClient
- * @description BuildingTypeApiClient
+ * @class TechTypeApiClient
+ * @description TechTypeApiClient
  */
-export class BuildingTypeApiClient extends BaseApiClient {
+export class TechTypeApiClient extends BaseApiClient {
   /**
    * create base api client
    */
   constructor() {
     super();
-    this.baseUrl = "buildingTypes";
+    this.baseUrl = "techTypes";
   }
 
   /**
-   * @description Create buildingType
-   * @param {BuildingType} buildingType - BuildingType
-   * @param {object} photo - Photo
+   * @description Create techType
+   * @param techType - TechType
+   * @param photo - Photo
    * @returns Transaction status
    */
-  async create(buildingType, photo) {
+  async create(techType: TechType, photo: Photo) {
     // default values
-    buildingType.urlName = toSlug(buildingType.name);
+    techType.urlName = toSlug(techType.name);
     // saving photo
-    if (photo) buildingType.image = photo;
+    if (photo) techType.image = photo;
     // call service
-    const { error, data, status } = await makeRequest("buildingTypes", "POST", buildingType, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
+    const { error, data, status } = await makeRequest(
+      "techTypes",
+      "POST",
+      techType,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      }
+    );
     if (error !== null) return { status, error: { message: error.message } };
 
     return { error, data, status: status === 204 ? 201 : status };
   }
 
   /**
-   * @description Update buildingType
-   * @param {BuildingType} buildingType - BuildingType
-   * @param {object} photo - Photo
+   * @description Update techType
+   * @param techType - TechType
+   * @param photo - Photo
    * @returns Transaction status
    */
-  async update(buildingType, photo) {
+  async update(techType: TechType, photo: Photo) {
     // default values
-    buildingType.urlName = toSlug(buildingType.name);
+    techType.urlName = toSlug(techType.name);
     // saving photo
-    if (photo) buildingType.image = photo;
+    if (photo) techType.image = photo;
     // call service
     const { status, error } = await makeRequest(
-      `buildingTypes/${buildingType.id}`,
+      `techTypes/${techType.id}`,
       "PATCH",
       {
-        ...buildingType,
+        ...techType,
         lastUpdate: new Date().toISOString(),
       },
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+      }
     );
     if (error !== null) return { status, error: { message: error.message } };
 

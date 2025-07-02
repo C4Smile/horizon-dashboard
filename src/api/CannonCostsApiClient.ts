@@ -1,5 +1,7 @@
 // base
 import { BaseManyApiClient } from "./utils/BaseManyApiClient";
+
+// types
 import { Cannon } from "../models/cannon/Cannon";
 
 /**

@@ -8,6 +8,7 @@ export class User extends Entity {
   image = {};
   username = "";
   password = "";
+  rPassword = "";
   name = "";
   email = "";
   phone = "";
@@ -41,7 +42,7 @@ export class User extends Entity {
     identification = "",
     dateOfCreation = new Date(),
     lastUpdate = new Date(),
-    deleted = false,
+    deleted = false
   ) {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.username = username;
@@ -70,7 +71,7 @@ export class User extends Entity {
       json.identification,
       json.dateOfCreation,
       json.lastUpdate,
-      json.deleted,
+      json.deleted
     );
   }
 }

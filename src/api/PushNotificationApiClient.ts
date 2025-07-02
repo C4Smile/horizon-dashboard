@@ -1,4 +1,6 @@
+// types
 import { PushNotification } from "../models/pushNotification/PushNotification";
+import { Photo } from "src/models/photo/Photo";
 
 // services
 import { makeRequest } from "../db/services";
@@ -27,33 +29,42 @@ export class PushNotificationApiClient extends BaseApiClient {
 
   /**
    * @description Create pushNotification
-   * @param {PushNotification} pushNotification - PushNotification
-   * @param {object} photo - PushNotification photo
-   * @returns {Promise<PushNotification>} PushNotification
+   * @param pushNotification - PushNotification
+   * @param photo - PushNotification photo
+   * @returns PushNotification
    */
-  async create(pushNotification, photo) {
+  async create(pushNotification: PushNotification, photo: Photo) {
     // parsing sent date
     // parsing sent date
-    pushNotification.sentDate = new Date(pushNotification?.sentDate ?? Date.now()).toISOString();
+    pushNotification.sentDate = new Date(
+      pushNotification?.sentDate ?? Date.now()
+    ).toISOString();
     // saving image
     if (photo) pushNotification.image = photo;
     // call service
-    const { error, status } = await makeRequest(this.baseUrl, "POST", pushNotification, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
+    const { error, status } = await makeRequest(
+      this.baseUrl,
+      "POST",
+      pushNotification,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      }
+    );
     if (error !== null) return { status, error: { message: error.message } };
     return { error, status: status === 204 ? 201 : status };
   }
 
   /**
    * @description Update pushNotification
-   * @param {PushNotification} pushNotification - PushNotification
-   * @param {object} photo - PushNotification photo
-   * @returns {Promise<PushNotification>} PushNotification
+   * @param pushNotification - PushNotification
+   * @param photo - PushNotification photo
+   * @returns PushNotification
    */
-  async update(pushNotification, photo) {
+  async update(pushNotification: PushNotification, photo: Photo) {
     // parsing sent date
-    pushNotification.sentDate = new Date(pushNotification?.sentDate ?? Date.now()).toISOString();
+    pushNotification.sentDate = new Date(
+      pushNotification?.sentDate ?? Date.now()
+    ).toISOString();
     // saving photo
     if (photo) pushNotification.image = photo;
     // call service
@@ -66,7 +77,7 @@ export class PushNotificationApiClient extends BaseApiClient {
       },
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+      }
     );
     if (error !== null) return { status, error: { message: error.message } };
     return { error, status: status === 204 ? 201 : status };

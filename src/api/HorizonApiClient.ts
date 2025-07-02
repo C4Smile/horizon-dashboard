@@ -1,7 +1,7 @@
 import { BuildingApiClient } from "./BuildingApiClient";
 import { ResourceApiClient } from "./ResourceApiClient";
-import { PushNotificationApiClient } from "./PushNotificationApiClient";
-import { RoleApiClient } from "./RoleApiClient";
+import { PushNotificationApiClient } from "./PushNotificationApiClient.js";
+import { RoleApiClient } from "./RoleApiClient.js";
 import { UserApiClient } from "./UserApiClient";
 import { ImageApiClient } from "./ImageApiClient";
 import { TechTypeApiClient } from "./TechTypeApiClient";
@@ -25,6 +25,19 @@ import config from "../config";
  * @description HorizonApiClient
  */
 export class HorizonApiClient {
+  building: BuildingApiClient;
+  buildingType: BuildingTypeApiClient;
+  resource: ResourceApiClient;
+  pushNotifications: PushNotificationApiClient;
+  role: RoleApiClient;
+  user: UserApiClient;
+  image: ImageApiClient;
+  tech: TechApiClient;
+  techType: TechTypeApiClient;
+  skill: SkillApiClient;
+  ship: ShipApiClient;
+  cannon: CannonApiClient;
+
   /**
    * @description constructor
    */
@@ -48,77 +61,77 @@ export class HorizonApiClient {
    * @param {string} entity - Activity id
    * @returns {Promise<any>} some entity
    */
-  async getEntity(entity) {
+  async getEntity(entity: string) {
     const { data, error, status } = await makeRequest(
       `${entity}?sort=lastUpdate&order=desc&page=0&count=999`,
       "GET",
       null,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+      }
     );
     if (error !== null) return { status, error: { message: error.message } };
     return data;
   }
 
   /**
-   * @returns {ImageApiClient} Image
+   * @returns Image
    */
   get Image() {
     return this.image;
   }
 
   /**
-   * @returns {BuildingApiClient} Building
+   * @returns Building
    */
   get Building() {
     return this.building;
   }
 
   /**
-   * @returns {BuildingTypeApiClient} Building
+   * @returns Building
    */
   get BuildingType() {
     return this.buildingType;
   }
 
   /**
-   * @returns {ResourceApiClient} Resource
+   * @returns Resource
    */
   get Resource() {
     return this.resource;
   }
 
   /**
-   * @returns {PushNotificationApiClient} PushNotification
+   * @returns PushNotification
    */
   get PushNotification() {
     return this.pushNotifications;
   }
 
   /**
-   * @returns {RoleApiClient} Role
+   * @returns Role
    */
   get Role() {
     return this.role;
   }
 
   /**
-   * @returns {UserApiClient} Customer
+   * @returns Customer
    */
   get User() {
     return this.user;
   }
 
   /**
-   * @returns {TechApiClient} TechType
+   * @returns TechType
    */
   get Tech() {
     return this.tech;
   }
 
   /**
-   * @returns {TechTypeApiClient} TechType
+   * @returns TechType
    */
   get TechType() {
     return this.techType;
@@ -126,7 +139,7 @@ export class HorizonApiClient {
 
   /**
    *
-   * @returns {SkillApiClient} Skill
+   * @returns Skill
    */
   get Skill() {
     return this.skill;
@@ -134,7 +147,7 @@ export class HorizonApiClient {
 
   /**
    *
-   * @returns {ShipApiClient} Ship
+   * @returns Ship
    */
   get Ship() {
     return this.ship;
@@ -142,7 +155,7 @@ export class HorizonApiClient {
 
   /**
    *
-   * @returns {CannonApiClient} Ship
+   * @returns Ship
    */
   get Cannon() {
     return this.cannon;

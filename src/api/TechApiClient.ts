@@ -3,22 +3,22 @@ import draftToHtml from "draftjs-to-html";
 import { convertToRaw } from "draft-js";
 
 // utils
-import { fromLocal } from "../utils/local";
+import { fromLocal } from "../utils/local.js";
 
 // config
-import config from "../config";
+import config from "../config.js";
 
 // services
-import { makeRequest } from "../db/services";
+import { makeRequest } from "../db/services.js";
 
 // base
-import { BaseApiClient } from "./utils/BaseApiClient";
+import { BaseApiClient } from "./utils/BaseApiClient.js";
 
 // api
-import { TechCostsApiClient } from "./TechCostsApiClient";
-import { TechProducesApiClient } from "./TechProducesApiClient";
-import { TechReqTechsApiClient } from "./TechReqTechsApiClient";
-import { TechReqBuildingsApiClient } from "./TechReqBuildingsApiClient";
+import { TechCostsApiClient } from "./TechCostsApiClient.js";
+import { TechProducesApiClient } from "./TechProducesApiClient.js";
+import { TechReqTechsApiClient } from "./TechReqTechsApiClient.js";
+import { TechReqBuildingsApiClient } from "./TechReqBuildingsApiClient.js";
 
 // types
 import { Tech } from "../models/tech/Tech.js";
@@ -44,15 +44,17 @@ export class TechApiClient extends BaseApiClient {
 
   /**
    * @description Create tech
-   * @param {Tech} tech - Tech
-   * @param {Photo} photo - Photo
+   * @param tech - Tech
+   * @param photo - Photo
    * @returns Transaction status
    */
-  async create(tech, photo) {
+  async create(tech: Tech, photo: Photo) {
     // default values
     tech.urlName = toSlug(tech.name);
     // parsing html
-    tech.description = draftToHtml(convertToRaw(tech.description.getCurrentContent()));
+    tech.description = draftToHtml(
+      convertToRaw(tech.description.getCurrentContent())
+    );
     // saving photo
     if (photo) tech.image = photo;
     // call service
@@ -66,15 +68,17 @@ export class TechApiClient extends BaseApiClient {
 
   /**
    * @description Update tech
-   * @param {Tech} tech - Tech
-   * @param {Photo} photo - photo
+   * @param tech - Tech
+   * @param photo - photo
    * @returns Transaction status
    */
-  async update(tech, photo) {
+  async update(tech: Tech, photo: Photo) {
     // default values
     tech.urlName = toSlug(tech.name);
     // parsing html
-    tech.description = draftToHtml(convertToRaw(tech.description.getCurrentContent()));
+    tech.description = draftToHtml(
+      convertToRaw(tech.description.getCurrentContent())
+    );
     // saving photo
     if (photo) tech.image = photo;
     // call service
@@ -87,7 +91,7 @@ export class TechApiClient extends BaseApiClient {
       },
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+      }
     );
     if (error !== null) return { status, error: { message: error.message } };
 

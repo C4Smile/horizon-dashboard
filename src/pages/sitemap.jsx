@@ -1,4 +1,4 @@
-import { Role } from "../api/RoleApiClient";
+import { Role } from "../api/RoleApiClient.js";
 
 // layouts
 import Auth from "../layouts/Auth";

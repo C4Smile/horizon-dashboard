@@ -1,11 +1,11 @@
 // config
-import config from "../config";
+import config from "../config.js";
 
 // utils
-import { fromLocal } from "../utils/local";
+import { fromLocal } from "../utils/local.js";
 
 // services
-import { makeRequest } from "../db/services";
+import { makeRequest } from "../db/services.js";
 
 // types
 import { Photo } from "../models/photo/Photo.js";
@@ -16,19 +16,19 @@ import { Photo } from "../models/photo/Photo.js";
 export class ImageApiClient {
   /**
    * Generate image folder
-   * @param {string} dirPath folder path
-   * @returns {string} folder path
+   * @param dirPath folder path
+   * @returns folder path
    */
-  generateFolder(dirPath) {
+  generateFolder(dirPath: string) {
     return `${config.appName}/${dirPath.toLowerCase()}`;
   }
 
   /**
    * Save photo into database
-   * @param {Photo} photo photo object
-   * @returns {Promise<{data: any, error: any}>} response
+   * @param photo photo object
+   * @returns response
    */
-  async insertImage(photo) {
+  async insertImage(photo: Photo) {
     const { error, data, status } = await makeRequest("images", "POST", photo, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
@@ -37,10 +37,10 @@ export class ImageApiClient {
 
   /**
    * Read file as base64
-   * @param {File} file file to read
-   * @returns {Promise<string>} base64 string
+   * @param file file to read
+   * @returns base64 string
    */
-  async readFileAsBase64(file) {
+  async readFileAsBase64(file: File) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => resolve(reader.result);
@@ -51,11 +51,11 @@ export class ImageApiClient {
 
   /**
    *
-   * @param {Photo[]} photos list of images
-   * @param {string} folder where to save images
-   * @returns {Promise<any[]>} uploaded images
+   * @param photos list of images
+   * @param folder where to save images
+   * @returns uploaded images
    */
-  async insertImages(photos, folder) {
+  async insertImages(photos: File[], folder: string) {
     const uploads = [];
 
     for (const photo of photos) {
@@ -66,15 +66,18 @@ export class ImageApiClient {
         { base64, folder, fileName: photo.name },
         {
           Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-        },
+        }
       );
 
       if (error) {
-        // eslint-disable-next-line no-console
         console.error(error.message);
         return { error };
       }
-      uploads.push({ fileId: data[0].fileName, url: data[0].url, id: data[0].id });
+      uploads.push({
+        fileId: data[0].fileName,
+        url: data[0].url,
+        id: data[0].id,
+      });
     }
 
     return uploads;
@@ -82,10 +85,10 @@ export class ImageApiClient {
 
   /**
    * Deletes an image
-   * @param {string} id image id
-   * @returns {Promise<any>} response
+   * @param id image id
+   * @returns response
    */
-  async deleteImage(id) {
+  async deleteImage(id: string) {
     const { error } = await makeRequest(`images/${id}`, "DELETE", null, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });

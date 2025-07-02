@@ -1,5 +1,7 @@
 // base
 import { BaseManyApiClient } from "./utils/BaseManyApiClient";
+
+// types
 import { Building } from "../models/building/Building";
 
 /**

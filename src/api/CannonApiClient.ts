@@ -42,36 +42,45 @@ export class CannonApiClient extends BaseApiClient {
 
   /**
    * @description Create cannon
-   * @param {Cannon} cannon - Cannon
-   * @param {Photo} photo - Photo
+   * @param cannon - Cannon
+   * @param photo - Photo
    * @returns Transaction status
    */
-  async create(cannon, photo) {
+  async create(cannon: Cannon, photo: Photo) {
     // default values
     cannon.urlName = toSlug(cannon.name);
     // parsing html
-    cannon.description = draftToHtml(convertToRaw(cannon.description.getCurrentContent()));
+    cannon.description = draftToHtml(
+      convertToRaw(cannon.description.getCurrentContent())
+    );
     // saving photo
     if (photo) cannon.image = photo;
     // call service
-    const { error, data, status } = await makeRequest("cannons", "POST", cannon, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
+    const { error, data, status } = await makeRequest(
+      "cannons",
+      "POST",
+      cannon,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      }
+    );
     if (error !== null) return { status, error: { message: error.message } };
     return { error, data, status: status === 204 ? 201 : status };
   }
 
   /**
    * @description Update cannon
-   * @param {Cannon} cannon - Cannon
-   * @param {Photo} photo - Photo
+   * @param cannon - Cannon
+   * @param photo - Photo
    * @returns Transaction status
    */
-  async update(cannon, photo) {
+  async update(cannon: Cannon, photo: Photo) {
     // default values
     cannon.urlName = toSlug(cannon.name);
     // parsing html
-    cannon.description = draftToHtml(convertToRaw(cannon.description.getCurrentContent()));
+    cannon.description = draftToHtml(
+      convertToRaw(cannon.description.getCurrentContent())
+    );
     // saving photo
     if (photo) cannon.image = photo;
     // call service
@@ -84,7 +93,7 @@ export class CannonApiClient extends BaseApiClient {
       },
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+      }
     );
     if (error !== null) return { status, error: { message: error.message } };
     return { error, status: status === 204 ? 201 : status };

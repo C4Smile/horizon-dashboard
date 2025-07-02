@@ -44,15 +44,17 @@ export class ShipApiClient extends BaseApiClient {
 
   /**
    * @description Create ship
-   * @param {Ship} ship - Ship
-   * @param {Photo} photo - Photo
+   * @param ship - Ship
+   * @param photo - Photo
    * @returns Transaction status
    */
-  async create(ship, photo) {
+  async create(ship: Ship, photo: Photo) {
     // default values
     ship.urlName = toSlug(ship.name);
     // parsing html
-    ship.description = draftToHtml(convertToRaw(ship.description.getCurrentContent()));
+    ship.description = draftToHtml(
+      convertToRaw(ship.description.getCurrentContent())
+    );
     // saving photo
     if (photo) ship.image = photo;
     // call service
@@ -65,15 +67,17 @@ export class ShipApiClient extends BaseApiClient {
 
   /**
    * @description Update ship
-   * @param {Ship} ship - Ship
-   * @param {Photo} photo - Photo
+   * @param ship - Ship
+   * @param photo - Photo
    * @returns Transaction status
    */
-  async update(ship, photo) {
+  async update(ship: Ship, photo: Photo) {
     // default values
     ship.urlName = toSlug(ship.name);
     // parsing html
-    ship.description = draftToHtml(convertToRaw(ship.description.getCurrentContent()));
+    ship.description = draftToHtml(
+      convertToRaw(ship.description.getCurrentContent())
+    );
     // saving photo
     if (photo) ship.image = photo;
     // call service
@@ -86,7 +90,7 @@ export class ShipApiClient extends BaseApiClient {
       },
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+      }
     );
     if (error !== null) return { status, error: { message: error.message } };
     return { error, status: status === 204 ? 201 : status };

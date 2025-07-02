@@ -1,7 +1,8 @@
-// base
-import { BaseManyApiClient } from "./utils/BaseManyApiClient";
 
-// entity
+// base
+import { BaseManyApiClient } from "./utils/BaseManyApiClient.js";
+
+// types
 import { Cannon } from "../models/cannon/Cannon.js";
 
 /**

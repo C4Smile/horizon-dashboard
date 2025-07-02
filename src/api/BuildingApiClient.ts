@@ -3,13 +3,13 @@ import draftToHtml from "draftjs-to-html";
 import { convertToRaw } from "draft-js";
 
 // utils
-import { fromLocal } from "../utils/local";
+import { fromLocal } from "../utils/local.js";
 
 // config
-import config from "../config";
+import config from "../config.js";
 
 // services
-import { makeRequest } from "../db/services";
+import { makeRequest } from "../db/services.js";
 
 // apis
 import { BuildingCostsApiClient } from "./BuildingCostsApiClient.js";
@@ -19,7 +19,7 @@ import { BuildingUpkeepsApiClient } from "./BuildingUpkeepsApiClient.js";
 import { BuildingReqBuildingsApiClient } from "./BuildingReqBuildingsApiClient.js";
 
 // base
-import { BaseApiClient } from "./utils/BaseApiClient";
+import { BaseApiClient } from "./utils/BaseApiClient.js";
 
 // types
 import { Building } from "../models/building/Building.js";
@@ -46,36 +46,45 @@ export class BuildingApiClient extends BaseApiClient {
 
   /**
    * @description Create building
-   * @param {Building} building - Building
-   * @param {Photo} photo - Photo
+   * @param building - Building
+   * @param photo - Photo
    * @returns Transaction status
    */
-  async create(building, photo) {
+  async create(building: Building, photo: Photo) {
     // default values
     building.urlName = toSlug(building.name);
     // parsing html
-    building.description = draftToHtml(convertToRaw(building.description.getCurrentContent()));
+    building.description = draftToHtml(
+      convertToRaw(building.description.getCurrentContent())
+    );
     // saving photo
     if (photo) building.image = photo;
     // call service
-    const { error, data, status } = await makeRequest("buildings", "POST", building, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
+    const { error, data, status } = await makeRequest(
+      "buildings",
+      "POST",
+      building,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      }
+    );
     if (error !== null) return { status, error: { message: error.message } };
     return { error, data, status: status === 204 ? 201 : status };
   }
 
   /**
    * @description Update building
-   * @param {Building} building - Building
-   * @param {Photo} photo - Photo
+   * @param building - Building
+   * @param photo - Photo
    * @returns Transaction status
    */
-  async update(building, photo) {
+  async update(building: Building, photo: Photo) {
     // default values
     building.urlName = toSlug(building.name);
     // parsing html
-    building.description = draftToHtml(convertToRaw(building.description.getCurrentContent()));
+    building.description = draftToHtml(
+      convertToRaw(building.description.getCurrentContent())
+    );
     // saving photo
     if (photo) building.image = photo;
     // call service
@@ -88,7 +97,7 @@ export class BuildingApiClient extends BaseApiClient {
       },
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+      }
     );
     if (error !== null) return { status, error: { message: error.message } };
     return { error, status: status === 204 ? 201 : status };

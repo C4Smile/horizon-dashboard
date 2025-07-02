@@ -9,6 +9,7 @@ import config from "../config";
 
 // base
 import { BaseApiClient } from "./utils/BaseApiClient";
+import { User } from "src/models/user/User";
 
 /**
  * @class UserApiClient
@@ -29,7 +30,7 @@ export class UserApiClient extends BaseApiClient {
    * @param {string} password - password
    * @returns Transaction result
    */
-  async login(user, password) {
+  async login(user: string, password: string) {
     const { data, error } = await makeRequest(`auth/login`, "POST", {
       username: user,
       password,
@@ -39,21 +40,34 @@ export class UserApiClient extends BaseApiClient {
       toLocal(config.user, data);
     }
     return {
-      json: async () => ({ ...data, status: error ? error.status : 200, error }),
+      json: async () => ({
+        ...data,
+        status: error ? error.status : 200,
+        error,
+      }),
     };
   }
 
   /**
    * Fetch owner data
-   * @param {string} userId - User id
+   * @param userId - User id
    * @returns Owner
    */
-  async fetchOwner(userId) {
-    const { data, error } = await makeRequest(`horizonUser/byUserId/${userId}`, "GET", null, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
+  async fetchOwner(userId: string) {
+    const { data, error } = await makeRequest(
+      `horizonUser/byUserId/${userId}`,
+      "GET",
+      null,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      }
+    );
     return {
-      json: async () => ({ ...data, status: error ? error.status : 200, error }),
+      json: async () => ({
+        ...data,
+        status: error ? error.status : 200,
+        error,
+      }),
     };
   }
 
@@ -62,9 +76,14 @@ export class UserApiClient extends BaseApiClient {
    * @returns the current session
    */
   async getSession() {
-    const { data, error, status } = await makeRequest(`auth/validate`, "GET", null, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
+    const { data, error, status } = await makeRequest(
+      `auth/validate`,
+      "GET",
+      null,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      }
+    );
     return { data, status: error?.status ?? status, error };
   }
 
@@ -73,9 +92,14 @@ export class UserApiClient extends BaseApiClient {
    * @returns refreshed token
    */
   async validates() {
-    const { data, error, status } = await makeRequest(`auth/validate`, "GET", null, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
+    const { data, error, status } = await makeRequest(
+      `auth/validate`,
+      "GET",
+      null,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      }
+    );
     return { data, status: error?.status ?? status, error };
   }
 
@@ -89,20 +113,25 @@ export class UserApiClient extends BaseApiClient {
 
   /**
    * @description Create user
-   * @param {object} user - User
-   * @param {object} photo - User photo
+   * @param user - User
+   * @param photo - User photo
    * @returns  Transaction status
    */
-  async create(user, photo) {
+  async create(user: User, photo: Photo) {
     // deleting rPassword
     delete user.rPassword;
     // saving image
     if (photo) user.image = photo;
 
     // call service
-    const { error, data, status } = await makeRequest(this.baseUrl, "POST", user, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
+    const { error, data, status } = await makeRequest(
+      this.baseUrl,
+      "POST",
+      user,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      }
+    );
     if (error !== null) return { status, error: { message: error.message } };
 
     return { error, data, status: status === 204 ? 201 : status };
@@ -110,11 +139,11 @@ export class UserApiClient extends BaseApiClient {
 
   /**
    * @description Create user
-   * @param {object} user - User
-   * @param {object} photo - User photo
-   * @returns  Transaction status
+   * @param user - User
+   * @param photo - User photo
+   * @returns Transaction status
    */
-  async update(user, photo) {
+  async update(user: User, photo: Photo) {
     // deleting rPassword
     delete user.rPassword;
     // saving photo
@@ -130,7 +159,7 @@ export class UserApiClient extends BaseApiClient {
       },
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+      }
     );
     if (error !== null) return { status, error: { message: error.message } };
     return { error, status: status === 204 ? 201 : status };

@@ -1,4 +1,6 @@
+// types
 import { Entity } from "../entity/Entity";
+import { Photo } from "../photo/Photo";
 
 /**
  * @class PushNotification
@@ -8,27 +10,27 @@ export class PushNotification extends Entity {
   title = "";
   action = "";
   image = {};
-  sentDate = null;
+  sentDate: string;
 
   /**
-   * @param {number} id - PushNotification id
-   * @param {string} title - PushNotification title
-   * @param {string} action - PushNotification action
-   * @param {object} image - PushNotification image
-   * @param {Date} sentDate - PushNotification sentDate
-   * @param {Date} dateOfCreation - PushNotification date of creation
-   * @param {Date} lastUpdate - PushNotification last update
-   * @param {boolean} deleted - PushNotification deleted
+   * @param id - PushNotification id
+   * @param title - PushNotification title
+   * @param action - PushNotification action
+   * @param image - PushNotification image
+   * @param sentDate - PushNotification sentDate
+   * @param dateOfCreation - PushNotification date of creation
+   * @param lastUpdate - PushNotification last update
+   * @param deleted - PushNotification deleted
    */
   constructor(
-    id,
-    title,
-    action,
-    image,
-    sentDate,
+    id: number,
+    title: string,
+    action: string,
+    image: Photo,
+    sentDate: string,
     dateOfCreation = new Date(),
     lastUpdate = new Date(),
-    deleted = false,
+    deleted = false
   ) {
     super(id, dateOfCreation, lastUpdate, deleted);
     this.title = title;
@@ -52,7 +54,7 @@ export class PushNotification extends Entity {
       json.sentDate,
       json.dateOfCreation,
       json.lastUpdate,
-      json.deleted,
+      json.deleted
     );
   }
 }

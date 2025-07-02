@@ -15,68 +15,77 @@ import { makeRequest } from "../db/services";
 import { BaseApiClient } from "./utils/BaseApiClient";
 
 // types
-import { Skill } from "../models/skill/Skill.js";
+import { Resource } from "../models/resource/Resource.js";
 import { Photo } from "../models/photo/Photo.js";
 
 /**
- * @class SkillApiClient
- * @description SkillApiClient
+ * @class ResourceApiClient
+ * @description ResourceApiClient
  */
-export class SkillApiClient extends BaseApiClient {
+export class ResourceApiClient extends BaseApiClient {
   /**
    * create base api client
    */
   constructor() {
     super();
-    this.baseUrl = "skills";
+    this.baseUrl = "resources";
   }
 
   /**
-   * @description Create skill
-   * @param {Skill} skill - Skill
-   * @param {Photo} photo - Photo
+   * @description Create resource
+   * @param resource - Resource
+   * @param photo - Photo
    * @returns Transaction status
    */
-  async create(skill, photo) {
+  async create(resource: Resource, photo: Photo) {
     // default values
-    skill.urlName = toSlug(skill.name);
+    resource.urlName = toSlug(resource.name);
     // parsing html
-    skill.description = draftToHtml(convertToRaw(skill.description.getCurrentContent()));
+    resource.description = draftToHtml(
+      convertToRaw(resource.description.getCurrentContent())
+    );
     // saving photo
-    if (photo) skill.image = photo;
+    if (photo) resource.image = photo;
     // call service
-    const { error, data, status } = await makeRequest("skills", "POST", skill, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
+    const { error, data, status } = await makeRequest(
+      "resources",
+      "POST",
+      resource,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      }
+    );
     if (error !== null) return { status, error: { message: error.message } };
 
     return { error, data, status: status === 204 ? 201 : status };
   }
 
   /**
-   * @description Update skill
-   * @param {Skill} skill - Skill
-   * @param {Photo} photo - photo
+   * @description Update resource
+   * @param resource - Resource
+   * @param photo - photo
    * @returns Transaction status
    */
-  async update(skill, photo) {
+  async update(resource: Resource, photo: Photo) {
     // default values
-    skill.urlName = toSlug(skill.name);
+    resource.urlName = toSlug(resource.name);
     // parsing html
-    skill.description = draftToHtml(convertToRaw(skill.description.getCurrentContent()));
+    resource.description = draftToHtml(
+      convertToRaw(resource.description.getCurrentContent())
+    );
     // saving photo
-    if (photo) skill.image = photo;
+    if (photo) resource.image = photo;
     // call service
     const { status, error } = await makeRequest(
-      `skills/${skill.id}`,
+      `resources/${resource.id}`,
       "PATCH",
       {
-        ...skill,
+        ...resource,
         lastUpdate: new Date().toISOString(),
       },
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+      }
     );
     if (error !== null) return { status, error: { message: error.message } };
 
