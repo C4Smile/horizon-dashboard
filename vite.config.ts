@@ -1,39 +1,27 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import eslintPlugin from "vite-plugin-eslint";
-import postcss from "./postcss.config.cjs";
+import tailwindcss from "@tailwindcss/vite";
+import path from "path";
 
 export default defineConfig({
   define: {
     "process.env": process.env,
   },
-  css: {
-    postcss,
-  },
   server: {
     port: 5173,
   },
   resolve: {
-    alias: [
-      {
-        find: /^~.+/,
-        replacement: (val) => {
-          return val.replace(/^~/, "");
-        },
-      },
-    ],
-  },
-  plugins: [
-    react(),
-    eslintPlugin({
-      cache: false,
-      include: ["./src/**/*.js", "./src/**/*.jsx"],
-      exclude: [],
-    }),
-  ],
-  build: {
-    commonjsOptions: {
-      transformMixedEsModules: true,
+    alias: {
+      assets: path.resolve(__dirname, "./src/assets"),
+      components: path.resolve(__dirname, "./src/components"),
+      lib: path.resolve(__dirname, "./src/lib"),
+      hooks: path.resolve(__dirname, "./src/hooks"),
+      layouts: path.resolve(__dirname, "./src/layouts"),
+      views: path.resolve(__dirname, "./src/views"),
+      providers: path.resolve(__dirname, "./src/providers"),
+      db: path.resolve(__dirname, "./src/db"),
+      lang: path.resolve(__dirname, "./src/lang"),
     },
   },
+  plugins: [react(), tailwindcss()],
 });

@@ -21,18 +21,18 @@ export class BaseApiClient {
   /**
    * @param userId user locker
    * @param entityId entity id to lock
-   * @returns {Promise<{error: {message: string}, status: number}|any>} result of http
+   * @returns result of http
    */
   async lock(userId: number, entityId: number) {
     const { data, error, status } = await makeRequest(
       `${this.baseUrl}/${entityId}/lock`,
       "PATCH",
       {
-        userId
+        userId,
       },
       {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token
-      }
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
     );
     if (error !== null) return { status, error: { message: error.message } };
     return data;
@@ -42,14 +42,14 @@ export class BaseApiClient {
    * @param entityId entity id to lock
    * @returns {Promise<{error: {message: string}, status: number}|any>} result of http
    */
-  async release(entityId) {
+  async release(entityId: number) {
     const { data, error, status } = await makeRequest(
       `${this.baseUrl}/${entityId}/release`,
       "PATCH",
       null,
       {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token
-      }
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
     );
     if (error !== null) return { status, error: { message: error.message } };
     return data;
@@ -60,10 +60,17 @@ export class BaseApiClient {
    * @param {object} query - query parameters
    * @returns {Promise<object[]> | object} Result list
    */
-  async getAll(query = { sortingBy: "id", sortingOrder: "asc", currentPage: 0, pageSize: 50 }) {
+  async getAll(
+    query = {
+      sortingBy: "id",
+      sortingOrder: "asc",
+      currentPage: 0,
+      pageSize: 50,
+    },
+  ) {
     const { sortingBy, sortingOrder, currentPage, pageSize } = query;
     const { data, error, status } = await makeRequest(
-      `${this.baseUrl}?sort=${sortingBy}&order=${sortingOrder}&page=${currentPage}&count=${pageSize}`
+      `${this.baseUrl}?sort=${sortingBy}&order=${sortingOrder}&page=${currentPage}&count=${pageSize}`,
     );
     if (error !== null) return { status, error: { message: error.message } };
     return data;
@@ -74,10 +81,15 @@ export class BaseApiClient {
    * @param {string} id - object id
    * @returns {Promise<object>} object
    */
-  async getById(id) {
-    const { data, error, status } = await makeRequest(`${this.baseUrl}/${id}`, "GET", null, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token
-    });
+  async getById(id: number) {
+    const { data, error, status } = await makeRequest(
+      `${this.baseUrl}/${id}`,
+      "GET",
+      null,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     if (error !== null) return { status, error: { message: error.message } };
     return data;
   }
@@ -87,10 +99,15 @@ export class BaseApiClient {
    * @param {number[]} ids to delete
    * @returns Transaction status
    */
-  async delete(ids) {
-    const { data, status, error } = await makeRequest(`${this.baseUrl}`, "DELETE", ids, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token
-    });
+  async delete(ids: number[]) {
+    const { data, status, error } = await makeRequest(
+      `${this.baseUrl}`,
+      "DELETE",
+      ids,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     return { data, error, status: status === 200 ? 204 : status };
   }
 
@@ -99,10 +116,15 @@ export class BaseApiClient {
    * @param {number[]} ids to restore
    * @returns Transaction status
    */
-  async restore(ids) {
-    const { data, status, error } = await makeRequest(`${this.baseUrl}/restore`, "PATCH", ids, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token
-    });
+  async restore(ids: number[]) {
+    const { data, status, error } = await makeRequest(
+      `${this.baseUrl}/restore`,
+      "PATCH",
+      ids,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      },
+    );
     return { data, error, status: status === 200 ? 204 : status };
   }
 }

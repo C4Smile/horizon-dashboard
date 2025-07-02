@@ -1,4 +1,4 @@
-import { config } from "../config.js";
+import config from "../config";
 
 const isAnError = (status: number) => status < 200 || status > 299;
 

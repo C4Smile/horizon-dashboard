@@ -7,10 +7,6 @@ export type { ServiceError, ValidationError, NotificationType };
 
 // entities
 export * from "./entities/base";
-export * from "./entities/product";
-export * from "./entities/movement";
-export * from "./entities/movementLog";
-export * from "./entities/category";
 export * from "./utils/queryKey.ts";
 
 // api
