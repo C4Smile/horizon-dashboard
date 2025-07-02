@@ -1,5 +1,5 @@
 // services
-import { makeRequest } from "../../db/services";
+import { makeRequest } from "db/services";
 
 // utils
 import { fromLocal } from "../../utils/local";
@@ -7,28 +7,32 @@ import { fromLocal } from "../../utils/local";
 // config
 import config from "../../config";
 
+// base
+import { APIClient } from "./APIClient";
+
 /**
  * @class BaseApiClient
  * @description it has all base method
  */
 export class BaseApiClient {
   baseUrl = "";
+  api = new APIClient();
 
   /**
    * @param userId user locker
    * @param entityId entity id to lock
    * @returns {Promise<{error: {message: string}, status: number}|any>} result of http
    */
-  async lock(userId, entityId) {
+  async lock(userId: number, entityId: number) {
     const { data, error, status } = await makeRequest(
       `${this.baseUrl}/${entityId}/lock`,
       "PATCH",
       {
-        userId,
+        userId
       },
       {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token
+      }
     );
     if (error !== null) return { status, error: { message: error.message } };
     return data;
@@ -44,8 +48,8 @@ export class BaseApiClient {
       "PATCH",
       null,
       {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      },
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token
+      }
     );
     if (error !== null) return { status, error: { message: error.message } };
     return data;
@@ -59,7 +63,7 @@ export class BaseApiClient {
   async getAll(query = { sortingBy: "id", sortingOrder: "asc", currentPage: 0, pageSize: 50 }) {
     const { sortingBy, sortingOrder, currentPage, pageSize } = query;
     const { data, error, status } = await makeRequest(
-      `${this.baseUrl}?sort=${sortingBy}&order=${sortingOrder}&page=${currentPage}&count=${pageSize}`,
+      `${this.baseUrl}?sort=${sortingBy}&order=${sortingOrder}&page=${currentPage}&count=${pageSize}`
     );
     if (error !== null) return { status, error: { message: error.message } };
     return data;
@@ -72,7 +76,7 @@ export class BaseApiClient {
    */
   async getById(id) {
     const { data, error, status } = await makeRequest(`${this.baseUrl}/${id}`, "GET", null, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token
     });
     if (error !== null) return { status, error: { message: error.message } };
     return data;
@@ -85,7 +89,7 @@ export class BaseApiClient {
    */
   async delete(ids) {
     const { data, status, error } = await makeRequest(`${this.baseUrl}`, "DELETE", ids, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token
     });
     return { data, error, status: status === 200 ? 204 : status };
   }
@@ -97,7 +101,7 @@ export class BaseApiClient {
    */
   async restore(ids) {
     const { data, status, error } = await makeRequest(`${this.baseUrl}/restore`, "PATCH", ids, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token
     });
     return { data, error, status: status === 200 ? 204 : status };
   }
