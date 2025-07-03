@@ -6,7 +6,7 @@ export { NotificationEnumType };
 export type { ServiceError, ValidationError, NotificationType };
 
 // entities
-export * from "./entities/base";
+export * from "./entities";
 export * from "./utils/queryKey.ts";
 
 // api
