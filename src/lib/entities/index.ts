@@ -1,3 +1,4 @@
 export * from "./base";
-export * from "./buildings";
-export * from "./buildingType"
+export * from "./building";
+export * from "./buildingType";
+export * from "./cannon";

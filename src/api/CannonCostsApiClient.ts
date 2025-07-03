@@ -2,17 +2,24 @@
 import { BaseManyApiClient } from "./utils/BaseManyApiClient";
 
 // types
-import { Cannon } from "../lib/models/cannon/Cannon";
+import { Tables } from "./types";
+
+// lib
+import { CannonCostDto, CannonCostAddDto, CannonCostFilterDto } from "lib";
 
 /**
  * @class CannonCostsApiClient
  * @description CannonCostsApiClient
  */
-export class CannonCostsApiClient extends BaseManyApiClient {
+export class CannonCostsApiClient extends BaseManyApiClient<
+  CannonCostDto,
+  CannonCostAddDto,
+  CannonCostFilterDto
+> {
   /**
    * constructor
    */
   constructor() {
-    super(Cannon.costs, "cannonId", "resourceId");
+    super(Tables.CannonCosts);
   }
 }

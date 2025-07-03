@@ -1,19 +1,25 @@
-
 // base
 import { BaseManyApiClient } from "./utils/BaseManyApiClient.js";
 
 // types
-import { Cannon } from "../lib/models/cannon/Cannon.js";
+import { Tables } from "./types/dbUtils.js";
+
+// lib
+import { CannonReqTechAddDto, CannonReqTechDto, CannonReqTechFilterDto } from "lib";
 
 /**
  * @class CannonReqTechsApiClient
  * @description CannonReqTechsApiClient
  */
-export class CannonReqTechsApiClient extends BaseManyApiClient {
+export class CannonReqTechsApiClient extends BaseManyApiClient<
+  CannonReqTechDto,
+  CannonReqTechAddDto,
+  CannonReqTechFilterDto
+> {
   /**
    * constructor
    */
   constructor() {
-    super(Cannon.techRequirement, "cannonId", "buildingReqId");
+    super(Tables.CannonReqTechs);
   }
 }
