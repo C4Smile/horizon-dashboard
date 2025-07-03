@@ -2,17 +2,28 @@
 import { BaseManyApiClient } from "./utils/BaseManyApiClient";
 
 // types
-import { Building } from "../lib/models/building/Building";
+import { Tables } from "./types";
+
+// lib
+import {
+  BuildingUpkeepDto,
+  BuildingUpkeepAddDto,
+  BuildingUpkeepFilterDto,
+} from "lib";
 
 /**
  * @class BuildingUpkeepsApiClient
  * @description BuildingUpkeepsApiClient
  */
-export class BuildingUpkeepsApiClient extends BaseManyApiClient {
+export class BuildingUpkeepsApiClient extends BaseManyApiClient<
+  BuildingUpkeepDto,
+  BuildingUpkeepAddDto,
+  BuildingUpkeepFilterDto
+> {
   /**
    * constructor
    */
   constructor() {
-    super(Building.upkeeps, "buildingId", "resourceId");
+    super(Tables.BuildingUpkeeps);
   }
 }
