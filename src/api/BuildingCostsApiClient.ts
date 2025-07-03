@@ -2,10 +2,14 @@
 import { BaseManyApiClient } from "./utils/BaseManyApiClient";
 
 // types
-import { Building } from "../lib/models/building/Building";
+import { Tables } from "./types";
 
 // lib
-import { BuildingCostDto, BuildingCostFilterDto } from "lib";
+import {
+  BuildingCostAddDto,
+  BuildingCostDto,
+  BuildingCostFilterDto,
+} from "lib";
 
 /**
  * @class BuildingCostsApiClient
@@ -13,13 +17,13 @@ import { BuildingCostDto, BuildingCostFilterDto } from "lib";
  */
 export class BuildingCostsApiClient extends BaseManyApiClient<
   BuildingCostDto,
-  AddBuildingCostDto,
+  BuildingCostAddDto,
   BuildingCostFilterDto
 > {
   /**
    * constructor
    */
   constructor() {
-    super(Building.costs, "buildingId", "resourceId");
+    super(Tables.BuildingCosts);
   }
 }

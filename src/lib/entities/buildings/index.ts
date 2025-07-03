@@ -1,4 +1,7 @@
 export * from "./cost";
+export * from "./produce";
+export * from "./reqBuilding";
+export * from "./reqTech";
 export * from "./BuildingAddDto";
 export * from "./BuildingUpdateDto";
 export * from "./BuildingDto";

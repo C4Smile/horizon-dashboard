@@ -2,17 +2,24 @@
 import { BaseManyApiClient } from "./utils/BaseManyApiClient";
 
 // types
-import { Building } from "../lib/models/building/Building";
+import { Tables } from "./types";
+
+// lib
+import { BuildingReqBuildingDto, BuildingReqBuildingAddDto, BuildingReqBuildingFilterDto } from "lib";
 
 /**
  * @class BuildingReqBuildingsApiClient
  * @description BuildingReqBuildingsApiClient
  */
-export class BuildingReqBuildingsApiClient extends BaseManyApiClient {
+export class BuildingReqBuildingsApiClient extends BaseManyApiClient<
+  BuildingReqBuildingDto,
+  BuildingReqBuildingAddDto,
+  BuildingReqBuildingFilterDto
+> {
   /**
    * constructor
    */
   constructor() {
-    super(Building.buildingRequirement, "buildingId", "buildingReqId");
+    super(Tables.BuildingReqBuildings);
   }
 }
