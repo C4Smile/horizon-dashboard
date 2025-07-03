@@ -1,7 +1,6 @@
 import { BuildingApiClient } from "./BuildingApiClient";
 import { ResourceApiClient } from "./ResourceApiClient";
 import { PushNotificationApiClient } from "./PushNotificationApiClient.js";
-import { RoleApiClient } from "./RoleApiClient.js";
 import { UserApiClient } from "./UserApiClient";
 import { ImageApiClient } from "./ImageApiClient";
 import { TechTypeApiClient } from "./TechTypeApiClient";
@@ -12,7 +11,7 @@ import { ShipApiClient } from "./ShipApiClient.js";
 import { CannonApiClient } from "./CannonApiClient.js";
 
 // services
-import { makeRequest } from "../db/services";
+import { makeRequest } from "./utils/services.js";
 
 // utils
 import { fromLocal } from "../utils/local";
@@ -29,7 +28,6 @@ export class HorizonApiClient {
   buildingType: BuildingTypeApiClient;
   resource: ResourceApiClient;
   pushNotifications: PushNotificationApiClient;
-  role: RoleApiClient;
   user: UserApiClient;
   image: ImageApiClient;
   tech: TechApiClient;
@@ -46,7 +44,6 @@ export class HorizonApiClient {
     this.buildingType = new BuildingTypeApiClient();
     this.resource = new ResourceApiClient();
     this.pushNotifications = new PushNotificationApiClient();
-    this.role = new RoleApiClient();
     this.user = new UserApiClient();
     this.image = new ImageApiClient();
     this.tech = new TechApiClient();
@@ -58,8 +55,8 @@ export class HorizonApiClient {
 
   /**
    * @description Get activity by id
-   * @param {string} entity - Activity id
-   * @returns {Promise<any>} some entity
+   * @param entity - Activity id
+   * @returns some entity
    */
   async getEntity(entity: string) {
     const { data, error, status } = await makeRequest(
@@ -107,13 +104,6 @@ export class HorizonApiClient {
    */
   get PushNotification() {
     return this.pushNotifications;
-  }
-
-  /**
-   * @returns Role
-   */
-  get Role() {
-    return this.role;
   }
 
   /**
