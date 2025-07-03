@@ -1,6 +1,6 @@
 import { DeleteDto } from "../../base";
 
 export interface CannonCostDto extends DeleteDto {
-  buildingId: number;
+  cannonId: number;
   resourceId: number;
 }
