@@ -1,32 +1,37 @@
 import { toSlug } from "some-javascript-utils";
 
-// utils
-import { fromLocal } from "../utils/local";
-
-// config
-import config from "../config";
-
-// services
-import { makeRequest } from "../db/services";
-
 // base
 import { BaseApiClient } from "./utils/BaseApiClient";
 
 // types
-import { BuildingType } from "../lib/models/buildingType/BuildingType.js";
 import { Photo } from "src/lib/models/photo/Photo.js";
+import { Tables } from "./types";
+
+// lib
+import {
+  BuildingTypeDto,
+  BuildingTypeCommonDto,
+  BuildingTypeAddDto,
+  BuildingTypeUpdateDto,
+  BuildingTypeFilterDto,
+} from "lib";
 
 /**
  * @class BuildingTypeApiClient
  * @description BuildingTypeApiClient
  */
-export class BuildingTypeApiClient extends BaseApiClient {
+export class BuildingTypeApiClient extends BaseApiClient<
+  BuildingTypeDto,
+  BuildingTypeCommonDto,
+  BuildingTypeAddDto,
+  BuildingTypeUpdateDto,
+  BuildingTypeFilterDto
+> {
   /**
    * create base api client
    */
   constructor() {
-    super();
-    this.baseUrl = "buildingTypes";
+    super(Tables.BuildingTypes);
   }
 
   /**
@@ -40,18 +45,6 @@ export class BuildingTypeApiClient extends BaseApiClient {
     buildingType.urlName = toSlug(buildingType.name);
     // saving photo
     if (photo) buildingType.image = photo;
-    // call service
-    const { error, data, status } = await makeRequest(
-      "buildingTypes",
-      "POST",
-      buildingType,
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
-    );
-    if (error !== null) return { status, error: { message: error.message } };
-
-    return { error, data, status: status === 204 ? 201 : status };
   }
 
   /**
@@ -65,20 +58,5 @@ export class BuildingTypeApiClient extends BaseApiClient {
     buildingType.urlName = toSlug(buildingType.name);
     // saving photo
     if (photo) buildingType.image = photo;
-    // call service
-    const { status, error } = await makeRequest(
-      `buildingTypes/${buildingType.id}`,
-      "PATCH",
-      {
-        ...buildingType,
-        lastUpdate: new Date().toISOString(),
-      },
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
-    );
-    if (error !== null) return { status, error: { message: error.message } };
-
-    return { error, status: status === 204 ? 201 : status };
   }
 }
