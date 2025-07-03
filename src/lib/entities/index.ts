@@ -2,3 +2,4 @@ export * from "./base";
 export * from "./building";
 export * from "./buildingType";
 export * from "./cannon";
+export * from "./photo"

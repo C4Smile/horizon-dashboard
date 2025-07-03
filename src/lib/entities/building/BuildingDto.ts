@@ -1,6 +1,6 @@
-import { Photo } from "src/lib/models/photo/Photo";
 import { BaseEntityDto } from "../base";
 import { BuildingTypeCommonDto } from "../buildingType";
+import { PhotoDto } from "../photo";
 
 export interface BuildingDto extends BaseEntityDto {
   name: string;
@@ -8,5 +8,5 @@ export interface BuildingDto extends BaseEntityDto {
   description: string;
   creationTime: string;
   type: BuildingTypeCommonDto;
-  image: Photo;
+  image: PhotoDto;
 }
