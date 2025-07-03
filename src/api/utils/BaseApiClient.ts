@@ -1,11 +1,8 @@
-// services
-import { makeRequest } from "./services";
-
 // utils
 import { fromLocal } from "../../utils/local";
 
 // config
-import config from "../../config";
+import config from "src/config";
 
 // base
 import { APIClient } from "./APIClient";
@@ -14,6 +11,7 @@ import { APIClient } from "./APIClient";
 import {
   BaseCommonEntityDto,
   BaseEntityDto,
+  BaseFilterDto,
   DeleteDto,
   QueryResult,
 } from "lib";
@@ -28,7 +26,7 @@ export class BaseApiClient<
   TCommonDto extends BaseCommonEntityDto,
   TAddDto,
   TUpdateDto extends DeleteDto,
-  TFilter,
+  TFilter extends BaseFilterDto,
 > {
   table: Tables;
   api: APIClient = new APIClient();
@@ -47,7 +45,7 @@ export class BaseApiClient<
    * @returns result of http
    */
   async lock(userId: number, entityId: number) {
-    const { data, error, status } = await this.api.patch(
+    return await this.api.patch(
       `${this.table}/${entityId}/lock`,
       {
         userId,
@@ -56,97 +54,113 @@ export class BaseApiClient<
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       }
     );
-    if (error !== null) return { status, error: { message: error.message } };
-    return data;
   }
 
   /**
    * @param entityId entity id to lock
-   * @returns {Promise<{error: {message: string}, status: number}|any>} result of http
+   * @returns result of http
    */
   async release(entityId: number) {
-    const { data, error, status } = await makeRequest(
-      `${this.baseUrl}/${entityId}/release`,
-      "PATCH",
-      null,
+    return await this.api.patch(`${this.table}/${entityId}/release`, null, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
+  }
+
+  /**
+   *
+   * @param value
+   * @returns inserted item
+   */
+  async insert(value: TAddDto): Promise<TDto> {
+    return await this.api.post<TDto, TAddDto>(`${this.table}`, value, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
+  }
+
+  /**
+   *
+   * @param data - values to insert
+   * @returns - Query result
+   */
+  async insertMany(data: TAddDto[]): Promise<TDto> {
+    return await this.api.doQuery<TDto, TAddDto[]>(
+      `${this.table}/batch`,
+      "POST",
+      "",
+      data,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       }
     );
-    if (error !== null) return { status, error: { message: error.message } };
-    return data;
+  }
+
+  /**
+   *
+   * @param value
+   * @returns updated item
+   */
+  async update(value: TUpdateDto): Promise<TDto> {
+    return await this.api.patch<TDto, TUpdateDto>(
+      `${this.table}/${value.id}`,
+      value,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      }
+    );
   }
 
   /**
    * @description Get all objects
-   * @param {object} query - query parameters
-   * @returns {Promise<object[]> | object} Result list
+   * @param query - query parameters
+   * @returns Result list
    */
-  async getAll(
-    query = {
-      sortingBy: "id",
-      sortingOrder: "asc",
-      currentPage: 0,
-      pageSize: 50,
-    }
-  ) {
-    const { sortingBy, sortingOrder, currentPage, pageSize } = query;
-    const { data, error, status } = await makeRequest(
-      `${this.baseUrl}?sort=${sortingBy}&order=${sortingOrder}&page=${currentPage}&count=${pageSize}`
-    );
-    if (error !== null) return { status, error: { message: error.message } };
-    return data;
+  async get(query: TFilter) {
+    return await this.api.get<TDto, TFilter>(`${this.table}`, query, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
   }
 
   /**
-   * @description Get entity by id
-   * @param {string} id - object id
-   * @returns {Promise<object>} object
+   *
+   * @param query - Where conditions (key-value)
+   * @returns  - Query result
    */
-  async getById(id: number) {
-    const { data, error, status } = await makeRequest(
-      `${this.baseUrl}/${id}`,
+  async commonGet(query: TFilter): Promise<QueryResult<TCommonDto>> {
+    return await this.api.get<TCommonDto, TFilter>(
+      `${this.table}/common`,
+      query,
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      }
+    );
+  }
+
+  /**
+   *
+   * @param id
+   * @returns - Query result
+   */
+  async getById(id: number): Promise<TDto> {
+    return await this.api.doQuery<TDto>(
+      `${this.table}/${id}`,
       "GET",
+      "",
       null,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       }
     );
-    if (error !== null) return { status, error: { message: error.message } };
-    return data;
   }
 
-  /**
-   * Remove elements by their id
-   * @param {number[]} ids to delete
-   * @returns Transaction status
-   */
-  async delete(ids: number[]) {
-    const { data, status, error } = await makeRequest(
-      `${this.baseUrl}`,
-      "DELETE",
-      ids,
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
-    );
-    return { data, error, status: status === 200 ? 204 : status };
+  async softDelete(ids: number[]): Promise<number> {
+    return await this.api.delete(`${this.table}`, ids, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
   }
 
-  /**
-   * Restore elements by their id
-   * @param {number[]} ids to restore
-   * @returns Transaction status
-   */
-  async restore(ids: number[]) {
-    const { data, status, error } = await makeRequest(
-      `${this.baseUrl}/restore`,
-      "PATCH",
-      ids,
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
-    );
-    return { data, error, status: status === 200 ? 204 : status };
+  async restore(ids: number[]): Promise<number> {
+    return await this.api.patch(`${this.table}/restore`, ids, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
   }
 }

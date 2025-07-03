@@ -9,7 +9,7 @@ import { fromLocal } from "../utils/local.js";
 import config from "../config.js";
 
 // services
-import { makeRequest } from "../db/services.js";
+import { makeRequest } from "./utils/services";
 
 // apis
 import { BuildingCostsApiClient } from "./BuildingCostsApiClient.js";
@@ -21,15 +21,27 @@ import { BuildingReqBuildingsApiClient } from "./BuildingReqBuildingsApiClient.j
 // base
 import { BaseApiClient } from "./utils/BaseApiClient.js";
 
-// types
-import { Building } from "../lib/models/building/Building.js";
-import { Photo } from "../lib/models/photo/Photo.js";
+// lib
+import {
+  BuildingAddDto,
+  BuildingDto,
+  BuildingUpdateDto,
+  BuildingCommonDto,
+  BuildingFilterDto,
+} from "lib";
+import { Tables } from "./types/dbUtils.js";
 
 /**
  * @class BuildingApiClient
  * @description BuildingApiClient
  */
-export class BuildingApiClient extends BaseApiClient {
+export class BuildingApiClient extends BaseApiClient<
+  BuildingDto,
+  BuildingCommonDto,
+  BuildingAddDto,
+  BuildingUpdateDto,
+  BuildingFilterDto
+> {
   buildingCosts = new BuildingCostsApiClient();
   buildingUpkeeps = new BuildingUpkeepsApiClient();
   buildingProductions = new BuildingProducesApiClient();
@@ -40,8 +52,7 @@ export class BuildingApiClient extends BaseApiClient {
    * create base api client
    */
   constructor() {
-    super();
-    this.baseUrl = "buildings";
+    super(Tables.Buildings);
   }
 
   /**
@@ -59,17 +70,6 @@ export class BuildingApiClient extends BaseApiClient {
     );
     // saving photo
     if (photo) building.image = photo;
-    // call service
-    const { error, data, status } = await makeRequest(
-      "buildings",
-      "POST",
-      building,
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
-    );
-    if (error !== null) return { status, error: { message: error.message } };
-    return { error, data, status: status === 204 ? 201 : status };
   }
 
   /**
@@ -87,19 +87,5 @@ export class BuildingApiClient extends BaseApiClient {
     );
     // saving photo
     if (photo) building.image = photo;
-    // call service
-    const { status, error } = await makeRequest(
-      `buildings/${building.id}`,
-      "PATCH",
-      {
-        ...building,
-        lastUpdate: new Date().toISOString(),
-      },
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
-    );
-    if (error !== null) return { status, error: { message: error.message } };
-    return { error, status: status === 204 ? 201 : status };
   }
 }

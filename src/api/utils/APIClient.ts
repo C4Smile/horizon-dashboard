@@ -1,5 +1,5 @@
 // services
-import { buildQueryUrl, makeRequest } from "../../db/services.ts";
+import { buildQueryUrl, makeRequest } from "./services";
 
 // types
 import { QueryResult } from "lib";
@@ -13,10 +13,16 @@ export class APIClient {
     endpoint: string,
     method = "GET",
     query?: string,
-    body?: TBody
+    body?: TBody,
+    headers?: HeadersInit
   ) {
     const builtUrl = buildQueryUrl(endpoint, query);
-    const { data: result, error } = await makeRequest(builtUrl, method, body);
+    const { data: result, error } = await makeRequest(
+      builtUrl,
+      method,
+      body,
+      headers
+    );
     if (error) throw new Error(error.message);
 
     return result as TResponse;
@@ -28,9 +34,18 @@ export class APIClient {
    * @param query - query parameters
    * @returns Result list
    */
-  async get<TDto, TFilter>(endpoint: string, query?: TFilter) {
+  async get<TDto, TFilter>(
+    endpoint: string,
+    query?: TFilter,
+    headers?: HeadersInit
+  ) {
     const builtUrl = buildQueryUrl<TFilter>(endpoint, query);
-    const { data: result, error } = await makeRequest(builtUrl, "GET", null);
+    const { data: result, error } = await makeRequest(
+      builtUrl,
+      "GET",
+      null,
+      headers
+    );
     if (error) throw new Error(`${error.status} ${error.message}`);
 
     return result as QueryResult<TDto>;
@@ -45,12 +60,13 @@ export class APIClient {
   async patch<TDto, TUpdateDto>(
     endpoint: string,
     data: TUpdateDto,
-    headers:
+    headers?: HeadersInit
   ): Promise<TDto> {
     const { error, data: result } = await makeRequest<TUpdateDto, TDto>(
       endpoint,
       "PATCH",
-      data
+      data,
+      headers
     );
 
     if (error) throw new Error(error.message);
@@ -63,11 +79,12 @@ export class APIClient {
    * @param  data - value to insert
    * @returns delete result
    */
-  async delete(endpoint: string, data: number[]) {
+  async delete(endpoint: string, data: number[], headers?: HeadersInit) {
     const { error, data: result } = await makeRequest<number[], number>(
       endpoint,
       "DELETE",
-      data
+      data,
+      headers
     );
 
     if (error) throw new Error(error.message);
@@ -81,11 +98,16 @@ export class APIClient {
    * @param  data - value to insert
    * @returns inserted item
    */
-  async post<TDto, TAddDto>(endpoint: string, data: TAddDto): Promise<TDto> {
+  async post<TDto, TAddDto>(
+    endpoint: string,
+    data: TAddDto,
+    headers?: HeadersInit
+  ): Promise<TDto> {
     const { error, data: result } = await makeRequest<TAddDto, TDto>(
       endpoint,
       "POST",
-      data
+      data,
+      headers
     );
 
     if (error) throw new Error(error.message);

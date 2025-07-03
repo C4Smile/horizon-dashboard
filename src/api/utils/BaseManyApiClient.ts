@@ -1,23 +1,27 @@
-// services
-import { makeRequest } from "./services";
-
 // utils
 import { fromLocal } from "../../utils/local";
+import { APIClient } from "./APIClient";
 
 // config
-import config from "../../config";
+import config from "src/config";
 
 // lib
-import { IdDto } from "lib";
+import { BaseFilterDto, DeleteDto } from "lib";
+
+// types
+import { Tables } from "../types";
 
 /**
  * @class BaseManyApiClient
  * @description BaseManyApiClient
  */
-export class BaseManyApiClient<TManyDto extends IdDto> {
-  baseUrl = "";
-  idAttribute = "";
-  idsAttribute = "";
+export class BaseManyApiClient<
+  TDto extends DeleteDto,
+  TAddDto,
+  TFilter extends BaseFilterDto,
+> {
+  table: Tables;
+  api: APIClient = new APIClient();
 
   /**
    *
@@ -25,78 +29,52 @@ export class BaseManyApiClient<TManyDto extends IdDto> {
    * @param idAttribute id url
    * @param idsAttribute ids url
    */
-  constructor(baseUrl: string, idAttribute: string, idsAttribute: string) {
-    this.baseUrl = baseUrl;
-    this.idAttribute = idAttribute;
-    this.idsAttribute = idsAttribute;
+  constructor(table: Tables) {
+    this.table = table;
   }
 
   /**
-   * @param {number} entityId id of the entity
-   * @returns many relationships
+   * @description Get all objects
+   * @param query - query parameters
+   * @returns Result list
    */
-  async get(entityId: number) {
-    // call service
-    const { error, data, status } = await makeRequest(
-      `${this.baseUrl}/${entityId}`,
-      "GET",
-      null,
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
-    );
-
-    return { error, items: data, status: status === 204 ? 201 : status };
-  }
-
-  /**
-   * @description Create techCosts
-   * @param entityId tech to save
-   * @param object - BaseMany
-   * @returns Transaction status
-   */
-  async save(entityId: number, object: TManyDto) {
-    // call service
-    const { error, data, status } = await makeRequest(
-      `${this.baseUrl}/${entityId}`,
-      object.id ? "PATCH" : "POST",
-      object,
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
-    );
-
-    return { error, data, status: status === 204 ? 201 : status };
-  }
-
-  /**
-   * @description Get a techCosts by newsId
-   * @param entityId - Tag id
-   * @param list - News id
-   * @returns Status
-   */
-  async delete(entityId: number, list: number[]) {
-    await makeRequest(`${this.baseUrl}/${entityId}`, "DELETE", list, {
+  async get(query: TFilter) {
+    return await this.api.get<TDto, TFilter>(`${this.table}`, query, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
-    return { status: 204 };
   }
 
   /**
-   * @description Get a techCosts by newsId
-   * @param entityId - Entity id
-   * @param remoteId - Remote id
-   * @returns Status
+   *
+   * @param value
+   * @returns inserted item
    */
-  async deleteSingle(entityId: number, remoteId: number) {
-    await makeRequest(
-      `${this.baseUrl}/${entityId}/${remoteId}`,
-      "DELETE",
-      null,
+  async insert(value: TAddDto): Promise<TDto> {
+    return await this.api.post<TDto, TAddDto>(`${this.table}`, value, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
+  }
+
+  /**
+   *
+   * @param data - values to insert
+   * @returns - Query result
+   */
+  async insertMany(data: TAddDto[]): Promise<TDto> {
+    return await this.api.doQuery<TDto, TAddDto[]>(
+      `${this.table}/batch`,
+      "POST",
+      "",
+      data,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       }
     );
-    return { status: 204 };
+  }
+
+  async softDelete(ids: number[]): Promise<number> {
+    return await this.api.delete(`${this.table}`, ids, {
+      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+    });
   }
 }

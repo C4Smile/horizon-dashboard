@@ -1,3 +1,9 @@
+import { SortOrder } from "@sito/dashboard";
+
 export interface BaseFilterDto {
-  deleted?: boolean;
+  deleted: boolean;
+  sortingBy: string;
+  sortingOrder: SortOrder;
+  currentPage: number;
+  pageSize: number;
 }
