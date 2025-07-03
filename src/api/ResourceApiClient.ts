@@ -17,18 +17,33 @@ import { BaseApiClient } from "./utils/BaseApiClient";
 // types
 import { Resource } from "../lib/models/resource/Resource.js";
 import { Photo } from "../lib/models/photo/Photo.js";
+import { Tables } from "./types/dbUtils.js";
+
+// lib
+import {
+  ResourceDto,
+  ResourceCommonDto,
+  ResourceAddDto,
+  ResourceUpdateDto,
+  ResourceFilterDto,
+} from "lib";
 
 /**
  * @class ResourceApiClient
  * @description ResourceApiClient
  */
-export class ResourceApiClient extends BaseApiClient {
+export class ResourceApiClient extends BaseApiClient<
+  ResourceDto,
+  ResourceCommonDto,
+  ResourceAddDto,
+  ResourceUpdateDto,
+  ResourceFilterDto
+> {
   /**
    * create base api client
    */
   constructor() {
-    super();
-    this.baseUrl = "resources";
+    super(Tables.Resources);
   }
 
   /**
@@ -46,18 +61,6 @@ export class ResourceApiClient extends BaseApiClient {
     );
     // saving photo
     if (photo) resource.image = photo;
-    // call service
-    const { error, data, status } = await makeRequest(
-      "resources",
-      "POST",
-      resource,
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
-    );
-    if (error !== null) return { status, error: { message: error.message } };
-
-    return { error, data, status: status === 204 ? 201 : status };
   }
 
   /**
@@ -75,20 +78,5 @@ export class ResourceApiClient extends BaseApiClient {
     );
     // saving photo
     if (photo) resource.image = photo;
-    // call service
-    const { status, error } = await makeRequest(
-      `resources/${resource.id}`,
-      "PATCH",
-      {
-        ...resource,
-        lastUpdate: new Date().toISOString(),
-      },
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
-    );
-    if (error !== null) return { status, error: { message: error.message } };
-
-    return { error, status: status === 204 ? 201 : status };
   }
 }

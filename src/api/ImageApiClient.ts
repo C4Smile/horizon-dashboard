@@ -5,10 +5,11 @@ import config from "../config.js";
 import { fromLocal } from "../utils/local.js";
 
 // services
-import { makeRequest } from "../db/services.js";
+import { makeRequest } from "./utils/services.js";
 
 // types
 import { Photo } from "../lib/models/photo/Photo.js";
+import { BlobDto, PhotoDto } from "lib";
 
 /**
  * ImageApiClient
@@ -60,10 +61,10 @@ export class ImageApiClient {
 
     for (const photo of photos) {
       const base64 = await this.readFileAsBase64(photo);
-      const { data, error } = await makeRequest(
+      const { data, error } = await makeRequest<BlobDto, PhotoDto[]>(
         "images",
         "POST",
-        { base64, folder, fileName: photo.name },
+        { base64: base64 as string, folder, fileName: photo.name },
         {
           Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
         }

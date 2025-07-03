@@ -1,6 +1,6 @@
 import { BuildingApiClient } from "./BuildingApiClient";
 import { ResourceApiClient } from "./ResourceApiClient";
-import { PushNotificationApiClient } from "./PushNotificationApiClient.js";
+/* import { PushNotificationApiClient } from "./PushNotificationApiClient"; */
 import { UserApiClient } from "./UserApiClient";
 import { ImageApiClient } from "./ImageApiClient";
 import { TechTypeApiClient } from "./TechTypeApiClient";
@@ -27,7 +27,7 @@ export class HorizonApiClient {
   building: BuildingApiClient;
   buildingType: BuildingTypeApiClient;
   resource: ResourceApiClient;
-  pushNotifications: PushNotificationApiClient;
+  /* pushNotifications: PushNotificationApiClient; */
   user: UserApiClient;
   image: ImageApiClient;
   tech: TechApiClient;
@@ -43,7 +43,7 @@ export class HorizonApiClient {
     this.building = new BuildingApiClient();
     this.buildingType = new BuildingTypeApiClient();
     this.resource = new ResourceApiClient();
-    this.pushNotifications = new PushNotificationApiClient();
+    /* this.pushNotifications = new PushNotificationApiClient(); */
     this.user = new UserApiClient();
     this.image = new ImageApiClient();
     this.tech = new TechApiClient();
@@ -102,9 +102,9 @@ export class HorizonApiClient {
   /**
    * @returns PushNotification
    */
-  get PushNotification() {
+  /* get PushNotification() {
     return this.pushNotifications;
-  }
+  } */
 
   /**
    * @returns Customer

@@ -2,15 +2,6 @@ import { toSlug } from "some-javascript-utils";
 import draftToHtml from "draftjs-to-html";
 import { convertToRaw } from "draft-js";
 
-// utils
-import { fromLocal } from "../utils/local";
-
-// config
-import config from "../config";
-
-// services
-import { makeRequest } from "../db/services";
-
 // apis
 import { CannonCostsApiClient } from "./CannonCostsApiClient.js";
 import { CannonReqTechsApiClient } from "./CannonReqTechsApiClient.js";
