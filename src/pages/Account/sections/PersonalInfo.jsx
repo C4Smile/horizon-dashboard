@@ -11,7 +11,7 @@ import ImageUploader from "../../../components/ImageUploader";
 
 // providers
 import { useNotification } from "../../../providers/NotificationProvider";
-import { useAccount } from "../../../providers/AccountProvider";
+import { useAccount } from "../../../providers/Account/AccountProvider";
 import { queryClient, useHorizonApiClient } from "../../../providers/HorizonApiProvider";
 
 // utils

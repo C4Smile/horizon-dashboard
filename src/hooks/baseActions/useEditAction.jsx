@@ -9,7 +9,7 @@ import { BaseActions } from "./types.js";
 import { isDeleted, isTableLocked, isTableLockedBy } from "../../utils/Utils.js";
 
 // providers
-import { useAccount } from "../../providers/AccountProvider.jsx";
+import { useAccount } from "../../providers/Account/AccountProvider.jsx";
 
 // sitemap
 import { findPath } from "../../pages/sitemap.jsx";

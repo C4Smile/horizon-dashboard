@@ -9,7 +9,7 @@ import config from "../config";
 import { TableOptionsProvider, TranslationProvider } from "@sito/dashboard";
 
 // providers
-import { useAccount } from "../providers/AccountProvider";
+import { useAccount } from "../providers/Account/AccountProvider";
 import { useHorizonApiClient } from "../providers/HorizonApiProvider";
 
 // components

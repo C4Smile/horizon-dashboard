@@ -1,10 +1,9 @@
 import { toSlug } from "some-javascript-utils";
 
 // base
-import { BaseApiClient } from "./utils/BaseApiClient";
+import { BaseApiClient } from "./utils/";
 
 // types
-import { Photo } from "src/lib/models/photo/Photo.js";
 import { Tables } from "./types";
 
 // lib

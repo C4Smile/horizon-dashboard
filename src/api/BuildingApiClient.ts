@@ -10,7 +10,10 @@ import { BuildingUpkeepsApiClient } from "./BuildingUpkeepsApiClient.js";
 import { BuildingReqBuildingsApiClient } from "./BuildingReqBuildingsApiClient.js";
 
 // base
-import { BaseApiClient } from "./utils/BaseApiClient.js";
+import { BaseApiClient } from "./utils/";
+
+// types
+import { Tables } from "./types/";
 
 // lib
 import {
@@ -20,7 +23,6 @@ import {
   BuildingCommonDto,
   BuildingFilterDto,
 } from "lib";
-import { Tables } from "./types/dbUtils.js";
 
 /**
  * @class BuildingApiClient

@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 // providers
-import { useAccount } from "../../providers/AccountProvider";
+import { useAccount } from "../../providers/Account/AccountProvider";
 
 /**
  * WelcomeBanner

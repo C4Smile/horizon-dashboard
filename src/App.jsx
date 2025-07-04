@@ -11,7 +11,7 @@ import "./css/style.css";
 import { sitemap } from "./pages/sitemap";
 
 // providers
-import { useAccount } from "./providers/AccountProvider";
+import { useAccount } from "./providers/Account/AccountProvider";
 
 // components
 import SplashScreen from "./partials/loading/SplashScreen";

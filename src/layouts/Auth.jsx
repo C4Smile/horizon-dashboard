@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { getCookie } from "some-javascript-utils/browser";
 
 // providers
-import { useAccount } from "../providers/AccountProvider";
+import { useAccount } from "../providers/Account/AccountProvider";
 
 // partial
 import Notification from "../partials/Notification";

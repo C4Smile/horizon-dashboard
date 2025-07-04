@@ -8,10 +8,10 @@ import { CannonReqTechsApiClient } from "./CannonReqTechsApiClient.js";
 import { CannonReqBuildingsApiClient } from "./CannonReqBuildingsApiClient.js";
 
 // base
-import { BaseApiClient } from "./utils/BaseApiClient";
+import { BaseApiClient } from "./utils/";
 
 // types
-import { Photo } from "../lib/models/photo/Photo.js";
+import { Tables } from "./types/";
 
 // lib
 import {
@@ -21,7 +21,6 @@ import {
   CannonUpdateDto,
   CannonFilterDto,
 } from "lib";
-import { Tables } from "./types/dbUtils.js";
 
 /**
  * @class CannonApiClient

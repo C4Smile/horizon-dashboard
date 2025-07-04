@@ -2,9 +2,9 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 
 // Provider
-import ThemeProvider from "./utils/ThemeContext";
+import ThemeProvider from "./providers/Theme/ThemeProvider.jsx";
 import { HorizonApiClientProvider } from "./providers/HorizonApiProvider";
-import { AccountProvider } from "./providers/AccountProvider";
+import { AccountProvider } from "./providers/Account/AccountProvider.jsx";
 import { NotificationProvider } from "./providers/NotificationProvider.jsx";
 
 // App

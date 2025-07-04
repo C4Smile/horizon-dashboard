@@ -10,7 +10,7 @@ import TextInput from "../../components/Forms/TextInput";
 import PasswordInput from "../../components/Forms/PasswordInput";
 
 // providers
-import { useAccount } from "../../providers/AccountProvider";
+import { useAccount } from "../../providers/Account/AccountProvider";
 import { useNotification } from "../../providers/NotificationProvider";
 import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 

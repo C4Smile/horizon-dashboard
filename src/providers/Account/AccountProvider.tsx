@@ -1,38 +1,41 @@
 import { createContext, useState, useContext, useCallback } from "react";
 
-// prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
-
 // providers
-import { useHorizonApiClient } from "./HorizonApiProvider";
+import { useHorizonApiClient } from "../HorizonApiProvider";
 
 // utils
-import { toLocal, fromLocal, removeFromLocal } from "../utils/local";
+import { toLocal, fromLocal, removeFromLocal } from "../../utils/local";
 
 // config
-import config from "../config";
+import config from "src/config";
 
-const AccountContext = createContext();
+// types
+import { AccountContextType, AccountProviderPropsType } from "./types";
+
+// lib
+import { AccountDto } from "lib";
+
+const AccountContext = createContext({} as AccountContextType);
 
 /**
  * Account Provider
- * @param {object} props - provider props
- * @returns JSX.Element
+ * @param props - provider props
+ * @returns Account Provider context
  */
-const AccountProvider = (props) => {
+const AccountProvider = (props: AccountProviderPropsType) => {
   const { children } = props;
 
   const horizonApiClient = useHorizonApiClient();
 
-  const [account, setAccount] = useState({});
+  const [account, setAccount] = useState<AccountDto>({} as AccountDto);
 
-  const logUser = useCallback((data) => {
+  const logUser = useCallback((data: AccountDto) => {
     setAccount(data);
     toLocal(config.user, data);
   }, []);
 
   const logoutUser = useCallback(() => {
-    setAccount({});
+    setAccount({} as AccountDto);
     removeFromLocal(config.user);
   }, []);
 
@@ -42,25 +45,24 @@ const AccountProvider = (props) => {
       if (status === 200) {
         const loggedUser = fromLocal(config.user, "object");
         if (loggedUser) {
-          const request = await horizonApiClient.User.fetchOwner(loggedUser.user.id);
+          const request = await horizonApiClient.User.fetchOwner(
+            loggedUser.user.id
+          );
           const horizonUser = await request.json();
           if (horizonUser) setAccount({ ...loggedUser, horizonUser });
           else setAccount(loggedUser);
         }
       } else logoutUser();
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.error(err);
       logoutUser();
     }
   }, [logoutUser, horizonApiClient.User]);
 
   const value = { account, logUser, logoutUser, logUserFromLocal };
-  return <AccountContext.Provider value={value}>{children}</AccountContext.Provider>;
-};
-
-AccountProvider.propTypes = {
-  children: PropTypes.node.isRequired,
+  return (
+    <AccountContext.Provider value={value}>{children}</AccountContext.Provider>
+  );
 };
 
 /**
@@ -69,8 +71,10 @@ AccountProvider.propTypes = {
  */
 const useAccount = () => {
   const context = useContext(AccountContext);
-  if (context === undefined) throw new Error("accountContext must be used within a Provider");
+  if (context === undefined)
+    throw new Error("accountContext must be used within a Provider");
   return context;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { AccountProvider, useAccount };

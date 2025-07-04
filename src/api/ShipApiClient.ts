@@ -12,8 +12,7 @@ import { ShipReqBuildingsApiClient } from "./ShipReqBuildingsApiClient.js";
 import { BaseApiClient } from "./utils/BaseApiClient";
 
 // types
-import { Ship } from "../lib/models/ship/Ship.js";
-import { Photo } from "../lib/models/photo/Photo.js";
+import { Tables } from "./types/dbUtils.js";
 
 // lib
 import {
@@ -23,7 +22,6 @@ import {
   ShipFilterDto,
   ShipUpdateDto,
 } from "lib";
-import { Tables } from "./types/dbUtils.js";
 
 /**
  * @class ShipApiClient

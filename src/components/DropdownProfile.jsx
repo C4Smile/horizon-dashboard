@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Transition from "../utils/Transition";
 
 // providers
-import { useAccount } from "../providers/AccountProvider";
+import { useAccount } from "../providers/Account/AccountProvider";
 
 // images
 import noProducts from "../assets/images/no-product.jpg";

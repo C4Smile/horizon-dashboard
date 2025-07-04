@@ -3,7 +3,7 @@ import draftToHtml from "draftjs-to-html";
 import { convertToRaw } from "draft-js";
 
 // base
-import { BaseApiClient } from "./utils/BaseApiClient.js";
+import { BaseApiClient } from "./utils/";
 
 // api
 import { TechCostsApiClient } from "./TechCostsApiClient.js";
@@ -12,8 +12,7 @@ import { TechReqTechsApiClient } from "./TechReqTechsApiClient.js";
 import { TechReqBuildingsApiClient } from "./TechReqBuildingsApiClient.js";
 
 // types
-import { Tech } from "../lib/models/tech/Tech.js";
-import { Photo } from "../lib/models/photo/Photo.js";
+import { Tables } from "./types/";
 
 // lib
 import {
@@ -23,7 +22,6 @@ import {
   TechFilterDto,
   TechCommonDto,
 } from "lib";
-import { Tables } from "./types/dbUtils.js";
 
 /**
  * @class TechApiClient

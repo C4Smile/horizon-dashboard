@@ -11,7 +11,7 @@ import { ShipApiClient } from "./ShipApiClient.js";
 import { CannonApiClient } from "./CannonApiClient.js";
 
 // services
-import { makeRequest } from "./utils/services.js";
+import { makeRequest } from "./utils/";
 
 // utils
 import { fromLocal } from "../utils/local";

@@ -15,7 +15,7 @@ import SidebarLinkGroup from "./SidebarLinkGroup";
 import { menuMap } from "../../pages/menuMap";
 
 // providers
-import { useAccount } from "../../providers/AccountProvider";
+import { useAccount } from "../../providers/Account/AccountProvider";
 
 /**
  * Sidebar

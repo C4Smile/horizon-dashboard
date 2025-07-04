@@ -1,8 +1,8 @@
 // base
-import { BaseManyApiClient } from "./utils/BaseManyApiClient";
+import { BaseManyApiClient } from "./utils/";
 
 // types
-import { Tables } from "./types/dbUtils.js";
+import { Tables } from "./types/";
 
 // lib
 import { ShipReqTechDto, ShipReqTechAddDto, ShipReqTechFilterDto } from "lib";

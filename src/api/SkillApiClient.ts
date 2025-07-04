@@ -2,21 +2,11 @@ import { toSlug } from "some-javascript-utils";
 import draftToHtml from "draftjs-to-html";
 import { convertToRaw } from "draft-js";
 
-// utils
-import { fromLocal } from "../utils/local";
-
-// config
-import config from "../config";
-
-// services
-import { makeRequest } from "../db/services";
-
 // base
-import { BaseApiClient } from "./utils/BaseApiClient";
+import { BaseApiClient } from "./utils/";
 
 // types
-import { Skill } from "../lib/models/skill/Skill.js";
-import { Photo } from "../lib/models/photo/Photo.js";
+import { Tables } from "./types/";
 
 // lib
 import {
@@ -26,7 +16,6 @@ import {
   SkillUpdateDto,
   SkillFilterDto,
 } from "lib";
-import { Tables } from "./types/dbUtils.js";
 
 /**
  * @class SkillApiClient

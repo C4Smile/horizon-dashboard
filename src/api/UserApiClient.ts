@@ -1,7 +1,8 @@
-// base
-import { BaseApiClient } from "./utils/BaseApiClient";
-import { User } from "src/lib/models/user/User";
-import { Photo } from "src/lib/models/photo/Photo";
+// utils
+import { BaseApiClient } from "./utils/";
+
+// types
+import { Tables } from "./types";
 
 // lib
 import {
@@ -11,7 +12,6 @@ import {
   UserUpdateDto,
   UserFilterDto,
 } from "lib";
-import { Tables } from "./types";
 
 /**
  * @class UserApiClient

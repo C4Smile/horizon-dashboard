@@ -1,6 +1,6 @@
 // utils
 import { fromLocal, toLocal } from "src/utils/local";
-import { makeRequest } from "./utils/services";
+import { makeRequest } from "./utils/";
 
 // config
 import config from "src/config";

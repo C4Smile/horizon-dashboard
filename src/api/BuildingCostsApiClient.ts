@@ -1,5 +1,5 @@
 // base
-import { BaseManyApiClient } from "./utils/BaseManyApiClient";
+import { BaseManyApiClient } from "./utils";
 
 // types
 import { Tables } from "./types";

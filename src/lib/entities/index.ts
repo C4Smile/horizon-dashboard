@@ -8,4 +8,5 @@ export * from "./ship";
 export * from "./skill";
 export * from "./tech";
 export * from "./techType";
-export * from "./user"
+export * from "./user";
+export * from "./account";

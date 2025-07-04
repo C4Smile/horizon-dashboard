@@ -5,10 +5,9 @@ import config from "../config.js";
 import { fromLocal } from "../utils/local.js";
 
 // services
-import { makeRequest } from "./utils/services.js";
+import { makeRequest } from "./utils/";
 
 // types
-import { Photo } from "../lib/models/photo/Photo.js";
 import { BlobDto, PhotoDto } from "lib";
 
 /**
@@ -29,7 +28,7 @@ export class ImageApiClient {
    * @param photo photo object
    * @returns response
    */
-  async insertImage(photo: Photo) {
+  async insertImage(photo: BlobDto) {
     const { error, data, status } = await makeRequest("images", "POST", photo, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
