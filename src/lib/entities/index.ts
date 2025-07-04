@@ -5,3 +5,4 @@ export * from "./cannon";
 export * from "./photo";
 export * from "./resource";
 export * from "./ship";
+export * from "./skill";

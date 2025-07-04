@@ -18,17 +18,32 @@ import { BaseApiClient } from "./utils/BaseApiClient";
 import { Skill } from "../lib/models/skill/Skill.js";
 import { Photo } from "../lib/models/photo/Photo.js";
 
+// lib
+import {
+  SkillDto,
+  SkillCommonDto,
+  SkillAddDto,
+  SkillUpdateDto,
+  SkillFilterDto,
+} from "lib";
+import { Tables } from "./types/dbUtils.js";
+
 /**
  * @class SkillApiClient
  * @description SkillApiClient
  */
-export class SkillApiClient extends BaseApiClient {
+export class SkillApiClient extends BaseApiClient<
+  SkillDto,
+  SkillCommonDto,
+  SkillAddDto,
+  SkillUpdateDto,
+  SkillFilterDto
+> {
   /**
    * create base api client
    */
   constructor() {
-    super();
-    this.baseUrl = "skills";
+    super(Tables.Skills);
   }
 
   /**
@@ -46,13 +61,6 @@ export class SkillApiClient extends BaseApiClient {
     );
     // saving photo
     if (photo) skill.image = photo;
-    // call service
-    const { error, data, status } = await makeRequest("skills", "POST", skill, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
-    if (error !== null) return { status, error: { message: error.message } };
-
-    return { error, data, status: status === 204 ? 201 : status };
   }
 
   /**
@@ -70,20 +78,5 @@ export class SkillApiClient extends BaseApiClient {
     );
     // saving photo
     if (photo) skill.image = photo;
-    // call service
-    const { status, error } = await makeRequest(
-      `skills/${skill.id}`,
-      "PATCH",
-      {
-        ...skill,
-        lastUpdate: new Date().toISOString(),
-      },
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
-    );
-    if (error !== null) return { status, error: { message: error.message } };
-
-    return { error, status: status === 204 ? 201 : status };
   }
 }
