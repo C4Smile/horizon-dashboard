@@ -1,11 +1,11 @@
-import React from "react";
+import { LogoPropsType } from "./types";
 
 /**
  * Logo component
  * @param {object} props - Component props
  * @returns Logo component
  */
-function Logo(props) {
+function Logo(props: LogoPropsType) {
   const { className } = props;
 
   return (
