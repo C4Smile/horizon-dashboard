@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HorizonApiClient } from "api";
+import { HorizonApiClient } from ".";
 
 const queryClient = new QueryClient({
   defaultOptions: {
