@@ -2,17 +2,24 @@
 import { BaseManyApiClient } from "./utils/BaseManyApiClient";
 
 // types
-import { Tech } from "../lib/models/tech/Tech";
+import { Tables } from "./types";
+
+// lib
+import { TechCostDto, TechCostAddDto, TechCostFilterDto } from "lib";
 
 /**
  * @class TechCostsApiClient
  * @description TechCostsApiClient
  */
-export class TechCostsApiClient extends BaseManyApiClient {
+export class TechCostsApiClient extends BaseManyApiClient<
+  TechCostDto,
+  TechCostAddDto,
+  TechCostFilterDto
+> {
   /**
    * constructor
    */
   constructor() {
-    super(Tech.costs, "techId", "resourceId");
+    super(Tables.TechCosts);
   }
 }

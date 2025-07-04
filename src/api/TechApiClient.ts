@@ -24,11 +24,27 @@ import { TechReqBuildingsApiClient } from "./TechReqBuildingsApiClient.js";
 import { Tech } from "../lib/models/tech/Tech.js";
 import { Photo } from "../lib/models/photo/Photo.js";
 
+// lib
+import {
+  TechDto,
+  TechAddDto,
+  TechUpdateDto,
+  TechFilterDto,
+  TechCommonDto,
+} from "lib";
+import { Tables } from "./types/dbUtils.js";
+
 /**
  * @class TechApiClient
  * @description TechApiClient
  */
-export class TechApiClient extends BaseApiClient {
+export class TechApiClient extends BaseApiClient<
+  TechDto,
+  TechCommonDto,
+  TechAddDto,
+  TechUpdateDto,
+  TechFilterDto
+> {
   techCosts = new TechCostsApiClient();
   techProductions = new TechProducesApiClient();
   techReqTechs = new TechReqTechsApiClient();
@@ -38,8 +54,7 @@ export class TechApiClient extends BaseApiClient {
    * create base api client
    */
   constructor() {
-    super();
-    this.baseUrl = "techs";
+    super(Tables.Techs);
   }
 
   /**
@@ -57,13 +72,6 @@ export class TechApiClient extends BaseApiClient {
     );
     // saving photo
     if (photo) tech.image = photo;
-    // call service
-    const { error, data, status } = await makeRequest("techs", "POST", tech, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
-    if (error !== null) return { status, error: { message: error.message } };
-
-    return { error, data, status: status === 204 ? 201 : status };
   }
 
   /**
@@ -81,20 +89,5 @@ export class TechApiClient extends BaseApiClient {
     );
     // saving photo
     if (photo) tech.image = photo;
-    // call service
-    const { status, error } = await makeRequest(
-      `techs/${tech.id}`,
-      "PATCH",
-      {
-        ...tech,
-        lastUpdate: new Date().toISOString(),
-      },
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
-    );
-    if (error !== null) return { status, error: { message: error.message } };
-
-    return { error, status: status === 204 ? 201 : status };
   }
 }

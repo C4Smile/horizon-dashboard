@@ -2,17 +2,28 @@
 import { BaseManyApiClient } from "./utils/BaseManyApiClient";
 
 // types
-import { Tech } from "../lib/models/tech/Tech";
+import { Tables } from "./types";
+
+// lib
+import {
+  TechReqBuildingDto,
+  TechReqBuildingAddDto,
+  TechReqBuildingFilterDto,
+} from "lib";
 
 /**
  * @class TechReqBuildingsApiClient
  * @description TechReqBuildingsApiClient
  */
-export class TechReqBuildingsApiClient extends BaseManyApiClient {
+export class TechReqBuildingsApiClient extends BaseManyApiClient<
+  TechReqBuildingDto,
+  TechReqBuildingAddDto,
+  TechReqBuildingFilterDto
+> {
   /**
    * constructor
    */
   constructor() {
-    super(Tech.buildingRequirement, "techId", "buildingReqId");
+    super(Tables.TechReqBuildings);
   }
 }
