@@ -1,32 +1,37 @@
 import { toSlug } from "some-javascript-utils";
 
-// utils
-import { fromLocal } from "../utils/local";
-
-// config
-import config from "../config";
-
-// services
-import { makeRequest } from "../db/services";
-
 // base
 import { BaseApiClient } from "./utils/BaseApiClient";
 
 // type
-import { TechType } from "../lib/models/techType/TechType.js";
 import { Photo } from "../lib/models/photo/Photo.js";
+import { Tables } from "./types/dbUtils.js";
+
+// lib
+import {
+  TechTypeDto,
+  TechTypeCommonDto,
+  TechTypeAddDto,
+  TechTypeUpdateDto,
+  TechTypeFilterDto,
+} from "lib";
 
 /**
  * @class TechTypeApiClient
  * @description TechTypeApiClient
  */
-export class TechTypeApiClient extends BaseApiClient {
+export class TechTypeApiClient extends BaseApiClient<
+  TechTypeDto,
+  TechTypeCommonDto,
+  TechTypeAddDto,
+  TechTypeUpdateDto,
+  TechTypeFilterDto
+> {
   /**
    * create base api client
    */
   constructor() {
-    super();
-    this.baseUrl = "techTypes";
+    super(Tables.TechTypes);
   }
 
   /**
@@ -40,18 +45,6 @@ export class TechTypeApiClient extends BaseApiClient {
     techType.urlName = toSlug(techType.name);
     // saving photo
     if (photo) techType.image = photo;
-    // call service
-    const { error, data, status } = await makeRequest(
-      "techTypes",
-      "POST",
-      techType,
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
-    );
-    if (error !== null) return { status, error: { message: error.message } };
-
-    return { error, data, status: status === 204 ? 201 : status };
   }
 
   /**
@@ -65,20 +58,5 @@ export class TechTypeApiClient extends BaseApiClient {
     techType.urlName = toSlug(techType.name);
     // saving photo
     if (photo) techType.image = photo;
-    // call service
-    const { status, error } = await makeRequest(
-      `techTypes/${techType.id}`,
-      "PATCH",
-      {
-        ...techType,
-        lastUpdate: new Date().toISOString(),
-      },
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
-    );
-    if (error !== null) return { status, error: { message: error.message } };
-
-    return { error, status: status === 204 ? 201 : status };
   }
 }

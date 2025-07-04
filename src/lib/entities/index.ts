@@ -6,4 +6,5 @@ export * from "./photo";
 export * from "./resource";
 export * from "./ship";
 export * from "./skill";
-export * from "./tech"
+export * from "./tech";
+export * from "./techType";

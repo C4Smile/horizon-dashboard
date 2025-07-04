@@ -2,15 +2,6 @@ import { toSlug } from "some-javascript-utils";
 import draftToHtml from "draftjs-to-html";
 import { convertToRaw } from "draft-js";
 
-// utils
-import { fromLocal } from "../utils/local.js";
-
-// config
-import config from "../config.js";
-
-// services
-import { makeRequest } from "../db/services.js";
-
 // base
 import { BaseApiClient } from "./utils/BaseApiClient.js";
 

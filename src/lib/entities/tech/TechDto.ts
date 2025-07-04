@@ -1,5 +1,5 @@
+import { TechTypeCommonDto } from "lib";
 import { BaseEntityDto } from "../base";
-import { TechTypeCommonDto } from "../buildingType";
 import { PhotoDto } from "../photo";
 
 export interface TechDto extends BaseEntityDto {
