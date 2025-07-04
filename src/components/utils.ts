@@ -1,15 +1,23 @@
+import { BlobDto } from "lib";
 import config from "../config";
-class PhotoReducerActionType {
-  type = "";
-}
+
+type PhotoReducerActionType = {
+  type: "set" | "add" | "delete";
+  item: BlobDto;
+  items: BlobDto[];
+  index: number;
+};
 
 /**
  * Photo array reducer
- * @param {object[]} state - photo array
- * @param {PhotoReducerActionType} action - action
- * @returns {object[]} new state
+ * @param state - photo array
+ * @param action - action
+ * @returns new state
  */
-export function localPhotoReducer(state, action) {
+export function localPhotoReducer(
+  state: BlobDto[],
+  action: PhotoReducerActionType
+) {
   const { type } = action;
   switch (type) {
     case "set": {
@@ -35,17 +43,18 @@ export function localPhotoReducer(state, action) {
 
 /**
  *
- * @param {string} string - string
- * @returns {string} static url photo
+ * @param string - string
+ * @returns static url photo
  */
-export const staticUrlPhoto = (string) => `${config.apiUrl}public/images/${string}`;
+export const staticUrlPhoto = (string: string) =>
+  `${config.apiUrl}public/images/${string}`;
 
 /**
  *
- * @param {string} str string to parse
+ * @param str string to parse
  * @returns caramelized string
  */
-export function camelize(str) {
+export function camelize(str: string) {
   return str
     .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
       return index === 0 ? word.toLowerCase() : word.toUpperCase();

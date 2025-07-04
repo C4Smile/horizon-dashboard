@@ -1,15 +1,18 @@
 import { useState, useCallback, useEffect } from "react";
 import { scrollTo } from "some-javascript-utils/browser";
 
-// components
-import Chevron from "../Chevron/Chevron";
+// @sito/dashboard
+import { ChevronUp } from "@sito/dashboard";
+
+// types
+import { ToTopPropsType } from "./types";
 
 /**
  * ToTop
  * @param {object} props - Props
  * @returns ToTop component
  */
-function ToTop(props) {
+function ToTop(props: ToTopPropsType) {
   const { dealer } = props;
 
   const scroll = useCallback(() => {
@@ -35,7 +38,7 @@ function ToTop(props) {
       className={`${show ? "scale-100" : "scale-0"} transition duration-300 ease-in-out fixed rounded-full bg-primary flex items-center justify-center w-10 h-10 bottom-5 right-10 z-10`}
       onClick={scroll}
     >
-      <Chevron className="rotate-180 text-white" />
+      <ChevronUp className="rotate-180 text-white" />
     </button>
   );
 }

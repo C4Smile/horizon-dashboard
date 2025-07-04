@@ -1,11 +1,11 @@
-import React from "react";
+import { TabsPropsType } from "./types";
 
 /**
  *
- * @param {object} props - Tabs props
+ * @param props - Tabs props
  * @returns Tabs component
  */
-function Tabs(props) {
+function Tabs(props: TabsPropsType) {
   const { tabs, onTabClick, currentTab } = props;
 
   return (

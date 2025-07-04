@@ -3,12 +3,15 @@ import { useState } from "react";
 // components
 import Tabs from "./Tabs";
 
+// types
+import { TabPropsType } from "./types";
+
 /**
  *
  * @param {object} props - TabComponent props
  * @returns TabComponent
  */
-function TabComponent(props) {
+function TabComponent(props: TabPropsType) {
   const { tabs, content = {}, onTabChange } = props;
 
   const [currentTab, setCurrentTab] = useState(tabs[0]?.id);
