@@ -2,17 +2,24 @@
 import { BaseManyApiClient } from "./utils/BaseManyApiClient.js";
 
 // types
-import { Ship } from "../lib/models/ship/Ship.js";
+import { Tables } from "./types/dbUtils.js";
+
+// lib
+import { ShipUpkeepDto, ShipUpkeepAddDto, ShipUpkeepFilterDto } from "lib";
 
 /**
  * @class ShipUpkeepsApiClient
  * @description ShipUpkeepsApiClient
  */
-export class ShipUpkeepsApiClient extends BaseManyApiClient {
+export class ShipUpkeepsApiClient extends BaseManyApiClient<
+  ShipUpkeepDto,
+  ShipUpkeepAddDto,
+  ShipUpkeepFilterDto
+> {
   /**
    * constructor
    */
   constructor() {
-    super(Ship.upkeeps, "shipId", "resourceId");
+    super(Tables.ShipUpkeeps);
   }
 }

@@ -2,17 +2,24 @@
 import { BaseManyApiClient } from "./utils/BaseManyApiClient";
 
 // types
-import { Ship } from "../lib/models/ship/Ship.js";
+import { Tables } from "./types/dbUtils.js";
+
+// lib
+import { ShipReqTechDto, ShipReqTechAddDto, ShipReqTechFilterDto } from "lib";
 
 /**
  * @class ShipReqTechsApiClient
  * @description ShipReqTechsApiClient
  */
-export class ShipReqTechsApiClient extends BaseManyApiClient {
+export class ShipReqTechsApiClient extends BaseManyApiClient<
+  ShipReqTechDto,
+  ShipReqTechAddDto,
+  ShipReqTechFilterDto
+> {
   /**
    * constructor
    */
   constructor() {
-    super(Ship.techRequirement, "shipId", "buildingReqId");
+    super(Tables.ShipReqTechs);
   }
 }

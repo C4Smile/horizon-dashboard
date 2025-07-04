@@ -2,15 +2,6 @@ import { toSlug } from "some-javascript-utils";
 import draftToHtml from "draftjs-to-html";
 import { convertToRaw } from "draft-js";
 
-// utils
-import { fromLocal } from "../utils/local";
-
-// config
-import config from "../config";
-
-// services
-import { makeRequest } from "../db/services";
-
 // apis
 import { ShipCostsApiClient } from "./ShipCostsApiClient.js";
 import { ShipReqTechsApiClient } from "./ShipReqTechsApiClient.js";
@@ -24,11 +15,27 @@ import { BaseApiClient } from "./utils/BaseApiClient";
 import { Ship } from "../lib/models/ship/Ship.js";
 import { Photo } from "../lib/models/photo/Photo.js";
 
+// lib
+import {
+  ShipAddDto,
+  ShipCommonDto,
+  ShipDto,
+  ShipFilterDto,
+  ShipUpdateDto,
+} from "lib";
+import { Tables } from "./types/dbUtils.js";
+
 /**
  * @class ShipApiClient
  * @description ShipApiClient
  */
-export class ShipApiClient extends BaseApiClient {
+export class ShipApiClient extends BaseApiClient<
+  ShipDto,
+  ShipCommonDto,
+  ShipAddDto,
+  ShipUpdateDto,
+  ShipFilterDto
+> {
   shipCosts = new ShipCostsApiClient();
   shipUpkeeps = new ShipUpkeepsApiClient();
   shipReqTechs = new ShipReqTechsApiClient();
@@ -38,8 +45,7 @@ export class ShipApiClient extends BaseApiClient {
    * create base api client
    */
   constructor() {
-    super();
-    this.baseUrl = "ships";
+    super(Tables.Ships);
   }
 
   /**
@@ -57,12 +63,6 @@ export class ShipApiClient extends BaseApiClient {
     );
     // saving photo
     if (photo) ship.image = photo;
-    // call service
-    const { error, data, status } = await makeRequest("ships", "POST", ship, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-    });
-    if (error !== null) return { status, error: { message: error.message } };
-    return { error, data, status: status === 204 ? 201 : status };
   }
 
   /**
@@ -80,19 +80,5 @@ export class ShipApiClient extends BaseApiClient {
     );
     // saving photo
     if (photo) ship.image = photo;
-    // call service
-    const { status, error } = await makeRequest(
-      `ships/${ship.id}`,
-      "PATCH",
-      {
-        ...ship,
-        lastUpdate: new Date().toISOString(),
-      },
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
-    );
-    if (error !== null) return { status, error: { message: error.message } };
-    return { error, status: status === 204 ? 201 : status };
   }
 }

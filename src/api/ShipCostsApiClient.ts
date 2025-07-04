@@ -2,17 +2,24 @@
 import { BaseManyApiClient } from "./utils/BaseManyApiClient";
 
 // types
-import { Ship } from "../lib/models/ship/Ship";
+import { Tables } from "./types";
+
+// lib
+import { ShipCostDto, ShipCostAddDto, ShipCostFilterDto } from "lib";
 
 /**
  * @class ShipCostsApiClient
  * @description ShipCostsApiClient
  */
-export class ShipCostsApiClient extends BaseManyApiClient {
+export class ShipCostsApiClient extends BaseManyApiClient<
+  ShipCostDto,
+  ShipCostAddDto,
+  ShipCostFilterDto
+> {
   /**
    * constructor
    */
   constructor() {
-    super(Ship.costs, "shipId", "resourceId");
+    super(Tables.ShipCosts);
   }
 }
