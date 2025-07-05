@@ -13,13 +13,24 @@ import { staticUrlPhoto } from "../utils";
  * @param {*} props - component form
  * @returns EntityRow component
  */
-const EntityLevelRow = memo(
+export const EntityLevelRow = memo(
   function EntityRow(props) {
     const { t } = useTranslation();
 
-    const { disabled, entities, value, onDelete, onEdit, inputLabel, entityLabel, attributeId } = props;
+    const {
+      disabled,
+      entities,
+      value,
+      onDelete,
+      onEdit,
+      inputLabel,
+      entityLabel,
+      attributeId,
+    } = props;
 
-    const [entityReqId, setEntityReqId] = useState(value ? value[attributeId] : null);
+    const [entityReqId, setEntityReqId] = useState(
+      value ? value[attributeId] : null
+    );
     const [level, setLevel] = useState(value?.level);
 
     useEffect(() => {
@@ -29,7 +40,7 @@ const EntityLevelRow = memo(
 
     const selected = useMemo(
       () => entities.find((item) => Number(entityReqId) === item.id),
-      [entities, entityReqId],
+      [entities, entityReqId]
     );
 
     return (
@@ -85,7 +96,5 @@ const EntityLevelRow = memo(
     }
 
     return prev.value === next.value;
-  },
+  }
 );
-
-export default EntityLevelRow;

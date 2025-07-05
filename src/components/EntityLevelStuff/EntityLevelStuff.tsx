@@ -11,13 +11,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 // hooks
-import { useFormDialog } from "../Dialogs/useFormDialog";
+import { useFormDialog } from "../Dialogs/useFormDialog.jsx";
 
 // partials
-import Loading from "../../partials/loading/Loading";
+import Loading from "../../partials/loading/Loading.jsx";
 
 // components
-import FormDialog from "../Dialogs/FormDialog";
+import FormDialog from "../Dialogs/FormDialog.jsx";
 import { EntityLevelForm, EntityLevelRow, Empty } from "./index.js";
 
 /**
@@ -25,7 +25,7 @@ import { EntityLevelForm, EntityLevelRow, Empty } from "./index.js";
  * @param {object} props component props
  * @returns EntityStuff component
  */
-function EntityLevelStuff(props) {
+export function EntityLevelStuff(props) {
   const { t } = useTranslation();
 
   const { setNotification } = useNotification();
@@ -59,12 +59,16 @@ function EntityLevelStuff(props) {
       }
       case "modify": {
         const { item } = action;
-        const found = state.findIndex((stem) => item[attributeId] === stem[attributeId]);
+        const found = state.findIndex(
+          (stem) => item[attributeId] === stem[attributeId]
+        );
         if (found >= 0) state[found] = item.value;
         return [...state];
       }
       case "delete": {
-        const found = state.findIndex((stem) => action[attributeId] === stem[attributeId]);
+        const found = state.findIndex(
+          (stem) => action[attributeId] === stem[attributeId]
+        );
         if (found >= 0) state.splice(found, 1);
         return [...state];
       }
@@ -89,7 +93,9 @@ function EntityLevelStuff(props) {
       setSaving(true);
       try {
         const { error, status } = await saveFn(id, value);
-        setNotification(String(status), { model: t(`_entities:entities.${entityToSave}`) });
+        setNotification(String(status), {
+          model: t(`_entities:entities.${entityToSave}`),
+        });
 
         // eslint-disable-next-line no-console
         if (error) console.error(error.message);
@@ -97,11 +103,13 @@ function EntityLevelStuff(props) {
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error(e);
-        setNotification(String(e.status), { model: t(`_entities:entities.${entityToSave}`) });
+        setNotification(String(e.status), {
+          model: t(`_entities:entities.${entityToSave}`),
+        });
       }
       setSaving(false);
     },
-    [saveFn, id, setNotification, t, entityToSave, queryKey],
+    [saveFn, id, setNotification, t, entityToSave, queryKey]
   );
 
   const onSubmit = useCallback(
@@ -111,7 +119,7 @@ function EntityLevelStuff(props) {
       setInitial();
       save(value);
     },
-    [attributeId, save],
+    [attributeId, save]
   );
 
   const formProps = useFormDialog({
@@ -125,7 +133,7 @@ function EntityLevelStuff(props) {
       if (selected) setInitial(selected);
       formProps.dialogProps.open();
     },
-    [attributeId, formProps.dialogProps, lists],
+    [attributeId, formProps.dialogProps, lists]
   );
 
   const onDelete = useCallback(
@@ -141,12 +149,14 @@ function EntityLevelStuff(props) {
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error(e);
-        setNotification(String(e.status), { model: t(`_entities:entities.${entityToSave}`) });
+        setNotification(String(e.status), {
+          model: t(`_entities:entities.${entityToSave}`),
+        });
       }
 
       setSaving(false);
     },
-    [deleteFn, entityToSave, id, queryKey, setNotification, t],
+    [deleteFn, entityToSave, id, queryKey, setNotification, t]
   );
 
   return (
@@ -201,5 +211,3 @@ function EntityLevelStuff(props) {
     </div>
   );
 }
-
-export default EntityLevelStuff;

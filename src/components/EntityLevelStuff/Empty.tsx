@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
  *
  * @returns Empty component
  */
-const Empty = () => {
+export const Empty = () => {
   const { t } = useTranslation();
 
   return (
@@ -13,5 +13,3 @@ const Empty = () => {
     </div>
   );
 };
-
-export default Empty;

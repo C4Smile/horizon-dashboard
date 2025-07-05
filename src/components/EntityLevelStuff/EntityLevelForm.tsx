@@ -2,31 +2,45 @@ import { useMemo } from "react";
 import { Controller, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-// components
-import TextInput from "../Forms/TextInput";
-import SelectInput from "../Forms/SelectInput";
+// @sito/dashboard
+import { SelectInput, TextInput, Option } from "@sito/dashboard";
+
+// types
+import { EntityLevelFormPropsType } from "./types";
+import { BaseCommonEntityDto } from "lib";
 
 /**
  *
  * @param {*} props - component form
  * @returns EntityForm component
  */
-const EntityLevelForm = function EntityForm(props) {
+export const EntityLevelForm = <TDto extends BaseCommonEntityDto>(
+  props: EntityLevelFormPropsType<TDto>
+) => {
   const { t } = useTranslation();
 
-  const { currentList, entities, inputLabel, inputPlaceholder, control, entityLabel, attributeId } =
-    props;
+  const {
+    currentList,
+    entities,
+    inputLabel,
+    inputPlaceholder,
+    control,
+    entityLabel,
+    attributeId,
+  } = props;
 
   const id = useWatch({ control, name: "id" });
 
   const options = useMemo(
     () =>
-      entities.filter((res) =>
-        !!id && typeof id === "number"
-          ? currentList
-          : !currentList.some((rex) => rex[attributeId] === res.id),
-      ),
-    [attributeId, currentList, entities, id],
+      entities
+        .filter((res) =>
+          !!id && typeof id === "number"
+            ? currentList
+            : !currentList.some((rex) => rex[attributeId] === res.id)
+        )
+        .map((res) => ({ id: res.id, name: res.name })) as unknown as Option[],
+    [attributeId, currentList, entities, id]
   );
 
   return (
@@ -34,7 +48,7 @@ const EntityLevelForm = function EntityForm(props) {
       <p className="min-w-20">{t("_accessibility:labels.require")}</p>
       <Controller
         control={control}
-        name={attributeId}
+        name={attributeId as string}
         render={({ field: { onChange, value, ...rest } }) => (
           <SelectInput
             label={t(`_entities:entities.${entityLabel}`)}
@@ -51,11 +65,13 @@ const EntityLevelForm = function EntityForm(props) {
         control={control}
         name="level"
         render={({ field }) => (
-          <TextInput label={inputLabel} placeholder={inputPlaceholder} {...field} />
+          <TextInput
+            label={inputLabel}
+            placeholder={inputPlaceholder}
+            {...field}
+          />
         )}
       />
     </div>
   );
 };
-
-export default EntityLevelForm;
