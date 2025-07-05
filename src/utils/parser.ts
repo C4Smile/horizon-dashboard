@@ -1,9 +1,9 @@
 /**
  * Convert a string from camel case to sentence case
- * @param {string} word - string to convert
+ * @param word - string to convert
  * @returns - sentence case string
  */
-export function camelCaseToSentence(word) {
+export function camelCaseToSentence(word: string) {
   // Use a regular expression to split the word by capital letters
   // and then join the resulting array with spaces
   return word
@@ -16,20 +16,20 @@ export function camelCaseToSentence(word) {
 
 /**
  * Turns first character of a string to uppercase
- * @param {string} word - string to convert
+ * @param word - string to convert
  * @returns - capitalize string
  */
-export function toCapitalize(word) {
+export function toCapitalize(word: string) {
   return `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`;
 }
 
 /**
  * Extract keys from an object
- * @param {object} obj - object to extract keys from
- * @param {string[]} except - keys to exclude
+ * @param obj - object to extract keys from
+ * @param except - keys to exclude
  * @returns - keys from the object
  */
-export function extractKeysFromObject(obj, except) {
+export function extractKeysFromObject(obj: unknown, except: string) {
   const keys = Object.getOwnPropertyNames(obj);
   return keys.filter((key) => !except.includes(key));
 }
@@ -40,7 +40,8 @@ export function extractKeysFromObject(obj, except) {
  * @param enumType Enum type
  * @returns EnumListItems list
  */
-export const getEnumIdValueTuple = (enumType) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getEnumIdValueTuple = (enumType: any) => {
   // If the Enum has values of type number, Object.values() return both the enum
   // keys (as strings) AND values (as numbers). If Enum has type string, it only returns the keys as strings.
   //
@@ -50,9 +51,13 @@ export const getEnumIdValueTuple = (enumType) => {
   // will gives us the true values. If Enum has values of type strings, that intersection will return an empty
   // array, so we can confidently keep the values() without any further treatment.
 
-  const keys = Object.keys(enumType).filter((x) => Object.values(enumType).includes(x));
+  const keys = Object.keys(enumType).filter((x) =>
+    Object.values(enumType).includes(x)
+  );
 
-  let values = Object.values(enumType).filter((x) => !Object.keys(enumType).includes(x));
+  let values = Object.values(enumType).filter(
+    (x) => !Object.keys(enumType).includes(x as string)
+  );
   if (!values.length) {
     values = Object.values(enumType);
   }

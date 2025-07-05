@@ -6,15 +6,14 @@ import { useTranslation } from "react-i18next";
 import { SelectInput, TextInput, Option } from "@sito/dashboard";
 
 // types
-import { EntityLevelFormPropsType } from "./types";
-import { BaseCommonEntityDto } from "lib";
+import { EntityLevelFormPropsType, OptionReqCommonDto } from "./types";
 
 /**
  *
  * @param {*} props - component form
  * @returns EntityForm component
  */
-export const EntityLevelForm = <TDto extends BaseCommonEntityDto>(
+export const EntityLevelForm = <TDto extends OptionReqCommonDto>(
   props: EntityLevelFormPropsType<TDto>
 ) => {
   const { t } = useTranslation();

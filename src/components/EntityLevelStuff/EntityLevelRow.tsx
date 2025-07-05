@@ -9,8 +9,7 @@ import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { staticUrlPhoto } from "../utils";
 
 // types
-import { EntityLevelRowPropsType } from "./types";
-import { BaseCommonEntityDto } from "lib";
+import { EntityLevelRowPropsType, OptionReqCommonDto } from "./types";
 
 /**
  *
@@ -18,7 +17,7 @@ import { BaseCommonEntityDto } from "lib";
  * @returns EntityRow component
  */
 export const EntityLevelRow = memo(
-  function EntityRow<TDto extends BaseCommonEntityDto>(
+  function EntityRow<TDto extends OptionReqCommonDto>(
     props: EntityLevelRowPropsType<TDto>
   ) {
     const { t } = useTranslation();
@@ -73,14 +72,14 @@ export const EntityLevelRow = memo(
           <div className="flex gap-2 my-auto">
             <button
               disabled={disabled}
-              onClick={() => onEdit(entityReqId)}
+              onClick={() => onEdit(entityReqId as number)}
               className="w-10 h-10 min-w-10 rounded-full bg-primary text-white self-center"
             >
               <FontAwesomeIcon icon={faPencil} />
             </button>
             <button
               disabled={disabled}
-              onClick={() => onDelete(entityReqId)}
+              onClick={() => onDelete(entityReqId as number)}
               className="w-10 h-10 min-w-10 rounded-full bg-red-600 text-white self-center"
             >
               <FontAwesomeIcon icon={faTrash} />
@@ -93,10 +92,7 @@ export const EntityLevelRow = memo(
   (prev, next) => {
     if (
       prev.entities !== next.entities ||
-      prev.onChange !== next.onChange ||
-      prev.inputLabel !== next.inputLabel ||
-      prev.inputPlaceholder !== next.inputPlaceholder ||
-      prev.label !== next.label
+      prev.inputLabel !== next.inputLabel
     ) {
       return false;
     }

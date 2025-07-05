@@ -1,7 +1,11 @@
-import { BaseCommonEntityDto } from "lib";
+import { BaseCommonEntityDto, BaseReqDto } from "lib";
 import { Control } from "react-hook-form";
 
-export type EntityLevelFormPropsType<T extends BaseCommonEntityDto> = {
+export interface OptionReqCommonDto extends BaseReqDto, BaseCommonEntityDto {
+  value: string;
+}
+
+export type EntityLevelFormPropsType<T extends OptionReqCommonDto> = {
   currentList: T[];
   entities: T[];
   inputLabel: string;
@@ -11,7 +15,7 @@ export type EntityLevelFormPropsType<T extends BaseCommonEntityDto> = {
   attributeId: keyof T;
 };
 
-export type EntityLevelRowPropsType<T extends BaseCommonEntityDto> = {
+export type EntityLevelRowPropsType<T extends OptionReqCommonDto> = {
   disabled: boolean;
   entities: T[];
   value: T;

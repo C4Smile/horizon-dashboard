@@ -1,23 +1,22 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect } from "react";
 
-const ThemeContext = createContext({
-  currentTheme: "light",
-  changeCurrentTheme: () => {
-    // Empty function
-  },
-});
+// types
+import { ThemeContextType, ThemeMode, ThemeProviderPropsType } from "./types";
+
+const ThemeContext = createContext({} as ThemeContextType);
 
 /**
  * ThemeProvider
- * @param {object} props - React children
- * @returns {object} React component
+ * @param props - React children
+ * @returns React component
  */
-export default function ThemeProvider(props) {
+export default function ThemeProvider(props: ThemeProviderPropsType) {
   const { children } = props;
-  const persistedTheme = localStorage.getItem("theme");
-  const [theme, setTheme] = useState(persistedTheme || "light");
+  const persistedTheme = localStorage.getItem("theme") as ThemeMode;
+  const [theme, setTheme] = useState(persistedTheme || ThemeMode.light);
 
-  const changeCurrentTheme = (newTheme) => {
+  const changeCurrentTheme = (newTheme: ThemeMode) => {
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
   };
