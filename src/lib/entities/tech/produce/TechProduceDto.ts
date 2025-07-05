@@ -1,6 +1,5 @@
-import { DeleteDto } from "../../base";
+import { BaseResourceDto } from "lib";
 
-export interface TechProduceDto extends DeleteDto {
+export interface TechProduceDto extends BaseResourceDto {
   techId: number;
-  resourceId: number;
 }

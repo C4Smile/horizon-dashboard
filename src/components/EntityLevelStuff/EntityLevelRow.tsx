@@ -8,13 +8,19 @@ import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 // utils
 import { staticUrlPhoto } from "../utils";
 
+// types
+import { EntityLevelRowPropsType } from "./types";
+import { BaseCommonEntityDto } from "lib";
+
 /**
  *
- * @param {*} props - component form
+ * @param props - component form
  * @returns EntityRow component
  */
 export const EntityLevelRow = memo(
-  function EntityRow(props) {
+  function EntityRow<TDto extends BaseCommonEntityDto>(
+    props: EntityLevelRowPropsType<TDto>
+  ) {
     const { t } = useTranslation();
 
     const {
