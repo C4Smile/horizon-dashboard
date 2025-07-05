@@ -3,14 +3,17 @@ import { useTranslation } from "react-i18next";
 
 /* import SearchModal from "../components/ModalSearch";
 import Notifications from "../components/DropdownNotifications"; */
-import UserMenu from "../components/DropdownProfile";
+import UserMenu from "../../components/DropdownProfile";
+
+// types
+import { HeaderPropsTypes } from "./types";
 
 /**
  * Header
- * @param {object} props - Props
- * @returns {object} React component
+ * @param props - Props
+ * @returns React component
  */
-function Header(props) {
+export function Header(props: HeaderPropsTypes) {
   const { sidebarOpen, setSidebarOpen } = props;
 
   // const [searchModalOpen, setSearchModalOpen] = useState(false);
@@ -33,7 +36,9 @@ function Header(props) {
                 setSidebarOpen(!sidebarOpen);
               }}
             >
-              <span className="sr-only">{t("_accessibility:buttons.openSidebar")}</span>
+              <span className="sr-only">
+                {t("_accessibility:buttons.openSidebar")}
+              </span>
               <svg
                 className="w-6 h-6 fill-current"
                 viewBox="0 0 24 24"
@@ -88,5 +93,3 @@ function Header(props) {
     </header>
   );
 }
-
-export default Header;
