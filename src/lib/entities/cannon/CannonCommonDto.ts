@@ -1,6 +1,3 @@
-import { CannonDto } from "./CannonDto";
+import { BaseCommonEntityDto } from "../base";
 
-export type CannonCommonDto = Omit<
-  CannonDto,
-  "deleted" | "createdAt" | "type" | "urlName" | "description" | "creationTime"
->;
+export type CannonCommonDto = BaseCommonEntityDto;

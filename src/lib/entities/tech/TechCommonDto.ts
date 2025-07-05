@@ -1,6 +1,3 @@
-import { TechDto } from "./TechDto";
+import { BaseCommonEntityDto } from "../base";
 
-export type TechCommonDto = Omit<
-  TechDto,
-  "deleted" | "createdAt" | "type" | "urlName" | "description" | "creationTime"
->;
+export type TechCommonDto = BaseCommonEntityDto;

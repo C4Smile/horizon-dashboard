@@ -1,6 +1,3 @@
-import { BuildingTypeDto } from "./BuildingTypeDto";
+import { BaseCommonEntityDto } from "../base";
 
-export type BuildingTypeCommonDto = Omit<
-  BuildingTypeDto,
-  "deleted" | "createdAt"
->;
+export type BuildingTypeCommonDto = BaseCommonEntityDto;

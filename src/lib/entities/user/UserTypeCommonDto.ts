@@ -1,6 +1,3 @@
-import { UserDto } from "./UserDto";
+import { BaseCommonEntityDto } from "../base";
 
-export type UserCommonDto = Omit<
-  UserDto,
-  "deleted" | "createdAt"
->;
+export type UserCommonDto = BaseCommonEntityDto;

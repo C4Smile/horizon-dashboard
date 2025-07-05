@@ -1,15 +1,3 @@
-import { ShipDto } from "./ShipDto";
+import { BaseCommonEntityDto } from "../base";
 
-export type ShipCommonDto = Omit<
-  ShipDto,
-  | "deleted"
-  | "createdAt"
-  | "urlName"
-  | "description"
-  | "creationTime"
-  | "hull"
-  | "knots"
-  | "minCrew"
-  | "bestCrew"
-  | "maxCrew"
->;
+export type ShipCommonDto = BaseCommonEntityDto

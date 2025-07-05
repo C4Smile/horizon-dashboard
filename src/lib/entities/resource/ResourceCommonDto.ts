@@ -1,6 +1,3 @@
-import { ResourceDto } from "./ResourceDto";
+import { BaseCommonEntityDto } from "../base";
 
-export type ResourceCommonDto = Omit<
-  ResourceDto,
-  "deleted" | "createdAt" | "urlName" | "description" | "baseFactor"
->;
+export type ResourceCommonDto = BaseCommonEntityDto;

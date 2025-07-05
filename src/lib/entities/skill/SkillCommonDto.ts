@@ -1,6 +1,3 @@
-import { SkillDto } from "./SkillDto";
+import { BaseCommonEntityDto } from "../base";
 
-export type SkillCommonDto = Omit<
-  SkillDto,
-  "deleted" | "createdAt" | "urlName" | "description" | "baseFactor"
->;
+export type SkillCommonDto = BaseCommonEntityDto;
