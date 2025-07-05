@@ -1,13 +1,13 @@
-import { DetailedHTMLProps, ForwardedRef, forwardRef, TextareaHTMLAttributes } from "react";
+import { ForwardedRef, forwardRef } from "react";
 
 // @sito/dashboard
 import {
-  TextInputPropsType,
   labelStateClassName,
   inputStateClassName,
   helperTextStateClassName,
   State,
 } from "@sito/dashboard";
+import { ParagraphInputPropsType } from "./types";
 
 /**
  * ParagraphInput
@@ -15,10 +15,7 @@ import {
  * @returns ParagraphInput Component
  */
 const ParagraphInput = forwardRef(function (
-  props: DetailedHTMLProps<
-    TextareaHTMLAttributes<HTMLTextAreaElement>,
-    HTMLTextAreaElement
-  >,
+  props: ParagraphInputPropsType,
   ref: ForwardedRef<HTMLTextAreaElement>
 ) {
   const {

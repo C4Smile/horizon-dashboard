@@ -1,9 +1,13 @@
-import React, { forwardRef } from "react";
+import { forwardRef } from "react";
 // rich editor
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { HtmlInputPropsType } from "./types";
 
-const HtmlInput = forwardRef(function (props, ref) {
+const HtmlInput = forwardRef(function (
+  props: HtmlInputPropsType,
+  ref: unknown
+) {
   const { label, value, onChange, wrapperClassName } = props;
 
   return (
@@ -15,7 +19,7 @@ const HtmlInput = forwardRef(function (props, ref) {
         wrapperClassName={`wrapperClassName ${wrapperClassName}`}
         editorClassName="editorClassName !h-60 !bg-white p-5"
         onEditorStateChange={onChange}
-        editorRef={ref}
+        editorRef={ref as (ref: object) => void}
         toolbar={{
           options: [
             "inline",
