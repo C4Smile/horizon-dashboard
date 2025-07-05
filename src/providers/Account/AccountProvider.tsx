@@ -1,7 +1,7 @@
 import { createContext, useState, useContext, useCallback } from "react";
 
 // providers
-import { useHorizonApiClient } from "../HorizonApiProvider";
+import { useHorizonApiClient } from "providers";
 
 // utils
 import { toLocal, fromLocal, removeFromLocal } from "../../utils/local";

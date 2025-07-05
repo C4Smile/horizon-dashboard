@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Fetch data from local storage
  * @param key - key to fetch
@@ -23,7 +24,7 @@ export const fromLocal = (key: string, as = "") => {
  * @param value - value to save
  * @returns nothing
  */
-export const toLocal = (key: string, value: string) =>
+export const toLocal = (key: string, value: any) =>
   localStorage.setItem(
     key,
     typeof value === "object" ? JSON.stringify(value) : value

@@ -14,7 +14,7 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useFormDialog } from "../Dialogs/useFormDialog";
 
 // partials
-import Loading from "../../partials/loading/Loading";
+import Loading from "../../partials/Loading/Loading";
 
 // components
 import FormDialog from "../Dialogs/FormDialog";

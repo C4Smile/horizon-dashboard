@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 
 // components
-import Loading from "./Loading";
-import Logo from "../../components/Logo/Logo";
+import { Loading } from "./Loading";
+import { Logo } from "components";
+
+// types
+import { SplashScreenPropsType } from "./types";
 
 /**
  * SplashScreen component
  * @param {object} props - Component props
  * @returns SplashScreen component
  */
-export default function SplashScreen(props) {
+export default function SplashScreen(props: SplashScreenPropsType) {
   const { visible } = props;
 
   const [loader, setLoader] = useState(false);

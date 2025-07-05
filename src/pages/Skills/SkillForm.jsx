@@ -10,7 +10,7 @@ import { EditorState, ContentState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
 
 // components
-import Loading from "../../partials/loading/Loading";
+import Loading from "../../partials/Loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
 import ImageUploader from "../../components/ImageUploader";
 

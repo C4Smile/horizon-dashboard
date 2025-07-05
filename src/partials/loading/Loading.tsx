@@ -1,13 +1,21 @@
-import React from "react";
+// styles
 import "./styles.css";
+
+// types
+import { LoadingPropsType } from "./types";
 
 /**
  * Loading
- * @param {object} props - Props
+ * @param props - Props
  * @returns Loading component
  */
-function Loading(props) {
-  const { color = "stroke-blue-800", loaderClass, strokeWidth = "4", ...rest } = props;
+export function Loading(props: LoadingPropsType) {
+  const {
+    color = "stroke-blue-800",
+    loaderClass,
+    strokeWidth = "4",
+    ...rest
+  } = props;
 
   return (
     <div {...rest} className={`loading ${rest.className}`}>
@@ -29,5 +37,3 @@ function Loading(props) {
     </div>
   );
 }
-
-export default Loading;

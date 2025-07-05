@@ -14,7 +14,7 @@ import { sitemap } from "./pages/sitemap";
 import { useAccount } from "./providers/Account/AccountProvider";
 
 // components
-import SplashScreen from "./partials/loading/SplashScreen";
+import SplashScreen from "./partials/Loading/SplashScreen";
 
 // Generals
 const NotFound = loadable(() => import("./pages/NotFound/NotFound"));

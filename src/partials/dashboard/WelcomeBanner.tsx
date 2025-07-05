@@ -1,12 +1,11 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
 
 // providers
-import { useAccount } from "../../providers/Account/AccountProvider";
+import { useAccount } from "providers";
 
 /**
  * WelcomeBanner
- * @returns {object} React component
+ * @returns React component
  */
 function WelcomeBanner() {
   const { t } = useTranslation();

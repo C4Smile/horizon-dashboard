@@ -5,7 +5,7 @@ import { LogoPropsType } from "./types";
  * @param {object} props - Component props
  * @returns Logo component
  */
-function Logo(props: LogoPropsType) {
+export function Logo(props: LogoPropsType) {
   const { className } = props;
 
   return (
@@ -54,5 +54,3 @@ function Logo(props: LogoPropsType) {
     </svg>
   );
 }
-
-export default Logo;

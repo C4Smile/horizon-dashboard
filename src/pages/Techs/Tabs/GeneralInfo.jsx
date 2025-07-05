@@ -9,7 +9,7 @@ import { ContentState, EditorState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
 
 // components
-import Loading from "../../../partials/loading/Loading";
+import Loading from "../../../partials/Loading/Loading";
 import TextInput from "../../../components/Forms/TextInput";
 import SelectInput from "../../../components/Forms/SelectInput";
 import ImageUploader from "../../../components/ImageUploader";

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useForm, Controller } from "react-hook-form";
 
 // components
-import Loading from "../../../partials/loading/Loading";
+import Loading from "../../../partials/Loading/Loading";
 import PasswordInput from "../../../components/Forms/PasswordInput";
 
 // providers

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 // components
 import Logo from "../../components/Logo/Logo";
-import Loading from "../../partials/loading/Loading";
+import Loading from "../../partials/Loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
 import PasswordInput from "../../components/Forms/PasswordInput";
 

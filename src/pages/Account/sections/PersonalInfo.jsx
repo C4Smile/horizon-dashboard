@@ -5,7 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import loadable from "@loadable/component";
 
 // components
-import Loading from "../../../partials/loading/Loading";
+import Loading from "../../../partials/Loading/Loading";
 import TextInput from "../../../components/Forms/TextInput";
 import ImageUploader from "../../../components/ImageUploader";
 

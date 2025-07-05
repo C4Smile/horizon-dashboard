@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 // components
-import Loading from "../partials/loading/Loading";
+import Loading from "../partials/Loading/Loading";
 
 // image
 import noPhoto from "../assets/images/no-product.jpg";

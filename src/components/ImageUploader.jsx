@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faAdd } from "@fortawesome/free-solid-svg-icons";
 
 // components
-import Loading from "../partials/loading/Loading";
+import Loading from "../partials/Loading/Loading";
 
 // utils
 import { staticUrlPhoto } from "./utils";
