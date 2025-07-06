@@ -8,7 +8,7 @@ import { SidebarLinkGroupPropsType } from "./types";
  * @param props - Props
  * @returns React component
  */
-function SidebarLinkGroup(props: SidebarLinkGroupPropsType) {
+export function SidebarLinkGroup(props: SidebarLinkGroupPropsType) {
   const { children, activeCondition } = props;
   const [open, setOpen] = useState(activeCondition);
 
@@ -24,5 +24,3 @@ function SidebarLinkGroup(props: SidebarLinkGroupPropsType) {
     </li>
   );
 }
-
-export default SidebarLinkGroup;

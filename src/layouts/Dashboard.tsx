@@ -9,16 +9,14 @@ import config from "../config";
 import { TableOptionsProvider, TranslationProvider } from "@sito/dashboard";
 
 // providers
-import { useAccount } from "../providers/Account/AccountProvider";
-import { useHorizonApiClient } from "../providers/HorizonApiProvider";
+import { useAccount, useHorizonApiClient } from "providers";
 
 // components
 import ToTop from "../components/ToTop/ToTop";
 import Notification from "../partials/Notification";
 
 // partials
-import Sidebar from "../partials/sidebar/Sidebar";
-import Header from "../partials/Header";
+import { Sidebar, Header } from "partials";
 
 // utils
 import { fromLocal, toLocal } from "../utils/local";
@@ -86,7 +84,10 @@ function Dashboard() {
       <Notification />
       {/* Sidebar */}
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-      <div ref={mainRef} className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+      <div
+        ref={mainRef}
+        className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden"
+      >
         {/*  Site header */}
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         <main>

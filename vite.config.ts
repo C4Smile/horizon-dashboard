@@ -15,6 +15,7 @@ export default defineConfig({
       api: path.resolve(__dirname, "./src/api"),
       assets: path.resolve(__dirname, "./src/assets"),
       components: path.resolve(__dirname, "./src/components"),
+      partials: path.resolve(__dirname, "./src/partials"),
       lib: path.resolve(__dirname, "./src/lib"),
       hooks: path.resolve(__dirname, "./src/hooks"),
       layouts: path.resolve(__dirname, "./src/layouts"),

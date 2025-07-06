@@ -11,25 +11,26 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 // components
-import SidebarItem from "./SidebarItem";
 import { Logo } from "components";
-import SidebarLinkGroup from "./SidebarLinkGroup";
+import { SidebarItem } from "./SidebarItem";
+import { SidebarLinkGroup } from "./SidebarLinkGroup";
 
 // menuMap
 import { menuMap } from "../../pages/menuMap";
 
 // providers
-import { useAccount } from "../../providers/Account/AccountProvider";
+import { useAccount } from "providers";
 
 // types
 import { SidebarPropsType } from "./types";
+
 
 /**
  * Sidebar
  * @param props - React props
  * @returns React component
  */
-function Sidebar(props: SidebarPropsType) {
+export function Sidebar(props: SidebarPropsType) {
   const { t } = useTranslation();
   const location = useLocation();
 
@@ -184,5 +185,3 @@ function Sidebar(props: SidebarPropsType) {
     </div>
   );
 }
-
-export default Sidebar;

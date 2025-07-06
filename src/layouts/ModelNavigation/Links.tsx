@@ -22,7 +22,6 @@ function Links(props: LinksPropsTypes) {
   return (
     <nav className={`flex bg-slate-200 w-full px-4 ${navClassName}`}>
       <Link
-        disabled={pathname === `${pathName}`}
         className={`px-3 py-2 ${linksClassName} ${
           pathname === `${pathName}`
             ? "text-light-primary/40 disabled-link"
@@ -34,10 +33,6 @@ function Links(props: LinksPropsTypes) {
       </Link>
       {!noInsert && (
         <Link
-          disabled={
-            pathname === `${pathName}/${t("_accessibility:labels.new")}` ||
-            pathname.match(/^\/[^/]+\/[^/]+\/\d+$/)
-          }
           className={`px-3 py-2 ${linksClassName} ${
             pathname === `${pathName}/${t("_accessibility:labels.new")}` ||
             pathname.match(/^\/[^/]+\/[^/]+\/\d+$/)

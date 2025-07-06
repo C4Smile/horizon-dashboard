@@ -11,11 +11,16 @@ export type SidebarLinkGroupPropsType = {
   activeCondition: boolean;
 };
 
-export type SidebarItem = {
+export type SidebarItemType = {
+  label: string;
+  path: string;
+};
+
+export type SidebarItemPropsType = {
   page: string;
   path: string;
   handleClick: () => void;
   open: boolean;
   icon: ReactNode;
-  children:
+  children: SidebarItemType[];
 };

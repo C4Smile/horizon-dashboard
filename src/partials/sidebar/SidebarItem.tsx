@@ -4,12 +4,15 @@ import { useTranslation } from "react-i18next";
 // components
 import { ChevronUp } from "@sito/dashboard";
 
+// types
+import { SidebarItemPropsType } from "./types";
+
 /**
  * Sidebar Item component
  * @param props - sidebar item props (page, path, handleClick, open, icon, child)
  * @returns SidebarItem component
  */
-function SidebarItem(props) {
+export function SidebarItem(props: SidebarItemPropsType) {
   const { t } = useTranslation();
   const { pathname } = useLocation();
 
@@ -61,14 +64,3 @@ function SidebarItem(props) {
     </>
   );
 }
-
-SidebarItem.propTypes = {
-  page: PropTypes.string,
-  path: PropTypes.string,
-  handleClick: PropTypes.func,
-  open: PropTypes.bool,
-  icon: PropTypes.any,
-  child: PropTypes.array,
-};
-
-export default SidebarItem;
