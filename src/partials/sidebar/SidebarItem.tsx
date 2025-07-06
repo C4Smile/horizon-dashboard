@@ -1,9 +1,8 @@
-import PropTypes from "prop-types";
 import { NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 // components
-import Chevron from "../../components/Chevron/Chevron";
+import { ChevronUp } from "@sito/dashboard";
 
 /**
  * Sidebar Item component
@@ -14,30 +13,34 @@ function SidebarItem(props) {
   const { t } = useTranslation();
   const { pathname } = useLocation();
 
-  const { page, path, handleClick, open, icon, child } = props;
+  const { page, path, handleClick, open, icon, children } = props;
 
   return (
     <>
       <button
         className={`w-full block truncate transition duration-150 ${
-          pathname === path || pathname.includes(page) ? "" : "hover:text-slate-800"
+          pathname === path || pathname.includes(page)
+            ? ""
+            : "hover:text-slate-800"
         }`}
         onClick={handleClick}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             {icon}
-            <span className="text-sm font-medium ml-3 duration-200">{t(`_pages:${page}.title`)}</span>
+            <span className="text-sm font-medium ml-3 duration-200">
+              {t(`_pages:${page}.title`)}
+            </span>
           </div>
           {/* Icon */}
           <div className="flex shrink-0 ml-2">
-            <Chevron className={`ml-1 ${open && "rotate-180"}`} />
+            <ChevronUp className={`ml-1 ${open && "rotate-180"}`} />
           </div>
         </div>
       </button>
       <div className="lg:block 2xl:block">
         <ul className={`pl-9 mt-1 ${!open && "hidden"}`}>
-          {child.map((item) => (
+          {children.map((item) => (
             <li key={item.label} className="mb-1 last:mb-0">
               <NavLink
                 end

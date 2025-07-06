@@ -1,19 +1,19 @@
-import { Role } from "../api/RoleApiClient.js";
+import { Roles } from "lib";
 
 // layouts
-import Auth from "../layouts/Auth";
-import Dashboard from "../layouts/Dashboard";
-import ModelNavigation from "../layouts/ModelNavigation";
+import Auth from "../layouts/Auth.jsx";
+import Dashboard from "../layouts/Dashboard.jsx";
+import ModelNavigation from "../layouts/ModelNavigation.jsx";
 
 // pages
 // auth
-import SignOut from "./Auth/SignOut";
-import SignIn from "./Auth/SignIn";
-import Recovery from "./Auth/Recovery";
-import UpdatePassword from "./Auth/UpdatePassword";
+import SignOut from "./Auth/SignOut.jsx";
+import SignIn from "./Auth/SignIn.jsx";
+import Recovery from "./Auth/Recovery.jsx";
+import UpdatePassword from "./Auth/UpdatePassword.jsx";
 // dashboard
-import Home from "./Home";
-import Account from "./Account/Account";
+import Home from "./Home.jsx";
+import Account from "./Account/Account.jsx";
 // game
 // ships
 import ShipsPage from "./Ships/Ships.jsx";
@@ -22,26 +22,26 @@ import ShipForm from "./Ships/ShipForm.jsx";
 import CannonsPage from "./Cannons/Cannons.jsx";
 import CannonForm from "./Cannons/CannonForm.jsx";
 // skills
-import SkillsPage from "./Skills/Skills";
-import SkillForm from "./Skills/SkillForm";
+import SkillsPage from "./Skills/Skills.jsx";
+import SkillForm from "./Skills/SkillForm.jsx";
 // buildings
-import BuildingsPage from "./Buildings/Buildings";
-import BuildingForm from "./Buildings/BuildingForm";
+import BuildingsPage from "./Buildings/Buildings.jsx";
+import BuildingForm from "./Buildings/BuildingForm.jsx";
 // buildingTypes
-import BuildingTypesPage from "./BuildingTypes/BuildingTypes";
-import BuildingTypeForm from "./BuildingTypes/BuildingTypeForm";
+import BuildingTypesPage from "./BuildingTypes/BuildingTypes.jsx";
+import BuildingTypeForm from "./BuildingTypes/BuildingTypeForm.jsx";
 // resources
-import ResourcesPage from "./Resources/Resources";
-import ResourceForm from "./Resources/ResourceForm";
+import ResourcesPage from "./Resources/Resources.jsx";
+import ResourceForm from "./Resources/ResourceForm.jsx";
 // techs
-import TechsPage from "./Techs/Techs";
-import TechForm from "./Techs/TechForm";
+import TechsPage from "./Techs/Techs.jsx";
+import TechForm from "./Techs/TechForm.jsx";
 // techTypes
-import TechTypesPage from "./TechTypes/TechTypes";
-import TechTypeForm from "./TechTypes/TechTypeForm";
+import TechTypesPage from "./TechTypes/TechTypes.jsx";
+import TechTypeForm from "./TechTypes/TechTypeForm.jsx";
 // players
-import UsersPage from "./Users/Users";
-import UserForm from "./Users/UserForm";
+import UsersPage from "./Users/Users.jsx";
+import UserForm from "./Users/UserForm.jsx";
 
 export const pageId = {
   auth: "auth",
@@ -120,13 +120,17 @@ export const sitemap = [
     component: <Dashboard />,
     children: [
       { key: pageId.home, path: "/", component: <Home /> },
-      { key: pageId.settings, path: "/settings/account", component: <Account /> },
+      {
+        key: pageId.settings,
+        path: "/settings/account",
+        component: <Account />,
+      },
       // game
       {
         key: pageId.ships,
         path: "/game/ships",
         component: <ModelNavigation pageKey={pageId.ships} />,
-        role: [Role.administrator],
+        role: [Roles.administrator],
         children: [
           { key: pageId.ships, path: "/", component: <ShipsPage /> },
           { key: pageId.shipsNew, path: "/new", component: <ShipForm /> },
@@ -137,7 +141,7 @@ export const sitemap = [
         key: pageId.cannons,
         path: "/game/cannons",
         component: <ModelNavigation pageKey={pageId.cannons} />,
-        role: [Role.administrator],
+        role: [Roles.administrator],
         children: [
           { key: pageId.cannons, path: "/", component: <CannonsPage /> },
           { key: pageId.cannonsNew, path: "/new", component: <CannonForm /> },
@@ -148,7 +152,7 @@ export const sitemap = [
         key: pageId.skills,
         path: "/game/skills",
         component: <ModelNavigation pageKey={pageId.skills} />,
-        role: [Role.administrator],
+        role: [Roles.administrator],
         children: [
           { key: pageId.skills, path: "/", component: <SkillsPage /> },
           { key: pageId.skillsNew, path: "/new", component: <SkillForm /> },
@@ -159,51 +163,87 @@ export const sitemap = [
         key: pageId.buildings,
         path: "/game/buildings",
         component: <ModelNavigation pageKey={pageId.buildings} />,
-        role: [Role.administrator],
+        role: [Roles.administrator],
         children: [
           { key: pageId.buildings, path: "/", component: <BuildingsPage /> },
-          { key: pageId.buildingsNew, path: "/new", component: <BuildingForm /> },
-          { key: pageId.buildingsEdit, path: "/:id", component: <BuildingForm /> },
+          {
+            key: pageId.buildingsNew,
+            path: "/new",
+            component: <BuildingForm />,
+          },
+          {
+            key: pageId.buildingsEdit,
+            path: "/:id",
+            component: <BuildingForm />,
+          },
         ],
       },
       {
         key: pageId.buildingTypes,
         path: "/game/building-types",
         component: <ModelNavigation pageKey={pageId.buildingTypes} />,
-        role: [Role.administrator],
+        role: [Roles.administrator],
         children: [
-          { key: pageId.buildingTypes, path: "/", component: <BuildingTypesPage /> },
-          { key: pageId.buildingTypesNew, path: "/new", component: <BuildingTypeForm /> },
-          { key: pageId.buildingTypesEdit, path: "/:id", component: <BuildingTypeForm /> },
+          {
+            key: pageId.buildingTypes,
+            path: "/",
+            component: <BuildingTypesPage />,
+          },
+          {
+            key: pageId.buildingTypesNew,
+            path: "/new",
+            component: <BuildingTypeForm />,
+          },
+          {
+            key: pageId.buildingTypesEdit,
+            path: "/:id",
+            component: <BuildingTypeForm />,
+          },
         ],
       },
       {
         key: pageId.resources,
         path: "/game/resources",
         component: <ModelNavigation pageKey={pageId.resources} />,
-        role: [Role.administrator],
+        role: [Roles.administrator],
         children: [
           { key: pageId.resources, path: "/", component: <ResourcesPage /> },
-          { key: pageId.resourcesNew, path: "/new", component: <ResourceForm /> },
-          { key: pageId.resourcesEdit, path: "/:id", component: <ResourceForm /> },
+          {
+            key: pageId.resourcesNew,
+            path: "/new",
+            component: <ResourceForm />,
+          },
+          {
+            key: pageId.resourcesEdit,
+            path: "/:id",
+            component: <ResourceForm />,
+          },
         ],
       },
       {
         key: pageId.techTypes,
         path: "/game/tech-types",
         component: <ModelNavigation pageKey={pageId.techTypes} />,
-        role: [Role.administrator],
+        role: [Roles.administrator],
         children: [
           { key: pageId.techTypes, path: "/", component: <TechTypesPage /> },
-          { key: pageId.techTypesNew, path: "/new", component: <TechTypeForm /> },
-          { key: pageId.techTypesEdit, path: "/:id", component: <TechTypeForm /> },
+          {
+            key: pageId.techTypesNew,
+            path: "/new",
+            component: <TechTypeForm />,
+          },
+          {
+            key: pageId.techTypesEdit,
+            path: "/:id",
+            component: <TechTypeForm />,
+          },
         ],
       },
       {
         key: pageId.techs,
         path: "/game/techs",
         component: <ModelNavigation pageKey={pageId.techs} />,
-        role: [Role.administrator],
+        role: [Roles.administrator],
         children: [
           { key: pageId.techs, path: "/", component: <TechsPage /> },
           { key: pageId.techsNew, path: "/new", component: <TechForm /> },
@@ -214,7 +254,7 @@ export const sitemap = [
       {
         key: pageId.users,
         path: "/players/users",
-        role: [Role.administrator],
+        role: [Roles.administrator],
         component: <ModelNavigation pageKey={pageId.users} />,
         children: [
           { key: pageId.users, path: "/", component: <UsersPage /> },
@@ -238,7 +278,11 @@ export const sitemap = [
  * @param {*} currentPath current path
  * @returns path
  */
-export const findPathInChildren = (targetPageId, basePage, currentPath = "") => {
+export const findPathInChildren = (
+  targetPageId,
+  basePage,
+  currentPath = ""
+) => {
   let path = "";
   for (let i = 0; i < basePage.children.length; ++i) {
     const page = basePage.children[i];
@@ -263,7 +307,11 @@ export const findPath = (targetPageId) => {
     const page = sitemap[i];
     if (page.key === targetPageId) return page.path;
     if (page.children) {
-      path = findPathInChildren(targetPageId, page, page.path === "/" ? "" : page.path);
+      path = findPathInChildren(
+        targetPageId,
+        page,
+        page.path === "/" ? "" : page.path
+      );
       if (path) {
         break;
       }

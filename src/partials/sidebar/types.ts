@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 
 export type SidebarPropsType = {
   sidebarOpen: boolean;
@@ -9,4 +9,13 @@ export type SidebarPropsType = {
 export type SidebarLinkGroupPropsType = {
   children: any;
   activeCondition: boolean;
+};
+
+export type SidebarItem = {
+  page: string;
+  path: string;
+  handleClick: () => void;
+  open: boolean;
+  icon: ReactNode;
+  children:
 };

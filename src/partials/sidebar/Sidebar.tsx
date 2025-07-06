@@ -157,7 +157,7 @@ function Sidebar(props: SidebarPropsType) {
                             : setSidebarExpanded(true);
                         }}
                         open={open}
-                        child={item.child}
+                        children={item.child}
                         icon={item.icon}
                       />
                     )}
