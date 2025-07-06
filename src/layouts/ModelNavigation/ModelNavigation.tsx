@@ -11,7 +11,7 @@ import { ModelNavigationPropsType } from "./types";
  * @param {object} props - Props
  * @returns ModelNavigation layout component
  */
-function ModelNavigation(props: ModelNavigationPropsType) {
+export function ModelNavigation(props: ModelNavigationPropsType) {
   return (
     <div className="h-full">
       <Links {...props} />
@@ -21,5 +21,3 @@ function ModelNavigation(props: ModelNavigationPropsType) {
     </div>
   );
 }
-
-export default ModelNavigation;

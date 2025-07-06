@@ -11,7 +11,7 @@ const ThemeContext = createContext({} as ThemeContextType);
  * @param props - React children
  * @returns React component
  */
-export default function ThemeProvider(props: ThemeProviderPropsType) {
+export function ThemeProvider(props: ThemeProviderPropsType) {
   const { children } = props;
   const persistedTheme = localStorage.getItem("theme") as ThemeMode;
   const [theme, setTheme] = useState(persistedTheme || ThemeMode.light);

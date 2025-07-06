@@ -1,6 +1,12 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HorizonApiClient } from ".";
+
+// api
+import HorizonApiClient from "api";
+
+// types
+import { HorizonContextType, HorizonProviderPropsType } from "./types";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,14 +21,14 @@ const queryClient = new QueryClient({
   },
 });
 
-const HorizonApiClientContext = createContext({});
+const HorizonApiClientContext = createContext({} as HorizonContextType);
 
 /**
  * HorizonApiClientProvider
  * @param {object} props - Props
  * @returns {object} React component
  */
-const HorizonApiClientProvider = (props) => {
+const HorizonApiClientProvider = (props: HorizonProviderPropsType) => {
   const { children } = props;
 
   const horizonApiClient = new HorizonApiClient();

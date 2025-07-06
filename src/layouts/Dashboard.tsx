@@ -27,12 +27,12 @@ import { findPath, pageId } from "../pages/sitemap";
  * Dashboard layout
  * @returns Dashboard layout component
  */
-function Dashboard() {
+export function Dashboard() {
   const { t } = useTranslation();
 
   const { account, logoutUser } = useAccount();
 
-  const museumApiClient = useHorizonApiClient();
+  const horizonApiClient = useHorizonApiClient();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const mainRef = useRef(null);
@@ -46,7 +46,7 @@ function Dashboard() {
 
   const refreshToken = useCallback(async () => {
     try {
-      const value = await museumApiClient.User.validates();
+      const value = await horizonApiClient.Auth.validates();
       if (value.status === 400) throw Error("400");
       if (value.status === 401) throw Error("401");
       if (value.status === 403) throw Error("403");
@@ -57,7 +57,7 @@ function Dashboard() {
       logoutUser();
       navigate(findPath(pageId.signOut));
     }
-  }, [logoutUser, museumApiClient.User, navigate]);
+  }, [logoutUser, horizonApiClient.Auth, navigate]);
 
   useEffect(() => {
     refreshToken();
@@ -88,5 +88,3 @@ function Dashboard() {
     </div>
   );
 }
-
-export default Dashboard;

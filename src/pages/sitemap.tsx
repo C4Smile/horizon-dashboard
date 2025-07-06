@@ -1,9 +1,7 @@
 import { Roles } from "lib";
 
 // layouts
-import Auth from "../layouts/Auth.jsx";
-import Dashboard from "../layouts/Dashboard.jsx";
-import ModelNavigation from "../layouts/ModelNavigation.jsx";
+import { Auth, Dashboard, ModelNavigation } from "layouts";
 
 // pages
 // auth

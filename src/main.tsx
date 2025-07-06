@@ -2,10 +2,12 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 
 // Provider
-import ThemeProvider from "./providers/Theme/ThemeProvider.jsx";
-import { HorizonApiClientProvider } from "./providers/HorizonApiProvider";
-import { AccountProvider } from "./providers/Account/AccountProvider.jsx";
-import { NotificationProvider } from "./providers/NotificationProvider.jsx";
+import {
+  ThemeProvider,
+  NotificationProvider,
+  HorizonApiClientProvider,
+  AccountProvider,
+} from "providers";
 
 // App
 import App from "./App";
@@ -20,7 +22,11 @@ import "./components/Forms/styles.css";
 // fonts
 import "@fontsource/poppins";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+const root = document.getElementById("root");
+
+if (!root) throw new Error("Root element not found");
+
+ReactDOM.createRoot(root).render(
   <Router>
     <ThemeProvider>
       <HorizonApiClientProvider>
@@ -31,5 +37,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </AccountProvider>
       </HorizonApiClientProvider>
     </ThemeProvider>
-  </Router>,
+  </Router>
 );

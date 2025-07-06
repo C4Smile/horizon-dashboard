@@ -1,8 +1,13 @@
-import { Role } from "../api/RoleApiClient";
+import { Roles } from "lib";
 
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartLine, faGamepad, faGear, faUsers } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChartLine,
+  faGamepad,
+  faGear,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons";
 
 export const menuKeys = {
   Dashboard: "dashboard",
@@ -38,7 +43,7 @@ export const menuMap = [
     page: menuKeys.Game,
     path: "/game",
     icon: <FontAwesomeIcon icon={faGamepad} />,
-    role: [Role.administrator],
+    role: [Roles.administrator],
     child: [
       {
         label: submenuKeys.Ships,
@@ -78,7 +83,7 @@ export const menuMap = [
     page: menuKeys.Players,
     path: "/players",
     icon: <FontAwesomeIcon icon={faUsers} />,
-    role: [Role.administrator],
+    role: [Roles.administrator],
     child: [
       {
         label: submenuKeys.Users,

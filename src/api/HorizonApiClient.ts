@@ -5,10 +5,11 @@ import { UserApiClient } from "./UserApiClient";
 import { ImageApiClient } from "./ImageApiClient";
 import { TechTypeApiClient } from "./TechTypeApiClient";
 import { TechApiClient } from "./TechApiClient";
-import { BuildingTypeApiClient } from "./BuildingTypeApiClient.js";
-import { SkillApiClient } from "./SkillApiClient.js";
-import { ShipApiClient } from "./ShipApiClient.js";
-import { CannonApiClient } from "./CannonApiClient.js";
+import { BuildingTypeApiClient } from "./BuildingTypeApiClient";
+import { SkillApiClient } from "./SkillApiClient";
+import { ShipApiClient } from "./ShipApiClient";
+import { CannonApiClient } from "./CannonApiClient";
+import { AuthApiClient } from "./AuthApiClient";
 
 // services
 import { makeRequest } from "./utils/";
@@ -35,6 +36,7 @@ export class HorizonApiClient {
   skill: SkillApiClient;
   ship: ShipApiClient;
   cannon: CannonApiClient;
+  auth: AuthApiClient;
 
   /**
    * @description constructor
@@ -51,6 +53,7 @@ export class HorizonApiClient {
     this.skill = new SkillApiClient();
     this.ship = new ShipApiClient();
     this.cannon = new CannonApiClient();
+    this.auth = new AuthApiClient();
   }
 
   /**
@@ -149,5 +152,12 @@ export class HorizonApiClient {
    */
   get Cannon() {
     return this.cannon;
+  }
+
+  /**
+   * @returns Auth
+   */
+  get Auth() {
+    return this.auth;
   }
 }
