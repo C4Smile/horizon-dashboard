@@ -1,5 +1,5 @@
 import React from "react";
-import WelcomeBanner from "../partials/dashboard/WelcomeBanner";
+import WelcomeBanner from "../partials/Dashboard/WelcomeBanner";
 
 /**
  * Home

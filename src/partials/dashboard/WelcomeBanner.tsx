@@ -7,7 +7,7 @@ import { useAccount } from "providers";
  * WelcomeBanner
  * @returns React component
  */
-function WelcomeBanner() {
+export function WelcomeBanner() {
   const { t } = useTranslation();
 
   const { account } = useAccount();
@@ -28,5 +28,3 @@ function WelcomeBanner() {
     </div>
   );
 }
-
-export default WelcomeBanner;
