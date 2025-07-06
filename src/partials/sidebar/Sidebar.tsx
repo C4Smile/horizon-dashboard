@@ -1,14 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeftLong, faArrowRightLong } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeftLong,
+  faArrowRightLong,
+} from "@fortawesome/free-solid-svg-icons";
 
 // components
 import SidebarItem from "./SidebarItem";
-import Logo from "../../components/Logo/Logo";
+import { Logo } from "components";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 
 // menuMap
@@ -17,31 +21,39 @@ import { menuMap } from "../../pages/menuMap";
 // providers
 import { useAccount } from "../../providers/Account/AccountProvider";
 
+// types
+import { SidebarPropsType } from "./types";
+
 /**
  * Sidebar
- * @param {object} props - React props
- * @returns {object} React component
+ * @param props - React props
+ * @returns React component
  */
-function Sidebar(props) {
+function Sidebar(props: SidebarPropsType) {
   const { t } = useTranslation();
   const location = useLocation();
 
   const { sidebarOpen, setSidebarOpen } = props;
   const { pathname } = location;
 
-  const trigger = useRef(null);
-  const sidebar = useRef(null);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const sidebar = useRef<HTMLDivElement>(null);
 
   const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
   const [sidebarExpanded, setSidebarExpanded] = useState(
-    storedSidebarExpanded === null ? false : storedSidebarExpanded === "true",
+    storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
   );
 
   // close on click outside
   useEffect(() => {
-    const clickHandler = ({ target }) => {
+    const clickHandler = ({ target }: MouseEvent) => {
       if (!sidebar.current || !trigger.current) return;
-      if (!sidebarOpen || sidebar.current.contains(target) || trigger.current.contains(target)) return;
+      if (
+        !sidebarOpen ||
+        sidebar.current.contains(target as Node) ||
+        trigger.current.contains(target as Node)
+      )
+        return;
       setSidebarOpen(false);
     };
     document.addEventListener("click", clickHandler);
@@ -50,7 +62,7 @@ function Sidebar(props) {
 
   // close if the esc key is pressed
   useEffect(() => {
-    const keyHandler = ({ keyCode }) => {
+    const keyHandler = ({ keyCode }: KeyboardEvent) => {
       if (!sidebarOpen || keyCode !== 27) return;
       setSidebarOpen(false);
     };
@@ -59,11 +71,11 @@ function Sidebar(props) {
   });
 
   useEffect(() => {
-    localStorage.setItem("sidebar-expanded", sidebarExpanded);
-    if (sidebarExpanded) {
-      document.querySelector("body").classList.add("sidebar-expanded");
-    } else {
-      document.querySelector("body").classList.remove("sidebar-expanded");
+    localStorage.setItem("sidebar-expanded", String(sidebarExpanded));
+    const body = document.querySelector("body");
+    if (body) {
+      if (sidebarExpanded) body.classList.add("sidebar-expanded");
+      else body.classList.remove("sidebar-expanded");
     }
   }, [sidebarExpanded]);
 
@@ -98,7 +110,9 @@ function Sidebar(props) {
             aria-controls="sidebar"
             aria-expanded={sidebarOpen}
           >
-            <span className="sr-only">{t("_accessibility:buttons.closeSidebar")}</span>
+            <span className="sr-only">
+              {t("_accessibility:buttons.closeSidebar")}
+            </span>
             <svg
               className="w-6 h-6 fill-current"
               viewBox="0 0 24 24"
@@ -113,7 +127,7 @@ function Sidebar(props) {
             to="/"
             className={`mt-5 ${sidebarExpanded || sidebarOpen ? "!block" : "max-[1520px]:hidden"} block mx-auto`}
           >
-            <Logo className="w-20 h-20" text={false} extra={false} />
+            <Logo className="w-20 h-20" />
           </NavLink>
         </div>
 
@@ -123,19 +137,24 @@ function Sidebar(props) {
           <div>
             <ul className="mt-3">
               {menuMap
-                .filter((sideMenu) => (sideMenu.role ? sideMenu.role.indexOf(userRole) >= 0 : true))
+                .filter((sideMenu) =>
+                  sideMenu.role ? sideMenu.role.indexOf(userRole) >= 0 : true
+                )
                 .map((item) => (
                   <SidebarLinkGroup
                     key={item.page}
-                    hi={item.page}
-                    activeCondition={pathname === item.path || pathname.includes(item.page)}
+                    activeCondition={
+                      pathname === item.path || pathname.includes(item.page)
+                    }
                   >
-                    {(handleClick, open) => (
+                    {(handleClick: () => void, open: boolean) => (
                       <SidebarItem
                         page={item.page}
                         path={item.path}
                         handleClick={() => {
-                          sidebarExpanded ? handleClick() : setSidebarExpanded(true);
+                          sidebarExpanded
+                            ? handleClick()
+                            : setSidebarExpanded(true);
                         }}
                         open={open}
                         child={item.child}
@@ -152,8 +171,12 @@ function Sidebar(props) {
         <div className="pt-3 hidden lg:inline-flex 2xl:hidden justify-end mt-auto">
           <div className="px-3 py-2">
             <button onClick={() => setSidebarExpanded(!sidebarExpanded)}>
-              <span className="sr-only">{t("_accessibility:.buttons.expandSidebar")}</span>
-              <FontAwesomeIcon icon={!sidebarExpanded ? faArrowRightLong : faArrowLeftLong} />
+              <span className="sr-only">
+                {t("_accessibility:.buttons.expandSidebar")}
+              </span>
+              <FontAwesomeIcon
+                icon={!sidebarExpanded ? faArrowRightLong : faArrowLeftLong}
+              />
             </button>
           </div>
         </div>
