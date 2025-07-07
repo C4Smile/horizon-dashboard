@@ -1,5 +1,3 @@
-import { Roles } from "lib";
-
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,95 +7,101 @@ import {
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 
-export const menuKeys = {
-  Dashboard: "dashboard",
-  Game: "game",
-  Players: "players",
-  Settings: "settings",
-};
+// lib
+import { Roles } from "lib";
 
-export const submenuKeys = {
-  Main: "main",
+// types
+import { MenuItemType } from "./types";
+
+export enum MenuKeys {
+  Dashboard = "dashboard",
+  Game = "game",
+  Players = "players",
+  Settings = "settings",
+}
+
+export enum SubMenuKeys {
+  Main = "main",
   // Game
-  Ships: "ships",
-  Cannons: "cannons",
-  Skills: "skills",
-  Buildings: "buildings",
-  BuildingTypes: "buildingTypes",
-  Resources: "resources",
-  Techs: "techs",
-  TechTypes: "techTypes",
+  Ships = "ships",
+  Cannons = "cannons",
+  Skills = "skills",
+  Buildings = "buildings",
+  BuildingTypes = "buildingTypes",
+  Resources = "resources",
+  Techs = "techs",
+  TechTypes = "techTypes",
   // players
-  Users: "users",
-  Account: "account",
-};
+  Users = "users",
+  Account = "account",
+}
 
-export const menuMap = [
+export const menuMap: MenuItemType[] = [
   {
-    page: menuKeys.Dashboard,
+    page: MenuKeys.Dashboard,
     path: "/",
     icon: <FontAwesomeIcon icon={faChartLine} />,
-    child: [{ label: submenuKeys.Main, path: "/" }],
+    child: [{ label: SubMenuKeys.Main, path: "/" }],
   },
   {
-    page: menuKeys.Game,
+    page: MenuKeys.Game,
     path: "/game",
     icon: <FontAwesomeIcon icon={faGamepad} />,
-    role: [Roles.administrator],
+    roles: [Roles.administrator],
     child: [
       {
-        label: submenuKeys.Ships,
+        label: SubMenuKeys.Ships,
         path: "/ships",
       },
       {
-        label: submenuKeys.Cannons,
+        label: SubMenuKeys.Cannons,
         path: "/cannons",
       },
       {
-        label: submenuKeys.Skills,
+        label: SubMenuKeys.Skills,
         path: "/skills",
       },
       {
-        label: submenuKeys.Buildings,
+        label: SubMenuKeys.Buildings,
         path: "/buildings",
       },
       {
-        label: submenuKeys.BuildingTypes,
+        label: SubMenuKeys.BuildingTypes,
         path: "/building-types",
       },
       {
-        label: submenuKeys.Resources,
+        label: SubMenuKeys.Resources,
         path: "/resources",
       },
       {
-        label: submenuKeys.Techs,
+        label: SubMenuKeys.Techs,
         path: "/techs",
       },
       {
-        label: submenuKeys.TechTypes,
+        label: SubMenuKeys.TechTypes,
         path: "/tech-types",
       },
     ],
   },
   {
-    page: menuKeys.Players,
+    page: MenuKeys.Players,
     path: "/players",
     icon: <FontAwesomeIcon icon={faUsers} />,
-    role: [Roles.administrator],
+    roles: [Roles.administrator],
     child: [
       {
-        label: submenuKeys.Users,
+        label: SubMenuKeys.Users,
         path: "/users",
       },
     ],
   },
   {
-    page: menuKeys.Settings,
+    page: MenuKeys.Settings,
     path: "/settings",
     icon: <FontAwesomeIcon icon={faGear} />,
     child: [
       {
-        label: submenuKeys.Account,
+        label: SubMenuKeys.Account,
         path: "/account",
       },
     ],

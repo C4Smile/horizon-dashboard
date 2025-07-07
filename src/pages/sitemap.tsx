@@ -41,6 +41,9 @@ import TechTypeForm from "./TechTypes/TechTypeForm.jsx";
 import UsersPage from "./Users/Users.jsx";
 import UserForm from "./Users/UserForm.jsx";
 
+// types
+import { ViewPageType } from "./types.js";
+
 export enum PageId {
   auth = "auth",
   signOut = "signOut",
@@ -89,7 +92,7 @@ export enum PageId {
   usersEdit = "usersEdit",
 }
 
-export const sitemap = [
+export const sitemap: ViewPageType[] = [
   {
     key: PageId.auth,
     component: <Auth />,
@@ -278,12 +281,13 @@ export const sitemap = [
  */
 export const findPathInChildren = (
   targetPageId: PageId,
-  basePage,
+  basePage: ViewPageType,
   currentPath = ""
 ) => {
   let path = "";
-  for (let i = 0; i < basePage.children.length; ++i) {
-    const page = basePage.children[i];
+  const baseChildren = basePage.children ?? [];
+  for (let i = 0; i < baseChildren.length; ++i) {
+    const page = baseChildren[i];
     if (page.key === targetPageId) return (path = `${currentPath}${page.path}`);
 
     if (page.children) {
