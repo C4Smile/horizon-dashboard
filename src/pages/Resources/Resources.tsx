@@ -1,14 +1,17 @@
-import { useEffect, useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 // @sito/dashboard
-import { Action, Table } from "@sito/dashboard";
+import { Action, FilterTypes, Table } from "@sito/dashboard";
+
+// utils
+import { nameColumn, imageColumn, useParseColumns } from "utils";
 
 // components
 import { TablePage, TableToolbar } from "components";
 
-// utils
-import { useParseColumns, nameColumn, imageColumn } from "utils";
+// providers
+import { useHorizonApiClient } from "providers";
 
 // hooks
 import {
@@ -16,35 +19,28 @@ import {
   TechsQueryKeys,
   useDeleteDialog,
   useRestoreDialog,
-  useTechTypesList,
+  useResourcesList,
 } from "hooks";
+
+// api
+import { EntityName, Tables } from "api";
 
 // pages
 import { PageId } from "pages";
 
 // lib
-import { TechTypeDto } from "lib";
-
-// api
-import { EntityName, Tables } from "api";
-
-// providers
-import { useHorizonApiClient } from "providers";
+import { ResourceDto } from "lib";
 
 /**
- * RoomType page
- * @returns RoomType page component
+ * Resource page
+ * @returns Resource page component
  */
-function TechTypes() {
+function ResourcePage() {
   const { t } = useTranslation();
 
   const horizonApiClient = useHorizonApiClient();
 
-  const { data, isLoading, setTotal } = useTechTypesList();
-
-  useEffect(() => {
-    if (data) setTotal(data.total ?? 0);
-  }, [data, setTotal]);
+  const { data, isLoading, setTotal } = useResourcesList();
 
   useEffect(() => {
     if (data) setTotal(data.total ?? 0);
@@ -53,7 +49,7 @@ function TechTypes() {
   //#region Actions
 
   const editAction = useEditAction({
-    url: `game/${Tables.TechTypes}`,
+    url: `game/${Tables.Resources}`,
   });
 
   const restoreAction = useRestoreDialog({
@@ -67,7 +63,7 @@ function TechTypes() {
   });
 
   const getActions = useCallback(
-    (row: TechTypeDto): Action<TechTypeDto>[] => [
+    (row: ResourceDto): Action<ResourceDto>[] => [
       editAction.action(row),
       restoreAction.action(row),
       deleteAction.action(row),
@@ -77,27 +73,37 @@ function TechTypes() {
 
   //#endregion Actions
 
-  const { columns } = useParseColumns<TechTypeDto>(
-    [nameColumn<TechTypeDto>(), imageColumn<TechTypeDto>("name", "image")],
-    EntityName.TechType,
+  const { columns } = useParseColumns<ResourceDto>(
+    [
+      nameColumn<ResourceDto>(),
+      {
+        key: "baseFactor",
+        label: t("_entities.resource.baseFactor.label"),
+        filterOptions: {
+          type: FilterTypes.number,
+        },
+      },
+      imageColumn<ResourceDto>("name", "image"),
+    ],
+    EntityName.Resource,
     []
   );
 
   return (
     <TablePage
-      title={t("_pages:game.links.techTypes")}
-      pageKey={PageId.techTypes}
+      title={t("_pages:game.links.resources")}
+      pageKey={PageId.resources}
     >
       <Table
         data={data?.items ?? []}
         actions={getActions}
         isLoading={isLoading}
         columns={columns}
-        entity={EntityName.TechType}
-        toolbar={<TableToolbar pageKey={PageId.techTypes} />}
+        entity={EntityName.Resource}
+        toolbar={<TableToolbar pageKey={PageId.resources} />}
       />
     </TablePage>
   );
 }
 
-export default TechTypes;
+export default ResourcePage;

@@ -56,7 +56,10 @@ function BuildingTypePage() {
     return {
       ...buildingType,
       name: (
-        <Link className="underline text-light-primary flex" to={`${buildingType.id}`}>
+        <Link
+          className="underline text-light-primary flex"
+          to={`${buildingType.id}`}
+        >
           <span className="truncate">{buildingType.name}</span>
         </Link>
       ),
@@ -67,7 +70,11 @@ function BuildingTypePage() {
           alt={`${buildingType.name}`}
         />
       ) : (
-        <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={buildingType.name} />
+        <img
+          className="w-10 h-10 rounded-full object-cover"
+          src={noProduct}
+          alt={buildingType.name}
+        />
       ),
     };
   };
@@ -89,15 +96,24 @@ function BuildingTypePage() {
   });
 
   const getActions = useCallback(
-    (row) => [editAction.action(row), restoreAction.action(row), deleteAction.action(row)],
-    [deleteAction, editAction, restoreAction],
+    (row) => [
+      editAction.action(row),
+      restoreAction.action(row),
+      deleteAction.action(row),
+    ],
+    [deleteAction, editAction, restoreAction]
   );
 
   //#endregion Actions
 
   const { columns } = useParseColumns(
-    extractKeysFromObject(new BuildingType(), ["id", "dateOfCreation", "deleted", "urlName"]),
-    BuildingType.className,
+    extractKeysFromObject(new BuildingType(), [
+      "id",
+      "dateOfCreation",
+      "deleted",
+      "urlName",
+    ]),
+    BuildingType.className
   );
 
   const { rows } = useParseRows(prepareRows);

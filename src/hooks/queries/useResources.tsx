@@ -7,7 +7,7 @@ import { useHorizonApiClient } from "providers";
 import { ApiQueryResult } from "./types.ts";
 
 // lib
-import { BuildingTypeDto, BuildingTypeCommonDto } from "lib";
+import { ResourceDto, ResourceCommonDto } from "lib";
 
 // api
 import { TablesCamelCase } from "api";
@@ -15,19 +15,19 @@ import { TablesCamelCase } from "api";
 // hooks
 import { useTableOptions } from "@sito/dashboard";
 
-export const BuildingTypesQueryKeys = {
+export const ResourcesQueryKeys = {
   all: () => ({
-    queryKey: [TablesCamelCase.BuildingTypes],
+    queryKey: [TablesCamelCase.Resources],
   }),
   list: () => ({
-    queryKey: [...BuildingTypesQueryKeys.all().queryKey, "list"],
+    queryKey: [...ResourcesQueryKeys.all().queryKey, "list"],
   }),
   common: () => ({
-    queryKey: [...BuildingTypesQueryKeys.all().queryKey, "common"],
+    queryKey: [...ResourcesQueryKeys.all().queryKey, "common"],
   }),
 };
 
-export function useBuildingTypesList(): ApiQueryResult<BuildingTypeDto> {
+export function useResourcesList(): ApiQueryResult<ResourceDto> {
   const horizonApiClient = useHorizonApiClient();
 
   const { sortingBy, setTotal, sortingOrder, currentPage, pageSize, filters } =
@@ -35,14 +35,14 @@ export function useBuildingTypesList(): ApiQueryResult<BuildingTypeDto> {
 
   const query = useQuery({
     queryFn: async () =>
-      horizonApiClient.BuildingType.get({
+      horizonApiClient.Resource.get({
         sortingBy,
         sortingOrder,
         currentPage,
         pageSize,
         ...filters,
       }),
-    ...BuildingTypesQueryKeys.list(),
+    ...ResourcesQueryKeys.list(),
   });
 
   return {
@@ -51,13 +51,13 @@ export function useBuildingTypesList(): ApiQueryResult<BuildingTypeDto> {
   };
 }
 
-export function useBuildingTypesCommon(): UseQueryResult<BuildingTypeCommonDto[]> {
+export function useResourcesCommon(): UseQueryResult<ResourceCommonDto[]> {
   const horizonApiClient = useHorizonApiClient();
 
   return useQuery({
-    ...BuildingTypesQueryKeys.common(),
+    ...ResourcesQueryKeys.common(),
     queryFn: async () =>
-      horizonApiClient.BuildingType.commonGet({
+      horizonApiClient.Resource.commonGet({
         deleted: false,
       }),
   });

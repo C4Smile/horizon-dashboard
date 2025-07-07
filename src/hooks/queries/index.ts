@@ -4,3 +4,4 @@ export * from "./useHorizonQuery.tsx";
 export * from "./useTechs";
 export * from "./useTechTypes.tsx";
 export * from "./useUsers.tsx";
+export * from "./useResources.tsx";
