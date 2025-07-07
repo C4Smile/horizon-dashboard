@@ -1,10 +1,5 @@
 /* Additional styles */
-@import "css/additional-styles/utility-patterns.css";
-@import "css/additional-styles/flatpickr.css";
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "./css/variables.css";
 
 .small-image {
   @apply w-10 h-10 min-h-10 min-w-10;
@@ -145,4 +140,3 @@ textarea {
     transform: rotate(360deg);
   }
 }
-
