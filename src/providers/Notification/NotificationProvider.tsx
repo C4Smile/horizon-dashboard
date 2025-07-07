@@ -1,62 +1,86 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useState, useContext, useCallback } from "react";
+import { useContext, createContext, useReducer } from "react";
 
-// types
+// lib
+import { NotificationEnumType, NotificationType } from "lib";
 import {
   NotificationContextType,
   NotificationProviderPropsType,
-  NotificationSeverity,
-} from "./types";
+} from "./types.ts";
 
 const NotificationContext = createContext({} as NotificationContextType);
 
-/**
- * Notification Provider
- * @param {object} props - provider props
- * @returns Provider
- */
-const NotificationProvider = (props: NotificationProviderPropsType) => {
+export function NotificationProvider(props: NotificationProviderPropsType) {
   const { children } = props;
-  const [notification, setNotification] = useState("");
-  const [params, setParams] = useState({});
-  const [severity, setSeverity] = useState(NotificationSeverity.good);
 
-  /**
-   *
-   * @param {string} string string to parse
-   * @param  {...string} params array of params
-   */
-  const setNotificationFunction = useCallback(
-    (string: string, params = {}, severity = NotificationSeverity.good) => {
-      setNotification(string);
-      setParams(params);
-      setSeverity(severity);
+  const [notification, dispatch] = useReducer(
+    (state, action) => {
+      const { type, items, index } = action;
+
+      switch (type) {
+        case "set":
+          return items.map((item: NotificationType, i: number) => ({
+            ...item,
+            id: i,
+          }));
+        case "remove":
+          if (index) return state.filter((_, i) => i !== index);
+          return [];
+      }
+      return state;
     },
-    []
+    [] as NotificationType[],
+    () => [] as NotificationType[]
   );
 
-  const value = {
-    notification,
-    setNotification: setNotificationFunction,
-    params,
-    state: severity,
-  };
+  const showErrorNotification = (options: NotificationType) =>
+    dispatch({
+      type: "set",
+      items: [{ ...options, type: NotificationEnumType.error }],
+    });
+
+  const showNotification = (options: NotificationType) =>
+    dispatch({
+      type: "set",
+      items: [{ ...options }],
+    });
+
+  const showStackNotifications = (notifications: NotificationType[]) =>
+    dispatch({ type: "set", items: notifications });
+
+  const showSuccessNotification = (options: NotificationType) =>
+    dispatch({
+      type: "set",
+      items: [{ ...options, type: NotificationEnumType.success }],
+    });
+
+  const removeNotification = (index?: number) =>
+    dispatch({ type: "remove", index });
+
   return (
-    <NotificationContext.Provider value={value}>
+    <NotificationContext.Provider
+      value={{
+        notification,
+        removeNotification,
+        showErrorNotification,
+        showNotification,
+        showSuccessNotification,
+        showStackNotifications,
+      }}
+    >
       {children}
     </NotificationContext.Provider>
   );
-};
+}
 
 /**
- * useNotification hook
- * @returns function hook
+ *
+ * @returns notification context
  */
-const useNotification = () => {
+export const useNotification = () => {
   const context = useContext(NotificationContext);
+
   if (context === undefined)
-    throw new Error("notificationContext must be used within a Provider");
+    throw new Error("NotificationContext must be used within a Provider");
   return context;
 };
-
-export { NotificationProvider, useNotification };

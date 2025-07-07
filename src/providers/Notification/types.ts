@@ -1,5 +1,8 @@
 import { ReactNode } from "react";
 
+// lib
+import { NotificationType } from "lib";
+
 export enum NotificationSeverity {
   default = "default",
   bad = "bad",
@@ -8,14 +11,12 @@ export enum NotificationSeverity {
 }
 
 export type NotificationContextType = {
-  notification: string;
-  setNotification: (
-    message: string,
-    params?: Record<string, string | number>,
-    severity?: NotificationSeverity
-  ) => void;
-  params: Record<string, string | number>;
-  state: NotificationSeverity;
+  notification: NotificationType[];
+  removeNotification: (index?: number) => void;
+  showErrorNotification: (options: NotificationType) => void;
+  showNotification: (options: NotificationType) => void;
+  showSuccessNotification: (options: NotificationType) => void;
+  showStackNotifications: (notifications: NotificationType[]) => void;
 };
 
 export type NotificationProviderPropsType = {
