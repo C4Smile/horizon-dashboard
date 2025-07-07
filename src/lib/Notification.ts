@@ -8,5 +8,5 @@ export enum NotificationEnumType {
 export type NotificationType = {
   message: string;
   type: NotificationEnumType;
-  id: number;
+  id?: number;
 };

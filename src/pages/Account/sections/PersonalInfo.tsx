@@ -19,7 +19,8 @@ import {
 } from "providers";
 
 // utils
-import { ReactQueryKeys } from "../../../utils/queryKeys";
+import { ReactQueryKeys } from "utils";
+import { NotificationEnumType } from "lib";
 
 // pages
 const NotFound = loadable(() => import("../../NotFound/NotFound"));
@@ -38,7 +39,7 @@ function PersonalInfo() {
 
   const [notFound, setNotFound] = useState(false);
 
-  const { setNotification } = useNotification();
+  const { showErrorNotification } = useNotification();
   const [saving, setSaving] = useState(false);
   const [lastUpdate, setLastUpdate] = useState();
 
@@ -48,7 +49,10 @@ function PersonalInfo() {
 
   const onSubmit = async (d) => {
     if (!photo) {
-      setNotification("images", {}, "bad");
+      showErrorNotification({
+        type: NotificationEnumType.error,
+        message: t("_accessibility:messages.images"),
+      });
       return;
     }
 
@@ -59,12 +63,10 @@ function PersonalInfo() {
 
       setNotification(String(status), { model: t("_entities:entities.user") });
       setLastUpdate(new Date().toDateString());
-      // eslint-disable-next-line no-console
       if (error && error !== null) console.error(error.message);
       else
         queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users, id] });
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error(e);
       setNotification(String(e.status), {
         model: t("_entities:entities.user"),
@@ -81,7 +83,6 @@ function PersonalInfo() {
 
   useEffect(() => {
     const { data } = userQuery;
-    // eslint-disable-next-line no-console
     if (data && data.error) console.error(data.error.message);
     if (data?.status === 404) setNotFound(true);
   }, [userQuery]);

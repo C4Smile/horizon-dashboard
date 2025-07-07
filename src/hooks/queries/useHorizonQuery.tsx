@@ -5,18 +5,15 @@ import { useTableOptions } from "@sito/dashboard";
 
 // types
 import { UseApiQueryPropsType } from "./types";
-import { BaseEntityDto, BaseFilterDto } from "lib";
+import { BaseEntityDto } from "lib";
 
 /**
  *
  * @param {object} props hook props
  * @returns useApiQuery
  */
-export const useApiQuery = <
-  TFilterDto extends BaseFilterDto,
-  TResponseDto extends BaseEntityDto,
->(
-  props: UseApiQueryPropsType<TFilterDto, TResponseDto>
+export const useApiQuery = <TResponseDto extends BaseEntityDto>(
+  props: UseApiQueryPropsType<TResponseDto>
 ) => {
   const { getFunction, queryKey } = props;
 
