@@ -1,9 +1,9 @@
 import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // @sito/dashboard
-import { FilterTypes, Table, Option, Action } from "@sito/dashboard";
+import { FilterTypes, Table, Action } from "@sito/dashboard";
 
 // components
 import { TableToolbar } from "components";
@@ -31,14 +31,6 @@ import { TechDto } from "lib";
 import { EntityName, Tables } from "api";
 import { imageColumn, nameColumn, useParseColumns } from "utils";
 
-const columnClasses = {
-  lastUpdate: "w-56",
-};
-
-const noSortableColumns = {
-  image: true,
-};
-
 /**
  * Tech page
  * @returns Tech page component
@@ -47,8 +39,6 @@ function TechPage() {
   const { t } = useTranslation();
 
   const horizonApiClient = useHorizonApiClient();
-
-  const navigate = useNavigate();
 
   const { data, isLoading, setTotal } = useTechsList();
 
@@ -61,15 +51,15 @@ function TechPage() {
   //#region Actions
 
   const editAction = useEditAction({
-    onClick: (id) => navigate(`${Tables.Techs}/${id}`),
+    url: `game/${Tables.Techs}`,
   });
 
-  const restoreTech = useRestoreDialog({
+  const restoreAction = useRestoreDialog({
     mutationFn: (data) => horizonApiClient.Tech.restore(data),
     ...TechsQueryKeys.all(),
   });
 
-  const deleteTech = useDeleteDialog({
+  const deleteAction = useDeleteDialog({
     mutationFn: (data) => horizonApiClient.Tech.softDelete(data),
     ...TechsQueryKeys.all(),
   });
@@ -77,10 +67,10 @@ function TechPage() {
   const getActions = useCallback(
     (row: TechDto): Action<TechDto>[] => [
       editAction.action(row),
-      restoreTech.action(row),
-      deleteTech.action(row),
+      restoreAction.action(row),
+      deleteAction.action(row),
     ],
-    [editAction, restoreTech, deleteTech]
+    [editAction, restoreAction, deleteAction]
   );
 
   //#endregion Actions

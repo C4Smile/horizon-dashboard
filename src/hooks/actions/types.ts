@@ -1,5 +1,7 @@
 // @sito/dashboard
 import { Action } from "@sito/dashboard";
+
+// lib
 import { BaseEntityDto } from "lib";
 
 export enum BaseActions {
@@ -17,6 +19,11 @@ export interface UseActionPropTypes {
 export interface UseSingleActionPropTypes<TInDto> extends UseActionPropTypes {
   onClick: (record: TInDto) => void;
   hidden?: boolean;
+}
+
+export interface UseEditActionPropTypes
+  extends Omit<UseSingleActionPropTypes<BaseEntityDto>, "onClick"> {
+  url: string;
 }
 
 export interface UseMultipleActionPropTypes<TInDto> extends UseActionPropTypes {

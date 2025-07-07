@@ -1,9 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
 import { Action } from "@sito/dashboard";
 import { useTranslation } from "react-i18next";
 
 // base
-import { ActionHook, BaseActions, UseSingleActionPropTypes } from "./types.js";
+import { ActionHook, BaseActions, UseEditActionPropTypes } from "./types.js";
 
 // utils
 import { isDeleted, isLocked, isLockedBy } from "utils";
@@ -24,9 +25,11 @@ import { BaseEntityDto } from "lib";
  * @returns action
  */
 export const useEditAction = (
-  props: UseSingleActionPropTypes<number>
+  props: UseEditActionPropTypes
 ): ActionHook<BaseEntityDto> => {
-  const { onClick, hidden, disabled = false } = props;
+  const { url, hidden, disabled = false } = props;
+
+  const navigate = useNavigate();
 
   const { t } = useTranslation();
 
@@ -40,11 +43,11 @@ export const useEditAction = (
         isDeleted(row) ||
         (isLocked(row) && !isLockedBy(account?.horizonUser?.id, row)),
       hidden: hidden,
-      onClick: () => onClick(row.id),
+      onClick: () => navigate(`${url}/${row.id}`),
       icon: <FontAwesomeIcon icon={faPencil} />,
       tooltip: t("_pages:common.actions.edit.text"),
     }),
-    [account?.horizonUser?.id, disabled, hidden, onClick, t]
+    [account?.horizonUser?.id, disabled, hidden, navigate, t, url]
   );
 
   return {

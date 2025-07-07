@@ -70,7 +70,9 @@
   },
   "roles": {
     "admin": "Administrador",
-    "user": "Usuario"
+    "1": "Administrador",
+    "user": "Usuario",
+    "2": "Usuario"
   },
   "building": {
     "name": {

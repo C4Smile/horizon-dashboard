@@ -42,7 +42,7 @@ export const useRestoreDialog = (props: UseDeleteDialogPropsType) => {
     ...rest,
   });
 
-  const action = useRestoreAction({ onClick });
+  const { action } = useRestoreAction({ onClick });
 
   return {
     onClick,
