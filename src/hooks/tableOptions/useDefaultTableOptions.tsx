@@ -1,14 +1,15 @@
-import { useTableOptions } from "@sito/dashboard";
-
-import { SortOrder } from "../../lib/models/query/GenericFilter.js";
 import { useEffect } from "react";
+import { useTableOptions, SortOrder } from "@sito/dashboard";
+
+// types
+import { UseDefaultTableOptions } from "./types";
 
 /**
  *
  * @param props component props
  * @returns {{setTotal: *, sortingOrder: *, pageSize: *, currentPage: *, sortingBy: *}} table options
  */
-export const useDefaultTableOptions = (props) => {
+export const useDefaultTableOptions = (props: UseDefaultTableOptions) => {
   const { entity } = props;
 
   const {

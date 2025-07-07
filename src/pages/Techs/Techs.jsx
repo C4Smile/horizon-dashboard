@@ -31,7 +31,7 @@ import { useRestoreAction, useDeleteAction, useEditAction } from "../../hooks";
 
 // sitemap
 import { findPath, PageId } from "../sitemap";
-import { useHorizonQuery } from "../../hooks/query/useHorizonQuery.jsx";
+import { useHorizonQuery } from "../../hooks/queries/useHorizonQuery.jsx";
 
 const columnClasses = {
   lastUpdate: "w-56",

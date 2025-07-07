@@ -18,6 +18,7 @@ export default defineConfig({
       partials: path.resolve(__dirname, "./src/partials"),
       lib: path.resolve(__dirname, "./src/lib"),
       hooks: path.resolve(__dirname, "./src/hooks"),
+      utils: path.resolve(__dirname, "./src/utils"),
       layouts: path.resolve(__dirname, "./src/layouts"),
       views: path.resolve(__dirname, "./src/views"),
       providers: path.resolve(__dirname, "./src/providers"),

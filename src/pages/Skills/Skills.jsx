@@ -28,7 +28,7 @@ import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 // hooks
 import { useRestoreAction, useDeleteAction, useEditAction } from "../../hooks";
 import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.jsx";
-import { useHorizonQuery } from "../../hooks/query/useHorizonQuery.jsx";
+import { useHorizonQuery } from "../../hooks/queries/useHorizonQuery.jsx";
 
 const columnClasses = {
   lastUpdate: "w-56",

@@ -1,0 +1,48 @@
+import { useTranslation } from "react-i18next";
+
+// @sito/dashboard
+import { Loading } from "@sito/dashboard";
+
+// component
+import { Dialog } from "./Dialog.tsx";
+
+// types
+import { ConfirmationDialogPropsType } from "./types.ts";
+
+export const ConfirmationDialog = (props: ConfirmationDialogPropsType) => {
+  const { t } = useTranslation();
+
+  const {
+    children,
+    handleSubmit,
+    handleClose,
+    isLoading = false,
+    ...rest
+  } = props;
+
+  return (
+    <Dialog {...rest} handleClose={handleClose}>
+      {children}
+      <div className="flex gap-2 mt-5">
+        <button
+          onClick={handleSubmit}
+          className="button submit primary"
+          name={t("_accessibility:buttons.ok")}
+          aria-label={t("_accessibility:ariaLabels.ok")}
+        >
+          {isLoading ? <Loading color="text-dark" className="mt-1" /> : null}
+          {t("_accessibility:buttons.ok")}
+        </button>
+        <button
+          type="button"
+          onClick={handleClose}
+          className="button outlined"
+          name={t("_accessibility:buttons.cancel")}
+          aria-label={t("_accessibility:ariaLabels.cancel")}
+        >
+          {t("_accessibility:buttons.cancel")}
+        </button>
+      </div>
+    </Dialog>
+  );
+};

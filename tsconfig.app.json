@@ -29,6 +29,7 @@
       "partials": ["./src/partials"],
       "lib": ["./src/lib"],
       "hooks": ["./src/hooks"],
+      "utils": ["./src/utils"],
       "layouts": ["./src/layouts"],
       "views": ["./src/views"],
       "providers": ["./src/providers"],

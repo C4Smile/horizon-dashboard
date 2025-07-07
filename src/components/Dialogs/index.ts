@@ -1,2 +1,4 @@
+export * from "./ConfirmationDialog";
+export * from "./Dialog";
 export * from "./FormDialog";
-export * from "./useFormDialog";
+export * from "./types";

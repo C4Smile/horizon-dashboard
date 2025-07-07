@@ -16,7 +16,7 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useFormDialog } from "../Dialogs/useFormDialog.jsx";
 
 // components
-import FormDialog from "../Dialogs/FormDialog.jsx";
+import FormDialog from "../Dialogs/FormDialogs.jsx";
 
 // api
 import { HTTPError } from "api";
