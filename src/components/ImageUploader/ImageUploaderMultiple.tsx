@@ -40,7 +40,7 @@ function ImageUploaderMultiple(props: ImageUploaderMultiplePropsType) {
               type: "add",
               items: uploads.map((preview, i) => ({
                 key: files[i].name,
-                base64: preview,
+                base64: preview as string,
                 folder,
                 fileName: files[i].name,
               })),
@@ -50,7 +50,7 @@ function ImageUploaderMultiple(props: ImageUploaderMultiplePropsType) {
               type: "set",
               items: uploads.map((preview, i) => ({
                 key: files[i].name,
-                base64: preview,
+                base64: preview as string,
                 folder,
                 fileName: files[i].name,
               })),

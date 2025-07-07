@@ -3,9 +3,10 @@ import config from "../config";
 
 export type PhotoReducerActionType = {
   type: "set" | "add" | "delete";
-  item: BlobDto;
-  items: BlobDto[];
-  index: number;
+  key?: string;
+  item?: BlobDto;
+  items?: BlobDto[];
+  index?: number;
 };
 
 /**
@@ -33,7 +34,7 @@ export function localPhotoReducer(
     case "delete": {
       const { index } = action;
       const newState = [...state];
-      newState.splice(index, 1);
+      newState.splice(index ?? 0, 1);
       return newState;
     }
     default:

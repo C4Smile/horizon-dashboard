@@ -2,32 +2,45 @@ import { useMemo } from "react";
 import { Controller, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-// components
-import TextInput from "../Forms/TextInput";
-import SelectInput from "../Forms/SelectInput";
+// @sito/dashboard
+import { TextInput, SelectInput, Option } from "@sito/dashboard";
+
+// types
+import { OptionResourceCommonDto, ResourceFormPropsType } from "./types";
 
 /**
  *
  * @param {*} props - component form
  * @returns ResourceForm component
  */
-const ResourceForm = function ResourceForm(props) {
+export const ResourceForm = <TDto extends OptionResourceCommonDto>(
+  props: ResourceFormPropsType<TDto>
+) => {
   const { t } = useTranslation();
 
-  const { currentList, resources, label, inputLabel, inputPlaceholder, control } = props;
+  const {
+    currentList,
+    resources,
+    label,
+    inputLabel,
+    inputPlaceholder,
+    control,
+  } = props;
 
   const id = useWatch({ control, name: "id" });
 
   const options = useMemo(
     () =>
-      resources.filter((res) =>
-        !!id && typeof id === "number"
-          ? currentList
-          : !currentList.some((rex) => {
-              return rex.resourceId === res.id;
-            }),
-      ),
-    [currentList, resources, id],
+      resources
+        .filter((res) =>
+          !!id && typeof id === "number"
+            ? currentList
+            : !currentList.some((rex) => {
+                return rex.resourceId === res.id;
+              })
+        )
+        .map((res) => ({ id: res.id, name: res.name })) as unknown as Option[],
+    [currentList, resources, id]
   );
 
   return (
@@ -52,7 +65,12 @@ const ResourceForm = function ResourceForm(props) {
         control={control}
         name="base"
         render={({ field }) => (
-          <TextInput required label={inputLabel} placeholder={inputPlaceholder} {...field} />
+          <TextInput
+            required
+            label={inputLabel}
+            placeholder={inputPlaceholder}
+            {...field}
+          />
         )}
       />
 
@@ -71,5 +89,3 @@ const ResourceForm = function ResourceForm(props) {
     </div>
   );
 };
-
-export default ResourceForm;

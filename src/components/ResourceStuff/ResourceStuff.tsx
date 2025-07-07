@@ -2,9 +2,11 @@ import { useState, useCallback, useEffect, useReducer } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
+// @sito/dashboard
+import { Loading } from "@sito/dashboard";
+
 // providers
-import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient } from "../../providers/HorizonApiProvider";
+import { useNotification, queryClient } from "providers";
 
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,9 +14,6 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 // hooks
 import { useFormDialog } from "../Dialogs/useFormDialog";
-
-// partials
-import Loading from "../../partials/Loading/Loading";
 
 // components
 import FormDialog from "../Dialogs/FormDialog";
@@ -60,7 +59,9 @@ function ResourceStuff(props) {
       }
       case "modify": {
         const { item } = action;
-        const found = state.findIndex((stem) => item.value.resourceId === stem.resourceId);
+        const found = state.findIndex(
+          (stem) => item.value.resourceId === stem.resourceId
+        );
         if (found >= 0) state[found] = item.value;
         return [...state];
       }
@@ -92,7 +93,9 @@ function ResourceStuff(props) {
       setSaving(true);
       try {
         const { error, status } = await saveFn(id, value);
-        setNotification(String(status), { model: t(`_entities:entities.${entityToSave}`) });
+        setNotification(String(status), {
+          model: t(`_entities:entities.${entityToSave}`),
+        });
 
         // eslint-disable-next-line no-console
         if (error) console.error(error.message);
@@ -102,11 +105,13 @@ function ResourceStuff(props) {
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error(e);
-        setNotification(String(e.status), { model: t(`_entities:entities.${entityToSave}`) });
+        setNotification(String(e.status), {
+          model: t(`_entities:entities.${entityToSave}`),
+        });
       }
       setSaving(false);
     },
-    [saveFn, id, setNotification, t, entityToSave, queryKey],
+    [saveFn, id, setNotification, t, entityToSave, queryKey]
   );
 
   const onSubmit = useCallback(
@@ -120,7 +125,7 @@ function ResourceStuff(props) {
       setInitial();
       save(value);
     },
-    [save],
+    [save]
   );
 
   const formProps = useFormDialog({
@@ -141,7 +146,7 @@ function ResourceStuff(props) {
         });
       formProps.dialogProps.open();
     },
-    [formProps.dialogProps, lists],
+    [formProps.dialogProps, lists]
   );
 
   const onDelete = useCallback(
@@ -157,12 +162,14 @@ function ResourceStuff(props) {
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error(e);
-        setNotification(String(e.status), { model: t(`_entities:entities.${entityToSave}`) });
+        setNotification(String(e.status), {
+          model: t(`_entities:entities.${entityToSave}`),
+        });
       }
 
       setSaving(false);
     },
-    [deleteFn, entityToSave, id, queryKey, setNotification, t],
+    [deleteFn, entityToSave, id, queryKey, setNotification, t]
   );
 
   return (

@@ -2,9 +2,11 @@ import { useState, useCallback, useEffect, useReducer } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
+// @sito/dashboard
+import { Loading } from "@sito/dashboard";
+
 // providers
-import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient } from "../../providers/HorizonApiProvider";
+import { useNotification, queryClient } from "providers";
 
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,19 +15,29 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 // hooks
 import { useFormDialog } from "../Dialogs/useFormDialog.jsx";
 
-// partials
-import Loading from "../../partials/Loading/Loading.js";
-
 // components
 import FormDialog from "../Dialogs/FormDialog.jsx";
-import { EntityLevelForm, EntityLevelRow, Empty } from "./index.js";
+
+// api
+import { HTTPError } from "api";
+
+// index
+import {
+  EntityLevelForm,
+  EntityLevelRow,
+  Empty,
+  EntityLevelStuffPropsType,
+  OptionReqCommonDto,
+} from "./index.js";
 
 /**
  *
  * @param {object} props component props
  * @returns EntityStuff component
  */
-export function EntityLevelStuff(props) {
+export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
+  props: EntityLevelStuffPropsType<TDto>
+) {
   const { t } = useTranslation();
 
   const { setNotification } = useNotification();
@@ -97,13 +109,11 @@ export function EntityLevelStuff(props) {
           model: t(`_entities:entities.${entityToSave}`),
         });
 
-        // eslint-disable-next-line no-console
         if (error) console.error(error.message);
         else await queryClient.invalidateQueries({ queryKey });
-      } catch (e) {
-        // eslint-disable-next-line no-console
+      } catch (e: unknown) {
         console.error(e);
-        setNotification(String(e.status), {
+        setNotification(String((e as HTTPError).status), {
           model: t(`_entities:entities.${entityToSave}`),
         });
       }
@@ -128,7 +138,7 @@ export function EntityLevelStuff(props) {
   });
 
   const openDialog = useCallback(
-    (entityReqId) => {
+    (entityReqId: number) => {
       const selected = lists.find((res) => res[attributeId] === entityReqId);
       if (selected) setInitial(selected);
       formProps.dialogProps.open();
@@ -137,19 +147,17 @@ export function EntityLevelStuff(props) {
   );
 
   const onDelete = useCallback(
-    async (entityReqId) => {
+    async (entityReqId: number) => {
       setSaving(true);
       try {
         const { error } = await deleteFn(id, entityReqId);
         setNotification("deleted", { count: 1 });
 
-        // eslint-disable-next-line no-console
         if (error) console.error(error.message);
         else await queryClient.invalidateQueries({ queryKey });
-      } catch (e) {
-        // eslint-disable-next-line no-console
+      } catch (e: unknown) {
         console.error(e);
-        setNotification(String(e.status), {
+        setNotification(String((e as HTTPError).status), {
           model: t(`_entities:entities.${entityToSave}`),
         });
       }

@@ -54,7 +54,7 @@ export class ImageApiClient {
    * @param files files to read
    * @returns base64 string
    */
-  async readFilesAsBase64(files: FileList[]) {
+  async readFilesAsBase64(files: FileList) {
     const parsed = [];
     for (const file of files) {
       const parsedFile = await new Promise((resolve, reject) => {

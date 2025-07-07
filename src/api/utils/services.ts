@@ -1,5 +1,8 @@
 import config from "src/config";
 
+// types
+import { HTTPResponse } from "./types";
+
 const isAnError = (status: number) => status < 200 || status > 299;
 
 /**
@@ -15,7 +18,7 @@ export async function makeRequest<TBody, TResponse>(
   method = "GET",
   body?: TBody,
   h?: HeadersInit
-) {
+): Promise<HTTPResponse<TResponse>> {
   const headers = {
     "Content-Type": "application/json",
     ...(h ?? {}),

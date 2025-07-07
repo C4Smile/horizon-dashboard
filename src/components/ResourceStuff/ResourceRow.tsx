@@ -8,16 +8,22 @@ import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 // utils
 import { staticUrlPhoto } from "../utils";
 
+// types
+import { OptionResourceCommonDto, ResourceRowPropsType } from "./types";
+
 /**
  *
  * @param {*} props - component form
  * @returns ResourceRow component
  */
 const ResourceRow = memo(
-  function ResourceRow(props) {
+  function ResourceRow<TDto extends OptionResourceCommonDto>(
+    props: ResourceRowPropsType<TDto>
+  ) {
     const { t } = useTranslation();
 
-    const { disabled, resources, value, onDelete, onEdit, label, inputLabel } = props;
+    const { disabled, resources, value, onDelete, onEdit, label, inputLabel } =
+      props;
 
     const [resourceId, setResourceId] = useState(value?.resource?.id);
     const [base, setBase] = useState(value?.base);
@@ -31,25 +37,25 @@ const ResourceRow = memo(
 
     const resource = useMemo(
       () => resources?.find((res) => res.id === resourceId),
-      [resources, resourceId],
+      [resources, resourceId]
     );
 
     return (
       <div className="flex flex-col w-full gap-5">
         <p className="min-w-20">
-          {label} {resource?.value}
+          {label} {resource?.name}
         </p>
         <div className="flex items-start justify-start w-full gap-10">
           {resource ? (
             <img
               className="w-16 h-16 rounded-full object-cover self-center"
               src={staticUrlPhoto(resource?.image?.url)}
-              alt={resource?.value}
+              alt={resource?.name}
             />
           ) : null}
           <p>
             {t("_entities:entities.resource")} <br />
-            <span className="text-primary text-xl">{resource?.value}</span>
+            <span className="text-primary text-xl">{resource?.name}</span>
           </p>
           <p className="text-base">
             {inputLabel} <br />
@@ -81,16 +87,14 @@ const ResourceRow = memo(
   },
   (prev, next) => {
     if (
-      prev.resource !== next.resource ||
       prev.inputLabel !== next.inputLabel ||
-      prev.inputPlaceholder !== next.inputPlaceholder ||
       prev.label !== next.label
     ) {
       return false;
     }
 
     return prev.value === next.value;
-  },
+  }
 );
 
 export default ResourceRow;
