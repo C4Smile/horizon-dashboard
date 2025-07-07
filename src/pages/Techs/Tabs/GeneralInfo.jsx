@@ -12,7 +12,7 @@ import htmlToDraft from "html-to-draftjs";
 import Loading from "../../../partials/Loading/Loading";
 import TextInput from "../../../components/Forms/TextInput";
 import SelectInput from "../../../components/Forms/SelectInput";
-import ImageUploader from "../../../components/ImageUploader";
+import ImageUploader from "../../../components/ImageUploader/ImageUploader";
 
 // providers
 import { useNotification } from "../../../providers/NotificationProvider";

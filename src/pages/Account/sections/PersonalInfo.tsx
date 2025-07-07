@@ -4,15 +4,19 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 import loadable from "@loadable/component";
 
+// partials
+import { Loading, TextInput } from "@sito/dashboard";
+
 // components
-import Loading from "../../../partials/Loading/Loading";
-import TextInput from "../../../components/Forms/TextInput";
-import ImageUploader from "../../../components/ImageUploader";
+import { ImageUploader } from "components";
 
 // providers
-import { useNotification } from "../../../providers/NotificationProvider";
-import { useAccount } from "../../../providers/Account/AccountProvider";
-import { queryClient, useHorizonApiClient } from "../../../providers/HorizonApiProvider";
+import {
+  useNotification,
+  useAccount,
+  queryClient,
+  useHorizonApiClient,
+} from "providers";
 
 // utils
 import { ReactQueryKeys } from "../../../utils/queryKeys";
@@ -57,11 +61,14 @@ function PersonalInfo() {
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
       if (error && error !== null) console.error(error.message);
-      else queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users, id] });
+      else
+        queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users, id] });
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
-      setNotification(String(e.status), { model: t("_entities:entities.user") });
+      setNotification(String(e.status), {
+        model: t("_entities:entities.user"),
+      });
     }
     setSaving(false);
   };
@@ -105,7 +112,9 @@ function PersonalInfo() {
     <NotFound />
   ) : (
     <form onSubmit={handleSubmit(onSubmit)} className="form">
-      <h2 className="text-1xl md:text-2xl font-bold">{t("_pages:settings.links.account")}</h2>
+      <h2 className="text-1xl md:text-2xl font-bold">
+        {t("_pages:settings.links.account")}
+      </h2>
       {userQuery.isLoading ? (
         <Loading
           className="bg-none w-6 h-6 mb-10"
@@ -117,7 +126,8 @@ function PersonalInfo() {
         <div className={id && lastUpdate ? "" : "mt-5"}>
           {id && lastUpdate && (
             <p className="text-sm mb-10">
-              {t("_accessibility:labels.lastUpdate")} {new Date(lastUpdate).toLocaleDateString("es-ES")}
+              {t("_accessibility:labels.lastUpdate")}{" "}
+              {new Date(lastUpdate).toLocaleDateString("es-ES")}
             </p>
           )}
         </div>
@@ -244,9 +254,18 @@ function PersonalInfo() {
         )}
       </div>
 
-      <button type="submit" disabled={userQuery.isLoading || saving} className="mb-5 submit">
+      <button
+        type="submit"
+        disabled={userQuery.isLoading || saving}
+        className="mb-5 submit"
+      >
         {(userQuery.isLoading || saving) && (
-          <Loading className="button-loading" strokeWidth="4" loaderClass="!w-6" color="stroke-white" />
+          <Loading
+            className="button-loading"
+            strokeWidth="4"
+            loaderClass="!w-6"
+            color="stroke-white"
+          />
         )}
         {t("_accessibility:buttons.save")}
       </button>

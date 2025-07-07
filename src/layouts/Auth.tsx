@@ -9,7 +9,7 @@ import { useAccount } from "../providers/Account/AccountProvider";
 import Notification from "../partials/Notification";
 
 // pages
-import { findPath, pageId } from "../pages/sitemap";
+import { findPath, PageId } from "../pages/sitemap";
 
 import config from "../config";
 
@@ -17,16 +17,16 @@ import config from "../config";
  * Auth layout
  * @returns Auth component
  */
-function Auth() {
+export function Auth() {
   const navigate = useNavigate();
 
   const { account } = useAccount();
 
   useEffect(() => {
     const recovering = getCookie(config.recovering);
-    if (recovering?.length) navigate(findPath(pageId.updatePassword));
+    if (recovering?.length) navigate(findPath(PageId.updatePassword));
     else {
-      if (account.user) navigate(findPath(pageId.dashboard));
+      if (account.user) navigate(findPath(PageId.dashboard));
     }
   }, [account, navigate]);
 
@@ -37,5 +37,3 @@ function Auth() {
     </div>
   );
 }
-
-export default Auth;

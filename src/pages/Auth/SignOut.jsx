@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAccount } from "../../providers/Account/AccountProvider";
 
 // page
-import { findPath, pageId } from "../sitemap";
+import { findPath, PageId } from "../sitemap";
 
 /**
  * SignOut page
@@ -19,7 +19,7 @@ function SignOut() {
   const logic = useCallback(async () => {
     logoutUser();
     setTimeout(() => {
-      navigate(findPath(pageId.signIn));
+      navigate(findPath(PageId.signIn));
     }, 1000);
   }, [logoutUser, navigate]);
 

@@ -50,6 +50,25 @@ export class ImageApiClient {
   }
 
   /**
+   * Read file as base64
+   * @param files files to read
+   * @returns base64 string
+   */
+  async readFilesAsBase64(files: FileList[]) {
+    const parsed = [];
+    for (const file of files) {
+      const parsedFile = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file as unknown as File);
+      });
+      parsed.push(parsedFile);
+    }
+    return parsed;
+  }
+
+  /**
    *
    * @param photos list of images
    * @param folder where to save images

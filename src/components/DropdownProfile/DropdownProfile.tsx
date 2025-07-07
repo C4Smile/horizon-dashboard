@@ -1,16 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import Transition from "../utils/Transition";
+import Transition from "../../utils/Transition";
 
 // providers
-import { useAccount } from "../providers/Account/AccountProvider";
+import { useAccount } from "../../providers/Account/AccountProvider";
 
 // images
 import noProducts from "../assets/images/no-product.jpg";
 
 // pages
-import { findPath, pageId } from "../pages/sitemap";
+import { findPath, PageId } from "../../pages/sitemap";
 
 /**
  * DropdownProfile
@@ -98,7 +98,7 @@ function DropdownProfile({ align }) {
             <li>
               <Link
                 className="font-medium text-sm text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center py-1 px-3"
-                to={findPath(pageId.signOut)}
+                to={findPath(PageId.signOut)}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 {t("_accessibility:buttons.signOut")}

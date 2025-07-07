@@ -21,7 +21,7 @@ import { Sidebar, Header } from "partials";
 import { useTranslation } from "react-i18next";
 
 // pages
-import { findPath, pageId } from "../pages/sitemap";
+import { findPath, PageId } from "../pages/sitemap";
 
 /**
  * Dashboard layout
@@ -51,11 +51,11 @@ export function Dashboard() {
       if (value.status === 401) throw Error("401");
       if (value.status === 403) throw Error("403");
       const recovering = getCookie(config.recovering);
-      if (recovering?.length) navigate(findPath(pageId.updatePassword));
+      if (recovering?.length) navigate(findPath(PageId.updatePassword));
     } catch (err) {
       console.error(err);
       logoutUser();
-      navigate(findPath(pageId.signOut));
+      navigate(findPath(PageId.signOut));
     }
   }, [logoutUser, horizonApiClient.Auth, navigate]);
 

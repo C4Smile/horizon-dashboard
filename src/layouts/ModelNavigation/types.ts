@@ -1,8 +1,10 @@
+import { PageId } from "src/pages/sitemap";
+
 export type LinksPropsTypes = {
-  pageKey: string;
-  noInsert: boolean;
-  navClassName: string;
-  linksClassName: string;
+  pageKey: PageId;
+  noInsert?: boolean;
+  navClassName?: string;
+  linksClassName?: string;
 };
 
 export type ModelNavigationPropsType = LinksPropsTypes;

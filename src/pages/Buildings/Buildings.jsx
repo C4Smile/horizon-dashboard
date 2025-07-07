@@ -32,7 +32,7 @@ import { useRestoreAction, useDeleteAction, useEditAction } from "../../hooks";
 import { useHorizonQuery } from "../../hooks/query/useHorizonQuery.jsx";
 
 // sitemap
-import { findPath, pageId } from "../sitemap.jsx";
+import { findPath, PageId } from "../sitemap.jsx";
 
 const columnClasses = {
   lastUpdate: "w-56",
@@ -75,7 +75,7 @@ function BuildingPage() {
       type: (
         <Link
           className="underline text-light-primary flex"
-          to={`${findPath(pageId.buildingTypesEdit)}/${building.type?.id}`}
+          to={`${findPath(PageId.buildingTypesEdit)}/${building.type?.id}`}
         >
           <span className="truncate">{building?.type?.name}</span>
         </Link>

@@ -10,7 +10,7 @@ import htmlToDraft from "html-to-draftjs";
 // components
 import Loading from "../../../partials/Loading/Loading";
 import TextInput from "../../../components/Forms/TextInput";
-import ImageUploader from "../../../components/ImageUploader";
+import ImageUploader from "../../../components/ImageUploader/ImageUploader";
 
 // providers
 import { useNotification } from "../../../providers/NotificationProvider";

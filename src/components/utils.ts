@@ -1,7 +1,7 @@
 import { BlobDto } from "lib";
 import config from "../config";
 
-type PhotoReducerActionType = {
+export type PhotoReducerActionType = {
   type: "set" | "add" | "delete";
   item: BlobDto;
   items: BlobDto[];

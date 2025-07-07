@@ -15,7 +15,7 @@ import { useNotification } from "../../providers/NotificationProvider";
 import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 
 // pages
-import { findPath, pageId } from "../sitemap";
+import { findPath, PageId } from "../sitemap";
 
 /**
  * Sign Page
@@ -132,7 +132,7 @@ function SignIn() {
         </div>
         <div className="w-full mb-5">
           <Link
-            to={findPath(pageId.recovery)}
+            to={findPath(PageId.recovery)}
             className={`underline text-left transition-all duration-500 ease-in-out delay-[500ms] ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
           >
             {t("_pages:auth.signIn.passwordRecovery")}

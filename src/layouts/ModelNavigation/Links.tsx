@@ -13,7 +13,12 @@ import { LinksPropsTypes } from "./types";
  * @returns Links component
  */
 function Links(props: LinksPropsTypes) {
-  const { pageKey, noInsert, navClassName, linksClassName } = props;
+  const {
+    pageKey,
+    noInsert = false,
+    navClassName = "",
+    linksClassName = "",
+  } = props;
   const { pathname } = useLocation();
   const { t } = useTranslation();
 

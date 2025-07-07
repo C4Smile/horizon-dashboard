@@ -8,7 +8,7 @@ import loadable from "@loadable/component";
 // components
 import Loading from "../../partials/Loading/Loading";
 import TextInput from "../../components/Forms/TextInput";
-import ImageUploader from "../../components/ImageUploader";
+import ImageUploader from "../../components/ImageUploader/ImageUploader";
 import SelectInput from "../../components/Forms/SelectInput";
 import PasswordInput from "../../components/Forms/PasswordInput";
 

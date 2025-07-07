@@ -30,7 +30,7 @@ import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 import { useRestoreAction, useDeleteAction, useEditAction } from "../../hooks";
 
 // sitemap
-import { findPath, pageId } from "../sitemap";
+import { findPath, PageId } from "../sitemap";
 import { useHorizonQuery } from "../../hooks/query/useHorizonQuery.jsx";
 
 const columnClasses = {
@@ -66,7 +66,7 @@ function TechPage() {
       type: (
         <Link
           className="underline text-light-primary flex"
-          to={`${findPath(pageId.techTypesEdit)}/${tech.type?.id}`}
+          to={`${findPath(PageId.techTypesEdit)}/${tech.type?.id}`}
         >
           <span className="truncate">{tech?.type?.name}</span>
         </Link>

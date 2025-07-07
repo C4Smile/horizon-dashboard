@@ -17,7 +17,7 @@ import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
 import config from "../../config";
 
 // pages
-import { findPath, pageId } from "../sitemap";
+import { findPath, PageId } from "../sitemap";
 
 /**
  * UpdatePassword page
@@ -51,7 +51,7 @@ function UpdatePassword() {
       setNotification(t("_pages:auth.updatePassword.sent"), {}, "good");
 
       deleteCookie(config.recovering);
-      setTimeout(() => navigate(findPath(pageId.signOut)), 2000);
+      setTimeout(() => navigate(findPath(PageId.signOut)), 2000);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
@@ -73,7 +73,7 @@ function UpdatePassword() {
         onSubmit={handleSubmit(onSubmit)}
         className="w-3/5 max-sm:w-10/12 px-5 flex flex-col items-center justify-start m-auto"
       >
-        <Link to={findPath(pageId.auth)}>
+        <Link to={findPath(PageId.auth)}>
           <Logo
             className={`md:mt-5 w-28 h-28 mb-10 transition-all duration-500 ease-in-out ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
           />

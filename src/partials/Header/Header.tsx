@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 /* import SearchModal from "../components/ModalSearch";
 import Notifications from "../components/DropdownNotifications"; */
-import UserMenu from "../../components/DropdownProfile";
+import UserMenu from "../../components/DropdownProfile/DropdownProfile";
 
 // types
 import { HeaderPropsTypes } from "./types";
