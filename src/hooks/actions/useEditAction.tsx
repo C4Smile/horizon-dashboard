@@ -1,8 +1,9 @@
 import { useCallback } from "react";
+import { Action } from "@sito/dashboard";
 import { useTranslation } from "react-i18next";
 
 // base
-import { BaseActions, UseSingleActionPropTypes } from "./types.js";
+import { ActionHook, BaseActions, UseSingleActionPropTypes } from "./types.js";
 
 // utils
 import { isDeleted, isLocked, isLockedBy } from "utils";
@@ -22,25 +23,28 @@ import { BaseEntityDto } from "lib";
  * @param props action properties
  * @returns action
  */
-export const useEditAction = (props: UseSingleActionPropTypes<number>) => {
-  const { onClick, hidden } = props;
+export const useEditAction = (
+  props: UseSingleActionPropTypes<number>
+): ActionHook<BaseEntityDto> => {
+  const { onClick, hidden, disabled = false } = props;
 
   const { t } = useTranslation();
 
   const { account } = useAccount();
 
   const action = useCallback(
-    (row: BaseEntityDto) => ({
+    (row: BaseEntityDto): Action<BaseEntityDto> => ({
       id: BaseActions.Edit,
-      hidden:
-        hidden ||
+      disabled:
+        disabled ||
         isDeleted(row) ||
         (isLocked(row) && !isLockedBy(account?.horizonUser?.id, row)),
+      hidden: hidden,
       onClick: () => onClick(row.id),
       icon: <FontAwesomeIcon icon={faPencil} />,
       tooltip: t("_pages:common.actions.edit.text"),
     }),
-    [account?.horizonUser?.id, hidden, onClick, t]
+    [account?.horizonUser?.id, disabled, hidden, onClick, t]
   );
 
   return {

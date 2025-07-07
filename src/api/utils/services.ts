@@ -2,6 +2,7 @@ import config from "src/config";
 
 // types
 import { HTTPResponse } from "./types";
+import { BaseCommonEntityDto } from "lib";
 
 const isAnError = (status: number) => status < 200 || status > 299;
 
@@ -47,11 +48,15 @@ export function buildQueryUrl<TFilter>(
 ): string {
   if (params) {
     const queryString = Object.entries(params)
-      .filter(([, value]) => value !== undefined && value !== null)
-      .map(
-        ([key, value]) =>
-          `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`
-      )
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .filter(([_, value]) => !!value)
+      .flatMap(([key, value]) => {
+        if (Array.isArray(value))
+          return value.map((v) => `${key}[]=${encodeURIComponent(v.id ?? v)}`);
+        else if (typeof value === "object" && value !== null)
+          return `${key}=${encodeURIComponent((value as BaseCommonEntityDto).id ?? "")}`;
+        else return `${key}=${encodeURIComponent(String(value))}`;
+      })
       .join("&");
 
     return queryString ? `${endpoint}?${queryString}` : endpoint;

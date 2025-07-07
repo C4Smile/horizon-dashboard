@@ -5,6 +5,8 @@ import { useHorizonApiClient } from "providers";
 
 // types
 import { UseFetchPropsType } from "./types.ts";
+
+// lib
 import {
   BuildingTypeDto,
   BuildingTypeCommonDto,
@@ -12,9 +14,12 @@ import {
   QueryResult,
 } from "lib";
 
+// api
+import { TablesCamelCase } from "api";
+
 export const BuildingTypesQueryKeys = {
   all: () => ({
-    queryKey: ["categories"],
+    queryKey: [TablesCamelCase.BuildingTypes],
   }),
   list: () => ({
     queryKey: [...BuildingTypesQueryKeys.all().queryKey, "list"],

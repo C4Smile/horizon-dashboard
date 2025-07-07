@@ -1,5 +1,4 @@
-import { TableFilters } from "@sito/dashboard";
-import { QueryKey } from "@tanstack/react-query";
+import { QueryKey, UseQueryResult } from "@tanstack/react-query";
 
 // lib
 import { BaseEntityDto, BaseFilterDto, QueryResult } from "lib";
@@ -13,9 +12,11 @@ export type UseFetchByIdPropsType = {
 };
 
 export type UseApiQueryPropsType<TResponseDto extends BaseEntityDto> = {
-  getFunction: (
-    query: BaseFilterDto,
-    filters: TableFilters
-  ) => Promise<QueryResult<TResponseDto[]>>;
+  getFunction: (query: BaseFilterDto) => Promise<QueryResult<TResponseDto[]>>;
   queryKey: QueryKey;
 };
+
+export interface ApiQueryResult<TResponseDto extends BaseEntityDto>
+  extends Omit<UseQueryResult<QueryResult<TResponseDto>>, "setTotal"> {
+  setTotal: (total: number) => void;
+}

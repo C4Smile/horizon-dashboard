@@ -22,7 +22,7 @@ import { Building } from "../../lib/models/building/Building.js";
 // utils
 import { extractKeysFromObject } from "../../utils/parser";
 import { ReactQueryKeys } from "../../utils/queryKeys";
-import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.jsx";
+import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.js";
 
 // providers
 import { useHorizonApiClient } from "../../providers/HorizonApiProvider";

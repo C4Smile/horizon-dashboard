@@ -18,7 +18,7 @@ import { BuildingType } from "../../lib/models/buildingType/BuildingType.js";
 import { extractKeysFromObject } from "../../utils/parser";
 import { ReactQueryKeys } from "../../utils/queryKeys";
 import { staticUrlPhoto } from "../../components/utils";
-import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.jsx";
+import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.js";
 
 // components
 import { FloatingButton } from "../../components/FloatingButton/FloatingButton.jsx";

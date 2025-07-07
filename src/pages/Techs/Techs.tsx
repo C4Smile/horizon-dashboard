@@ -1,0 +1,126 @@
+import { useCallback, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router-dom";
+
+// @sito/dashboard
+import { FilterTypes, Table, Option, Action } from "@sito/dashboard";
+
+// components
+import { TableToolbar } from "components";
+
+// providers
+import { useHorizonApiClient } from "providers";
+
+// hooks
+import {
+  useEditAction,
+  TechsQueryKeys,
+  useTechsList,
+  useRestoreDialog,
+  useDeleteDialog,
+  useTechTypesCommon,
+} from "hooks";
+
+// sitemap
+import { PageId } from "../sitemap";
+
+// lib
+import { TechDto } from "lib";
+
+// api
+import { EntityName, Tables } from "api";
+import { imageColumn, nameColumn, useParseColumns } from "utils";
+
+const columnClasses = {
+  lastUpdate: "w-56",
+};
+
+const noSortableColumns = {
+  image: true,
+};
+
+/**
+ * Tech page
+ * @returns Tech page component
+ */
+function TechPage() {
+  const { t } = useTranslation();
+
+  const horizonApiClient = useHorizonApiClient();
+
+  const navigate = useNavigate();
+
+  const { data, isLoading, setTotal } = useTechsList();
+
+  useEffect(() => {
+    if (data) setTotal(data.total ?? 0);
+  }, [data, setTotal]);
+
+  const { data: techTypeList } = useTechTypesCommon();
+
+  //#region Actions
+
+  const editAction = useEditAction({
+    onClick: (id) => navigate(`${Tables.Techs}/${id}`),
+  });
+
+  const restoreTech = useRestoreDialog({
+    mutationFn: (data) => horizonApiClient.Tech.restore(data),
+    ...TechsQueryKeys.all(),
+  });
+
+  const deleteTech = useDeleteDialog({
+    mutationFn: (data) => horizonApiClient.Tech.softDelete(data),
+    ...TechsQueryKeys.all(),
+  });
+
+  const getActions = useCallback(
+    (row: TechDto): Action<TechDto>[] => [
+      editAction.action(row),
+      restoreTech.action(row),
+      deleteTech.action(row),
+    ],
+    [editAction, restoreTech, deleteTech]
+  );
+
+  //#endregion Actions
+
+  const { columns } = useParseColumns<TechDto>(
+    [
+      nameColumn<TechDto>(),
+      {
+        key: "typeId",
+        label: t("_entities:tech.type.label"),
+        filterOptions: {
+          type: FilterTypes.autocomplete,
+          options: techTypeList ?? [],
+          defaultValue: [],
+        },
+        renderBody: (_: unknown, tech: TechDto) => (
+          <Link
+            className={`underline ${tech.deleted ? "text-white" : "text-light-primary"}`}
+            to={`/game/${Tables.TechTypes}/${tech.id}`}
+          >
+            {tech.type.name}
+          </Link>
+        ),
+      },
+      imageColumn<TechDto>("name", "image"),
+    ],
+    EntityName.Tech,
+    ["createdAt"]
+  );
+
+  return (
+    <Table
+      data={data?.items ?? []}
+      actions={getActions}
+      isLoading={isLoading}
+      entity={EntityName.Tech}
+      columns={columns}
+      toolbar={<TableToolbar pageKey={PageId.techs} />}
+    />
+  );
+}
+
+export default TechPage;

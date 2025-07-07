@@ -114,7 +114,7 @@ export class BaseApiClient<
    * @param query - query parameters
    * @returns Result list
    */
-  async get(query?: TFilter) {
+  async get(query?: TFilter): Promise<QueryResult<TDto>> {
     return await this.api.get<TDto, TFilter>(`${this.table}`, query, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
@@ -125,14 +125,15 @@ export class BaseApiClient<
    * @param query - Where conditions (key-value)
    * @returns  - Query result
    */
-  async commonGet(query?: TFilter): Promise<QueryResult<TCommonDto>> {
-    return await this.api.get<TCommonDto, TFilter>(
+  async commonGet(query?: TFilter): Promise<TCommonDto[]> {
+    const result = await this.api.get<TCommonDto, TFilter>(
       `${this.table}/common`,
       query,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
       }
     );
+    return result.items;
   }
 
   /**

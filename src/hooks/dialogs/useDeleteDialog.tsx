@@ -42,7 +42,7 @@ export const useDeleteDialog = (props: UseDeleteDialogPropsType) => {
     ...rest,
   });
 
-  const action = useDeleteAction({ onClick });
+  const { action } = useDeleteAction({ onClick });
 
   return {
     onClick,

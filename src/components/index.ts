@@ -1,6 +1,5 @@
 export * from "./Logo";
 export * from "./Dialogs";
-export * from "./DropdownNotifications";
 export * from "./DropdownProfile";
 export * from "./EntityLevelStuff";
 export * from "./Forms";
@@ -9,3 +8,6 @@ export * from "./ResourceStuff";
 export * from "./TabComponent";
 export * from "./ToTop";
 export * from "./utils";
+export * from "./Actions";
+export * from "./TablePage";
+export * from "./TableToolbar";

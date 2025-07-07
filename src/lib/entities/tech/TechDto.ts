@@ -7,6 +7,7 @@ export interface TechDto extends BaseEntityDto {
   urlName: string;
   description: string;
   creationTime: string;
+  typeId: number;
   type: TechTypeCommonDto;
   image: PhotoDto;
 }

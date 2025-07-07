@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, ReactNode } from "react";
 
 // types
 import { HeaderContextType, HeaderProviderPropsType } from "./types";
@@ -15,9 +15,9 @@ const HeaderProvider = (props: HeaderProviderPropsType) => {
   const { children } = props;
 
   const [title, setTitle] = useState("");
-  const [actions, setActions] = useState([]);
+  const [tabs, setTabs] = useState<ReactNode>([]);
 
-  const value = { title, setTitle, actions, setActions };
+  const value = { title, setTitle, tabs, setTabs };
   return (
     <HeaderContext.Provider value={value}>{children}</HeaderContext.Provider>
   );

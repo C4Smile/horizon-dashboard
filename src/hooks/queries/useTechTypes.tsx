@@ -1,0 +1,64 @@
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
+
+// providers
+import { useHorizonApiClient } from "providers";
+
+// types
+import { ApiQueryResult } from "./types.ts";
+
+// lib
+import { TechTypeDto, TechTypeCommonDto } from "lib";
+
+// api
+import { TablesCamelCase } from "api";
+
+// hooks
+import { useTableOptions } from "@sito/dashboard";
+
+export const TechTypessQueryKeys = {
+  all: () => ({
+    queryKey: [TablesCamelCase.TechTypes],
+  }),
+  list: () => ({
+    queryKey: [...TechTypessQueryKeys.all().queryKey, "list"],
+  }),
+  common: () => ({
+    queryKey: [...TechTypessQueryKeys.all().queryKey, "common"],
+  }),
+};
+
+export function useTechTypesList(): ApiQueryResult<TechTypeDto> {
+  const horizonApiClient = useHorizonApiClient();
+
+  const { sortingBy, setTotal, sortingOrder, currentPage, pageSize, filters } =
+    useTableOptions();
+
+  const query = useQuery({
+    queryFn: async () =>
+      horizonApiClient.TechType.get({
+        sortingBy,
+        sortingOrder,
+        currentPage,
+        pageSize,
+        ...filters,
+      }),
+    ...TechTypessQueryKeys.list(),
+  });
+
+  return {
+    ...query,
+    setTotal,
+  };
+}
+
+export function useTechTypesCommon(): UseQueryResult<TechTypeCommonDto[]> {
+  const horizonApiClient = useHorizonApiClient();
+
+  return useQuery({
+    ...TechTypessQueryKeys.common(),
+    queryFn: async () =>
+      horizonApiClient.TechType.commonGet({
+        deleted: false,
+      }),
+  });
+}

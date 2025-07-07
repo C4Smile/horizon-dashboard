@@ -12,7 +12,7 @@ import { LinksPropsTypes } from "./types";
  * @param {object} props component props
  * @returns Links component
  */
-function Links(props: LinksPropsTypes) {
+export function Links(props: LinksPropsTypes) {
   const {
     pageKey,
     noInsert = false,
@@ -52,5 +52,3 @@ function Links(props: LinksPropsTypes) {
     </nav>
   );
 }
-
-export default Links;

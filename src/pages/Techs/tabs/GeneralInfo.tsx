@@ -4,29 +4,30 @@ import { useQuery } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import loadable from "@loadable/component";
 
+// @sito/dashboard
+import { Loading, TextInput, SelectInput } from "@sito/dashboard";
+
 // editor
 import { ContentState, EditorState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
 
 // components
-import Loading from "../../../partials/Loading/Loading";
-import TextInput from "../../../components/Forms/TextInput";
-import SelectInput from "../../../components/Forms/SelectInput";
-import ImageUploader from "../../../components/ImageUploader/ImageUploader";
+import { ImageUploader } from "components";
 
 // providers
-import { useNotification } from "../../../providers/NotificationProvider";
-import { queryClient, useHorizonApiClient } from "../../../providers/HorizonApiProvider";
+import { useNotification, queryClient, useHorizonApiClient } from "providers";
 
 // utils
-import { ReactQueryKeys } from "../../../utils/queryKeys";
+import { ReactQueryKeys } from "utils";
+import { NotificationEnumType } from "lib";
+import { HTTPError } from "api";
 
 // loadable
 const HtmlInput = loadable(() => import("../../../components/Forms/HtmlInput"));
 
 /**
  * General Info
- * @param {*} props - component props
+ * @param props - component props
  * @returns GeneralInfo
  */
 function GeneralInfo(props) {
@@ -36,7 +37,7 @@ function GeneralInfo(props) {
 
   const horizonApiClient = useHorizonApiClient();
 
-  const { setNotification } = useNotification();
+  const { showNotification } = useNotification();
   const [saving, setSaving] = useState(false);
   const [lastUpdate, setLastUpdate] = useState();
 
@@ -46,13 +47,19 @@ function GeneralInfo(props) {
 
   const typesQuery = useQuery({
     queryKey: [ReactQueryKeys.TechTypes],
-    queryFn: () => horizonApiClient.TechType.getAll(),
+    queryFn: () => horizonApiClient.TechType.get(),
   });
 
   const typesList = useMemo(() => {
     try {
-      return typesQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
-    } catch (err) {
+      return (
+        typesQuery?.data?.items?.map((c) => ({
+          value: `${c.name}`,
+          id: c.id,
+        })) ?? []
+      );
+    } catch (err: unknown) {
+      console.error(err);
       return [];
     }
   }, [typesQuery.data]);
@@ -66,14 +73,24 @@ function GeneralInfo(props) {
       else result = await horizonApiClient.Tech.update(d, photo);
 
       const { error, status } = result;
-      setNotification(String(status), { model: t("_entities:entities.tech") });
+      if (!error)
+        showNotification({
+          message: t(`_accessibility:messages.${String(status)}`, {
+            model: t("_entities:entities.tech"),
+          }),
+          type: NotificationEnumType.success,
+        });
       setLastUpdate(new Date().toDateString());
-      // eslint-disable-next-line no-console
+
       if (error) console.error(error.message);
       else {
-        await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Techs] });
+        await queryClient.invalidateQueries({
+          queryKey: [ReactQueryKeys.Techs],
+        });
         if (d.id !== undefined)
-          await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Techs, id] });
+          await queryClient.invalidateQueries({
+            queryKey: [ReactQueryKeys.Techs, id],
+          });
         else {
           setPhoto();
           reset({
@@ -84,10 +101,17 @@ function GeneralInfo(props) {
           });
         }
       }
-    } catch (e) {
-      // eslint-disable-next-line no-console
+    } catch (e: unknown) {
       console.error(e);
-      setNotification(String(e.status), { model: t("_entities:entities.tech") });
+      showNotification({
+        message: t(
+          `_accessibility:messages.${String((e as HTTPError).status)}`,
+          {
+            model: t("_entities:entities.tech"),
+          }
+        ),
+        type: NotificationEnumType.error,
+      });
     }
     setSaving(false);
   };
@@ -98,12 +122,17 @@ function GeneralInfo(props) {
       setPhoto(techQuery.data?.image);
 
       //* PARSING CONTENT
-      if (techQuery.data?.description && typeof techQuery.data?.description === "string") {
+      if (
+        techQuery.data?.description &&
+        typeof techQuery.data?.description === "string"
+      ) {
         const html = techQuery.data?.description;
         const descriptionBlock = htmlToDraft(html);
         if (descriptionBlock) {
-          const descriptionState = ContentState.createFromBlockArray(descriptionBlock);
-          techQuery.data.description = EditorState.createWithContent(descriptionState);
+          const descriptionState =
+            ContentState.createFromBlockArray(descriptionBlock);
+          techQuery.data.description =
+            EditorState.createWithContent(descriptionState);
         }
       }
       setLastUpdate(techQuery?.data?.lastUpdate);
@@ -233,9 +262,18 @@ function GeneralInfo(props) {
         )}
       />
 
-      <button type="submit" disabled={techQuery.isLoading || saving} className="my-5 submit">
+      <button
+        type="submit"
+        disabled={techQuery.isLoading || saving}
+        className="my-5 submit"
+      >
         {(techQuery.isLoading || saving) && (
-          <Loading className="button-loading" strokeWidth="4" loaderClass="!w-6" color="stroke-white" />
+          <Loading
+            className="button-loading"
+            strokeWidth="4"
+            loaderClass="!w-6"
+            color="stroke-white"
+          />
         )}
         {t("_accessibility:buttons.save")}
       </button>

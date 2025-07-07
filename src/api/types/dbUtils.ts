@@ -27,6 +27,35 @@ export enum Tables {
   Users = "users",
 }
 
+export enum EntityName {
+  Building = "building",
+  BuildingCost = "buildingCost",
+  BuildingProduce = "buildingProduce",
+  BuildingReqBuilding = "buildingReqBuilding",
+  BuildingReqTech = "buildingReqTech",
+  BuildingType = "buildingType",
+  BuildingUpkeep = "buildingUpkeep",
+  Cannon = "cannon",
+  CannonCost = "cannonCost",
+  CannonReqBuilding = "cannonReqBuilding",
+  CannonReqTech = "cannonReqTech",
+  PushNotification = "pushNotification",
+  Resource = "resource",
+  Ship = "ship",
+  ShipCost = "shipCost",
+  ShipReqBuilding = "shipReqBuilding",
+  ShipReqTech = "shipReqTech",
+  ShipUpkeep = "shipUpkeep",
+  Skill = "skill",
+  Tech = "tech",
+  TechCost = "techCost",
+  TechProduce = "techProduce",
+  TechReqBuilding = "techReqBuilding",
+  TechReqTech = "techReqTech",
+  TechType = "techType",
+  User = "user",
+}
+
 export enum TablesCamelCase {
   Buildings = "buildings",
   BuildingCosts = "buildingCosts",

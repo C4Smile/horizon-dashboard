@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useTableOptions } from "@sito/dashboard";
 
 // types
-import { UseApiQueryPropsType } from "./types";
+import { UseApiQueryPropsType, ApiQueryResult } from "./types";
 
 // lib
 import { BaseEntityDto } from "lib";
@@ -16,25 +16,28 @@ import { BaseEntityDto } from "lib";
  */
 export const useHorizonQuery = <TResponseDto extends BaseEntityDto>(
   props: UseApiQueryPropsType<TResponseDto>
-) => {
+): ApiQueryResult<TResponseDto> => {
   const { getFunction, queryKey } = props;
 
   const { sortingBy, setTotal, sortingOrder, currentPage, pageSize, filters } =
     useTableOptions();
 
-  const { data, isLoading } = useQuery({
-    queryKey: [
-      queryKey,
-      { sortingBy, sortingOrder, currentPage, pageSize },
-      { ...filters },
-    ],
-    queryFn: () =>
-      getFunction({ sortingBy, sortingOrder, currentPage, pageSize }, filters),
-  });
-
   return {
-    data,
-    isLoading,
+    ...useQuery({
+      queryKey: [
+        queryKey,
+        { sortingBy, sortingOrder, currentPage, pageSize },
+        { ...filters },
+      ],
+      queryFn: () =>
+        getFunction({
+          sortingBy,
+          sortingOrder,
+          currentPage,
+          pageSize,
+          ...filters,
+        }),
+    }),
     setTotal,
   };
 };

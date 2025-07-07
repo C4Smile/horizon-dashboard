@@ -2,10 +2,7 @@ import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
 // base
-import { BaseActions, UseMultipleActionPropTypes } from "./types";
-
-// utils
-import { isDeleted, isLocked } from "utils";
+import { ActionHook, BaseActions, UseMultipleActionPropTypes } from "./types";
 
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,8 +16,15 @@ import { BaseEntityDto } from "lib";
  * @param props action properties
  * @returns action
  */
-export const useDeleteAction = (props: UseMultipleActionPropTypes<number>) => {
-  const { onClick, isLoading = false, hidden = false } = props;
+export const useDeleteAction = (
+  props: UseMultipleActionPropTypes<number>
+): ActionHook<BaseEntityDto> => {
+  const {
+    onClick,
+    disabled = false,
+    isLoading = false,
+    hidden = false,
+  } = props;
 
   const { t } = useTranslation();
 
@@ -29,7 +33,8 @@ export const useDeleteAction = (props: UseMultipleActionPropTypes<number>) => {
       return {
         id: BaseActions.Delete,
         isLoading,
-        hidden: hidden || isDeleted(row) || isLocked(row),
+        hidden: hidden || row.deleted,
+        disabled: disabled || !!row.lockedBy,
         onClick: () => onClick([row.id]),
         icon: (
           <FontAwesomeIcon
@@ -40,7 +45,7 @@ export const useDeleteAction = (props: UseMultipleActionPropTypes<number>) => {
         tooltip: t("_accessibility:buttons.delete"),
       };
     },
-    [hidden, isLoading, onClick, t]
+    [disabled, hidden, isLoading, onClick, t]
   );
 
   return {
