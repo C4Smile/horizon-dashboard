@@ -5,6 +5,8 @@ import { useTableOptions } from "@sito/dashboard";
 
 // types
 import { UseApiQueryPropsType } from "./types";
+
+// lib
 import { BaseEntityDto } from "lib";
 
 /**
@@ -12,7 +14,7 @@ import { BaseEntityDto } from "lib";
  * @param {object} props hook props
  * @returns useApiQuery
  */
-export const useApiQuery = <TResponseDto extends BaseEntityDto>(
+export const useHorizonQuery = <TResponseDto extends BaseEntityDto>(
   props: UseApiQueryPropsType<TResponseDto>
 ) => {
   const { getFunction, queryKey } = props;

@@ -1,23 +1,29 @@
-import React, { useState, useRef, useEffect } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import Transition from "../../utils/Transition";
 
 // providers
-import { useAccount } from "../../providers/Account/AccountProvider";
+import { useAccount } from "providers";
 
 // images
-import noProducts from "../assets/images/no-product.jpg";
+import noProducts from "assets/images/no-product.jpg";
 
 // pages
-import { findPath, PageId } from "../../pages/sitemap";
+import { findPath, PageId } from "pages";
+
+// utils
+import { Transition } from "utils";
+
+// types
+import { DropdownProfilePropsType } from "./types";
 
 /**
  * DropdownProfile
- * @param {string} align - Alignment
- * @returns {object} React component
+ * @param align - Alignment
+ * @returns React component
  */
-function DropdownProfile({ align }) {
+function DropdownProfile({ align }: DropdownProfilePropsType) {
   const { t } = useTranslation();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -28,12 +34,12 @@ function DropdownProfile({ align }) {
 
   // close on click outside
   useEffect(() => {
-    const clickHandler = ({ target }) => {
+    const clickHandler = ({ target }: MouseEvent) => {
       if (!dropdown.current) return;
       if (
         !dropdownOpen ||
-        dropdown.current.contains(target) ||
-        trigger.current.contains(target)
+        (dropdown.current as any).contains(target) ||
+        (trigger.current && (trigger.current as any).contains(target))
       )
         return;
       setDropdownOpen(false);
@@ -44,13 +50,19 @@ function DropdownProfile({ align }) {
 
   // close if the esc key is pressed
   useEffect(() => {
-    const keyHandler = ({ keyCode }) => {
+    const keyHandler = ({ keyCode }: KeyboardEvent) => {
       if (!dropdownOpen || keyCode !== 27) return;
       setDropdownOpen(false);
     };
     document.addEventListener("keydown", keyHandler);
     return () => document.removeEventListener("keydown", keyHandler);
   });
+
+  const roleTranslation = useMemo(() => {
+    if (account?.horizonUser?.roleId) {
+      return t(`_entities:roles.${account.horizonUser.roleId}`);
+    }
+  }, [account?.horizonUser?.roleId, t]);
 
   return (
     <div className="relative inline-flex">
@@ -81,7 +93,7 @@ function DropdownProfile({ align }) {
         </div>
       </button>
 
-      {/* <Transition
+      <Transition
         className={`origin-top-right z-10 absolute top-full min-w-44 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 py-1.5 rounded shadow-lg overflow-hidden mt-1 ${align === "right" ? "right-0" : "left-0"}`}
         show={dropdownOpen}
         enter="transition ease-out duration-200 transform"
@@ -90,42 +102,42 @@ function DropdownProfile({ align }) {
         leave="transition ease-out duration-200"
         leaveStart="opacity-100"
         leaveEnd="opacity-0"
-      > */}
-      <div
-        ref={dropdown}
-        onFocus={() => setDropdownOpen(true)}
-        onBlur={() => setDropdownOpen(false)}
       >
-        <div className="pt-0.5 pb-2 px-3 mb-1 border-b border-slate-200 dark:border-slate-700">
-          <div className="font-medium text-slate-800 dark:text-slate-100">
-            {t("_accessibility:appName")}
+        <div
+          ref={dropdown}
+          onFocus={() => setDropdownOpen(true)}
+          onBlur={() => setDropdownOpen(false)}
+        >
+          <div className="pt-0.5 pb-2 px-3 mb-1 border-b border-slate-200 dark:border-slate-700">
+            <div className="font-medium text-slate-800 dark:text-slate-100">
+              {t("_accessibility:appName")}
+            </div>
+            <div className="text-xs text-slate-500 dark:text-slate-400 italic">
+              {roleTranslation}
+            </div>
           </div>
-          <div className="text-xs text-slate-500 dark:text-slate-400 italic">
-            Administrator
-          </div>
+          <ul>
+            <li>
+              <Link
+                className="font-medium text-sm text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center py-1 px-3"
+                to={findPath(PageId.settings)}
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+              >
+                {t("_accessibility:buttons.settings")}
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="font-medium text-sm text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center py-1 px-3"
+                to={findPath(PageId.signOut)}
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+              >
+                {t("_accessibility:buttons.signOut")}
+              </Link>
+            </li>
+          </ul>
         </div>
-        <ul>
-          <li>
-            <Link
-              className="font-medium text-sm text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center py-1 px-3"
-              to="/ajustes"
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-            >
-              {t("_accessibility:buttons.settings")}
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="font-medium text-sm text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center py-1 px-3"
-              to={findPath(PageId.signOut)}
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-            >
-              {t("_accessibility:buttons.signOut")}
-            </Link>
-          </li>
-        </ul>
-      </div>
-      {/* </Transition> */}
+      </Transition>
     </div>
   );
 }

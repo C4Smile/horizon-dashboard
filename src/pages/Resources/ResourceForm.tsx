@@ -5,24 +5,24 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 import loadable from "@loadable/component";
 
+// @sito/dashboard
+import { Loading, TextInput } from "@sito/dashboard";
+
 // editor
 import { EditorState, ContentState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
 
 // components
-import Loading from "../../partials/Loading/Loading";
-import TextInput from "../../components/Forms/TextInput";
-import ImageUploader from "../../components/ImageUploader/ImageUploader";
+import { ImageUploader } from "components";
 
 // providers
-import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient, useHorizonApiClient } from "../../providers/HorizonApiProvider";
+import { useNotification, queryClient, useHorizonApiClient } from "providers";
 
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // loadable
-const HtmlInput = loadable(() => import("../../components/Forms/HtmlInput"));
+const HtmlInput = loadable(() => import("components"));
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
@@ -57,14 +57,20 @@ function ResourceForm() {
       else result = await horizonApiClient.Resource.update(d, photo);
 
       const { error, status } = result;
-      setNotification(String(status), { model: t("_entities:entities.resource") });
+      setNotification(String(status), {
+        model: t("_entities:entities.resource"),
+      });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
       if (error) console.error(error.message);
       else {
-        await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Resources] });
+        await queryClient.invalidateQueries({
+          queryKey: [ReactQueryKeys.Resources],
+        });
         if (id !== undefined)
-          await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Resources, id] });
+          await queryClient.invalidateQueries({
+            queryKey: [ReactQueryKeys.Resources, id],
+          });
         else {
           setPhoto(null);
           reset({
@@ -78,7 +84,9 @@ function ResourceForm() {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
-      setNotification(String(e.status), { model: t("_entities:entities.resource") });
+      setNotification(String(e.status), {
+        model: t("_entities:entities.resource"),
+      });
     }
     setSaving(false);
   };
@@ -101,12 +109,17 @@ function ResourceForm() {
       //* PARSING PHOTO
       setPhoto(resourceQuery.data?.image);
       //* PARSING CONTENT
-      if (resourceQuery.data?.description && typeof resourceQuery.data?.description === "string") {
+      if (
+        resourceQuery.data?.description &&
+        typeof resourceQuery.data?.description === "string"
+      ) {
         const html = resourceQuery.data?.description;
         const descriptionBlock = htmlToDraft(html);
         if (descriptionBlock) {
-          const descriptionState = ContentState.createFromBlockArray(descriptionBlock);
-          resourceQuery.data.description = EditorState.createWithContent(descriptionState);
+          const descriptionState =
+            ContentState.createFromBlockArray(descriptionBlock);
+          resourceQuery.data.description =
+            EditorState.createWithContent(descriptionState);
         }
       }
       setLastUpdate(resourceQuery?.data?.lastUpdate);
@@ -130,7 +143,9 @@ function ResourceForm() {
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <h1 className="text-2xl md:text-3xl font-bold">
-          {id ? `${t("_accessibility:components.form.editing")} ${id}` : t("_pages:resources.newForm")}
+          {id
+            ? `${t("_accessibility:components.form.editing")} ${id}`
+            : t("_pages:resources.newForm")}
         </h1>
         {resourceQuery.isLoading ? (
           <Loading
@@ -215,7 +230,11 @@ function ResourceForm() {
           )}
         />
 
-        <button type="submit" disabled={resourceQuery.isLoading || saving} className="my-5 submit">
+        <button
+          type="submit"
+          disabled={resourceQuery.isLoading || saving}
+          className="my-5 submit"
+        >
           {(resourceQuery.isLoading || saving) && (
             <Loading
               className="button-loading"

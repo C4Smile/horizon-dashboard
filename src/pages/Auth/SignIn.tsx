@@ -3,19 +3,23 @@ import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+// @sito/dashboard
+import { Loading, State, TextInput } from "@sito/dashboard";
+
 // components
-import Logo from "../../components/Logo/Logo";
-import Loading from "../../partials/Loading/Loading";
-import TextInput from "../../components/Forms/TextInput";
-import PasswordInput from "../../components/Forms/PasswordInput";
+import { Logo, PasswordInput } from "components";
 
 // providers
-import { useAccount } from "../../providers/Account/AccountProvider";
-import { useNotification } from "../../providers/NotificationProvider";
-import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
+import { useAccount, useNotification, useHorizonApiClient } from "providers";
 
 // pages
 import { findPath, PageId } from "../sitemap";
+
+// api
+import { HTTPError } from "api";
+
+// lib
+import { NotificationEnumType } from "lib";
 
 /**
  * Sign Page
@@ -36,33 +40,41 @@ function SignIn() {
 
   const { handleSubmit, control } = useForm();
 
-  const { setNotification } = useNotification();
+  const { showNotification } = useNotification();
 
   const onSubmit = async (d) => {
     setUserError("");
     setPasswordError("");
     setSaving(true);
     try {
-      const result = await horizonApiClient.User.login(d.email, d.password);
+      const result = await horizonApiClient.Auth.login(d.email, d.password);
       const data = await result.json();
       // set server status to notification
       if (data.status) {
         if (data.status === 404)
-          setUserError(t(`_accessibility:messages.404`, { model: t("_entities:entities.user") }));
+          setUserError(
+            t(`_accessibility:messages.404`, {
+              model: t("_entities:entities.user"),
+            })
+          );
         else if (data.status === 401 || data.status === 400)
           setPasswordError(t("_accessibility:messages.401"));
         else {
-          const request = await horizonApiClient.User.fetchOwner(data.user.id);
+          const request = await horizonApiClient.Auth.fetchOwner(data.user.id);
           const horizonUser = await request.json();
           if (horizonUser) logUser({ ...data, horizonUser });
           else logUser({ ...data });
         }
       }
-    } catch (e) {
-      // eslint-disable-next-line no-console
+    } catch (e: unknown) {
       console.error(e);
       // set server status to notification
-      setNotification(String(e.status ?? "notConnected"));
+      showNotification({
+        message: t(
+          `_accessibility:messages.${String((e as HTTPError).status ?? "notConnected")}`
+        ),
+        type: NotificationEnumType.error,
+      });
     }
     setSaving(false);
   };
@@ -104,7 +116,7 @@ function SignIn() {
                 label={t("_entities:user.email.label")}
                 required
                 helperText={userError}
-                state={userError.length ? "error" : ""}
+                state={userError.length ? State.error : State.default}
               />
             )}
           />
@@ -125,7 +137,7 @@ function SignIn() {
                 label={t("_entities:user.password.label")}
                 required
                 helperText={passwordError}
-                state={passwordError.length ? "error" : ""}
+                state={passwordError.length ? State.error : State.default}
               />
             )}
           />

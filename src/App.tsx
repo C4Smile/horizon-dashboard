@@ -2,9 +2,6 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import loadable from "@loadable/component";
 
-// tippy styles
-import "tippy.js/dist/tippy.css"; // optional
-
 import "./css/style.css";
 
 // sitemap
@@ -16,22 +13,47 @@ import { useAccount } from "./providers/Account/AccountProvider";
 // components
 import SplashScreen from "./partials/Loading/SplashScreen";
 
+// pages
+import { ViewPageType } from "./pages/";
+
+// lib
+import { Roles } from "lib";
+
 // Generals
 const NotFound = loadable(() => import("./pages/NotFound/NotFound"));
 
-const renderRoutes = (sitemap, userRole, parentRoute) =>
+/**
+ *
+ * @param sitemap the app sitemap
+ * @param userRole the current user role
+ * @param parentRoute the parent route to render
+ * @returns
+ */
+const renderRoutes = (
+  sitemap: ViewPageType[],
+  userRole: Roles,
+  parentRoute?: string
+) =>
   sitemap
     .filter((page) => (page.role ? page.role.indexOf(userRole) >= 0 : true))
     .map((page) => {
       if (page.children) {
         return (
-          <Route key={page.key} element={page.component} path={`${parentRoute ?? ""}${page.path}`}>
+          <Route
+            key={page.key}
+            element={page.component}
+            path={`${parentRoute ?? ""}${page.path}`}
+          >
             {renderRoutes(page.children, userRole, page.path)}
           </Route>
         );
       } else {
         return (
-          <Route key={page.key} element={page.component} path={`${parentRoute ?? ""}${page.path}`} />
+          <Route
+            key={page.key}
+            element={page.component}
+            path={`${parentRoute ?? ""}${page.path}`}
+          />
         );
       }
     });
@@ -49,9 +71,12 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    document.querySelector("html").style.scrollBehavior = "auto";
-    window.scroll({ top: 0 });
-    document.querySelector("html").style.scrollBehavior = "";
+    const html = document.querySelector("html");
+    if (html) {
+      html.style.scrollBehavior = "auto";
+      window.scroll({ top: 0 });
+      html.style.scrollBehavior = "";
+    }
   }, [location.pathname]); // triggered on route change
 
   useEffect(() => {

@@ -7,6 +7,7 @@ export type AccountContextType = {
   account: AccountDto;
   logUser: (data: AccountDto) => void;
   logoutUser: () => void;
+  logUserFromLocal: () => void;
 };
 
 export type AccountProviderPropsType = {

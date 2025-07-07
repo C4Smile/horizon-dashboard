@@ -4,19 +4,26 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { createCookie } from "some-javascript-utils/browser";
 
+// @sito/dashboard
+import { Loading, TextInput } from "@sito/dashboard";
+
 // components
-import Logo from "../../components/Logo/Logo";
-import Loading from "../../partials/Loading/Loading";
-import TextInput from "../../components/Forms/TextInput";
+import { Logo } from "components";
 
 // providers
-import { useNotification } from "../../providers/NotificationProvider";
-import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
+import { useNotification, useHorizonApiClient } from "providers";
 
+// config
 import config from "../../config";
 
 // pages
 import { findPath, PageId } from "../sitemap";
+
+// lib
+import { NotificationEnumType } from "lib";
+
+// api
+import { HTTPError } from "api";
 
 /**
  * Recovery page
@@ -32,23 +39,34 @@ function Recovery() {
 
   const { handleSubmit, control } = useForm();
 
-  const { setNotification } = useNotification();
+  const { showNotification } = useNotification();
 
   const onSubmit = async (d) => {
     setSaving(true);
     try {
-      const response = await horizonApiClient.User.recovery(d.email);
+      const response = await horizonApiClient.Auth.recovery(d.email);
       const data = await response.json();
-      if (data !== null && data.status) setNotification(String(data.status));
+      if (data !== null && data.status)
+        showNotification({
+          message: t(`_accessibility:messages.${String(data.status)}`),
+          type: NotificationEnumType.error,
+        });
       else {
-        setNotification(t("_pages:auth.recovery.sent"), {}, "good");
+        showNotification({
+          message: t("_pages:auth.recovery.sent"),
+          type: NotificationEnumType.success,
+        });
         createCookie(config.recovering, 1, d.email);
       }
-    } catch (e) {
-      // eslint-disable-next-line no-console
+    } catch (e: unknown) {
       console.error(e);
       // set server status to notification
-      setNotification(String(e.status));
+      showNotification({
+        message: t(
+          `_accessibility:messages.${String((e as HTTPError).status)}`
+        ),
+        type: NotificationEnumType.error,
+      });
     }
     setSaving(false);
   };

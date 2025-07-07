@@ -4,10 +4,10 @@ import { createContext, useState, useContext, useCallback } from "react";
 import { useHorizonApiClient } from "providers";
 
 // utils
-import { toLocal, fromLocal, removeFromLocal } from "../../utils/local";
+import { toLocal, fromLocal, removeFromLocal } from "utils";
 
 // config
-import config from "src/config";
+import config from "../../config";
 
 // types
 import { AccountContextType, AccountProviderPropsType } from "./types";
@@ -41,11 +41,11 @@ const AccountProvider = (props: AccountProviderPropsType) => {
 
   const logUserFromLocal = useCallback(async () => {
     try {
-      const { status } = await horizonApiClient.User.getSession();
+      const { status } = await horizonApiClient.Auth.getSession();
       if (status === 200) {
         const loggedUser = fromLocal(config.user, "object");
         if (loggedUser) {
-          const request = await horizonApiClient.User.fetchOwner(
+          const request = await horizonApiClient.Auth.fetchOwner(
             loggedUser.user.id
           );
           const horizonUser = await request.json();
@@ -57,7 +57,7 @@ const AccountProvider = (props: AccountProviderPropsType) => {
       console.error(err);
       logoutUser();
     }
-  }, [logoutUser, horizonApiClient.User]);
+  }, [horizonApiClient.Auth, logoutUser]);
 
   const value = { account, logUser, logoutUser, logUserFromLocal };
   return (

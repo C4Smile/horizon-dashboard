@@ -4,20 +4,22 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteCookie } from "some-javascript-utils/browser";
 
+// @sito/dashboard
+import { Loading, State } from "@sito/dashboard";
+
 // components
-import Logo from "../../components/Logo/Logo";
-import Loading from "../../partials/Loading/Loading";
-import PasswordInput from "../../components/Forms/PasswordInput";
+import { Logo, PasswordInput } from "components";
 
 // providers
-import { useNotification } from "../../providers/NotificationProvider";
-import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
+import { useNotification, useHorizonApiClient } from "providers";
 
 // config
 import config from "../../config";
 
 // pages
 import { findPath, PageId } from "../sitemap";
+import { NotificationEnumType } from "lib";
+import { HTTPError } from "api";
 
 /**
  * UpdatePassword page
@@ -35,28 +37,38 @@ function UpdatePassword() {
 
   const { handleSubmit, control } = useForm();
 
-  const { setNotification } = useNotification();
+  const { showNotification } = useNotification();
 
   const onSubmit = async (d) => {
     setSaving(true);
     setPasswordError("");
     if (d.password !== d.rPassword) {
       setSaving(false);
-      // eslint-disable-next-line no-console
+
       console.error(t("_accessibility:errors.passwordDoNotMatch"));
-      return setNotification(t("_accessibility:errors.passwordDoNotMatch"));
+      return showNotification({
+        message: t("_accessibility:errors.passwordDoNotMatch"),
+        type: NotificationEnumType.error,
+      });
     }
     try {
-      await horizonApiClient.User.updatePassword(d.password);
-      setNotification(t("_pages:auth.updatePassword.sent"), {}, "good");
+      await horizonApiClient.Auth.updatePassword(d.password);
+      showNotification({
+        message: t("_pages:auth.updatePassword.sent"),
+        type: NotificationEnumType.success,
+      });
 
       deleteCookie(config.recovering);
       setTimeout(() => navigate(findPath(PageId.signOut)), 2000);
-    } catch (e) {
-      // eslint-disable-next-line no-console
+    } catch (e: unknown) {
       console.error(e);
       // set server status to notification
-      setNotification(String(e.status));
+      showNotification({
+        message: t(
+          `_accessibility:messages.${String((e as HTTPError).status)}`
+        ),
+        type: NotificationEnumType.error,
+      });
     }
     setSaving(false);
   };
@@ -118,7 +130,7 @@ function UpdatePassword() {
                 label={t("_entities:user.rPassword.label")}
                 required
                 helperText={passwordError}
-                state={passwordError.length ? "error" : ""}
+                state={passwordError.length ? State.error : State.default}
               />
             )}
           />
