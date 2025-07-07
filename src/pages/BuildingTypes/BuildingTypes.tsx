@@ -13,17 +13,17 @@ import { useParseColumns, nameColumn, imageColumn } from "utils";
 // hooks
 import {
   useEditAction,
-  TechTypesQueryKeys,
+  BuildingTypesQueryKeys,
   useDeleteDialog,
   useRestoreDialog,
-  useTechTypesList,
+  useBuildingTypesList,
 } from "hooks";
 
 // pages
 import { PageId } from "pages";
 
 // lib
-import { TechTypeDto } from "lib";
+import { BuildingTypeDto } from "lib";
 
 // api
 import { EntityName, Tables } from "api";
@@ -35,12 +35,12 @@ import { useHorizonApiClient } from "providers";
  * RoomType page
  * @returns RoomType page component
  */
-function TechTypes() {
+function BuildingTypes() {
   const { t } = useTranslation();
 
   const horizonApiClient = useHorizonApiClient();
 
-  const { data, isLoading, setTotal } = useTechTypesList();
+  const { data, isLoading, setTotal } = useBuildingTypesList();
 
   useEffect(() => {
     if (data) setTotal(data.total ?? 0);
@@ -53,21 +53,21 @@ function TechTypes() {
   //#region Actions
 
   const editAction = useEditAction({
-    url: `game/${Tables.TechTypes}`,
+    url: `game/${Tables.BuildingTypes}`,
   });
 
   const restoreAction = useRestoreDialog({
-    mutationFn: (data) => horizonApiClient.Tech.restore(data),
-    ...TechTypesQueryKeys.all(),
+    mutationFn: (data) => horizonApiClient.Building.restore(data),
+    ...BuildingTypesQueryKeys.all(),
   });
 
   const deleteAction = useDeleteDialog({
-    mutationFn: (data) => horizonApiClient.Tech.softDelete(data),
-    ...TechTypesQueryKeys.all(),
+    mutationFn: (data) => horizonApiClient.Building.softDelete(data),
+    ...BuildingTypesQueryKeys.all(),
   });
 
   const getActions = useCallback(
-    (row: TechTypeDto): Action<TechTypeDto>[] => [
+    (row: BuildingTypeDto): Action<BuildingTypeDto>[] => [
       editAction.action(row),
       restoreAction.action(row),
       deleteAction.action(row),
@@ -77,9 +77,12 @@ function TechTypes() {
 
   //#endregion Actions
 
-  const { columns } = useParseColumns<TechTypeDto>(
-    [nameColumn<TechTypeDto>(), imageColumn<TechTypeDto>("name", "image")],
-    EntityName.TechType,
+  const { columns } = useParseColumns<BuildingTypeDto>(
+    [
+      nameColumn<BuildingTypeDto>(),
+      imageColumn<BuildingTypeDto>("name", "image"),
+    ],
+    EntityName.BuildingType,
     []
   );
 
@@ -93,11 +96,11 @@ function TechTypes() {
         actions={getActions}
         isLoading={isLoading}
         columns={columns}
-        entity={EntityName.TechType}
+        entity={EntityName.BuildingType}
         toolbar={<TableToolbar pageKey={PageId.techTypes} />}
       />
     </TablePage>
   );
 }
 
-export default TechTypes;
+export default BuildingTypes;

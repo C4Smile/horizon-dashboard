@@ -15,15 +15,15 @@ import { TablesCamelCase } from "api";
 // hooks
 import { useTableOptions } from "@sito/dashboard";
 
-export const TechTypessQueryKeys = {
+export const TechTypesQueryKeys = {
   all: () => ({
     queryKey: [TablesCamelCase.TechTypes],
   }),
   list: () => ({
-    queryKey: [...TechTypessQueryKeys.all().queryKey, "list"],
+    queryKey: [...TechTypesQueryKeys.all().queryKey, "list"],
   }),
   common: () => ({
-    queryKey: [...TechTypessQueryKeys.all().queryKey, "common"],
+    queryKey: [...TechTypesQueryKeys.all().queryKey, "common"],
   }),
 };
 
@@ -42,7 +42,7 @@ export function useTechTypesList(): ApiQueryResult<TechTypeDto> {
         pageSize,
         ...filters,
       }),
-    ...TechTypessQueryKeys.list(),
+    ...TechTypesQueryKeys.list(),
   });
 
   return {
@@ -55,7 +55,7 @@ export function useTechTypesCommon(): UseQueryResult<TechTypeCommonDto[]> {
   const horizonApiClient = useHorizonApiClient();
 
   return useQuery({
-    ...TechTypessQueryKeys.common(),
+    ...TechTypesQueryKeys.common(),
     queryFn: async () =>
       horizonApiClient.TechType.commonGet({
         deleted: false,
