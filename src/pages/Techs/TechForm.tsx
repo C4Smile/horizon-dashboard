@@ -5,24 +5,19 @@ import { useQuery } from "@tanstack/react-query";
 import loadable from "@loadable/component";
 
 // providers
-import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
+import { useHorizonApiClient } from "providers";
 
 // utils
-import { ReactQueryKeys } from "../../utils/queryKeys";
+import { ReactQueryKeys } from "utils";
 
 // components
-import { TabLayout } from "../../components/TabComponent/TabLayout.jsx";
-import { EntityLevelStuff } from "../../components/EntityLevelStuff/index.js";
+import { TabsLayout, EntityLevelStuff } from "components";
 
 // types
-import { techTabs } from "./types";
+import { TechTabs } from "./types";
 
 // tabs
-import { GeneralInfo, ResourceStuff } from "./tabs";
-
-// entity
-import { Tech } from "../../lib/models/tech/Tech.js";
-import { Building } from "../../lib/models/building/Building.js";
+import { GeneralInfo } from "./tabs";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
@@ -48,7 +43,7 @@ function TechForm() {
 
   useEffect(() => {
     const { data } = techQuery;
-    // eslint-disable-next-line no-console
+
     if (data && data.error) console.error(data.error.message);
     if (data?.status === 404) setNotFound(true);
   }, [techQuery]);
@@ -63,8 +58,11 @@ function TechForm() {
   const resourcesList = useMemo(() => {
     try {
       return (
-        resourcesQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id, image: c.image })) ??
-        []
+        resourcesQuery?.data?.items?.map((c) => ({
+          value: `${c.name}`,
+          id: c.id,
+          image: c.image,
+        })) ?? []
       );
     } catch (err) {
       return [];
@@ -129,7 +127,7 @@ function TechForm() {
           id,
           label: t(`_pages:techs.tabs.${id}`),
         })),
-    [id, t],
+    [id, t]
   );
 
   const content = useMemo(
@@ -145,7 +143,9 @@ function TechForm() {
           inputKey={"baseProduction"}
           queryKey={[ReactQueryKeys.TechProduces, id]}
           queryFn={() => horizonApiClient.Tech.techProductions.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Tech.techProductions.save(id, data)}
+          saveFn={async (id, data) =>
+            horizonApiClient.Tech.techProductions.save(id, data)
+          }
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Tech.techProductions.deleteSingle(id, resourceId)
           }
@@ -161,7 +161,9 @@ function TechForm() {
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.TechCosts, id]}
           queryFn={() => horizonApiClient.Tech.techCosts.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Tech.techCosts.save(id, data)}
+          saveFn={async (id, data) =>
+            horizonApiClient.Tech.techCosts.save(id, data)
+          }
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Tech.techCosts.deleteSingle(id, resourceId)
           }
@@ -178,7 +180,9 @@ function TechForm() {
           inputKey={"techLevel"}
           queryKey={[ReactQueryKeys.TechRequirements, ReactQueryKeys.Techs, id]}
           queryFn={() => horizonApiClient.Tech.techReqTechs.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Tech.techReqTechs.save(id, data)}
+          saveFn={async (id, data) =>
+            horizonApiClient.Tech.techReqTechs.save(id, data)
+          }
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Tech.techReqTechs.deleteSingle(id, resourceId)
           }
@@ -192,16 +196,22 @@ function TechForm() {
           entity={Building.className}
           entityToSave={Tech.buildingRequirement}
           inputKey={"buildingLevel"}
-          queryKey={[ReactQueryKeys.TechRequirements, ReactQueryKeys.Buildings, id]}
+          queryKey={[
+            ReactQueryKeys.TechRequirements,
+            ReactQueryKeys.Buildings,
+            id,
+          ]}
           queryFn={() => horizonApiClient.Tech.techReqBuildings.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Tech.techReqBuildings.save(id, data)}
+          saveFn={async (id, data) =>
+            horizonApiClient.Tech.techReqBuildings.save(id, data)
+          }
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Tech.techReqBuildings.deleteSingle(id, resourceId)
           }
         />
       ),
     }),
-    [buildingsList, horizonApiClient, id, resourcesList, techQuery, techsList],
+    [buildingsList, horizonApiClient, id, resourcesList, techQuery, techsList]
   );
 
   return notFound ? (

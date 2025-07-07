@@ -56,7 +56,10 @@ function ResourcePage() {
     return {
       ...resource,
       name: (
-        <Link className="underline text-light-primary flex" to={`${resource.id}`}>
+        <Link
+          className="underline text-light-primary flex"
+          to={`${resource.id}`}
+        >
           <span className="truncate">{resource.name}</span>
         </Link>
       ),
@@ -71,7 +74,11 @@ function ResourcePage() {
           alt={`${resource.name}`}
         />
       ) : (
-        <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={resource.name} />
+        <img
+          className="w-10 h-10 rounded-full object-cover"
+          src={noProduct}
+          alt={resource.name}
+        />
       ),
     };
   };
@@ -93,8 +100,12 @@ function ResourcePage() {
   });
 
   const getActions = useCallback(
-    (row) => [editAction.action(row), restoreAction.action(row), deleteAction.action(row)],
-    [deleteAction, editAction, restoreAction],
+    (row) => [
+      editAction.action(row),
+      restoreAction.action(row),
+      deleteAction.action(row),
+    ],
+    [deleteAction, editAction, restoreAction]
   );
 
   //#endregion Actions
@@ -107,7 +118,7 @@ function ResourcePage() {
       "description",
       "urlName",
     ]),
-    Resource.className,
+    Resource.className
   );
 
   const { rows } = useParseRows(prepareRows);

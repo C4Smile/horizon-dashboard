@@ -5,14 +5,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 import loadable from "@loadable/component";
 
+// @sito/dashboard
+import { Loading, TextInput } from "@sito/dashboard";
+
 // components
-import Loading from "../../partials/Loading/Loading";
-import TextInput from "../../components/Forms/TextInput";
-import ImageUploader from "../../components/ImageUploader/ImageUploader";
+import { ImageUploader } from "components";
 
 // providers
-import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient, useHorizonApiClient } from "../../providers/HorizonApiProvider";
+import { useNotification, queryClient, useHorizonApiClient } from "providers";
 
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
@@ -33,7 +33,7 @@ function TechTypeForm() {
 
   const [notFound, setNotFound] = useState(false);
 
-  const { setNotification } = useNotification();
+  const { showNotification } = useNotification();
   const [saving, setSaving] = useState(false);
   const [lastUpdate, setLastUpdate] = useState();
 
@@ -50,14 +50,20 @@ function TechTypeForm() {
       else result = await horizonApiClient.TechType.update(d, photo);
 
       const { error, status } = result;
-      setNotification(String(status), { model: t("_entities:entities.techType") });
+      setNotification(String(status), {
+        model: t("_entities:entities.techType"),
+      });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
       if (error) console.error(error.message);
       else {
-        await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.TechTypes] });
+        await queryClient.invalidateQueries({
+          queryKey: [ReactQueryKeys.TechTypes],
+        });
         if (id !== undefined)
-          await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.TechTypes, id] });
+          await queryClient.invalidateQueries({
+            queryKey: [ReactQueryKeys.TechTypes, id],
+          });
         else {
           setPhoto();
           reset({
@@ -69,7 +75,9 @@ function TechTypeForm() {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
-      setNotification(String(e.status), { model: t("_entities:entities.techType") });
+      setNotification(String(e.status), {
+        model: t("_entities:entities.techType"),
+      });
     }
     setSaving(false);
   };
@@ -113,7 +121,9 @@ function TechTypeForm() {
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <h1 className="text-2xl md:text-3xl font-bold">
-          {id ? `${t("_accessibility:components.form.editing")} ${id}` : t("_pages:techTypes.newForm")}
+          {id
+            ? `${t("_accessibility:components.form.editing")} ${id}`
+            : t("_pages:techTypes.newForm")}
         </h1>
         {techTypeQuery.isLoading ? (
           <Loading
@@ -166,7 +176,11 @@ function TechTypeForm() {
           )}
         </div>
 
-        <button type="submit" disabled={techTypeQuery.isLoading || saving} className="my-5 submit">
+        <button
+          type="submit"
+          disabled={techTypeQuery.isLoading || saving}
+          className="my-5 submit"
+        >
           {(techTypeQuery.isLoading || saving) && (
             <Loading
               className="button-loading"

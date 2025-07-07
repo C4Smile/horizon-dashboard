@@ -1,9 +1,12 @@
 // utils
-import { fromLocal, toLocal } from "src/utils/local";
+import { fromLocal, toLocal } from "utils";
 import { makeRequest } from "./utils/";
 
 // config
-import config from "src/config";
+import config from "../config";
+
+// lib
+import { AccountDto, LoginDto, UserDto } from "lib";
 
 export class AuthApiClient {
   /**
@@ -12,7 +15,7 @@ export class AuthApiClient {
    * @returns Owner
    */
   async fetchOwner(userId: string) {
-    const { data, error } = await makeRequest(
+    const { data, error } = await makeRequest<null, UserDto>(
       `horizonUser/byUserId/${userId}`,
       "GET",
       null,
@@ -76,10 +79,14 @@ export class AuthApiClient {
    * @returns Transaction result
    */
   async login(user: string, password: string) {
-    const { data, error } = await makeRequest(`auth/login`, "POST", {
-      username: user,
-      password,
-    });
+    const { data, error } = await makeRequest<LoginDto, AccountDto>(
+      `auth/login`,
+      "POST",
+      {
+        username: user,
+        password,
+      }
+    );
     if (data && data.user) {
       data.user.email = user;
       toLocal(config.user, data);

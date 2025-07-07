@@ -5,17 +5,17 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 import loadable from "@loadable/component";
 
+// @sito/dashboard
+import { Loading, TextInput } from "@sito/dashboard";
+
 // components
-import Loading from "../../partials/Loading/Loading";
-import TextInput from "../../components/Forms/TextInput";
-import ImageUploader from "../../components/ImageUploader/ImageUploader";
+import { ImageUploader } from "components";
 
 // providers
-import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient, useHorizonApiClient } from "../../providers/HorizonApiProvider";
+import { useNotification, queryClient, useHorizonApiClient } from "providers";
 
 // utils
-import { ReactQueryKeys } from "../../utils/queryKeys";
+import { ReactQueryKeys } from "utils";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
@@ -50,14 +50,20 @@ function BuildingTypeForm() {
       else result = await horizonApiClient.BuildingType.update(d, photo);
 
       const { error, status } = result;
-      setNotification(String(status), { model: t("_entities:entities.buildingType") });
+      setNotification(String(status), {
+        model: t("_entities:entities.buildingType"),
+      });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
       if (error) console.error(error.message);
       else {
-        await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.BuildingTypes] });
+        await queryClient.invalidateQueries({
+          queryKey: [ReactQueryKeys.BuildingTypes],
+        });
         if (id !== undefined)
-          await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.BuildingTypes, id] });
+          await queryClient.invalidateQueries({
+            queryKey: [ReactQueryKeys.BuildingTypes, id],
+          });
         else {
           setPhoto();
           reset({
@@ -69,7 +75,9 @@ function BuildingTypeForm() {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
-      setNotification(String(e.status), { model: t("_entities:entities.buildingType") });
+      setNotification(String(e.status), {
+        model: t("_entities:entities.buildingType"),
+      });
     }
     setSaving(false);
   };
@@ -168,7 +176,11 @@ function BuildingTypeForm() {
           )}
         </div>
 
-        <button type="submit" disabled={buildingTypeQuery.isLoading || saving} className="my-5 submit">
+        <button
+          type="submit"
+          disabled={buildingTypeQuery.isLoading || saving}
+          className="my-5 submit"
+        >
           {(buildingTypeQuery.isLoading || saving) && (
             <Loading
               className="button-loading"

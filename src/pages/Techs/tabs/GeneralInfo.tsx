@@ -23,14 +23,18 @@ import { NotificationEnumType } from "lib";
 import { HTTPError } from "api";
 
 // loadable
-const HtmlInput = loadable(() => import("../../../components/Forms/HtmlInput"));
+const HtmlInput = loadable(() =>
+  import("../../../components/Forms/HtmlInput").then((module) => ({
+    default: module.HtmlInput,
+  }))
+);
 
 /**
  * General Info
  * @param props - component props
  * @returns GeneralInfo
  */
-function GeneralInfo(props) {
+export function GeneralInfo(props) {
   const { t } = useTranslation();
 
   const { techQuery } = props;

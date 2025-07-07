@@ -2,7 +2,7 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import loadable from "@loadable/component";
 
-import "./css/style.css";
+import "./css/variables.css";
 
 // sitemap
 import { sitemap } from "./pages/sitemap";

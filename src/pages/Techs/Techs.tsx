@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { FilterTypes, Table, Action } from "@sito/dashboard";
 
 // components
-import { TableToolbar } from "components";
+import { TablePage, TableToolbar } from "components";
 
 // providers
 import { useHorizonApiClient } from "providers";
@@ -102,14 +102,16 @@ function TechPage() {
   );
 
   return (
-    <Table
-      data={data?.items ?? []}
-      actions={getActions}
-      isLoading={isLoading}
-      entity={EntityName.Tech}
-      columns={columns}
-      toolbar={<TableToolbar pageKey={PageId.techs} />}
-    />
+    <TablePage title={t("_pages:game.links.techs")} pageKey={PageId.techTypes}>
+      <Table
+        data={data?.items ?? []}
+        actions={getActions}
+        isLoading={isLoading}
+        entity={EntityName.Tech}
+        columns={columns}
+        toolbar={<TableToolbar pageKey={PageId.techs} />}
+      />
+    </TablePage>
   );
 }
 

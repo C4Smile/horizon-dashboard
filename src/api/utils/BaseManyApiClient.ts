@@ -3,7 +3,7 @@ import { fromLocal } from "../../utils/local";
 import { APIClient } from "./APIClient";
 
 // config
-import config from "src/config";
+import config from "../../config";
 
 // lib
 import { BaseFilterDto, DeleteDto } from "lib";

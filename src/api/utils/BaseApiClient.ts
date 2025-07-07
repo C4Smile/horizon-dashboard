@@ -1,13 +1,16 @@
 // utils
-import { fromLocal } from "../../utils/local";
+import { fromLocal } from "utils";
 
 // config
-import config from "src/config";
+import config from "../../config";
 
 // base
 import { APIClient } from "./APIClient";
 
 // types
+import { Tables } from "../types";
+
+// lib
 import {
   BaseCommonEntityDto,
   BaseEntityDto,
@@ -15,7 +18,6 @@ import {
   DeleteDto,
   QueryResult,
 } from "lib";
-import { Tables } from "../types";
 
 /**
  * @class BaseApiClient

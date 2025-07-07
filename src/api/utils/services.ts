@@ -1,7 +1,10 @@
-import config from "src/config";
+// config
+import config from "../../config";
 
 // types
 import { HTTPResponse } from "./types";
+
+// lib
 import { BaseCommonEntityDto } from "lib";
 
 const isAnError = (status: number) => status < 200 || status > 299;
