@@ -1,0 +1,277 @@
+import { useTranslation } from "react-i18next";
+import { useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import loadable from "@loadable/component";
+
+// providers
+import { useHorizonApiClient } from "providers";
+
+// utils
+import { ReactQueryKeys } from "../../utils/queryKeys.js";
+
+// components
+import { TabsLayout, EntityLevelStuff } from "components";
+
+// types
+import { buildingTabs } from "./types.js";
+
+// tabs
+import { GeneralInfo, ResourceStuff } from "./tabs/index.js";
+import { Tables } from "api";
+import {
+  BuildingCostAddDto,
+  BuildingProduceAddDto,
+  BuildingReqBuildingAddDto,
+  BuildingReqTechAddDto,
+  BuildingUpkeepAddDto,
+} from "lib";
+
+// entity
+
+// pages
+const NotFound = loadable(() => import("../NotFound/NotFound.jsx"));
+
+/**
+ * Building Form page component
+ * @returns Building Form page component
+ */
+function BuildingForm() {
+  const { id: paramId } = useParams();
+
+  const id = useMemo(() => Number(paramId), [paramId]);
+
+  const { t } = useTranslation();
+
+  const horizonApiClient = useHorizonApiClient();
+
+  const [notFound, setNotFound] = useState(false);
+
+  const buildingQuery = useQuery({
+    queryKey: [ReactQueryKeys.Buildings, id],
+    queryFn: () => horizonApiClient.Building.getById(Number(id)),
+    enabled: id !== undefined,
+  });
+
+  useEffect(() => {
+    const { data, error } = buildingQuery;
+
+    if (error) console.error(error.message);
+    if (!data) setNotFound(true);
+  }, [buildingQuery]);
+
+  //#region resources
+
+  const resourcesQuery = useQuery({
+    queryKey: [ReactQueryKeys.Resources],
+    queryFn: () => horizonApiClient.Resource.commonGet(),
+  });
+
+  const resourcesList = useMemo(() => {
+    try {
+      return (
+        resourcesQuery?.data?.items?.map((c) => ({
+          value: `${c.name}`,
+          id: c.id,
+          image: c.image,
+        })) ?? []
+      );
+    } catch (err) {
+      console.error(err);
+      return [];
+    }
+  }, [resourcesQuery.data]);
+
+  //#endregion resources
+
+  //#region techs
+
+  const techsQuery = useQuery({
+    queryKey: [ReactQueryKeys.Techs],
+    queryFn: () => horizonApiClient.Tech.commonGet(),
+  });
+
+  const techsList = useMemo(() => {
+    try {
+      return (
+        techsQuery?.data?.items?.map((c) => ({
+          value: `${c.name}`,
+          id: c.id,
+          image: c.image,
+        })) ?? []
+      );
+    } catch (err) {
+      console.error(err);
+      return [];
+    }
+  }, [techsQuery.data]);
+
+  //#endregion techs
+
+  //#region buildings
+
+  const buildingsQuery = useQuery({
+    queryKey: [ReactQueryKeys.Buildings],
+    queryFn: () => horizonApiClient.Building.commonGet(),
+  });
+
+  const buildingsList = useMemo(() => {
+    try {
+      return (
+        buildingsQuery?.data?.items
+          ?.filter((c) => c.id !== Number(id))
+          ?.map((c) => ({
+            value: `${c.name}`,
+            id: c.id,
+            image: c.image,
+          })) ?? []
+      );
+    } catch (err) {
+      console.error(err);
+      return [];
+    }
+  }, [buildingsQuery?.data?.items, id]);
+
+  //#endregion buildings
+
+  const tabs = useMemo(
+    () =>
+      buildingTabs
+        .filter((tab) => (tab.hide ? tab.hide(!!id) : true))
+        .map(({ id }) => ({
+          id: Number(id),
+          label: t(`_pages:buildings.tabs.${id}`),
+        })),
+    [id, t]
+  );
+
+  const content = useMemo(
+    () => ({
+      general: <GeneralInfo buildingQuery={buildingQuery} />,
+      produces: (
+        <ResourceStuff
+          id={id}
+          resources={resourcesList}
+          entity={Tables.Buildings}
+          entityToSave={Tables.BuildingProduces}
+          label={"production"}
+          inputKey={"base"}
+          queryKey={[ReactQueryKeys.BuildingProduces, id]}
+          queryFn={() => horizonApiClient.Building.buildingProductions.get(id)}
+          saveFn={async (id: number, data: BuildingProduceAddDto) =>
+            horizonApiClient.Building.buildingProductions.insert(id, data)
+          }
+          deleteFn={async (id: number, resourceId: number) =>
+            horizonApiClient.Building.buildingProductions.delete(id, [
+              resourceId,
+            ])
+          }
+        />
+      ),
+      costs: (
+        <ResourceStuff
+          id={id}
+          resources={resourcesList}
+          entity={Tables.Buildings}
+          entityToSave={Tables.BuildingCosts}
+          label={"cost"}
+          inputKey={"base"}
+          queryKey={[ReactQueryKeys.BuildingCosts, id]}
+          queryFn={() => horizonApiClient.Building.buildingCosts.get(id)}
+          saveFn={async (id: number, data: BuildingCostAddDto) =>
+            horizonApiClient.Building.buildingCosts.insert(id, data)
+          }
+          deleteFn={async (id: number, resourceId: number) =>
+            horizonApiClient.Building.buildingCosts.delete(id, [resourceId])
+          }
+        />
+      ),
+      upkeep: (
+        <ResourceStuff
+          id={id}
+          resources={resourcesList}
+          entity={Tables.Buildings}
+          entityToSave={Tables.BuildingUpkeeps}
+          label={"upkeep"}
+          inputKey={"base"}
+          queryKey={[ReactQueryKeys.BuildingUpkeeps, id]}
+          queryFn={() => horizonApiClient.Building.buildingUpkeeps.get(id)}
+          saveFn={async (id: number, data: BuildingUpkeepAddDto) =>
+            horizonApiClient.Building.buildingUpkeeps.insert(id, data)
+          }
+          deleteFn={async (id: number, resourceId: number) =>
+            horizonApiClient.Building.buildingUpkeeps.delete(id, [resourceId])
+          }
+        />
+      ),
+      buildingReqTechs: (
+        <EntityLevelStuff
+          id={id}
+          entities={techsList}
+          attributeId="techReqId"
+          entity={Tables.Techs}
+          entityToSave={Tables.BuildingReqTechs}
+          inputKey={"level"}
+          queryKey={[
+            ReactQueryKeys.BuildingRequirements,
+            ReactQueryKeys.Techs,
+            id,
+          ]}
+          queryFn={() => horizonApiClient.Building.buildingReqTechs.get(id)}
+          saveFn={async (id: number, data: BuildingReqTechAddDto) =>
+            horizonApiClient.Building.buildingReqTechs.insert(id, data)
+          }
+          deleteFn={async (id: number, techId: number) =>
+            horizonApiClient.Building.buildingReqTechs.delete(id, [techId])
+          }
+        />
+      ),
+      buildingReqBuildings: (
+        <EntityLevelStuff
+          id={id}
+          entities={buildingsList}
+          attributeId="buildingReqId"
+          entity={Tables.Buildings}
+          entityToSave={Tables.BuildingReqBuildings}
+          inputKey={"level"}
+          queryKey={[
+            ReactQueryKeys.BuildingRequirements,
+            ReactQueryKeys.Buildings,
+            id,
+          ]}
+          queryFn={() => horizonApiClient.Building.buildingReqBuildings.get(id)}
+          saveFn={async (id: number, data: BuildingReqBuildingAddDto) =>
+            horizonApiClient.Building.buildingReqBuildings.insert(id, data)
+          }
+          deleteFn={async (id: number, buildingId: number) =>
+            horizonApiClient.Building.buildingReqBuildings.delete(id, [
+              buildingId,
+            ])
+          }
+        />
+      ),
+    }),
+    [
+      buildingQuery,
+      id,
+      resourcesList,
+      techsList,
+      buildingsList,
+      horizonApiClient,
+    ]
+  );
+
+  return notFound ? (
+    <NotFound />
+  ) : (
+    <TabsLayout
+      name={buildingQuery?.data?.name ?? ""}
+      entity={ReactQueryKeys.Buildings}
+      id={id}
+      tabs={tabs}
+      content={content}
+    />
+  );
+}
+
+export default BuildingForm;

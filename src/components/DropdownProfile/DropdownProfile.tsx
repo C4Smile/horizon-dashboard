@@ -30,7 +30,11 @@ function DropdownProfile({ align }) {
   useEffect(() => {
     const clickHandler = ({ target }) => {
       if (!dropdown.current) return;
-      if (!dropdownOpen || dropdown.current.contains(target) || trigger.current.contains(target))
+      if (
+        !dropdownOpen ||
+        dropdown.current.contains(target) ||
+        trigger.current.contains(target)
+      )
         return;
       setDropdownOpen(false);
     };
@@ -57,18 +61,27 @@ function DropdownProfile({ align }) {
         onClick={() => setDropdownOpen(!dropdownOpen)}
         aria-expanded={dropdownOpen}
       >
-        <img className="w-8 h-8 rounded-full" src={noProducts} width="32" height="32" alt="User" />
+        <img
+          className="w-8 h-8 rounded-full"
+          src={noProducts}
+          width="32"
+          height="32"
+          alt="User"
+        />
         <div className="flex items-center truncate">
           <span className="truncate ml-2 text-sm font-medium dark:text-slate-300 group-hover:text-slate-800 dark:group-hover:text-slate-200">
             {account?.horizonUser?.name}
           </span>
-          <svg className="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400" viewBox="0 0 12 12">
+          <svg
+            className="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400"
+            viewBox="0 0 12 12"
+          >
             <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
           </svg>
         </div>
       </button>
 
-      <Transition
+      {/* <Transition
         className={`origin-top-right z-10 absolute top-full min-w-44 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 py-1.5 rounded shadow-lg overflow-hidden mt-1 ${align === "right" ? "right-0" : "left-0"}`}
         show={dropdownOpen}
         enter="transition ease-out duration-200 transform"
@@ -77,36 +90,42 @@ function DropdownProfile({ align }) {
         leave="transition ease-out duration-200"
         leaveStart="opacity-100"
         leaveEnd="opacity-0"
+      > */}
+      <div
+        ref={dropdown}
+        onFocus={() => setDropdownOpen(true)}
+        onBlur={() => setDropdownOpen(false)}
       >
-        <div ref={dropdown} onFocus={() => setDropdownOpen(true)} onBlur={() => setDropdownOpen(false)}>
-          <div className="pt-0.5 pb-2 px-3 mb-1 border-b border-slate-200 dark:border-slate-700">
-            <div className="font-medium text-slate-800 dark:text-slate-100">
-              {t("_accessibility:appName")}
-            </div>
-            <div className="text-xs text-slate-500 dark:text-slate-400 italic">Administrator</div>
+        <div className="pt-0.5 pb-2 px-3 mb-1 border-b border-slate-200 dark:border-slate-700">
+          <div className="font-medium text-slate-800 dark:text-slate-100">
+            {t("_accessibility:appName")}
           </div>
-          <ul>
-            <li>
-              <Link
-                className="font-medium text-sm text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center py-1 px-3"
-                to="/ajustes"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-              >
-                {t("_accessibility:buttons.settings")}
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="font-medium text-sm text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center py-1 px-3"
-                to={findPath(PageId.signOut)}
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-              >
-                {t("_accessibility:buttons.signOut")}
-              </Link>
-            </li>
-          </ul>
+          <div className="text-xs text-slate-500 dark:text-slate-400 italic">
+            Administrator
+          </div>
         </div>
-      </Transition>
+        <ul>
+          <li>
+            <Link
+              className="font-medium text-sm text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center py-1 px-3"
+              to="/ajustes"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+            >
+              {t("_accessibility:buttons.settings")}
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="font-medium text-sm text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center py-1 px-3"
+              to={findPath(PageId.signOut)}
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+            >
+              {t("_accessibility:buttons.signOut")}
+            </Link>
+          </li>
+        </ul>
+      </div>
+      {/* </Transition> */}
     </div>
   );
 }

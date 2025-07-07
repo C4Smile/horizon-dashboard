@@ -35,30 +35,32 @@ export class BaseManyApiClient<
 
   /**
    * @description Get all objects
-   * @param query - query parameters
+   * @param id id of main entity
+   * @param query query parameters
    * @returns Result list
    */
-  async get(query: TFilter) {
-    return await this.api.get<TDto, TFilter>(`${this.table}`, query, {
+  async get(id: number, query?: TFilter) {
+    return await this.api.get<TDto, TFilter>(`${this.table}/${id}`, query, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
   }
 
   /**
    *
-   * @param value
+   * @param id id of main entity
+   * @param value data to insert
    * @returns inserted item
    */
-  async insert(value: TAddDto): Promise<TDto> {
-    return await this.api.post<TDto, TAddDto>(`${this.table}`, value, {
+  async insert(id: number, value: TAddDto): Promise<TDto> {
+    return await this.api.post<TDto, TAddDto>(`${this.table}/${id}`, value, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
   }
 
   /**
    *
-   * @param data - values to insert
-   * @returns - Query result
+   * @param data values to insert
+   * @returns Query result
    */
   async insertMany(data: TAddDto[]): Promise<TDto> {
     return await this.api.doQuery<TDto, TAddDto[]>(
@@ -72,8 +74,14 @@ export class BaseManyApiClient<
     );
   }
 
-  async softDelete(ids: number[]): Promise<number> {
-    return await this.api.delete(`${this.table}`, ids, {
+  /**
+   *
+   * @param id id of main entity
+   * @param ids id of relationship entities
+   * @returns
+   */
+  async delete(id: number, ids: number[]): Promise<number> {
+    return await this.api.delete(`${this.table}/${id}`, ids, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
   }

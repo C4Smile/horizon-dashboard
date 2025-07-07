@@ -5,7 +5,7 @@ import { TabsPropsType } from "./types";
  * @param props - Tabs props
  * @returns Tabs component
  */
-function Tabs(props: TabsPropsType) {
+export function Tabs(props: TabsPropsType) {
   const { tabs, onTabClick, currentTab } = props;
 
   return (
@@ -24,5 +24,3 @@ function Tabs(props: TabsPropsType) {
     </ul>
   );
 }
-
-export default Tabs;

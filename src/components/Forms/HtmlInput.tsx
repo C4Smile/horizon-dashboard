@@ -2,9 +2,11 @@ import { forwardRef } from "react";
 // rich editor
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
+// types
 import { HtmlInputPropsType } from "./types";
 
-const HtmlInput = forwardRef(function (
+export const HtmlInput = forwardRef(function (
   props: HtmlInputPropsType,
   ref: unknown
 ) {
@@ -37,5 +39,3 @@ const HtmlInput = forwardRef(function (
     </div>
   );
 });
-
-export default HtmlInput;

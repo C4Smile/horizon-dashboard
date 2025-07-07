@@ -21,7 +21,7 @@ import { ImageUploaderPropsType } from "./types";
  * @param {object} props - component props
  * @returns ImageUploader component
  */
-function ImageUploader(props: ImageUploaderPropsType) {
+export function ImageUploader(props: ImageUploaderPropsType) {
   const { label, folder, photo, setPhoto } = props;
 
   const [loadingPhoto, setLoadingPhoto] = useState(false);
@@ -98,5 +98,3 @@ function ImageUploader(props: ImageUploaderPropsType) {
     </label>
   );
 }
-
-export default ImageUploader;

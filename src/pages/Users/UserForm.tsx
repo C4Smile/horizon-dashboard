@@ -5,16 +5,19 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 import loadable from "@loadable/component";
 
+// @sito/dashboard
+import { Loading, TextInput, SelectInput } from "@sito/dashboard";
+
 // components
-import Loading from "../../partials/Loading/Loading";
-import TextInput from "../../components/Forms/TextInput";
-import ImageUploader from "../../components/ImageUploader/ImageUploader";
-import SelectInput from "../../components/Forms/SelectInput";
-import PasswordInput from "../../components/Forms/PasswordInput";
+import { ImageUploader, PasswordInput } from "components";
 
 // providers
-import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient, useHorizonApiClient } from "../../providers/HorizonApiProvider";
+import {
+  useNotification,
+  queryClient,
+  useHorizonApiClient,
+  NotificationSeverity,
+} from "providers";
 
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
@@ -45,7 +48,7 @@ function UserForm() {
 
   const onSubmit = async (d) => {
     if (!photo) {
-      setNotification("images", {}, "bad");
+      setNotification("images", {}, NotificationSeverity.bad);
       return;
     }
 
@@ -55,11 +58,11 @@ function UserForm() {
 
       if (d.password !== d.rPassword) {
         setSaving(false);
-        // eslint-disable-next-line no-console
         console.error(t("_accessibility:errors.passwordDoNotMatch"));
         return setNotification(t("_accessibility:errors.passwordDoNotMatch"));
       }
-      if (!d.id) result = await horizonApiClient.User.create(d, photo);
+      if (!d.id)
+        result = await horizonApiClient.User.insert({ ...d, image: photo });
       else result = await horizonApiClient.User.update(d, photo);
       const { error, status } = result;
 
@@ -68,9 +71,13 @@ function UserForm() {
       // eslint-disable-next-line no-console
       if (error) console.error(error.message);
       else {
-        await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users] });
+        await queryClient.invalidateQueries({
+          queryKey: [ReactQueryKeys.Users],
+        });
         if (id !== undefined)
-          await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users, id] });
+          await queryClient.invalidateQueries({
+            queryKey: [ReactQueryKeys.Users, id],
+          });
         else {
           setPhoto();
           reset({
@@ -86,7 +93,9 @@ function UserForm() {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
-      setNotification(String(e.status), { model: t("_entities:entities.user") });
+      setNotification(String(e.status), {
+        model: t("_entities:entities.user"),
+      });
     }
     setSaving(false);
   };
@@ -104,7 +113,12 @@ function UserForm() {
 
   const roleList = useMemo(() => {
     try {
-      return roleQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
+      return (
+        roleQuery?.data?.items?.map((c) => ({
+          value: `${c.name}`,
+          id: c.id,
+        })) ?? []
+      );
     } catch (err) {
       return [];
     }
@@ -120,7 +134,9 @@ function UserForm() {
   useEffect(() => {
     if (userQuery.data) {
       if (userQuery.data?.image) setPhoto(userQuery?.data?.image);
-      const roleId = roleList.find((role) => role.id === userQuery.data?.roleId?.id);
+      const roleId = roleList.find(
+        (role) => role.id === userQuery.data?.roleId?.id
+      );
       reset({ ...userQuery.data, roleId: roleId?.id });
       setLastUpdate(userQuery?.data?.lastUpdate);
     }
@@ -144,7 +160,9 @@ function UserForm() {
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <h1 className="text-2xl md:text-3xl font-bold">
-          {id ? `${t("_accessibility:components.form.editing")} ${id}` : t("_pages:users.newForm")}
+          {id
+            ? `${t("_accessibility:components.form.editing")} ${id}`
+            : t("_pages:users.newForm")}
         </h1>
         {userQuery.isLoading ? (
           <Loading
@@ -278,7 +296,6 @@ function UserForm() {
           render={({ field }) => (
             <TextInput
               type="tel"
-              name="phone"
               id="phone"
               inputClassName="text-input peer"
               placeholder={t("_entities:user.phone.placeholder")}
@@ -302,7 +319,11 @@ function UserForm() {
           )}
         </div>
 
-        <button type="submit" disabled={userQuery.isLoading || saving} className="mb-5 submit">
+        <button
+          type="submit"
+          disabled={userQuery.isLoading || saving}
+          className="mb-5 submit"
+        >
           {(userQuery.isLoading || saving) && (
             <Loading
               className="button-loading"

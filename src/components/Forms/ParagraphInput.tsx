@@ -16,7 +16,7 @@ import { ParagraphInputPropsType } from "./types";
  * @param {object} props
  * @returns ParagraphInput Component
  */
-const ParagraphInput = forwardRef(function (
+export const ParagraphInput = forwardRef(function (
   props: ParagraphInputPropsType,
   ref: ForwardedRef<HTMLTextAreaElement>
 ) {
@@ -69,5 +69,3 @@ const ParagraphInput = forwardRef(function (
     </div>
   );
 });
-
-export default ParagraphInput;

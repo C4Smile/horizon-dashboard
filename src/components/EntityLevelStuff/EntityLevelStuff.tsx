@@ -29,6 +29,7 @@ import {
   EntityLevelStuffPropsType,
   OptionReqCommonDto,
 } from "./index.js";
+import { BaseReqDto } from "lib";
 
 /**
  *
@@ -101,7 +102,7 @@ export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
   }, [costQuery.data]);
 
   const save = useCallback(
-    async (value) => {
+    async (value: BaseReqDto) => {
       setSaving(true);
       try {
         const { error, status } = await saveFn(id, value);
@@ -138,7 +139,7 @@ export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
   });
 
   const openDialog = useCallback(
-    (entityReqId: number) => {
+    (entityReqId?: number) => {
       const selected = lists.find((res) => res[attributeId] === entityReqId);
       if (selected) setInitial(selected);
       formProps.dialogProps.open();
@@ -175,8 +176,10 @@ export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
           entities={entities}
           entityLabel={entity}
           attributeId={attributeId}
-          inputLabel={t(`_entities:base.${inputKey}.label`)}
-          inputPlaceholder={t(`_entities:base.${inputKey}.placeholder`)}
+          inputLabel={t(`_entities:base.${inputKey as string}.label`)}
+          inputPlaceholder={t(
+            `_entities:base.${inputKey as string}.placeholder`
+          )}
           {...formProps}
         />
       </FormDialog>
@@ -187,8 +190,10 @@ export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
             entities={entities}
             disabled={saving}
             key={`${entityReq[attributeId]}-${i}`}
-            inputLabel={t(`_entities:base.${inputKey}.label`)}
-            inputPlaceholder={t(`_entities:base.${inputKey}.placeholder`)}
+            inputLabel={t(`_entities:base.${inputKey as string}.label`)}
+            inputPlaceholder={t(
+              `_entities:base.${inputKey as string}.placeholder`
+            )}
             onEdit={(entityReqId) => openDialog(entityReqId)}
             onDelete={onDelete}
             entityLabel={entity}
@@ -200,9 +205,9 @@ export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
       )}
       <div className="flex gap-3 absolute bottom-6 left-6">
         <button
-          disabled={saving || lists.length >= entities.length}
+          disabled={saving || (!!lists && lists.length >= entities.length)}
           onClick={() => openDialog()}
-          className={`${lists.length >= entities.length ? "bg-ocean/80 text-white/60" : "bg-ocean text-white"} w-10 h-10 rounded-full`}
+          className={`${!!lists && lists.length >= entities.length ? "bg-ocean/80 text-white/60" : "bg-ocean text-white"} w-10 h-10 rounded-full`}
         >
           {saving ? (
             <Loading

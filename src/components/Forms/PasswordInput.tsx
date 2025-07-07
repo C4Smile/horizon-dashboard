@@ -7,7 +7,7 @@ import { TextInput, TextInputPropsType } from "@sito/dashboard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
-const PasswordInput = forwardRef(function (
+export const PasswordInput = forwardRef(function (
   props: TextInputPropsType,
   ref: ForwardedRef<HTMLInputElement>
 ) {
@@ -26,5 +26,3 @@ const PasswordInput = forwardRef(function (
     </TextInput>
   );
 });
-
-export default PasswordInput;

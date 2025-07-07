@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 // component
-import TabComponent from "./TabComponent.jsx";
+import { TabComponent } from "./TabComponent.jsx";
 
 // types
 import { TabsLayoutPropsType } from "./types.js";
