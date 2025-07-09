@@ -33,9 +33,10 @@ export const nameColumn = <
  * @returns imageColumn
  */
 export const imageColumn = <TDto extends BaseEntityDto>(
-  altProp: keyof TDto,
+  altProp?: keyof TDto,
   key?: keyof TDto
 ) => {
+  const altKey = altProp ?? ("name" as keyof TDto);
   const imageKey = key ?? ("images" as keyof TDto);
 
   return {
@@ -49,7 +50,7 @@ export const imageColumn = <TDto extends BaseEntityDto>(
               key={i}
               className={`small-image rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
               src={staticUrlPhoto(image.url)}
-              alt={`${entity[altProp]} ${i}`}
+              alt={`${entity[altKey]} ${i}`}
             />
           ))}
         </div>
@@ -57,7 +58,7 @@ export const imageColumn = <TDto extends BaseEntityDto>(
         <img
           className="small-image rounded-full object-cover"
           src={noProduct}
-          alt={entity[altProp] as string}
+          alt={entity[altKey] as string}
         />
       ),
   };

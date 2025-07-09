@@ -2,16 +2,19 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm, Controller } from "react-hook-form";
 
+// @sito/dasbhoard
+import { Loading } from "@sito/dashboard";
+
 // components
-import Loading from "../../../partials/Loading/Loading";
-import PasswordInput from "../../../components/Forms/PasswordInput";
+import { PasswordInput } from "components";
 
 // providers
-import { useNotification } from "../../../providers/NotificationProvider";
-import { useHorizonApiClient } from "../../../providers/HorizonApiProvider";
+import { useHorizonApiClient, useNotification } from "providers";
 
 // utils
-import { fromLocal } from "../../../utils/local";
+import { fromLocal } from "utils";
+
+// config
 import config from "../../../config";
 
 /**
@@ -25,7 +28,7 @@ function Security() {
 
   const userId = fromLocal(config.user, "object")?.id;
 
-  const { setNotification } = useNotification();
+  const { showNotification } = useNotification();
   const [saving, setSaving] = useState(false);
 
   const { handleSubmit, control } = useForm();
@@ -37,10 +40,13 @@ function Security() {
         setSaving(false);
         // eslint-disable-next-line no-console
         console.error(t("_accessibility:errors.passwordDoNotMatch"));
-        return setNotification(t("_accessibility:errors.passwordDoNotMatch"));
+        return showNotification(t("_accessibility:errors.passwordDoNotMatch"));
       }
-      const { error, status } = await horizonApiClient.User.update({ ...d, id: userId });
-      setNotification(String(status));
+      const { error, status } = await horizonApiClient.User.update({
+        ...d,
+        id: userId,
+      });
+      showNotification(String(status));
 
       // eslint-disable-next-line no-console
       if (error && error !== null) console.error(error);
@@ -54,7 +60,9 @@ function Security() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form pt-10">
-      <h2 className="text-1xl md:text-2xl font-bold mb-5">{t("_pages:settings.links.security")}</h2>
+      <h2 className="text-1xl md:text-2xl font-bold mb-5">
+        {t("_pages:settings.links.security")}
+      </h2>
       <Controller
         control={control}
         disabled={saving}
@@ -91,7 +99,12 @@ function Security() {
       />
       <button type="submit" disabled={saving} className="mb-5 submit">
         {saving && (
-          <Loading className="button-loading" strokeWidth="4" loaderClass="!w-6" color="stroke-white" />
+          <Loading
+            className="button-loading"
+            strokeWidth="4"
+            loaderClass="!w-6"
+            color="stroke-white"
+          />
         )}
         {t("_accessibility:buttons.save")}
       </button>

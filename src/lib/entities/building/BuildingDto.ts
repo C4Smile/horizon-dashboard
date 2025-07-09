@@ -8,5 +8,6 @@ export interface BuildingDto extends BaseEntityDto {
   description: string;
   creationTime: string;
   type: BuildingTypeCommonDto;
+  typeId: number;
   image: PhotoDto;
 }

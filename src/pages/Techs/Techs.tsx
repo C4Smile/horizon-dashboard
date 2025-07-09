@@ -38,6 +38,8 @@ import { imageColumn, nameColumn, useParseColumns } from "utils";
 function TechPage() {
   const { t } = useTranslation();
 
+  //#region queries
+
   const horizonApiClient = useHorizonApiClient();
 
   const { data, isLoading, setTotal } = useTechsList();
@@ -47,6 +49,8 @@ function TechPage() {
   }, [data, setTotal]);
 
   const { data: techTypeList } = useTechTypesCommon();
+
+  //#endregion queries
 
   //#region Actions
 

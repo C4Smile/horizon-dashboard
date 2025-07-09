@@ -2,7 +2,7 @@ import { BaseFilterDto } from "../base";
 import { BuildingDto } from "./BuildingDto";
 
 export interface BuildingFilterDto
-  extends Omit<BuildingDto, "type">,
+  extends Partial<Omit<BuildingDto, "type" | "typeId">>,
     BaseFilterDto {
-  typeId: number[];
+  typeId?: number[];
 }
