@@ -26,3 +26,8 @@ export type ResourceRowPropsType<T extends OptionResourceCommonDto> = {
   onEdit: (id: number) => void;
   inputLabel: string;
 };
+
+export type ResourceStuffPropsType<T extends OptionResourceCommonDto> = {
+  id: number;
+  label: string;
+};

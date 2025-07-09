@@ -12,23 +12,21 @@ import noProduct from "../../assets/images/no-product.jpg";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 // components
-import { staticUrlPhoto } from "../../components/utils";
-import { FloatingButton } from "../../components/FloatingButton/FloatingButton.jsx";
-
-// dto
-import { Ship } from "../../lib/models/ship/Ship.js";
+import { staticUrlPhoto } from "../../components/utils.js";
 
 // utils
-import { extractKeysFromObject } from "../../utils/parser";
-import { ReactQueryKeys } from "../../utils/queryKeys";
-import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.js";
+import { extractKeysFromObject, useParseColumns, ReactQueryKeys } from "utils";
 
 // providers
-import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
+import { useHorizonApiClient } from "providers";
 
 // hooks
-import { useRestoreAction, useDeleteAction, useEditAction } from "../../hooks";
-import { useHorizonQuery } from "../../hooks/queries/useHorizonQuery.jsx";
+import {
+  useRestoreAction,
+  useDeleteAction,
+  useEditAction,
+  useHorizonQuery,
+} from "hooks";
 
 const columnClasses = {
   lastUpdate: "w-44",
@@ -102,7 +100,11 @@ function ShipPage() {
           alt={`${ship.name}`}
         />
       ) : (
-        <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={ship.name} />
+        <img
+          className="w-10 h-10 rounded-full object-cover"
+          src={noProduct}
+          alt={ship.name}
+        />
       ),
     };
   };
@@ -124,15 +126,25 @@ function ShipPage() {
   });
 
   const getActions = useCallback(
-    (row) => [editAction.action(row), restoreAction.action(row), deleteAction.action(row)],
-    [deleteAction, editAction, restoreAction],
+    (row) => [
+      editAction.action(row),
+      restoreAction.action(row),
+      deleteAction.action(row),
+    ],
+    [deleteAction, editAction, restoreAction]
   );
 
   //#endregion Actions
 
   const { columns } = useParseColumns(
-    extractKeysFromObject(new Ship(), ["id", "dateOfCreation", "deleted", "description", "urlName"]),
-    Ship.className,
+    extractKeysFromObject(new Ship(), [
+      "id",
+      "dateOfCreation",
+      "deleted",
+      "description",
+      "urlName",
+    ]),
+    Ship.className
   );
 
   const { rows } = useParseRows(prepareRows);

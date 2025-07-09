@@ -13,10 +13,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 // hooks
-import { useFormDialog } from "../Dialogs/useFormDialog.jsx";
+import { useFormDialog } from "hooks";
 
 // components
-import FormDialog from "../Dialogs/FormDialogs.jsx";
+import { FormDialog } from "components";
 
 // api
 import { HTTPError } from "api";

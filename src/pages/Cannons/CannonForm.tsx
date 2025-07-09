@@ -5,27 +5,23 @@ import { useQuery } from "@tanstack/react-query";
 import loadable from "@loadable/component";
 
 // providers
-import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
+import { useHorizonApiClient } from "providers";
 
 // utils
-import { ReactQueryKeys } from "../../utils/queryKeys";
+import { ReactQueryKeys } from "../../utils/queryKeys.js";
 
 // components
-import { TabLayout } from "../../components/TabComponent/TabLayout.jsx";
+import { TabsLayout } from "../../components/TabComponent/TabLayout.js";
 import { EntityLevelStuff } from "../../components/EntityLevelStuff/index.js";
 
 // types
-import { cannonTabs } from "./types";
+import { cannonTabs } from "./types.js";
 
 // tabs
-import { GeneralInfo, ResourceStuff } from "./tabs";
-
-// entity
-import { Tech } from "../../lib/models/tech/Tech.js";
-import { Cannon } from "../../lib/models/cannon/Cannon.js";
+import { GeneralInfo, ResourceStuff } from "./tabs/index.js";
 
 // pages
-const NotFound = loadable(() => import("../NotFound/NotFound"));
+const NotFound = loadable(() => import("../NotFound/NotFound.jsx"));
 
 /**
  * Building Form page component
@@ -63,8 +59,11 @@ function CannonForm() {
   const resourcesList = useMemo(() => {
     try {
       return (
-        resourcesQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id, image: c.image })) ??
-        []
+        resourcesQuery?.data?.items?.map((c) => ({
+          value: `${c.name}`,
+          id: c.id,
+          image: c.image,
+        })) ?? []
       );
     } catch (err) {
       return [];
@@ -83,7 +82,11 @@ function CannonForm() {
   const techsList = useMemo(() => {
     try {
       return (
-        techsQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id, image: c.image })) ?? []
+        techsQuery?.data?.items?.map((c) => ({
+          value: `${c.name}`,
+          id: c.id,
+          image: c.image,
+        })) ?? []
       );
     } catch (err) {
       return [];
@@ -123,7 +126,7 @@ function CannonForm() {
           id,
           label: t(`_pages:cannons.tabs.${id}`),
         })),
-    [id, t],
+    [id, t]
   );
 
   const content = useMemo(
@@ -139,7 +142,9 @@ function CannonForm() {
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.CannonCosts, id]}
           queryFn={() => horizonApiClient.Cannon.cannonCosts.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Cannon.cannonCosts.save(id, data)}
+          saveFn={async (id, data) =>
+            horizonApiClient.Cannon.cannonCosts.save(id, data)
+          }
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Cannon.cannonCosts.deleteSingle(id, resourceId)
           }
@@ -153,9 +158,15 @@ function CannonForm() {
           entity={Tech.className}
           entityToSave={Cannon.techRequirement}
           inputKey={"techLevel"}
-          queryKey={[ReactQueryKeys.CannonRequirements, ReactQueryKeys.Techs, id]}
+          queryKey={[
+            ReactQueryKeys.CannonRequirements,
+            ReactQueryKeys.Techs,
+            id,
+          ]}
           queryFn={() => horizonApiClient.Cannon.cannonReqTechs.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Cannon.cannonReqTechs.save(id, data)}
+          saveFn={async (id, data) =>
+            horizonApiClient.Cannon.cannonReqTechs.save(id, data)
+          }
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Cannon.cannonReqTechs.deleteSingle(id, resourceId)
           }
@@ -169,16 +180,25 @@ function CannonForm() {
           entity={Cannon.className}
           entityToSave={Cannon.buildingRequirement}
           inputKey={"buildingLevel"}
-          queryKey={[ReactQueryKeys.CannonRequirements, ReactQueryKeys.Buildings, id]}
+          queryKey={[
+            ReactQueryKeys.CannonRequirements,
+            ReactQueryKeys.Buildings,
+            id,
+          ]}
           queryFn={() => horizonApiClient.Cannon.cannonReqBuildings.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Cannon.cannonReqBuildings.save(id, data)}
+          saveFn={async (id, data) =>
+            horizonApiClient.Cannon.cannonReqBuildings.save(id, data)
+          }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Cannon.cannonReqBuildings.deleteSingle(id, resourceId)
+            horizonApiClient.Cannon.cannonReqBuildings.deleteSingle(
+              id,
+              resourceId
+            )
           }
         />
       ),
     }),
-    [cannonQuery, id, resourcesList, techsList, buildingsList, horizonApiClient],
+    [cannonQuery, id, resourcesList, techsList, buildingsList, horizonApiClient]
   );
 
   return notFound ? (

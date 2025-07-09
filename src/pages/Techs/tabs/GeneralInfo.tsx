@@ -24,7 +24,7 @@ import { HTTPError } from "api";
 
 // loadable
 const HtmlInput = loadable(() =>
-  import("../../../components/Forms/HtmlInput").then((module) => ({
+  import("components").then((module) => ({
     default: module.HtmlInput,
   }))
 );

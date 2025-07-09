@@ -1,4 +1,4 @@
-import { JSX, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
 import loadable from "@loadable/component";
@@ -8,19 +8,20 @@ import { ContentState, EditorState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
 
 // components
-import Loading from "../../../partials/Loading/Loading";
-import TextInput from "../../../components/Forms/TextInput";
-import ImageUploader from "../../../components/ImageUploader/ImageUploader";
+import { ImageUploader } from "components";
 
 // providers
-import { useNotification } from "../../../providers/NotificationProvider";
-import { queryClient, useHorizonApiClient } from "../../../providers/HorizonApiProvider";
+import { useNotification, queryClient, useHorizonApiClient } from "providers";
 
 // utils
 import { ReactQueryKeys } from "../../../utils/queryKeys";
 
 // loadable
-const HtmlInput = loadable(() => import("../../../components/Forms/HtmlInput"));
+const HtmlInput = loadable(() =>
+  import("components").then((module) => ({
+    default: module.HtmlInput,
+  }))
+);
 
 /**
  * General Info
@@ -56,9 +57,13 @@ function GeneralInfo(props) {
       // eslint-disable-next-line no-console
       if (error !== null && error) console.error(error.message);
       else {
-        await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Ships] });
+        await queryClient.invalidateQueries({
+          queryKey: [ReactQueryKeys.Ships],
+        });
         if (d.id !== undefined)
-          await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Ships, id] });
+          await queryClient.invalidateQueries({
+            queryKey: [ReactQueryKeys.Ships, id],
+          });
         else {
           setPhoto(null);
           reset({
@@ -77,7 +82,9 @@ function GeneralInfo(props) {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
-      setNotification(String(e.status), { model: t("_entities:entities.ship") });
+      setNotification(String(e.status), {
+        model: t("_entities:entities.ship"),
+      });
     }
     setSaving(false);
   };
@@ -88,12 +95,17 @@ function GeneralInfo(props) {
       setPhoto(shipQuery.data?.image);
 
       //* PARSING CONTENT
-      if (shipQuery.data?.description && typeof shipQuery.data?.description === "string") {
+      if (
+        shipQuery.data?.description &&
+        typeof shipQuery.data?.description === "string"
+      ) {
         const html = shipQuery.data?.description;
         const descriptionBlock = htmlToDraft(html);
         if (descriptionBlock) {
-          const descriptionState = ContentState.createFromBlockArray(descriptionBlock);
-          shipQuery.data.description = EditorState.createWithContent(descriptionState);
+          const descriptionState =
+            ContentState.createFromBlockArray(descriptionBlock);
+          shipQuery.data.description =
+            EditorState.createWithContent(descriptionState);
         }
       }
       setLastUpdate(shipQuery?.data?.lastUpdate);
@@ -343,9 +355,18 @@ function GeneralInfo(props) {
         )}
       />
 
-      <button type="submit" disabled={shipQuery.isLoading || saving} className="my-5 submit">
+      <button
+        type="submit"
+        disabled={shipQuery.isLoading || saving}
+        className="my-5 submit"
+      >
         {(shipQuery.isLoading || saving) && (
-          <Loading className="button-loading" strokeWidth="4" loaderClass="!w-6" color="stroke-white" />
+          <Loading
+            className="button-loading"
+            strokeWidth="4"
+            loaderClass="!w-6"
+            color="stroke-white"
+          />
         )}
         {t("_accessibility:buttons.save")}
       </button>

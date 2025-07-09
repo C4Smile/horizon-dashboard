@@ -13,19 +13,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 // hooks
-import { useFormDialog } from "../Dialogs/useFormDialog";
+import { useFormDialog } from "hooks";
 
 // components
-import FormDialog from "../Dialogs/FormDialogs";
-import ResourceForm from "./ResourceForm";
-import ResourceRow from "./ResourceRow";
+import { FormDialog, OptionResourceCommonDto, ResourceStuffPropsType } from "components";
+import { ResourceForm } from "./ResourceForm";
+import { ResourceRow } from "./ResourceRow";
 
 /**
  *
  * @param {object} props component props
  * @returns ResourceStuff component
  */
-function ResourceStuff(props) {
+export function ResourceStuff<TDto extends OptionResourceCommonDto>(
+  props: ResourceStuffPropsType<TDto>
+) {
   const { t } = useTranslation();
 
   const { setNotification } = useNotification();
@@ -218,5 +220,3 @@ function ResourceStuff(props) {
     </div>
   );
 }
-
-export default ResourceStuff;

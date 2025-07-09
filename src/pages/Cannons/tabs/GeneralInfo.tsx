@@ -8,18 +8,19 @@ import { ContentState, EditorState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
 
 // components
-import Loading from "../../../partials/Loading/Loading";
-import TextInput from "../../../components/Forms/TextInput";
 
 // providers
-import { useNotification } from "../../../providers/NotificationProvider";
-import { queryClient, useHorizonApiClient } from "../../../providers/HorizonApiProvider";
+import { useNotification, queryClient, useHorizonApiClient } from "providers";
 
 // utils
 import { ReactQueryKeys } from "../../../utils/queryKeys";
 
 // loadable
-const HtmlInput = loadable(() => import("../../../components/Forms/HtmlInput"));
+const HtmlInput = loadable(() =>
+  import("components").then((module) => ({
+    default: module.HtmlInput,
+  }))
+);
 
 /**
  * General Info
@@ -50,14 +51,20 @@ function GeneralInfo(props) {
       else result = await horizonApiClient.Cannon.update(d, photo);
 
       const { error, status } = result;
-      setNotification(String(status), { model: t("_entities:entities.cannon") });
+      setNotification(String(status), {
+        model: t("_entities:entities.cannon"),
+      });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
       if (error !== null && error) console.error(error.message);
       else {
-        await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Cannons] });
+        await queryClient.invalidateQueries({
+          queryKey: [ReactQueryKeys.Cannons],
+        });
         if (d.id !== undefined)
-          await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Cannons, id] });
+          await queryClient.invalidateQueries({
+            queryKey: [ReactQueryKeys.Cannons, id],
+          });
         else {
           setPhoto(null);
           reset({
@@ -71,7 +78,9 @@ function GeneralInfo(props) {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
-      setNotification(String(e.status), { model: t("_entities:entities.cannon") });
+      setNotification(String(e.status), {
+        model: t("_entities:entities.cannon"),
+      });
     }
     setSaving(false);
   };
@@ -82,12 +91,17 @@ function GeneralInfo(props) {
       setPhoto(cannonQuery.data?.image);
 
       //* PARSING CONTENT
-      if (cannonQuery.data?.description && typeof cannonQuery.data?.description === "string") {
+      if (
+        cannonQuery.data?.description &&
+        typeof cannonQuery.data?.description === "string"
+      ) {
         const html = cannonQuery.data?.description;
         const descriptionBlock = htmlToDraft(html);
         if (descriptionBlock) {
-          const descriptionState = ContentState.createFromBlockArray(descriptionBlock);
-          cannonQuery.data.description = EditorState.createWithContent(descriptionState);
+          const descriptionState =
+            ContentState.createFromBlockArray(descriptionBlock);
+          cannonQuery.data.description =
+            EditorState.createWithContent(descriptionState);
         }
       }
       setLastUpdate(cannonQuery?.data?.lastUpdate);
@@ -221,9 +235,18 @@ function GeneralInfo(props) {
         )}
       />
 
-      <button type="submit" disabled={cannonQuery.isLoading || saving} className="my-5 submit">
+      <button
+        type="submit"
+        disabled={cannonQuery.isLoading || saving}
+        className="my-5 submit"
+      >
         {(cannonQuery.isLoading || saving) && (
-          <Loading className="button-loading" strokeWidth="4" loaderClass="!w-6" color="stroke-white" />
+          <Loading
+            className="button-loading"
+            strokeWidth="4"
+            loaderClass="!w-6"
+            color="stroke-white"
+          />
         )}
         {t("_accessibility:buttons.save")}
       </button>

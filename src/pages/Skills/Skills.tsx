@@ -11,24 +11,22 @@ import noProduct from "../../assets/images/no-product.jpg";
 // icons
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
-// dto
-import { Skill } from "../../lib/models/skill/Skill.js";
-
 // utils
-import { extractKeysFromObject } from "../../utils/parser";
-import { ReactQueryKeys } from "../../utils/queryKeys";
-import { staticUrlPhoto } from "../../components/utils";
-
-// components
-import { FloatingButton } from "../../components/FloatingButton/FloatingButton.jsx";
+import { extractKeysFromObject } from "../../utils/parser.js";
+import { ReactQueryKeys } from "../../utils/queryKeys.js";
+import { staticUrlPhoto } from "../../components/utils.js";
 
 // providers
-import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
+import { useHorizonApiClient } from "providers";
 
 // hooks
-import { useRestoreAction, useDeleteAction, useEditAction } from "../../hooks";
-import { useParseColumns, useParseRows } from "../../utils/parseBaseColumns.js";
-import { useHorizonQuery } from "../../hooks/queries/useHorizonQuery.jsx";
+import {
+  useRestoreAction,
+  useDeleteAction,
+  useEditAction,
+} from "../../hooks/index.js";
+import { useParseColumns } from "../../utils/parseBaseColumns.js";
+import { useHorizonQuery } from "../../hooks/queries/useHorizonQuery.js";
 
 const columnClasses = {
   lastUpdate: "w-56",
@@ -67,7 +65,11 @@ function SkillPage() {
           alt={`${skill.name}`}
         />
       ) : (
-        <img className="w-10 h-10 rounded-full object-cover" src={noProduct} alt={skill.name} />
+        <img
+          className="w-10 h-10 rounded-full object-cover"
+          src={noProduct}
+          alt={skill.name}
+        />
       ),
     };
   };
@@ -89,15 +91,25 @@ function SkillPage() {
   });
 
   const getActions = useCallback(
-    (row) => [editAction.action(row), restoreAction.action(row), deleteAction.action(row)],
-    [deleteAction, editAction, restoreAction],
+    (row) => [
+      editAction.action(row),
+      restoreAction.action(row),
+      deleteAction.action(row),
+    ],
+    [deleteAction, editAction, restoreAction]
   );
 
   //#endregion Actions
 
   const { columns } = useParseColumns(
-    extractKeysFromObject(new Skill(), ["id", "dateOfCreation", "deleted", "description", "urlName"]),
-    Skill.className,
+    extractKeysFromObject(new Skill(), [
+      "id",
+      "dateOfCreation",
+      "deleted",
+      "description",
+      "urlName",
+    ]),
+    Skill.className
   );
 
   const { rows } = useParseRows(prepareRows);

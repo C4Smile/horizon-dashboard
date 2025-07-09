@@ -6,7 +6,7 @@ import { getCookie } from "some-javascript-utils/browser";
 import { useAccount } from "../providers/Account/AccountProvider";
 
 // partial
-import Notification from "../partials/Notification";
+import Notification from "../partials/Notification/Notification";
 
 // pages
 import { findPath, PageId } from "../pages/sitemap";

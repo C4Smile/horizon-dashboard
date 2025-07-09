@@ -16,7 +16,7 @@ import { OptionResourceCommonDto, ResourceRowPropsType } from "./types";
  * @param {*} props - component form
  * @returns ResourceRow component
  */
-const ResourceRow = memo(
+export const ResourceRow = memo(
   function ResourceRow<TDto extends OptionResourceCommonDto>(
     props: ResourceRowPropsType<TDto>
   ) {
@@ -86,15 +86,10 @@ const ResourceRow = memo(
     );
   },
   (prev, next) => {
-    if (
-      prev.inputLabel !== next.inputLabel ||
-      prev.label !== next.label
-    ) {
+    if (prev.inputLabel !== next.inputLabel || prev.label !== next.label) {
       return false;
     }
 
     return prev.value === next.value;
   }
 );
-
-export default ResourceRow;

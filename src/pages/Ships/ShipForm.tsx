@@ -5,27 +5,22 @@ import { useQuery } from "@tanstack/react-query";
 import loadable from "@loadable/component";
 
 // providers
-import { useHorizonApiClient } from "../../providers/HorizonApiProvider";
+import { useHorizonApiClient } from "providers";
 
 // utils
-import { ReactQueryKeys } from "../../utils/queryKeys";
+import { ReactQueryKeys } from "utils";
 
 // components
-import { TabLayout } from "../../components/TabComponent/TabLayout.jsx";
-import { EntityLevelStuff } from "../../components/EntityLevelStuff/index.js";
+import { TabsLayout, EntityLevelStuff } from "components";
 
 // types
-import { shipTabs } from "./types";
+import { shipTabs } from "./types.js";
 
 // tabs
-import { GeneralInfo, ResourceStuff } from "./tabs";
-
-// entity
-import { Tech } from "../../lib/models/tech/Tech.js";
-import { Ship } from "../../lib/models/ship/Ship.js";
+import { GeneralInfo, ResourceStuff } from "./tabs/index.js";
 
 // pages
-const NotFound = loadable(() => import("../NotFound/NotFound"));
+const NotFound = loadable(() => import("../NotFound/NotFound.jsx"));
 
 /**
  * Building Form page component
@@ -63,8 +58,11 @@ function ShipForm() {
   const resourcesList = useMemo(() => {
     try {
       return (
-        resourcesQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id, image: c.image })) ??
-        []
+        resourcesQuery?.data?.items?.map((c) => ({
+          value: `${c.name}`,
+          id: c.id,
+          image: c.image,
+        })) ?? []
       );
     } catch (err) {
       return [];
@@ -83,7 +81,11 @@ function ShipForm() {
   const techsList = useMemo(() => {
     try {
       return (
-        techsQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id, image: c.image })) ?? []
+        techsQuery?.data?.items?.map((c) => ({
+          value: `${c.name}`,
+          id: c.id,
+          image: c.image,
+        })) ?? []
       );
     } catch (err) {
       return [];
@@ -123,7 +125,7 @@ function ShipForm() {
           id,
           label: t(`_pages:ships.tabs.${id}`),
         })),
-    [id, t],
+    [id, t]
   );
 
   const content = useMemo(
@@ -139,7 +141,9 @@ function ShipForm() {
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.ShipCosts, id]}
           queryFn={() => horizonApiClient.Ship.shipCosts.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Ship.shipCosts.save(id, data)}
+          saveFn={async (id, data) =>
+            horizonApiClient.Ship.shipCosts.save(id, data)
+          }
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Ship.shipCosts.deleteSingle(id, resourceId)
           }
@@ -155,7 +159,9 @@ function ShipForm() {
           inputKey={"baseUpkeep"}
           queryKey={[ReactQueryKeys.ShipUpkeeps, id]}
           queryFn={() => horizonApiClient.Ship.shipUpkeeps.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Ship.shipUpkeeps.save(id, data)}
+          saveFn={async (id, data) =>
+            horizonApiClient.Ship.shipUpkeeps.save(id, data)
+          }
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Ship.shipUpkeeps.deleteSingle(id, resourceId)
           }
@@ -171,7 +177,9 @@ function ShipForm() {
           inputKey={"techLevel"}
           queryKey={[ReactQueryKeys.ShipRequirements, ReactQueryKeys.Techs, id]}
           queryFn={() => horizonApiClient.Ship.shipReqTechs.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Ship.shipReqTechs.save(id, data)}
+          saveFn={async (id, data) =>
+            horizonApiClient.Ship.shipReqTechs.save(id, data)
+          }
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Ship.shipReqTechs.deleteSingle(id, resourceId)
           }
@@ -185,16 +193,22 @@ function ShipForm() {
           entity={Ship.className}
           entityToSave={Ship.buildRequirement}
           inputKey={"buildingLevel"}
-          queryKey={[ReactQueryKeys.ShipRequirements, ReactQueryKeys.Buildings, id]}
+          queryKey={[
+            ReactQueryKeys.ShipRequirements,
+            ReactQueryKeys.Buildings,
+            id,
+          ]}
           queryFn={() => horizonApiClient.Ship.shipReqBuildings.get(id)}
-          saveFn={async (id, data) => horizonApiClient.Ship.shipReqBuildings.save(id, data)}
+          saveFn={async (id, data) =>
+            horizonApiClient.Ship.shipReqBuildings.save(id, data)
+          }
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Ship.shipReqBuildings.deleteSingle(id, resourceId)
           }
         />
       ),
     }),
-    [shipQuery, id, resourcesList, techsList, buildingsList, horizonApiClient],
+    [shipQuery, id, resourcesList, techsList, buildingsList, horizonApiClient]
   );
 
   return notFound ? (

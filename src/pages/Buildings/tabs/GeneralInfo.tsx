@@ -9,20 +9,24 @@ import { ContentState, EditorState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
 
 // components
-import Loading from "../../../partials/Loading/Loading";
-import TextInput from "../../../components/Forms/TextInput";
-import SelectInput from "../../../components/Forms/SelectInput";
-import ImageUploader from "../../../components/ImageUploader/ImageUploader";
+import { ImageUploader } from "components";
 
 // providers
-import { useNotification } from "../../../providers/NotificationProvider";
-import { queryClient, useHorizonApiClient } from "../../../providers/HorizonApiProvider";
+import {
+  useNotification,
+  queryClient,
+  useHorizonApiClient,
+} from "providers";
 
 // utils
 import { ReactQueryKeys } from "../../../utils/queryKeys";
 
 // loadable
-const HtmlInput = loadable(() => import("../../../components/Forms/HtmlInput"));
+const HtmlInput = loadable(() =>
+  import("components").then((module) => ({
+    default: module.HtmlInput,
+  }))
+);
 
 /**
  * General Info
@@ -51,7 +55,12 @@ function GeneralInfo(props) {
 
   const typesList = useMemo(() => {
     try {
-      return typesQuery?.data?.items?.map((c) => ({ value: `${c.name}`, id: c.id })) ?? [];
+      return (
+        typesQuery?.data?.items?.map((c) => ({
+          value: `${c.name}`,
+          id: c.id,
+        })) ?? []
+      );
     } catch (err) {
       return [];
     }
@@ -66,14 +75,20 @@ function GeneralInfo(props) {
       else result = await horizonApiClient.Building.update(d, photo);
 
       const { error, status } = result;
-      setNotification(String(status), { model: t("_entities:entities.building") });
+      setNotification(String(status), {
+        model: t("_entities:entities.building"),
+      });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
       if (error !== null && error) console.error(error.message);
       else {
-        await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Buildings] });
+        await queryClient.invalidateQueries({
+          queryKey: [ReactQueryKeys.Buildings],
+        });
         if (d.id !== undefined)
-          await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Buildings, id] });
+          await queryClient.invalidateQueries({
+            queryKey: [ReactQueryKeys.Buildings, id],
+          });
         else {
           setPhoto(null);
           reset({
@@ -87,7 +102,9 @@ function GeneralInfo(props) {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
-      setNotification(String(e.status), { model: t("_entities:entities.building") });
+      setNotification(String(e.status), {
+        model: t("_entities:entities.building"),
+      });
     }
     setSaving(false);
   };
@@ -98,12 +115,17 @@ function GeneralInfo(props) {
       setPhoto(buildingQuery.data?.image);
 
       //* PARSING CONTENT
-      if (buildingQuery.data?.description && typeof buildingQuery.data?.description === "string") {
+      if (
+        buildingQuery.data?.description &&
+        typeof buildingQuery.data?.description === "string"
+      ) {
         const html = buildingQuery.data?.description;
         const descriptionBlock = htmlToDraft(html);
         if (descriptionBlock) {
-          const descriptionState = ContentState.createFromBlockArray(descriptionBlock);
-          buildingQuery.data.description = EditorState.createWithContent(descriptionState);
+          const descriptionState =
+            ContentState.createFromBlockArray(descriptionBlock);
+          buildingQuery.data.description =
+            EditorState.createWithContent(descriptionState);
         }
       }
       setLastUpdate(buildingQuery?.data?.lastUpdate);
@@ -233,9 +255,18 @@ function GeneralInfo(props) {
         )}
       />
 
-      <button type="submit" disabled={buildingQuery.isLoading || saving} className="my-5 submit">
+      <button
+        type="submit"
+        disabled={buildingQuery.isLoading || saving}
+        className="my-5 submit"
+      >
         {(buildingQuery.isLoading || saving) && (
-          <Loading className="button-loading" strokeWidth="4" loaderClass="!w-6" color="stroke-white" />
+          <Loading
+            className="button-loading"
+            strokeWidth="4"
+            loaderClass="!w-6"
+            color="stroke-white"
+          />
         )}
         {t("_accessibility:buttons.save")}
       </button>

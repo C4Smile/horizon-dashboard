@@ -67,7 +67,7 @@ textarea {
 
 .submit {
   padding: 5px 20px;
-  @apply relative text-white border-2 border-hover-primary bg-light-primary transition enabled:hover:bg-primary enabled:hover:border-primary disabled:bg-primary/40 font-medium rounded-full text-sm w-full sm:w-auto text-center;
+  @apply relative text-white border-2 border-hover-primary bg-hover-primary transition enabled:hover:bg-primary enabled:hover:border-primary disabled:bg-primary/40 font-medium rounded-full text-sm w-full sm:w-auto text-center;
 }
 
 .outlined {
@@ -100,7 +100,7 @@ textarea {
 }
 
 .submit.primary {
-  @apply mb-5 relative text-white self-start bg-light-primary transition-all enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 duration-500 ease-in-out;
+  @apply mb-5 relative text-white self-start bg-hover-primary transition-all enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 duration-500 ease-in-out;
 }
 
 @keyframes appear {

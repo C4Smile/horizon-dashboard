@@ -10,19 +10,20 @@ import { EditorState, ContentState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
 
 // components
-import Loading from "../../partials/Loading/Loading";
-import TextInput from "../../components/Forms/TextInput";
-import ImageUploader from "../../components/ImageUploader/ImageUploader";
+import { ImageUploader } from "components";
 
 // providers
-import { useNotification } from "../../providers/NotificationProvider";
-import { queryClient, useHorizonApiClient } from "../../providers/HorizonApiProvider";
+import { useNotification, queryClient, useHorizonApiClient } from "providers";
 
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // loadable
-const HtmlInput = loadable(() => import("../../components/Forms/HtmlInput"));
+const HtmlInput = loadable(() =>
+  import("components").then((module) => ({
+    default: module.HtmlInput,
+  }))
+);
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
@@ -62,9 +63,13 @@ function SkillForm() {
       // eslint-disable-next-line no-console
       if (error) console.error(error.message);
       else {
-        await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Skills] });
+        await queryClient.invalidateQueries({
+          queryKey: [ReactQueryKeys.Skills],
+        });
         if (id !== undefined)
-          await queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Skills, id] });
+          await queryClient.invalidateQueries({
+            queryKey: [ReactQueryKeys.Skills, id],
+          });
         else {
           setPhoto();
           reset({
@@ -78,7 +83,9 @@ function SkillForm() {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
-      setNotification(String(e.status), { model: t("_entities:entities.skill") });
+      setNotification(String(e.status), {
+        model: t("_entities:entities.skill"),
+      });
     }
     setSaving(false);
   };
@@ -102,12 +109,17 @@ function SkillForm() {
       setPhoto(skillQuery.data?.image);
 
       //* PARSING CONTENT
-      if (skillQuery.data?.description && typeof skillQuery.data?.description === "string") {
+      if (
+        skillQuery.data?.description &&
+        typeof skillQuery.data?.description === "string"
+      ) {
         const html = skillQuery.data?.description;
         const descriptionBlock = htmlToDraft(html);
         if (descriptionBlock) {
-          const descriptionState = ContentState.createFromBlockArray(descriptionBlock);
-          skillQuery.data.description = EditorState.createWithContent(descriptionState);
+          const descriptionState =
+            ContentState.createFromBlockArray(descriptionBlock);
+          skillQuery.data.description =
+            EditorState.createWithContent(descriptionState);
         }
       }
       setLastUpdate(skillQuery?.data?.lastUpdate);
@@ -131,7 +143,9 @@ function SkillForm() {
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <h1 className="text-2xl md:text-3xl font-bold">
-          {id ? `${t("_accessibility:components.form.editing")} ${id}` : t("_pages:skills.newForm")}
+          {id
+            ? `${t("_accessibility:components.form.editing")} ${id}`
+            : t("_pages:skills.newForm")}
         </h1>
         {skillQuery.isLoading ? (
           <Loading
@@ -197,7 +211,11 @@ function SkillForm() {
           )}
         />
 
-        <button type="submit" disabled={skillQuery.isLoading || saving} className="my-5 submit">
+        <button
+          type="submit"
+          disabled={skillQuery.isLoading || saving}
+          className="my-5 submit"
+        >
           {(skillQuery.isLoading || saving) && (
             <Loading
               className="button-loading"

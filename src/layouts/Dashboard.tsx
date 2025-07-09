@@ -12,7 +12,7 @@ import { useAccount, HeaderProvider, useHorizonApiClient } from "providers";
 
 // components
 import ToTop from "../components/ToTop/ToTop";
-import Notification from "../partials/Notification";
+import Notification from "../partials/Notification/Notification";
 
 // partials
 import { Sidebar, Header } from "partials";

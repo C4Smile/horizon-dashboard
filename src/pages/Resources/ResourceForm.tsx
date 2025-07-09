@@ -22,7 +22,11 @@ import { useNotification, queryClient, useHorizonApiClient } from "providers";
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // loadable
-const HtmlInput = loadable(() => import("components"));
+const HtmlInput = loadable(() =>
+  import("components").then((module) => ({
+    default: module.HtmlInput,
+  }))
+);
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
