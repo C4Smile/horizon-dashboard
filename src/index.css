@@ -47,12 +47,6 @@ h3 {
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 .disabled-link {
   pointer-events: none;
 }

@@ -17,8 +17,12 @@ import { TabsLayout, EntityLevelStuff } from "components";
 import { buildingTabs } from "./types.js";
 
 // tabs
-import { GeneralInfo, ResourceStuff } from "./tabs/index.js";
+import { GeneralInfo } from "./tabs/";
+
+// api
 import { Tables } from "api";
+
+// lib
 import {
   BuildingCostAddDto,
   BuildingProduceAddDto,
@@ -26,8 +30,6 @@ import {
   BuildingReqTechAddDto,
   BuildingUpkeepAddDto,
 } from "lib";
-
-// entity
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound.jsx"));

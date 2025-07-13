@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -19,7 +20,7 @@ import { findPath, PageId } from "../sitemap";
 import { HTTPError } from "api";
 
 // lib
-import { NotificationEnumType } from "lib";
+import { AccountDto, LoginDto, NotificationEnumType } from "lib";
 
 /**
  * Sign Page
@@ -34,31 +35,55 @@ function SignIn() {
 
   const horizonApiClient = useHorizonApiClient();
 
-  const [userError, setUserError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
   const [saving, setSaving] = useState(false);
 
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit, control, setError } = useForm<LoginDto>();
+
+  const mutationFn = useMutation<AccountDto, HTTPError, LoginDto>({
+    mutationFn: (data) => horizonApiClient.Auth.login(data),
+    onError: (error) => {
+      console.error(error);
+      if (error) {
+        const messages = parseFormError(error);
+        showStackNotifications(
+          messages.map(
+            (message) =>
+              ({
+                message,
+                type: NotificationEnumType.error,
+              }) as NotificationType
+          )
+        );
+      }
+      if (onError) onError(error);
+    },
+    onSuccess: async (result) => {
+      await queryClient.invalidateQueries({ queryKey });
+      if (onSuccess) onSuccess(result);
+      showSuccessNotification({
+        message: onSuccessMessage,
+      } as NotificationType);
+      close();
+    },
+  });
 
   const { showNotification } = useNotification();
 
-  const onSubmit = async (d) => {
-    setUserError("");
-    setPasswordError("");
+  const onSubmit = async (d: LoginDto) => {
     setSaving(true);
     try {
-      const result = await horizonApiClient.Auth.login(d.email, d.password);
+      const result = await horizonApiClient.Auth.login(d.username, d.password);
       const data = await result.json();
       // set server status to notification
       if (data.status) {
         if (data.status === 404)
-          setUserError(
-            t(`_accessibility:messages.404`, {
+          setError("username", {
+            message: t(`_accessibility:messages.404`, {
               model: t("_entities:entities.user"),
-            })
-          );
+            }),
+          });
         else if (data.status === 401 || data.status === 400)
-          setPasswordError(t("_accessibility:messages.401"));
+          setError("password", { message: t("_accessibility:messages.401") });
         else {
           const request = await horizonApiClient.Auth.fetchOwner(data.user.id);
           const horizonUser = await request.json();
@@ -89,7 +114,7 @@ function SignIn() {
     <div className="w-full h-screen flex items-start justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-96 max-sm:w-10/12 px-5 flex flex-col items-center justify-start m-auto"
+        className="w-96 max-sm:w-10/12 p-5 flex flex-col items-center justify-start m-auto mt-40 bg-light-background"
       >
         <Logo
           className={`w-28 h-28 mb-10 transition-all duration-500 ease-in-out ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
@@ -105,17 +130,15 @@ function SignIn() {
           <Controller
             control={control}
             disabled={saving}
-            name="email"
-            render={({ field }) => (
+            name="username"
+            render={({ field, fieldState }) => (
               <TextInput
                 {...field}
                 type="text"
-                name="email"
                 id="email"
-                inputClassName={`text-input peer`}
                 label={t("_entities:user.email.label")}
                 required
-                helperText={userError}
+                helperText={fieldState.error?.message}
                 state={userError.length ? State.error : State.default}
               />
             )}
@@ -131,9 +154,7 @@ function SignIn() {
             render={({ field }) => (
               <PasswordInput
                 {...field}
-                name="password"
                 id="password"
-                inputClassName={`text-input peer`}
                 label={t("_entities:user.password.label")}
                 required
                 helperText={passwordError}

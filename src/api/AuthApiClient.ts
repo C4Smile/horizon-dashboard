@@ -74,29 +74,22 @@ export class AuthApiClient {
 
   /**
    * Logs an user
-   * @param {string} user - username
-   * @param {string} password - password
+   * @param form - login data
    * @returns Transaction result
    */
-  async login(user: string, password: string) {
+  async login(form: LoginDto): Promise<AccountDto> {
     const { data, error } = await makeRequest<LoginDto, AccountDto>(
       `auth/login`,
       "POST",
       {
-        username: user,
-        password,
+        ...form,
       }
     );
     if (data && data.user) {
-      data.user.email = user;
+      data.user.email = form.email;
       toLocal(config.user, data);
     }
-    return {
-      json: async () => ({
-        ...data,
-        status: error ? error.status : 200,
-        error,
-      }),
-    };
+    if (error) throw error;
+    return data;
   }
 }

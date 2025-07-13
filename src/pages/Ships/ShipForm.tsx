@@ -17,7 +17,7 @@ import { TabsLayout, EntityLevelStuff } from "components";
 import { shipTabs } from "./types.js";
 
 // tabs
-import { GeneralInfo, ResourceStuff } from "./tabs/index.js";
+import { GeneralInfo } from "./tabs/";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound.jsx"));

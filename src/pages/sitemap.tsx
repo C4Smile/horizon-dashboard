@@ -5,41 +5,41 @@ import { Auth, Dashboard, ModelNavigation } from "layouts";
 
 // pages
 // auth
-import SignOut from "./Auth/SignOut.jsx";
-import SignIn from "./Auth/SignIn.jsx";
-import Recovery from "./Auth/Recovery.jsx";
-import UpdatePassword from "./Auth/UpdatePassword.jsx";
+import SignOut from "./Auth/SignOut";
+import SignIn from "./Auth/SignIn";
+import Recovery from "./Auth/Recovery";
+import UpdatePassword from "./Auth/UpdatePassword";
 // dashboard
-import Home from "./Home.jsx";
-import Account from "./Account/Account.jsx";
+import Home from "./Home";
+import Account from "./Account/Account";
 // game
 // ships
-import ShipsPage from "./Ships/Ships.jsx";
-import ShipForm from "./Ships/ShipForm.jsx";
+import ShipsPage from "./Ships/Ships";
+import ShipForm from "./Ships/ShipForm";
 // cannons
-import CannonsPage from "./Cannons/Cannons.jsx";
-import CannonForm from "./Cannons/CannonForm.jsx";
+import CannonsPage from "./Cannons/Cannons";
+import CannonForm from "./Cannons/CannonForm";
 // skills
-import SkillsPage from "./Skills/Skills.jsx";
-import SkillForm from "./Skills/SkillForm.jsx";
+import SkillsPage from "./Skills/Skills";
+import SkillForm from "./Skills/SkillForm";
 // buildings
-import BuildingsPage from "./Buildings/Buildings.jsx";
-import BuildingForm from "./Buildings/BuildingForm.jsx";
+import BuildingsPage from "./Buildings/Buildings";
+import BuildingForm from "./Buildings/BuildingForm";
 // buildingTypes
-import BuildingTypesPage from "./BuildingTypes/BuildingTypes.jsx";
-import BuildingTypeForm from "./BuildingTypes/BuildingTypeForm.jsx";
+import BuildingTypesPage from "./BuildingTypes/BuildingTypes";
+import BuildingTypeForm from "./BuildingTypes/BuildingTypeForm";
 // resources
-import ResourcesPage from "./Resources/Resources.jsx";
-import ResourceForm from "./Resources/ResourceForm.jsx";
+import ResourcesPage from "./Resources/Resources";
+import ResourceForm from "./Resources/ResourceForm";
 // techs
-import TechsPage from "./Techs/Techs.jsx";
-import TechForm from "./Techs/TechForm.jsx";
+import TechsPage from "./Techs/Techs";
+import TechForm from "./Techs/TechForm";
 // techTypes
-import TechTypesPage from "./TechTypes/TechTypes.jsx";
-import TechTypeForm from "./TechTypes/TechTypeForm.jsx";
+import TechTypesPage from "./TechTypes/TechTypes";
+import TechTypeForm from "./TechTypes/TechTypeForm";
 // players
-import UsersPage from "./Users/Users.jsx";
-import UserForm from "./Users/UserForm.jsx";
+import UsersPage from "./Users/Users";
+import UserForm from "./Users/UserForm";
 
 // types
 import { ViewPageType } from "./types.js";

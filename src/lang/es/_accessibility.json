@@ -9,14 +9,12 @@
     "6": "Sábado"
   },
   "components": {
-    "form": {
-      "editing": "Editando"
-    },
     "table": {
       "filters": {
         "title": "Filtros"
       },
-      "pageSizes": "Mostrando",
+      "pageSizes": "Filas por página",
+      "jumpToPage": "Saltar a página",
       "from": "del",
       "to": "al",
       "of": "de",

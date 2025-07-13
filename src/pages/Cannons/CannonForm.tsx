@@ -11,14 +11,16 @@ import { useHorizonApiClient } from "providers";
 import { ReactQueryKeys } from "../../utils/queryKeys.js";
 
 // components
-import { TabsLayout } from "../../components/TabComponent/TabLayout.js";
-import { EntityLevelStuff } from "../../components/EntityLevelStuff/index.js";
+import {
+  TabsLayout,
+  EntityLevelStuff,
+} from "components";
 
 // types
 import { cannonTabs } from "./types.js";
 
 // tabs
-import { GeneralInfo, ResourceStuff } from "./tabs/index.js";
+import { GeneralInfo } from "./tabs";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound.jsx"));

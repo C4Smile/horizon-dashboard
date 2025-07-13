@@ -1,5 +1,4 @@
-import React from "react";
-import WelcomeBanner from "../partials/Dashboard/WelcomeBanner";
+import { WelcomeBanner } from "partials";
 
 /**
  * Home

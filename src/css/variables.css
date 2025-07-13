@@ -2,7 +2,9 @@
 
 @theme {
   --color-dark: #1b1b1b;
-  --color-background: #272727;
+  --color-dark-background: #272727;
+  --color-light: #fbfbfb;
+  --color-light-background: #f9f9f9;
   --color-drawer-background: #202020;
   --color-alt-background: #343434;
   --color-border: #393939;

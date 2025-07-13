@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 
 // components
-import Links from "./Links";
+import { Links } from "./Links";
 
 // types
 import { ModelNavigationPropsType } from "./types";

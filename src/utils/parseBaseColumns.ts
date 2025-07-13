@@ -8,7 +8,7 @@ import { ColumnType, FilterTypes } from "@sito/dashboard";
 import { EntityName } from "api";
 import { BaseEntityDto } from "lib";
 
-export const baseColumns = ["id", "dateOfCreation", "lastUpdate", "deleted"];
+export const baseColumns = ["id", "createdAt", "updatedAt", "deleted"];
 
 /**
  *
