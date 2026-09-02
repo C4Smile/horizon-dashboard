@@ -9,7 +9,6 @@ import { Loading, TextInput, SelectInput } from "@sito/dashboard-app";
 
 // editor
 import { ContentState, EditorState } from "draft-js";
-import htmlToDraft from "html-to-draftjs";
 
 // components
 import { ImageUploader } from "components";
@@ -18,7 +17,7 @@ import { ImageUploader } from "components";
 import { useNotification, queryClient, useHorizonApiClient } from "providers";
 
 // utils
-import { ReactQueryKeys } from "utils";
+import { ReactQueryKeys, htmlToDraft } from "utils";
 import { NotificationEnumType } from "lib";
 import { HTTPError } from "api";
 

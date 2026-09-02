@@ -3,15 +3,14 @@ import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
 import loadable from "@loadable/component";
 
+// utils
+import { htmlToDraft } from "utils";
+
 // editor
 import { ContentState, EditorState } from "draft-js";
-import htmlToDraft from "html-to-draftjs";
 
 // @sito/dashboard-app
 import { Loading, TextInput } from "@sito/dashboard-app";
-
-// components
-import { ImageUploader } from "components";
 
 // providers
 import { useNotification, queryClient, useHorizonApiClient } from "providers";

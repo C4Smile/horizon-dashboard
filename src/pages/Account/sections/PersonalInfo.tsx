@@ -39,7 +39,7 @@ function PersonalInfo() {
 
   const [notFound, setNotFound] = useState(false);
 
-  const { showErrorNotification } = useNotification();
+  const { setNotification, showErrorNotification } = useNotification();
   const [saving, setSaving] = useState(false);
   const [lastUpdate, setLastUpdate] = useState();
 

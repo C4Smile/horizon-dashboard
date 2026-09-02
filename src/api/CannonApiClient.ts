@@ -1,7 +1,3 @@
-import { toSlug } from "some-javascript-utils";
-import draftToHtml from "draftjs-to-html";
-import { convertToRaw } from "draft-js";
-
 // apis
 import { CannonCostsApiClient } from "./CannonCostsApiClient.js";
 import { CannonReqTechsApiClient } from "./CannonReqTechsApiClient.js";
@@ -9,6 +5,7 @@ import { CannonReqBuildingsApiClient } from "./CannonReqBuildingsApiClient.js";
 
 // base
 import { BaseApiClient } from "./utils/";
+import { parseHtml, parseNumber } from "./utils/formToDto";
 
 // types
 import { Tables } from "./types/";
@@ -45,37 +42,39 @@ export class CannonApiClient extends BaseApiClient<
   }
 
   /**
+   * @description Maps the form values to what the api stores
+   * the cannons table has no image column, the photo is ignored on purpose
+   * @param cannon - form values
+   * @returns cannon dto
+   */
+  private toDto(cannon: CannonDto) {
+    return {
+      name: cannon.name,
+      description: parseHtml(cannon.description),
+      creationTime: parseNumber(cannon.creationTime),
+      baseDamage: parseNumber(cannon.baseDamage),
+      weight: parseNumber(cannon.weight),
+    };
+  }
+
+  /**
    * @description Create cannon
    * @param cannon - Cannon
-   * @param photo - Photo
    * @returns Transaction status
    */
-  async create(cannon: Cannon, photo: Photo) {
-    // default values
-    cannon.urlName = toSlug(cannon.name);
-    // parsing html
-    cannon.description = draftToHtml(
-      convertToRaw(cannon.description.getCurrentContent()),
-    );
-    // saving photo
-    if (photo) cannon.image = photo;
+  async create(cannon: CannonDto) {
+    return await this.saveNew(this.toDto(cannon) as CannonAddDto);
   }
 
   /**
    * @description Update cannon
    * @param cannon - Cannon
-   * @param photo - Photo
    * @returns Transaction status
    */
-  async update(cannon: Cannon, photo: Photo) {
-    // default values
-    cannon.urlName = toSlug(cannon.name);
-    // parsing html
-    cannon.description = draftToHtml(
-      convertToRaw(cannon.description.getCurrentContent()),
-    );
-    // saving photo
-    if (photo) cannon.image = photo;
-    // lastUpdate: new Date().toISOString(),
+  async update(cannon: CannonDto) {
+    return await this.saveExisting({
+      id: cannon.id,
+      ...this.toDto(cannon),
+    } as CannonUpdateDto);
   }
 }

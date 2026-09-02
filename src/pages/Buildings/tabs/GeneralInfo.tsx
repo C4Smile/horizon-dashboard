@@ -4,9 +4,14 @@ import { useQuery } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import loadable from "@loadable/component";
 
+// @sito/dashboard-app
+import { Loading, SelectInput, TextInput } from "@sito/dashboard-app";
+
+// utils
+import { htmlToDraft } from "utils";
+
 // editor
 import { ContentState, EditorState } from "draft-js";
-import htmlToDraft from "html-to-draftjs";
 
 // components
 import { ImageUploader } from "components";
@@ -53,7 +58,7 @@ function GeneralInfo(props) {
     try {
       return (
         typesQuery?.data?.items?.map((c) => ({
-          value: `${c.name}`,
+          value: c.name,
           id: c.id,
         })) ?? []
       );

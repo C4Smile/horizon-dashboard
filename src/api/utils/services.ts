@@ -34,13 +34,22 @@ export async function makeRequest<TBody, TResponse>(
   if (body) options.body = JSON.stringify(body);
 
   const request = await fetch(`${config.apiUrl}${url}`, options);
-  const data: TResponse = await request.json();
+  // some endpoints answer 204 with an empty body
+  const raw = await request.text();
+  const data: TResponse = raw ? JSON.parse(raw) : (null as TResponse);
 
   return {
     data,
     status: request.status,
     error: isAnError(request.status)
-      ? { status: request.status, message: request.statusText }
+      ? {
+          status: request.status,
+          // nest sends the reason in the body, statusText is usually empty
+          message:
+            (data as { message?: string })?.message ??
+            request.statusText ??
+            String(request.status),
+        }
       : null,
   };
 }

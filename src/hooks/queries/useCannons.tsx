@@ -10,14 +10,14 @@ import { ApiQueryResult } from "./types.ts";
 import { CannonDto, CannonCommonDto } from "lib";
 
 // api
-import { TablesCamelCase } from "api";
+import { Tables } from "api";
 
 // hooks
 import { useTableOptions } from "@sito/dashboard-app";
 
 export const CannonsQueryKeys = {
   all: () => ({
-    queryKey: [TablesCamelCase.Cannons],
+    queryKey: [Tables.Cannons],
   }),
   list: () => ({
     queryKey: [...CannonsQueryKeys.all().queryKey, "list"],

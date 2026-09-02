@@ -1,13 +1,15 @@
 import { toSlug } from "some-javascript-utils";
-import draftToHtml from "draftjs-to-html";
-import { convertToRaw } from "draft-js";
 
 // base
 import { BaseApiClient } from "./utils/BaseApiClient";
+import {
+  FormPhoto,
+  parseHtml,
+  parseImage,
+  parseNumber,
+} from "./utils/formToDto";
 
 // types
-import { Resource } from "../lib/models/resource/Resource.js";
-import { Photo } from "../lib/models/photo/Photo.js";
 import { Tables } from "./types/dbUtils.js";
 
 // lib
@@ -38,20 +40,29 @@ export class ResourceApiClient extends BaseApiClient<
   }
 
   /**
+   * @description Maps the form values to what the api stores
+   * @param resource - form values
+   * @param photo - ImageUploader state
+   * @returns resource dto
+   */
+  private toDto(resource: ResourceDto, photo: FormPhoto) {
+    return {
+      name: resource.name,
+      urlName: toSlug(resource.name),
+      baseFactor: parseNumber(resource.baseFactor),
+      description: parseHtml(resource.description),
+      ...parseImage(photo),
+    };
+  }
+
+  /**
    * @description Create resource
    * @param resource - Resource
    * @param photo - Photo
    * @returns Transaction status
    */
-  async create(resource: Resource, photo: Photo) {
-    // default values
-    resource.urlName = toSlug(resource.name);
-    // parsing html
-    resource.description = draftToHtml(
-      convertToRaw(resource.description.getCurrentContent()),
-    );
-    // saving photo
-    if (photo) resource.image = photo;
+  async create(resource: ResourceDto, photo: FormPhoto) {
+    return await this.saveNew(this.toDto(resource, photo) as ResourceAddDto);
   }
 
   /**
@@ -60,14 +71,10 @@ export class ResourceApiClient extends BaseApiClient<
    * @param photo - photo
    * @returns Transaction status
    */
-  async update(resource: Resource, photo: Photo) {
-    // default values
-    resource.urlName = toSlug(resource.name);
-    // parsing html
-    resource.description = draftToHtml(
-      convertToRaw(resource.description.getCurrentContent()),
-    );
-    // saving photo
-    if (photo) resource.image = photo;
+  async update(resource: ResourceDto, photo: FormPhoto) {
+    return await this.saveExisting({
+      id: resource.id,
+      ...this.toDto(resource, photo),
+    } as ResourceUpdateDto);
   }
 }

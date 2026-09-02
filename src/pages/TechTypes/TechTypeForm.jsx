@@ -33,7 +33,7 @@ function TechTypeForm() {
 
   const [notFound, setNotFound] = useState(false);
 
-  const { showNotification } = useNotification();
+  const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
   const [lastUpdate, setLastUpdate] = useState();
 

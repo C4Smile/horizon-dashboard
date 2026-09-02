@@ -10,14 +10,14 @@ import { ApiQueryResult } from "./types.ts";
 import { BuildingTypeDto, BuildingTypeCommonDto } from "lib";
 
 // api
-import { TablesCamelCase } from "api";
+import { Tables } from "api";
 
 // hooks
 import { useTableOptions } from "@sito/dashboard-app";
 
 export const BuildingTypesQueryKeys = {
   all: () => ({
-    queryKey: [TablesCamelCase.BuildingTypes],
+    queryKey: [Tables.BuildingTypes],
   }),
   list: () => ({
     queryKey: [...BuildingTypesQueryKeys.all().queryKey, "list"],

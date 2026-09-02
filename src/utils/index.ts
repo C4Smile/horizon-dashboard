@@ -5,3 +5,4 @@ export * from "./parser";
 export * from "./queryKeys";
 export * from "./columnsPrefab";
 export * from "./parseBaseColumns";
+export * from "./htmlToDraft";

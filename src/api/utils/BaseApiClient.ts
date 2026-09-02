@@ -19,6 +19,18 @@ import {
   QueryResult,
 } from "lib";
 
+// types
+import { HttpRequestError } from "./types";
+
+/**
+ * @description What every form reads back from a create/update call
+ */
+export type SaveResult<TDto> = {
+  data: TDto | null;
+  status: number;
+  error: HttpRequestError | null;
+};
+
 /**
  * @class BaseApiClient
  * @description it has all base method
@@ -102,6 +114,16 @@ export class BaseApiClient<
    * @returns updated item
    */
   async update(value: TUpdateDto): Promise<TDto> {
+    return await this.patchEntity(value);
+  }
+
+  /**
+   * @description Raw patch, subclasses that override update() to take the form
+   * values still reach the api through here
+   * @param value
+   * @returns updated item
+   */
+  protected async patchEntity(value: TUpdateDto): Promise<TDto> {
     return await this.api.patch<TDto, TUpdateDto>(
       `${this.table}/${value.id}`,
       value,
@@ -165,5 +187,51 @@ export class BaseApiClient<
     return await this.api.patch(`${this.table}/restore`, ids, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
+  }
+
+  /**
+   * @description Every item, no paging, for selects and dropdowns
+   * @returns Result list
+   */
+  async getAll(): Promise<QueryResult<TDto>> {
+    return await this.get({ page: 0, count: 999 } as unknown as TFilter);
+  }
+
+  /**
+   * @description Runs an api call and reports it the way the forms expect,
+   * they read { status, error } instead of catching
+   * @param request - api call
+   * @param okStatus - status to report when it succeeds
+   * @returns save result
+   */
+  protected async saveRequest<TResult>(
+    request: () => Promise<TResult>,
+    okStatus: number,
+  ): Promise<SaveResult<TResult>> {
+    try {
+      const data = await request();
+      return { data, status: okStatus, error: null };
+    } catch (e) {
+      const error = e as HttpRequestError;
+      return { data: null, status: error?.status ?? 500, error };
+    }
+  }
+
+  /**
+   * @description Inserts and reports the result to the form
+   * @param value - add dto
+   * @returns save result
+   */
+  protected async saveNew(value: TAddDto): Promise<SaveResult<TDto>> {
+    return await this.saveRequest(() => this.insert(value), 201);
+  }
+
+  /**
+   * @description Updates and reports the result to the form
+   * @param value - update dto
+   * @returns save result
+   */
+  protected async saveExisting(value: TUpdateDto): Promise<SaveResult<TDto>> {
+    return await this.saveRequest(() => this.patchEntity(value), 200);
   }
 }

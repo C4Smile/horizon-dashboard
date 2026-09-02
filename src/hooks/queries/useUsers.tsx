@@ -10,14 +10,14 @@ import { ApiQueryResult } from "./types.ts";
 import { UserDto, UserCommonDto } from "lib";
 
 // api
-import { TablesCamelCase } from "api";
+import { Tables } from "api";
 
 // hooks
 import { useTableOptions } from "@sito/dashboard-app";
 
 export const UsersQueryKeys = {
   all: () => ({
-    queryKey: [TablesCamelCase.Users],
+    queryKey: [Tables.Users],
   }),
   list: () => ({
     queryKey: [...UsersQueryKeys.all().queryKey, "list"],

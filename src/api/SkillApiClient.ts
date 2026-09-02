@@ -1,9 +1,8 @@
 import { toSlug } from "some-javascript-utils";
-import draftToHtml from "draftjs-to-html";
-import { convertToRaw } from "draft-js";
 
 // base
 import { BaseApiClient } from "./utils/";
+import { FormPhoto, parseHtml, parseImage } from "./utils/formToDto";
 
 // types
 import { Tables } from "./types/";
@@ -36,20 +35,28 @@ export class SkillApiClient extends BaseApiClient<
   }
 
   /**
+   * @description Maps the form values to what the api stores
+   * @param skill - form values
+   * @param photo - ImageUploader state
+   * @returns skill dto
+   */
+  private toDto(skill: SkillDto, photo: FormPhoto) {
+    return {
+      name: skill.name,
+      urlName: toSlug(skill.name),
+      description: parseHtml(skill.description),
+      ...parseImage(photo),
+    };
+  }
+
+  /**
    * @description Create skill
    * @param skill - Skill
    * @param photo - Photo
    * @returns Transaction status
    */
-  async create(skill: Skill, photo: Photo) {
-    // default values
-    skill.urlName = toSlug(skill.name);
-    // parsing html
-    skill.description = draftToHtml(
-      convertToRaw(skill.description.getCurrentContent()),
-    );
-    // saving photo
-    if (photo) skill.image = photo;
+  async create(skill: SkillDto, photo: FormPhoto) {
+    return await this.saveNew(this.toDto(skill, photo) as SkillAddDto);
   }
 
   /**
@@ -58,14 +65,10 @@ export class SkillApiClient extends BaseApiClient<
    * @param photo - photo
    * @returns Transaction status
    */
-  async update(skill: Skill, photo: Photo) {
-    // default values
-    skill.urlName = toSlug(skill.name);
-    // parsing html
-    skill.description = draftToHtml(
-      convertToRaw(skill.description.getCurrentContent()),
-    );
-    // saving photo
-    if (photo) skill.image = photo;
+  async update(skill: SkillDto, photo: FormPhoto) {
+    return await this.saveExisting({
+      id: skill.id,
+      ...this.toDto(skill, photo),
+    } as SkillUpdateDto);
   }
 }

@@ -10,14 +10,14 @@ import { ApiQueryResult } from "./types.ts";
 import { ShipDto, ShipCommonDto } from "lib";
 
 // api
-import { TablesCamelCase } from "api";
+import { Tables } from "api";
 
 // hooks
 import { useTableOptions } from "@sito/dashboard-app";
 
 export const ShipsQueryKeys = {
   all: () => ({
-    queryKey: [TablesCamelCase.Ships],
+    queryKey: [Tables.Ships],
   }),
   list: () => ({
     queryKey: [...ShipsQueryKeys.all().queryKey, "list"],

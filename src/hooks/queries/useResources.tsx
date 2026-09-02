@@ -10,14 +10,14 @@ import { ApiQueryResult } from "./types.ts";
 import { ResourceDto, ResourceCommonDto } from "lib";
 
 // api
-import { TablesCamelCase } from "api";
+import { Tables } from "api";
 
 // hooks
 import { useTableOptions } from "@sito/dashboard-app";
 
 export const ResourcesQueryKeys = {
   all: () => ({
-    queryKey: [TablesCamelCase.Resources],
+    queryKey: [Tables.Resources],
   }),
   list: () => ({
     queryKey: [...ResourcesQueryKeys.all().queryKey, "list"],

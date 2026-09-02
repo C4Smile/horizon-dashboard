@@ -13,6 +13,11 @@ export enum NotificationSeverity {
 export type NotificationContextType = {
   notification: NotificationType[];
   removeNotification: (index?: number) => void;
+  setNotification: (
+    key: string,
+    params?: Record<string, unknown>,
+    severity?: NotificationSeverity,
+  ) => void;
   showErrorNotification: (options: NotificationType) => void;
   showNotification: (options: NotificationType) => void;
   showSuccessNotification: (options: NotificationType) => void;

@@ -3,6 +3,7 @@ import { buildQueryUrl, makeRequest } from "./services";
 
 // types
 import { QueryResult } from "lib";
+import { HttpRequestError } from "./types";
 
 /**
  * @class APIClient
@@ -23,7 +24,7 @@ export class APIClient {
       body,
       headers,
     );
-    if (error) throw new Error(error.message);
+    if (error) throw new HttpRequestError(error.status, error.message);
 
     return result as TResponse;
   }
@@ -46,7 +47,7 @@ export class APIClient {
       null,
       headers,
     );
-    if (error) throw new Error(`${error.status} ${error.message}`);
+    if (error) throw new HttpRequestError(error.status, error.message);
 
     return result as QueryResult<TDto>;
   }
@@ -69,7 +70,7 @@ export class APIClient {
       headers,
     );
 
-    if (error) throw new Error(error.message);
+    if (error) throw new HttpRequestError(error.status, error.message);
 
     return result;
   }
@@ -87,7 +88,7 @@ export class APIClient {
       headers,
     );
 
-    if (error) throw new Error(error.message);
+    if (error) throw new HttpRequestError(error.status, error.message);
 
     return result;
   }
@@ -110,7 +111,7 @@ export class APIClient {
       headers,
     );
 
-    if (error) throw new Error(error.message);
+    if (error) throw new HttpRequestError(error.status, error.message);
 
     return result;
   }

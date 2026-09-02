@@ -10,14 +10,14 @@ import { ApiQueryResult } from "./types.ts";
 import { SkillDto, SkillCommonDto } from "lib";
 
 // api
-import { TablesCamelCase } from "api";
+import { Tables } from "api";
 
 // hooks
 import { useTableOptions } from "@sito/dashboard-app";
 
 export const SkillsQueryKeys = {
   all: () => ({
-    queryKey: [TablesCamelCase.Skills],
+    queryKey: [Tables.Skills],
   }),
   list: () => ({
     queryKey: [...SkillsQueryKeys.all().queryKey, "list"],

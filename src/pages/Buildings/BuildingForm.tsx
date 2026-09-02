@@ -51,15 +51,16 @@ function BuildingForm() {
 
   const buildingQuery = useQuery({
     queryKey: [ReactQueryKeys.Buildings, id],
-    queryFn: () => horizonApiClient.Building.getById(Number(id)),
-    enabled: id !== undefined,
+    queryFn: () => horizonApiClient.Building.getById(id),
+    // on /new there is no param, Number(undefined) is NaN and the api rejects it
+    enabled: !Number.isNaN(id),
   });
 
   useEffect(() => {
     const { data, error } = buildingQuery;
 
     if (error) console.error(error.message);
-    if (!data) setNotFound(true);
+    if (data?.status === 404) setNotFound(true);
   }, [buildingQuery]);
 
   //#region resources
@@ -141,7 +142,8 @@ function BuildingForm() {
       buildingTabs
         .filter((tab) => (tab.hide ? tab.hide(!!id) : true))
         .map(({ id }) => ({
-          id: Number(id),
+          // the tab id is the content key, not a number
+          id,
           label: t(`_pages:buildings.tabs.${id}`),
         })),
     [id, t],

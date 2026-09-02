@@ -10,14 +10,14 @@ import { ApiQueryResult } from "./types.ts";
 import { TechDto, TechCommonDto } from "lib";
 
 // api
-import { TablesCamelCase } from "api";
+import { Tables } from "api";
 
 // hooks
 import { useTableOptions } from "@sito/dashboard-app";
 
 export const TechsQueryKeys = {
   all: () => ({
-    queryKey: [TablesCamelCase.Techs],
+    queryKey: [Tables.Techs],
   }),
   list: () => ({
     queryKey: [...TechsQueryKeys.all().queryKey, "list"],

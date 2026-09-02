@@ -1,6 +1,4 @@
 import { toSlug } from "some-javascript-utils";
-import draftToHtml from "draftjs-to-html";
-import { convertToRaw } from "draft-js";
 
 // apis
 import { BuildingCostsApiClient } from "./BuildingCostsApiClient.js";
@@ -11,6 +9,13 @@ import { BuildingReqBuildingsApiClient } from "./BuildingReqBuildingsApiClient.j
 
 // base
 import { BaseApiClient } from "./utils/";
+import {
+  FormPhoto,
+  parseHtml,
+  parseId,
+  parseImage,
+  parseNumber,
+} from "./utils/formToDto";
 
 // types
 import { Tables } from "./types/";
@@ -49,20 +54,30 @@ export class BuildingApiClient extends BaseApiClient<
   }
 
   /**
+   * @description Maps the form values to what the api stores
+   * @param building - form values
+   * @param photo - ImageUploader state
+   * @returns building dto
+   */
+  private toDto(building: BuildingDto, photo: FormPhoto) {
+    return {
+      name: building.name,
+      urlName: toSlug(building.name),
+      description: parseHtml(building.description),
+      creationTime: parseNumber(building.creationTime),
+      typeId: parseId(building.type ?? building.typeId),
+      ...parseImage(photo),
+    };
+  }
+
+  /**
    * @description Create building
    * @param building - Building
    * @param photo - Photo
    * @returns Transaction status
    */
-  async create(building: Building, photo: Photo) {
-    // default values
-    building.urlName = toSlug(building.name);
-    // parsing html
-    building.description = draftToHtml(
-      convertToRaw(building.description.getCurrentContent()),
-    );
-    // saving photo
-    if (photo) building.image = photo;
+  async create(building: BuildingDto, photo: FormPhoto) {
+    return await this.saveNew(this.toDto(building, photo) as BuildingAddDto);
   }
 
   /**
@@ -71,14 +86,10 @@ export class BuildingApiClient extends BaseApiClient<
    * @param photo - Photo
    * @returns Transaction status
    */
-  async update(building: Building, photo: Photo) {
-    // default values
-    building.urlName = toSlug(building.name);
-    // parsing html
-    building.description = draftToHtml(
-      convertToRaw(building.description.getCurrentContent()),
-    );
-    // saving photo
-    if (photo) building.image = photo;
+  async update(building: BuildingDto, photo: FormPhoto) {
+    return await this.saveExisting({
+      id: building.id,
+      ...this.toDto(building, photo),
+    } as BuildingUpdateDto);
   }
 }

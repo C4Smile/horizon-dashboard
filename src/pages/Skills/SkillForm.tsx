@@ -5,9 +5,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 import loadable from "@loadable/component";
 
+// utils
+import { htmlToDraft } from "utils";
+
 // editor
 import { EditorState, ContentState } from "draft-js";
-import htmlToDraft from "html-to-draftjs";
 
 // @sito/dashboard-app
 import { Loading, TextInput } from "@sito/dashboard-app";

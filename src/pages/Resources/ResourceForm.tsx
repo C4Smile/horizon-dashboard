@@ -8,9 +8,11 @@ import loadable from "@loadable/component";
 // @sito/dashboard-app
 import { Loading, TextInput } from "@sito/dashboard-app";
 
+// utils
+import { htmlToDraft } from "utils";
+
 // editor
 import { EditorState, ContentState } from "draft-js";
-import htmlToDraft from "html-to-draftjs";
 
 // components
 import { ImageUploader } from "components";

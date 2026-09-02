@@ -1,6 +1,4 @@
 import { toSlug } from "some-javascript-utils";
-import draftToHtml from "draftjs-to-html";
-import { convertToRaw } from "draft-js";
 
 // apis
 import { ShipCostsApiClient } from "./ShipCostsApiClient.js";
@@ -10,6 +8,12 @@ import { ShipReqBuildingsApiClient } from "./ShipReqBuildingsApiClient.js";
 
 // base
 import { BaseApiClient } from "./utils/BaseApiClient";
+import {
+  FormPhoto,
+  parseHtml,
+  parseImage,
+  parseNumber,
+} from "./utils/formToDto";
 
 // types
 import { Tables } from "./types/dbUtils.js";
@@ -47,20 +51,36 @@ export class ShipApiClient extends BaseApiClient<
   }
 
   /**
+   * @description Maps the form values to what the api stores
+   * @param ship - form values
+   * @param photo - ImageUploader state
+   * @returns ship dto
+   */
+  private toDto(ship: ShipDto, photo: FormPhoto) {
+    return {
+      name: ship.name,
+      urlName: toSlug(ship.name),
+      description: parseHtml(ship.description),
+      creationTime: parseNumber(ship.creationTime),
+      capacity: parseNumber(ship.capacity),
+      knots: parseNumber(ship.knots),
+      minCrew: parseNumber(ship.minCrew),
+      bestCrew: parseNumber(ship.bestCrew),
+      maxCrew: parseNumber(ship.maxCrew),
+      guns: parseNumber(ship.guns),
+      hull: parseNumber(ship.hull),
+      ...parseImage(photo),
+    };
+  }
+
+  /**
    * @description Create ship
    * @param ship - Ship
    * @param photo - Photo
    * @returns Transaction status
    */
-  async create(ship: Ship, photo: Photo) {
-    // default values
-    ship.urlName = toSlug(ship.name);
-    // parsing html
-    ship.description = draftToHtml(
-      convertToRaw(ship.description.getCurrentContent()),
-    );
-    // saving photo
-    if (photo) ship.image = photo;
+  async create(ship: ShipDto, photo: FormPhoto) {
+    return await this.saveNew(this.toDto(ship, photo) as ShipAddDto);
   }
 
   /**
@@ -69,14 +89,10 @@ export class ShipApiClient extends BaseApiClient<
    * @param photo - Photo
    * @returns Transaction status
    */
-  async update(ship: Ship, photo: Photo) {
-    // default values
-    ship.urlName = toSlug(ship.name);
-    // parsing html
-    ship.description = draftToHtml(
-      convertToRaw(ship.description.getCurrentContent()),
-    );
-    // saving photo
-    if (photo) ship.image = photo;
+  async update(ship: ShipDto, photo: FormPhoto) {
+    return await this.saveExisting({
+      id: ship.id,
+      ...this.toDto(ship, photo),
+    } as ShipUpdateDto);
   }
 }

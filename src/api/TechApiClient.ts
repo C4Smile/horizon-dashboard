@@ -1,9 +1,14 @@
 import { toSlug } from "some-javascript-utils";
-import draftToHtml from "draftjs-to-html";
-import { convertToRaw } from "draft-js";
 
 // base
 import { BaseApiClient } from "./utils/";
+import {
+  FormPhoto,
+  parseHtml,
+  parseId,
+  parseImage,
+  parseNumber,
+} from "./utils/formToDto";
 
 // api
 import { TechCostsApiClient } from "./TechCostsApiClient.js";
@@ -47,20 +52,30 @@ export class TechApiClient extends BaseApiClient<
   }
 
   /**
+   * @description Maps the form values to what the api stores
+   * @param tech - form values
+   * @param photo - ImageUploader state
+   * @returns tech dto
+   */
+  private toDto(tech: TechDto, photo: FormPhoto) {
+    return {
+      name: tech.name,
+      urlName: toSlug(tech.name),
+      description: parseHtml(tech.description),
+      creationTime: parseNumber(tech.creationTime),
+      typeId: parseId(tech.type ?? tech.typeId),
+      ...parseImage(photo),
+    };
+  }
+
+  /**
    * @description Create tech
    * @param tech - Tech
    * @param photo - Photo
    * @returns Transaction status
    */
-  async create(tech: Tech, photo: Photo) {
-    // default values
-    tech.urlName = toSlug(tech.name);
-    // parsing html
-    tech.description = draftToHtml(
-      convertToRaw(tech.description.getCurrentContent()),
-    );
-    // saving photo
-    if (photo) tech.image = photo;
+  async create(tech: TechDto, photo: FormPhoto) {
+    return await this.saveNew(this.toDto(tech, photo) as TechAddDto);
   }
 
   /**
@@ -69,14 +84,10 @@ export class TechApiClient extends BaseApiClient<
    * @param photo - photo
    * @returns Transaction status
    */
-  async update(tech: Tech, photo: Photo) {
-    // default values
-    tech.urlName = toSlug(tech.name);
-    // parsing html
-    tech.description = draftToHtml(
-      convertToRaw(tech.description.getCurrentContent()),
-    );
-    // saving photo
-    if (photo) tech.image = photo;
+  async update(tech: TechDto, photo: FormPhoto) {
+    return await this.saveExisting({
+      id: tech.id,
+      ...this.toDto(tech, photo),
+    } as TechUpdateDto);
   }
 }
