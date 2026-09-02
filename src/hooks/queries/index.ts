@@ -6,3 +6,6 @@ export * from "./useTechTypes.tsx";
 export * from "./useUsers.tsx";
 export * from "./useResources.tsx";
 export * from "./useBuildings.tsx";
+export * from "./useSkills.tsx";
+export * from "./useShips.tsx";
+export * from "./useCannons.tsx";

@@ -9,6 +9,9 @@ import loadable from "@loadable/component";
 import { EditorState, ContentState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
 
+// @sito/dashboard-app
+import { Loading, TextInput } from "@sito/dashboard-app";
+
 // components
 import { ImageUploader } from "components";
 

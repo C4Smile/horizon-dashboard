@@ -11,13 +11,16 @@ import { useHorizonApiClient } from "providers";
 import { ReactQueryKeys } from "utils";
 
 // components
-import { TabsLayout, EntityLevelStuff } from "components";
+import { TabsLayout, EntityLevelStuff, ResourceStuff } from "components";
 
 // types
-import { TechTabs } from "./types";
+import { techTabs } from "./types";
 
 // tabs
 import { GeneralInfo } from "./tabs";
+
+// api
+import { Tables } from "api";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
@@ -52,14 +55,14 @@ function TechForm() {
 
   const resourcesQuery = useQuery({
     queryKey: [ReactQueryKeys.Resources],
-    queryFn: () => horizonApiClient.Resource.getAll(),
+    queryFn: () => horizonApiClient.Resource.commonGet(),
   });
 
   const resourcesList = useMemo(() => {
     try {
       return (
-        resourcesQuery?.data?.items?.map((c) => ({
-          value: `${c.name}`,
+        resourcesQuery?.data?.map((c) => ({
+          value: c.name,
           id: c.id,
           image: c.image,
         })) ?? []
@@ -75,7 +78,7 @@ function TechForm() {
 
   const techsQuery = useQuery({
     queryKey: [ReactQueryKeys.Techs],
-    queryFn: () => horizonApiClient.Tech.getAll(),
+    queryFn: () => horizonApiClient.Tech.commonGet(),
   });
 
   const techsList = useMemo(() => {
@@ -92,7 +95,7 @@ function TechForm() {
     } catch (err) {
       return [];
     }
-  }, [id, techsQuery?.data?.items]);
+  }, [id, techsQuery?.data]);
 
   //#endregion techs
 
@@ -100,14 +103,14 @@ function TechForm() {
 
   const buildingsQuery = useQuery({
     queryKey: [ReactQueryKeys.Buildings],
-    queryFn: () => horizonApiClient.Building.getAll(),
+    queryFn: () => horizonApiClient.Building.commonGet(),
   });
 
   const buildingsList = useMemo(() => {
     try {
       return (
-        buildingsQuery?.data?.items?.map((c) => ({
-          value: `${c.name}`,
+        buildingsQuery?.data?.map((c) => ({
+          value: c.name,
           id: c.id,
           image: c.image,
         })) ?? []
@@ -115,7 +118,7 @@ function TechForm() {
     } catch (err) {
       return [];
     }
-  }, [buildingsQuery?.data?.items]);
+  }, [buildingsQuery?.data]);
 
   //#endregion buildings
 
@@ -137,17 +140,17 @@ function TechForm() {
         <ResourceStuff
           id={id}
           resources={resourcesList}
-          entity={Tech.className}
-          entityToSave={Tech.resourceUpgrade}
+          entity={Tables.Techs}
+          entityToSave={Tables.TechProduces}
           label={"production"}
           inputKey={"baseProduction"}
           queryKey={[ReactQueryKeys.TechProduces, id]}
           queryFn={() => horizonApiClient.Tech.techProductions.get(id)}
           saveFn={async (id, data) =>
-            horizonApiClient.Tech.techProductions.save(id, data)
+            horizonApiClient.Tech.techProductions.insert(id, data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Tech.techProductions.deleteSingle(id, resourceId)
+            horizonApiClient.Tech.techProductions.delete(id, [resourceId])
           }
         />
       ),
@@ -155,17 +158,17 @@ function TechForm() {
         <ResourceStuff
           id={id}
           resources={resourcesList}
-          entity={Tech.className}
-          entityToSave={Tech.costs}
+          entity={Tables.Techs}
+          entityToSave={Tables.TechCosts}
           label={"cost"}
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.TechCosts, id]}
           queryFn={() => horizonApiClient.Tech.techCosts.get(id)}
           saveFn={async (id, data) =>
-            horizonApiClient.Tech.techCosts.save(id, data)
+            horizonApiClient.Tech.techCosts.insert(id, data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Tech.techCosts.deleteSingle(id, resourceId)
+            horizonApiClient.Tech.techCosts.delete(id, [resourceId])
           }
         />
       ),
@@ -174,17 +177,17 @@ function TechForm() {
           id={id}
           entities={techsList}
           attributeId="techReqId"
-          entity={Tech.className}
-          entityToSave={Tech.techRequirement}
+          entity={Tables.Techs}
+          entityToSave={Tables.TechReqTechs}
           label={"req"}
           inputKey={"techLevel"}
           queryKey={[ReactQueryKeys.TechRequirements, ReactQueryKeys.Techs, id]}
           queryFn={() => horizonApiClient.Tech.techReqTechs.get(id)}
           saveFn={async (id, data) =>
-            horizonApiClient.Tech.techReqTechs.save(id, data)
+            horizonApiClient.Tech.techReqTechs.insert(id, data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Tech.techReqTechs.deleteSingle(id, resourceId)
+            horizonApiClient.Tech.techReqTechs.delete(id, [resourceId])
           }
         />
       ),
@@ -193,8 +196,8 @@ function TechForm() {
           id={id}
           entities={buildingsList}
           attributeId="buildingReqId"
-          entity={Building.className}
-          entityToSave={Tech.buildingRequirement}
+          entity={Tables.Buildings}
+          entityToSave={Tables.TechReqBuildings}
           inputKey={"buildingLevel"}
           queryKey={[
             ReactQueryKeys.TechRequirements,
@@ -203,10 +206,10 @@ function TechForm() {
           ]}
           queryFn={() => horizonApiClient.Tech.techReqBuildings.get(id)}
           saveFn={async (id, data) =>
-            horizonApiClient.Tech.techReqBuildings.save(id, data)
+            horizonApiClient.Tech.techReqBuildings.insert(id, data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Tech.techReqBuildings.deleteSingle(id, resourceId)
+            horizonApiClient.Tech.techReqBuildings.delete(id, [resourceId])
           }
         />
       ),
@@ -217,7 +220,7 @@ function TechForm() {
   return notFound ? (
     <NotFound />
   ) : (
-    <TabLayout
+    <TabsLayout
       name={techQuery?.data?.name}
       entity={ReactQueryKeys.Techs}
       id={id}

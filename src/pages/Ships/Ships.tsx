@@ -1,170 +1,127 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 
 // @sito/dashboard-app
-import { Table } from "@sito/dashboard-app";
-
-// images
-import noProduct from "../../assets/images/no-product.jpg";
-
-// icons
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
-
-// components
-import { staticUrlPhoto } from "../../components/utils.js";
+import { ActionType, FilterTypes, Table } from "@sito/dashboard-app";
 
 // utils
-import { extractKeysFromObject, useParseColumns, ReactQueryKeys } from "utils";
+import { nameColumn, imageColumn, useParseColumns } from "utils";
+
+// components
+import { TablePage, TableToolbar } from "components";
 
 // providers
 import { useHorizonApiClient } from "providers";
 
 // hooks
 import {
-  useRestoreAction,
-  useDeleteAction,
   useEditAction,
-  useHorizonQuery,
+  useDeleteDialog,
+  useRestoreDialog,
+  useShipsList,
+  ShipsQueryKeys,
 } from "hooks";
 
-const columnClasses = {
-  lastUpdate: "w-44",
-};
+// api
+import { EntityName, Tables } from "api";
 
-const noSortableColumns = {
-  image: true,
-  costs: true,
-  upkeeps: true,
-  techRequirements: true,
-};
+// pages
+import { PageId } from "pages";
+
+// lib
+import { ShipDto } from "lib";
 
 /**
  * Ship page
  * @returns Ship page component
  */
-function ShipPage() {
+function ShipsPage() {
   const { t } = useTranslation();
 
   const horizonApiClient = useHorizonApiClient();
 
-  const { data, isLoading } = useHorizonQuery({
-    entity: ReactQueryKeys.Ships,
-    queryFn: (data) => horizonApiClient.Ship.getAll(data),
-  });
+  const { data, isLoading, setTotal } = useShipsList();
 
-  const prepareRows = (ship) => {
-    return {
-      ...ship,
-      capacity: {
-        value: ship.capacity,
-        render: (
-          <span className="w-36 flex">{`${ship.capacity} ${t("_accessibility:labels.tons")}`}</span>
-        ),
-      },
-      minCrew: {
-        value: ship.minCrew,
-        render: (
-          <span className="w-36 flex">{`${ship.minCrew} ${t("_accessibility:labels.sailors")}`}</span>
-        ),
-      },
-      bestCrew: {
-        value: ship.bestCrew,
-        render: (
-          <span className="w-36 flex">{`${ship.bestCrew} ${t("_accessibility:labels.sailors")}`}</span>
-        ),
-      },
-      maxCrew: {
-        value: ship.maxCrew,
-        render: (
-          <span className="w-36 flex">{`${ship.maxCrew} ${t("_accessibility:labels.sailors")}`}</span>
-        ),
-      },
-      knots: {
-        value: ship.knots,
-        render: `${ship.knots} ${t("_accessibility:labels.knots")}`,
-      },
-      creationTime: {
-        value: ship.creationTime,
-        render: `${ship.creationTime} ${t("_accessibility:labels.days")}`,
-      },
-      name: (
-        <Link className="underline text-light-primary flex" to={`${ship.id}`}>
-          <span className="truncate">{ship.name}</span>
-        </Link>
-      ),
-      image: ship.image?.url ? (
-        <img
-          className={`w-10 h-10 rounded-full object-cover border-white border-2`}
-          src={staticUrlPhoto(ship.image.url)}
-          alt={`${ship.name}`}
-        />
-      ) : (
-        <img
-          className="w-10 h-10 rounded-full object-cover"
-          src={noProduct}
-          alt={ship.name}
-        />
-      ),
-    };
-  };
+  useEffect(() => {
+    if (data) setTotal(data.total ?? 0);
+  }, [data, setTotal]);
 
   //#region Actions
 
   const editAction = useEditAction({
-    entity: ReactQueryKeys.Ships,
+    url: `game/${Tables.Ships}`,
   });
 
-  const restoreAction = useRestoreAction({
-    entity: ReactQueryKeys.Ships,
-    apiClient: horizonApiClient.Ship,
+  const restoreAction = useRestoreDialog({
+    mutationFn: (data) => horizonApiClient.Ship.restore(data),
+    ...ShipsQueryKeys.all(),
   });
 
-  const deleteAction = useDeleteAction({
-    entity: ReactQueryKeys.Ships,
-    apiClient: horizonApiClient.Ship,
+  const deleteAction = useDeleteDialog({
+    mutationFn: (data) => horizonApiClient.Ship.softDelete(data),
+    ...ShipsQueryKeys.all(),
   });
 
   const getActions = useCallback(
-    (row) => [
+    (row: ShipDto): ActionType<ShipDto>[] => [
       editAction.action(row),
       restoreAction.action(row),
       deleteAction.action(row),
     ],
-    [deleteAction, editAction, restoreAction],
+    [editAction, restoreAction, deleteAction],
   );
 
   //#endregion Actions
 
-  const { columns } = useParseColumns(
-    extractKeysFromObject(new Ship(), [
-      "id",
-      "dateOfCreation",
-      "deleted",
-      "description",
-      "urlName",
-    ]),
-    Ship.className,
+  const { columns } = useParseColumns<ShipDto>(
+    [
+      nameColumn<ShipDto>(),
+      {
+        key: "capacity",
+        filterOptions: { type: FilterTypes.number },
+      },
+      {
+        key: "hull",
+        filterOptions: { type: FilterTypes.number },
+      },
+      {
+        key: "knots",
+        filterOptions: { type: FilterTypes.number },
+      },
+      {
+        key: "minCrew",
+        filterOptions: { type: FilterTypes.number },
+      },
+      {
+        key: "bestCrew",
+        filterOptions: { type: FilterTypes.number },
+      },
+      {
+        key: "maxCrew",
+        filterOptions: { type: FilterTypes.number },
+      },
+      {
+        key: "creationTime",
+        filterOptions: { type: FilterTypes.number },
+      },
+      imageColumn<ShipDto>("name", "image"),
+    ],
+    EntityName.Ship,
+    [],
   );
 
-  const { rows } = useParseRows(prepareRows);
-
   return (
-    <>
+    <TablePage title={t("_pages:game.links.ships")} pageKey={PageId.ships}>
       <Table
-        rows={data?.items}
+        data={data?.items ?? []}
         actions={getActions}
         isLoading={isLoading}
-        parseRows={rows}
-        entity={Ship.className}
         columns={columns}
-        columnsOptions={{ columnClasses, noSortableColumns }}
-        title={t("_pages:game.links.ships")}
+        entity={EntityName.Ship}
+        toolbar={<TableToolbar pageKey={PageId.ships} />}
       />
-
-      <FloatingButton component="link" href="new" icon={faAdd} />
-    </>
+    </TablePage>
   );
 }
 
-export default ShipPage;
+export default ShipsPage;

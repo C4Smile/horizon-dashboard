@@ -1,134 +1,96 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 
 // @sito/dashboard-app
-import { Table } from "@sito/dashboard-app";
-
-// images
-import noProduct from "../../assets/images/no-product.jpg";
-
-// icons
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { ActionType, Table } from "@sito/dashboard-app";
 
 // utils
-import { extractKeysFromObject } from "../../utils/parser.js";
-import { ReactQueryKeys } from "../../utils/queryKeys.js";
-import { staticUrlPhoto } from "../../components/utils.js";
+import { nameColumn, imageColumn, useParseColumns } from "utils";
+
+// components
+import { TablePage, TableToolbar } from "components";
 
 // providers
 import { useHorizonApiClient } from "providers";
 
 // hooks
 import {
-  useRestoreAction,
-  useDeleteAction,
   useEditAction,
-} from "../../hooks/index.js";
-import { useParseColumns } from "../../utils/parseBaseColumns.js";
-import { useHorizonQuery } from "../../hooks/queries/useHorizonQuery.js";
+  useDeleteDialog,
+  useRestoreDialog,
+  useSkillsList,
+  SkillsQueryKeys,
+} from "hooks";
 
-const columnClasses = {
-  lastUpdate: "w-56",
-};
+// api
+import { EntityName, Tables } from "api";
 
-const noSortableColumns = {
-  image: true,
-};
+// pages
+import { PageId } from "pages";
+
+// lib
+import { SkillDto } from "lib";
 
 /**
  * Skill page
  * @returns Skill page component
  */
-function SkillPage() {
+function SkillsPage() {
   const { t } = useTranslation();
 
   const horizonApiClient = useHorizonApiClient();
 
-  const { data, isLoading } = useHorizonQuery({
-    entity: ReactQueryKeys.Skills,
-    queryFn: (data) => horizonApiClient.Skill.getAll(data),
-  });
+  const { data, isLoading, setTotal } = useSkillsList();
 
-  const prepareRows = (skill) => {
-    return {
-      ...skill,
-      name: (
-        <Link className="underline text-light-primary flex" to={`${skill.id}`}>
-          <span className="truncate">{skill.name}</span>
-        </Link>
-      ),
-      image: skill.image?.url ? (
-        <img
-          className={`w-10 h-10 rounded-full object-cover border-white border-2`}
-          src={staticUrlPhoto(skill.image.url)}
-          alt={`${skill.name}`}
-        />
-      ) : (
-        <img
-          className="w-10 h-10 rounded-full object-cover"
-          src={noProduct}
-          alt={skill.name}
-        />
-      ),
-    };
-  };
+  useEffect(() => {
+    if (data) setTotal(data.total ?? 0);
+  }, [data, setTotal]);
 
   //#region Actions
 
   const editAction = useEditAction({
-    entity: ReactQueryKeys.Skills,
+    url: `game/${Tables.Skills}`,
   });
 
-  const restoreAction = useRestoreAction({
-    entity: ReactQueryKeys.Skills,
-    apiClient: horizonApiClient.Skill,
+  const restoreAction = useRestoreDialog({
+    mutationFn: (data) => horizonApiClient.Skill.restore(data),
+    ...SkillsQueryKeys.all(),
   });
 
-  const deleteAction = useDeleteAction({
-    entity: ReactQueryKeys.Skills,
-    apiClient: horizonApiClient.Skill,
+  const deleteAction = useDeleteDialog({
+    mutationFn: (data) => horizonApiClient.Skill.softDelete(data),
+    ...SkillsQueryKeys.all(),
   });
 
   const getActions = useCallback(
-    (row) => [
+    (row: SkillDto): ActionType<SkillDto>[] => [
       editAction.action(row),
       restoreAction.action(row),
       deleteAction.action(row),
     ],
-    [deleteAction, editAction, restoreAction],
+    [editAction, restoreAction, deleteAction],
   );
 
   //#endregion Actions
 
-  const { columns } = useParseColumns(
-    extractKeysFromObject(new Skill(), [
-      "id",
-      "dateOfCreation",
-      "deleted",
-      "description",
-      "urlName",
-    ]),
-    Skill.className,
+  const { columns } = useParseColumns<SkillDto>(
+    [nameColumn<SkillDto>(), imageColumn<SkillDto>("name", "image")],
+    EntityName.Skill,
+    [],
   );
 
-  const { rows } = useParseRows(prepareRows);
-
   return (
-    <>
+    <TablePage title={t("_pages:game.links.skills")} pageKey={PageId.skills}>
       <Table
-        rows={data?.items}
+        data={data?.items ?? []}
         actions={getActions}
         isLoading={isLoading}
-        parseRows={rows}
-        entity={Skill.className}
         columns={columns}
-        columnsOptions={{ columnClasses, noSortableColumns }}
-        title={t("_pages:game.links.skills")}
+        entity={EntityName.Skill}
+        toolbar={<TableToolbar pageKey={PageId.skills} />}
       />
-      <FloatingButton component="link" href="new" icon={faAdd} />
-    </>
+    </TablePage>
   );
 }
 
-export default SkillPage;
+export default SkillsPage;

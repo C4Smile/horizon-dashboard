@@ -7,7 +7,11 @@ import loadable from "@loadable/component";
 import { ContentState, EditorState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
 
+// @sito/dashboard-app
+import { Loading, TextInput } from "@sito/dashboard-app";
+
 // components
+import { ImageUploader } from "components";
 
 // providers
 import { useNotification, queryClient, useHorizonApiClient } from "providers";

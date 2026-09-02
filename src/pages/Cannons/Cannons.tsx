@@ -1,154 +1,103 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 
 // @sito/dashboard-app
-import { Table } from "@sito/dashboard-app";
-
-// images
-import noProduct from "../../assets/images/no-product.jpg";
-
-// icons
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
-
-// components
-import { staticUrlPhoto } from "../../components/utils.js";
+import { ActionType, FilterTypes, Table } from "@sito/dashboard-app";
 
 // utils
-import { extractKeysFromObject } from "../../utils/parser.js";
-import { ReactQueryKeys } from "../../utils/queryKeys.js";
-import { useParseColumns } from "../../utils/parseBaseColumns.js";
+import { nameColumn, imageColumn, useParseColumns } from "utils";
+
+// components
+import { TablePage, TableToolbar } from "components";
 
 // providers
 import { useHorizonApiClient } from "providers";
 
 // hooks
 import {
-  useRestoreAction,
-  useDeleteAction,
   useEditAction,
-} from "../../hooks/index.js";
-import { useHorizonQuery } from "../../hooks/queries/useHorizonQuery.js";
+  useDeleteDialog,
+  useRestoreDialog,
+  useCannonsList,
+  CannonsQueryKeys,
+} from "hooks";
 
-const columnClasses = {
-  lastUpdate: "w-44",
-};
+// api
+import { EntityName, Tables } from "api";
 
-const noSortableColumns = {
-  image: true,
-  costs: true,
-  upkeeps: true,
-  techRequirements: true,
-};
+// pages
+import { PageId } from "pages";
+
+// lib
+import { CannonDto } from "lib";
 
 /**
  * Cannon page
  * @returns Cannon page component
  */
-function CannonPage() {
+function CannonsPage() {
   const { t } = useTranslation();
 
   const horizonApiClient = useHorizonApiClient();
 
-  const { data, isLoading } = useHorizonQuery({
-    entity: ReactQueryKeys.Cannons,
-    queryFn: (data) => horizonApiClient.Cannon.getAll(data),
-  });
+  const { data, isLoading, setTotal } = useCannonsList();
 
-  const prepareRows = (cannon) => {
-    return {
-      ...cannon,
-      weight: {
-        value: cannon.weight,
-        render: (
-          <span className="w-36 flex">{`${cannon.weight} ${t("_accessibility:labels.tons")}`}</span>
-        ),
-      },
-      baseDamage: {
-        value: cannon.baseDamage,
-        render: `${cannon.baseDamage}`,
-      },
-      creationTime: {
-        value: cannon.creationTime,
-        render: `${cannon.creationTime} ${t("_accessibility:labels.days")}`,
-      },
-      name: (
-        <Link className="underline text-light-primary flex" to={`${cannon.id}`}>
-          <span className="truncate">{cannon.name}</span>
-        </Link>
-      ),
-      image: cannon.image?.url ? (
-        <img
-          className={`w-10 h-10 rounded-full object-cover border-white border-2`}
-          src={staticUrlPhoto(cannon.image.url)}
-          alt={`${cannon.name}`}
-        />
-      ) : (
-        <img
-          className="w-10 h-10 rounded-full object-cover"
-          src={noProduct}
-          alt={cannon.name}
-        />
-      ),
-    };
-  };
+  useEffect(() => {
+    if (data) setTotal(data.total ?? 0);
+  }, [data, setTotal]);
 
   //#region Actions
 
   const editAction = useEditAction({
-    entity: ReactQueryKeys.Cannons,
+    url: `game/${Tables.Cannons}`,
   });
 
-  const restoreAction = useRestoreAction({
-    entity: ReactQueryKeys.Cannons,
-    apiClient: horizonApiClient.Cannon,
+  const restoreAction = useRestoreDialog({
+    mutationFn: (data) => horizonApiClient.Cannon.restore(data),
+    ...CannonsQueryKeys.all(),
   });
 
-  const deleteAction = useDeleteAction({
-    entity: ReactQueryKeys.Cannons,
-    apiClient: horizonApiClient.Cannon,
+  const deleteAction = useDeleteDialog({
+    mutationFn: (data) => horizonApiClient.Cannon.softDelete(data),
+    ...CannonsQueryKeys.all(),
   });
 
   const getActions = useCallback(
-    (row) => [
+    (row: CannonDto): ActionType<CannonDto>[] => [
       editAction.action(row),
       restoreAction.action(row),
       deleteAction.action(row),
     ],
-    [deleteAction, editAction, restoreAction],
+    [editAction, restoreAction, deleteAction],
   );
 
   //#endregion Actions
 
-  const { columns } = useParseColumns(
-    extractKeysFromObject(new Cannon(), [
-      "id",
-      "dateOfCreation",
-      "deleted",
-      "description",
-      "urlName",
-    ]),
-    Cannon.className,
+  const { columns } = useParseColumns<CannonDto>(
+    [
+      nameColumn<CannonDto>(),
+      {
+        key: "creationTime",
+        filterOptions: { type: FilterTypes.number },
+      },
+      imageColumn<CannonDto>("name", "image"),
+    ],
+    EntityName.Cannon,
+    [],
   );
 
-  const { rows } = useParseRows(prepareRows);
-
   return (
-    <>
+    <TablePage title={t("_pages:game.links.cannons")} pageKey={PageId.cannons}>
       <Table
-        rows={data?.items}
+        data={data?.items ?? []}
         actions={getActions}
         isLoading={isLoading}
-        parseRows={rows}
-        entity={Cannon.className}
         columns={columns}
-        columnsOptions={{ columnClasses, noSortableColumns }}
-        title={t("_pages:game.links.cannons")}
+        entity={EntityName.Cannon}
+        toolbar={<TableToolbar pageKey={PageId.cannons} />}
       />
-
-      <FloatingButton component="link" href="new" icon={faAdd} />
-    </>
+    </TablePage>
   );
 }
 
-export default CannonPage;
+export default CannonsPage;

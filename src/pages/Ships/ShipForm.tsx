@@ -11,13 +11,16 @@ import { useHorizonApiClient } from "providers";
 import { ReactQueryKeys } from "utils";
 
 // components
-import { TabsLayout, EntityLevelStuff } from "components";
+import { TabsLayout, EntityLevelStuff, ResourceStuff } from "components";
 
 // types
 import { shipTabs } from "./types.js";
 
 // tabs
 import { GeneralInfo } from "./tabs/";
+
+// api
+import { Tables } from "api";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound.jsx"));
@@ -52,14 +55,14 @@ function ShipForm() {
 
   const resourcesQuery = useQuery({
     queryKey: [ReactQueryKeys.Resources],
-    queryFn: () => horizonApiClient.Resource.getAll(),
+    queryFn: () => horizonApiClient.Resource.commonGet(),
   });
 
   const resourcesList = useMemo(() => {
     try {
       return (
-        resourcesQuery?.data?.items?.map((c) => ({
-          value: `${c.name}`,
+        resourcesQuery?.data?.map((c) => ({
+          value: c.name,
           id: c.id,
           image: c.image,
         })) ?? []
@@ -75,14 +78,14 @@ function ShipForm() {
 
   const techsQuery = useQuery({
     queryKey: [ReactQueryKeys.Techs],
-    queryFn: () => horizonApiClient.Tech.getAll(),
+    queryFn: () => horizonApiClient.Tech.commonGet(),
   });
 
   const techsList = useMemo(() => {
     try {
       return (
-        techsQuery?.data?.items?.map((c) => ({
-          value: `${c.name}`,
+        techsQuery?.data?.map((c) => ({
+          value: c.name,
           id: c.id,
           image: c.image,
         })) ?? []
@@ -98,14 +101,14 @@ function ShipForm() {
 
   const buildingsQuery = useQuery({
     queryKey: [ReactQueryKeys.Buildings],
-    queryFn: () => horizonApiClient.Building.getAll(),
+    queryFn: () => horizonApiClient.Building.commonGet(),
   });
 
   const buildingsList = useMemo(() => {
     try {
       return (
-        buildingsQuery?.data?.items?.map((c) => ({
-          value: `${c.name}`,
+        buildingsQuery?.data?.map((c) => ({
+          value: c.name,
           id: c.id,
           image: c.image,
         })) ?? []
@@ -113,7 +116,7 @@ function ShipForm() {
     } catch (err) {
       return [];
     }
-  }, [buildingsQuery?.data?.items]);
+  }, [buildingsQuery?.data]);
 
   //#endregion buildings
 
@@ -135,17 +138,17 @@ function ShipForm() {
         <ResourceStuff
           id={id}
           resources={resourcesList}
-          entity={Ship.className}
-          entityToSave={Ship.costs}
+          entity={Tables.Ships}
+          entityToSave={Tables.ShipCosts}
           label={"cost"}
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.ShipCosts, id]}
           queryFn={() => horizonApiClient.Ship.shipCosts.get(id)}
           saveFn={async (id, data) =>
-            horizonApiClient.Ship.shipCosts.save(id, data)
+            horizonApiClient.Ship.shipCosts.insert(id, data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Ship.shipCosts.deleteSingle(id, resourceId)
+            horizonApiClient.Ship.shipCosts.delete(id, [resourceId])
           }
         />
       ),
@@ -153,17 +156,17 @@ function ShipForm() {
         <ResourceStuff
           id={id}
           resources={resourcesList}
-          entity={Ship.className}
-          entityToSave={Ship.upkeeps}
+          entity={Tables.Ships}
+          entityToSave={Tables.ShipUpkeeps}
           label={"upkeep"}
           inputKey={"baseUpkeep"}
           queryKey={[ReactQueryKeys.ShipUpkeeps, id]}
           queryFn={() => horizonApiClient.Ship.shipUpkeeps.get(id)}
           saveFn={async (id, data) =>
-            horizonApiClient.Ship.shipUpkeeps.save(id, data)
+            horizonApiClient.Ship.shipUpkeeps.insert(id, data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Ship.shipUpkeeps.deleteSingle(id, resourceId)
+            horizonApiClient.Ship.shipUpkeeps.delete(id, [resourceId])
           }
         />
       ),
@@ -172,16 +175,16 @@ function ShipForm() {
           id={id}
           entities={techsList}
           attributeId="techReqId"
-          entity={Tech.className}
-          entityToSave={Ship.techRequirement}
+          entity={Tables.Techs}
+          entityToSave={Tables.ShipReqTechs}
           inputKey={"techLevel"}
           queryKey={[ReactQueryKeys.ShipRequirements, ReactQueryKeys.Techs, id]}
           queryFn={() => horizonApiClient.Ship.shipReqTechs.get(id)}
           saveFn={async (id, data) =>
-            horizonApiClient.Ship.shipReqTechs.save(id, data)
+            horizonApiClient.Ship.shipReqTechs.insert(id, data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Ship.shipReqTechs.deleteSingle(id, resourceId)
+            horizonApiClient.Ship.shipReqTechs.delete(id, [resourceId])
           }
         />
       ),
@@ -190,8 +193,8 @@ function ShipForm() {
           id={id}
           entities={buildingsList}
           attributeId="buildingReqId"
-          entity={Ship.className}
-          entityToSave={Ship.buildRequirement}
+          entity={Tables.Ships}
+          entityToSave={Tables.ShipReqBuildings}
           inputKey={"buildingLevel"}
           queryKey={[
             ReactQueryKeys.ShipRequirements,
@@ -200,10 +203,10 @@ function ShipForm() {
           ]}
           queryFn={() => horizonApiClient.Ship.shipReqBuildings.get(id)}
           saveFn={async (id, data) =>
-            horizonApiClient.Ship.shipReqBuildings.save(id, data)
+            horizonApiClient.Ship.shipReqBuildings.insert(id, data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Ship.shipReqBuildings.deleteSingle(id, resourceId)
+            horizonApiClient.Ship.shipReqBuildings.delete(id, [resourceId])
           }
         />
       ),
@@ -214,7 +217,7 @@ function ShipForm() {
   return notFound ? (
     <NotFound />
   ) : (
-    <TabLayout
+    <TabsLayout
       name={shipQuery?.data?.name}
       entity={ReactQueryKeys.Ships}
       id={id}

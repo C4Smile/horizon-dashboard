@@ -11,7 +11,7 @@ import { useHorizonApiClient } from "providers";
 import { ReactQueryKeys } from "../../utils/queryKeys.js";
 
 // components
-import { TabsLayout, EntityLevelStuff } from "components";
+import { TabsLayout, EntityLevelStuff, ResourceStuff } from "components";
 
 // types
 import { buildingTabs } from "./types.js";
@@ -72,8 +72,8 @@ function BuildingForm() {
   const resourcesList = useMemo(() => {
     try {
       return (
-        resourcesQuery?.data?.items?.map((c) => ({
-          value: `${c.name}`,
+        resourcesQuery?.data?.map((c) => ({
+          value: c.name,
           id: c.id,
           image: c.image,
         })) ?? []
@@ -96,8 +96,8 @@ function BuildingForm() {
   const techsList = useMemo(() => {
     try {
       return (
-        techsQuery?.data?.items?.map((c) => ({
-          value: `${c.name}`,
+        techsQuery?.data?.map((c) => ({
+          value: c.name,
           id: c.id,
           image: c.image,
         })) ?? []
@@ -132,7 +132,7 @@ function BuildingForm() {
       console.error(err);
       return [];
     }
-  }, [buildingsQuery?.data?.items, id]);
+  }, [buildingsQuery?.data, id]);
 
   //#endregion buildings
 
