@@ -1,4 +1,1 @@
-export type ServiceError = {
-  key: string;
-  message: string;
-};
+export type { ServiceError } from "@sito/dashboard-app";

@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { Links } from "layouts";
 
 // providers
-import { useHeader } from "providers";
+import { useNavbar } from "providers";
 
 // types
 import { TablePagePropsType } from "./types";
@@ -18,17 +18,17 @@ import { TablePagePropsType } from "./types";
 export const TablePage = (props: TablePagePropsType) => {
   const { children, title, pageKey, noActions = false } = props;
 
-  const { setTitle, setTabs } = useHeader();
+  const { setTitle, setRightContent } = useNavbar();
 
   const { t } = useTranslation();
 
   useEffect(() => {
     setTitle(title ?? "");
     if (!noActions)
-      setTabs(
+      setRightContent(
         <Links pageKey={pageKey} navClassName="gap-3" linksClassName="!p-0" />,
       );
-  }, [noActions, pageKey, setTabs, setTitle, t, title]);
+  }, [noActions, pageKey, setRightContent, setTitle, t, title]);
 
   return <div className="h-full">{children}</div>;
 };

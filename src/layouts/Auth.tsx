@@ -1,16 +1,18 @@
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { ErrorBoundary } from "react-error-boundary";
 import { getCookie } from "some-javascript-utils/browser";
 
-// providers
-import { useAccount } from "../providers/Account/AccountProvider";
+// @sito/dashboard-app
+import { AuthShell, Error } from "@sito/dashboard-app";
 
-// partial
-import Notification from "../partials/Notification/Notification";
+// providers
+import { useAccount } from "providers";
 
 // pages
 import { findPath, PageId } from "../pages/sitemap";
 
+// config
 import config from "../config";
 
 /**
@@ -25,15 +27,14 @@ export function Auth() {
   useEffect(() => {
     const recovering = getCookie(config.recovering);
     if (recovering?.length) navigate(findPath(PageId.updatePassword));
-    else {
-      if (account.user) navigate(findPath(PageId.dashboard));
-    }
+    else if (account.token) navigate(findPath(PageId.dashboard));
   }, [account, navigate]);
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Notification />
-      <Outlet />
-    </div>
+    <AuthShell>
+      <ErrorBoundary FallbackComponent={Error}>
+        <Outlet />
+      </ErrorBoundary>
+    </AuthShell>
   );
 }

@@ -1,3 +1,1 @@
-export interface DeleteDto {
-  id: number;
-}
+export type { DeleteDto } from "@sito/dashboard-app";

@@ -46,7 +46,7 @@ export const useConfirmationForm = <TInDto, TError extends Error>(
       if (onSuccess) onSuccess(result);
       showSuccessNotification({
         message: onSuccessMessage,
-      } as NotificationType);
+      });
       close();
     },
   });

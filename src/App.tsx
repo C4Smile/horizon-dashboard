@@ -4,14 +4,14 @@ import loadable from "@loadable/component";
 
 import "./css/variables.css";
 
+// @sito/dashboard-app
+import { SplashScreen } from "@sito/dashboard-app";
+
 // sitemap
 import { sitemap } from "./pages/sitemap";
 
 // providers
-import { useAccount } from "./providers/Account/AccountProvider";
-
-// components
-import SplashScreen from "./partials/Loading/SplashScreen";
+import { useAccount } from "providers";
 
 // pages
 import { ViewPageType } from "./pages/";
@@ -24,17 +24,17 @@ const NotFound = loadable(() => import("./pages/NotFound/NotFound"));
 
 /**
  *
- * @param sitemap the app sitemap
+ * @param pages the sitemap branch to render
  * @param userRole the current user role
  * @param parentRoute the parent route to render
  * @returns
  */
 const renderRoutes = (
-  sitemap: ViewPageType[],
+  pages: ViewPageType[],
   userRole: Roles,
   parentRoute?: string,
 ) =>
-  sitemap
+  pages
     .filter((page) => (page.role ? page.role.indexOf(userRole) >= 0 : true))
     .map((page) => {
       if (page.children) {
@@ -63,10 +63,10 @@ const renderRoutes = (
  * @returns App Component
  */
 function App() {
-  const [loaded, setLoaded] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const { account, logUserFromLocal } = useAccount();
-  const userRole = account?.horizonUser?.roleId;
+  const userRole = account?.horizonUser?.roleId as Roles;
 
   const location = useLocation();
 
@@ -80,29 +80,32 @@ function App() {
   }, [location.pathname]); // triggered on route change
 
   useEffect(() => {
-    logUserFromLocal();
+    /**
+     * Restores the session from the stored token before the routes are
+     * resolved, the sitemap is filtered by role
+     */
+    const restoreSession = async () => {
+      try {
+        await logUserFromLocal();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void restoreSession();
   }, [logUserFromLocal]);
 
-  const routes = useMemo(() => {
-    if (!userRole) setLoaded(true);
-    const routes = renderRoutes(sitemap, userRole);
-    if (!userRole)
-      setTimeout(() => {
-        setLoaded(false);
-      }, 1000);
-    return routes;
-  }, [userRole]);
+  const routes = useMemo(() => renderRoutes(sitemap, userRole), [userRole]);
+
+  if (loading) return <SplashScreen />;
 
   return (
-    <>
-      <SplashScreen visible={loaded} />
-      <Suspense>
-        <Routes>
-          {routes}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
-    </>
+    <Suspense fallback={<SplashScreen />}>
+      <Routes>
+        {routes}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Suspense>
   );
 }
 

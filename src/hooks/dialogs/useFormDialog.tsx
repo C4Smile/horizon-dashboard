@@ -133,7 +133,7 @@ export const useFormDialog = <
       if (onSuccess) onSuccess(result);
       showSuccessNotification({
         message: onSuccessMessage,
-      } as NotificationType);
+      });
       close();
     },
   });

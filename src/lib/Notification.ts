@@ -1,12 +1,6 @@
-export enum NotificationEnumType {
-  success,
-  error,
-  warning,
-  info = 3,
-}
-
-export type NotificationType = {
-  message: string;
-  type: NotificationEnumType;
-  id?: number;
-};
+// the shared notification model lives in the library, re-exported so the app
+// keeps importing it from "lib"
+export {
+  NotificationEnumType,
+  type NotificationType,
+} from "@sito/dashboard-app";

@@ -1,27 +1,30 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useEffect, useMemo } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { ErrorBoundary } from "react-error-boundary";
+import { useTranslation } from "react-i18next";
 import { getCookie } from "some-javascript-utils/browser";
 
-import config from "../config";
-
 // @sito/dashboard-app
-import { TableOptionsProvider, TranslationProvider } from "@sito/dashboard-app";
+import {
+  AppShell,
+  DashboardFooter,
+  DashboardHeader,
+  Error,
+  TableOptionsProvider,
+} from "@sito/dashboard-app";
 
 // providers
-import { useAccount, HeaderProvider, useHorizonApiClient } from "providers";
+import { useAccount, useHorizonApiClient } from "providers";
 
 // components
-import ToTop from "../components/ToTop/ToTop";
-import Notification from "../partials/Notification/Notification";
-
-// partials
-import { Sidebar, Header } from "partials";
-
-// utils
-import { useTranslation } from "react-i18next";
+import { Logo } from "components";
 
 // pages
+import { getMenuMap, MenuKeys } from "../pages/menuMap";
 import { findPath, PageId } from "../pages/sitemap";
+
+// config
+import config from "../config";
 
 /**
  * Dashboard layout
@@ -33,58 +36,46 @@ export function Dashboard() {
   const { account, logoutUser } = useAccount();
 
   const horizonApiClient = useHorizonApiClient();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const mainRef = useRef(null);
-  const [main, setMain] = useState(null);
-
-  useEffect(() => {
-    setMain(mainRef?.current);
-  }, [mainRef]);
 
   const navigate = useNavigate();
 
-  const refreshToken = useCallback(async () => {
-    try {
-      const value = await horizonApiClient.Auth.validates();
-      if (value.status === 400) throw Error("400");
-      if (value.status === 401) throw Error("401");
-      if (value.status === 403) throw Error("403");
-      const recovering = getCookie(config.recovering);
-      if (recovering?.length) navigate(findPath(PageId.updatePassword));
-    } catch (err) {
-      console.error(err);
-      logoutUser();
-      navigate(findPath(PageId.signOut));
-    }
-  }, [logoutUser, horizonApiClient.Auth, navigate]);
+  const menuMap = useMemo(() => getMenuMap(t), [t]);
 
   useEffect(() => {
-    refreshToken();
-  }, [account.user, navigate, refreshToken]);
+    /**
+     * Kicks the user out when the stored token is no longer accepted, and
+     * routes them to the password update screen when a recovery is pending
+     */
+    const validateSession = async () => {
+      try {
+        await horizonApiClient.Auth.getSession();
+        const recovering = getCookie(config.recovering);
+        if (recovering?.length) navigate(findPath(PageId.updatePassword));
+      } catch (err) {
+        console.error(err);
+        await logoutUser();
+        navigate(findPath(PageId.signOut));
+      }
+    };
+
+    void validateSession();
+  }, [account.token, horizonApiClient.Auth, logoutUser, navigate]);
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Notification />
-      {/* Sidebar */}
-      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-      <div
-        ref={mainRef}
-        className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden h-full"
-      >
-        {/*  Site header */}
-        <HeaderProvider>
-          <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-          <main ref={mainRef} className="dashboard">
-            <TableOptionsProvider>
-              <TranslationProvider t={t}>
-                <Outlet />
-              </TranslationProvider>
-            </TableOptionsProvider>
-          </main>
-        </HeaderProvider>
-      </div>
-      <ToTop dealer={main} />
-    </div>
+    <AppShell
+      header={
+        <DashboardHeader<MenuKeys>
+          menuMap={menuMap}
+          logo={<Logo className="w-10 h-10" />}
+        />
+      }
+      footer={<DashboardFooter copyrightText={config.appName} showToTop />}
+    >
+      <TableOptionsProvider>
+        <ErrorBoundary FallbackComponent={Error}>
+          <Outlet />
+        </ErrorBoundary>
+      </TableOptionsProvider>
+    </AppShell>
   );
 }

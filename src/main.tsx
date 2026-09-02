@@ -1,13 +1,8 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 
-// Provider
-import {
-  ThemeProvider,
-  NotificationProvider,
-  HorizonApiClientProvider,
-  AccountProvider,
-} from "providers";
+// providers
+import { HorizonProvider } from "providers";
 
 // App
 import App from "./App";
@@ -16,6 +11,7 @@ import App from "./App";
 import "./i18.js";
 
 // styles
+import "@sito/dashboard-app/theme.css";
 import "./index.css";
 import "./components/Forms/styles.css";
 
@@ -28,14 +24,8 @@ if (!root) throw new Error("Root element not found");
 
 ReactDOM.createRoot(root).render(
   <Router>
-    <ThemeProvider>
-      <HorizonApiClientProvider>
-        <AccountProvider>
-          <NotificationProvider>
-            <App />
-          </NotificationProvider>
-        </AccountProvider>
-      </HorizonApiClientProvider>
-    </ThemeProvider>
+    <HorizonProvider>
+      <App />
+    </HorizonProvider>
   </Router>,
 );
