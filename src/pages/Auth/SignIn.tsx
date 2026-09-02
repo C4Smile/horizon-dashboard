@@ -1,25 +1,20 @@
-import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // @sito/dashboard-app
-import { Loading, State, TextInput } from "@sito/dashboard-app";
+import { AuthSignInView, isHttpError } from "@sito/dashboard-app";
 
 // components
-import { Logo, PasswordInput } from "components";
+import { Logo } from "components";
 
 // providers
-import { useAccount, useNotification, useHorizonApiClient } from "providers";
+import { useAccount, useHorizonApiClient, useNotification } from "providers";
+
+// lib
+import { NotificationEnumType } from "lib";
 
 // pages
 import { findPath, PageId } from "../sitemap";
-
-// api
-import { HTTPError } from "api";
-
-// lib
-import { LoginDto, NotificationEnumType } from "lib";
 
 /**
  * Sign Page
@@ -30,132 +25,50 @@ function SignIn() {
 
   const { logUser } = useAccount();
 
-  const [appear, setAppear] = useState(false);
-
   const horizonApiClient = useHorizonApiClient();
-
-  const [saving, setSaving] = useState(false);
-
-  const { handleSubmit, control, setError } = useForm<LoginDto>();
 
   const { showNotification } = useNotification();
 
-  const onSubmit = async (d: LoginDto) => {
-    setSaving(true);
-    try {
-      const data = await horizonApiClient.Auth.login(d);
-      const request = await horizonApiClient.Auth.fetchOwner(
-        String(data.user.id),
-      );
-      const horizonUser = await request.json();
-      logUser(horizonUser ? { ...data, horizonUser } : data);
-    } catch (e: unknown) {
-      console.error(e);
-      const status = (e as HTTPError)?.status;
-      // el server responde 404 cuando el usuario no existe y 401/400 con la clave mal
-      if (status === 404)
-        setError("username", {
-          message: t(`_accessibility:messages.404`, {
-            model: t("_entities:entities.user"),
-          }),
-        });
-      else if (status === 401 || status === 400)
-        setError("password", { message: t("_accessibility:messages.401") });
-      else
-        showNotification({
-          message: t(
-            `_accessibility:messages.${String(status ?? "notConnected")}`,
-          ),
-          type: NotificationEnumType.error,
-        });
-    }
-    setSaving(false);
-  };
-
-  useEffect(() => {
-    setTimeout(() => {
-      setAppear(true);
-    }, 1100);
-  }, []);
+  const navigate = useNavigate();
 
   return (
-    <div className="w-full h-screen flex items-start justify-center">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-96 max-sm:w-10/12 p-5 flex flex-col items-center justify-start m-auto mt-40 bg-light-background"
-      >
-        <Logo
-          className={`w-28 h-28 mb-10 transition-all duration-500 ease-in-out ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
-        />
-        <h1
-          className={`w-full text-2xl md:text-3xl mb-5 transition-all duration-500 ease-in-out delay-200 ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
-        >
-          {t("_pages:auth.signIn.title")}
-        </h1>
-        <div
-          className={`w-full transition-all duration-500 ease-in-out delay-300 ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
-        >
-          <Controller
-            control={control}
-            disabled={saving}
-            name="username"
-            render={({ field, fieldState }) => (
-              <TextInput
-                {...field}
-                type="text"
-                id="email"
-                label={t("_entities:user.email.label")}
-                required
-                helperText={fieldState.error?.message}
-                state={fieldState.error ? State.error : State.default}
-              />
-            )}
-          />
-        </div>
-        <div
-          className={`w-full transition-all duration-500 ease-in-out delay-[400ms] ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
-        >
-          <Controller
-            control={control}
-            disabled={saving}
-            name="password"
-            render={({ field, fieldState }) => (
-              <PasswordInput
-                {...field}
-                id="password"
-                label={t("_entities:user.password.label")}
-                required
-                helperText={fieldState.error?.message}
-                state={fieldState.error ? State.error : State.default}
-              />
-            )}
-          />
-        </div>
-        <div className="w-full mb-5">
-          <Link
-            to={findPath(PageId.recovery)}
-            className={`underline text-left transition-all duration-500 ease-in-out delay-[500ms] ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
-          >
-            {t("_pages:auth.signIn.passwordRecovery")}
-          </Link>
-        </div>
-        <button
-          type="submit"
-          disabled={saving}
-          className={`mb-5 self-start duration-500 ease-in-out delay-[600ms] ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"} submit`}
-        >
-          {saving && (
-            <Loading
-              className="button-loading"
-              strokeWidth="4"
-              loaderClass="!w-6"
-              color="stroke-white"
-            />
-          )}
-          {t("_accessibility:buttons.submit")}
-        </button>
-      </form>
-    </div>
+    <AuthSignInView
+      title={t("_pages:auth.signIn.title")}
+      logo={<Logo className="w-28 h-28 mb-10" />}
+      emailLabel={t("_entities:user.email.label")}
+      passwordLabel={t("_entities:user.password.label")}
+      submitLabel={t("_accessibility:buttons.submit")}
+      submitAriaLabel={t("_accessibility:ariaLabels.submit")}
+      recoveryLabel={t("_pages:auth.signIn.passwordRecovery")}
+      recoveryTo={findPath(PageId.recovery)}
+      onSubmit={async (values) => {
+        const session = await horizonApiClient.Auth.login(values);
+        logUser(session, values.rememberMe);
+        navigate(findPath(PageId.dashboard));
+      }}
+      onError={(error, { setError }) => {
+        console.error(error);
+        const status = isHttpError(error) ? error.status : undefined;
+
+        // the server answers 404 when the user does not exist and 401/400
+        // when the password is wrong
+        if (status === 404)
+          setError("email", {
+            message: t("_accessibility:messages.404", {
+              model: t("_entities:entities.user"),
+            }),
+          });
+        else if (status === 401 || status === 400)
+          setError("password", { message: t("_accessibility:messages.401") });
+        else
+          showNotification({
+            message: t(
+              `_accessibility:messages.${String(status ?? "notConnected")}`,
+            ),
+            type: NotificationEnumType.error,
+          });
+      }}
+    />
   );
 }
 
