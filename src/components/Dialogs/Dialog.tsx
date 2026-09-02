@@ -29,7 +29,7 @@ export const Dialog = (props: DialogPropsType) => {
     (e: KeyboardEvent) => {
       if (e.key === "Escape" && open) handleClose();
     },
-    [open, handleClose]
+    [open, handleClose],
   );
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export const Dialog = (props: DialogPropsType) => {
       )
         handleClose();
     },
-    [t, handleClose]
+    [t, handleClose],
   );
 
   return createPortal(
@@ -93,6 +93,6 @@ export const Dialog = (props: DialogPropsType) => {
         {children}
       </div>
     </div>,
-    document.body
+    document.body,
   );
 };

@@ -13,7 +13,7 @@ import { BuildingTypeDto, BuildingTypeCommonDto } from "lib";
 import { TablesCamelCase } from "api";
 
 // hooks
-import { useTableOptions } from "@sito/dashboard";
+import { useTableOptions } from "@sito/dashboard-app";
 
 export const BuildingTypesQueryKeys = {
   all: () => ({
@@ -51,7 +51,9 @@ export function useBuildingTypesList(): ApiQueryResult<BuildingTypeDto> {
   };
 }
 
-export function useBuildingTypesCommon(): UseQueryResult<BuildingTypeCommonDto[]> {
+export function useBuildingTypesCommon(): UseQueryResult<
+  BuildingTypeCommonDto[]
+> {
   const horizonApiClient = useHorizonApiClient();
 
   return useQuery({

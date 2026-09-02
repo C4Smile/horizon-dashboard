@@ -8,7 +8,7 @@ import { HtmlInputPropsType } from "./types";
 
 export const HtmlInput = forwardRef(function (
   props: HtmlInputPropsType,
-  ref: unknown
+  ref: unknown,
 ) {
   const { label, value, onChange, wrapperClassName } = props;
 

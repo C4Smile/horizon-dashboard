@@ -1,5 +1,5 @@
-// @sito/dashboard
-import { Action } from "@sito/dashboard";
+// @sito/dashboard-app
+import { Action } from "@sito/dashboard-app";
 
 // lib
 import { BaseEntityDto } from "lib";
@@ -21,8 +21,10 @@ export interface UseSingleActionPropTypes<TInDto> extends UseActionPropTypes {
   hidden?: boolean;
 }
 
-export interface UseEditActionPropTypes
-  extends Omit<UseSingleActionPropTypes<BaseEntityDto>, "onClick"> {
+export interface UseEditActionPropTypes extends Omit<
+  UseSingleActionPropTypes<BaseEntityDto>,
+  "onClick"
+> {
   url: string;
 }
 

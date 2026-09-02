@@ -12,7 +12,7 @@ import { ActionHook, UseMultipleActionPropTypes } from "hooks";
 import { BaseEntityDto } from "lib";
 
 export const useRestoreAction = (
-  props: UseMultipleActionPropTypes<number>
+  props: UseMultipleActionPropTypes<number>,
 ): ActionHook<BaseEntityDto> => {
   const { t } = useTranslation();
 
@@ -37,7 +37,7 @@ export const useRestoreAction = (
       tooltip: t("_pages:common.actions.restore.text"),
       onClick: () => onClick([record?.id]),
     }),
-    [disabled, hidden, isLoading, onClick, t]
+    [disabled, hidden, isLoading, onClick, t],
   );
 
   return { action };

@@ -81,7 +81,7 @@ function ModalSearch(props) {
             {" / "}
             <span className="text-slate-600 dark:text-slate-400 group-hover:text-white">
               {t(
-                `_pages:${child}.${secondChild === "new" ? "editForm" : "newForm"}`
+                `_pages:${child}.${secondChild === "new" ? "editForm" : "newForm"}`,
               )}
             </span>
           </>

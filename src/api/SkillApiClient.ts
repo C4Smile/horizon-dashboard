@@ -46,7 +46,7 @@ export class SkillApiClient extends BaseApiClient<
     skill.urlName = toSlug(skill.name);
     // parsing html
     skill.description = draftToHtml(
-      convertToRaw(skill.description.getCurrentContent())
+      convertToRaw(skill.description.getCurrentContent()),
     );
     // saving photo
     if (photo) skill.image = photo;
@@ -63,7 +63,7 @@ export class SkillApiClient extends BaseApiClient<
     skill.urlName = toSlug(skill.name);
     // parsing html
     skill.description = draftToHtml(
-      convertToRaw(skill.description.getCurrentContent())
+      convertToRaw(skill.description.getCurrentContent()),
     );
     // saving photo
     if (photo) skill.image = photo;

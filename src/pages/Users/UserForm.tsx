@@ -5,8 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 import loadable from "@loadable/component";
 
-// @sito/dashboard
-import { Loading, TextInput, SelectInput } from "@sito/dashboard";
+// @sito/dashboard-app
+import { Loading, TextInput, SelectInput } from "@sito/dashboard-app";
 
 // components
 import { ImageUploader, PasswordInput } from "components";
@@ -135,7 +135,7 @@ function UserForm() {
     if (userQuery.data) {
       if (userQuery.data?.image) setPhoto(userQuery?.data?.image);
       const roleId = roleList.find(
-        (role) => role.id === userQuery.data?.roleId?.id
+        (role) => role.id === userQuery.data?.roleId?.id,
       );
       reset({ ...userQuery.data, roleId: roleId?.id });
       setLastUpdate(userQuery?.data?.lastUpdate);
@@ -313,8 +313,8 @@ function UserForm() {
             <ImageUploader
               photo={photo}
               setPhoto={setPhoto}
-              label={`${t("_entities:user.image.label")}`}
-              folder={`${ReactQueryKeys.Users}`}
+              label={t("_entities:user.image.label")}
+              folder={ReactQueryKeys.Users}
             />
           )}
         </div>

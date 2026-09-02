@@ -71,7 +71,7 @@ function CSSTransition(props: CSSTransitionPropsType) {
           (nodeRef.current as Node).addEventListener(
             "transitionend",
             done,
-            false
+            false,
           );
       }}
       onEnter={() => {

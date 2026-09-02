@@ -1,0 +1,27 @@
+# app
+VITE_APP_NAME=horizon-dashboard
+VITE_API_URL=http://localhost:3010/
+VITE_THIS_URL=https://localhost:5173/
+
+# cookies / local storage keys
+VITE_LANGUAGE=horizon-language
+VITE_BASIC_KEY=horizon-basic
+VITE_ACCEPT_COOKIE=horizon-accept-cookies
+VITE_DECLINE_COOKIE=horizon-decline-cookies
+VITE_REMEMBER=horizon-remember
+VITE_USER=horizon-user
+VITE_VALIDATION_COOKIE=horizon-validating
+VITE_RECOVERING_COOKIE=horizon-recovering
+
+# communication
+VITE_CRYPTO=horizon-crypto
+
+# cache
+VITE_RECENT_SEARCHES=horizon-recent-searches
+VITE_RECENT_SEARCHES_LIMIT=5
+VITE_RECENT_PAGES=horizon-recent-pages
+VITE_RECENT_PAGES_LIMIT=5
+
+# supabase (sin uso hoy, config.ts los sigue leyendo)
+VITE_SUPABASE_CO=
+VITE_SUPABASE_ANON=

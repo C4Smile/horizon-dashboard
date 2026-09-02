@@ -4,8 +4,8 @@ import { getCookie } from "some-javascript-utils/browser";
 
 import config from "../config";
 
-// @sito/dashboard
-import { TableOptionsProvider, TranslationProvider } from "@sito/dashboard";
+// @sito/dashboard-app
+import { TableOptionsProvider, TranslationProvider } from "@sito/dashboard-app";
 
 // providers
 import { useAccount, HeaderProvider, useHorizonApiClient } from "providers";

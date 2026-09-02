@@ -2,8 +2,8 @@ import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-// @sito/dashboard
-import { Action, FilterTypes, Table } from "@sito/dashboard";
+// @sito/dashboard-app
+import { Action, FilterTypes, Table } from "@sito/dashboard-app";
 
 // images
 import noUserPhoto from "assets/images/user-no-image.webp";
@@ -72,7 +72,7 @@ function Users() {
       restoreAction.action(row),
       deleteAction.action(row),
     ],
-    [editAction, restoreAction, deleteAction]
+    [editAction, restoreAction, deleteAction],
   );
 
   //#endregion Actions
@@ -128,7 +128,7 @@ function Users() {
             <img
               className={`w-10 h-10 rounded-full object-cover border-white border-2`}
               src={staticUrlPhoto(user.image.url)}
-              alt={`${user.name}`}
+              alt={user.name}
             />
           ) : (
             <img
@@ -141,7 +141,7 @@ function Users() {
       },
     ],
     EntityName.User,
-    ["dateOfCreation", "lastUpdate"]
+    ["dateOfCreation", "lastUpdate"],
   );
 
   return (

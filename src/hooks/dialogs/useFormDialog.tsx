@@ -27,7 +27,7 @@ export const useFormDialog = <
     TMutationDto,
     TMutationOutputDto,
     TFormType
-  >
+  >,
 ): FormDialogPropsType<TFormType, ValidationError> => {
   const { t } = useTranslation();
   const { showStackNotifications, showSuccessNotification } = useNotification();
@@ -85,7 +85,7 @@ export const useFormDialog = <
       }
       return messages;
     },
-    [t, queryKey]
+    [t, queryKey],
   );
 
   const releaseFormError = useCallback(() => {
@@ -100,7 +100,7 @@ export const useFormDialog = <
       setId(id ?? 0);
       handleOpen();
     },
-    [handleOpen]
+    [handleOpen],
   );
 
   const close = useCallback(() => {
@@ -120,13 +120,10 @@ export const useFormDialog = <
       if (error.errors) {
         const messages = parseFormError(error);
         showStackNotifications(
-          messages.map(
-            (message) =>
-              ({
-                message,
-                type: NotificationEnumType.error,
-              }) as NotificationType
-          )
+          messages.map((message) => ({
+            message,
+            type: NotificationEnumType.error,
+          })),
         );
       }
       if (onError) onError(error);

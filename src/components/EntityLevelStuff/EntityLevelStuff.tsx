@@ -2,8 +2,8 @@ import { useState, useCallback, useEffect, useReducer } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
-// @sito/dashboard
-import { Loading } from "@sito/dashboard";
+// @sito/dashboard-app
+import { Loading } from "@sito/dashboard-app";
 
 // providers
 import { useNotification, queryClient } from "providers";
@@ -37,7 +37,7 @@ import { BaseReqDto } from "lib";
  * @returns EntityStuff component
  */
 export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
-  props: EntityLevelStuffPropsType<TDto>
+  props: EntityLevelStuffPropsType<TDto>,
 ) {
   const { t } = useTranslation();
 
@@ -73,14 +73,14 @@ export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
       case "modify": {
         const { item } = action;
         const found = state.findIndex(
-          (stem) => item[attributeId] === stem[attributeId]
+          (stem) => item[attributeId] === stem[attributeId],
         );
         if (found >= 0) state[found] = item.value;
         return [...state];
       }
       case "delete": {
         const found = state.findIndex(
-          (stem) => action[attributeId] === stem[attributeId]
+          (stem) => action[attributeId] === stem[attributeId],
         );
         if (found >= 0) state.splice(found, 1);
         return [...state];
@@ -120,7 +120,7 @@ export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
       }
       setSaving(false);
     },
-    [saveFn, id, setNotification, t, entityToSave, queryKey]
+    [saveFn, id, setNotification, t, entityToSave, queryKey],
   );
 
   const onSubmit = useCallback(
@@ -130,7 +130,7 @@ export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
       setInitial();
       save(value);
     },
-    [attributeId, save]
+    [attributeId, save],
   );
 
   const formProps = useFormDialog({
@@ -144,7 +144,7 @@ export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
       if (selected) setInitial(selected);
       formProps.dialogProps.open();
     },
-    [attributeId, formProps.dialogProps, lists]
+    [attributeId, formProps.dialogProps, lists],
   );
 
   const onDelete = useCallback(
@@ -165,7 +165,7 @@ export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
 
       setSaving(false);
     },
-    [deleteFn, entityToSave, id, queryKey, setNotification, t]
+    [deleteFn, entityToSave, id, queryKey, setNotification, t],
   );
 
   return (
@@ -178,7 +178,7 @@ export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
           attributeId={attributeId}
           inputLabel={t(`_entities:base.${inputKey as string}.label`)}
           inputPlaceholder={t(
-            `_entities:base.${inputKey as string}.placeholder`
+            `_entities:base.${inputKey as string}.placeholder`,
           )}
           {...formProps}
         />
@@ -192,7 +192,7 @@ export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
             key={`${entityReq[attributeId]}-${i}`}
             inputLabel={t(`_entities:base.${inputKey as string}.label`)}
             inputPlaceholder={t(
-              `_entities:base.${inputKey as string}.placeholder`
+              `_entities:base.${inputKey as string}.placeholder`,
             )}
             onEdit={(entityReqId) => openDialog(entityReqId)}
             onDelete={onDelete}

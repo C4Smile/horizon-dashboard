@@ -2,8 +2,8 @@ import { useMemo } from "react";
 import { Controller, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-// @sito/dashboard
-import { SelectInput, TextInput, Option } from "@sito/dashboard";
+// @sito/dashboard-app
+import { SelectInput, TextInput, Option } from "@sito/dashboard-app";
 
 // types
 import { EntityLevelFormPropsType, OptionReqCommonDto } from "./types";
@@ -14,7 +14,7 @@ import { EntityLevelFormPropsType, OptionReqCommonDto } from "./types";
  * @returns EntityForm component
  */
 export const EntityLevelForm = <TDto extends OptionReqCommonDto>(
-  props: EntityLevelFormPropsType<TDto>
+  props: EntityLevelFormPropsType<TDto>,
 ) => {
   const { t } = useTranslation();
 
@@ -36,10 +36,10 @@ export const EntityLevelForm = <TDto extends OptionReqCommonDto>(
         .filter((res) =>
           !!id && typeof id === "number"
             ? currentList
-            : !currentList.some((rex) => rex[attributeId] === res.id)
+            : !currentList.some((rex) => rex[attributeId] === res.id),
         )
         .map((res) => ({ id: res.id, name: res.name })) as unknown as Option[],
-    [attributeId, currentList, entities, id]
+    [attributeId, currentList, entities, id],
   );
 
   return (

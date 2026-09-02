@@ -125,7 +125,7 @@ function ShipForm() {
           id,
           label: t(`_pages:ships.tabs.${id}`),
         })),
-    [id, t]
+    [id, t],
   );
 
   const content = useMemo(
@@ -208,7 +208,7 @@ function ShipForm() {
         />
       ),
     }),
-    [shipQuery, id, resourcesList, techsList, buildingsList, horizonApiClient]
+    [shipQuery, id, resourcesList, techsList, buildingsList, horizonApiClient],
   );
 
   return notFound ? (

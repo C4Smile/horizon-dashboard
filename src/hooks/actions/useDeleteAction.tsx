@@ -17,7 +17,7 @@ import { BaseEntityDto } from "lib";
  * @returns action
  */
 export const useDeleteAction = (
-  props: UseMultipleActionPropTypes<number>
+  props: UseMultipleActionPropTypes<number>,
 ): ActionHook<BaseEntityDto> => {
   const {
     onClick,
@@ -45,7 +45,7 @@ export const useDeleteAction = (
         tooltip: t("_accessibility:buttons.delete"),
       };
     },
-    [disabled, hidden, isLoading, onClick, t]
+    [disabled, hidden, isLoading, onClick, t],
   );
 
   return {

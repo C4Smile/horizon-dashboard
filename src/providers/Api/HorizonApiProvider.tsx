@@ -46,7 +46,9 @@ const HorizonApiClientProvider = (props: HorizonProviderPropsType) => {
 const useHorizonApiClient = () => {
   const context = useContext(HorizonApiClientContext);
   if (context === undefined) {
-    throw new Error("useHorizonApiClient must be used within a HorizonApiClientProvider");
+    throw new Error(
+      "useHorizonApiClient must be used within a HorizonApiClientProvider",
+    );
   }
   return context.client;
 };

@@ -85,7 +85,7 @@ function Notification() {
               <div className="flex gap-3 items-center">
                 <FontAwesomeIcon
                   icon={renderIcon(type)}
-                  className={`${textColor(type)}`}
+                  className={textColor(type)}
                 />
                 <p className={`whitespace-nowrap ${textColor(type)}`}>
                   {message}

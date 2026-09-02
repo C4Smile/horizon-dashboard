@@ -11,10 +11,7 @@ import { useHorizonApiClient } from "providers";
 import { ReactQueryKeys } from "../../utils/queryKeys.js";
 
 // components
-import {
-  TabsLayout,
-  EntityLevelStuff,
-} from "components";
+import { TabsLayout, EntityLevelStuff } from "components";
 
 // types
 import { cannonTabs } from "./types.js";
@@ -128,7 +125,7 @@ function CannonForm() {
           id,
           label: t(`_pages:cannons.tabs.${id}`),
         })),
-    [id, t]
+    [id, t],
   );
 
   const content = useMemo(
@@ -194,13 +191,20 @@ function CannonForm() {
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Cannon.cannonReqBuildings.deleteSingle(
               id,
-              resourceId
+              resourceId,
             )
           }
         />
       ),
     }),
-    [cannonQuery, id, resourcesList, techsList, buildingsList, horizonApiClient]
+    [
+      cannonQuery,
+      id,
+      resourcesList,
+      techsList,
+      buildingsList,
+      horizonApiClient,
+    ],
   );
 
   return notFound ? (

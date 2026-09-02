@@ -1,4 +1,4 @@
-import { SortOrder } from "@sito/dashboard";
+import { SortOrder } from "@sito/dashboard-app";
 
 export interface BaseFilterDto {
   deleted?: boolean;

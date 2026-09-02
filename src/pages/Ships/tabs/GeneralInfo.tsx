@@ -20,7 +20,7 @@ import { ReactQueryKeys } from "../../../utils/queryKeys";
 const HtmlInput = loadable(() =>
   import("components").then((module) => ({
     default: module.HtmlInput,
-  }))
+  })),
 );
 
 /**
@@ -333,8 +333,8 @@ function GeneralInfo(props) {
           <ImageUploader
             photo={photo}
             setPhoto={setPhoto}
-            label={`${t("_entities:ship.image.label")}`}
-            folder={`${ReactQueryKeys.Ships}`}
+            label={t("_entities:ship.image.label")}
+            folder={ReactQueryKeys.Ships}
           />
         )}
       </div>

@@ -11,7 +11,7 @@ export const parseManyToMany = <T extends BaseEntityDto>(
   remoteAttribute: keyof T,
   localList: T[] = [],
   remoteList: T[] = [],
-  hasId: boolean = true
+  hasId: boolean = true,
 ) => {
   const toAdd = [];
   const toRemove = [];
@@ -27,7 +27,7 @@ export const parseManyToMany = <T extends BaseEntityDto>(
         const elToAdd = { delete: false, ...localElement } as T;
         elToAdd[remoteAttribute] = getToCompare(
           localElement,
-          hasId
+          hasId,
         ) as T[keyof T];
         // add to list
         toAdd.push(elToAdd);
@@ -35,14 +35,14 @@ export const parseManyToMany = <T extends BaseEntityDto>(
       }
       const remoteTag = remoteList.find(
         (element) =>
-          getToCompare(element, hasId) === getToCompare(localElement, hasId)
+          getToCompare(element, hasId) === getToCompare(localElement, hasId),
       );
       if (!remoteTag) {
         // create new element
         const elToAdd = { delete: false, ...localElement } as T;
         elToAdd[remoteAttribute] = getToCompare(
           localElement,
-          hasId
+          hasId,
         ) as T[keyof T];
         // add to list
         toAdd.push(elToAdd);
@@ -56,7 +56,7 @@ export const parseManyToMany = <T extends BaseEntityDto>(
         const elToRemove = { delete: true, ...remoteElement } as T;
         elToRemove[remoteAttribute] = getToCompare(
           remoteElement,
-          hasId
+          hasId,
         ) as T[keyof T];
         // add to list
         toRemove.push(elToRemove);
@@ -65,14 +65,14 @@ export const parseManyToMany = <T extends BaseEntityDto>(
       }
       const localElement = localList.find(
         (element) =>
-          getToCompare(element, hasId) === getToCompare(remoteElement, hasId)
+          getToCompare(element, hasId) === getToCompare(remoteElement, hasId),
       );
       if (!localElement) {
         // create new element
         const elToRemove = { delete: true, ...remoteElement } as T;
         elToRemove[remoteAttribute] = getToCompare(
           remoteElement,
-          hasId
+          hasId,
         ) as T[keyof T];
         // add to list
         toRemove.push(elToRemove);

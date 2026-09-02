@@ -5,8 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 import loadable from "@loadable/component";
 
-// @sito/dashboard
-import { Loading, TextInput } from "@sito/dashboard";
+// @sito/dashboard-app
+import { Loading, TextInput } from "@sito/dashboard-app";
 
 // editor
 import { EditorState, ContentState } from "draft-js";
@@ -25,7 +25,7 @@ import { ReactQueryKeys } from "../../utils/queryKeys";
 const HtmlInput = loadable(() =>
   import("components").then((module) => ({
     default: module.HtmlInput,
-  }))
+  })),
 );
 
 // pages
@@ -213,8 +213,8 @@ function ResourceForm() {
             <ImageUploader
               photo={photo}
               setPhoto={setPhoto}
-              label={`${t("_entities:resource.image.label")}`}
-              folder={`${ReactQueryKeys.Resources}`}
+              label={t("_entities:resource.image.label")}
+              folder={ReactQueryKeys.Resources}
             />
           )}
         </div>

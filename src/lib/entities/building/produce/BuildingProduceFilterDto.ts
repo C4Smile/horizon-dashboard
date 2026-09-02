@@ -1,4 +1,5 @@
 import { BaseFilterDto } from "../../base";
 import { BuildingProduceDto } from "./BuildingProduceDto";
 
-export interface BuildingProduceFilterDto extends BuildingProduceDto, BaseFilterDto {}
+export interface BuildingProduceFilterDto
+  extends BuildingProduceDto, BaseFilterDto {}

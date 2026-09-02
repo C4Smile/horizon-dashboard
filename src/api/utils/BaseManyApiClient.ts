@@ -70,7 +70,7 @@ export class BaseManyApiClient<
       data,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
+      },
     );
   }
 

@@ -4,8 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import loadable from "@loadable/component";
 
-// @sito/dashboard
-import { Loading, TextInput, SelectInput } from "@sito/dashboard";
+// @sito/dashboard-app
+import { Loading, TextInput, SelectInput } from "@sito/dashboard-app";
 
 // editor
 import { ContentState, EditorState } from "draft-js";
@@ -26,7 +26,7 @@ import { HTTPError } from "api";
 const HtmlInput = loadable(() =>
   import("components").then((module) => ({
     default: module.HtmlInput,
-  }))
+  })),
 );
 
 /**
@@ -58,7 +58,7 @@ export function GeneralInfo(props) {
     try {
       return (
         typesQuery?.data?.items?.map((c) => ({
-          value: `${c.name}`,
+          value: c.name,
           id: c.id,
         })) ?? []
       );
@@ -112,7 +112,7 @@ export function GeneralInfo(props) {
           `_accessibility:messages.${String((e as HTTPError).status)}`,
           {
             model: t("_entities:entities.tech"),
-          }
+          },
         ),
         type: NotificationEnumType.error,
       });
@@ -244,8 +244,8 @@ export function GeneralInfo(props) {
           <ImageUploader
             photo={photo}
             setPhoto={setPhoto}
-            label={`${t("_entities:tech.image.label")}`}
-            folder={`${ReactQueryKeys.Techs}`}
+            label={t("_entities:tech.image.label")}
+            folder={ReactQueryKeys.Techs}
           />
         )}
       </div>

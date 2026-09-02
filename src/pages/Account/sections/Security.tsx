@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useForm, Controller } from "react-hook-form";
 
 // @sito/dasbhoard
-import { Loading } from "@sito/dashboard";
+import { Loading } from "@sito/dashboard-app";
 
 // components
 import { PasswordInput } from "components";

@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteCookie } from "some-javascript-utils/browser";
 
-// @sito/dashboard
-import { Loading, State } from "@sito/dashboard";
+// @sito/dashboard-app
+import { Loading, State } from "@sito/dashboard-app";
 
 // components
 import { Logo, PasswordInput } from "components";
@@ -65,7 +65,7 @@ function UpdatePassword() {
       // set server status to notification
       showNotification({
         message: t(
-          `_accessibility:messages.${String((e as HTTPError).status)}`
+          `_accessibility:messages.${String((e as HTTPError).status)}`,
         ),
         type: NotificationEnumType.error,
       });

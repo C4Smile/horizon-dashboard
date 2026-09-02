@@ -12,11 +12,7 @@ import htmlToDraft from "html-to-draftjs";
 import { ImageUploader } from "components";
 
 // providers
-import {
-  useNotification,
-  queryClient,
-  useHorizonApiClient,
-} from "providers";
+import { useNotification, queryClient, useHorizonApiClient } from "providers";
 
 // utils
 import { ReactQueryKeys } from "../../../utils/queryKeys";
@@ -25,7 +21,7 @@ import { ReactQueryKeys } from "../../../utils/queryKeys";
 const HtmlInput = loadable(() =>
   import("components").then((module) => ({
     default: module.HtmlInput,
-  }))
+  })),
 );
 
 /**
@@ -233,8 +229,8 @@ function GeneralInfo(props) {
           <ImageUploader
             photo={photo}
             setPhoto={setPhoto}
-            label={`${t("_entities:building.image.label")}`}
-            folder={`${ReactQueryKeys.Buildings}`}
+            label={t("_entities:building.image.label")}
+            folder={ReactQueryKeys.Buildings}
           />
         )}
       </div>

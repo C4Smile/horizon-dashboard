@@ -57,7 +57,7 @@ export class TechApiClient extends BaseApiClient<
     tech.urlName = toSlug(tech.name);
     // parsing html
     tech.description = draftToHtml(
-      convertToRaw(tech.description.getCurrentContent())
+      convertToRaw(tech.description.getCurrentContent()),
     );
     // saving photo
     if (photo) tech.image = photo;
@@ -74,7 +74,7 @@ export class TechApiClient extends BaseApiClient<
     tech.urlName = toSlug(tech.name);
     // parsing html
     tech.description = draftToHtml(
-      convertToRaw(tech.description.getCurrentContent())
+      convertToRaw(tech.description.getCurrentContent()),
     );
     // saving photo
     if (photo) tech.image = photo;

@@ -11,7 +11,9 @@ function NotFound() {
 
   return (
     <main className="appear h-screen w-full flex flex-col items-center justify-center">
-      <h1 className="text-3xl xs:text-5xl text-center mb-5">404 - {t("_pages:notFound:title")}</h1>
+      <h1 className="text-3xl xs:text-5xl text-center mb-5">
+        404 - {t("_pages:notFound:title")}
+      </h1>
       <Link to="/" className="submit !w-20">
         {t("_accessibility:buttons.goHome")}
       </Link>

@@ -1,7 +1,7 @@
 import { ChangeEvent, useMemo, useState } from "react";
 
-// @sito/dashboard
-import { Loading } from "@sito/dashboard";
+// @sito/dashboard-app
+import { Loading } from "@sito/dashboard-app";
 
 // font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

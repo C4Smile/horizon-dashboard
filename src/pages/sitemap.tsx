@@ -282,7 +282,7 @@ export const sitemap: ViewPageType[] = [
 export const findPathInChildren = (
   targetPageId: PageId,
   basePage: ViewPageType,
-  currentPath = ""
+  currentPath = "",
 ) => {
   let path = "";
   const baseChildren = basePage.children ?? [];
@@ -312,7 +312,7 @@ export const findPath = (targetPageId: PageId) => {
       path = findPathInChildren(
         targetPageId,
         page,
-        page.path === "/" ? "" : page.path
+        page.path === "/" ? "" : page.path,
       );
       if (path) {
         break;

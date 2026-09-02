@@ -127,7 +127,7 @@ function TechForm() {
           id,
           label: t(`_pages:techs.tabs.${id}`),
         })),
-    [id, t]
+    [id, t],
   );
 
   const content = useMemo(
@@ -211,7 +211,7 @@ function TechForm() {
         />
       ),
     }),
-    [buildingsList, horizonApiClient, id, resourcesList, techQuery, techsList]
+    [buildingsList, horizonApiClient, id, resourcesList, techQuery, techsList],
   );
 
   return notFound ? (

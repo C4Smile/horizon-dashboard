@@ -26,7 +26,7 @@ export const TablePage = (props: TablePagePropsType) => {
     setTitle(title ?? "");
     if (!noActions)
       setTabs(
-        <Links pageKey={pageKey} navClassName="gap-3" linksClassName="!p-0" />
+        <Links pageKey={pageKey} navClassName="gap-3" linksClassName="!p-0" />,
       );
   }, [noActions, pageKey, setTabs, setTitle, t, title]);
 

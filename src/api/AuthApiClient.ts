@@ -21,7 +21,7 @@ export class AuthApiClient {
       null,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
+      },
     );
     return {
       json: async () => ({
@@ -43,7 +43,7 @@ export class AuthApiClient {
       null,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
+      },
     );
     return { data, status: error?.status ?? status, error };
   }
@@ -59,7 +59,7 @@ export class AuthApiClient {
       null,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
+      },
     );
     return { data, status: error?.status ?? status, error };
   }
@@ -83,10 +83,10 @@ export class AuthApiClient {
       "POST",
       {
         ...form,
-      }
+      },
     );
     if (data && data.user) {
-      data.user.email = form.email;
+      data.user.email = form.username;
       toLocal(config.user, data);
     }
     if (error) throw error;

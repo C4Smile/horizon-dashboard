@@ -52,11 +52,11 @@ export const getEnumIdValueTuple = (enumType: any) => {
   // array, so we can confidently keep the values() without any further treatment.
 
   const keys = Object.keys(enumType).filter((x) =>
-    Object.values(enumType).includes(x)
+    Object.values(enumType).includes(x),
   );
 
   let values = Object.values(enumType).filter(
-    (x) => !Object.keys(enumType).includes(x as string)
+    (x) => !Object.keys(enumType).includes(x as string),
   );
   if (!values.length) {
     values = Object.values(enumType);

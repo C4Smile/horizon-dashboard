@@ -3,8 +3,8 @@ import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-// @sito/dashboard
-import { Action, FilterTypes, Table } from "@sito/dashboard";
+// @sito/dashboard-app
+import { Action, FilterTypes, Table } from "@sito/dashboard-app";
 
 // lib
 import { BuildingDto } from "lib";
@@ -79,7 +79,7 @@ function BuildingPage() {
       restoreAction.action(row),
       deleteAction.action(row),
     ],
-    [editAction, restoreAction, deleteAction]
+    [editAction, restoreAction, deleteAction],
   );
 
   //#endregion Actions
@@ -107,7 +107,7 @@ function BuildingPage() {
       imageColumn<BuildingDto>(),
     ],
     EntityName.Building,
-    ["createdAt"]
+    ["createdAt"],
   );
 
   return (

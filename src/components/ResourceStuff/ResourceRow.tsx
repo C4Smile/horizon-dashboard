@@ -18,7 +18,7 @@ import { OptionResourceCommonDto, ResourceRowPropsType } from "./types";
  */
 export const ResourceRow = memo(
   function ResourceRow<TDto extends OptionResourceCommonDto>(
-    props: ResourceRowPropsType<TDto>
+    props: ResourceRowPropsType<TDto>,
   ) {
     const { t } = useTranslation();
 
@@ -37,7 +37,7 @@ export const ResourceRow = memo(
 
     const resource = useMemo(
       () => resources?.find((res) => res.id === resourceId),
-      [resources, resourceId]
+      [resources, resourceId],
     );
 
     return (
@@ -91,5 +91,5 @@ export const ResourceRow = memo(
     }
 
     return prev.value === next.value;
-  }
+  },
 );

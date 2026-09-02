@@ -1,7 +1,7 @@
 import { ChangeEvent, useCallback, useState } from "react";
 
-// @sito/dashboard
-import { Loading } from "@sito/dashboard";
+// @sito/dashboard-app
+import { Loading } from "@sito/dashboard-app";
 
 // font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -60,7 +60,7 @@ function ImageUploaderMultiple(props: ImageUploaderMultiplePropsType) {
 
       setLoadingPhotos(false);
     },
-    [folder, museumApiClient.Image, photos.length, setPhotos]
+    [folder, museumApiClient.Image, photos.length, setPhotos],
   );
 
   const onDelete = async (index: number) =>

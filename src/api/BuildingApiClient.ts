@@ -59,7 +59,7 @@ export class BuildingApiClient extends BaseApiClient<
     building.urlName = toSlug(building.name);
     // parsing html
     building.description = draftToHtml(
-      convertToRaw(building.description.getCurrentContent())
+      convertToRaw(building.description.getCurrentContent()),
     );
     // saving photo
     if (photo) building.image = photo;
@@ -76,7 +76,7 @@ export class BuildingApiClient extends BaseApiClient<
     building.urlName = toSlug(building.name);
     // parsing html
     building.description = draftToHtml(
-      convertToRaw(building.description.getCurrentContent())
+      convertToRaw(building.description.getCurrentContent()),
     );
     // saving photo
     if (photo) building.image = photo;

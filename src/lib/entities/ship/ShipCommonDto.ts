@@ -1,3 +1,3 @@
 import { BaseCommonEntityDto } from "../base";
 
-export type ShipCommonDto = BaseCommonEntityDto
+export type ShipCommonDto = BaseCommonEntityDto;

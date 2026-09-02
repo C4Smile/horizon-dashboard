@@ -32,7 +32,7 @@ const NotFound = loadable(() => import("./pages/NotFound/NotFound"));
 const renderRoutes = (
   sitemap: ViewPageType[],
   userRole: Roles,
-  parentRoute?: string
+  parentRoute?: string,
 ) =>
   sitemap
     .filter((page) => (page.role ? page.role.indexOf(userRole) >= 0 : true))

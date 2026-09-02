@@ -30,7 +30,7 @@ export function NotificationProvider(props: NotificationProviderPropsType) {
       return state;
     },
     [] as NotificationType[],
-    () => [] as NotificationType[]
+    () => [] as NotificationType[],
   );
 
   const showErrorNotification = (options: NotificationType) =>

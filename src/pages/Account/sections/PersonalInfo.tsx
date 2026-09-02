@@ -5,7 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import loadable from "@loadable/component";
 
 // partials
-import { Loading, TextInput } from "@sito/dashboard";
+import { Loading, TextInput } from "@sito/dashboard-app";
 
 // components
 import { ImageUploader } from "components";
@@ -249,8 +249,8 @@ function PersonalInfo() {
           <ImageUploader
             photo={photo}
             setPhoto={setPhoto}
-            label={`${t("_entities:user.image.label")}`}
-            folder={`${ReactQueryKeys.Users}`}
+            label={t("_entities:user.image.label")}
+            folder={ReactQueryKeys.Users}
           />
         )}
       </div>

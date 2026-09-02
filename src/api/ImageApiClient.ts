@@ -61,7 +61,7 @@ export class ImageApiClient {
         const reader = new FileReader();
         reader.onload = () => resolve(reader.result);
         reader.onerror = reject;
-        reader.readAsDataURL(file as unknown as File);
+        reader.readAsDataURL(file);
       });
       parsed.push(parsedFile);
     }
@@ -85,7 +85,7 @@ export class ImageApiClient {
         { base64: base64 as string, folder, fileName: photo.name },
         {
           Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-        }
+        },
       );
 
       if (error) {

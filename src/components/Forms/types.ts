@@ -1,4 +1,4 @@
-import { TextInputPropsType } from "@sito/dashboard";
+import { TextInputPropsType } from "@sito/dashboard-app";
 import { DetailedHTMLProps, TextareaHTMLAttributes } from "react";
 import { EditorState } from "react-draft-wysiwyg";
 
@@ -10,7 +10,8 @@ export type HtmlInputPropsType = {
 };
 
 export interface ParagraphInputPropsType
-  extends Pick<
+  extends
+    Pick<
       TextInputPropsType,
       | "label"
       | "state"

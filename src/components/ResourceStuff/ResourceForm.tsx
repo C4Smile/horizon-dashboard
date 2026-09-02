@@ -2,8 +2,8 @@ import { useMemo } from "react";
 import { Controller, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-// @sito/dashboard
-import { TextInput, SelectInput, Option } from "@sito/dashboard";
+// @sito/dashboard-app
+import { TextInput, SelectInput, Option } from "@sito/dashboard-app";
 
 // types
 import { OptionResourceCommonDto, ResourceFormPropsType } from "./types";
@@ -14,7 +14,7 @@ import { OptionResourceCommonDto, ResourceFormPropsType } from "./types";
  * @returns ResourceForm component
  */
 export const ResourceForm = <TDto extends OptionResourceCommonDto>(
-  props: ResourceFormPropsType<TDto>
+  props: ResourceFormPropsType<TDto>,
 ) => {
   const { t } = useTranslation();
 
@@ -37,10 +37,10 @@ export const ResourceForm = <TDto extends OptionResourceCommonDto>(
             ? currentList
             : !currentList.some((rex) => {
                 return rex.resourceId === res.id;
-              })
+              }),
         )
         .map((res) => ({ id: res.id, name: res.name })) as unknown as Option[],
-    [currentList, resources, id]
+    [currentList, resources, id],
   );
 
   return (

@@ -26,13 +26,10 @@ export const useRestoreDialog = (props: UseDeleteDialogPropsType) => {
     onError: (error: ValidationError) => {
       if (error.errors)
         showStackNotifications(
-          error.errors.map(
-            ([key, message]) =>
-              ({
-                message: t(`_pages:${key}.errors.${message}`),
-                type: NotificationEnumType.error,
-              }) as NotificationType
-          )
+          error.errors.map(([key, message]) => ({
+            message: t(`_pages:${key}.errors.${message}`),
+            type: NotificationEnumType.error,
+          })),
         );
     },
     onSuccess: async (result) => {

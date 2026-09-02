@@ -48,7 +48,7 @@ export class ResourceApiClient extends BaseApiClient<
     resource.urlName = toSlug(resource.name);
     // parsing html
     resource.description = draftToHtml(
-      convertToRaw(resource.description.getCurrentContent())
+      convertToRaw(resource.description.getCurrentContent()),
     );
     // saving photo
     if (photo) resource.image = photo;
@@ -65,7 +65,7 @@ export class ResourceApiClient extends BaseApiClient<
     resource.urlName = toSlug(resource.name);
     // parsing html
     resource.description = draftToHtml(
-      convertToRaw(resource.description.getCurrentContent())
+      convertToRaw(resource.description.getCurrentContent()),
     );
     // saving photo
     if (photo) resource.image = photo;

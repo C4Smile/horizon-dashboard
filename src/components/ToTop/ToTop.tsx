@@ -1,8 +1,8 @@
 import { useState, useCallback, useEffect } from "react";
 import { scrollTo } from "some-javascript-utils/browser";
 
-// @sito/dashboard
-import { ChevronUp } from "@sito/dashboard";
+// @sito/dashboard-app
+import { ChevronUp } from "@sito/dashboard-app";
 
 // types
 import { ToTopPropsType } from "./types";

@@ -2,8 +2,7 @@ import { BaseCommonEntityDto, BaseResourceDto, ResourceCommonDto } from "lib";
 import { Control } from "react-hook-form";
 
 export interface OptionResourceCommonDto
-  extends BaseResourceDto,
-    BaseCommonEntityDto {
+  extends BaseResourceDto, BaseCommonEntityDto {
   value: BaseResourceDto;
 }
 

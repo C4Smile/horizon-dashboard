@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { createCookie } from "some-javascript-utils/browser";
 
-// @sito/dashboard
-import { Loading, TextInput } from "@sito/dashboard";
+// @sito/dashboard-app
+import { Loading, TextInput } from "@sito/dashboard-app";
 
 // components
 import { Logo } from "components";
@@ -63,7 +63,7 @@ function Recovery() {
       // set server status to notification
       showNotification({
         message: t(
-          `_accessibility:messages.${String((e as HTTPError).status)}`
+          `_accessibility:messages.${String((e as HTTPError).status)}`,
         ),
         type: NotificationEnumType.error,
       });

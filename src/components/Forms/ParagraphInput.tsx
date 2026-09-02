@@ -1,12 +1,12 @@
 import { ForwardedRef, forwardRef } from "react";
 
-// @sito/dashboard
+// @sito/dashboard-app
 import {
   labelStateClassName,
   inputStateClassName,
   helperTextStateClassName,
   State,
-} from "@sito/dashboard";
+} from "@sito/dashboard-app";
 
 // types
 import { ParagraphInputPropsType } from "./types";
@@ -18,7 +18,7 @@ import { ParagraphInputPropsType } from "./types";
  */
 export const ParagraphInput = forwardRef(function (
   props: ParagraphInputPropsType,
-  ref: ForwardedRef<HTMLTextAreaElement>
+  ref: ForwardedRef<HTMLTextAreaElement>,
 ) {
   const {
     value,

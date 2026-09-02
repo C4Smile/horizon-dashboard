@@ -17,7 +17,7 @@ export type PhotoReducerActionType = {
  */
 export function localPhotoReducer(
   state: BlobDto[],
-  action: PhotoReducerActionType
+  action: PhotoReducerActionType,
 ) {
   const { type } = action;
   switch (type) {

@@ -1,11 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-// @sito/dashboard
-import { Loading, State, TextInput } from "@sito/dashboard";
+// @sito/dashboard-app
+import { Loading, State, TextInput } from "@sito/dashboard-app";
 
 // components
 import { Logo, PasswordInput } from "components";
@@ -20,7 +19,7 @@ import { findPath, PageId } from "../sitemap";
 import { HTTPError } from "api";
 
 // lib
-import { AccountDto, LoginDto, NotificationEnumType } from "lib";
+import { LoginDto, NotificationEnumType } from "lib";
 
 /**
  * Sign Page
@@ -39,67 +38,36 @@ function SignIn() {
 
   const { handleSubmit, control, setError } = useForm<LoginDto>();
 
-  const mutationFn = useMutation<AccountDto, HTTPError, LoginDto>({
-    mutationFn: (data) => horizonApiClient.Auth.login(data),
-    onError: (error) => {
-      console.error(error);
-      if (error) {
-        const messages = parseFormError(error);
-        showStackNotifications(
-          messages.map(
-            (message) =>
-              ({
-                message,
-                type: NotificationEnumType.error,
-              }) as NotificationType
-          )
-        );
-      }
-      if (onError) onError(error);
-    },
-    onSuccess: async (result) => {
-      await queryClient.invalidateQueries({ queryKey });
-      if (onSuccess) onSuccess(result);
-      showSuccessNotification({
-        message: onSuccessMessage,
-      } as NotificationType);
-      close();
-    },
-  });
-
   const { showNotification } = useNotification();
 
   const onSubmit = async (d: LoginDto) => {
     setSaving(true);
     try {
-      const result = await horizonApiClient.Auth.login(d.username, d.password);
-      const data = await result.json();
-      // set server status to notification
-      if (data.status) {
-        if (data.status === 404)
-          setError("username", {
-            message: t(`_accessibility:messages.404`, {
-              model: t("_entities:entities.user"),
-            }),
-          });
-        else if (data.status === 401 || data.status === 400)
-          setError("password", { message: t("_accessibility:messages.401") });
-        else {
-          const request = await horizonApiClient.Auth.fetchOwner(data.user.id);
-          const horizonUser = await request.json();
-          if (horizonUser) logUser({ ...data, horizonUser });
-          else logUser({ ...data });
-        }
-      }
+      const data = await horizonApiClient.Auth.login(d);
+      const request = await horizonApiClient.Auth.fetchOwner(
+        String(data.user.id),
+      );
+      const horizonUser = await request.json();
+      logUser(horizonUser ? { ...data, horizonUser } : data);
     } catch (e: unknown) {
       console.error(e);
-      // set server status to notification
-      showNotification({
-        message: t(
-          `_accessibility:messages.${String((e as HTTPError).status ?? "notConnected")}`
-        ),
-        type: NotificationEnumType.error,
-      });
+      const status = (e as HTTPError)?.status;
+      // el server responde 404 cuando el usuario no existe y 401/400 con la clave mal
+      if (status === 404)
+        setError("username", {
+          message: t(`_accessibility:messages.404`, {
+            model: t("_entities:entities.user"),
+          }),
+        });
+      else if (status === 401 || status === 400)
+        setError("password", { message: t("_accessibility:messages.401") });
+      else
+        showNotification({
+          message: t(
+            `_accessibility:messages.${String(status ?? "notConnected")}`,
+          ),
+          type: NotificationEnumType.error,
+        });
     }
     setSaving(false);
   };
@@ -139,7 +107,7 @@ function SignIn() {
                 label={t("_entities:user.email.label")}
                 required
                 helperText={fieldState.error?.message}
-                state={userError.length ? State.error : State.default}
+                state={fieldState.error ? State.error : State.default}
               />
             )}
           />
@@ -151,14 +119,14 @@ function SignIn() {
             control={control}
             disabled={saving}
             name="password"
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <PasswordInput
                 {...field}
                 id="password"
                 label={t("_entities:user.password.label")}
                 required
-                helperText={passwordError}
-                state={passwordError.length ? State.error : State.default}
+                helperText={fieldState.error?.message}
+                state={fieldState.error ? State.error : State.default}
               />
             )}
           />

@@ -19,7 +19,7 @@ import { ReactQueryKeys } from "../../../utils/queryKeys";
 const HtmlInput = loadable(() =>
   import("components").then((module) => ({
     default: module.HtmlInput,
-  }))
+  })),
 );
 
 /**

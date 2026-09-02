@@ -1,7 +1,7 @@
 import { useState, forwardRef, ForwardedRef } from "react";
 
 // @sito
-import { TextInput, TextInputPropsType } from "@sito/dashboard";
+import { TextInput, TextInputPropsType } from "@sito/dashboard-app";
 
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,7 +9,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 export const PasswordInput = forwardRef(function (
   props: TextInputPropsType,
-  ref: ForwardedRef<HTMLInputElement>
+  ref: ForwardedRef<HTMLInputElement>,
 ) {
   const [showPassword, setShowPassword] = useState(false);
 

@@ -1,4 +1,5 @@
 export type LoginDto = {
-  email: string;
+  /** el server acepta email o username en este campo */
+  username: string;
   password: string;
 };

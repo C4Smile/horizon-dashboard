@@ -2,8 +2,8 @@ import { useState, useCallback, useEffect, useReducer } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
-// @sito/dashboard
-import { Loading } from "@sito/dashboard";
+// @sito/dashboard-app
+import { Loading } from "@sito/dashboard-app";
 
 // providers
 import { useNotification, queryClient } from "providers";
@@ -16,7 +16,11 @@ import { faAdd } from "@fortawesome/free-solid-svg-icons";
 import { useFormDialog } from "hooks";
 
 // components
-import { FormDialog, OptionResourceCommonDto, ResourceStuffPropsType } from "components";
+import {
+  FormDialog,
+  OptionResourceCommonDto,
+  ResourceStuffPropsType,
+} from "components";
 import { ResourceForm } from "./ResourceForm";
 import { ResourceRow } from "./ResourceRow";
 
@@ -26,7 +30,7 @@ import { ResourceRow } from "./ResourceRow";
  * @returns ResourceStuff component
  */
 export function ResourceStuff<TDto extends OptionResourceCommonDto>(
-  props: ResourceStuffPropsType<TDto>
+  props: ResourceStuffPropsType<TDto>,
 ) {
   const { t } = useTranslation();
 
@@ -62,7 +66,7 @@ export function ResourceStuff<TDto extends OptionResourceCommonDto>(
       case "modify": {
         const { item } = action;
         const found = state.findIndex(
-          (stem) => item.value.resourceId === stem.resourceId
+          (stem) => item.value.resourceId === stem.resourceId,
         );
         if (found >= 0) state[found] = item.value;
         return [...state];
@@ -113,7 +117,7 @@ export function ResourceStuff<TDto extends OptionResourceCommonDto>(
       }
       setSaving(false);
     },
-    [saveFn, id, setNotification, t, entityToSave, queryKey]
+    [saveFn, id, setNotification, t, entityToSave, queryKey],
   );
 
   const onSubmit = useCallback(
@@ -127,7 +131,7 @@ export function ResourceStuff<TDto extends OptionResourceCommonDto>(
       setInitial();
       save(value);
     },
-    [save]
+    [save],
   );
 
   const formProps = useFormDialog({
@@ -148,7 +152,7 @@ export function ResourceStuff<TDto extends OptionResourceCommonDto>(
         });
       formProps.dialogProps.open();
     },
-    [formProps.dialogProps, lists]
+    [formProps.dialogProps, lists],
   );
 
   const onDelete = useCallback(
@@ -171,7 +175,7 @@ export function ResourceStuff<TDto extends OptionResourceCommonDto>(
 
       setSaving(false);
     },
-    [deleteFn, entityToSave, id, queryKey, setNotification, t]
+    [deleteFn, entityToSave, id, queryKey, setNotification, t],
   );
 
   return (
@@ -180,7 +184,7 @@ export function ResourceStuff<TDto extends OptionResourceCommonDto>(
         <ResourceForm
           currentList={lists}
           resources={resources}
-          label={`${t(`_entities:${entity}.resource.${label}`)}`}
+          label={t(`_entities:${entity}.resource.${label}`)}
           inputLabel={t(`_entities:base.${inputKey}.label`)}
           inputPlaceholder={t(`_entities:base.${inputKey}.placeholder`)}
           {...formProps}
@@ -192,7 +196,7 @@ export function ResourceStuff<TDto extends OptionResourceCommonDto>(
           disabled={saving}
           resources={resources}
           key={`${cost.resourceId}-${i}`}
-          label={`${t(`_entities:${entity}.resource.${label}`)}`}
+          label={t(`_entities:${entity}.resource.${label}`)}
           inputLabel={t(`_entities:base.${inputKey}.label`)}
           onEdit={(resourceId) => openDialog(resourceId)}
           onDelete={onDelete}

@@ -18,7 +18,7 @@ import { EntityLevelRowPropsType, OptionReqCommonDto } from "./types";
  */
 export const EntityLevelRow = memo(
   function EntityRow<TDto extends OptionReqCommonDto>(
-    props: EntityLevelRowPropsType<TDto>
+    props: EntityLevelRowPropsType<TDto>,
   ) {
     const { t } = useTranslation();
 
@@ -34,7 +34,7 @@ export const EntityLevelRow = memo(
     } = props;
 
     const [entityReqId, setEntityReqId] = useState(
-      value ? value[attributeId] : null
+      value ? value[attributeId] : null,
     );
     const [level, setLevel] = useState(value?.level);
 
@@ -45,7 +45,7 @@ export const EntityLevelRow = memo(
 
     const selected = useMemo(
       () => entities.find((item) => Number(entityReqId) === item.id),
-      [entities, entityReqId]
+      [entities, entityReqId],
     );
 
     return (
@@ -98,5 +98,5 @@ export const EntityLevelRow = memo(
     }
 
     return prev.value === next.value;
-  }
+  },
 );

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
-import { Action } from "@sito/dashboard";
+import { Action } from "@sito/dashboard-app";
 import { useTranslation } from "react-i18next";
 
 // base
@@ -25,7 +25,7 @@ import { BaseEntityDto } from "lib";
  * @returns action
  */
 export const useEditAction = (
-  props: UseEditActionPropTypes
+  props: UseEditActionPropTypes,
 ): ActionHook<BaseEntityDto> => {
   const { url, hidden, disabled = false } = props;
 
@@ -47,7 +47,7 @@ export const useEditAction = (
       icon: <FontAwesomeIcon icon={faPencil} />,
       tooltip: t("_pages:common.actions.edit.text"),
     }),
-    [account?.horizonUser?.id, disabled, hidden, navigate, t, url]
+    [account?.horizonUser?.id, disabled, hidden, navigate, t, url],
   );
 
   return {

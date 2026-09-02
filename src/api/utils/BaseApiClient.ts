@@ -54,7 +54,7 @@ export class BaseApiClient<
       },
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
+      },
     );
   }
 
@@ -74,7 +74,7 @@ export class BaseApiClient<
    * @returns inserted item
    */
   async insert(value: TAddDto): Promise<TDto> {
-    return await this.api.post<TDto, TAddDto>(`${this.table}`, value, {
+    return await this.api.post<TDto, TAddDto>(this.table, value, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
   }
@@ -92,7 +92,7 @@ export class BaseApiClient<
       data,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
+      },
     );
   }
 
@@ -107,7 +107,7 @@ export class BaseApiClient<
       value,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
+      },
     );
   }
 
@@ -117,7 +117,7 @@ export class BaseApiClient<
    * @returns Result list
    */
   async get(query?: TFilter): Promise<QueryResult<TDto>> {
-    return await this.api.get<TDto, TFilter>(`${this.table}`, query, {
+    return await this.api.get<TDto, TFilter>(this.table, query, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
   }
@@ -133,7 +133,7 @@ export class BaseApiClient<
       query,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
+      },
     );
     return result.items;
   }
@@ -151,12 +151,12 @@ export class BaseApiClient<
       null,
       {
         Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
-      }
+      },
     );
   }
 
   async softDelete(ids: number[]): Promise<number> {
-    return await this.api.delete(`${this.table}`, ids, {
+    return await this.api.delete(this.table, ids, {
       Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
     });
   }

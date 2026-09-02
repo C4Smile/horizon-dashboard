@@ -24,7 +24,6 @@ import { useAccount } from "providers";
 // types
 import { SidebarPropsType } from "./types";
 
-
 /**
  * Sidebar
  * @param props - React props
@@ -42,7 +41,7 @@ export function Sidebar(props: SidebarPropsType) {
 
   const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
   const [sidebarExpanded, setSidebarExpanded] = useState(
-    storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
+    storedSidebarExpanded === null ? false : storedSidebarExpanded === "true",
   );
 
   // close on click outside
@@ -139,7 +138,7 @@ export function Sidebar(props: SidebarPropsType) {
             <ul className="mt-3">
               {menuMap
                 .filter((sideMenu) =>
-                  sideMenu.role ? sideMenu.role.indexOf(userRole) >= 0 : true
+                  sideMenu.role ? sideMenu.role.indexOf(userRole) >= 0 : true,
                 )
                 .map((item) => (
                   <SidebarLinkGroup

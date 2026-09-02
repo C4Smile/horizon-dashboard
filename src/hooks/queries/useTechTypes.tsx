@@ -13,7 +13,7 @@ import { TechTypeDto, TechTypeCommonDto } from "lib";
 import { TablesCamelCase } from "api";
 
 // hooks
-import { useTableOptions } from "@sito/dashboard";
+import { useTableOptions } from "@sito/dashboard-app";
 
 export const TechTypesQueryKeys = {
   all: () => ({

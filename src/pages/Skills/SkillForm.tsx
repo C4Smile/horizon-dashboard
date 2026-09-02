@@ -22,7 +22,7 @@ import { ReactQueryKeys } from "../../utils/queryKeys";
 const HtmlInput = loadable(() =>
   import("components").then((module) => ({
     default: module.HtmlInput,
-  }))
+  })),
 );
 
 // pages
@@ -190,8 +190,8 @@ function SkillForm() {
             <ImageUploader
               photo={photo}
               setPhoto={setPhoto}
-              label={`${t("_entities:skill.image.label")}`}
-              folder={`${ReactQueryKeys.Skills}`}
+              label={t("_entities:skill.image.label")}
+              folder={ReactQueryKeys.Skills}
             />
           )}
         </div>

@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
-// @sito/dashboard
-import { Loading } from "@sito/dashboard";
+// @sito/dashboard-app
+import { Loading } from "@sito/dashboard-app";
 
 // component
 import { Dialog } from "./Dialog.tsx";

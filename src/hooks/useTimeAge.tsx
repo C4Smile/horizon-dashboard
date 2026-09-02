@@ -44,7 +44,7 @@ function useTimeAge() {
         year: "numeric",
       });
     },
-    [t, i18n.language]
+    [t, i18n.language],
   );
 
   return { timeAge };

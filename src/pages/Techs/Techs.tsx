@@ -2,8 +2,8 @@ import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-// @sito/dashboard
-import { FilterTypes, Table, Action } from "@sito/dashboard";
+// @sito/dashboard-app
+import { FilterTypes, Table, Action } from "@sito/dashboard-app";
 
 // components
 import { TablePage, TableToolbar } from "components";
@@ -74,7 +74,7 @@ function TechPage() {
       restoreAction.action(row),
       deleteAction.action(row),
     ],
-    [editAction, restoreAction, deleteAction]
+    [editAction, restoreAction, deleteAction],
   );
 
   //#endregion Actions
@@ -102,7 +102,7 @@ function TechPage() {
       imageColumn<TechDto>("name", "image"),
     ],
     EntityName.Tech,
-    ["createdAt"]
+    ["createdAt"],
   );
 
   return (

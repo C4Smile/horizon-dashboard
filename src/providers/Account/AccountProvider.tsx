@@ -46,7 +46,7 @@ const AccountProvider = (props: AccountProviderPropsType) => {
         const loggedUser = fromLocal(config.user, "object");
         if (loggedUser) {
           const request = await horizonApiClient.Auth.fetchOwner(
-            loggedUser.user.id
+            loggedUser.user.id,
           );
           const horizonUser = await request.json();
           if (horizonUser) setAccount({ ...loggedUser, horizonUser });

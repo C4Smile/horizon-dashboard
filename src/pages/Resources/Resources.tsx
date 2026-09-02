@@ -1,8 +1,8 @@
 import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-// @sito/dashboard
-import { Action, FilterTypes, Table } from "@sito/dashboard";
+// @sito/dashboard-app
+import { Action, FilterTypes, Table } from "@sito/dashboard-app";
 
 // utils
 import { nameColumn, imageColumn, useParseColumns } from "utils";
@@ -68,7 +68,7 @@ function ResourcePage() {
       restoreAction.action(row),
       deleteAction.action(row),
     ],
-    [editAction, restoreAction, deleteAction]
+    [editAction, restoreAction, deleteAction],
   );
 
   //#endregion Actions
@@ -86,7 +86,7 @@ function ResourcePage() {
       imageColumn<ResourceDto>("name", "image"),
     ],
     EntityName.Resource,
-    []
+    [],
   );
 
   return (

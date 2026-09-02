@@ -2,7 +2,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 // components
-import { ChevronUp } from "@sito/dashboard";
+import { ChevronUp } from "@sito/dashboard-app";
 
 // types
 import { SidebarItemPropsType } from "./types";

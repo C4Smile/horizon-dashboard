@@ -57,7 +57,7 @@ export class ShipApiClient extends BaseApiClient<
     ship.urlName = toSlug(ship.name);
     // parsing html
     ship.description = draftToHtml(
-      convertToRaw(ship.description.getCurrentContent())
+      convertToRaw(ship.description.getCurrentContent()),
     );
     // saving photo
     if (photo) ship.image = photo;
@@ -74,7 +74,7 @@ export class ShipApiClient extends BaseApiClient<
     ship.urlName = toSlug(ship.name);
     // parsing html
     ship.description = draftToHtml(
-      convertToRaw(ship.description.getCurrentContent())
+      convertToRaw(ship.description.getCurrentContent()),
     );
     // saving photo
     if (photo) ship.image = photo;

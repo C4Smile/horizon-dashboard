@@ -1,0 +1,26 @@
+# Config de pnpm para v11 (v11 ya no lee el campo "pnpm" de package.json).
+# El campo en package.json se mantiene a proposito: pnpm 10 le da precedencia,
+# asi que hoy nada cambia. Al pasar a pnpm 11 este archivo toma el relevo.
+# Los valores DEBEN quedar identicos en ambos lados.
+
+packages:
+  - "."
+
+# reemplaza onlyBuiltDependencies (eliminado en v11)
+allowBuilds:
+  "@tailwindcss/oxide": true
+  esbuild: true
+
+overrides:
+  "@sito/dashboard": 0.3.1
+  nanoid: 3.3.18
+  postcss: 8.5.24
+  undici: 7.29.0
+  tar: 7.5.8
+  minimatch: 10.2.3
+
+# TS 7 es valido; i18next/react-i18next aun declaran peer typescript@^5
+peerDependencyRules:
+  allowedVersions:
+    "i18next>typescript": "7"
+    "react-i18next>typescript": "7"

@@ -2,8 +2,8 @@ import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-// @sito/dashboard
-import { Table } from "@sito/dashboard";
+// @sito/dashboard-app
+import { Table } from "@sito/dashboard-app";
 
 // images
 import noProduct from "../../assets/images/no-product.jpg";
@@ -115,7 +115,7 @@ function CannonPage() {
       restoreAction.action(row),
       deleteAction.action(row),
     ],
-    [deleteAction, editAction, restoreAction]
+    [deleteAction, editAction, restoreAction],
   );
 
   //#endregion Actions
@@ -128,7 +128,7 @@ function CannonPage() {
       "description",
       "urlName",
     ]),
-    Cannon.className
+    Cannon.className,
   );
 
   const { rows } = useParseRows(prepareRows);

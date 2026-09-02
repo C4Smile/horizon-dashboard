@@ -37,5 +37,5 @@ ReactDOM.createRoot(root).render(
         </AccountProvider>
       </HorizonApiClientProvider>
     </ThemeProvider>
-  </Router>
+  </Router>,
 );

@@ -13,7 +13,7 @@ import { ResourceDto, ResourceCommonDto } from "lib";
 import { TablesCamelCase } from "api";
 
 // hooks
-import { useTableOptions } from "@sito/dashboard";
+import { useTableOptions } from "@sito/dashboard-app";
 
 export const ResourcesQueryKeys = {
   all: () => ({

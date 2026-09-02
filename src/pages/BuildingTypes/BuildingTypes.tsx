@@ -1,8 +1,8 @@
 import { useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
-// @sito/dashboard
-import { Action, Table } from "@sito/dashboard";
+// @sito/dashboard-app
+import { Action, Table } from "@sito/dashboard-app";
 
 // components
 import { TablePage, TableToolbar } from "components";
@@ -72,7 +72,7 @@ function BuildingTypes() {
       restoreAction.action(row),
       deleteAction.action(row),
     ],
-    [editAction, restoreAction, deleteAction]
+    [editAction, restoreAction, deleteAction],
   );
 
   //#endregion Actions
@@ -83,7 +83,7 @@ function BuildingTypes() {
       imageColumn<BuildingTypeDto>("name", "image"),
     ],
     EntityName.BuildingType,
-    []
+    [],
   );
 
   return (

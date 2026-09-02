@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 // @sito/dashboar
-import { ColumnType, FilterTypes } from "@sito/dashboard";
+import { ColumnType, FilterTypes } from "@sito/dashboard-app";
 
 // images
 import noProduct from "assets/images/no-product.jpg";
@@ -34,7 +34,7 @@ export const nameColumn = <
  */
 export const imageColumn = <TDto extends BaseEntityDto>(
   altProp?: keyof TDto,
-  key?: keyof TDto
+  key?: keyof TDto,
 ) => {
   const altKey = altProp ?? ("name" as keyof TDto);
   const imageKey = key ?? ("images" as keyof TDto);

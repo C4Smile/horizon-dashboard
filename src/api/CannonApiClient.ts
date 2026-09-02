@@ -55,7 +55,7 @@ export class CannonApiClient extends BaseApiClient<
     cannon.urlName = toSlug(cannon.name);
     // parsing html
     cannon.description = draftToHtml(
-      convertToRaw(cannon.description.getCurrentContent())
+      convertToRaw(cannon.description.getCurrentContent()),
     );
     // saving photo
     if (photo) cannon.image = photo;
@@ -72,7 +72,7 @@ export class CannonApiClient extends BaseApiClient<
     cannon.urlName = toSlug(cannon.name);
     // parsing html
     cannon.description = draftToHtml(
-      convertToRaw(cannon.description.getCurrentContent())
+      convertToRaw(cannon.description.getCurrentContent()),
     );
     // saving photo
     if (photo) cannon.image = photo;

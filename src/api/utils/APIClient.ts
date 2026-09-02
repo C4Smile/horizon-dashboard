@@ -14,14 +14,14 @@ export class APIClient {
     method = "GET",
     query?: string,
     body?: TBody,
-    headers?: HeadersInit
+    headers?: HeadersInit,
   ) {
     const builtUrl = buildQueryUrl(endpoint, query);
     const { data: result, error } = await makeRequest(
       builtUrl,
       method,
       body,
-      headers
+      headers,
     );
     if (error) throw new Error(error.message);
 
@@ -37,14 +37,14 @@ export class APIClient {
   async get<TDto, TFilter>(
     endpoint: string,
     query?: TFilter,
-    headers?: HeadersInit
+    headers?: HeadersInit,
   ) {
     const builtUrl = buildQueryUrl<TFilter>(endpoint, query);
     const { data: result, error } = await makeRequest(
       builtUrl,
       "GET",
       null,
-      headers
+      headers,
     );
     if (error) throw new Error(`${error.status} ${error.message}`);
 
@@ -60,13 +60,13 @@ export class APIClient {
   async patch<TDto, TUpdateDto>(
     endpoint: string,
     data: TUpdateDto,
-    headers?: HeadersInit
+    headers?: HeadersInit,
   ): Promise<TDto> {
     const { error, data: result } = await makeRequest<TUpdateDto, TDto>(
       endpoint,
       "PATCH",
       data,
-      headers
+      headers,
     );
 
     if (error) throw new Error(error.message);
@@ -84,7 +84,7 @@ export class APIClient {
       endpoint,
       "DELETE",
       data,
-      headers
+      headers,
     );
 
     if (error) throw new Error(error.message);
@@ -101,13 +101,13 @@ export class APIClient {
   async post<TDto, TAddDto>(
     endpoint: string,
     data: TAddDto,
-    headers?: HeadersInit
+    headers?: HeadersInit,
   ): Promise<TDto> {
     const { error, data: result } = await makeRequest<TAddDto, TDto>(
       endpoint,
       "POST",
       data,
-      headers
+      headers,
     );
 
     if (error) throw new Error(error.message);

@@ -135,3 +135,10 @@ dist
 
 *.cache
 /.idea
+# toolchain (mirror sito-wallet)
+dist-ssr
+playwright-report
+test-results
+dev-dist
+*.local
+.vite

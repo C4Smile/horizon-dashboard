@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import { t } from "i18next";
 
-// @sito/dashboard
-import { ColumnType, FilterTypes } from "@sito/dashboard";
+// @sito/dashboard-app
+import { ColumnType, FilterTypes } from "@sito/dashboard-app";
 
 // api
 import { EntityName } from "api";
@@ -70,13 +70,13 @@ export const prefabBaseColumns = <
 export const useParseColumns = <TDto extends BaseEntityDto>(
   columns: ColumnType<TDto>[],
   entity: EntityName,
-  toIgnore: string[] = []
+  toIgnore: string[] = [],
 ) => {
   const parsedColumns = useMemo(
     () =>
       [
         ...prefabBaseColumns().filter(
-          (base) => toIgnore.indexOf(base.key) === -1
+          (base) => toIgnore.indexOf(base.key) === -1,
         ),
         ...columns,
       ].map(({ key, renderBody, label, pos, ...rest }) => {
@@ -85,14 +85,14 @@ export const useParseColumns = <TDto extends BaseEntityDto>(
           label:
             label ??
             t(
-              `_entities:${isBaseColumn(key as string) ? "base" : entity}.${key as string}.label`
+              `_entities:${isBaseColumn(key as string) ? "base" : entity}.${key as string}.label`,
             ),
           renderBody,
           pos: pos ?? 0,
           ...rest,
         };
       }),
-    [columns, entity, toIgnore]
+    [columns, entity, toIgnore],
   );
 
   return { columns: parsedColumns };

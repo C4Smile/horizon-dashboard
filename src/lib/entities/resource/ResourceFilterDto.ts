@@ -2,5 +2,4 @@ import { BaseFilterDto } from "../base";
 import { ResourceDto } from "./ResourceDto";
 
 export interface ResourceFilterDto
-  extends Partial<ResourceDto>,
-    BaseFilterDto {}
+  extends Partial<ResourceDto>, BaseFilterDto {}

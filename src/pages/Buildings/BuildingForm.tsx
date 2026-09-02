@@ -144,7 +144,7 @@ function BuildingForm() {
           id: Number(id),
           label: t(`_pages:buildings.tabs.${id}`),
         })),
-    [id, t]
+    [id, t],
   );
 
   const content = useMemo(
@@ -260,7 +260,7 @@ function BuildingForm() {
       techsList,
       buildingsList,
       horizonApiClient,
-    ]
+    ],
   );
 
   return notFound ? (

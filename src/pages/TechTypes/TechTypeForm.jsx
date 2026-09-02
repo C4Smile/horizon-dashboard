@@ -5,8 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 import loadable from "@loadable/component";
 
-// @sito/dashboard
-import { Loading, TextInput } from "@sito/dashboard";
+// @sito/dashboard-app
+import { Loading, TextInput } from "@sito/dashboard-app";
 
 // components
 import { ImageUploader } from "components";
@@ -170,8 +170,8 @@ function TechTypeForm() {
             <ImageUploader
               photo={photo}
               setPhoto={setPhoto}
-              label={`${t("_entities:techType.image.label")}`}
-              folder={`${ReactQueryKeys.TechTypes}`}
+              label={t("_entities:techType.image.label")}
+              folder={ReactQueryKeys.TechTypes}
             />
           )}
         </div>

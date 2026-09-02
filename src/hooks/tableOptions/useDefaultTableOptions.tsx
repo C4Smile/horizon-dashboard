@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useTableOptions, SortOrder } from "@sito/dashboard";
+import { useTableOptions, SortOrder } from "@sito/dashboard-app";
 
 // types
 import { UseDefaultTableOptions } from "./types";

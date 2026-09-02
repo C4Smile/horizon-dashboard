@@ -16,7 +16,8 @@ export type UseApiQueryPropsType<TResponseDto extends BaseEntityDto> = {
   queryKey: QueryKey;
 };
 
-export interface ApiQueryResult<TResponseDto extends BaseEntityDto>
-  extends Omit<UseQueryResult<QueryResult<TResponseDto>>, "setTotal"> {
+export interface ApiQueryResult<
+  TResponseDto extends BaseEntityDto,
+> extends Omit<UseQueryResult<QueryResult<TResponseDto>>, "setTotal"> {
   setTotal: (total: number) => void;
 }

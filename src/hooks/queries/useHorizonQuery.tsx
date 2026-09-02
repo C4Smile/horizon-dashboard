@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
-// @sito/dashboard
-import { useTableOptions } from "@sito/dashboard";
+// @sito/dashboard-app
+import { useTableOptions } from "@sito/dashboard-app";
 
 // types
 import { UseApiQueryPropsType, ApiQueryResult } from "./types";
@@ -15,7 +15,7 @@ import { BaseEntityDto } from "lib";
  * @returns useApiQuery
  */
 export const useHorizonQuery = <TResponseDto extends BaseEntityDto>(
-  props: UseApiQueryPropsType<TResponseDto>
+  props: UseApiQueryPropsType<TResponseDto>,
 ): ApiQueryResult<TResponseDto> => {
   const { getFunction, queryKey } = props;
 

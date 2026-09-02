@@ -28,11 +28,11 @@ export function Links(props: LinksPropsTypes) {
     <nav className={`flex bg-slate-200 w-full px-4 ${navClassName}`}>
       <Link
         className={`px-3 py-2 ${linksClassName} ${
-          pathname === `${pathName}`
+          pathname === pathName
             ? "text-light-primary/40 disabled-link"
             : "text-primary hover:text-dark-primary"
         }`}
-        to={`${pathName}`}
+        to={pathName}
       >
         {t("_accessibility:buttons.list")}
       </Link>

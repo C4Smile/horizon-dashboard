@@ -21,11 +21,11 @@ export async function makeRequest<TBody, TResponse>(
   url: string,
   method = "GET",
   body?: TBody,
-  h?: HeadersInit
+  h?: HeadersInit,
 ): Promise<HTTPResponse<TResponse>> {
   const headers = {
     "Content-Type": "application/json",
-    ...(h ?? {}),
+    ...h,
   };
   const options: RequestInit = {
     method,
@@ -47,7 +47,7 @@ export async function makeRequest<TBody, TResponse>(
 
 export function buildQueryUrl<TFilter>(
   endpoint: string,
-  params?: TFilter
+  params?: TFilter,
 ): string {
   if (params) {
     const queryString = Object.entries(params)

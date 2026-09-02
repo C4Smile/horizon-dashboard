@@ -1,2 +1,2 @@
 export * from "./PhotoDto";
-export * from "./BlobDto"
+export * from "./BlobDto";
