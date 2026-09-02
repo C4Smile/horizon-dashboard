@@ -1,7 +1,8 @@
 import { test, expect } from "@playwright/test";
 
-// ─── Credentials (set via env in CI) ─────────────────────────────────────────
-const USER = process.env.E2E_USER ?? "administrador";
+// ─── Credentials (set via env in CI). The shared sign in view takes an
+// email, the server matches it against either email or username ─────────────────────────────────────────
+const USER = process.env.E2E_USER ?? "administrador@email.com";
 const PASSWORD = process.env.E2E_PASSWORD ?? "horizon123";
 
 // ─── Smoke tests ─────────────────────────────────────────────────────────────
@@ -26,8 +27,8 @@ test.describe("E2E Smoke – shell", () => {
   }) => {
     await page.goto("/auth");
 
-    await page.locator("#email").fill(USER);
-    await page.locator("#password").fill(PASSWORD);
+    await page.locator("#sign-in-email").fill(USER);
+    await page.locator("#sign-in-password").fill(PASSWORD);
     await page.getByRole("button", { name: /enviar|entrar|submit/i }).click();
 
     await expect(page).not.toHaveURL(/\/auth/, { timeout: 15_000 });

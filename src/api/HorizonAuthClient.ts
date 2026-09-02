@@ -120,9 +120,12 @@ export class HorizonAuthClient extends RestSessionAuthClient {
 
     if (!bearer) throw new Error("No stored session");
 
-    // throws 401 when the token is no longer good, which is what the shared
-    // AuthProvider uses to decide it has to log the user out
-    await this.api.doQuery("auth/validate", Methods.GET);
+    // RestSessionAuthClient builds its APIClient unauthenticated, so the probe
+    // has to carry the token itself. Throws 401 when the token is no longer
+    // good, which is what the shared AuthProvider reads as "log the user out"
+    await this.api.doQuery("auth/validate", Methods.GET, undefined, {
+      Authorization: `Bearer ${bearer}`,
+    });
 
     const payload = decodeJwtPayload(bearer);
     if (!payload) throw new Error("Unreadable session token");
