@@ -67,7 +67,7 @@ export class HorizonApiClient {
       "GET",
       null,
       {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+        Authorization: "Bearer " + fromLocal(config.user, "string"),
       },
     );
     if (error !== null) return { status, error: { message: error.message } };

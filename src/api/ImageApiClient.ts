@@ -30,7 +30,7 @@ export class ImageApiClient {
    */
   async insertImage(photo: BlobDto) {
     const { error, data, status } = await makeRequest("images", "POST", photo, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      Authorization: "Bearer " + fromLocal(config.user, "string"),
     });
     return { error, data, status: status === 204 ? 201 : status };
   }
@@ -84,7 +84,7 @@ export class ImageApiClient {
         "POST",
         { base64: base64 as string, folder, fileName: photo.name },
         {
-          Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+          Authorization: "Bearer " + fromLocal(config.user, "string"),
         },
       );
 
@@ -109,7 +109,7 @@ export class ImageApiClient {
    */
   async deleteImage(id: string) {
     const { error } = await makeRequest(`images/${id}`, "DELETE", null, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      Authorization: "Bearer " + fromLocal(config.user, "string"),
     });
     if (error) return error.status;
     return 200;

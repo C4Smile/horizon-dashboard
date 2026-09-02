@@ -12,4 +12,6 @@ export interface UserDto extends BaseEntityDto {
   urlName: string;
   image: PhotoDto;
   roleId: number;
+  /** id of the auth user this horizon user is linked to */
+  userId: number;
 }

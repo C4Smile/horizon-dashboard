@@ -20,7 +20,7 @@ export class AuthApiClient {
       "GET",
       null,
       {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+        Authorization: "Bearer " + fromLocal(config.user, "string"),
       },
     );
     return {
@@ -42,7 +42,7 @@ export class AuthApiClient {
       "GET",
       null,
       {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+        Authorization: "Bearer " + fromLocal(config.user, "string"),
       },
     );
     return { data, status: error?.status ?? status, error };
@@ -58,7 +58,7 @@ export class AuthApiClient {
       "GET",
       null,
       {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+        Authorization: "Bearer " + fromLocal(config.user, "string"),
       },
     );
     return { data, status: error?.status ?? status, error };

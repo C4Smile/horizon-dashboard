@@ -41,7 +41,7 @@ export class BaseManyApiClient<
    */
   async get(id: number, query?: TFilter) {
     return await this.api.get<TDto, TFilter>(`${this.table}/${id}`, query, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      Authorization: "Bearer " + fromLocal(config.user, "string"),
     });
   }
 
@@ -53,7 +53,7 @@ export class BaseManyApiClient<
    */
   async insert(id: number, value: TAddDto): Promise<TDto> {
     return await this.api.post<TDto, TAddDto>(`${this.table}/${id}`, value, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      Authorization: "Bearer " + fromLocal(config.user, "string"),
     });
   }
 
@@ -69,7 +69,7 @@ export class BaseManyApiClient<
       "",
       data,
       {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+        Authorization: "Bearer " + fromLocal(config.user, "string"),
       },
     );
   }
@@ -82,7 +82,7 @@ export class BaseManyApiClient<
    */
   async delete(id: number, ids: number[]): Promise<number> {
     return await this.api.delete(`${this.table}/${id}`, ids, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      Authorization: "Bearer " + fromLocal(config.user, "string"),
     });
   }
 }

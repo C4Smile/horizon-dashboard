@@ -65,7 +65,7 @@ export class BaseApiClient<
         userId,
       },
       {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+        Authorization: "Bearer " + fromLocal(config.user, "string"),
       },
     );
   }
@@ -76,7 +76,7 @@ export class BaseApiClient<
    */
   async release(entityId: number) {
     return await this.api.patch(`${this.table}/${entityId}/release`, null, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      Authorization: "Bearer " + fromLocal(config.user, "string"),
     });
   }
 
@@ -87,7 +87,7 @@ export class BaseApiClient<
    */
   async insert(value: TAddDto): Promise<TDto> {
     return await this.api.post<TDto, TAddDto>(this.table, value, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      Authorization: "Bearer " + fromLocal(config.user, "string"),
     });
   }
 
@@ -103,7 +103,7 @@ export class BaseApiClient<
       "",
       data,
       {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+        Authorization: "Bearer " + fromLocal(config.user, "string"),
       },
     );
   }
@@ -128,7 +128,7 @@ export class BaseApiClient<
       `${this.table}/${value.id}`,
       value,
       {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+        Authorization: "Bearer " + fromLocal(config.user, "string"),
       },
     );
   }
@@ -140,7 +140,7 @@ export class BaseApiClient<
    */
   async get(query?: TFilter): Promise<QueryResult<TDto>> {
     return await this.api.get<TDto, TFilter>(this.table, query, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      Authorization: "Bearer " + fromLocal(config.user, "string"),
     });
   }
 
@@ -154,7 +154,7 @@ export class BaseApiClient<
       `${this.table}/common`,
       query,
       {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+        Authorization: "Bearer " + fromLocal(config.user, "string"),
       },
     );
     return result.items;
@@ -172,20 +172,20 @@ export class BaseApiClient<
       "",
       null,
       {
-        Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+        Authorization: "Bearer " + fromLocal(config.user, "string"),
       },
     );
   }
 
   async softDelete(ids: number[]): Promise<number> {
     return await this.api.delete(this.table, ids, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      Authorization: "Bearer " + fromLocal(config.user, "string"),
     });
   }
 
   async restore(ids: number[]): Promise<number> {
     return await this.api.patch(`${this.table}/restore`, ids, {
-      Authorization: "Bearer " + fromLocal(config.user, "object")?.token,
+      Authorization: "Bearer " + fromLocal(config.user, "string"),
     });
   }
 

@@ -9,13 +9,7 @@ import { Loading } from "@sito/dashboard-app";
 import { PasswordInput } from "components";
 
 // providers
-import { useHorizonApiClient, useNotification } from "providers";
-
-// utils
-import { fromLocal } from "utils";
-
-// config
-import config from "../../../config";
+import { useAccount, useHorizonApiClient, useNotification } from "providers";
 
 /**
  * Security section
@@ -26,7 +20,9 @@ function Security() {
 
   const horizonApiClient = useHorizonApiClient();
 
-  const userId = fromLocal(config.user, "object")?.id;
+  const { account } = useAccount();
+
+  const userId = account.horizonUser?.userId;
 
   const { showNotification } = useNotification();
   const [saving, setSaving] = useState(false);

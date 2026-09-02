@@ -1,6 +1,5 @@
-export type UseConfirmationPropsType<TInDto, TError extends Error> = {
-  mutationFn: (data: TInDto[]) => Promise<TInDto>;
-  onError?: (error: TError) => void;
-  onSuccess?: (data: TInDto) => void | Promise<void>;
-  onSuccessMessage?: string;
-};
+// the confirmation form contract lives in the shared library
+export type {
+  UseBaseFormProps,
+  UseConfirmationPropsType,
+} from "@sito/dashboard-app";
