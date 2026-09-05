@@ -8,7 +8,7 @@ import { ColumnType, FilterTypes } from "@sito/dashboard-app";
 import { EntityName } from "api";
 import { BaseEntityDto } from "lib";
 
-export const baseColumns = ["id", "createdAt", "updatedAt", "deleted"];
+export const baseColumns = ["id", "dateOfCreation", "lastUpdate", "deleted"];
 
 /**
  *
@@ -30,7 +30,7 @@ export const prefabBaseColumns = <
     pos: 1,
   },
   {
-    key: "updatedAt",
+    key: "lastUpdate",
     className: "w-56",
     filterOptions: { type: FilterTypes.date, defaultValue: "" },
     renderBody: (lastUpdate: string) =>
@@ -38,7 +38,7 @@ export const prefabBaseColumns = <
     pos: -1,
   },
   {
-    key: "createdAt",
+    key: "dateOfCreation",
     filterOptions: { type: FilterTypes.date, defaultValue: "" },
     renderBody: (dateOfCreation: string) =>
       new Date(dateOfCreation).toLocaleDateString("es-ES"),

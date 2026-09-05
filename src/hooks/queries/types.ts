@@ -7,6 +7,12 @@ export type UseFetchPropsType<TFilterDto> = {
   filters?: TFilterDto;
 };
 
+/**
+ * The table options a list query is keyed on, so react-query refetches when the
+ * user sorts, pages or filters instead of serving the first page forever
+ */
+export type TableQueryOptions = Record<string, unknown>;
+
 export type UseFetchByIdPropsType = {
   id: number;
 };

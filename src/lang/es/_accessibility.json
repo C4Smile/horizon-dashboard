@@ -11,7 +11,11 @@
   "components": {
     "table": {
       "filters": {
-        "title": "Filtros"
+        "title": "Filtros",
+        "range": {
+          "start": "Desde",
+          "end": "Hasta"
+        }
       },
       "pageSizes": "Filas por página",
       "jumpToPage": "Saltar a página",
@@ -19,7 +23,10 @@
       "to": "al",
       "of": "de",
       "results": "resultados",
-      "empty": "No hay resultados"
+      "empty": "No hay resultados",
+      "selectAllRows": "Seleccionar todas las filas",
+      "selectRow": "Seleccionar fila",
+      "selectedCount": "{{count}} seleccionados"
     }
   },
   "appName": "Horizon dashboard",
@@ -48,7 +55,19 @@
     "previous": "Anterior",
     "next": "Próximo",
     "showFilters": "Mostrar filtros",
-    "apply": "Aplicar"
+    "apply": "Aplicar",
+    "toTop": "Ir arriba",
+    "openMenu": "Abrir menú",
+    "closeNotification": "Cerrar notificación",
+    "back": "Atrás",
+    "startAsGuest": "Entrar como invitado",
+    "skip": "Saltar",
+    "openActions": "Abrir acciones",
+    "columns": "Columnas",
+    "filters": "Filtros",
+    "clear": "Limpiar",
+    "applyFilters": "Aplicar filtros",
+    "reset": "Restablecer"
   },
   "labels": {
     "require": "Requiere",
@@ -60,12 +79,37 @@
     "sailors": "marineros",
     "knots": "nudos",
     "days": "días",
-    "locked": "Este elemento está bloqueado por otro usuario"
+    "locked": "Este elemento está bloqueado por otro usuario",
+    "ago": "hace",
+    "minute": "minuto",
+    "minutes": "minutos",
+    "hour": "hora",
+    "hours": "horas",
+    "yesterday": "ayer",
+    "justNow": "justo ahora",
+    "file": "Archivo"
   },
   "tooltips": "",
-  "ariaLabels": "",
+  "ariaLabels": {
+    "closeDialog": "Cerrar diálogo",
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "ok": "Aceptar",
+    "hidePassword": "Ocultar contraseña",
+    "showPassword": "Mostrar contraseña",
+    "bottomNavigationAction": "Acción de navegación",
+    "closeMenu": "Cerrar menú",
+    "openMenu": "Abrir menú",
+    "closeNotification": "Cerrar notificación",
+    "start": "Empezar",
+    "skip": "Saltar",
+    "next": "Siguiente"
+  },
   "errors": {
-    "passwordDoNotMatch": "Las contraseñas no coinciden"
+    "passwordDoNotMatch": "Las contraseñas no coinciden",
+    "invalidImportPayload": "El archivo no tiene el formato esperado",
+    "failedToParseFile": "No se pudo leer el archivo",
+    "unknownError": "Ha ocurrido un error inesperado"
   },
   "messages": {
     "notConnected": "No se estableció conexión con el servidor",
@@ -81,6 +125,13 @@
     "404": "{{model}} no encontrado",
     "409": "{{model}} ya existe",
     "429": "Límite de correos electrónicos excedido",
-    "500": "Algo salió mal"
+    "500": "Algo salió mal",
+    "empty": "No hay elementos"
+  },
+  "actions": {
+    "retry": "Reintentar"
+  },
+  "network": {
+    "offline": "Sin conexión"
   }
 }

@@ -4,7 +4,7 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useHorizonApiClient } from "providers";
 
 // types
-import { ApiQueryResult } from "./types.ts";
+import { ApiQueryResult, TableQueryOptions } from "./types.ts";
 
 // lib
 import { ShipDto, ShipCommonDto } from "lib";
@@ -19,8 +19,8 @@ export const ShipsQueryKeys = {
   all: () => ({
     queryKey: [Tables.Ships],
   }),
-  list: () => ({
-    queryKey: [...ShipsQueryKeys.all().queryKey, "list"],
+  list: (options?: TableQueryOptions) => ({
+    queryKey: [...ShipsQueryKeys.all().queryKey, "list", options ?? {}],
   }),
   common: () => ({
     queryKey: [...ShipsQueryKeys.all().queryKey, "common"],
@@ -42,7 +42,13 @@ export function useShipsList(): ApiQueryResult<ShipDto> {
         pageSize,
         ...filters,
       }),
-    ...ShipsQueryKeys.list(),
+    ...ShipsQueryKeys.list({
+      sortingBy,
+      sortingOrder,
+      currentPage,
+      pageSize,
+      ...filters,
+    }),
   });
 
   return {

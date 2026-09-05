@@ -35,7 +35,8 @@
       "label": ""
     },
     "deleted": {
-      "label": "Eliminado"
+      "label": "Eliminado",
+      "filter": "Mostrar eliminados"
     },
     "lastUpdate": {
       "label": "Última actualización"
@@ -72,7 +73,11 @@
     "admin": "Administrador",
     "1": "Administrador",
     "user": "Usuario",
-    "2": "Usuario"
+    "2": "Usuario",
+    "administrator": "Administrador",
+    "Administrator": "Administrador",
+    "player": "Usuario",
+    "Player": "Usuario"
   },
   "building": {
     "name": {

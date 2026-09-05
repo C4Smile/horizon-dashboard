@@ -20,6 +20,27 @@
           "title": "Restaurar elemento",
           "message": "¿Seguro que quieres restaurar este elemento?"
         }
+      },
+      "refresh": {
+        "text": "Actualizar"
+      },
+      "export": {
+        "text": "Exportar",
+        "successMessage": "Elementos exportados",
+        "dialog": {
+          "title": "Exportar elementos"
+        }
+      },
+      "import": {
+        "text": "Importar",
+        "dialog": {
+          "title": "Importar elementos"
+        },
+        "override": "Sobrescribir los que ya existan",
+        "previewCount": "{{count}} elementos en el archivo",
+        "statusExisting": "Ya existe",
+        "statusWillCreate": "Se creará",
+        "statusConflict": "Conflicto"
       }
     }
   },
@@ -38,7 +59,8 @@
     }
   },
   "home": {
-    "welcome": "Bienvenido"
+    "welcome": "Bienvenido",
+    "appName": "Horizon"
   },
   "search": {
     "label": "Buscar",

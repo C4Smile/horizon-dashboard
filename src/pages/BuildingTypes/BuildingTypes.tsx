@@ -88,7 +88,7 @@ function BuildingTypes() {
 
   return (
     <TablePage
-      title={t("_pages:game.links.techTypes")}
+      title={t("_pages:game.links.buildingTypes")}
       pageKey={PageId.techTypes}
     >
       <ConfirmationDialog {...deleteAction}>

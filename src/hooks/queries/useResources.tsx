@@ -4,7 +4,7 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useHorizonApiClient } from "providers";
 
 // types
-import { ApiQueryResult } from "./types.ts";
+import { ApiQueryResult, TableQueryOptions } from "./types.ts";
 
 // lib
 import { ResourceDto, ResourceCommonDto } from "lib";
@@ -19,8 +19,8 @@ export const ResourcesQueryKeys = {
   all: () => ({
     queryKey: [Tables.Resources],
   }),
-  list: () => ({
-    queryKey: [...ResourcesQueryKeys.all().queryKey, "list"],
+  list: (options?: TableQueryOptions) => ({
+    queryKey: [...ResourcesQueryKeys.all().queryKey, "list", options ?? {}],
   }),
   common: () => ({
     queryKey: [...ResourcesQueryKeys.all().queryKey, "common"],
@@ -42,7 +42,13 @@ export function useResourcesList(): ApiQueryResult<ResourceDto> {
         pageSize,
         ...filters,
       }),
-    ...ResourcesQueryKeys.list(),
+    ...ResourcesQueryKeys.list({
+      sortingBy,
+      sortingOrder,
+      currentPage,
+      pageSize,
+      ...filters,
+    }),
   });
 
   return {

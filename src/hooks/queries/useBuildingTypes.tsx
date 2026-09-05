@@ -4,7 +4,7 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useHorizonApiClient } from "providers";
 
 // types
-import { ApiQueryResult } from "./types.ts";
+import { ApiQueryResult, TableQueryOptions } from "./types.ts";
 
 // lib
 import { BuildingTypeDto, BuildingTypeCommonDto } from "lib";
@@ -19,8 +19,8 @@ export const BuildingTypesQueryKeys = {
   all: () => ({
     queryKey: [Tables.BuildingTypes],
   }),
-  list: () => ({
-    queryKey: [...BuildingTypesQueryKeys.all().queryKey, "list"],
+  list: (options?: TableQueryOptions) => ({
+    queryKey: [...BuildingTypesQueryKeys.all().queryKey, "list", options ?? {}],
   }),
   common: () => ({
     queryKey: [...BuildingTypesQueryKeys.all().queryKey, "common"],
@@ -42,7 +42,13 @@ export function useBuildingTypesList(): ApiQueryResult<BuildingTypeDto> {
         pageSize,
         ...filters,
       }),
-    ...BuildingTypesQueryKeys.list(),
+    ...BuildingTypesQueryKeys.list({
+      sortingBy,
+      sortingOrder,
+      currentPage,
+      pageSize,
+      ...filters,
+    }),
   });
 
   return {

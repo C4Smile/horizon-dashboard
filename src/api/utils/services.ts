@@ -60,8 +60,10 @@ export function buildQueryUrl<TFilter>(
 ): string {
   if (params) {
     const queryString = Object.entries(params)
+      // only empties are dropped: 0 and false are meaningful here, page 0 is
+      // the first page and deleted=false is the default list filter
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      .filter(([_, value]) => !!value)
+      .filter(([_, value]) => value !== undefined && value !== null && value !== "")
       .flatMap(([key, value]) => {
         if (Array.isArray(value))
           return value.map((v) => `${key}[]=${encodeURIComponent(v.id ?? v)}`);

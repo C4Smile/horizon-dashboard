@@ -102,7 +102,7 @@ function TechPage() {
       imageColumn<TechDto>("name", "image"),
     ],
     EntityName.Tech,
-    ["createdAt"],
+    ["dateOfCreation"],
   );
 
   return (

@@ -78,7 +78,7 @@ function ResourcePage() {
       nameColumn<ResourceDto>(),
       {
         key: "baseFactor",
-        label: t("_entities.resource.baseFactor.label"),
+        label: t("_entities:resource.baseFactor.label"),
         filterOptions: {
           type: FilterTypes.number,
         },

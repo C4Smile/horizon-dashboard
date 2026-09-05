@@ -107,7 +107,7 @@ function BuildingPage() {
       imageColumn<BuildingDto>(),
     ],
     EntityName.Building,
-    ["createdAt"],
+    ["dateOfCreation"],
   );
 
   return (

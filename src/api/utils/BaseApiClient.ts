@@ -22,6 +22,35 @@ import {
 // types
 import { HttpRequestError } from "./types";
 
+/** what the api falls back to when the table has not set a page size yet */
+const DEFAULT_PAGE_SIZE = 20;
+
+/**
+ * @description The table components speak in sortingBy/sortingOrder/currentPage/
+ * pageSize, the api reads sort/order/page/count. Controllers that default those
+ * silently ignored the ui names, which is why paging and sorting never took
+ * effect, and horizonUser, which does not default them, answered a 500.
+ * @param query - filters plus the table options
+ * @returns the same filters with the paging keys the api understands
+ */
+export function toServerQuery<TFilter extends BaseFilterDto>(
+  query?: TFilter,
+): TFilter | undefined {
+  if (!query) return query;
+
+  const { sortingBy, sortingOrder, currentPage, pageSize, ...filters } = query;
+
+  // page and count always travel: the api multiplies them for the offset and
+  // the controllers that do not default them answer a 500 on NaN
+  return {
+    ...filters,
+    ...(sortingBy ? { sort: sortingBy } : {}),
+    ...(sortingOrder ? { order: sortingOrder } : {}),
+    page: currentPage ?? 0,
+    count: pageSize ?? DEFAULT_PAGE_SIZE,
+  } as unknown as TFilter;
+}
+
 /**
  * @description What every form reads back from a create/update call
  */
@@ -139,9 +168,13 @@ export class BaseApiClient<
    * @returns Result list
    */
   async get(query?: TFilter): Promise<QueryResult<TDto>> {
-    return await this.api.get<TDto, TFilter>(this.table, query, {
-      Authorization: "Bearer " + fromLocal(config.user, "string"),
-    });
+    return await this.api.get<TDto, TFilter>(
+      this.table,
+      toServerQuery(query),
+      {
+        Authorization: "Bearer " + fromLocal(config.user, "string"),
+      },
+    );
   }
 
   /**
@@ -154,7 +187,7 @@ export class BaseApiClient<
   async commonGet(query?: TFilter): Promise<TCommonDto[]> {
     const result = await this.api.get<TCommonDto, TFilter>(
       this.table,
-      query,
+      toServerQuery(query),
       {
         Authorization: "Bearer " + fromLocal(config.user, "string"),
       },

@@ -4,7 +4,7 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useHorizonApiClient } from "providers";
 
 // types
-import { ApiQueryResult } from "./types.ts";
+import { ApiQueryResult, TableQueryOptions } from "./types.ts";
 
 // lib
 import { SkillDto, SkillCommonDto } from "lib";
@@ -19,8 +19,8 @@ export const SkillsQueryKeys = {
   all: () => ({
     queryKey: [Tables.Skills],
   }),
-  list: () => ({
-    queryKey: [...SkillsQueryKeys.all().queryKey, "list"],
+  list: (options?: TableQueryOptions) => ({
+    queryKey: [...SkillsQueryKeys.all().queryKey, "list", options ?? {}],
   }),
   common: () => ({
     queryKey: [...SkillsQueryKeys.all().queryKey, "common"],
@@ -42,7 +42,13 @@ export function useSkillsList(): ApiQueryResult<SkillDto> {
         pageSize,
         ...filters,
       }),
-    ...SkillsQueryKeys.list(),
+    ...SkillsQueryKeys.list({
+      sortingBy,
+      sortingOrder,
+      currentPage,
+      pageSize,
+      ...filters,
+    }),
   });
 
   return {

@@ -27,7 +27,7 @@ export enum Tables {
   TechReqBuildings = "techReqBuildings",
   TechReqTechs = "techReqTechs",
   TechTypes = "techTypes",
-  Users = "users",
+  Users = "horizonUser",
 }
 
 export enum EntityName {

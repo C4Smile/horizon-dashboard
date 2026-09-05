@@ -4,7 +4,7 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useHorizonApiClient } from "providers";
 
 // types
-import { ApiQueryResult } from "./types.ts";
+import { ApiQueryResult, TableQueryOptions } from "./types.ts";
 
 // lib
 import { UserDto, UserCommonDto } from "lib";
@@ -19,8 +19,8 @@ export const UsersQueryKeys = {
   all: () => ({
     queryKey: [Tables.Users],
   }),
-  list: () => ({
-    queryKey: [...UsersQueryKeys.all().queryKey, "list"],
+  list: (options?: TableQueryOptions) => ({
+    queryKey: [...UsersQueryKeys.all().queryKey, "list", options ?? {}],
   }),
   common: () => ({
     queryKey: [...UsersQueryKeys.all().queryKey, "common"],
@@ -42,7 +42,13 @@ export function useUsersList(): ApiQueryResult<UserDto> {
         pageSize,
         ...filters,
       }),
-    ...UsersQueryKeys.list(),
+    ...UsersQueryKeys.list({
+      sortingBy,
+      sortingOrder,
+      currentPage,
+      pageSize,
+      ...filters,
+    }),
   });
 
   return {

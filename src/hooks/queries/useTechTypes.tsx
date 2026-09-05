@@ -4,7 +4,7 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useHorizonApiClient } from "providers";
 
 // types
-import { ApiQueryResult } from "./types.ts";
+import { ApiQueryResult, TableQueryOptions } from "./types.ts";
 
 // lib
 import { TechTypeDto, TechTypeCommonDto } from "lib";
@@ -19,8 +19,8 @@ export const TechTypesQueryKeys = {
   all: () => ({
     queryKey: [Tables.TechTypes],
   }),
-  list: () => ({
-    queryKey: [...TechTypesQueryKeys.all().queryKey, "list"],
+  list: (options?: TableQueryOptions) => ({
+    queryKey: [...TechTypesQueryKeys.all().queryKey, "list", options ?? {}],
   }),
   common: () => ({
     queryKey: [...TechTypesQueryKeys.all().queryKey, "common"],
@@ -42,7 +42,13 @@ export function useTechTypesList(): ApiQueryResult<TechTypeDto> {
         pageSize,
         ...filters,
       }),
-    ...TechTypesQueryKeys.list(),
+    ...TechTypesQueryKeys.list({
+      sortingBy,
+      sortingOrder,
+      currentPage,
+      pageSize,
+      ...filters,
+    }),
   });
 
   return {
