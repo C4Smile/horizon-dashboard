@@ -11,6 +11,17 @@ import { PasswordInput } from "components";
 // providers
 import { useAccount, useHorizonApiClient, useNotification } from "providers";
 
+// api
+import { isHttpRequestError } from "api";
+
+// lib
+import { NotificationEnumType, UserUpdateDto } from "lib";
+
+type SecurityFormType = {
+  password: string;
+  rPassword: string;
+};
+
 /**
  * Security section
  * @returns Security component
@@ -24,32 +35,34 @@ function Security() {
 
   const userId = account.horizonUser?.userId;
 
-  const { showNotification } = useNotification();
+  const { setNotification, showNotification } = useNotification();
   const [saving, setSaving] = useState(false);
 
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit, control } = useForm<SecurityFormType>();
 
-  const onSubmit = async (d) => {
+  const onSubmit = async (d: SecurityFormType) => {
+    if (!userId) return;
+
     setSaving(true);
     try {
       if (d.password !== d.rPassword) {
         setSaving(false);
-        // eslint-disable-next-line no-console
-        console.error(t("_accessibility:errors.passwordDoNotMatch"));
-        return showNotification(t("_accessibility:errors.passwordDoNotMatch"));
+        showNotification({
+          message: t("_accessibility:errors.passwordDoNotMatch"),
+          type: NotificationEnumType.error,
+        });
+        return;
       }
-      const { error, status } = await horizonApiClient.User.update({
-        ...d,
-        id: userId,
-      });
-      showNotification(String(status));
 
-      // eslint-disable-next-line no-console
-      if (error && error !== null) console.error(error);
-    } catch (e) {
-      // eslint-disable-next-line no-console
+      // the api throws on failure, a resolved call means it went through
+      await horizonApiClient.User.update({ ...d, id: userId } as UserUpdateDto);
+      setNotification("200", { model: t("_entities:entities.user") });
+    } catch (e: unknown) {
       console.error(e);
-      setNotification(String(e.status));
+      setNotification(
+        isHttpRequestError(e) ? String(e.status) : "notConnected",
+        { model: t("_entities:entities.user") },
+      );
     }
     setSaving(false);
   };

@@ -1,5 +1,6 @@
-// utils
-import { BaseApiClient } from "./utils/";
+// base
+import { BaseApiClient } from "./utils/BaseApiClient";
+import { FormPhoto, parseId, parseImage } from "./utils/formToDto";
 
 // types
 import { Tables } from "./types";
@@ -32,28 +33,47 @@ export class UserApiClient extends BaseApiClient<
   }
 
   /**
-   * @description Create user
-   * @param user - User
-   * @param photo - User photo
-   * @returns  Transaction status
+   * @description Maps the form values to what the api stores. rPassword only
+   * exists to confirm the typed password, it never travels.
+   * @param user - form values
+   * @param photo - ImageUploader state
+   * @returns user dto
    */
-  async create(user: User, photo: Photo) {
-    // deleting rPassword
-    delete user.rPassword;
-    // saving image
-    if (photo) user.image = photo;
+  private toDto(user: UserDto, photo: FormPhoto) {
+    const { name, username, email, phone, address, password } = user;
+
+    return {
+      name,
+      username,
+      email,
+      phone,
+      address,
+      roleId: parseId(user.roleId),
+      ...(password ? { password } : {}),
+      ...parseImage(photo),
+    };
   }
 
   /**
    * @description Create user
-   * @param user - User
-   * @param photo - User photo
+   * @param user - form values
+   * @param photo - Photo
    * @returns Transaction status
    */
-  async update(user: User, photo: Photo) {
-    // deleting rPassword
-    delete user.rPassword;
-    // saving photo
-    if (photo) user.image = photo;
+  async create(user: UserDto, photo: FormPhoto) {
+    return await this.saveNew(this.toDto(user, photo) as UserAddDto);
+  }
+
+  /**
+   * @description Update user
+   * @param user - form values
+   * @param photo - photo
+   * @returns Transaction status
+   */
+  async update(user: UserDto, photo: FormPhoto) {
+    return await this.saveExisting({
+      id: user.id,
+      ...this.toDto(user, photo),
+    } as UserUpdateDto);
   }
 }

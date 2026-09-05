@@ -23,7 +23,7 @@ import {
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // api
-import { isHttpRequestError } from "api";
+import { isHttpRequestError, parseId } from "api";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
@@ -64,8 +64,8 @@ function UserForm() {
         console.error(t("_accessibility:errors.passwordDoNotMatch"));
         return setNotification(t("_accessibility:errors.passwordDoNotMatch"));
       }
-      if (!d.id)
-        result = await horizonApiClient.User.insert({ ...d, image: photo });
+      // create and update both answer { data, status, error }, insert throws
+      if (!d.id) result = await horizonApiClient.User.create(d, photo);
       else result = await horizonApiClient.User.update(d, photo);
       const { error, status } = result;
 
@@ -140,9 +140,10 @@ function UserForm() {
   useEffect(() => {
     if (userQuery.data) {
       if (userQuery.data?.image) setPhoto(userQuery?.data?.image);
-      const roleId = roleList.find(
-        (role) => role.id === userQuery.data?.roleId?.id,
-      );
+      // getById answers roleId as a number, the list answers it as the role
+      // object, so both shapes have to resolve to the same id
+      const currentRoleId = parseId(userQuery.data?.roleId);
+      const roleId = roleList.find((role) => role.id === currentRoleId);
       reset({ ...userQuery.data, roleId: roleId?.id });
       setLastUpdate(userQuery?.data?.lastUpdate);
     }
