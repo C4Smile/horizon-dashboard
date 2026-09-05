@@ -40,7 +40,8 @@ export const EntityLevelForm = <TDto extends OptionReqCommonDto>(
                 (rex) => (rex as Record<string, unknown>)[attributeId] === res.id,
               ),
         )
-        .map((res) => ({ id: res.id, name: res.name })) as unknown as Option[],
+        // the pages build these lists with the display text in `value`
+        .map((res) => ({ id: res.id, name: String(res.value) })) as Option[],
     [attributeId, currentList, entities, id],
   );
 

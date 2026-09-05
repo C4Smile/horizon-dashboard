@@ -5,12 +5,17 @@ import { Control } from "react-hook-form";
 import { Tables } from "api";
 
 // lib
-import {
-  BaseCommonEntityDto,
-  BaseResourceDto,
-  QueryResult,
-  ResourceCommonDto,
-} from "lib";
+import { BaseCommonEntityDto, BaseResourceDto, QueryResult } from "lib";
+
+/**
+ * An entity as the forms list it: the pages map their common lists to this
+ * shape, with the display text in `value`
+ */
+export type ResourceOption = {
+  id: number;
+  value: string;
+  image?: unknown;
+};
 
 export interface OptionResourceCommonDto
   extends BaseResourceDto, BaseCommonEntityDto {
@@ -35,7 +40,7 @@ export type ResourceSaveDto = {
 
 export type ResourceFormPropsType<T extends OptionResourceCommonDto> = {
   currentList: T[];
-  resources: ResourceCommonDto[];
+  resources: ResourceOption[];
   label: string;
   inputLabel: string;
   inputPlaceholder: string;
@@ -44,7 +49,7 @@ export type ResourceFormPropsType<T extends OptionResourceCommonDto> = {
 
 export type ResourceRowPropsType<T extends OptionResourceCommonDto> = {
   disabled: boolean;
-  resources: ResourceCommonDto[];
+  resources: ResourceOption[];
   label: string;
   value: T;
   onDelete: (id: number) => void;
@@ -64,5 +69,5 @@ export type ResourceStuffPropsType<T extends OptionResourceCommonDto> = {
   queryFn: () => Promise<QueryResult<T> | T[]>;
   saveFn: (id: number, data: ResourceSaveDto) => Promise<unknown>;
   deleteFn: (id: number, resourceId: number) => Promise<unknown>;
-  resources: ResourceCommonDto[];
+  resources: ResourceOption[];
 };

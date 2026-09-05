@@ -118,7 +118,7 @@ function UserForm() {
     try {
       return (
         roleQuery?.data?.items?.map((c) => ({
-          value: `${c.name}`,
+          value: c.name,
           id: c.id,
         })) ?? []
       );

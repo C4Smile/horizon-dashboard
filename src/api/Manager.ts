@@ -7,6 +7,7 @@ import { CannonApiClient } from "./CannonApiClient";
 import { HorizonAuthClient } from "./HorizonAuthClient";
 import { ImageApiClient } from "./ImageApiClient";
 import { ResourceApiClient } from "./ResourceApiClient";
+import { RoleApiClient } from "./RoleApiClient";
 import { ShipApiClient } from "./ShipApiClient";
 import { SkillApiClient } from "./SkillApiClient";
 import { TechApiClient } from "./TechApiClient";
@@ -29,6 +30,7 @@ export class Manager extends IManager {
   cannon: CannonApiClient = new CannonApiClient();
   image: ImageApiClient = new ImageApiClient();
   resource: ResourceApiClient = new ResourceApiClient();
+  role: RoleApiClient = new RoleApiClient();
   ship: ShipApiClient = new ShipApiClient();
   skill: SkillApiClient = new SkillApiClient();
   tech: TechApiClient = new TechApiClient();
@@ -66,6 +68,10 @@ export class Manager extends IManager {
 
   get Resource(): ResourceApiClient {
     return this.resource;
+  }
+
+  get Role(): RoleApiClient {
+    return this.role;
   }
 
   get Ship(): ShipApiClient {

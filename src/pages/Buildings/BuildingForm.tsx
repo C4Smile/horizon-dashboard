@@ -124,10 +124,10 @@ function BuildingForm() {
   const buildingsList = useMemo(() => {
     try {
       return (
-        buildingsQuery?.data?.items
+        buildingsQuery?.data
           ?.filter((c) => c.id !== Number(id))
           ?.map((c) => ({
-            value: `${c.name}`,
+            value: c.name,
             id: c.id,
             image: c.image,
           })) ?? []

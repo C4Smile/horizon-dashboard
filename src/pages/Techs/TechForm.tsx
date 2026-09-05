@@ -87,10 +87,10 @@ function TechForm() {
   const techsList = useMemo(() => {
     try {
       return (
-        techsQuery?.data?.items
+        techsQuery?.data
           ?.filter((c) => c.id !== Number(id))
           ?.map((c) => ({
-            value: `${c.name}`,
+            value: c.name,
             id: c.id,
             image: c.image,
           })) ?? []

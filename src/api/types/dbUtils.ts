@@ -15,6 +15,7 @@ export enum Tables {
   CannonReqTechs = "cannonReqTechs",
   PushNotifications = "pushNotification",
   Resources = "resources",
+  Roles = "HorizonRole",
   Ships = "ships",
   ShipCosts = "shipCosts",
   ShipReqBuildings = "shipReqBuildings",
