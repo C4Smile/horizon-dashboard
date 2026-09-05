@@ -11,11 +11,15 @@ import {
   faChartLine,
   faGamepad,
   faGear,
+  faRightFromBracket,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 
 // lib
 import { Roles } from "lib";
+
+// pages
+import { findPath, PageId } from "./sitemap";
 
 // types
 import { HorizonAccountType } from "providers";
@@ -25,6 +29,9 @@ export enum MenuKeys {
   Game = "game",
   Players = "players",
   Settings = "settings",
+  // the drawer labels an entry with `_pages:<page>.title`, so the dotted key
+  // reaches the sign out copy that already lives under auth
+  SignOut = "auth.signOut",
 }
 
 export enum SubMenuKeys {
@@ -130,4 +137,10 @@ export const getMenuMap = (t: TFunction): MenuItemType<MenuKeys>[] => [
     [{ key: SubMenuKeys.Account, path: "/account" }],
     t,
   ),
+  { type: "divider" },
+  {
+    page: MenuKeys.SignOut,
+    path: findPath(PageId.signOut),
+    icon: <FontAwesomeIcon icon={faRightFromBracket} />,
+  },
 ];
