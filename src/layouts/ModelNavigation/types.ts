@@ -1,4 +1,4 @@
-import { PageId } from "src/pages/sitemap";
+import { PageId } from "pages";
 
 export type LinksPropsTypes = {
   pageKey: PageId;

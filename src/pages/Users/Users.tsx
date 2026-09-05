@@ -101,7 +101,9 @@ function Users() {
       {
         key: "name",
         filterOptions: { type: FilterTypes.text, defaultValue: "" },
-        renderBody: (value) => <p className="whitespace-nowrap">{value}</p>,
+        renderBody: (value: unknown) => (
+          <p className="whitespace-nowrap">{String(value)}</p>
+        ),
       },
       {
         key: "email",
@@ -117,9 +119,8 @@ function Users() {
           type: FilterTypes.select,
           options: translatedRoles,
         },
-        renderBody: (_, user) => {
-          return user.role.name;
-        },
+        renderBody: (_: unknown, user: UserDto) =>
+          typeof user.roleId === "object" ? user.roleId.name : "",
       },
       {
         key: "image",

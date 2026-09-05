@@ -226,7 +226,7 @@ function TechForm() {
     <NotFound />
   ) : (
     <TabsLayout
-      name={techQuery?.data?.name}
+      name={techQuery?.data?.name ?? ""}
       entity={ReactQueryKeys.Techs}
       id={Number(id)}
       tabs={tabs}

@@ -19,6 +19,9 @@ import {
   NotificationSeverity,
 } from "providers";
 
+// lib
+import { UserFormType } from "lib";
+
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
@@ -45,11 +48,11 @@ function UserForm() {
   const [saving, setSaving] = useState(false);
   const [updatedAt, setLastUpdate] = useState<string>("");
 
-  const { handleSubmit, reset, control } = useForm();
+  const { handleSubmit, reset, control } = useForm<UserFormType>();
 
   const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
-  const onSubmit = async (d) => {
+  const onSubmit = async (d: UserFormType) => {
     if (!photo) {
       setNotification("images", {}, NotificationSeverity.bad);
       return;
@@ -202,7 +205,7 @@ function UserForm() {
               name="roleId"
               label={t("_entities:user.roleId.label")}
               options={roleList}
-              value={value}
+              value={parseId(value)}
               onChange={(e) => {
                 onChange(e.target.value);
               }}

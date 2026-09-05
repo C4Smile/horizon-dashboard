@@ -37,27 +37,19 @@ function Recovery() {
   const [appear, setAppear] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit, control } = useForm<{ email: string }>();
 
   const { showNotification } = useNotification();
 
-  const onSubmit = async (d) => {
+  const onSubmit = async (d: { email: string }) => {
     setSaving(true);
     try {
-      const response = await horizonApiClient.Auth.recovery(d.email);
-      const data = await response.json();
-      if (data !== null && data.status)
-        showNotification({
-          message: t(`_accessibility:messages.${String(data.status)}`),
-          type: NotificationEnumType.error,
-        });
-      else {
-        showNotification({
-          message: t("_pages:auth.recovery.sent"),
-          type: NotificationEnumType.success,
-        });
-        createCookie(config.recovering, 1, d.email);
-      }
+      await horizonApiClient.Auth.recovery(d.email);
+      showNotification({
+        message: t("_pages:auth.recovery.sent"),
+        type: NotificationEnumType.success,
+      });
+      createCookie(config.recovering, 1, d.email);
     } catch (e: unknown) {
       console.error(e);
       // set server status to notification

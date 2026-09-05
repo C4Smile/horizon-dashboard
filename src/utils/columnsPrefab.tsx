@@ -11,18 +11,21 @@ import { BaseCommonEntityDto, BaseEntityDto, PhotoDto } from "lib";
 
 export const nameColumn = <
   TDto extends BaseCommonEntityDto & { deletedAt?: string | null },
->(): ColumnType<TDto> => ({
-  key: "name",
-  filterOptions: { type: FilterTypes.text, defaultValue: "" },
-  renderBody: (name: string, entity: BaseEntityDto) => (
-    <Link
-      className={`underline ${entity.deletedAt ? "text-white" : "text-light-primary"} flex`}
-      to={`${entity.id}`}
-    >
-      <span className="w-80 truncate">{name}</span>
-    </Link>
-  ),
-});
+>(): ColumnType<TDto> =>
+  ({
+    key: "name",
+    filterOptions: { type: FilterTypes.text, defaultValue: "" },
+    renderBody: (name: unknown, entity: BaseEntityDto) => (
+      <Link
+        className={`underline ${entity.deletedAt ? "text-white" : "text-light-primary"} flex`}
+        to={`${entity.id}`}
+      >
+        <span className="w-80 truncate">{String(name)}</span>
+      </Link>
+    ),
+    // the key belongs to BaseCommonEntityDto, but the caller is generic over
+    // its own dto and typescript cannot see through that
+  }) as unknown as ColumnType<TDto>;
 
 /**
  * @param altProp image alt prop

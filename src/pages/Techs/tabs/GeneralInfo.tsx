@@ -11,7 +11,7 @@ import { Loading, TextInput, SelectInput } from "@sito/dashboard-app";
 // editor
 
 // components
-import { ImageUploader } from "components";
+import { ImageFormType, ImageUploader } from "components";
 
 // providers
 import { useNotification, queryClient, useHorizonApiClient } from "providers";
@@ -19,7 +19,7 @@ import { useNotification, queryClient, useHorizonApiClient } from "providers";
 // utils
 import { ReactQueryKeys, toEditorState } from "utils";
 import { FormValues, NotificationEnumType, TechDto } from "lib";
-import { HTTPError } from "api";
+import { HTTPError, parseId } from "api";
 
 // loadable
 const HtmlInput = loadable(() =>
@@ -51,7 +51,7 @@ export function GeneralInfo(props: GeneralInfoPropsType) {
 
   const { handleSubmit, reset, control, getValues } = useForm<FormValues<TechDto>>();
 
-  const [photo, setPhoto] = useState();
+  const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
   const typesQuery = useQuery({
     queryKey: [ReactQueryKeys.TechTypes],
@@ -100,7 +100,7 @@ export function GeneralInfo(props: GeneralInfoPropsType) {
             queryKey: [ReactQueryKeys.Techs, id],
           });
         else {
-          setPhoto();
+          setPhoto(null);
           reset({
             id: undefined,
             name: "",
@@ -127,7 +127,7 @@ export function GeneralInfo(props: GeneralInfoPropsType) {
   useEffect(() => {
     if (techQuery.data) {
       //* PARSING PHOTO
-      setPhoto(techQuery.data?.image);
+      setPhoto(techQuery.data?.image ?? null);
 
       setLastUpdate(techQuery?.data?.updatedAt ?? "");
       // the api stores html, the input edits draft state; the query
@@ -139,7 +139,7 @@ export function GeneralInfo(props: GeneralInfoPropsType) {
     }
 
     if (!techQuery.data?.id) {
-      setPhoto();
+      setPhoto(null);
       reset({
         id: undefined,
         name: "",
@@ -221,7 +221,7 @@ export function GeneralInfo(props: GeneralInfoPropsType) {
             name="type"
             label={t("_entities:tech.type.label")}
             options={typesList}
-            value={value}
+            value={parseId(value)}
             onChange={(e) => {
               onChange(e.target.value);
             }}

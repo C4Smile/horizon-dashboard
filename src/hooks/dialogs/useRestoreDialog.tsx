@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { queryClient, useNotification } from "providers";
 
 // lib
-import { NotificationEnumType, NotificationType, ValidationError } from "lib";
+import { NotificationEnumType, ValidationError } from "lib";
 
 // hooks
 import { useRestoreAction, useConfirmationForm } from "hooks";

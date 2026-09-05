@@ -224,7 +224,7 @@ function ShipForm() {
     <NotFound />
   ) : (
     <TabsLayout
-      name={shipQuery?.data?.name}
+      name={shipQuery?.data?.name ?? ""}
       entity={ReactQueryKeys.Ships}
       id={Number(id)}
       tabs={tabs}

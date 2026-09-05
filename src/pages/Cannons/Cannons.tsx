@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { ActionType, ConfirmationDialog, FilterTypes, Table } from "@sito/dashboard-app";
 
 // utils
-import { nameColumn, imageColumn, useParseColumns } from "utils";
+import { nameColumn, useParseColumns } from "utils";
 
 // components
 import { TablePage, TableToolbar } from "components";
@@ -80,7 +80,6 @@ function CannonsPage() {
         key: "creationTime",
         filterOptions: { type: FilterTypes.number },
       },
-      imageColumn<CannonDto>("name", "image"),
     ],
     EntityName.Cannon,
     [],

@@ -7,7 +7,11 @@ export interface UserDto extends BaseEntityDto {
   name: string;
   email: string;
   phone: string;
-  roleId: number;
+  /**
+   * The list answers the whole role and getById answers its id, so both shapes
+   * arrive here. parseId narrows it before anything is written back.
+   */
+  roleId: number | { id: number; name: string };
   imageId: number;
   image: PhotoDto;
   /** id of the auth user this horizon user is linked to */

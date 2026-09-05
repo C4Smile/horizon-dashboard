@@ -6,7 +6,7 @@ import { FormValues, BuildingDto } from "lib";
 import type { UseQueryResult } from "@tanstack/react-query";
 
 // api
-import { isHttpRequestError } from "api";
+import { isHttpRequestError, parseId } from "api";
 import { useQuery } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import loadable from "@loadable/component";
@@ -221,7 +221,7 @@ function GeneralInfo(props: GeneralInfoPropsType) {
             name="type"
             label={t("_entities:building.type.label")}
             options={typesList}
-            value={value}
+            value={parseId(value)}
             onChange={(e) => {
               onChange(e.target.value);
             }}

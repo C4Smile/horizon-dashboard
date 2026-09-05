@@ -16,7 +16,7 @@ import "./index.css";
 import "./components/Forms/styles.css";
 
 // fonts
-import "@fontsource/poppins";
+import "@fontsource/poppins/index.css";
 
 const root = document.getElementById("root");
 

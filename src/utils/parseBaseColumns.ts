@@ -23,47 +23,55 @@ export const baseColumns = [
 export const isBaseColumn = (column: string) => baseColumns.includes(column);
 
 /**
- *
+ * @param value - whatever the api put in the cell
+ * @returns the date in the local format, empty when there is none
+ */
+const toLocalDate = (value: unknown) =>
+  value ? new Date(String(value)).toLocaleDateString("es-ES") : "";
+
+/**
+ * The columns every entity has. They come from BaseEntityDto, but the callers
+ * are generic over their own dto, so the keys and the renderers are cast once
+ * here rather than at each call site.
  * @returns array of prefab
  */
 export const prefabBaseColumns = <
   TDto extends BaseEntityDto,
->(): ColumnType<TDto>[] => [
-  {
-    key: "id",
-    filterOptions: { type: FilterTypes.number, defaultValue: "" },
-    pos: 1,
-  },
-  {
-    key: "updatedAt",
-    className: "w-56",
-    filterOptions: { type: FilterTypes.date, defaultValue: "" },
-    renderBody: (updatedAt: string) =>
-      new Date(updatedAt).toLocaleDateString("es-ES"),
-    pos: -1,
-  },
-  {
-    key: "createdAt",
-    filterOptions: { type: FilterTypes.date, defaultValue: "" },
-    renderBody: (createdAt: string) =>
-      new Date(createdAt).toLocaleDateString("es-ES"),
-    pos: -2,
-  },
-  {
-    key: "deletedAt",
-    filterOptions: {
-      defaultValue: false,
-      type: FilterTypes.check,
-      label: t("_entities:base.deletedAt.filter"),
+>(): ColumnType<TDto>[] =>
+  [
+    {
+      key: "id",
+      filterOptions: { type: FilterTypes.number, defaultValue: "" },
+      pos: 1,
     },
-    display: "none",
-    renderBody: (deletedAt: Date | null) =>
-      deletedAt
-        ? t("_accessibility:buttons.yes")
-        : t("_accessibility:buttons.no"),
-    pos: -3,
-  },
-];
+    {
+      key: "updatedAt",
+      className: "w-56",
+      filterOptions: { type: FilterTypes.date, defaultValue: "" },
+      renderBody: (updatedAt: unknown) => toLocalDate(updatedAt),
+      pos: -1,
+    },
+    {
+      key: "createdAt",
+      filterOptions: { type: FilterTypes.date, defaultValue: "" },
+      renderBody: (createdAt: unknown) => toLocalDate(createdAt),
+      pos: -2,
+    },
+    {
+      key: "deletedAt",
+      filterOptions: {
+        defaultValue: false,
+        type: FilterTypes.check,
+        label: t("_entities:base.deletedAt.filter"),
+      },
+      display: "none",
+      renderBody: (deletedAt: unknown) =>
+        deletedAt
+          ? t("_accessibility:buttons.yes")
+          : t("_accessibility:buttons.no"),
+      pos: -3,
+    },
+  ] as ColumnType<TDto>[];
 
 /**
  *

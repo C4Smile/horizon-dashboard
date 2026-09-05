@@ -35,11 +35,11 @@ function UpdatePassword() {
   const [passwordError, setPasswordError] = useState("");
   const [saving, setSaving] = useState(false);
 
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit, control } = useForm<{ password: string; rPassword: string }>();
 
   const { showNotification } = useNotification();
 
-  const onSubmit = async (d) => {
+  const onSubmit = async (d: { password: string; rPassword: string }) => {
     setSaving(true);
     setPasswordError("");
     if (d.password !== d.rPassword) {

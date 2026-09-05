@@ -20,7 +20,7 @@ import {
 
 // utils
 import { ReactQueryKeys } from "utils";
-import { NotificationEnumType } from "lib";
+import { NotificationEnumType, UserFormType } from "lib";
 
 // api
 import { isHttpRequestError } from "api";
@@ -46,11 +46,11 @@ function PersonalInfo() {
   const [saving, setSaving] = useState(false);
   const [updatedAt, setLastUpdate] = useState<string>("");
 
-  const { handleSubmit, reset, control } = useForm();
+  const { handleSubmit, reset, control } = useForm<UserFormType>();
 
   const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
-  const onSubmit = async (d) => {
+  const onSubmit = async (d: UserFormType) => {
     if (!photo) {
       showErrorNotification({
         type: NotificationEnumType.error,
@@ -114,7 +114,6 @@ function PersonalInfo() {
         email: "",
         phone: "",
         address: "",
-        identification: "",
       });
     }
   }, [id, reset, userQuery.data]);
@@ -203,22 +202,6 @@ function PersonalInfo() {
             id="address"
             placeholder={t("_entities:user.address.placeholder")}
             label={t("_entities:user.address.label")}
-            required
-          />
-        )}
-      />
-      {/* User Identification */}
-      <Controller
-        control={control}
-        name="identification"
-        disabled={userQuery.isLoading || saving}
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            type="text"
-            id="identification"
-            placeholder={t("_entities:user.identification.placeholder")}
-            label={t("_entities:user.identification.label")}
             required
           />
         )}

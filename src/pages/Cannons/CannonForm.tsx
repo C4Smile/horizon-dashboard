@@ -220,7 +220,7 @@ function CannonForm() {
     <NotFound />
   ) : (
     <TabsLayout
-      name={cannonQuery?.data?.name}
+      name={cannonQuery?.data?.name ?? ""}
       entity={ReactQueryKeys.Cannons}
       id={Number(id)}
       tabs={tabs}

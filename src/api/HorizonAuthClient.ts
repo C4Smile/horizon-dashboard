@@ -144,6 +144,23 @@ export class HorizonAuthClient extends RestSessionAuthClient {
   }
 
   /**
+   * @description the api has no password recovery endpoint yet. Declared so the
+   * screen that calls it fails with something readable instead of a TypeError.
+   * @param _email - where the recovery link would go
+   */
+  async recovery(_email: string): Promise<never> {
+    throw new Error("Horizon does not support password recovery yet");
+  }
+
+  /**
+   * @description same as recovery, there is no endpoint behind it yet
+   * @param _password - the new password
+   */
+  async updatePassword(_password: string): Promise<never> {
+    throw new Error("Horizon does not support password recovery yet");
+  }
+
+  /**
    * @description there is no server side sign out, clearing the stored token
    * is handled by the shared AuthProvider
    */
