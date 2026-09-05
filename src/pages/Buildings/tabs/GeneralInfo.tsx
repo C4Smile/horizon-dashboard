@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+// lib
+import { FormValues, BuildingDto } from "lib";
+import type { UseQueryResult } from "@tanstack/react-query";
+
 // api
 import { isHttpRequestError } from "api";
 import { useQuery } from "@tanstack/react-query";
@@ -31,12 +35,17 @@ const HtmlInput = loadable(() =>
   })),
 );
 
+/** the query this tab reads its record from */
+type GeneralInfoPropsType = {
+  buildingQuery: UseQueryResult<BuildingDto>;
+};
+
 /**
  * General Info
  * @param {*} props - component props
  * @returns GeneralInfo
  */
-function GeneralInfo(props) {
+function GeneralInfo(props: GeneralInfoPropsType) {
   const { t } = useTranslation();
 
   const { buildingQuery } = props;
@@ -45,9 +54,9 @@ function GeneralInfo(props) {
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [updatedAt, setLastUpdate] = useState("");
+  const [updatedAt, setLastUpdate] = useState<string | Date | undefined>();
 
-  const { handleSubmit, reset, control, getValues } = useForm();
+  const { handleSubmit, reset, control, getValues } = useForm<FormValues<BuildingDto>>();
 
   const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
@@ -69,7 +78,7 @@ function GeneralInfo(props) {
     }
   }, [typesQuery.data]);
 
-  const onSubmit = async (d) => {
+  const onSubmit = async (d: FormValues<BuildingDto>) => {
     setSaving(true);
 
     try {

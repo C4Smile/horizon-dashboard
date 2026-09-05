@@ -1,6 +1,5 @@
-import { DeleteDto } from "../../base";
+import { BaseResourceDto } from "lib";
 
-export interface ShipUpkeepDto extends DeleteDto {
+export interface ShipUpkeepDto extends BaseResourceDto {
   shipId: number;
-  resourceId: number;
 }

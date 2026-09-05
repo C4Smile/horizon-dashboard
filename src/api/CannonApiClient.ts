@@ -12,11 +12,12 @@ import { Tables } from "./types/";
 
 // lib
 import {
-  CannonDto,
-  CannonCommonDto,
   CannonAddDto,
-  CannonUpdateDto,
+  CannonCommonDto,
+  CannonDto,
   CannonFilterDto,
+  CannonUpdateDto,
+  FormValues,
 } from "lib";
 
 /**
@@ -47,9 +48,9 @@ export class CannonApiClient extends BaseApiClient<
    * @param cannon - form values
    * @returns cannon dto
    */
-  private toDto(cannon: CannonDto) {
+  private toDto(cannon: FormValues<CannonDto>) {
     return {
-      name: cannon.name,
+      name: cannon.name ?? "",
       description: parseHtml(cannon.description),
       creationTime: parseNumber(cannon.creationTime),
       baseDamage: parseNumber(cannon.baseDamage),
@@ -62,7 +63,7 @@ export class CannonApiClient extends BaseApiClient<
    * @param cannon - Cannon
    * @returns Transaction status
    */
-  async createFromForm(cannon: CannonDto) {
+  async createFromForm(cannon: FormValues<CannonDto>) {
     return await this.saveNew(this.toDto(cannon));
   }
 
@@ -71,9 +72,9 @@ export class CannonApiClient extends BaseApiClient<
    * @param cannon - Cannon
    * @returns Transaction status
    */
-  async updateFromForm(cannon: CannonDto) {
+  async updateFromForm(cannon: FormValues<CannonDto>) {
     return await this.saveExisting({
-      id: cannon.id,
+      id: parseNumber(cannon.id),
       ...this.toDto(cannon),
     });
   }

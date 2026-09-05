@@ -1,19 +1,19 @@
-import { toSlug } from "some-javascript-utils";
 
 // base
 import { BaseApiClient } from "./utils/";
-import { FormPhoto, parseImage } from "./utils/formToDto";
+import { FormPhoto, parseImage, parseNumber } from "./utils/formToDto";
 
 // types
 import { Tables } from "./types";
 
 // lib
 import {
-  BuildingTypeDto,
-  BuildingTypeCommonDto,
   BuildingTypeAddDto,
-  BuildingTypeUpdateDto,
+  BuildingTypeCommonDto,
+  BuildingTypeDto,
   BuildingTypeFilterDto,
+  BuildingTypeUpdateDto,
+  FormValues,
 } from "lib";
 
 /**
@@ -40,10 +40,9 @@ export class BuildingTypeApiClient extends BaseApiClient<
    * @param photo - ImageUploader state
    * @returns buildingType dto
    */
-  private toDto(buildingType: BuildingTypeDto, photo: FormPhoto) {
+  private toDto(buildingType: FormValues<BuildingTypeDto>, photo: FormPhoto) {
     return {
-      name: buildingType.name,
-      urlName: toSlug(buildingType.name),
+      name: buildingType.name ?? "",
       ...parseImage(photo),
     };
   }
@@ -54,7 +53,7 @@ export class BuildingTypeApiClient extends BaseApiClient<
    * @param photo - Photo
    * @returns Transaction status
    */
-  async createFromForm(buildingType: BuildingTypeDto, photo: FormPhoto) {
+  async createFromForm(buildingType: FormValues<BuildingTypeDto>, photo: FormPhoto) {
     return await this.saveNew(
       this.toDto(buildingType, photo),
     );
@@ -66,9 +65,9 @@ export class BuildingTypeApiClient extends BaseApiClient<
    * @param photo - Photo
    * @returns Transaction status
    */
-  async updateFromForm(buildingType: BuildingTypeDto, photo: FormPhoto) {
+  async updateFromForm(buildingType: FormValues<BuildingTypeDto>, photo: FormPhoto) {
     return await this.saveExisting({
-      id: buildingType.id,
+      id: parseNumber(buildingType.id),
       ...this.toDto(buildingType, photo),
     });
   }

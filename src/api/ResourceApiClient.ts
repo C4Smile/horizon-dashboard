@@ -1,4 +1,3 @@
-import { toSlug } from "some-javascript-utils";
 
 // base
 import { BaseApiClient } from "./utils/BaseApiClient";
@@ -14,11 +13,12 @@ import { Tables } from "./types/dbUtils.js";
 
 // lib
 import {
-  ResourceDto,
-  ResourceCommonDto,
+  FormValues,
   ResourceAddDto,
-  ResourceUpdateDto,
+  ResourceCommonDto,
+  ResourceDto,
   ResourceFilterDto,
+  ResourceUpdateDto,
 } from "lib";
 
 /**
@@ -45,10 +45,9 @@ export class ResourceApiClient extends BaseApiClient<
    * @param photo - ImageUploader state
    * @returns resource dto
    */
-  private toDto(resource: ResourceDto, photo: FormPhoto) {
+  private toDto(resource: FormValues<ResourceDto>, photo: FormPhoto) {
     return {
-      name: resource.name,
-      urlName: toSlug(resource.name),
+      name: resource.name ?? "",
       baseFactor: parseNumber(resource.baseFactor),
       description: parseHtml(resource.description),
       ...parseImage(photo),
@@ -61,7 +60,7 @@ export class ResourceApiClient extends BaseApiClient<
    * @param photo - Photo
    * @returns Transaction status
    */
-  async createFromForm(resource: ResourceDto, photo: FormPhoto) {
+  async createFromForm(resource: FormValues<ResourceDto>, photo: FormPhoto) {
     return await this.saveNew(this.toDto(resource, photo));
   }
 
@@ -71,9 +70,9 @@ export class ResourceApiClient extends BaseApiClient<
    * @param photo - photo
    * @returns Transaction status
    */
-  async updateFromForm(resource: ResourceDto, photo: FormPhoto) {
+  async updateFromForm(resource: FormValues<ResourceDto>, photo: FormPhoto) {
     return await this.saveExisting({
-      id: resource.id,
+      id: parseNumber(resource.id),
       ...this.toDto(resource, photo),
     });
   }

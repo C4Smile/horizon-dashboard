@@ -1,19 +1,19 @@
-import { toSlug } from "some-javascript-utils";
 
 // base
 import { BaseApiClient } from "./utils/";
-import { FormPhoto, parseImage } from "./utils/formToDto";
+import { FormPhoto, parseImage, parseNumber } from "./utils/formToDto";
 
 // type
 import { Tables } from "./types/dbUtils.js";
 
 // lib
 import {
-  TechTypeDto,
-  TechTypeCommonDto,
+  FormValues,
   TechTypeAddDto,
-  TechTypeUpdateDto,
+  TechTypeCommonDto,
+  TechTypeDto,
   TechTypeFilterDto,
+  TechTypeUpdateDto,
 } from "lib";
 
 /**
@@ -40,10 +40,9 @@ export class TechTypeApiClient extends BaseApiClient<
    * @param photo - ImageUploader state
    * @returns techType dto
    */
-  private toDto(techType: TechTypeDto, photo: FormPhoto) {
+  private toDto(techType: FormValues<TechTypeDto>, photo: FormPhoto) {
     return {
-      name: techType.name,
-      urlName: toSlug(techType.name),
+      name: techType.name ?? "",
       ...parseImage(photo),
     };
   }
@@ -54,7 +53,7 @@ export class TechTypeApiClient extends BaseApiClient<
    * @param photo - Photo
    * @returns Transaction status
    */
-  async createFromForm(techType: TechTypeDto, photo: FormPhoto) {
+  async createFromForm(techType: FormValues<TechTypeDto>, photo: FormPhoto) {
     return await this.saveNew(this.toDto(techType, photo));
   }
 
@@ -64,9 +63,9 @@ export class TechTypeApiClient extends BaseApiClient<
    * @param photo - Photo
    * @returns Transaction status
    */
-  async updateFromForm(techType: TechTypeDto, photo: FormPhoto) {
+  async updateFromForm(techType: FormValues<TechTypeDto>, photo: FormPhoto) {
     return await this.saveExisting({
-      id: techType.id,
+      id: parseNumber(techType.id),
       ...this.toDto(techType, photo),
     });
   }

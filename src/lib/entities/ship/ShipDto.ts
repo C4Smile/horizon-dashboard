@@ -3,7 +3,6 @@ import { PhotoDto } from "../photo";
 
 export interface ShipDto extends BaseEntityDto {
   name: string;
-  urlName: string;
   description: string;
   creationTime: number;
   capacity: number;

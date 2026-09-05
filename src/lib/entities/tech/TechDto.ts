@@ -4,7 +4,6 @@ import { PhotoDto } from "../photo";
 
 export interface TechDto extends BaseEntityDto {
   name: string;
-  urlName: string;
   description: string;
   creationTime: number;
   typeId: number;

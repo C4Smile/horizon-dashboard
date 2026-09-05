@@ -1,4 +1,7 @@
 import { useTranslation } from "react-i18next";
+
+// lib
+import { ShipCostAddDto, ShipReqBuildingAddDto, ShipReqTechAddDto, ShipUpkeepAddDto } from "lib";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -147,7 +150,7 @@ function ShipForm() {
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.ShipCosts, id]}
           queryFn={() => horizonApiClient.Ship.shipCosts.get(Number(id))}
-          saveFn={async (id, data) =>
+          saveFn={async (id, data: ShipCostAddDto) =>
             horizonApiClient.Ship.shipCosts.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
@@ -165,7 +168,7 @@ function ShipForm() {
           inputKey={"baseUpkeep"}
           queryKey={[ReactQueryKeys.ShipUpkeeps, id]}
           queryFn={() => horizonApiClient.Ship.shipUpkeeps.get(Number(id))}
-          saveFn={async (id, data) =>
+          saveFn={async (id, data: ShipUpkeepAddDto) =>
             horizonApiClient.Ship.shipUpkeeps.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
@@ -183,7 +186,7 @@ function ShipForm() {
           inputKey={"techLevel"}
           queryKey={[ReactQueryKeys.ShipRequirements, ReactQueryKeys.Techs, id]}
           queryFn={() => horizonApiClient.Ship.shipReqTechs.get(Number(id))}
-          saveFn={async (id, data) =>
+          saveFn={async (id, data: ShipReqTechAddDto) =>
             horizonApiClient.Ship.shipReqTechs.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
@@ -205,7 +208,7 @@ function ShipForm() {
             id,
           ]}
           queryFn={() => horizonApiClient.Ship.shipReqBuildings.get(Number(id))}
-          saveFn={async (id, data) =>
+          saveFn={async (id, data: ShipReqBuildingAddDto) =>
             horizonApiClient.Ship.shipReqBuildings.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>

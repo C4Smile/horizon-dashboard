@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+// lib
+import { FormValues, ShipDto } from "lib";
+import type { UseQueryResult } from "@tanstack/react-query";
+
 // api
 import { isHttpRequestError } from "api";
 import { Controller, useForm } from "react-hook-form";
@@ -30,12 +34,17 @@ const HtmlInput = loadable(() =>
   })),
 );
 
+/** the query this tab reads its record from */
+type GeneralInfoPropsType = {
+  shipQuery: UseQueryResult<ShipDto>;
+};
+
 /**
  * General Info
  * @param {*} props - component props
  * @returns {JSX.Element} GeneralInfo
  */
-function GeneralInfo(props) {
+function GeneralInfo(props: GeneralInfoPropsType) {
   const { t } = useTranslation();
 
   const { shipQuery } = props;
@@ -44,13 +53,13 @@ function GeneralInfo(props) {
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [updatedAt, setLastUpdate] = useState("");
+  const [updatedAt, setLastUpdate] = useState<string | Date | undefined>();
 
-  const { handleSubmit, reset, control, getValues } = useForm();
+  const { handleSubmit, reset, control, getValues } = useForm<FormValues<ShipDto>>();
 
   const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
-  const onSubmit = async (d) => {
+  const onSubmit = async (d: FormValues<ShipDto>) => {
     setSaving(true);
 
     try {

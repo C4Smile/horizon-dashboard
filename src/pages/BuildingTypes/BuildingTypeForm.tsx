@@ -21,10 +21,7 @@ import { ReactQueryKeys } from "utils";
 import { isHttpRequestError } from "api";
 
 // lib
-import { BuildingTypeDto } from "lib";
-
-/** what this form edits */
-type FormType = BuildingTypeDto;
+import { BuildingTypeDto, FormValues } from "lib";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
@@ -48,9 +45,9 @@ function BuildingTypeForm() {
 
   const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
-  const { handleSubmit, reset, control } = useForm<FormType>();
+  const { handleSubmit, reset, control } = useForm<FormValues<BuildingTypeDto>>();
 
-  const onSubmit = async (d: FormType) => {
+  const onSubmit = async (d: FormValues<BuildingTypeDto>) => {
     setSaving(true);
 
     try {

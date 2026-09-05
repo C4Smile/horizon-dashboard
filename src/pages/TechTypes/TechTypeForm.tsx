@@ -21,10 +21,7 @@ import { ReactQueryKeys } from "../../utils/queryKeys";
 import { isHttpRequestError } from "api";
 
 // lib
-import { TechTypeDto } from "lib";
-
-/** what this form edits */
-type FormType = TechTypeDto;
+import { FormValues, TechTypeDto } from "lib";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
@@ -48,9 +45,9 @@ function TechTypeForm() {
 
   const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
-  const { handleSubmit, reset, control } = useForm<FormType>();
+  const { handleSubmit, reset, control } = useForm<FormValues<TechTypeDto>>();
 
-  const onSubmit = async (d: FormType) => {
+  const onSubmit = async (d: FormValues<TechTypeDto>) => {
     setSaving(true);
 
     try {

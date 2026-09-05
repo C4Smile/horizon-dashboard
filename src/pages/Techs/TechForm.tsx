@@ -1,4 +1,7 @@
 import { useTranslation } from "react-i18next";
+
+// lib
+import { TechCostAddDto, TechProduceAddDto, TechReqBuildingAddDto, TechReqTechAddDto } from "lib";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -149,7 +152,7 @@ function TechForm() {
           inputKey={"baseProduction"}
           queryKey={[ReactQueryKeys.TechProduces, id]}
           queryFn={() => horizonApiClient.Tech.techProductions.get(Number(id))}
-          saveFn={async (id, data) =>
+          saveFn={async (id, data: TechProduceAddDto) =>
             horizonApiClient.Tech.techProductions.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
@@ -167,7 +170,7 @@ function TechForm() {
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.TechCosts, id]}
           queryFn={() => horizonApiClient.Tech.techCosts.get(Number(id))}
-          saveFn={async (id, data) =>
+          saveFn={async (id, data: TechCostAddDto) =>
             horizonApiClient.Tech.techCosts.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
@@ -182,11 +185,10 @@ function TechForm() {
           attributeId="techReqId"
           entity={Tables.Techs}
           entityToSave={Tables.TechReqTechs}
-          label={"req"}
           inputKey={"techLevel"}
           queryKey={[ReactQueryKeys.TechRequirements, ReactQueryKeys.Techs, id]}
           queryFn={() => horizonApiClient.Tech.techReqTechs.get(Number(id))}
-          saveFn={async (id, data) =>
+          saveFn={async (id, data: TechReqTechAddDto) =>
             horizonApiClient.Tech.techReqTechs.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
@@ -208,7 +210,7 @@ function TechForm() {
             id,
           ]}
           queryFn={() => horizonApiClient.Tech.techReqBuildings.get(Number(id))}
-          saveFn={async (id, data) =>
+          saveFn={async (id, data: TechReqBuildingAddDto) =>
             horizonApiClient.Tech.techReqBuildings.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>

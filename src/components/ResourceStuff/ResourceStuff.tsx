@@ -53,8 +53,8 @@ const emptyResource: ResourceFormType = {
  * @param {object} props component props
  * @returns ResourceStuff component
  */
-export function ResourceStuff<TDto extends OptionResourceCommonDto>(
-  props: ResourceStuffPropsType<TDto>,
+export function ResourceStuff<TDto extends OptionResourceCommonDto, TAddDto>(
+  props: ResourceStuffPropsType<TDto, TAddDto>,
 ) {
   const { t } = useTranslation();
 
@@ -111,7 +111,8 @@ export function ResourceStuff<TDto extends OptionResourceCommonDto>(
     }),
     onSubmit: async (dto) => {
       // the api layer throws on a failed request, it does not return an error
-      await saveFn(id, dto);
+      // the component builds the payload, the caller names its type
+      await saveFn(id, dto as TAddDto);
       setNotification("200", { model: modelName });
       await queryClient.invalidateQueries({ queryKey });
     },

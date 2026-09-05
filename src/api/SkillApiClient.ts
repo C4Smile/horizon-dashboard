@@ -1,19 +1,19 @@
-import { toSlug } from "some-javascript-utils";
 
 // base
 import { BaseApiClient } from "./utils/";
-import { FormPhoto, parseHtml, parseImage } from "./utils/formToDto";
+import { FormPhoto, parseHtml, parseImage, parseNumber } from "./utils/formToDto";
 
 // types
 import { Tables } from "./types/";
 
 // lib
 import {
-  SkillDto,
-  SkillCommonDto,
+  FormValues,
   SkillAddDto,
-  SkillUpdateDto,
+  SkillCommonDto,
+  SkillDto,
   SkillFilterDto,
+  SkillUpdateDto,
 } from "lib";
 
 /**
@@ -40,10 +40,9 @@ export class SkillApiClient extends BaseApiClient<
    * @param photo - ImageUploader state
    * @returns skill dto
    */
-  private toDto(skill: SkillDto, photo: FormPhoto) {
+  private toDto(skill: FormValues<SkillDto>, photo: FormPhoto) {
     return {
-      name: skill.name,
-      urlName: toSlug(skill.name),
+      name: skill.name ?? "",
       description: parseHtml(skill.description),
       ...parseImage(photo),
     };
@@ -55,7 +54,7 @@ export class SkillApiClient extends BaseApiClient<
    * @param photo - Photo
    * @returns Transaction status
    */
-  async createFromForm(skill: SkillDto, photo: FormPhoto) {
+  async createFromForm(skill: FormValues<SkillDto>, photo: FormPhoto) {
     return await this.saveNew(this.toDto(skill, photo));
   }
 
@@ -65,9 +64,9 @@ export class SkillApiClient extends BaseApiClient<
    * @param photo - photo
    * @returns Transaction status
    */
-  async updateFromForm(skill: SkillDto, photo: FormPhoto) {
+  async updateFromForm(skill: FormValues<SkillDto>, photo: FormPhoto) {
     return await this.saveExisting({
-      id: skill.id,
+      id: parseNumber(skill.id),
       ...this.toDto(skill, photo),
     });
   }

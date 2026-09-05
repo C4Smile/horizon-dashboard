@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import type { UseQueryResult } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import loadable from "@loadable/component";
@@ -17,7 +18,7 @@ import { useNotification, queryClient, useHorizonApiClient } from "providers";
 
 // utils
 import { ReactQueryKeys, toEditorState } from "utils";
-import { NotificationEnumType } from "lib";
+import { FormValues, NotificationEnumType, TechDto } from "lib";
 import { HTTPError } from "api";
 
 // loadable
@@ -27,12 +28,17 @@ const HtmlInput = loadable(() =>
   })),
 );
 
+/** the query this tab reads its record from */
+type GeneralInfoPropsType = {
+  techQuery: UseQueryResult<TechDto>;
+};
+
 /**
  * General Info
  * @param props - component props
  * @returns GeneralInfo
  */
-export function GeneralInfo(props) {
+export function GeneralInfo(props: GeneralInfoPropsType) {
   const { t } = useTranslation();
 
   const { techQuery } = props;
@@ -41,9 +47,9 @@ export function GeneralInfo(props) {
 
   const { showNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [updatedAt, setLastUpdate] = useState();
+  const [updatedAt, setLastUpdate] = useState<string | Date | undefined>();
 
-  const { handleSubmit, reset, control, getValues } = useForm();
+  const { handleSubmit, reset, control, getValues } = useForm<FormValues<TechDto>>();
 
   const [photo, setPhoto] = useState();
 
@@ -66,7 +72,7 @@ export function GeneralInfo(props) {
     }
   }, [typesQuery.data]);
 
-  const onSubmit = async (d) => {
+  const onSubmit = async (d: FormValues<TechDto>) => {
     setSaving(true);
 
     try {

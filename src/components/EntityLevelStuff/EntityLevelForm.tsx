@@ -41,7 +41,7 @@ export const EntityLevelForm = <TDto extends OptionReqCommonDto>(
               ),
         )
         // the pages build these lists with the display text in `value`
-        .map((res) => ({ id: res.id, name: String(res.value) })) as Option[],
+        .map((res) => ({ id: res.id, name: res.value })) as Option[],
     [attributeId, currentList, entities, id],
   );
 

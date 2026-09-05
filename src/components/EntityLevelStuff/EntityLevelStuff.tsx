@@ -45,8 +45,8 @@ function toRows<TDto>(data?: QueryResult<TDto> | TDto[]): TDto[] {
  * @param {object} props component props
  * @returns EntityStuff component
  */
-export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
-  props: EntityLevelStuffPropsType<TDto>,
+export function EntityLevelStuff<TDto extends OptionReqCommonDto, TAddDto>(
+  props: EntityLevelStuffPropsType<TDto, TAddDto>,
 ) {
   const { t } = useTranslation();
 
@@ -106,7 +106,8 @@ export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
     }),
     onSubmit: async (dto) => {
       // the api layer throws on a failed request, it does not return an error
-      await saveFn(id, dto);
+      // the component builds the payload, the caller names its type
+      await saveFn(id, dto as TAddDto);
       setNotification("200", { model: modelName });
       await queryClient.invalidateQueries({ queryKey });
     },

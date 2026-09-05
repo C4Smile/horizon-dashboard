@@ -5,7 +5,7 @@ import { Control } from "react-hook-form";
 import { Tables } from "api";
 
 // lib
-import { BaseCommonEntityDto, BaseResourceDto, QueryResult } from "lib";
+import { BaseResourceDto, PhotoDto, QueryResult } from "lib";
 
 /**
  * An entity as the forms list it: the pages map their common lists to this
@@ -14,13 +14,14 @@ import { BaseCommonEntityDto, BaseResourceDto, QueryResult } from "lib";
 export type ResourceOption = {
   id: number;
   value: string;
-  image?: unknown;
+  image?: PhotoDto;
 };
 
-export interface OptionResourceCommonDto
-  extends BaseResourceDto, BaseCommonEntityDto {
-  value: BaseResourceDto;
-}
+/**
+ * A row of an entity's resource relation. The component only reads the id and
+ * the three numbers, so anything shaped like a resource relation fits.
+ */
+export type OptionResourceCommonDto = BaseResourceDto;
 
 /** what the dialog form holds, inputs give back strings */
 export type ResourceFormType = {
@@ -57,7 +58,10 @@ export type ResourceRowPropsType<T extends OptionResourceCommonDto> = {
   inputLabel: string;
 };
 
-export type ResourceStuffPropsType<T extends OptionResourceCommonDto> = {
+export type ResourceStuffPropsType<
+  T extends OptionResourceCommonDto,
+  TAddDto = ResourceSaveDto,
+> = {
   /** id of the entity the resources hang from */
   id: number;
   label: string;
@@ -67,7 +71,8 @@ export type ResourceStuffPropsType<T extends OptionResourceCommonDto> = {
   queryKey: QueryKey;
   /** relation endpoints answer a bare array, paged ones a QueryResult */
   queryFn: () => Promise<QueryResult<T> | T[]>;
-  saveFn: (id: number, data: ResourceSaveDto) => Promise<unknown>;
+  /** only the caller knows the relation's own add dto */
+  saveFn: (id: number, data: TAddDto) => Promise<unknown>;
   deleteFn: (id: number, resourceId: number) => Promise<unknown>;
   resources: ResourceOption[];
 };

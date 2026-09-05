@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+
+// lib
+import { FormValues, ResourceDto } from "lib";
 import { useQuery } from "@tanstack/react-query";
 import { useForm, Controller } from "react-hook-form";
 import loadable from "@loadable/component";
@@ -52,11 +55,11 @@ function ResourceForm() {
   const [saving, setSaving] = useState(false);
   const [updatedAt, setLastUpdate] = useState<string | Date | undefined>();
 
-  const { handleSubmit, reset, control } = useForm();
+  const { handleSubmit, reset, control } = useForm<FormValues<ResourceDto>>();
 
   const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
-  const onSubmit = async (d) => {
+  const onSubmit = async (d: FormValues<ResourceDto>) => {
     setSaving(true);
 
     try {

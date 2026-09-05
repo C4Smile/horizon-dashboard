@@ -1,4 +1,3 @@
-import { toSlug } from "some-javascript-utils";
 
 // apis
 import { ShipCostsApiClient } from "./ShipCostsApiClient.js";
@@ -20,6 +19,7 @@ import { Tables } from "./types/dbUtils.js";
 
 // lib
 import {
+  FormValues,
   ShipAddDto,
   ShipCommonDto,
   ShipDto,
@@ -56,10 +56,9 @@ export class ShipApiClient extends BaseApiClient<
    * @param photo - ImageUploader state
    * @returns ship dto
    */
-  private toDto(ship: ShipDto, photo: FormPhoto) {
+  private toDto(ship: FormValues<ShipDto>, photo: FormPhoto) {
     return {
-      name: ship.name,
-      urlName: toSlug(ship.name),
+      name: ship.name ?? "",
       description: parseHtml(ship.description),
       creationTime: parseNumber(ship.creationTime),
       capacity: parseNumber(ship.capacity),
@@ -79,7 +78,7 @@ export class ShipApiClient extends BaseApiClient<
    * @param photo - Photo
    * @returns Transaction status
    */
-  async createFromForm(ship: ShipDto, photo: FormPhoto) {
+  async createFromForm(ship: FormValues<ShipDto>, photo: FormPhoto) {
     return await this.saveNew(this.toDto(ship, photo));
   }
 
@@ -89,9 +88,9 @@ export class ShipApiClient extends BaseApiClient<
    * @param photo - Photo
    * @returns Transaction status
    */
-  async updateFromForm(ship: ShipDto, photo: FormPhoto) {
+  async updateFromForm(ship: FormValues<ShipDto>, photo: FormPhoto) {
     return await this.saveExisting({
-      id: ship.id,
+      id: parseNumber(ship.id),
       ...this.toDto(ship, photo),
     });
   }

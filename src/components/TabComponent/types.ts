@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 type TabType = {
-  id: number;
+  id: string;
   label: string;
 };
 
@@ -9,6 +9,6 @@ export type TabsLayoutPropsType = {
   id: number;
   entity: string;
   tabs: TabType[];
-  content: { [key: number]: ReactNode };
+  content: { [key: string]: ReactNode };
   name: string;
 };

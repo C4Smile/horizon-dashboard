@@ -350,5 +350,29 @@
     "updatedAt": {
       "label": "Última actualización"
     }
+  },
+  "ships": {
+    "resource": {
+      "cost": "Cuesta",
+      "upkeep": "Consume"
+    }
+  },
+  "buildings": {
+    "resource": {
+      "cost": "Cuesta",
+      "upkeep": "Consume",
+      "production": "Produce"
+    }
+  },
+  "techs": {
+    "resource": {
+      "cost": "Cuesta",
+      "production": "Produce"
+    }
+  },
+  "cannons": {
+    "resource": {
+      "cost": "Cuesta"
+    }
   }
 }

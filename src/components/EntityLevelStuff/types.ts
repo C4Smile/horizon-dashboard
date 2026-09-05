@@ -5,11 +5,23 @@ import { Control } from "react-hook-form";
 import { Tables } from "api";
 
 // lib
-import { BaseCommonEntityDto, BaseReqDto, QueryResult } from "lib";
+import { BaseReqDto, PhotoDto, QueryResult } from "lib";
 
-export interface OptionReqCommonDto extends BaseReqDto, BaseCommonEntityDto {
+/**
+ * A row of an entity's requirement relation. The component reads the id, the
+ * level and the column naming the required entity, nothing else.
+ */
+export type OptionReqCommonDto = BaseReqDto;
+
+/**
+ * An entity the picker can choose, as the pages build it: the display text
+ * lives in `value`.
+ */
+export type EntityOption = {
+  id: number;
   value: string;
-}
+  image?: PhotoDto;
+};
 
 /** what the dialog form holds, inputs give back strings */
 export type EntityLevelFormType = {
@@ -26,7 +38,7 @@ export type EntityLevelSaveDto = {
 
 export type EntityLevelFormPropsType<T extends OptionReqCommonDto> = {
   currentList: T[];
-  entities: T[];
+  entities: EntityOption[];
   inputLabel: string;
   inputPlaceholder: string;
   control: Control<EntityLevelFormType>;
@@ -37,7 +49,7 @@ export type EntityLevelFormPropsType<T extends OptionReqCommonDto> = {
 
 export type EntityLevelRowPropsType<T extends OptionReqCommonDto> = {
   disabled: boolean;
-  entities: T[];
+  entities: EntityOption[];
   value: T;
   onDelete: (id: number) => void;
   onEdit: (id: number) => void;
@@ -47,7 +59,10 @@ export type EntityLevelRowPropsType<T extends OptionReqCommonDto> = {
   attributeId: string;
 };
 
-export type EntityLevelStuffPropsType<T extends OptionReqCommonDto> = {
+export type EntityLevelStuffPropsType<
+  T extends OptionReqCommonDto,
+  TAddDto = EntityLevelSaveDto,
+> = {
   /** id of the entity the requirements hang from */
   id: number;
   inputKey: string;
@@ -56,8 +71,9 @@ export type EntityLevelStuffPropsType<T extends OptionReqCommonDto> = {
   queryKey: QueryKey;
   /** relation endpoints answer a bare array, paged ones a QueryResult */
   queryFn: () => Promise<QueryResult<T> | T[]>;
-  saveFn: (id: number, data: EntityLevelSaveDto) => Promise<unknown>;
+  /** only the caller knows the relation's own add dto */
+  saveFn: (id: number, data: TAddDto) => Promise<unknown>;
   deleteFn: (id: number, entityId: number) => Promise<unknown>;
   attributeId: string;
-  entities: T[];
+  entities: EntityOption[];
 };

@@ -1,4 +1,7 @@
 import { useTranslation } from "react-i18next";
+
+// lib
+import { CannonCostAddDto, CannonReqBuildingAddDto, CannonReqTechAddDto } from "lib";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -147,7 +150,7 @@ function CannonForm() {
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.CannonCosts, id]}
           queryFn={() => horizonApiClient.Cannon.cannonCosts.get(Number(id))}
-          saveFn={async (id, data) =>
+          saveFn={async (id, data: CannonCostAddDto) =>
             horizonApiClient.Cannon.cannonCosts.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
@@ -169,7 +172,7 @@ function CannonForm() {
             id,
           ]}
           queryFn={() => horizonApiClient.Cannon.cannonReqTechs.get(Number(id))}
-          saveFn={async (id, data) =>
+          saveFn={async (id, data: CannonReqTechAddDto) =>
             horizonApiClient.Cannon.cannonReqTechs.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
@@ -191,7 +194,7 @@ function CannonForm() {
             id,
           ]}
           queryFn={() => horizonApiClient.Cannon.cannonReqBuildings.get(Number(id))}
-          saveFn={async (id, data) =>
+          saveFn={async (id, data: CannonReqBuildingAddDto) =>
             horizonApiClient.Cannon.cannonReqBuildings.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>

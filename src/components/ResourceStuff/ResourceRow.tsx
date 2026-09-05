@@ -43,19 +43,19 @@ export const ResourceRow = memo(
     return (
       <div className="flex flex-col w-full gap-5">
         <p className="min-w-20">
-          {label} {resource?.name}
+          {label} {resource?.value}
         </p>
         <div className="flex items-start justify-start w-full gap-10">
           {resource ? (
             <img
               className="w-16 h-16 rounded-full object-cover self-center"
-              src={staticUrlPhoto(resource?.image?.url)}
-              alt={resource?.name}
+              src={staticUrlPhoto(resource?.image?.url ?? "")}
+              alt={resource?.value}
             />
           ) : null}
           <p>
             {t("_entities:entities.resource")} <br />
-            <span className="text-primary text-xl">{resource?.name}</span>
+            <span className="text-primary text-xl">{resource?.value}</span>
           </p>
           <p className="text-base">
             {inputLabel} <br />
