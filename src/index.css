@@ -134,3 +134,26 @@ textarea {
     transform: rotate(360deg);
   }
 }
+
+/* The shared dropdown reuses the round icon button for its rows, so each one
+   arrives as a fixed size grey pill. The rows read as a menu, not as buttons:
+   flat, full width, and only filled on hover. Plain CSS on purpose, the
+   library ships these rules unlayered and @apply would lose the cascade. */
+.action.action-dropdown-item {
+  width: 100%;
+  height: auto;
+  justify-content: flex-start;
+  gap: 0.625rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  background-color: transparent;
+}
+
+.action.action-dropdown-item:hover:not(:disabled) {
+  background-color: rgb(0 0 0 / 6%);
+}
+
+.actions-container.actions-dropdown-list {
+  gap: 0.125rem;
+}
