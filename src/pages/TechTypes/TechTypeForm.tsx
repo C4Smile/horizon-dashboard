@@ -9,25 +9,31 @@ import loadable from "@loadable/component";
 import { Loading, TextInput } from "@sito/dashboard-app";
 
 // components
-import { ImageUploader } from "components";
+import { ImageFormType, ImageUploader } from "components";
 
 // providers
 import { useNotification, queryClient, useHorizonApiClient } from "providers";
 
 // utils
-import { ReactQueryKeys } from "utils";
+import { ReactQueryKeys } from "../../utils/queryKeys";
 
 // api
 import { isHttpRequestError } from "api";
+
+// lib
+import { TechTypeDto } from "lib";
+
+/** what this form edits */
+type FormType = TechTypeDto;
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
 
 /**
- * BuildingType Form page component
- * @returns BuildingType Form page component
+ * TechType Form page component
+ * @returns TechType Form page component
  */
-function BuildingTypeForm() {
+function TechTypeForm() {
   const { id } = useParams();
 
   const { t } = useTranslation();
@@ -38,88 +44,85 @@ function BuildingTypeForm() {
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [lastUpdate, setLastUpdate] = useState();
+  const [updatedAt, setUpdatedAt] = useState<string | undefined>();
 
-  const [photo, setPhoto] = useState();
+  const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
-  const { handleSubmit, reset, control } = useForm();
+  const { handleSubmit, reset, control } = useForm<FormType>();
 
-  const onSubmit = async (d) => {
+  const onSubmit = async (d: FormType) => {
     setSaving(true);
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.BuildingType.create(d, photo);
-      else result = await horizonApiClient.BuildingType.update(d, photo);
+      if (!d.id) result = await horizonApiClient.TechType.create(d, photo);
+      else result = await horizonApiClient.TechType.update(d, photo);
 
       const { error, status } = result;
       setNotification(String(status), {
-        model: t("_entities:entities.buildingType"),
+        model: t("_entities:entities.techType"),
       });
-      setLastUpdate(new Date().toDateString());
+      setUpdatedAt(new Date().toDateString());
       // eslint-disable-next-line no-console
       if (error) console.error(error.message);
       else {
         await queryClient.invalidateQueries({
-          queryKey: [ReactQueryKeys.BuildingTypes],
+          queryKey: [ReactQueryKeys.TechTypes],
         });
         if (id !== undefined)
           await queryClient.invalidateQueries({
-            queryKey: [ReactQueryKeys.BuildingTypes, id],
+            queryKey: [ReactQueryKeys.TechTypes, id],
           });
         else {
-          setPhoto();
+          setPhoto(null);
           reset({
             id: undefined,
             name: "",
           });
         }
       }
-    } catch (e) {
-      // eslint-disable-next-line no-console
+    } catch (e: unknown) {
       console.error(e);
-      setNotification(String(e.status), {
-        model: t("_entities:entities.buildingType"),
+      setNotification(isHttpRequestError(e) ? String(e.status) : "notConnected", {
+        model: t("_entities:entities.techType"),
       });
     }
     setSaving(false);
   };
 
-  const buildingTypeQuery = useQuery({
-    queryKey: [ReactQueryKeys.BuildingTypes, id],
-    queryFn: () => horizonApiClient.BuildingType.getById(id),
+  const techTypeQuery = useQuery({
+    queryKey: [ReactQueryKeys.TechTypes, id],
+    queryFn: () => horizonApiClient.TechType.getById(Number(id)),
     enabled: id !== undefined,
   });
 
   useEffect(() => {
     // the api throws instead of answering { data, status }, so the failure
     // shows up as the query error, never as a field on data
-    const { error } = buildingTypeQuery;
+    const { error } = techTypeQuery;
     if (!error) return;
 
     console.error(error);
     if (isHttpRequestError(error) && error.status === 404) setNotFound(true);
-  }, [buildingTypeQuery]);
+  }, [techTypeQuery]);
 
   useEffect(() => {
-    if (buildingTypeQuery.data) {
+    if (techTypeQuery.data) {
       //* PARSING PHOTO
-      setPhoto(buildingTypeQuery.data?.image);
+      setPhoto(techTypeQuery.data?.image);
 
-      setLastUpdate(buildingTypeQuery?.data?.lastUpdate);
-      reset({ ...buildingTypeQuery.data });
+      setUpdatedAt(techTypeQuery?.data?.updatedAt as unknown as string);
+      reset({ ...techTypeQuery.data });
     }
 
     if (!id) {
-      setPhoto();
+      setPhoto(null);
       reset({
         id: undefined,
         name: "",
-        baseFactor: 0,
-        description: "",
       });
     }
-  }, [buildingTypeQuery.data, reset, id]);
+  }, [techTypeQuery.data, reset, id]);
 
   return notFound ? (
     <NotFound />
@@ -129,9 +132,9 @@ function BuildingTypeForm() {
         <h1 className="text-2xl md:text-3xl font-bold">
           {id
             ? `${t("_accessibility:components.form.editing")} ${id}`
-            : t("_pages:buildingTypes.newForm")}
+            : t("_pages:techTypes.newForm")}
         </h1>
-        {buildingTypeQuery.isLoading ? (
+        {techTypeQuery.isLoading ? (
           <Loading
             className="bg-none w-6 h-6 mb-10"
             strokeWidth="4"
@@ -139,20 +142,20 @@ function BuildingTypeForm() {
             color="stroke-primary"
           />
         ) : (
-          <div className={id && lastUpdate ? "" : "mt-5"}>
-            {id && lastUpdate && (
+          <div className={id && updatedAt ? "" : "mt-5"}>
+            {id && updatedAt && (
               <p className="text-sm mb-10">
                 {t("_accessibility:labels.lastUpdate")}{" "}
-                {new Date(lastUpdate).toLocaleDateString("es-ES")}
+                {new Date(updatedAt).toLocaleDateString("es-ES")}
               </p>
             )}
           </div>
         )}
 
-        {/* BuildingType Name */}
+        {/* TechType Name */}
         <Controller
           control={control}
-          disabled={buildingTypeQuery.isLoading || saving}
+          disabled={techTypeQuery.isLoading || saving}
           name="name"
           render={({ field }) => (
             <TextInput
@@ -161,33 +164,33 @@ function BuildingTypeForm() {
               name="name"
               id="name"
               className="text-input peer"
-              placeholder={t("_entities:buildingType.name.placeholder")}
-              label={t("_entities:buildingType.name.label")}
+              placeholder={t("_entities:techType.name.placeholder")}
+              label={t("_entities:techType.name.label")}
               required
             />
           )}
         />
 
-        {/* Building Image */}
+        {/* Tech Image */}
         <div className="my-5">
-          {buildingTypeQuery.isLoading ? (
+          {techTypeQuery.isLoading ? (
             <Loading />
           ) : (
             <ImageUploader
               photo={photo}
               setPhoto={setPhoto}
-              label={t("_entities:buildingType.image.label")}
-              folder={ReactQueryKeys.BuildingTypes}
+              label={t("_entities:techType.image.label")}
+              folder={ReactQueryKeys.TechTypes}
             />
           )}
         </div>
 
         <button
           type="submit"
-          disabled={buildingTypeQuery.isLoading || saving}
+          disabled={techTypeQuery.isLoading || saving}
           className="my-5 submit"
         >
-          {(buildingTypeQuery.isLoading || saving) && (
+          {(techTypeQuery.isLoading || saving) && (
             <Loading
               className="button-loading"
               strokeWidth="4"
@@ -202,4 +205,4 @@ function BuildingTypeForm() {
   );
 }
 
-export default BuildingTypeForm;
+export default TechTypeForm;

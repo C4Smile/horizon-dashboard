@@ -23,7 +23,7 @@ import { GeneralInfo } from "./tabs/";
 import { Tables, isHttpRequestError } from "api";
 
 // pages
-const NotFound = loadable(() => import("../NotFound/NotFound.jsx"));
+const NotFound = loadable(() => import("../NotFound/NotFound"));
 
 /**
  * Building Form page component

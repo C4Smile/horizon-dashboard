@@ -11,14 +11,19 @@ export type ImageUploaderMultiplePropsType = {
   setPhotos: ActionDispatch<[action: PhotoReducerActionType]>;
 };
 
-export interface ImageFormType extends BlobDto {
+/**
+ * A photo while a form holds it: either one the api already stored, which
+ * arrives with an id and a url, or one the user just picked, which arrives as
+ * a base64 blob. parseImage decides which of the two it is on the way out.
+ */
+export type ImageFormType = Partial<BlobDto> & {
   id?: number;
   url?: string;
-}
+};
 
 export type ImageUploaderPropsType = {
   label?: string;
   folder: string;
-  photo: ImageFormType;
+  photo: ImageFormType | null;
   setPhoto: Dispatch<SetStateAction<ImageFormType | null>>;
 };

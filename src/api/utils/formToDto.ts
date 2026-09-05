@@ -7,7 +7,7 @@ import { BlobDto, PhotoDto } from "lib";
 /** image seeded by scripts.sql, used when the entity has no photo */
 export const DEFAULT_IMAGE_ID = 1;
 
-export type FormPhoto = PhotoDto | BlobDto | null | undefined;
+export type FormPhoto = Partial<PhotoDto & BlobDto> | null | undefined;
 
 /**
  * @description Converts what the HtmlInput holds into the html the api stores

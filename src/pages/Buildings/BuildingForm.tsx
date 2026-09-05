@@ -32,7 +32,7 @@ import {
 } from "lib";
 
 // pages
-const NotFound = loadable(() => import("../NotFound/NotFound.jsx"));
+const NotFound = loadable(() => import("../NotFound/NotFound"));
 
 /**
  * Building Form page component

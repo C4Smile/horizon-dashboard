@@ -61,7 +61,7 @@ export function ImageUploader(props: ImageUploaderPropsType) {
         <Loading className="w-60 h-60 bg-black/20 rounded-full" />
       ) : (
         <>
-          {photoToShow && photo.id !== 1 ? (
+          {photoToShow && photo?.id !== 1 ? (
             <>
               <div className="flex flex-col relative">
                 <button

@@ -4,7 +4,6 @@ import { ReactNode } from "react";
 import { Roles } from "lib";
 
 import { PageId } from "./sitemap";
-import { MenuKeys } from "./menuMap";
 
 export type ViewPageType = {
   key: PageId;
@@ -14,15 +13,11 @@ export type ViewPageType = {
   children?: ViewPageType[];
 };
 
-export type SubMenuItemType = {
-  label: string;
-  path: string;
-};
-
-export type MenuItemType = {
-  page: MenuKeys;
-  path: string;
-  icon: ReactNode;
-  roles?: Roles[];
-  child: SubMenuItemType[];
+/**
+ * A tab on an entity form. `hide` decides whether the tab is offered for the
+ * record at hand: the relation tabs only make sense once the entity exists.
+ */
+export type EntityTabType = {
+  id: string;
+  hide?: (isEditing: boolean) => boolean;
 };
