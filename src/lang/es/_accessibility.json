@@ -27,6 +27,9 @@
       "selectAllRows": "Seleccionar todas las filas",
       "selectRow": "Seleccionar fila",
       "selectedCount": "{{count}} seleccionados"
+    },
+    "form": {
+      "editing": "Editando"
     }
   },
   "appName": "Horizon dashboard",
