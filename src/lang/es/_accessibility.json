@@ -106,7 +106,8 @@
     "closeNotification": "Cerrar notificación",
     "start": "Empezar",
     "skip": "Saltar",
-    "next": "Siguiente"
+    "next": "Siguiente",
+    "viewImage": "Ver imagen completa"
   },
   "errors": {
     "passwordDoNotMatch": "Las contraseñas no coinciden",

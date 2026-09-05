@@ -3,11 +3,8 @@ import { Link } from "react-router-dom";
 // @sito/dashboar
 import { ColumnType, FilterTypes } from "@sito/dashboard-app";
 
-// images
-import noProduct from "assets/images/no-product.jpg";
-
-// utils
-import { staticUrlPhoto } from "components";
+// components
+import { PhotoPreview } from "components";
 
 // lib
 import { BaseCommonEntityDto, BaseEntityDto, PhotoDto } from "lib";
@@ -50,26 +47,8 @@ export const imageColumn = <TDto extends BaseEntityDto>(
         (photo): photo is PhotoDto => !!photo?.url,
       );
 
-      if (!photos.length)
-        return (
-          <img
-            className="small-image rounded-full object-cover"
-            src={noProduct}
-            alt={entity[altKey] as string}
-          />
-        );
-
       return (
-        <div className="flex items-center justify-start">
-          {photos.map((photo, i) => (
-            <img
-              key={photo.id ?? i}
-              className={`small-image rounded-full object-cover border-white border-2 ${i > 0 ? "-ml-4" : ""}`}
-              src={staticUrlPhoto(photo.url)}
-              alt={`${entity[altKey]} ${i}`}
-            />
-          ))}
-        </div>
+        <PhotoPreview photos={photos} alt={entity[altKey] as string} />
       );
     },
   };

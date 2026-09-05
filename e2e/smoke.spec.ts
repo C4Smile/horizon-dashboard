@@ -52,4 +52,27 @@ test.describe("E2E Smoke – shell", () => {
     await signOut.click();
     await expect(page).toHaveURL(/\/auth/, { timeout: 15_000 });
   });
+
+  test("an image cell opens the full photo in a dialog", async ({ page }) => {
+    await page.goto("/auth");
+
+    await page.locator("#sign-in-email").fill(USER);
+    await page.locator("#sign-in-password").fill(PASSWORD);
+    await page.getByRole("button", { name: /enviar|entrar|submit/i }).click();
+    await expect(page).not.toHaveURL(/\/auth/, { timeout: 15_000 });
+
+    await page.goto("/game/resources");
+
+    const thumb = page.locator("td button img").first();
+    await expect(thumb).toBeVisible({ timeout: 15_000 });
+    const thumbSrc = await thumb.getAttribute("src");
+
+    await thumb.click();
+
+    // the same photo, no longer at thumbnail size
+    const full = page.locator(".dialog img");
+    await expect(full).toBeVisible({ timeout: 10_000 });
+    await expect(full).toHaveAttribute("src", thumbSrc ?? "");
+    expect((await full.boundingBox())?.width ?? 0).toBeGreaterThan(200);
+  });
 });

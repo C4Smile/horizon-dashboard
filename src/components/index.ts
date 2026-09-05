@@ -3,6 +3,7 @@ export * from "./Logo";
 export * from "./EntityLevelStuff";
 export * from "./Forms";
 export * from "./ImageUploader";
+export * from "./PhotoPreview";
 export * from "./ResourceStuff";
 export * from "./TabComponent";
 export * from "./utils";
