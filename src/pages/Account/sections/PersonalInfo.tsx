@@ -153,7 +153,6 @@ function PersonalInfo() {
             {...field}
             type="text"
             id="name"
-            inputClassName="text-input peer"
             placeholder={t("_entities:user.name.placeholder")}
             label={t("_entities:user.name.label")}
             required
@@ -170,7 +169,6 @@ function PersonalInfo() {
             {...field}
             type="email"
             id="email"
-            inputClassName="text-input peer"
             placeholder={t("_entities:user.email.placeholder")}
             label={t("_entities:user.email.label")}
             required
@@ -187,7 +185,6 @@ function PersonalInfo() {
             {...field}
             type="text"
             id="username"
-            inputClassName="text-input peer"
             placeholder={t("_entities:user.username.placeholder")}
             label={t("_entities:user.username.label")}
             required
@@ -204,7 +201,6 @@ function PersonalInfo() {
             {...field}
             type="text"
             id="address"
-            inputClassName="text-input peer"
             placeholder={t("_entities:user.address.placeholder")}
             label={t("_entities:user.address.label")}
             required
@@ -221,7 +217,6 @@ function PersonalInfo() {
             {...field}
             type="text"
             id="identification"
-            inputClassName="text-input peer"
             placeholder={t("_entities:user.identification.placeholder")}
             label={t("_entities:user.identification.label")}
             required
@@ -237,7 +232,6 @@ function PersonalInfo() {
           <TextInput
             type="tel"
             id="phone"
-            inputClassName="text-input peer"
             placeholder={t("_entities:user.phone.placeholder")}
             label={t("_entities:user.phone.label")}
             required

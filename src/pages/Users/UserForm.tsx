@@ -219,7 +219,6 @@ function UserForm() {
               {...field}
               type="text"
               id="name"
-              inputClassName="text-input peer"
               placeholder={t("_entities:user.name.placeholder")}
               label={t("_entities:user.name.label")}
               required
@@ -236,7 +235,6 @@ function UserForm() {
               {...field}
               type="email"
               id="email"
-              inputClassName="text-input peer"
               placeholder={t("_entities:user.email.placeholder")}
               label={t("_entities:user.email.label")}
               required
@@ -253,7 +251,6 @@ function UserForm() {
               {...field}
               type="text"
               id="username"
-              inputClassName="text-input peer"
               placeholder={t("_entities:user.username.placeholder")}
               label={t("_entities:user.username.label")}
               required
@@ -269,7 +266,6 @@ function UserForm() {
             <PasswordInput
               {...field}
               id="password"
-              inputClassName="text-input peer"
               placeholder={t("_entities:user.password.placeholder")}
               label={t("_entities:user.password.label")}
               required
@@ -285,7 +281,6 @@ function UserForm() {
             <PasswordInput
               {...field}
               id="rPassword"
-              inputClassName="text-input peer"
               placeholder={t("_entities:user.rPassword.placeholder")}
               label={t("_entities:user.rPassword.label")}
               required
@@ -301,7 +296,6 @@ function UserForm() {
             <TextInput
               type="tel"
               id="phone"
-              inputClassName="text-input peer"
               placeholder={t("_entities:user.phone.placeholder")}
               label={t("_entities:user.phone.label")}
               required

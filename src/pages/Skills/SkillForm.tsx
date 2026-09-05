@@ -180,7 +180,6 @@ function SkillForm() {
               {...field}
               type="text"
               id="name"
-              className="text-input peer"
               placeholder={t("_entities:skill.name.placeholder")}
               label={t("_entities:skill.name.label")}
               required

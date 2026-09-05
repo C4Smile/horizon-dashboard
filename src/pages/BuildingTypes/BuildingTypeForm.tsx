@@ -142,7 +142,7 @@ function BuildingTypeForm() {
           <div className={id && updatedAt ? "" : "mt-5"}>
             {id && updatedAt && (
               <p className="text-sm mb-10">
-                {t("_accessibility:labels.lastUpdate")}{" "}
+                {t("_accessibility:labels.updatedAt")}{" "}
                 {new Date(updatedAt).toLocaleDateString("es-ES")}
               </p>
             )}
@@ -159,7 +159,6 @@ function BuildingTypeForm() {
               {...field}
               type="text"
               id="name"
-              className="text-input peer"
               placeholder={t("_entities:buildingType.name.placeholder")}
               label={t("_entities:buildingType.name.label")}
               required

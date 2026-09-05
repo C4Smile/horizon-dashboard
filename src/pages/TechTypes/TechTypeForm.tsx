@@ -142,7 +142,7 @@ function TechTypeForm() {
           <div className={id && updatedAt ? "" : "mt-5"}>
             {id && updatedAt && (
               <p className="text-sm mb-10">
-                {t("_accessibility:labels.lastUpdate")}{" "}
+                {t("_accessibility:labels.updatedAt")}{" "}
                 {new Date(updatedAt).toLocaleDateString("es-ES")}
               </p>
             )}
@@ -159,7 +159,6 @@ function TechTypeForm() {
               {...field}
               type="text"
               id="name"
-              className="text-input peer"
               placeholder={t("_entities:techType.name.placeholder")}
               label={t("_entities:techType.name.label")}
               required

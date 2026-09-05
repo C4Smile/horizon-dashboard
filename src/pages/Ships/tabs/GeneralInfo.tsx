@@ -172,7 +172,6 @@ function GeneralInfo(props: GeneralInfoPropsType) {
             type="text"
             name="name"
             id="name"
-            className="text-input peer"
             placeholder={t("_entities:ship.name.placeholder")}
             label={t("_entities:ship.name.label")}
             required
@@ -191,7 +190,6 @@ function GeneralInfo(props: GeneralInfoPropsType) {
             type="number"
             name="capacity"
             id="capacity"
-            className="text-input peer"
             placeholder={t("_entities:ship.capacity.placeholder")}
             label={t("_entities:ship.capacity.label")}
             required
@@ -211,7 +209,6 @@ function GeneralInfo(props: GeneralInfoPropsType) {
               type="number"
               name="knots"
               id="knots"
-              className="text-input peer"
               placeholder={t("_entities:ship.knots.placeholder")}
               label={t("_entities:ship.knots.label")}
               required
@@ -232,7 +229,7 @@ function GeneralInfo(props: GeneralInfoPropsType) {
               type="number"
               name="minCrew"
               id="minCrew"
-              className="text-input peer w-full"
+            inputClassName="w-full"
               placeholder={t("_entities:ship.minCrew.placeholder")}
               label={t("_entities:ship.minCrew.label")}
               required
@@ -250,7 +247,7 @@ function GeneralInfo(props: GeneralInfoPropsType) {
               type="number"
               name="bestCrew"
               id="bestCrew"
-              className="text-input peer w-full"
+            inputClassName="w-full"
               placeholder={t("_entities:ship.bestCrew.placeholder")}
               label={t("_entities:ship.bestCrew.label")}
               required
@@ -268,7 +265,7 @@ function GeneralInfo(props: GeneralInfoPropsType) {
               type="number"
               name="maxCrew"
               id="maxCrew"
-              className="text-input peer w-full"
+            inputClassName="w-full"
               placeholder={t("_entities:ship.maxCrew.placeholder")}
               label={t("_entities:ship.maxCrew.label")}
               required
@@ -288,7 +285,6 @@ function GeneralInfo(props: GeneralInfoPropsType) {
             type="number"
             name="guns"
             id="guns"
-            className="text-input peer"
             placeholder={t("_entities:ship.guns.placeholder")}
             label={t("_entities:ship.guns.label")}
             required
@@ -307,7 +303,6 @@ function GeneralInfo(props: GeneralInfoPropsType) {
             type="number"
             name="hull"
             id="hull"
-            className="text-input peer"
             placeholder={t("_entities:ship.hull.placeholder")}
             label={t("_entities:ship.hull.label")}
             required
@@ -326,7 +321,6 @@ function GeneralInfo(props: GeneralInfoPropsType) {
             type="number"
             name="creationTime"
             id="creationTime"
-            className="text-input peer"
             placeholder={t("_entities:ship.creationTime.placeholder")}
             label={t("_entities:ship.creationTime.label")}
             required

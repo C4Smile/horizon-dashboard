@@ -75,7 +75,7 @@
   "labels": {
     "require": "Requiere",
     "loading": "Cargando",
-    "lastUpdate": "Última actualización",
+    "updatedAt": "Última actualización",
     "actions": "Acciones",
     "none": "-",
     "tons": "toneladas",

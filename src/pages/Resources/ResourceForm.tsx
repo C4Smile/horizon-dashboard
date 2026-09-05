@@ -182,7 +182,6 @@ function ResourceForm() {
               {...field}
               type="text"
               id="name"
-              className="text-input peer"
               placeholder={t("_entities:resource.name.placeholder")}
               label={t("_entities:resource.name.label")}
               required
@@ -199,7 +198,6 @@ function ResourceForm() {
               {...field}
               type="text"
               id="baseFactor"
-              className="text-input peer"
               placeholder={t("_entities:resource.baseFactor.placeholder")}
               label={t("_entities:resource.baseFactor.label")}
               required

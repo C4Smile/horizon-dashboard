@@ -184,7 +184,6 @@ function GeneralInfo(props: GeneralInfoPropsType) {
             type="text"
             name="name"
             id="name"
-            className="text-input peer"
             placeholder={t("_entities:building.name.placeholder")}
             label={t("_entities:building.name.label")}
             required
@@ -203,7 +202,6 @@ function GeneralInfo(props: GeneralInfoPropsType) {
             type="number"
             name="creationTime"
             id="creationTime"
-            className="text-input peer"
             placeholder={t("_entities:building.creationTime.placeholder")}
             label={t("_entities:building.creationTime.label")}
             required

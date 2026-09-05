@@ -81,7 +81,6 @@ function Security() {
             {...field}
             type="text"
             id="password"
-            inputClassName="text-input peer"
             placeholder={t("_entities:user.password.placeholder")}
             label={t("_entities:user.password.label")}
             required
@@ -97,7 +96,6 @@ function Security() {
             {...field}
             type="text"
             id="rPassword"
-            inputClassName="text-input peer"
             placeholder={t("_entities:user.rPassword.placeholder")}
             label={t("_entities:user.rPassword.label")}
             required

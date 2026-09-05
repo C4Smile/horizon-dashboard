@@ -159,7 +159,6 @@ function GeneralInfo(props: GeneralInfoPropsType) {
             type="text"
             name="name"
             id="name"
-            className="text-input peer"
             placeholder={t("_entities:cannon.name.placeholder")}
             label={t("_entities:cannon.name.label")}
             required
@@ -178,7 +177,6 @@ function GeneralInfo(props: GeneralInfoPropsType) {
             type="number"
             name="weight"
             id="weight"
-            className="text-input peer"
             placeholder={t("_entities:cannon.weight.placeholder")}
             label={t("_entities:cannon.weight.label")}
             required
@@ -197,7 +195,6 @@ function GeneralInfo(props: GeneralInfoPropsType) {
             type="number"
             name="baseDamage"
             id="baseDamage"
-            className="text-input peer"
             placeholder={t("_entities:cannon.baseDamage.placeholder")}
             label={t("_entities:cannon.baseDamage.label")}
             required
@@ -216,7 +213,6 @@ function GeneralInfo(props: GeneralInfoPropsType) {
             type="number"
             name="creationTime"
             id="creationTime"
-            className="text-input peer"
             placeholder={t("_entities:cannon.creationTime.placeholder")}
             label={t("_entities:cannon.creationTime.label")}
             required
