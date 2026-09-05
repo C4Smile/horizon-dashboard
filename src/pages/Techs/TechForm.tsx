@@ -40,7 +40,7 @@ function TechForm() {
 
   const techQuery = useQuery({
     queryKey: [ReactQueryKeys.Techs, id],
-    queryFn: () => horizonApiClient.Tech.getById(id),
+    queryFn: () => horizonApiClient.Tech.getById(Number(id)),
     enabled: id !== undefined,
   });
 
@@ -141,43 +141,43 @@ function TechForm() {
       general: <GeneralInfo techQuery={techQuery} />,
       produces: (
         <ResourceStuff
-          id={id}
+          id={Number(id)}
           resources={resourcesList}
           entity={Tables.Techs}
           entityToSave={Tables.TechProduces}
           label={"production"}
           inputKey={"baseProduction"}
           queryKey={[ReactQueryKeys.TechProduces, id]}
-          queryFn={() => horizonApiClient.Tech.techProductions.get(id)}
+          queryFn={() => horizonApiClient.Tech.techProductions.get(Number(id))}
           saveFn={async (id, data) =>
-            horizonApiClient.Tech.techProductions.insert(id, data)
+            horizonApiClient.Tech.techProductions.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Tech.techProductions.delete(id, [resourceId])
+            horizonApiClient.Tech.techProductions.delete(Number(id), [resourceId])
           }
         />
       ),
       costs: (
         <ResourceStuff
-          id={id}
+          id={Number(id)}
           resources={resourcesList}
           entity={Tables.Techs}
           entityToSave={Tables.TechCosts}
           label={"cost"}
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.TechCosts, id]}
-          queryFn={() => horizonApiClient.Tech.techCosts.get(id)}
+          queryFn={() => horizonApiClient.Tech.techCosts.get(Number(id))}
           saveFn={async (id, data) =>
-            horizonApiClient.Tech.techCosts.insert(id, data)
+            horizonApiClient.Tech.techCosts.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Tech.techCosts.delete(id, [resourceId])
+            horizonApiClient.Tech.techCosts.delete(Number(id), [resourceId])
           }
         />
       ),
       techReqTechs: (
         <EntityLevelStuff
-          id={id}
+          id={Number(id)}
           entities={techsList}
           attributeId="techReqId"
           entity={Tables.Techs}
@@ -185,18 +185,18 @@ function TechForm() {
           label={"req"}
           inputKey={"techLevel"}
           queryKey={[ReactQueryKeys.TechRequirements, ReactQueryKeys.Techs, id]}
-          queryFn={() => horizonApiClient.Tech.techReqTechs.get(id)}
+          queryFn={() => horizonApiClient.Tech.techReqTechs.get(Number(id))}
           saveFn={async (id, data) =>
-            horizonApiClient.Tech.techReqTechs.insert(id, data)
+            horizonApiClient.Tech.techReqTechs.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Tech.techReqTechs.delete(id, [resourceId])
+            horizonApiClient.Tech.techReqTechs.delete(Number(id), [resourceId])
           }
         />
       ),
       techReqBuildings: (
         <EntityLevelStuff
-          id={id}
+          id={Number(id)}
           entities={buildingsList}
           attributeId="buildingReqId"
           entity={Tables.Buildings}
@@ -207,12 +207,12 @@ function TechForm() {
             ReactQueryKeys.Buildings,
             id,
           ]}
-          queryFn={() => horizonApiClient.Tech.techReqBuildings.get(id)}
+          queryFn={() => horizonApiClient.Tech.techReqBuildings.get(Number(id))}
           saveFn={async (id, data) =>
-            horizonApiClient.Tech.techReqBuildings.insert(id, data)
+            horizonApiClient.Tech.techReqBuildings.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Tech.techReqBuildings.delete(id, [resourceId])
+            horizonApiClient.Tech.techReqBuildings.delete(Number(id), [resourceId])
           }
         />
       ),
@@ -226,7 +226,7 @@ function TechForm() {
     <TabsLayout
       name={techQuery?.data?.name}
       entity={ReactQueryKeys.Techs}
-      id={id}
+      id={Number(id)}
       tabs={tabs}
       content={content}
     />

@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+
+// api
+import { isHttpRequestError } from "api";
 import { Controller, useForm } from "react-hook-form";
 import loadable from "@loadable/component";
 
 // utils
 import { toEditorState } from "utils";
+
+// components
+import { ImageFormType } from "components";
 
 // editor
 
@@ -42,7 +48,7 @@ function GeneralInfo(props) {
 
   const { handleSubmit, reset, control, getValues } = useForm();
 
-  const [photo, setPhoto] = useState();
+  const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
   const onSubmit = async (d) => {
     setSaving(true);
@@ -55,7 +61,8 @@ function GeneralInfo(props) {
       const { error, status } = result;
       setNotification(String(status), {
         model: t("_entities:entities.cannon"),
-      });
+        },
+      );
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
       if (error !== null && error) console.error(error.message);
@@ -77,12 +84,14 @@ function GeneralInfo(props) {
           });
         }
       }
-    } catch (e) {
-      // eslint-disable-next-line no-console
+    } catch (e: unknown) {
       console.error(e);
-      setNotification(String(e.status), {
+      setNotification(
+        isHttpRequestError(e) ? String(e.status) : "notConnected",
+        {
         model: t("_entities:entities.cannon"),
-      });
+        },
+      );
     }
     setSaving(false);
   };

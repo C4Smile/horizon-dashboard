@@ -9,7 +9,7 @@ import loadable from "@loadable/component";
 import { Loading, TextInput, SelectInput } from "@sito/dashboard-app";
 
 // components
-import { ImageUploader, PasswordInput } from "components";
+import { ImageFormType, ImageUploader, PasswordInput } from "components";
 
 // providers
 import {
@@ -43,11 +43,11 @@ function UserForm() {
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [updatedAt, setLastUpdate] = useState();
+  const [updatedAt, setLastUpdate] = useState<string | Date | undefined>();
 
   const { handleSubmit, reset, control } = useForm();
 
-  const [photo, setPhoto] = useState();
+  const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
   const onSubmit = async (d) => {
     if (!photo) {
@@ -82,7 +82,7 @@ function UserForm() {
             queryKey: [ReactQueryKeys.Users, id],
           });
         else {
-          setPhoto();
+          setPhoto(null);
           reset({
             id: undefined,
             username: "",
@@ -93,19 +93,21 @@ function UserForm() {
           });
         }
       }
-    } catch (e) {
-      // eslint-disable-next-line no-console
+    } catch (e: unknown) {
       console.error(e);
-      setNotification(String(e.status), {
+      setNotification(
+        isHttpRequestError(e) ? String(e.status) : "notConnected",
+        {
         model: t("_entities:entities.user"),
-      });
+        },
+      );
     }
     setSaving(false);
   };
 
   const userQuery = useQuery({
     queryKey: [ReactQueryKeys.Users, id],
-    queryFn: () => horizonApiClient.User.getById(id),
+    queryFn: () => horizonApiClient.User.getById(Number(id)),
     enabled: id !== undefined,
   });
 
@@ -149,7 +151,7 @@ function UserForm() {
     }
 
     if (!id) {
-      setPhoto();
+      setPhoto(null);
       reset({
         id: undefined,
         username: "",
@@ -216,7 +218,6 @@ function UserForm() {
             <TextInput
               {...field}
               type="text"
-              name="name"
               id="name"
               inputClassName="text-input peer"
               placeholder={t("_entities:user.name.placeholder")}
@@ -234,7 +235,6 @@ function UserForm() {
             <TextInput
               {...field}
               type="email"
-              name="email"
               id="email"
               inputClassName="text-input peer"
               placeholder={t("_entities:user.email.placeholder")}
@@ -252,7 +252,6 @@ function UserForm() {
             <TextInput
               {...field}
               type="text"
-              name="username"
               id="username"
               inputClassName="text-input peer"
               placeholder={t("_entities:user.username.placeholder")}
@@ -269,7 +268,6 @@ function UserForm() {
           render={({ field }) => (
             <PasswordInput
               {...field}
-              name="password"
               id="password"
               inputClassName="text-input peer"
               placeholder={t("_entities:user.password.placeholder")}
@@ -286,7 +284,6 @@ function UserForm() {
           render={({ field }) => (
             <PasswordInput
               {...field}
-              name="rPassword"
               id="rPassword"
               inputClassName="text-input peer"
               placeholder={t("_entities:user.rPassword.placeholder")}

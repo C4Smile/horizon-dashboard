@@ -14,7 +14,7 @@ import { toEditorState } from "utils";
 import { Loading, TextInput } from "@sito/dashboard-app";
 
 // components
-import { ImageUploader } from "components";
+import { ImageFormType, ImageUploader } from "components";
 
 // providers
 import { useNotification, queryClient, useHorizonApiClient } from "providers";
@@ -50,11 +50,11 @@ function SkillForm() {
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [updatedAt, setLastUpdate] = useState();
+  const [updatedAt, setLastUpdate] = useState<string | Date | undefined>();
 
   const { handleSubmit, reset, control } = useForm();
 
-  const [photo, setPhoto] = useState();
+  const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
   const onSubmit = async (d) => {
     setSaving(true);
@@ -78,7 +78,7 @@ function SkillForm() {
             queryKey: [ReactQueryKeys.Skills, id],
           });
         else {
-          setPhoto();
+          setPhoto(null);
           reset({
             id: undefined,
             name: "",
@@ -87,19 +87,21 @@ function SkillForm() {
           });
         }
       }
-    } catch (e) {
-      // eslint-disable-next-line no-console
+    } catch (e: unknown) {
       console.error(e);
-      setNotification(String(e.status), {
+      setNotification(
+        isHttpRequestError(e) ? String(e.status) : "notConnected",
+        {
         model: t("_entities:entities.skill"),
-      });
+        },
+      );
     }
     setSaving(false);
   };
 
   const skillQuery = useQuery({
     queryKey: [ReactQueryKeys.Skills, id],
-    queryFn: () => horizonApiClient.Skill.getById(id),
+    queryFn: () => horizonApiClient.Skill.getById(Number(id)),
     enabled: id !== undefined,
   });
 
@@ -128,7 +130,7 @@ function SkillForm() {
     }
 
     if (!id) {
-      setPhoto();
+      setPhoto(null);
       reset({
         id: undefined,
         name: "",
@@ -174,7 +176,6 @@ function SkillForm() {
             <TextInput
               {...field}
               type="text"
-              name="name"
               id="name"
               className="text-input peer"
               placeholder={t("_entities:skill.name.placeholder")}

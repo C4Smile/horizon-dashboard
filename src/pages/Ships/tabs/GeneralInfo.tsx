@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+
+// api
+import { isHttpRequestError } from "api";
 import { Controller, useForm } from "react-hook-form";
 import loadable from "@loadable/component";
 
@@ -12,7 +15,7 @@ import { toEditorState } from "utils";
 import { Loading, TextInput } from "@sito/dashboard-app";
 
 // components
-import { ImageUploader } from "components";
+import { ImageFormType, ImageUploader } from "components";
 
 // providers
 import { useNotification, queryClient, useHorizonApiClient } from "providers";
@@ -45,7 +48,7 @@ function GeneralInfo(props) {
 
   const { handleSubmit, reset, control, getValues } = useForm();
 
-  const [photo, setPhoto] = useState();
+  const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
   const onSubmit = async (d) => {
     setSaving(true);
@@ -83,12 +86,14 @@ function GeneralInfo(props) {
           });
         }
       }
-    } catch (e) {
-      // eslint-disable-next-line no-console
+    } catch (e: unknown) {
       console.error(e);
-      setNotification(String(e.status), {
+      setNotification(
+        isHttpRequestError(e) ? String(e.status) : "notConnected",
+        {
         model: t("_entities:entities.ship"),
-      });
+        },
+      );
     }
     setSaving(false);
   };

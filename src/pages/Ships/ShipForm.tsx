@@ -40,7 +40,7 @@ function ShipForm() {
 
   const shipQuery = useQuery({
     queryKey: [ReactQueryKeys.Ships, id],
-    queryFn: () => horizonApiClient.Ship.getById(id),
+    queryFn: () => horizonApiClient.Ship.getById(Number(id)),
     enabled: id !== undefined,
   });
 
@@ -139,61 +139,61 @@ function ShipForm() {
       general: <GeneralInfo shipQuery={shipQuery} />,
       costs: (
         <ResourceStuff
-          id={id}
+          id={Number(id)}
           resources={resourcesList}
           entity={Tables.Ships}
           entityToSave={Tables.ShipCosts}
           label={"cost"}
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.ShipCosts, id]}
-          queryFn={() => horizonApiClient.Ship.shipCosts.get(id)}
+          queryFn={() => horizonApiClient.Ship.shipCosts.get(Number(id))}
           saveFn={async (id, data) =>
-            horizonApiClient.Ship.shipCosts.insert(id, data)
+            horizonApiClient.Ship.shipCosts.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Ship.shipCosts.delete(id, [resourceId])
+            horizonApiClient.Ship.shipCosts.delete(Number(id), [resourceId])
           }
         />
       ),
       upkeep: (
         <ResourceStuff
-          id={id}
+          id={Number(id)}
           resources={resourcesList}
           entity={Tables.Ships}
           entityToSave={Tables.ShipUpkeeps}
           label={"upkeep"}
           inputKey={"baseUpkeep"}
           queryKey={[ReactQueryKeys.ShipUpkeeps, id]}
-          queryFn={() => horizonApiClient.Ship.shipUpkeeps.get(id)}
+          queryFn={() => horizonApiClient.Ship.shipUpkeeps.get(Number(id))}
           saveFn={async (id, data) =>
-            horizonApiClient.Ship.shipUpkeeps.insert(id, data)
+            horizonApiClient.Ship.shipUpkeeps.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Ship.shipUpkeeps.delete(id, [resourceId])
+            horizonApiClient.Ship.shipUpkeeps.delete(Number(id), [resourceId])
           }
         />
       ),
       shipReqTechs: (
         <EntityLevelStuff
-          id={id}
+          id={Number(id)}
           entities={techsList}
           attributeId="techReqId"
           entity={Tables.Techs}
           entityToSave={Tables.ShipReqTechs}
           inputKey={"techLevel"}
           queryKey={[ReactQueryKeys.ShipRequirements, ReactQueryKeys.Techs, id]}
-          queryFn={() => horizonApiClient.Ship.shipReqTechs.get(id)}
+          queryFn={() => horizonApiClient.Ship.shipReqTechs.get(Number(id))}
           saveFn={async (id, data) =>
-            horizonApiClient.Ship.shipReqTechs.insert(id, data)
+            horizonApiClient.Ship.shipReqTechs.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Ship.shipReqTechs.delete(id, [resourceId])
+            horizonApiClient.Ship.shipReqTechs.delete(Number(id), [resourceId])
           }
         />
       ),
       shipReqBuildings: (
         <EntityLevelStuff
-          id={id}
+          id={Number(id)}
           entities={buildingsList}
           attributeId="buildingReqId"
           entity={Tables.Ships}
@@ -204,12 +204,12 @@ function ShipForm() {
             ReactQueryKeys.Buildings,
             id,
           ]}
-          queryFn={() => horizonApiClient.Ship.shipReqBuildings.get(id)}
+          queryFn={() => horizonApiClient.Ship.shipReqBuildings.get(Number(id))}
           saveFn={async (id, data) =>
-            horizonApiClient.Ship.shipReqBuildings.insert(id, data)
+            horizonApiClient.Ship.shipReqBuildings.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Ship.shipReqBuildings.delete(id, [resourceId])
+            horizonApiClient.Ship.shipReqBuildings.delete(Number(id), [resourceId])
           }
         />
       ),
@@ -223,7 +223,7 @@ function ShipForm() {
     <TabsLayout
       name={shipQuery?.data?.name}
       entity={ReactQueryKeys.Ships}
-      id={id}
+      id={Number(id)}
       tabs={tabs}
       content={content}
     />

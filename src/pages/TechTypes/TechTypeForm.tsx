@@ -44,7 +44,7 @@ function TechTypeForm() {
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [updatedAt, setUpdatedAt] = useState<string | undefined>();
+  const [updatedAt, setUpdatedAt] = useState<string | Date | undefined>();
 
   const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
@@ -111,7 +111,7 @@ function TechTypeForm() {
       //* PARSING PHOTO
       setPhoto(techTypeQuery.data?.image);
 
-      setUpdatedAt(techTypeQuery?.data?.updatedAt as unknown as string);
+      setUpdatedAt(techTypeQuery?.data?.updatedAt);
       reset({ ...techTypeQuery.data });
     }
 
@@ -161,7 +161,6 @@ function TechTypeForm() {
             <TextInput
               {...field}
               type="text"
-              name="name"
               id="name"
               className="text-input peer"
               placeholder={t("_entities:techType.name.placeholder")}

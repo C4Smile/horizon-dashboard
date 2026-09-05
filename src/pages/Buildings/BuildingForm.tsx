@@ -51,7 +51,7 @@ function BuildingForm() {
 
   const buildingQuery = useQuery({
     queryKey: [ReactQueryKeys.Buildings, id],
-    queryFn: () => horizonApiClient.Building.getById(id),
+    queryFn: () => horizonApiClient.Building.getById(Number(id)),
     // on /new there is no param, Number(undefined) is NaN and the api rejects it
     enabled: !Number.isNaN(id),
   });
@@ -157,19 +157,19 @@ function BuildingForm() {
       general: <GeneralInfo buildingQuery={buildingQuery} />,
       produces: (
         <ResourceStuff
-          id={id}
+          id={Number(id)}
           resources={resourcesList}
           entity={Tables.Buildings}
           entityToSave={Tables.BuildingProduces}
           label={"production"}
           inputKey={"base"}
           queryKey={[ReactQueryKeys.BuildingProduces, id]}
-          queryFn={() => horizonApiClient.Building.buildingProductions.get(id)}
+          queryFn={() => horizonApiClient.Building.buildingProductions.get(Number(id))}
           saveFn={async (id: number, data: BuildingProduceAddDto) =>
-            horizonApiClient.Building.buildingProductions.insert(id, data)
+            horizonApiClient.Building.buildingProductions.insert(Number(id), data)
           }
           deleteFn={async (id: number, resourceId: number) =>
-            horizonApiClient.Building.buildingProductions.delete(id, [
+            horizonApiClient.Building.buildingProductions.delete(Number(id), [
               resourceId,
             ])
           }
@@ -177,43 +177,43 @@ function BuildingForm() {
       ),
       costs: (
         <ResourceStuff
-          id={id}
+          id={Number(id)}
           resources={resourcesList}
           entity={Tables.Buildings}
           entityToSave={Tables.BuildingCosts}
           label={"cost"}
           inputKey={"base"}
           queryKey={[ReactQueryKeys.BuildingCosts, id]}
-          queryFn={() => horizonApiClient.Building.buildingCosts.get(id)}
+          queryFn={() => horizonApiClient.Building.buildingCosts.get(Number(id))}
           saveFn={async (id: number, data: BuildingCostAddDto) =>
-            horizonApiClient.Building.buildingCosts.insert(id, data)
+            horizonApiClient.Building.buildingCosts.insert(Number(id), data)
           }
           deleteFn={async (id: number, resourceId: number) =>
-            horizonApiClient.Building.buildingCosts.delete(id, [resourceId])
+            horizonApiClient.Building.buildingCosts.delete(Number(id), [resourceId])
           }
         />
       ),
       upkeep: (
         <ResourceStuff
-          id={id}
+          id={Number(id)}
           resources={resourcesList}
           entity={Tables.Buildings}
           entityToSave={Tables.BuildingUpkeeps}
           label={"upkeep"}
           inputKey={"base"}
           queryKey={[ReactQueryKeys.BuildingUpkeeps, id]}
-          queryFn={() => horizonApiClient.Building.buildingUpkeeps.get(id)}
+          queryFn={() => horizonApiClient.Building.buildingUpkeeps.get(Number(id))}
           saveFn={async (id: number, data: BuildingUpkeepAddDto) =>
-            horizonApiClient.Building.buildingUpkeeps.insert(id, data)
+            horizonApiClient.Building.buildingUpkeeps.insert(Number(id), data)
           }
           deleteFn={async (id: number, resourceId: number) =>
-            horizonApiClient.Building.buildingUpkeeps.delete(id, [resourceId])
+            horizonApiClient.Building.buildingUpkeeps.delete(Number(id), [resourceId])
           }
         />
       ),
       buildingReqTechs: (
         <EntityLevelStuff
-          id={id}
+          id={Number(id)}
           entities={techsList}
           attributeId="techReqId"
           entity={Tables.Techs}
@@ -224,18 +224,18 @@ function BuildingForm() {
             ReactQueryKeys.Techs,
             id,
           ]}
-          queryFn={() => horizonApiClient.Building.buildingReqTechs.get(id)}
+          queryFn={() => horizonApiClient.Building.buildingReqTechs.get(Number(id))}
           saveFn={async (id: number, data: BuildingReqTechAddDto) =>
-            horizonApiClient.Building.buildingReqTechs.insert(id, data)
+            horizonApiClient.Building.buildingReqTechs.insert(Number(id), data)
           }
           deleteFn={async (id: number, techId: number) =>
-            horizonApiClient.Building.buildingReqTechs.delete(id, [techId])
+            horizonApiClient.Building.buildingReqTechs.delete(Number(id), [techId])
           }
         />
       ),
       buildingReqBuildings: (
         <EntityLevelStuff
-          id={id}
+          id={Number(id)}
           entities={buildingsList}
           attributeId="buildingReqId"
           entity={Tables.Buildings}
@@ -246,12 +246,12 @@ function BuildingForm() {
             ReactQueryKeys.Buildings,
             id,
           ]}
-          queryFn={() => horizonApiClient.Building.buildingReqBuildings.get(id)}
+          queryFn={() => horizonApiClient.Building.buildingReqBuildings.get(Number(id))}
           saveFn={async (id: number, data: BuildingReqBuildingAddDto) =>
-            horizonApiClient.Building.buildingReqBuildings.insert(id, data)
+            horizonApiClient.Building.buildingReqBuildings.insert(Number(id), data)
           }
           deleteFn={async (id: number, buildingId: number) =>
-            horizonApiClient.Building.buildingReqBuildings.delete(id, [
+            horizonApiClient.Building.buildingReqBuildings.delete(Number(id), [
               buildingId,
             ])
           }
@@ -274,7 +274,7 @@ function BuildingForm() {
     <TabsLayout
       name={buildingQuery?.data?.name ?? ""}
       entity={ReactQueryKeys.Buildings}
-      id={id}
+      id={Number(id)}
       tabs={tabs}
       content={content}
     />

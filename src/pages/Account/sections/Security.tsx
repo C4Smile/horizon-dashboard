@@ -80,7 +80,6 @@ function Security() {
           <PasswordInput
             {...field}
             type="text"
-            name="password"
             id="password"
             inputClassName="text-input peer"
             placeholder={t("_entities:user.password.placeholder")}
@@ -97,7 +96,6 @@ function Security() {
           <PasswordInput
             {...field}
             type="text"
-            name="rPassword"
             id="rPassword"
             inputClassName="text-input peer"
             placeholder={t("_entities:user.rPassword.placeholder")}

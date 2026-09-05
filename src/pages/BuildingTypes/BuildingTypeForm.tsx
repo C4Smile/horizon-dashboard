@@ -44,7 +44,7 @@ function BuildingTypeForm() {
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [updatedAt, setUpdatedAt] = useState<string | undefined>();
+  const [updatedAt, setUpdatedAt] = useState<string | Date | undefined>();
 
   const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
@@ -111,7 +111,7 @@ function BuildingTypeForm() {
       //* PARSING PHOTO
       setPhoto(buildingTypeQuery.data?.image);
 
-      setUpdatedAt(buildingTypeQuery?.data?.updatedAt as unknown as string);
+      setUpdatedAt(buildingTypeQuery?.data?.updatedAt);
       reset({ ...buildingTypeQuery.data });
     }
 
@@ -161,7 +161,6 @@ function BuildingTypeForm() {
             <TextInput
               {...field}
               type="text"
-              name="name"
               id="name"
               className="text-input peer"
               placeholder={t("_entities:buildingType.name.placeholder")}

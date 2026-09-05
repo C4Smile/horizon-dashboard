@@ -40,7 +40,7 @@ function CannonForm() {
 
   const cannonQuery = useQuery({
     queryKey: [ReactQueryKeys.Cannons, id],
-    queryFn: () => horizonApiClient.Cannon.getById(id),
+    queryFn: () => horizonApiClient.Cannon.getById(Number(id)),
     enabled: id !== undefined,
   });
 
@@ -139,25 +139,25 @@ function CannonForm() {
       general: <GeneralInfo cannonQuery={cannonQuery} />,
       costs: (
         <ResourceStuff
-          id={id}
+          id={Number(id)}
           resources={resourcesList}
           entity={Tables.Cannons}
           entityToSave={Tables.CannonCosts}
           label={"cost"}
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.CannonCosts, id]}
-          queryFn={() => horizonApiClient.Cannon.cannonCosts.get(id)}
+          queryFn={() => horizonApiClient.Cannon.cannonCosts.get(Number(id))}
           saveFn={async (id, data) =>
-            horizonApiClient.Cannon.cannonCosts.insert(id, data)
+            horizonApiClient.Cannon.cannonCosts.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Cannon.cannonCosts.delete(id, [resourceId])
+            horizonApiClient.Cannon.cannonCosts.delete(Number(id), [resourceId])
           }
         />
       ),
       cannonReqTechs: (
         <EntityLevelStuff
-          id={id}
+          id={Number(id)}
           entities={techsList}
           attributeId="techReqId"
           entity={Tables.Techs}
@@ -168,18 +168,18 @@ function CannonForm() {
             ReactQueryKeys.Techs,
             id,
           ]}
-          queryFn={() => horizonApiClient.Cannon.cannonReqTechs.get(id)}
+          queryFn={() => horizonApiClient.Cannon.cannonReqTechs.get(Number(id))}
           saveFn={async (id, data) =>
-            horizonApiClient.Cannon.cannonReqTechs.insert(id, data)
+            horizonApiClient.Cannon.cannonReqTechs.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Cannon.cannonReqTechs.delete(id, [resourceId])
+            horizonApiClient.Cannon.cannonReqTechs.delete(Number(id), [resourceId])
           }
         />
       ),
       cannonReqBuildings: (
         <EntityLevelStuff
-          id={id}
+          id={Number(id)}
           entities={buildingsList}
           attributeId="buildingReqId"
           entity={Tables.Cannons}
@@ -190,9 +190,9 @@ function CannonForm() {
             ReactQueryKeys.Buildings,
             id,
           ]}
-          queryFn={() => horizonApiClient.Cannon.cannonReqBuildings.get(id)}
+          queryFn={() => horizonApiClient.Cannon.cannonReqBuildings.get(Number(id))}
           saveFn={async (id, data) =>
-            horizonApiClient.Cannon.cannonReqBuildings.insert(id, data)
+            horizonApiClient.Cannon.cannonReqBuildings.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
             horizonApiClient.Cannon.cannonReqBuildings.deleteSingle(
@@ -219,7 +219,7 @@ function CannonForm() {
     <TabsLayout
       name={cannonQuery?.data?.name}
       entity={ReactQueryKeys.Cannons}
-      id={id}
+      id={Number(id)}
       tabs={tabs}
       content={content}
     />

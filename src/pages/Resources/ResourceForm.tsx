@@ -14,7 +14,7 @@ import { toEditorState } from "utils";
 // editor
 
 // components
-import { ImageUploader } from "components";
+import { ImageFormType, ImageUploader } from "components";
 
 // providers
 import { useNotification, queryClient, useHorizonApiClient } from "providers";
@@ -50,11 +50,11 @@ function ResourceForm() {
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [updatedAt, setLastUpdate] = useState();
+  const [updatedAt, setLastUpdate] = useState<string | Date | undefined>();
 
   const { handleSubmit, reset, control } = useForm();
 
-  const [photo, setPhoto] = useState();
+  const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
   const onSubmit = async (d) => {
     setSaving(true);
@@ -67,7 +67,8 @@ function ResourceForm() {
       const { error, status } = result;
       setNotification(String(status), {
         model: t("_entities:entities.resource"),
-      });
+        },
+      );
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
       if (error) console.error(error.message);
@@ -89,19 +90,21 @@ function ResourceForm() {
           });
         }
       }
-    } catch (e) {
-      // eslint-disable-next-line no-console
+    } catch (e: unknown) {
       console.error(e);
-      setNotification(String(e.status), {
+      setNotification(
+        isHttpRequestError(e) ? String(e.status) : "notConnected",
+        {
         model: t("_entities:entities.resource"),
-      });
+        },
+      );
     }
     setSaving(false);
   };
 
   const resourceQuery = useQuery({
     queryKey: [ReactQueryKeys.Resources, id],
-    queryFn: () => horizonApiClient.Resource.getById(id),
+    queryFn: () => horizonApiClient.Resource.getById(Number(id)),
     enabled: id !== undefined,
   });
 
@@ -129,7 +132,7 @@ function ResourceForm() {
     }
 
     if (!id) {
-      setPhoto();
+      setPhoto(null);
       reset({
         id: undefined,
         name: "",
@@ -175,7 +178,6 @@ function ResourceForm() {
             <TextInput
               {...field}
               type="text"
-              name="name"
               id="name"
               className="text-input peer"
               placeholder={t("_entities:resource.name.placeholder")}
@@ -193,7 +195,6 @@ function ResourceForm() {
             <TextInput
               {...field}
               type="text"
-              name="baseFactor"
               id="baseFactor"
               className="text-input peer"
               placeholder={t("_entities:resource.baseFactor.placeholder")}

@@ -8,7 +8,7 @@ import loadable from "@loadable/component";
 import { Loading, TextInput } from "@sito/dashboard-app";
 
 // components
-import { ImageUploader } from "components";
+import { ImageFormType, ImageUploader } from "components";
 
 // providers
 import {
@@ -44,11 +44,11 @@ function PersonalInfo() {
 
   const { setNotification, showErrorNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [updatedAt, setLastUpdate] = useState();
+  const [updatedAt, setLastUpdate] = useState<string | Date | undefined>();
 
   const { handleSubmit, reset, control } = useForm();
 
-  const [photo, setPhoto] = useState();
+  const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
   const onSubmit = async (d) => {
     if (!photo) {
@@ -69,18 +69,21 @@ function PersonalInfo() {
       if (error && error !== null) console.error(error.message);
       else
         queryClient.invalidateQueries({ queryKey: [ReactQueryKeys.Users, id] });
-    } catch (e) {
+    } catch (e: unknown) {
       console.error(e);
-      setNotification(String(e.status), {
+      setNotification(
+        isHttpRequestError(e) ? String(e.status) : "notConnected",
+        {
         model: t("_entities:entities.user"),
-      });
+        },
+      );
     }
     setSaving(false);
   };
 
   const userQuery = useQuery({
     queryKey: [ReactQueryKeys.Users, id],
-    queryFn: () => horizonApiClient.User.getById(id),
+    queryFn: () => horizonApiClient.User.getById(Number(id)),
     enabled: id !== undefined,
   });
 
@@ -102,7 +105,7 @@ function PersonalInfo() {
     }
 
     if (!id) {
-      setPhoto();
+      setPhoto(null);
       reset({
         id: undefined,
         username: "",
@@ -149,7 +152,6 @@ function PersonalInfo() {
           <TextInput
             {...field}
             type="text"
-            name="name"
             id="name"
             inputClassName="text-input peer"
             placeholder={t("_entities:user.name.placeholder")}
@@ -167,7 +169,6 @@ function PersonalInfo() {
           <TextInput
             {...field}
             type="email"
-            name="email"
             id="email"
             inputClassName="text-input peer"
             placeholder={t("_entities:user.email.placeholder")}
@@ -185,7 +186,6 @@ function PersonalInfo() {
           <TextInput
             {...field}
             type="text"
-            name="username"
             id="username"
             inputClassName="text-input peer"
             placeholder={t("_entities:user.username.placeholder")}
@@ -203,7 +203,6 @@ function PersonalInfo() {
           <TextInput
             {...field}
             type="text"
-            name="address"
             id="address"
             inputClassName="text-input peer"
             placeholder={t("_entities:user.address.placeholder")}
@@ -221,7 +220,6 @@ function PersonalInfo() {
           <TextInput
             {...field}
             type="text"
-            name="identification"
             id="identification"
             inputClassName="text-input peer"
             placeholder={t("_entities:user.identification.placeholder")}
@@ -238,7 +236,6 @@ function PersonalInfo() {
         render={({ field }) => (
           <TextInput
             type="tel"
-            name="phone"
             id="phone"
             inputClassName="text-input peer"
             placeholder={t("_entities:user.phone.placeholder")}
