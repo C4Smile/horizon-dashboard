@@ -5,6 +5,5 @@ export * from "./ImageUploader";
 export * from "./ResourceStuff";
 export * from "./TabComponent";
 export * from "./utils";
-export * from "./Actions";
 export * from "./TablePage";
 export * from "./TableToolbar";
