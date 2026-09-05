@@ -1,4 +1,4 @@
 import { BaseFilterDto } from "../base";
 import { ShipDto } from "./ShipDto";
 
-export interface ShipFilterDto extends ShipDto, BaseFilterDto {}
+export interface ShipFilterDto extends Partial<ShipDto>, BaseFilterDto {}

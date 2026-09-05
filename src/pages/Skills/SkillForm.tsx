@@ -6,10 +6,9 @@ import { useForm, Controller } from "react-hook-form";
 import loadable from "@loadable/component";
 
 // utils
-import { htmlToDraft } from "utils";
+import { toEditorState } from "utils";
 
 // editor
-import { EditorState, ContentState } from "draft-js";
 
 // @sito/dashboard-app
 import { Loading, TextInput } from "@sito/dashboard-app";
@@ -119,22 +118,13 @@ function SkillForm() {
       //* PARSING PHOTO
       setPhoto(skillQuery.data?.image);
 
-      //* PARSING CONTENT
-      if (
-        skillQuery.data?.description &&
-        typeof skillQuery.data?.description === "string"
-      ) {
-        const html = skillQuery.data?.description;
-        const descriptionBlock = htmlToDraft(html);
-        if (descriptionBlock) {
-          const descriptionState =
-            ContentState.createFromBlockArray(descriptionBlock);
-          skillQuery.data.description =
-            EditorState.createWithContent(descriptionState);
-        }
-      }
       setLastUpdate(skillQuery?.data?.lastUpdate);
-      reset({ ...skillQuery.data });
+      // the api stores html, the input edits draft state; the query
+      // cache is left alone
+      reset({
+        ...skillQuery.data,
+        description: toEditorState(skillQuery.data.description),
+      });
     }
 
     if (!id) {

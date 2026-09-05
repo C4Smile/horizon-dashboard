@@ -9,10 +9,9 @@ import loadable from "@loadable/component";
 import { Loading, TextInput } from "@sito/dashboard-app";
 
 // utils
-import { htmlToDraft } from "utils";
+import { toEditorState } from "utils";
 
 // editor
-import { EditorState, ContentState } from "draft-js";
 
 // components
 import { ImageUploader } from "components";
@@ -120,22 +119,13 @@ function ResourceForm() {
     if (resourceQuery.data) {
       //* PARSING PHOTO
       setPhoto(resourceQuery.data?.image);
-      //* PARSING CONTENT
-      if (
-        resourceQuery.data?.description &&
-        typeof resourceQuery.data?.description === "string"
-      ) {
-        const html = resourceQuery.data?.description;
-        const descriptionBlock = htmlToDraft(html);
-        if (descriptionBlock) {
-          const descriptionState =
-            ContentState.createFromBlockArray(descriptionBlock);
-          resourceQuery.data.description =
-            EditorState.createWithContent(descriptionState);
-        }
-      }
       setLastUpdate(resourceQuery?.data?.lastUpdate);
-      reset({ ...resourceQuery.data });
+      // the api stores html, the input edits draft state; the query
+      // cache is left alone
+      reset({
+        ...resourceQuery.data,
+        description: toEditorState(resourceQuery.data.description),
+      });
     }
 
     if (!id) {

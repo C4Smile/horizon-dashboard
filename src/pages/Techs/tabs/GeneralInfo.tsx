@@ -8,7 +8,6 @@ import loadable from "@loadable/component";
 import { Loading, TextInput, SelectInput } from "@sito/dashboard-app";
 
 // editor
-import { ContentState, EditorState } from "draft-js";
 
 // components
 import { ImageUploader } from "components";
@@ -17,7 +16,7 @@ import { ImageUploader } from "components";
 import { useNotification, queryClient, useHorizonApiClient } from "providers";
 
 // utils
-import { ReactQueryKeys, htmlToDraft } from "utils";
+import { ReactQueryKeys, toEditorState } from "utils";
 import { NotificationEnumType } from "lib";
 import { HTTPError } from "api";
 
@@ -124,22 +123,13 @@ export function GeneralInfo(props) {
       //* PARSING PHOTO
       setPhoto(techQuery.data?.image);
 
-      //* PARSING CONTENT
-      if (
-        techQuery.data?.description &&
-        typeof techQuery.data?.description === "string"
-      ) {
-        const html = techQuery.data?.description;
-        const descriptionBlock = htmlToDraft(html);
-        if (descriptionBlock) {
-          const descriptionState =
-            ContentState.createFromBlockArray(descriptionBlock);
-          techQuery.data.description =
-            EditorState.createWithContent(descriptionState);
-        }
-      }
       setLastUpdate(techQuery?.data?.lastUpdate);
-      reset({ ...techQuery.data });
+      // the api stores html, the input edits draft state; the query
+      // cache is left alone
+      reset({
+        ...techQuery.data,
+        description: toEditorState(techQuery.data.description),
+      });
     }
 
     if (!techQuery.data?.id) {

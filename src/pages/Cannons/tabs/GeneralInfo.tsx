@@ -4,10 +4,9 @@ import { Controller, useForm } from "react-hook-form";
 import loadable from "@loadable/component";
 
 // utils
-import { htmlToDraft } from "utils";
+import { toEditorState } from "utils";
 
 // editor
-import { ContentState, EditorState } from "draft-js";
 
 // @sito/dashboard-app
 import { Loading, TextInput } from "@sito/dashboard-app";
@@ -93,22 +92,13 @@ function GeneralInfo(props) {
       //* PARSING PHOTO
       setPhoto(cannonQuery.data?.image);
 
-      //* PARSING CONTENT
-      if (
-        cannonQuery.data?.description &&
-        typeof cannonQuery.data?.description === "string"
-      ) {
-        const html = cannonQuery.data?.description;
-        const descriptionBlock = htmlToDraft(html);
-        if (descriptionBlock) {
-          const descriptionState =
-            ContentState.createFromBlockArray(descriptionBlock);
-          cannonQuery.data.description =
-            EditorState.createWithContent(descriptionState);
-        }
-      }
       setLastUpdate(cannonQuery?.data?.lastUpdate);
-      reset({ ...cannonQuery.data });
+      // the api stores html, the input edits draft state; the query
+      // cache is left alone
+      reset({
+        ...cannonQuery.data,
+        description: toEditorState(cannonQuery.data.description),
+      });
     }
 
     if (!cannonQuery.data?.id) {

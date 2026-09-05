@@ -8,10 +8,9 @@ import loadable from "@loadable/component";
 import { Loading, SelectInput, TextInput } from "@sito/dashboard-app";
 
 // utils
-import { htmlToDraft } from "utils";
+import { toEditorState } from "utils";
 
 // editor
-import { ContentState, EditorState } from "draft-js";
 
 // components
 import { ImageUploader } from "components";
@@ -115,22 +114,13 @@ function GeneralInfo(props) {
       //* PARSING PHOTO
       setPhoto(buildingQuery.data?.image);
 
-      //* PARSING CONTENT
-      if (
-        buildingQuery.data?.description &&
-        typeof buildingQuery.data?.description === "string"
-      ) {
-        const html = buildingQuery.data?.description;
-        const descriptionBlock = htmlToDraft(html);
-        if (descriptionBlock) {
-          const descriptionState =
-            ContentState.createFromBlockArray(descriptionBlock);
-          buildingQuery.data.description =
-            EditorState.createWithContent(descriptionState);
-        }
-      }
       setLastUpdate(buildingQuery?.data?.lastUpdate);
-      reset({ ...buildingQuery.data });
+      // the api stores html, the input edits draft state; the query
+      // cache is left alone
+      reset({
+        ...buildingQuery.data,
+        description: toEditorState(buildingQuery.data.description),
+      });
     }
 
     if (!buildingQuery.data?.id) {
