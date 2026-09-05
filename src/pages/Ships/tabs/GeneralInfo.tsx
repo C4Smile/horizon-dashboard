@@ -55,8 +55,8 @@ function GeneralInfo(props) {
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.Ship.create(d, photo);
-      else result = await horizonApiClient.Ship.update(d, photo);
+      if (!d.id) result = await horizonApiClient.Ship.createFromForm(d, photo);
+      else result = await horizonApiClient.Ship.updateFromForm(d, photo);
 
       const { error, status } = result;
       setNotification(String(status), { model: t("_entities:entities.ship") });

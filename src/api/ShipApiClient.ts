@@ -79,8 +79,8 @@ export class ShipApiClient extends BaseApiClient<
    * @param photo - Photo
    * @returns Transaction status
    */
-  async create(ship: ShipDto, photo: FormPhoto) {
-    return await this.saveNew(this.toDto(ship, photo) as ShipAddDto);
+  async createFromForm(ship: ShipDto, photo: FormPhoto) {
+    return await this.saveNew(this.toDto(ship, photo));
   }
 
   /**
@@ -89,10 +89,10 @@ export class ShipApiClient extends BaseApiClient<
    * @param photo - Photo
    * @returns Transaction status
    */
-  async update(ship: ShipDto, photo: FormPhoto) {
+  async updateFromForm(ship: ShipDto, photo: FormPhoto) {
     return await this.saveExisting({
       id: ship.id,
       ...this.toDto(ship, photo),
-    } as ShipUpdateDto);
+    });
   }
 }

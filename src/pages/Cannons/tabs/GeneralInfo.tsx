@@ -9,8 +9,6 @@ import loadable from "@loadable/component";
 // utils
 import { toEditorState } from "utils";
 
-// components
-import { ImageFormType } from "components";
 
 // editor
 
@@ -48,15 +46,14 @@ function GeneralInfo(props) {
 
   const { handleSubmit, reset, control, getValues } = useForm();
 
-  const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
   const onSubmit = async (d) => {
     setSaving(true);
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.Cannon.create(d, photo);
-      else result = await horizonApiClient.Cannon.update(d, photo);
+      if (!d.id) result = await horizonApiClient.Cannon.createFromForm(d);
+      else result = await horizonApiClient.Cannon.updateFromForm(d);
 
       const { error, status } = result;
       setNotification(String(status), {
@@ -75,7 +72,6 @@ function GeneralInfo(props) {
             queryKey: [ReactQueryKeys.Cannons, id],
           });
         else {
-          setPhoto(null);
           reset({
             id: undefined,
             name: "",
@@ -99,7 +95,6 @@ function GeneralInfo(props) {
   useEffect(() => {
     if (cannonQuery.data) {
       //* PARSING PHOTO
-      setPhoto(cannonQuery.data?.image);
 
       setLastUpdate(cannonQuery?.data?.updatedAt);
       // the api stores html, the input edits draft state; the query
@@ -111,7 +106,6 @@ function GeneralInfo(props) {
     }
 
     if (!cannonQuery.data?.id) {
-      setPhoto(null);
       reset({
         id: undefined,
         name: "",

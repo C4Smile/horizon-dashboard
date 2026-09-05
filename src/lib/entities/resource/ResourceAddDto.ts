@@ -1,4 +1,9 @@
-import { OmitBaseEntityDto } from "../base";
+import { ImageWriteDto, OmitBaseEntityDto } from "../base";
 import { ResourceDto } from "./ResourceDto";
 
-export type ResourceAddDto = Omit<ResourceDto, OmitBaseEntityDto>;
+/** What the api takes to create a resource */
+export type ResourceAddDto = Omit<
+  ResourceDto,
+  OmitBaseEntityDto | "image"
+> &
+  ImageWriteDto;

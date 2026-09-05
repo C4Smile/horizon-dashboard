@@ -71,8 +71,8 @@ export function GeneralInfo(props) {
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.Tech.create(d, photo);
-      else result = await horizonApiClient.Tech.update(d, photo);
+      if (!d.id) result = await horizonApiClient.Tech.createFromForm(d, photo);
+      else result = await horizonApiClient.Tech.updateFromForm(d, photo);
 
       const { error, status } = result;
       if (!error)

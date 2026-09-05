@@ -1,4 +1,9 @@
-import { OmitBaseEntityDto } from "../base";
+import { ImageWriteDto, OmitBaseEntityDto } from "../base";
 import { ShipDto } from "./ShipDto";
 
-export type ShipAddDto = Omit<ShipDto, OmitBaseEntityDto>;
+/** What the api takes to create a ship */
+export type ShipAddDto = Omit<
+  ShipDto,
+  OmitBaseEntityDto | "image"
+> &
+  ImageWriteDto;

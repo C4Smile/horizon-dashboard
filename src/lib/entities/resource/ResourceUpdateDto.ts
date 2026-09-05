@@ -1,3 +1,5 @@
-import { ResourceDto } from "./ResourceDto";
+import { DeleteDto } from "../base";
+import { ResourceAddDto } from "./ResourceAddDto";
 
-export type ResourceUpdateDto = ResourceDto;
+/** The same payload as a create, plus the id of the row being written */
+export type ResourceUpdateDto = ResourceAddDto & DeleteDto;

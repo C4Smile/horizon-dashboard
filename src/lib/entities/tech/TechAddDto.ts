@@ -1,6 +1,11 @@
-import { OmitBaseEntityDto } from "../base";
+import { ImageWriteDto, OmitBaseEntityDto } from "../base";
 import { TechDto } from "./TechDto";
 
-export interface TechAddDto extends Omit<TechDto, OmitBaseEntityDto | "type"> {
+/** What the api takes to create a tech */
+export type TechAddDto = Omit<
+  TechDto,
+  OmitBaseEntityDto | "image" | "type"
+> &
+  ImageWriteDto & {
   typeId: number;
-}
+  };

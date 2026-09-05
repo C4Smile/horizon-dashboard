@@ -61,8 +61,8 @@ function ResourceForm() {
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.Resource.create(d, photo);
-      else result = await horizonApiClient.Resource.update(d, photo);
+      if (!d.id) result = await horizonApiClient.Resource.createFromForm(d, photo);
+      else result = await horizonApiClient.Resource.updateFromForm(d, photo);
 
       const { error, status } = result;
       setNotification(String(status), {

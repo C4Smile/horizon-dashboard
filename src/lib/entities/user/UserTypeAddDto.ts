@@ -1,4 +1,11 @@
-import { OmitBaseEntityDto } from "../base";
+import { ImageWriteDto, OmitBaseEntityDto } from "../base";
 import { UserDto } from "./UserDto";
 
-export type UserAddDto = Omit<UserDto, OmitBaseEntityDto>;
+/** What the api takes to create a horizon user */
+export type UserAddDto = Omit<
+  UserDto,
+  OmitBaseEntityDto | "image" | "imageId" | "userId"
+> &
+  ImageWriteDto & {
+    password?: string;
+  };

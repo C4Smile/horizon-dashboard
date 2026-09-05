@@ -1,9 +1,5 @@
 import { OmitBaseEntityDto } from "../base";
 import { CannonDto } from "./CannonDto";
 
-export interface CannonAddDto extends Omit<
-  CannonDto,
-  OmitBaseEntityDto | "type"
-> {
-  typeId: number;
-}
+/** What the api takes to create a cannon. Cannons carry no image. */
+export type CannonAddDto = Omit<CannonDto, OmitBaseEntityDto>;

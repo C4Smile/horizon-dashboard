@@ -74,8 +74,8 @@ export class TechApiClient extends BaseApiClient<
    * @param photo - Photo
    * @returns Transaction status
    */
-  async create(tech: TechDto, photo: FormPhoto) {
-    return await this.saveNew(this.toDto(tech, photo) as TechAddDto);
+  async createFromForm(tech: TechDto, photo: FormPhoto) {
+    return await this.saveNew(this.toDto(tech, photo));
   }
 
   /**
@@ -84,10 +84,10 @@ export class TechApiClient extends BaseApiClient<
    * @param photo - photo
    * @returns Transaction status
    */
-  async update(tech: TechDto, photo: FormPhoto) {
+  async updateFromForm(tech: TechDto, photo: FormPhoto) {
     return await this.saveExisting({
       id: tech.id,
       ...this.toDto(tech, photo),
-    } as TechUpdateDto);
+    });
   }
 }

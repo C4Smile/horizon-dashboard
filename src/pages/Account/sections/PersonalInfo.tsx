@@ -61,7 +61,7 @@ function PersonalInfo() {
 
     setSaving(true);
     try {
-      const result = await horizonApiClient.User.update(d, photo);
+      const result = await horizonApiClient.User.updateFromForm(d, photo);
       const { error, status } = result;
 
       setNotification(String(status), { model: t("_entities:entities.user") });

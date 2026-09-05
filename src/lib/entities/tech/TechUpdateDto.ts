@@ -1,5 +1,5 @@
-import { TechDto } from "./TechDto";
+import { DeleteDto } from "../base";
+import { TechAddDto } from "./TechAddDto";
 
-export interface TechUpdateDto extends Omit<TechDto, "type"> {
-  typeId: number;
-}
+/** The same payload as a create, plus the id of the row being written */
+export type TechUpdateDto = TechAddDto & DeleteDto;

@@ -54,9 +54,9 @@ export class BuildingTypeApiClient extends BaseApiClient<
    * @param photo - Photo
    * @returns Transaction status
    */
-  async create(buildingType: BuildingTypeDto, photo: FormPhoto) {
+  async createFromForm(buildingType: BuildingTypeDto, photo: FormPhoto) {
     return await this.saveNew(
-      this.toDto(buildingType, photo) as BuildingTypeAddDto,
+      this.toDto(buildingType, photo),
     );
   }
 
@@ -66,10 +66,10 @@ export class BuildingTypeApiClient extends BaseApiClient<
    * @param photo - Photo
    * @returns Transaction status
    */
-  async update(buildingType: BuildingTypeDto, photo: FormPhoto) {
+  async updateFromForm(buildingType: BuildingTypeDto, photo: FormPhoto) {
     return await this.saveExisting({
       id: buildingType.id,
       ...this.toDto(buildingType, photo),
-    } as BuildingTypeUpdateDto);
+    });
   }
 }

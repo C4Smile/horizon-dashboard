@@ -1,5 +1,5 @@
-import { CannonDto } from "./CannonDto";
+import { DeleteDto } from "../base";
+import { CannonAddDto } from "./CannonAddDto";
 
-export interface CannonUpdateDto extends Omit<CannonDto, "type"> {
-  typeId: number;
-}
+/** The same payload as a create, plus the id of the row being written */
+export type CannonUpdateDto = CannonAddDto & DeleteDto;

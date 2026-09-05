@@ -65,8 +65,8 @@ function UserForm() {
         return setNotification(t("_accessibility:errors.passwordDoNotMatch"));
       }
       // create and update both answer { data, status, error }, insert throws
-      if (!d.id) result = await horizonApiClient.User.create(d, photo);
-      else result = await horizonApiClient.User.update(d, photo);
+      if (!d.id) result = await horizonApiClient.User.createFromForm(d, photo);
+      else result = await horizonApiClient.User.updateFromForm(d, photo);
       const { error, status } = result;
 
       setNotification(String(status), { model: t("_entities:entities.user") });

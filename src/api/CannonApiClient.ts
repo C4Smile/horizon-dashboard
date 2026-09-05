@@ -62,8 +62,8 @@ export class CannonApiClient extends BaseApiClient<
    * @param cannon - Cannon
    * @returns Transaction status
    */
-  async create(cannon: CannonDto) {
-    return await this.saveNew(this.toDto(cannon) as CannonAddDto);
+  async createFromForm(cannon: CannonDto) {
+    return await this.saveNew(this.toDto(cannon));
   }
 
   /**
@@ -71,10 +71,10 @@ export class CannonApiClient extends BaseApiClient<
    * @param cannon - Cannon
    * @returns Transaction status
    */
-  async update(cannon: CannonDto) {
+  async updateFromForm(cannon: CannonDto) {
     return await this.saveExisting({
       id: cannon.id,
       ...this.toDto(cannon),
-    } as CannonUpdateDto);
+    });
   }
 }

@@ -1,5 +1,5 @@
-import { BuildingDto } from "./BuildingDto";
+import { DeleteDto } from "../base";
+import { BuildingAddDto } from "./BuildingAddDto";
 
-export interface BuildingUpdateDto extends Omit<BuildingDto, "type"> {
-  typeId: number;
-}
+/** The same payload as a create, plus the id of the row being written */
+export type BuildingUpdateDto = BuildingAddDto & DeleteDto;

@@ -55,8 +55,8 @@ function BuildingTypeForm() {
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.BuildingType.create(d, photo);
-      else result = await horizonApiClient.BuildingType.update(d, photo);
+      if (!d.id) result = await horizonApiClient.BuildingType.createFromForm(d, photo);
+      else result = await horizonApiClient.BuildingType.updateFromForm(d, photo);
 
       const { error, status } = result;
       setNotification(String(status), {

@@ -61,8 +61,8 @@ export class ResourceApiClient extends BaseApiClient<
    * @param photo - Photo
    * @returns Transaction status
    */
-  async create(resource: ResourceDto, photo: FormPhoto) {
-    return await this.saveNew(this.toDto(resource, photo) as ResourceAddDto);
+  async createFromForm(resource: ResourceDto, photo: FormPhoto) {
+    return await this.saveNew(this.toDto(resource, photo));
   }
 
   /**
@@ -71,10 +71,10 @@ export class ResourceApiClient extends BaseApiClient<
    * @param photo - photo
    * @returns Transaction status
    */
-  async update(resource: ResourceDto, photo: FormPhoto) {
+  async updateFromForm(resource: ResourceDto, photo: FormPhoto) {
     return await this.saveExisting({
       id: resource.id,
       ...this.toDto(resource, photo),
-    } as ResourceUpdateDto);
+    });
   }
 }

@@ -8,6 +8,7 @@ import { Tables } from "./types";
 // lib
 import {
   UserDto,
+  UserFormType,
   UserCommonDto,
   UserAddDto,
   UserUpdateDto,
@@ -39,15 +40,14 @@ export class UserApiClient extends BaseApiClient<
    * @param photo - ImageUploader state
    * @returns user dto
    */
-  private toDto(user: UserDto, photo: FormPhoto) {
-    const { name, username, email, phone, address, password } = user;
+  private toDto(user: UserFormType, photo: FormPhoto) {
+    const { name, username, email, phone, password } = user;
 
     return {
-      name,
-      username,
-      email,
-      phone,
-      address,
+      name: name ?? "",
+      username: username ?? "",
+      email: email ?? "",
+      phone: phone ?? "",
       roleId: parseId(user.roleId),
       ...(password ? { password } : {}),
       ...parseImage(photo),
@@ -60,8 +60,8 @@ export class UserApiClient extends BaseApiClient<
    * @param photo - Photo
    * @returns Transaction status
    */
-  async create(user: UserDto, photo: FormPhoto) {
-    return await this.saveNew(this.toDto(user, photo) as UserAddDto);
+  async createFromForm(user: UserFormType, photo: FormPhoto) {
+    return await this.saveNew(this.toDto(user, photo));
   }
 
   /**
@@ -70,10 +70,10 @@ export class UserApiClient extends BaseApiClient<
    * @param photo - photo
    * @returns Transaction status
    */
-  async update(user: UserDto, photo: FormPhoto) {
+  async updateFromForm(user: UserFormType, photo: FormPhoto) {
     return await this.saveExisting({
-      id: user.id,
+      id: user.id ?? 0,
       ...this.toDto(user, photo),
-    } as UserUpdateDto);
+    });
   }
 }

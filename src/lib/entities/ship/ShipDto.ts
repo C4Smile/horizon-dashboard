@@ -5,8 +5,9 @@ export interface ShipDto extends BaseEntityDto {
   name: string;
   urlName: string;
   description: string;
-  creationTime: string;
+  creationTime: number;
   capacity: number;
+  guns: number;
   hull: number;
   knots: number;
   minCrew: number;

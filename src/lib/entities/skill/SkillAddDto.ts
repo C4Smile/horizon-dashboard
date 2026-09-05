@@ -1,4 +1,9 @@
-import { OmitBaseEntityDto } from "../base";
+import { ImageWriteDto, OmitBaseEntityDto } from "../base";
 import { SkillDto } from "./SkillDto";
 
-export type SkillAddDto = Omit<SkillDto, OmitBaseEntityDto>;
+/** What the api takes to create a skill */
+export type SkillAddDto = Omit<
+  SkillDto,
+  OmitBaseEntityDto | "image"
+> &
+  ImageWriteDto;

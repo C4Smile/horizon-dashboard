@@ -6,7 +6,7 @@ export interface BuildingDto extends BaseEntityDto {
   name: string;
   urlName: string;
   description: string;
-  creationTime: string;
+  creationTime: number;
   type: BuildingTypeCommonDto;
   typeId: number;
   image: PhotoDto;

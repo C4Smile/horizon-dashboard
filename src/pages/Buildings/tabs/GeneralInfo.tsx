@@ -74,8 +74,8 @@ function GeneralInfo(props) {
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.Building.create(d, photo);
-      else result = await horizonApiClient.Building.update(d, photo);
+      if (!d.id) result = await horizonApiClient.Building.createFromForm(d, photo);
+      else result = await horizonApiClient.Building.updateFromForm(d, photo);
 
       const { error, status } = result;
       setNotification(String(status), {

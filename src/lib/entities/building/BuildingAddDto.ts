@@ -1,9 +1,11 @@
-import { OmitBaseEntityDto } from "../base";
+import { ImageWriteDto, OmitBaseEntityDto } from "../base";
 import { BuildingDto } from "./BuildingDto";
 
-export interface BuildingAddDto extends Omit<
+/** What the api takes to create a building */
+export type BuildingAddDto = Omit<
   BuildingDto,
-  OmitBaseEntityDto | "type"
-> {
+  OmitBaseEntityDto | "image" | "type"
+> &
+  ImageWriteDto & {
   typeId: number;
-}
+  };

@@ -55,8 +55,8 @@ export class SkillApiClient extends BaseApiClient<
    * @param photo - Photo
    * @returns Transaction status
    */
-  async create(skill: SkillDto, photo: FormPhoto) {
-    return await this.saveNew(this.toDto(skill, photo) as SkillAddDto);
+  async createFromForm(skill: SkillDto, photo: FormPhoto) {
+    return await this.saveNew(this.toDto(skill, photo));
   }
 
   /**
@@ -65,10 +65,10 @@ export class SkillApiClient extends BaseApiClient<
    * @param photo - photo
    * @returns Transaction status
    */
-  async update(skill: SkillDto, photo: FormPhoto) {
+  async updateFromForm(skill: SkillDto, photo: FormPhoto) {
     return await this.saveExisting({
       id: skill.id,
       ...this.toDto(skill, photo),
-    } as SkillUpdateDto);
+    });
   }
 }

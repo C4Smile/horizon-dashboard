@@ -61,8 +61,8 @@ function SkillForm() {
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.Skill.create(d, photo);
-      else result = await horizonApiClient.Skill.update(d, photo);
+      if (!d.id) result = await horizonApiClient.Skill.createFromForm(d, photo);
+      else result = await horizonApiClient.Skill.updateFromForm(d, photo);
 
       const { error, status } = result;
       setNotification(String(status), { model: t("_entities:entities.skill") });

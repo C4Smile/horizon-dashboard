@@ -55,8 +55,8 @@ function TechTypeForm() {
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.TechType.create(d, photo);
-      else result = await horizonApiClient.TechType.update(d, photo);
+      if (!d.id) result = await horizonApiClient.TechType.createFromForm(d, photo);
+      else result = await horizonApiClient.TechType.updateFromForm(d, photo);
 
       const { error, status } = result;
       setNotification(String(status), {
