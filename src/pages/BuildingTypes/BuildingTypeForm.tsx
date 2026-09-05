@@ -41,7 +41,7 @@ function BuildingTypeForm() {
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [updatedAt, setUpdatedAt] = useState<string | Date | undefined>();
+  const [updatedAt, setUpdatedAt] = useState<string>("");
 
   const [photo, setPhoto] = useState<ImageFormType | null>(null);
 

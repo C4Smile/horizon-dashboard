@@ -53,7 +53,7 @@ function GeneralInfo(props: GeneralInfoPropsType) {
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [updatedAt, setLastUpdate] = useState<string | Date | undefined>();
+  const [updatedAt, setLastUpdate] = useState<string>("");
 
   const { handleSubmit, reset, control, getValues } = useForm<FormValues<ShipDto>>();
 
@@ -88,8 +88,10 @@ function GeneralInfo(props: GeneralInfoPropsType) {
             id: undefined,
             name: "",
             capacity: 0,
-            baseSpeed: 0,
-            crew: 0,
+            knots: 0,
+            minCrew: 0,
+            bestCrew: 0,
+            maxCrew: 0,
             guns: 0,
             hull: 0,
             creationTime: 0,
@@ -115,7 +117,7 @@ function GeneralInfo(props: GeneralInfoPropsType) {
       setPhoto(shipQuery.data?.image);
       setIcon(shipQuery.data?.icon ?? null);
 
-      setLastUpdate(shipQuery?.data?.updatedAt);
+      setLastUpdate(shipQuery?.data?.updatedAt ?? "");
       // the api stores html, the input edits draft state; the query
       // cache is left alone
       reset({
@@ -131,8 +133,10 @@ function GeneralInfo(props: GeneralInfoPropsType) {
         id: undefined,
         name: "",
         capacity: 0,
-        baseSpeed: 0,
-        crew: 0,
+        knots: 0,
+        minCrew: 0,
+        bestCrew: 0,
+        maxCrew: 0,
         guns: 0,
         hull: 0,
         creationTime: 0,
@@ -154,8 +158,8 @@ function GeneralInfo(props: GeneralInfoPropsType) {
         />
       ) : id ? (
         <>
-          <div className={updatedAt?.length ? "" : "mt-5"}>
-            {updatedAt?.length && (
+          <div className={updatedAt.length ? "" : "mt-5"}>
+            {!!updatedAt.length && (
               <p className="text-sm mb-10">
                 {t("_accessibility:labels.updatedAt")}{" "}
                 {new Date(updatedAt).toLocaleDateString("es-ES")}

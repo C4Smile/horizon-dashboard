@@ -44,7 +44,7 @@ function PersonalInfo() {
 
   const { setNotification, showErrorNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [updatedAt, setLastUpdate] = useState<string | Date | undefined>();
+  const [updatedAt, setLastUpdate] = useState<string>("");
 
   const { handleSubmit, reset, control } = useForm();
 
@@ -101,7 +101,7 @@ function PersonalInfo() {
     if (userQuery.data) {
       if (userQuery.data?.image) setPhoto(userQuery?.data?.image);
       reset({ ...userQuery.data });
-      setLastUpdate(userQuery?.data?.updatedAt);
+      setLastUpdate(userQuery?.data?.updatedAt ?? "");
     }
 
     if (!id) {

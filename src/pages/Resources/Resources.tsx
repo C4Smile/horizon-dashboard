@@ -84,6 +84,7 @@ function ResourcePage() {
         },
       },
       imageColumn<ResourceDto>("name", "image"),
+      imageColumn<ResourceDto>("name", "icon"),
     ],
     EntityName.Resource,
     [],

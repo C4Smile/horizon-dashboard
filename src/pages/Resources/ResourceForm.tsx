@@ -53,7 +53,7 @@ function ResourceForm() {
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [updatedAt, setLastUpdate] = useState<string | Date | undefined>();
+  const [updatedAt, setLastUpdate] = useState<string>("");
 
   const { handleSubmit, reset, control } = useForm<FormValues<ResourceDto>>();
 
@@ -128,7 +128,7 @@ function ResourceForm() {
       //* PARSING PHOTO
       setPhoto(resourceQuery.data?.image);
       setIcon(resourceQuery.data?.icon ?? null);
-      setLastUpdate(resourceQuery?.data?.updatedAt);
+      setLastUpdate(resourceQuery?.data?.updatedAt ?? "");
       // the api stores html, the input edits draft state; the query
       // cache is left alone
       reset({

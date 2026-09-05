@@ -9,6 +9,8 @@
   --color-alt-background: #343434;
   --color-border: #393939;
   --color-primary: #c69e3b;
+  /* primary readable on a light background, the gold above is for the header */
+  --color-light-primary: #7a5c12;
   --color-bg-primary: #b8860b;
   --color-hover-primary: #c69e3b;
   --color-secondary: #d27d6b;

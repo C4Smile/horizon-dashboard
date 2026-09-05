@@ -53,7 +53,7 @@ function SkillForm() {
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [updatedAt, setLastUpdate] = useState<string | Date | undefined>();
+  const [updatedAt, setLastUpdate] = useState<string>("");
 
   const { handleSubmit, reset, control } = useForm<FormValues<SkillDto>>();
 
@@ -85,7 +85,6 @@ function SkillForm() {
           reset({
             id: undefined,
             name: "",
-            baseFactor: 0,
             description: "",
           });
         }
@@ -123,7 +122,7 @@ function SkillForm() {
       //* PARSING PHOTO
       setPhoto(skillQuery.data?.image);
 
-      setLastUpdate(skillQuery?.data?.updatedAt);
+      setLastUpdate(skillQuery?.data?.updatedAt ?? "");
       // the api stores html, the input edits draft state; the query
       // cache is left alone
       reset({
@@ -137,7 +136,6 @@ function SkillForm() {
       reset({
         id: undefined,
         name: "",
-        baseFactor: 0,
         description: "",
       });
     }

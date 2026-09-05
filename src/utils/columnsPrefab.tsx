@@ -13,7 +13,7 @@ import { staticUrlPhoto } from "components";
 import { BaseCommonEntityDto, BaseEntityDto, PhotoDto } from "lib";
 
 export const nameColumn = <
-  TDto extends BaseCommonEntityDto & { deletedAt?: Date | null },
+  TDto extends BaseCommonEntityDto & { deletedAt?: string | null },
 >(): ColumnType<TDto> => ({
   key: "name",
   filterOptions: { type: FilterTypes.text, defaultValue: "" },

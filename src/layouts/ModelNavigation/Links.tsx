@@ -29,7 +29,7 @@ export function Links(props: LinksPropsTypes) {
       <Link
         className={`px-3 py-2 ${linksClassName} ${
           pathname === pathName
-            ? "text-light-primary/40 disabled-link"
+            ? "text-dark/60 disabled-link"
             : "text-primary hover:text-dark-primary"
         }`}
         to={pathName}
@@ -41,7 +41,7 @@ export function Links(props: LinksPropsTypes) {
           className={`px-3 py-2 ${linksClassName} ${
             pathname === `${pathName}/${t("_accessibility:labels.new")}` ||
             pathname.match(/^\/[^/]+\/[^/]+\/\d+$/)
-              ? "text-light-primary/40 disabled-link"
+              ? "text-dark/60 disabled-link"
               : "text-primary hover:text-dark-primary"
           }`}
           to={`${pathName}/${t("_accessibility:labels.new")}`}

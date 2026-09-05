@@ -43,7 +43,7 @@ function UserForm() {
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [updatedAt, setLastUpdate] = useState<string | Date | undefined>();
+  const [updatedAt, setLastUpdate] = useState<string>("");
 
   const { handleSubmit, reset, control } = useForm();
 
@@ -147,7 +147,7 @@ function UserForm() {
       const currentRoleId = parseId(userQuery.data?.roleId);
       const roleId = roleList.find((role) => role.id === currentRoleId);
       reset({ ...userQuery.data, roleId: roleId?.id });
-      setLastUpdate(userQuery?.data?.updatedAt);
+      setLastUpdate(userQuery?.data?.updatedAt ?? "");
     }
 
     if (!id) {
