@@ -13,4 +13,6 @@ export interface ShipDto extends BaseEntityDto {
   bestCrew: number;
   maxCrew: number;
   image: PhotoDto;
+  /** optional: only ships and resources carry one */
+  icon?: PhotoDto;
 }

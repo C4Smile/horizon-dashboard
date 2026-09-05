@@ -4,6 +4,7 @@ import { BaseApiClient } from "./utils/BaseApiClient";
 import {
   FormPhoto,
   parseHtml,
+  parseIcon,
   parseImage,
   parseNumber,
 } from "./utils/formToDto";
@@ -43,14 +44,16 @@ export class ResourceApiClient extends BaseApiClient<
    * @description Maps the form values to what the api stores
    * @param resource - form values
    * @param photo - ImageUploader state
+   * @param icon - icon ImageUploader state
    * @returns resource dto
    */
-  private toDto(resource: FormValues<ResourceDto>, photo: FormPhoto) {
+  private toDto(resource: FormValues<ResourceDto>, photo: FormPhoto, icon: FormPhoto) {
     return {
       name: resource.name ?? "",
       baseFactor: parseNumber(resource.baseFactor),
       description: parseHtml(resource.description),
       ...parseImage(photo),
+      ...parseIcon(icon),
     };
   }
 
@@ -58,22 +61,24 @@ export class ResourceApiClient extends BaseApiClient<
    * @description Create resource
    * @param resource - Resource
    * @param photo - Photo
+   * @param icon - Icon
    * @returns Transaction status
    */
-  async createFromForm(resource: FormValues<ResourceDto>, photo: FormPhoto) {
-    return await this.saveNew(this.toDto(resource, photo));
+  async createFromForm(resource: FormValues<ResourceDto>, photo: FormPhoto, icon: FormPhoto) {
+    return await this.saveNew(this.toDto(resource, photo, icon));
   }
 
   /**
    * @description Update resource
    * @param resource - Resource
    * @param photo - photo
+   * @param icon - icon
    * @returns Transaction status
    */
-  async updateFromForm(resource: FormValues<ResourceDto>, photo: FormPhoto) {
+  async updateFromForm(resource: FormValues<ResourceDto>, photo: FormPhoto, icon: FormPhoto) {
     return await this.saveExisting({
       id: parseNumber(resource.id),
-      ...this.toDto(resource, photo),
+      ...this.toDto(resource, photo, icon),
     });
   }
 }

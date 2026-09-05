@@ -67,3 +67,28 @@ export function parseImage(photo: FormPhoto) {
 
   return { imageId: DEFAULT_IMAGE_ID };
 }
+
+/**
+ * @description Same as parseImage for the optional icon. An entity that has
+ * none sends neither field, so iconId stays null rather than pointing at the
+ * placeholder the way a missing image does.
+ * @param photo - ImageUploader state
+ * @returns icon or iconId, ready to be spread into the dto, or nothing
+ */
+export function parseIcon(photo: FormPhoto) {
+  const blob = photo as BlobDto;
+  if (blob?.base64)
+    return {
+      icon: {
+        base64: blob.base64,
+        folder: blob.folder,
+        fileName: blob.fileName,
+        alt: blob.fileName,
+      },
+    };
+
+  const saved = photo as PhotoDto;
+  if (saved?.id) return { iconId: saved.id };
+
+  return {};
+}

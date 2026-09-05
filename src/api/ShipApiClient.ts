@@ -10,6 +10,7 @@ import { BaseApiClient } from "./utils/BaseApiClient";
 import {
   FormPhoto,
   parseHtml,
+  parseIcon,
   parseImage,
   parseNumber,
 } from "./utils/formToDto";
@@ -54,9 +55,10 @@ export class ShipApiClient extends BaseApiClient<
    * @description Maps the form values to what the api stores
    * @param ship - form values
    * @param photo - ImageUploader state
+   * @param icon - icon ImageUploader state
    * @returns ship dto
    */
-  private toDto(ship: FormValues<ShipDto>, photo: FormPhoto) {
+  private toDto(ship: FormValues<ShipDto>, photo: FormPhoto, icon: FormPhoto) {
     return {
       name: ship.name ?? "",
       description: parseHtml(ship.description),
@@ -69,6 +71,7 @@ export class ShipApiClient extends BaseApiClient<
       guns: parseNumber(ship.guns),
       hull: parseNumber(ship.hull),
       ...parseImage(photo),
+      ...parseIcon(icon),
     };
   }
 
@@ -76,22 +79,24 @@ export class ShipApiClient extends BaseApiClient<
    * @description Create ship
    * @param ship - Ship
    * @param photo - Photo
+   * @param icon - Icon
    * @returns Transaction status
    */
-  async createFromForm(ship: FormValues<ShipDto>, photo: FormPhoto) {
-    return await this.saveNew(this.toDto(ship, photo));
+  async createFromForm(ship: FormValues<ShipDto>, photo: FormPhoto, icon: FormPhoto) {
+    return await this.saveNew(this.toDto(ship, photo, icon));
   }
 
   /**
    * @description Update ship
    * @param ship - Ship
    * @param photo - Photo
+   * @param icon - Icon
    * @returns Transaction status
    */
-  async updateFromForm(ship: FormValues<ShipDto>, photo: FormPhoto) {
+  async updateFromForm(ship: FormValues<ShipDto>, photo: FormPhoto, icon: FormPhoto) {
     return await this.saveExisting({
       id: parseNumber(ship.id),
-      ...this.toDto(ship, photo),
+      ...this.toDto(ship, photo, icon),
     });
   }
 }

@@ -6,4 +6,6 @@ export interface ResourceDto extends BaseEntityDto {
   description: string;
   baseFactor: number;
   image: PhotoDto;
+  /** optional: only ships and resources carry one */
+  icon?: PhotoDto;
 }

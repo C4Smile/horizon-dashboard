@@ -5,5 +5,6 @@ export * from "./BaseReqDto";
 export * from "./BaseResourceDto";
 export * from "./DeleteDto";
 export * from "./FormValues";
+export * from "./IconWriteDto";
 export * from "./ImageWriteDto";
 export * from "./OmitBaseEntityDto";

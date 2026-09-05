@@ -121,6 +121,9 @@
     "image": {
       "label": "Imagen"
     },
+    "icon": {
+      "label": "Icono del barco"
+    },
     "description": {
       "label": "Descripción",
       "placeholder": "Alguna descripción"
@@ -235,6 +238,9 @@
     },
     "image": {
       "label": "Imagen"
+    },
+    "icon": {
+      "label": "Icono del recurso"
     },
     "updatedAt": {
       "label": "Última actualización"

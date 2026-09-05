@@ -58,14 +58,15 @@ function ResourceForm() {
   const { handleSubmit, reset, control } = useForm<FormValues<ResourceDto>>();
 
   const [photo, setPhoto] = useState<ImageFormType | null>(null);
+  const [icon, setIcon] = useState<ImageFormType | null>(null);
 
   const onSubmit = async (d: FormValues<ResourceDto>) => {
     setSaving(true);
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.Resource.createFromForm(d, photo);
-      else result = await horizonApiClient.Resource.updateFromForm(d, photo);
+      if (!d.id) result = await horizonApiClient.Resource.createFromForm(d, photo, icon);
+      else result = await horizonApiClient.Resource.updateFromForm(d, photo, icon);
 
       const { error, status } = result;
       setNotification(String(status), {
@@ -85,6 +86,7 @@ function ResourceForm() {
           });
         else {
           setPhoto(null);
+          setIcon(null);
           reset({
             id: undefined,
             name: "",
@@ -125,6 +127,7 @@ function ResourceForm() {
     if (resourceQuery.data) {
       //* PARSING PHOTO
       setPhoto(resourceQuery.data?.image);
+      setIcon(resourceQuery.data?.icon ?? null);
       setLastUpdate(resourceQuery?.data?.updatedAt);
       // the api stores html, the input edits draft state; the query
       // cache is left alone
@@ -136,6 +139,7 @@ function ResourceForm() {
 
     if (!id) {
       setPhoto(null);
+      setIcon(null);
       reset({
         id: undefined,
         name: "",
@@ -215,6 +219,20 @@ function ResourceForm() {
               setPhoto={setPhoto}
               label={t("_entities:resource.image.label")}
               folder={ReactQueryKeys.Resources}
+            />
+          )}
+        </div>
+
+        {/* Resource Icon */}
+        <div className="my-5">
+          {resourceQuery.isLoading ? (
+            <Loading />
+          ) : (
+            <ImageUploader
+              photo={icon}
+              setPhoto={setIcon}
+              label={t("_entities:resource.icon.label")}
+              folder={`${ReactQueryKeys.Resources}/iconos`}
             />
           )}
         </div>

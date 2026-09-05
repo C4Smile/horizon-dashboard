@@ -58,14 +58,15 @@ function GeneralInfo(props: GeneralInfoPropsType) {
   const { handleSubmit, reset, control, getValues } = useForm<FormValues<ShipDto>>();
 
   const [photo, setPhoto] = useState<ImageFormType | null>(null);
+  const [icon, setIcon] = useState<ImageFormType | null>(null);
 
   const onSubmit = async (d: FormValues<ShipDto>) => {
     setSaving(true);
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.Ship.createFromForm(d, photo);
-      else result = await horizonApiClient.Ship.updateFromForm(d, photo);
+      if (!d.id) result = await horizonApiClient.Ship.createFromForm(d, photo, icon);
+      else result = await horizonApiClient.Ship.updateFromForm(d, photo, icon);
 
       const { error, status } = result;
       setNotification(String(status), { model: t("_entities:entities.ship") });
@@ -82,6 +83,7 @@ function GeneralInfo(props: GeneralInfoPropsType) {
           });
         else {
           setPhoto(null);
+          setIcon(null);
           reset({
             id: undefined,
             name: "",
@@ -111,6 +113,7 @@ function GeneralInfo(props: GeneralInfoPropsType) {
     if (shipQuery.data) {
       //* PARSING PHOTO
       setPhoto(shipQuery.data?.image);
+      setIcon(shipQuery.data?.icon ?? null);
 
       setLastUpdate(shipQuery?.data?.updatedAt);
       // the api stores html, the input edits draft state; the query
@@ -123,6 +126,7 @@ function GeneralInfo(props: GeneralInfoPropsType) {
 
     if (!shipQuery.data?.id) {
       setPhoto(null);
+      setIcon(null);
       reset({
         id: undefined,
         name: "",
@@ -338,6 +342,20 @@ function GeneralInfo(props: GeneralInfoPropsType) {
             setPhoto={setPhoto}
             label={t("_entities:ship.image.label")}
             folder={ReactQueryKeys.Ships}
+          />
+        )}
+      </div>
+
+      {/* Ship Icon */}
+      <div className="my-5">
+        {shipQuery.isLoading ? (
+          <Loading />
+        ) : (
+          <ImageUploader
+            photo={icon}
+            setPhoto={setIcon}
+            label={t("_entities:ship.icon.label")}
+            folder={`${ReactQueryKeys.Ships}/iconos`}
           />
         )}
       </div>
