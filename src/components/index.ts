@@ -1,5 +1,4 @@
 export * from "./Logo";
-export * from "./Dialogs";
 export * from "./EntityLevelStuff";
 export * from "./Forms";
 export * from "./ImageUploader";

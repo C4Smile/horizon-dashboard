@@ -45,12 +45,12 @@ export const isDeleted = (entity: BaseEntityDto) => entity.deleted;
 
 /**
  *
- * @param userId user locker
+ * @param userId user locker, undefined when there is no session yet
  * @param entity entity to check
  * @returns true if is locked by userId, false otherwise
  */
-export const isLockedBy = (userId: number, entity: BaseEntityDto) =>
-  entity.lockedBy && entity.lockedBy === userId;
+export const isLockedBy = (userId: number | undefined, entity: BaseEntityDto) =>
+  !!entity.lockedBy && entity.lockedBy === userId;
 
 /**
  *

@@ -1,6 +1,27 @@
 {
   "common": {
-    "emptyEntityLevel": "Haz click en el botón para añadir elementos"
+    "emptyEntityLevel": "Haz click en el botón para añadir elementos",
+    "actions": {
+      "edit": {
+        "text": "Editar"
+      },
+      "delete": {
+        "text": "Eliminar",
+        "successMessage": "Elemento eliminado",
+        "dialog": {
+          "title": "Eliminar elemento",
+          "message": "¿Seguro que quieres eliminar este elemento?"
+        }
+      },
+      "restore": {
+        "text": "Restaurar",
+        "successMessage": "Elemento restaurado",
+        "dialog": {
+          "title": "Restaurar elemento",
+          "message": "¿Seguro que quieres restaurar este elemento?"
+        }
+      }
+    }
   },
   "routes": {
     "dashboard": {

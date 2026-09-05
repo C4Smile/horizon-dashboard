@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 // @sito/dashboard-app
-import { ActionType, Table } from "@sito/dashboard-app";
+import { ActionType, ConfirmationDialog, Table } from "@sito/dashboard-app";
 
 // utils
 import { nameColumn, imageColumn, useParseColumns } from "utils";
@@ -81,6 +81,12 @@ function SkillsPage() {
 
   return (
     <TablePage title={t("_pages:game.links.skills")} pageKey={PageId.skills}>
+      <ConfirmationDialog {...deleteAction}>
+        <p>{t("_pages:common.actions.delete.dialog.message")}</p>
+      </ConfirmationDialog>
+      <ConfirmationDialog {...restoreAction}>
+        <p>{t("_pages:common.actions.restore.dialog.message")}</p>
+      </ConfirmationDialog>
       <Table
         data={data?.items ?? []}
         actions={getActions}

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
-import { Action } from "@sito/dashboard-app";
+import { ActionType } from "@sito/dashboard-app";
 import { useTranslation } from "react-i18next";
 
 // base
@@ -36,7 +36,7 @@ export const useEditAction = (
   const { account } = useAccount();
 
   const action = useCallback(
-    (row: BaseEntityDto): Action<BaseEntityDto> => ({
+    (row: BaseEntityDto): ActionType<BaseEntityDto> => ({
       id: BaseActions.Edit,
       disabled:
         disabled ||

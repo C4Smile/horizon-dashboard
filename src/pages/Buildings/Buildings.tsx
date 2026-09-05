@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 // @sito/dashboard-app
-import { Action, FilterTypes, Table } from "@sito/dashboard-app";
+import { ActionType, ConfirmationDialog, FilterTypes, Table } from "@sito/dashboard-app";
 
 // lib
 import { BuildingDto } from "lib";
@@ -74,7 +74,7 @@ function BuildingPage() {
   });
 
   const getActions = useCallback(
-    (row: BuildingDto): Action<BuildingDto>[] => [
+    (row: BuildingDto): ActionType<BuildingDto>[] => [
       editAction.action(row),
       restoreAction.action(row),
       deleteAction.action(row),
@@ -115,6 +115,12 @@ function BuildingPage() {
       title={t("_pages:game.links.buildings")}
       pageKey={PageId.buildings}
     >
+      <ConfirmationDialog {...deleteAction}>
+        <p>{t("_pages:common.actions.delete.dialog.message")}</p>
+      </ConfirmationDialog>
+      <ConfirmationDialog {...restoreAction}>
+        <p>{t("_pages:common.actions.restore.dialog.message")}</p>
+      </ConfirmationDialog>
       <Table
         data={data?.items ?? []}
         actions={getActions}

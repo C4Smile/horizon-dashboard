@@ -2,7 +2,7 @@ import { useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
 // @sito/dashboard-app
-import { Action, Table } from "@sito/dashboard-app";
+import { ActionType, ConfirmationDialog, Table } from "@sito/dashboard-app";
 
 // components
 import { TablePage, TableToolbar } from "components";
@@ -57,17 +57,17 @@ function TechTypes() {
   });
 
   const restoreAction = useRestoreDialog({
-    mutationFn: (data) => horizonApiClient.Tech.restore(data),
+    mutationFn: (data) => horizonApiClient.TechType.restore(data),
     ...TechTypesQueryKeys.all(),
   });
 
   const deleteAction = useDeleteDialog({
-    mutationFn: (data) => horizonApiClient.Tech.softDelete(data),
+    mutationFn: (data) => horizonApiClient.TechType.softDelete(data),
     ...TechTypesQueryKeys.all(),
   });
 
   const getActions = useCallback(
-    (row: TechTypeDto): Action<TechTypeDto>[] => [
+    (row: TechTypeDto): ActionType<TechTypeDto>[] => [
       editAction.action(row),
       restoreAction.action(row),
       deleteAction.action(row),
@@ -88,6 +88,12 @@ function TechTypes() {
       title={t("_pages:game.links.techTypes")}
       pageKey={PageId.techTypes}
     >
+      <ConfirmationDialog {...deleteAction}>
+        <p>{t("_pages:common.actions.delete.dialog.message")}</p>
+      </ConfirmationDialog>
+      <ConfirmationDialog {...restoreAction}>
+        <p>{t("_pages:common.actions.restore.dialog.message")}</p>
+      </ConfirmationDialog>
       <Table
         data={data?.items ?? []}
         actions={getActions}

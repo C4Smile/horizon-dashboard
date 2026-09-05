@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 // @sito/dashboard-app
-import { Action, FilterTypes, Table } from "@sito/dashboard-app";
+import { ActionType, ConfirmationDialog, FilterTypes, Table } from "@sito/dashboard-app";
 
 // utils
 import { nameColumn, imageColumn, useParseColumns } from "utils";
@@ -16,7 +16,7 @@ import { useHorizonApiClient } from "providers";
 // hooks
 import {
   useEditAction,
-  TechsQueryKeys,
+  ResourcesQueryKeys,
   useDeleteDialog,
   useRestoreDialog,
   useResourcesList,
@@ -53,17 +53,17 @@ function ResourcePage() {
   });
 
   const restoreAction = useRestoreDialog({
-    mutationFn: (data) => horizonApiClient.Tech.restore(data),
-    ...TechsQueryKeys.all(),
+    mutationFn: (data) => horizonApiClient.Resource.restore(data),
+    ...ResourcesQueryKeys.all(),
   });
 
   const deleteAction = useDeleteDialog({
-    mutationFn: (data) => horizonApiClient.Tech.softDelete(data),
-    ...TechsQueryKeys.all(),
+    mutationFn: (data) => horizonApiClient.Resource.softDelete(data),
+    ...ResourcesQueryKeys.all(),
   });
 
   const getActions = useCallback(
-    (row: ResourceDto): Action<ResourceDto>[] => [
+    (row: ResourceDto): ActionType<ResourceDto>[] => [
       editAction.action(row),
       restoreAction.action(row),
       deleteAction.action(row),
@@ -94,6 +94,12 @@ function ResourcePage() {
       title={t("_pages:game.links.resources")}
       pageKey={PageId.resources}
     >
+      <ConfirmationDialog {...deleteAction}>
+        <p>{t("_pages:common.actions.delete.dialog.message")}</p>
+      </ConfirmationDialog>
+      <ConfirmationDialog {...restoreAction}>
+        <p>{t("_pages:common.actions.restore.dialog.message")}</p>
+      </ConfirmationDialog>
       <Table
         data={data?.items ?? []}
         actions={getActions}

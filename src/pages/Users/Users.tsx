@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 // @sito/dashboard-app
-import { Action, FilterTypes, Table } from "@sito/dashboard-app";
+import { ActionType, ConfirmationDialog, FilterTypes, Table } from "@sito/dashboard-app";
 
 // images
 import noUserPhoto from "assets/images/user-no-image.webp";
@@ -20,7 +20,7 @@ import { useHorizonApiClient } from "providers";
 // hooks
 import {
   useEditAction,
-  TechsQueryKeys,
+  UsersQueryKeys,
   useDeleteDialog,
   useRestoreDialog,
   useUsersList,
@@ -57,17 +57,17 @@ function Users() {
   });
 
   const restoreAction = useRestoreDialog({
-    mutationFn: (data) => horizonApiClient.Tech.restore(data),
-    ...TechsQueryKeys.all(),
+    mutationFn: (data) => horizonApiClient.User.restore(data),
+    ...UsersQueryKeys.all(),
   });
 
   const deleteAction = useDeleteDialog({
-    mutationFn: (data) => horizonApiClient.Tech.softDelete(data),
-    ...TechsQueryKeys.all(),
+    mutationFn: (data) => horizonApiClient.User.softDelete(data),
+    ...UsersQueryKeys.all(),
   });
 
   const getActions = useCallback(
-    (row: UserDto): Action<UserDto>[] => [
+    (row: UserDto): ActionType<UserDto>[] => [
       editAction.action(row),
       restoreAction.action(row),
       deleteAction.action(row),
@@ -145,14 +145,22 @@ function Users() {
   );
 
   return (
-    <Table
-      data={data?.items ?? []}
-      actions={getActions}
-      isLoading={isLoading}
-      entity={EntityName.User}
-      columns={columns}
-      toolbar={<TableToolbar pageKey={PageId.users} />}
-    />
+    <>
+      <ConfirmationDialog {...deleteAction}>
+        <p>{t("_pages:common.actions.delete.dialog.message")}</p>
+      </ConfirmationDialog>
+      <ConfirmationDialog {...restoreAction}>
+        <p>{t("_pages:common.actions.restore.dialog.message")}</p>
+      </ConfirmationDialog>
+      <Table
+        data={data?.items ?? []}
+        actions={getActions}
+        isLoading={isLoading}
+        entity={EntityName.User}
+        columns={columns}
+        toolbar={<TableToolbar pageKey={PageId.users} />}
+      />
+    </>
   );
 }
 

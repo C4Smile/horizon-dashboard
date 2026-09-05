@@ -1,5 +1,4 @@
-import { MutationFunction, QueryKey } from "@tanstack/react-query";
-import { DefaultValues, FieldValues } from "react-hook-form";
+import { QueryKey } from "@tanstack/react-query";
 
 // types
 import { ValidationError } from "lib";
@@ -10,22 +9,4 @@ export interface UseDeleteDialogPropsType extends UseConfirmationPropsType<
   ValidationError
 > {
   queryKey: QueryKey;
-}
-
-export interface UseFormDialogPropsType<
-  TDto,
-  TMutationDto,
-  TMutationOutputDto,
-  TFormType extends FieldValues,
-> {
-  defaultValues?: DefaultValues<TFormType>;
-  getFunction?: (id: number) => Promise<TDto>;
-  formToDto: (data: TFormType) => TMutationDto;
-  dtoToForm?: (data: TDto) => TFormType;
-  mutationFn: MutationFunction<TMutationOutputDto, TMutationDto>;
-  onError?: (errors: ValidationError) => void;
-  onSuccess?: (data: TMutationOutputDto) => void;
-  queryKey: QueryKey;
-  onSuccessMessage: string;
-  title: string;
 }

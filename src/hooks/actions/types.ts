@@ -1,5 +1,5 @@
 // @sito/dashboard-app
-import { Action } from "@sito/dashboard-app";
+import { ActionType } from "@sito/dashboard-app";
 
 // lib
 import { BaseEntityDto } from "lib";
@@ -34,5 +34,5 @@ export interface UseMultipleActionPropTypes<TInDto> extends UseActionPropTypes {
 }
 
 export type ActionHook<TDto extends BaseEntityDto> = {
-  action: (row: TDto) => Action<TDto>;
+  action: (row: TDto) => ActionType<TDto>;
 };

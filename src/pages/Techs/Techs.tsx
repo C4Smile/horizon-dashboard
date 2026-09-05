@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 // @sito/dashboard-app
-import { FilterTypes, Table, Action } from "@sito/dashboard-app";
+import { ActionType, ConfirmationDialog, FilterTypes, Table } from "@sito/dashboard-app";
 
 // components
 import { TablePage, TableToolbar } from "components";
@@ -69,7 +69,7 @@ function TechPage() {
   });
 
   const getActions = useCallback(
-    (row: TechDto): Action<TechDto>[] => [
+    (row: TechDto): ActionType<TechDto>[] => [
       editAction.action(row),
       restoreAction.action(row),
       deleteAction.action(row),
@@ -107,6 +107,12 @@ function TechPage() {
 
   return (
     <TablePage title={t("_pages:game.links.techs")} pageKey={PageId.techTypes}>
+      <ConfirmationDialog {...deleteAction}>
+        <p>{t("_pages:common.actions.delete.dialog.message")}</p>
+      </ConfirmationDialog>
+      <ConfirmationDialog {...restoreAction}>
+        <p>{t("_pages:common.actions.restore.dialog.message")}</p>
+      </ConfirmationDialog>
       <Table
         data={data?.items ?? []}
         actions={getActions}
