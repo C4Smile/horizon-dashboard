@@ -22,8 +22,23 @@ export type UseApiQueryPropsType<TResponseDto extends BaseEntityDto> = {
   queryKey: QueryKey;
 };
 
-export interface ApiQueryResult<
+export type ApiQueryResult<
   TResponseDto extends BaseEntityDto,
-> extends Omit<UseQueryResult<QueryResult<TResponseDto>>, "setTotal"> {
+  TError = Error,
+> = UseQueryResult<QueryResult<TResponseDto>, TError> & {
   setTotal: (total: number) => void;
+};
+
+/**
+ * react-query's result is a discriminated union, and spreading it collapses
+ * the discriminant, so the extra field is attached instead of spread.
+ * @param query - the query result
+ * @param setTotal - the table's total setter
+ * @returns the query result carrying setTotal
+ */
+export function withTotal<TResponseDto extends BaseEntityDto, TError = Error>(
+  query: UseQueryResult<QueryResult<TResponseDto>, TError>,
+  setTotal: (total: number) => void,
+): ApiQueryResult<TResponseDto, TError> {
+  return Object.assign({}, query, { setTotal });
 }

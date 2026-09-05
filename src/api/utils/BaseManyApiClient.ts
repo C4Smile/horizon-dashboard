@@ -1,6 +1,5 @@
-// utils
-import { fromLocal } from "../../utils/local";
-import { APIClient } from "./APIClient";
+// @sito/dashboard-app
+import { APIClient, Methods, buildQueryUrl } from "@sito/dashboard-app";
 
 // config
 import config from "../../config";
@@ -13,7 +12,9 @@ import { Tables } from "../types";
 
 /**
  * @class BaseManyApiClient
- * @description BaseManyApiClient
+ * @description Relations that hang off an entity, such as an entity's costs or
+ * its requirements. These endpoints answer a bare array rather than a paged
+ * result. The access token is carried by the shared APIClient.
  */
 export class BaseManyApiClient<
   TDto extends DeleteDto,
@@ -21,16 +22,16 @@ export class BaseManyApiClient<
   TFilter extends BaseFilterDto,
 > {
   table: Tables;
-  api: APIClient = new APIClient();
+  api: APIClient;
 
   /**
-   *
-   * @param baseUrl string url
-   * @param idAttribute id url
-   * @param idsAttribute ids url
+   * @param table - api endpoint this client reads
    */
   constructor(table: Tables) {
     this.table = table;
+    this.api = new APIClient(config.apiUrl, config.user, true, undefined, {
+      rememberKey: config.remember,
+    });
   }
 
   /**
@@ -39,10 +40,11 @@ export class BaseManyApiClient<
    * @param query query parameters
    * @returns Result list
    */
-  async get(id: number, query?: TFilter) {
-    return await this.api.get<TDto, TFilter>(`${this.table}/${id}`, query, {
-      Authorization: "Bearer " + fromLocal(config.user, "string"),
-    });
+  async get(id: number, query?: TFilter): Promise<TDto[]> {
+    return await this.api.doQuery<TDto[]>(
+      buildQueryUrl(`${this.table}/${id}`, query),
+      Methods.GET,
+    );
   }
 
   /**
@@ -52,9 +54,7 @@ export class BaseManyApiClient<
    * @returns inserted item
    */
   async insert(id: number, value: TAddDto): Promise<TDto> {
-    return await this.api.post<TDto, TAddDto>(`${this.table}/${id}`, value, {
-      Authorization: "Bearer " + fromLocal(config.user, "string"),
-    });
+    return await this.api.post<TDto, TAddDto>(`${this.table}/${id}`, value);
   }
 
   /**
@@ -65,12 +65,8 @@ export class BaseManyApiClient<
   async insertMany(data: TAddDto[]): Promise<TDto> {
     return await this.api.doQuery<TDto, TAddDto[]>(
       `${this.table}/batch`,
-      "POST",
-      "",
+      Methods.POST,
       data,
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "string"),
-      },
     );
   }
 
@@ -81,8 +77,6 @@ export class BaseManyApiClient<
    * @returns
    */
   async delete(id: number, ids: number[]): Promise<number> {
-    return await this.api.delete(`${this.table}/${id}`, ids, {
-      Authorization: "Bearer " + fromLocal(config.user, "string"),
-    });
+    return await this.api.delete(`${this.table}/${id}`, ids);
   }
 }

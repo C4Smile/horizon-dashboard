@@ -4,7 +4,7 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useHorizonApiClient } from "providers";
 
 // types
-import { ApiQueryResult, TableQueryOptions } from "./types.ts";
+import { ApiQueryResult, TableQueryOptions, withTotal } from "./types.ts";
 
 // lib
 import { ShipDto, ShipCommonDto } from "lib";
@@ -35,13 +35,15 @@ export function useShipsList(): ApiQueryResult<ShipDto> {
 
   const query = useQuery({
     queryFn: async () =>
-      horizonApiClient.Ship.get({
-        sortingBy,
-        sortingOrder,
-        currentPage,
-        pageSize,
-        ...filters,
-      }),
+      horizonApiClient.Ship.get(
+        {
+          sortingBy: sortingBy as keyof ShipDto,
+          sortingOrder,
+          currentPage,
+          pageSize,
+        },
+        filters,
+      ),
     ...ShipsQueryKeys.list({
       sortingBy,
       sortingOrder,
@@ -51,10 +53,7 @@ export function useShipsList(): ApiQueryResult<ShipDto> {
     }),
   });
 
-  return {
-    ...query,
-    setTotal,
-  };
+  return withTotal(query, setTotal);
 }
 
 export function useShipsCommon(): UseQueryResult<ShipCommonDto[]> {

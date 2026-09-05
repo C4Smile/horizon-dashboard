@@ -4,7 +4,7 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useHorizonApiClient } from "providers";
 
 // types
-import { ApiQueryResult, TableQueryOptions } from "./types.ts";
+import { ApiQueryResult, TableQueryOptions, withTotal } from "./types.ts";
 
 // lib
 import { SkillDto, SkillCommonDto } from "lib";
@@ -35,13 +35,15 @@ export function useSkillsList(): ApiQueryResult<SkillDto> {
 
   const query = useQuery({
     queryFn: async () =>
-      horizonApiClient.Skill.get({
-        sortingBy,
-        sortingOrder,
-        currentPage,
-        pageSize,
-        ...filters,
-      }),
+      horizonApiClient.Skill.get(
+        {
+          sortingBy: sortingBy as keyof SkillDto,
+          sortingOrder,
+          currentPage,
+          pageSize,
+        },
+        filters,
+      ),
     ...SkillsQueryKeys.list({
       sortingBy,
       sortingOrder,
@@ -51,10 +53,7 @@ export function useSkillsList(): ApiQueryResult<SkillDto> {
     }),
   });
 
-  return {
-    ...query,
-    setTotal,
-  };
+  return withTotal(query, setTotal);
 }
 
 export function useSkillsCommon(): UseQueryResult<SkillCommonDto[]> {

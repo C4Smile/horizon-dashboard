@@ -1,11 +1,13 @@
-// utils
-import { fromLocal } from "utils";
+// @sito/dashboard-app
+import {
+  APIClient,
+  Methods,
+  buildQueryUrl,
+  type QueryParam,
+} from "@sito/dashboard-app";
 
 // config
 import config from "../../config";
-
-// base
-import { APIClient } from "./APIClient";
 
 // types
 import { Tables } from "../types";
@@ -26,32 +28,6 @@ import { HttpRequestError } from "./types";
 const DEFAULT_PAGE_SIZE = 20;
 
 /**
- * @description The table components speak in sortingBy/sortingOrder/currentPage/
- * pageSize, the api reads sort/order/page/count. Controllers that default those
- * silently ignored the ui names, which is why paging and sorting never took
- * effect, and horizonUser, which does not default them, answered a 500.
- * @param query - filters plus the table options
- * @returns the same filters with the paging keys the api understands
- */
-export function toServerQuery<TFilter extends BaseFilterDto>(
-  query?: TFilter,
-): TFilter | undefined {
-  if (!query) return query;
-
-  const { sortingBy, sortingOrder, currentPage, pageSize, ...filters } = query;
-
-  // page and count always travel: the api multiplies them for the offset and
-  // the controllers that do not default them answer a 500 on NaN
-  return {
-    ...filters,
-    ...(sortingBy ? { sort: sortingBy } : {}),
-    ...(sortingOrder ? { order: sortingOrder } : {}),
-    page: currentPage ?? 0,
-    count: pageSize ?? DEFAULT_PAGE_SIZE,
-  } as unknown as TFilter;
-}
-
-/**
  * @description What every form reads back from a create/update call
  */
 export type SaveResult<TDto> = {
@@ -62,7 +38,11 @@ export type SaveResult<TDto> = {
 
 /**
  * @class BaseApiClient
- * @description it has all base method
+ * @description CRUD over the shared APIClient, which carries the access token
+ * on every call. It does not extend the library's BaseClient: that models
+ * entities as createdAt/updatedAt while horizon answers
+ * dateOfCreation/lastUpdate, and it pages with `pageSize` where horizon reads
+ * `count`.
  */
 export class BaseApiClient<
   TDto extends BaseEntityDto,
@@ -72,14 +52,139 @@ export class BaseApiClient<
   TFilter extends BaseFilterDto,
 > {
   table: Tables;
-  api: APIClient = new APIClient();
+  api: APIClient;
 
   /**
-   *
-   * @param table
+   * @param table - api endpoint this client reads
    */
   constructor(table: Tables) {
     this.table = table;
+    this.api = new APIClient(config.apiUrl, config.user, true, undefined, {
+      rememberKey: config.remember,
+    });
+  }
+
+  /**
+   * @param value - add dto
+   * @returns inserted item
+   */
+  async insert(value: TAddDto): Promise<TDto> {
+    return await this.api.post<TDto, TAddDto>(this.table, value);
+  }
+
+  /**
+   * @param data - values to insert
+   * @returns Query result
+   */
+  async insertMany(data: TAddDto[]): Promise<TDto> {
+    return await this.api.doQuery<TDto, TAddDto[]>(
+      `${this.table}/batch`,
+      Methods.POST,
+      data,
+    );
+  }
+
+  /**
+   * @param value - update dto
+   * @returns updated item
+   */
+  async update(value: TUpdateDto): Promise<TDto> {
+    return await this.patchEntity(value);
+  }
+
+  /**
+   * @description Raw patch. Subclasses override update() to take the form
+   * values and a photo, so the save helpers have to reach the api through
+   * here or they would call the override back.
+   * @param value - update dto
+   * @returns updated item
+   */
+  protected async patchEntity(value: TUpdateDto): Promise<TDto> {
+    return await this.api.patch<TDto, TUpdateDto>(
+      `${this.table}/${value.id}`,
+      value,
+    );
+  }
+
+  /**
+   * @param id - entity id
+   * @returns the entity
+   */
+  async getById(id: number): Promise<TDto> {
+    return await this.api.doQuery<TDto>(`${this.table}/${id}`, Methods.GET);
+  }
+
+  /**
+   * @param ids - entities to soft delete
+   * @returns how many were deleted
+   */
+  async softDelete(ids: number[]): Promise<number> {
+    return await this.api.delete(this.table, ids);
+  }
+
+  /**
+   * @param ids - entities to restore
+   * @returns how many were restored
+   */
+  async restore(ids: number[]): Promise<number> {
+    return await this.api.patch<number, number[]>(
+      `${this.table}/restore`,
+      ids,
+    );
+  }
+
+  /**
+   * @description The shared client sends `pageSize`, every horizon controller
+   * reads `count`, and the ones that do not default their paging answer a 500
+   * on a missing page, so both always travel.
+   * @param query - table options
+   * @param filters - entity filters
+   * @returns the endpoint with horizon's query string
+   */
+  private queryUrl(endpoint: string, query?: QueryParam<TDto>, filters?: TFilter) {
+    return buildQueryUrl(endpoint, {
+      ...(filters ?? {}),
+      ...(query?.sortingBy ? { sort: String(query.sortingBy) } : {}),
+      ...(query?.sortingOrder ? { order: query.sortingOrder } : {}),
+      page: query?.currentPage ?? 0,
+      count: query?.pageSize ?? DEFAULT_PAGE_SIZE,
+    });
+  }
+
+  async get(
+    query?: QueryParam<TDto>,
+    filters?: TFilter,
+  ): Promise<QueryResult<TDto>> {
+    return await this.api.doQuery<QueryResult<TDto>>(
+      this.queryUrl(this.table, query, filters),
+      Methods.GET,
+    );
+  }
+
+  /**
+   * @description Lightweight list used to fill entity pickers. The backend has
+   * no `/common` route, so this reads the regular list endpoint: the full dto
+   * is a superset of the common one.
+   * @param filters - entity filters
+   * @returns the rows
+   */
+  async commonGet(filters?: TFilter): Promise<TCommonDto[]> {
+    const result = await this.api.doQuery<QueryResult<TCommonDto>>(
+      this.queryUrl(this.table, undefined, filters),
+      Methods.GET,
+    );
+    return result.items;
+  }
+
+  /**
+   * @description Whole list, for the pickers that page through everything
+   * @returns Result list
+   */
+  async getAll(): Promise<QueryResult<TDto>> {
+    return await this.api.doQuery<QueryResult<TDto>>(
+      this.queryUrl(this.table, { pageSize: 999 } as QueryParam<TDto>),
+      Methods.GET,
+    );
   }
 
   /**
@@ -88,155 +193,21 @@ export class BaseApiClient<
    * @returns result of http
    */
   async lock(userId: number, entityId: number) {
-    return await this.api.patch(
-      `${this.table}/${entityId}/lock`,
-      {
-        userId,
-      },
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "string"),
-      },
-    );
+    return await this.api.patch(`${this.table}/${entityId}/lock`, { userId });
   }
 
   /**
-   * @param entityId entity id to lock
+   * @param entityId entity id to release
    * @returns result of http
    */
   async release(entityId: number) {
-    return await this.api.patch(`${this.table}/${entityId}/release`, null, {
-      Authorization: "Bearer " + fromLocal(config.user, "string"),
-    });
+    return await this.api.patch(`${this.table}/${entityId}/release`, null);
   }
 
   /**
-   *
-   * @param value
-   * @returns inserted item
-   */
-  async insert(value: TAddDto): Promise<TDto> {
-    return await this.api.post<TDto, TAddDto>(this.table, value, {
-      Authorization: "Bearer " + fromLocal(config.user, "string"),
-    });
-  }
-
-  /**
-   *
-   * @param data - values to insert
-   * @returns - Query result
-   */
-  async insertMany(data: TAddDto[]): Promise<TDto> {
-    return await this.api.doQuery<TDto, TAddDto[]>(
-      `${this.table}/batch`,
-      "POST",
-      "",
-      data,
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "string"),
-      },
-    );
-  }
-
-  /**
-   *
-   * @param value
-   * @returns updated item
-   */
-  async update(value: TUpdateDto): Promise<TDto> {
-    return await this.patchEntity(value);
-  }
-
-  /**
-   * @description Raw patch, subclasses that override update() to take the form
-   * values still reach the api through here
-   * @param value
-   * @returns updated item
-   */
-  protected async patchEntity(value: TUpdateDto): Promise<TDto> {
-    return await this.api.patch<TDto, TUpdateDto>(
-      `${this.table}/${value.id}`,
-      value,
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "string"),
-      },
-    );
-  }
-
-  /**
-   * @description Get all objects
-   * @param query - query parameters
-   * @returns Result list
-   */
-  async get(query?: TFilter): Promise<QueryResult<TDto>> {
-    return await this.api.get<TDto, TFilter>(
-      this.table,
-      toServerQuery(query),
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "string"),
-      },
-    );
-  }
-
-  /**
-   * @description Lightweight list used to fill entity pickers. The backend has
-   * no `/common` route, so this reads the regular list endpoint: the full dto
-   * is a superset of the common one.
-   * @param query - Where conditions (key-value)
-   * @returns  - Query result
-   */
-  async commonGet(query?: TFilter): Promise<TCommonDto[]> {
-    const result = await this.api.get<TCommonDto, TFilter>(
-      this.table,
-      toServerQuery(query),
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "string"),
-      },
-    );
-    return result.items;
-  }
-
-  /**
-   *
-   * @param id
-   * @returns - Query result
-   */
-  async getById(id: number): Promise<TDto> {
-    return await this.api.doQuery<TDto>(
-      `${this.table}/${id}`,
-      "GET",
-      "",
-      null,
-      {
-        Authorization: "Bearer " + fromLocal(config.user, "string"),
-      },
-    );
-  }
-
-  async softDelete(ids: number[]): Promise<number> {
-    return await this.api.delete(this.table, ids, {
-      Authorization: "Bearer " + fromLocal(config.user, "string"),
-    });
-  }
-
-  async restore(ids: number[]): Promise<number> {
-    return await this.api.patch(`${this.table}/restore`, ids, {
-      Authorization: "Bearer " + fromLocal(config.user, "string"),
-    });
-  }
-
-  /**
-   * @description Every item, no paging, for selects and dropdowns
-   * @returns Result list
-   */
-  async getAll(): Promise<QueryResult<TDto>> {
-    return await this.get({ page: 0, count: 999 } as unknown as TFilter);
-  }
-
-  /**
-   * @description Runs an api call and reports it the way the forms expect,
-   * they read { status, error } instead of catching
-   * @param request - api call
-   * @param okStatus - status to report when it succeeds
+   * @description Runs a mutation and reports it the way the forms read it
+   * @param request - the call to make
+   * @param okStatus - status to report when it goes through
    * @returns save result
    */
   protected async saveRequest<TResult>(

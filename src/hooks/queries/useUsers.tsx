@@ -4,7 +4,7 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useHorizonApiClient } from "providers";
 
 // types
-import { ApiQueryResult, TableQueryOptions } from "./types.ts";
+import { ApiQueryResult, TableQueryOptions, withTotal } from "./types.ts";
 
 // lib
 import { UserDto, UserCommonDto } from "lib";
@@ -35,13 +35,15 @@ export function useUsersList(): ApiQueryResult<UserDto> {
 
   const query = useQuery({
     queryFn: async () =>
-      horizonApiClient.User.get({
-        sortingBy,
-        sortingOrder,
-        currentPage,
-        pageSize,
-        ...filters,
-      }),
+      horizonApiClient.User.get(
+        {
+          sortingBy: sortingBy as keyof UserDto,
+          sortingOrder,
+          currentPage,
+          pageSize,
+        },
+        filters,
+      ),
     ...UsersQueryKeys.list({
       sortingBy,
       sortingOrder,
@@ -51,10 +53,7 @@ export function useUsersList(): ApiQueryResult<UserDto> {
     }),
   });
 
-  return {
-    ...query,
-    setTotal,
-  };
+  return withTotal(query, setTotal);
 }
 
 export function useUsersCommon(): UseQueryResult<UserCommonDto[]> {

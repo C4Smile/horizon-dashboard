@@ -4,7 +4,7 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useHorizonApiClient } from "providers";
 
 // types
-import { ApiQueryResult, TableQueryOptions } from "./types.ts";
+import { ApiQueryResult, TableQueryOptions, withTotal } from "./types.ts";
 
 // lib
 import { ResourceDto, ResourceCommonDto } from "lib";
@@ -35,13 +35,15 @@ export function useResourcesList(): ApiQueryResult<ResourceDto> {
 
   const query = useQuery({
     queryFn: async () =>
-      horizonApiClient.Resource.get({
-        sortingBy,
-        sortingOrder,
-        currentPage,
-        pageSize,
-        ...filters,
-      }),
+      horizonApiClient.Resource.get(
+        {
+          sortingBy: sortingBy as keyof ResourceDto,
+          sortingOrder,
+          currentPage,
+          pageSize,
+        },
+        filters,
+      ),
     ...ResourcesQueryKeys.list({
       sortingBy,
       sortingOrder,
@@ -51,10 +53,7 @@ export function useResourcesList(): ApiQueryResult<ResourceDto> {
     }),
   });
 
-  return {
-    ...query,
-    setTotal,
-  };
+  return withTotal(query, setTotal);
 }
 
 export function useResourcesCommon(): UseQueryResult<ResourceCommonDto[]> {

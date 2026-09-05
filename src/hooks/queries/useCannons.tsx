@@ -4,7 +4,7 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useHorizonApiClient } from "providers";
 
 // types
-import { ApiQueryResult, TableQueryOptions } from "./types.ts";
+import { ApiQueryResult, TableQueryOptions, withTotal } from "./types.ts";
 
 // lib
 import { CannonDto, CannonCommonDto } from "lib";
@@ -35,13 +35,15 @@ export function useCannonsList(): ApiQueryResult<CannonDto> {
 
   const query = useQuery({
     queryFn: async () =>
-      horizonApiClient.Cannon.get({
-        sortingBy,
-        sortingOrder,
-        currentPage,
-        pageSize,
-        ...filters,
-      }),
+      horizonApiClient.Cannon.get(
+        {
+          sortingBy: sortingBy as keyof CannonDto,
+          sortingOrder,
+          currentPage,
+          pageSize,
+        },
+        filters,
+      ),
     ...CannonsQueryKeys.list({
       sortingBy,
       sortingOrder,
@@ -51,10 +53,7 @@ export function useCannonsList(): ApiQueryResult<CannonDto> {
     }),
   });
 
-  return {
-    ...query,
-    setTotal,
-  };
+  return withTotal(query, setTotal);
 }
 
 export function useCannonsCommon(): UseQueryResult<CannonCommonDto[]> {

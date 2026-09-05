@@ -4,7 +4,7 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useHorizonApiClient } from "providers";
 
 // types
-import { ApiQueryResult, TableQueryOptions } from "./types.ts";
+import { ApiQueryResult, TableQueryOptions, withTotal } from "./types.ts";
 
 // lib
 import { BuildingDto, BuildingCommonDto } from "lib";
@@ -35,13 +35,15 @@ export function useBuildingsList(): ApiQueryResult<BuildingDto> {
 
   const query = useQuery({
     queryFn: async () =>
-      horizonApiClient.Building.get({
-        sortingBy,
-        sortingOrder,
-        currentPage,
-        pageSize,
-        ...filters,
-      }),
+      horizonApiClient.Building.get(
+        {
+          sortingBy: sortingBy as keyof BuildingDto,
+          sortingOrder,
+          currentPage,
+          pageSize,
+        },
+        filters,
+      ),
     ...BuildingsQueryKeys.list({
       sortingBy,
       sortingOrder,
@@ -51,10 +53,7 @@ export function useBuildingsList(): ApiQueryResult<BuildingDto> {
     }),
   });
 
-  return {
-    ...query,
-    setTotal,
-  };
+  return withTotal(query, setTotal);
 }
 
 export function useBuildingsCommon(): UseQueryResult<BuildingCommonDto[]> {
