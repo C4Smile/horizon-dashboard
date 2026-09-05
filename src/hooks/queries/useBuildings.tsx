@@ -64,7 +64,7 @@ export function useBuildingsCommon(): UseQueryResult<BuildingCommonDto[]> {
     ...BuildingsQueryKeys.common(),
     queryFn: async () =>
       horizonApiClient.Building.commonGet({
-        deleted: false,
+        deletedAt: null,
       }),
   });
 }

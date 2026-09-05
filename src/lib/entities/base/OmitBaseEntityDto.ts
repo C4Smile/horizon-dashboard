@@ -1,5 +1,5 @@
 export type OmitBaseEntityDto =
   | "id"
-  | "deleted"
+  | "deletedAt"
   | "dateOfCreation"
   | "lastUpdate";

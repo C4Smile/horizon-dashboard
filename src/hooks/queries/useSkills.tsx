@@ -64,7 +64,7 @@ export function useSkillsCommon(): UseQueryResult<SkillCommonDto[]> {
     ...SkillsQueryKeys.common(),
     queryFn: async () =>
       horizonApiClient.Skill.commonGet({
-        deleted: false,
+        deletedAt: null,
       }),
   });
 }

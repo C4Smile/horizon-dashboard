@@ -90,7 +90,7 @@ function Users() {
         key: "username",
         renderBody: (_, user) => (
           <Link
-            className={`underline ${user.deleted ? "text-white" : "text-light-primary"}`}
+            className={`underline ${user.deletedAt ? "text-white" : "text-light-primary"}`}
             to={`${user.id}`}
           >
             {user.username}

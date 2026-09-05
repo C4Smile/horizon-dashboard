@@ -34,10 +34,6 @@
     "lockedBy": {
       "label": ""
     },
-    "deleted": {
-      "label": "Eliminado",
-      "filter": "Mostrar eliminados"
-    },
     "lastUpdate": {
       "label": "Última actualización"
     },
@@ -67,6 +63,10 @@
     "buildingLevel": {
       "label": "Nivel de edificio",
       "placeholder": "ej: 1"
+    },
+    "deletedAt": {
+      "label": "Eliminado",
+      "filter": "Mostrar eliminados"
     }
   },
   "roles": {

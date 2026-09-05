@@ -1,7 +1,7 @@
 import { SortOrder } from "@sito/dashboard-app";
 
 export interface BaseFilterDto {
-  deleted?: boolean;
+  deletedAt?: Date | null;
   sortingBy?: string;
   sortingOrder?: SortOrder;
   currentPage?: number;

@@ -41,7 +41,7 @@ export const formatValue = (value: number | bigint) =>
  * @param entity entity to check
  * @returns true is if deleted, false otherwise
  */
-export const isDeleted = (entity: BaseEntityDto) => entity.deleted;
+export const isDeleted = (entity: BaseEntityDto) => !!entity.deletedAt;
 
 /**
  *

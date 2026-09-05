@@ -64,7 +64,7 @@ export function useUsersCommon(): UseQueryResult<UserCommonDto[]> {
     ...UsersQueryKeys.common(),
     queryFn: async () =>
       horizonApiClient.User.commonGet({
-        deleted: false,
+        deletedAt: null,
       }),
   });
 }

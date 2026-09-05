@@ -66,7 +66,7 @@ export function useBuildingTypesCommon(): UseQueryResult<
     ...BuildingTypesQueryKeys.common(),
     queryFn: async () =>
       horizonApiClient.BuildingType.commonGet({
-        deleted: false,
+        deletedAt: null,
       }),
   });
 }

@@ -64,7 +64,7 @@ export function useResourcesCommon(): UseQueryResult<ResourceCommonDto[]> {
     ...ResourcesQueryKeys.common(),
     queryFn: async () =>
       horizonApiClient.Resource.commonGet({
-        deleted: false,
+        deletedAt: null,
       }),
   });
 }

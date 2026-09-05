@@ -64,7 +64,7 @@ export function useCannonsCommon(): UseQueryResult<CannonCommonDto[]> {
     ...CannonsQueryKeys.common(),
     queryFn: async () =>
       horizonApiClient.Cannon.commonGet({
-        deleted: false,
+        deletedAt: null,
       }),
   });
 }

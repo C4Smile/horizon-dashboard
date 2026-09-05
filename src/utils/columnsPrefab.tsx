@@ -13,13 +13,13 @@ import { staticUrlPhoto } from "components";
 import { BaseCommonEntityDto, BaseEntityDto, PhotoDto } from "lib";
 
 export const nameColumn = <
-  TDto extends BaseCommonEntityDto & { deleted: boolean },
+  TDto extends BaseCommonEntityDto & { deletedAt?: Date | null },
 >(): ColumnType<TDto> => ({
   key: "name",
   filterOptions: { type: FilterTypes.text, defaultValue: "" },
   renderBody: (name: string, entity: BaseEntityDto) => (
     <Link
-      className={`underline ${entity.deleted ? "text-white" : "text-light-primary"} flex`}
+      className={`underline ${entity.deletedAt ? "text-white" : "text-light-primary"} flex`}
       to={`${entity.id}`}
     >
       <span className="w-80 truncate">{name}</span>
@@ -80,7 +80,7 @@ export const titleColumn = {
   filterOptions: { type: FilterTypes.text, defaultValue: "" },
   renderBody: (title: string, entity: BaseEntityDto) => (
     <Link
-      className={`underline ${entity.deleted ? "text-white" : "text-light-primary"} flex`}
+      className={`underline ${entity.deletedAt ? "text-white" : "text-light-primary"} flex`}
       to={`${entity.id}`}
     >
       <span className="w-80 truncate">{title}</span>

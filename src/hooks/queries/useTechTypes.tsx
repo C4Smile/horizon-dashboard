@@ -64,7 +64,7 @@ export function useTechTypesCommon(): UseQueryResult<TechTypeCommonDto[]> {
     ...TechTypesQueryKeys.common(),
     queryFn: async () =>
       horizonApiClient.TechType.commonGet({
-        deleted: false,
+        deletedAt: null,
       }),
   });
 }

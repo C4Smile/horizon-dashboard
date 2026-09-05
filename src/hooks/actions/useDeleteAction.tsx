@@ -33,7 +33,7 @@ export const useDeleteAction = (
       return {
         id: BaseActions.Delete,
         isLoading,
-        hidden: hidden || row.deleted,
+        hidden: hidden || !!row.deletedAt,
         disabled: disabled || !!row.lockedBy,
         onClick: () => onClick([row.id]),
         icon: (

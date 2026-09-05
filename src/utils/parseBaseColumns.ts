@@ -8,7 +8,12 @@ import { ColumnType, FilterTypes } from "@sito/dashboard-app";
 import { EntityName } from "api";
 import { BaseEntityDto } from "lib";
 
-export const baseColumns = ["id", "dateOfCreation", "lastUpdate", "deleted"];
+export const baseColumns = [
+  "id",
+  "dateOfCreation",
+  "lastUpdate",
+  "deletedAt",
+];
 
 /**
  *
@@ -45,15 +50,15 @@ export const prefabBaseColumns = <
     pos: -2,
   },
   {
-    key: "deleted",
+    key: "deletedAt",
     filterOptions: {
       defaultValue: false,
       type: FilterTypes.check,
-      label: t("_entities:base.deleted.filter"),
+      label: t("_entities:base.deletedAt.filter"),
     },
     display: "none",
-    renderBody: (deleted: boolean) =>
-      deleted
+    renderBody: (deletedAt: Date | null) =>
+      deletedAt
         ? t("_accessibility:buttons.yes")
         : t("_accessibility:buttons.no"),
     pos: -3,

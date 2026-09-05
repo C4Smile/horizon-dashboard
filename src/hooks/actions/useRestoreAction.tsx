@@ -26,7 +26,7 @@ export const useRestoreAction = (
   const action = useCallback(
     (record: BaseEntityDto) => ({
       id: "restore",
-      hidden: !record.deleted || hidden,
+      hidden: !record.deletedAt || hidden,
       disabled,
       icon: (
         <FontAwesomeIcon

@@ -64,7 +64,7 @@ export function useShipsCommon(): UseQueryResult<ShipCommonDto[]> {
     ...ShipsQueryKeys.common(),
     queryFn: async () =>
       horizonApiClient.Ship.commonGet({
-        deleted: false,
+        deletedAt: null,
       }),
   });
 }

@@ -97,7 +97,7 @@ function BuildingPage() {
         },
         renderBody: (_: unknown, building: BuildingDto) => (
           <Link
-            className={`underline ${building.deleted ? "text-white" : "text-light-primary"}`}
+            className={`underline ${building.deletedAt ? "text-white" : "text-light-primary"}`}
             to={`/game/${Tables.BuildingTypes}/${building.id}`}
           >
             {building.type.name}
