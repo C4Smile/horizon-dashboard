@@ -59,7 +59,7 @@ export const EntityLevelRow = memo(
             <img
               className="w-16 h-16 rounded-full object-cover self-center"
               src={staticUrlPhoto(selected.image?.url ?? "")}
-              alt={selected.value}
+              alt={String(selected.value ?? "")}
             />
           ) : null}
           <p className="text-base">

@@ -5,17 +5,10 @@ import { Control } from "react-hook-form";
 import { Tables } from "api";
 
 // lib
-import { BaseResourceDto, PhotoDto, QueryResult } from "lib";
+import { BaseResourceDto, QueryResult } from "lib";
 
-/**
- * An entity as the forms list it: the pages map their common lists to this
- * shape, with the display text in `value`
- */
-export type ResourceOption = {
-  id: number;
-  value: string;
-  image?: PhotoDto;
-};
+// components
+import { EntityOption } from "../types";
 
 /**
  * A row of an entity's resource relation. The component only reads the id and
@@ -41,7 +34,7 @@ export type ResourceSaveDto = {
 
 export type ResourceFormPropsType<T extends OptionResourceCommonDto> = {
   currentList: T[];
-  resources: ResourceOption[];
+  resources: EntityOption[];
   label: string;
   inputLabel: string;
   inputPlaceholder: string;
@@ -50,7 +43,7 @@ export type ResourceFormPropsType<T extends OptionResourceCommonDto> = {
 
 export type ResourceRowPropsType<T extends OptionResourceCommonDto> = {
   disabled: boolean;
-  resources: ResourceOption[];
+  resources: EntityOption[];
   label: string;
   value: T;
   onDelete: (id: number) => void;
@@ -74,5 +67,5 @@ export type ResourceStuffPropsType<
   /** only the caller knows the relation's own add dto */
   saveFn: (id: number, data: TAddDto) => Promise<unknown>;
   deleteFn: (id: number, resourceId: number) => Promise<unknown>;
-  resources: ResourceOption[];
+  resources: EntityOption[];
 };

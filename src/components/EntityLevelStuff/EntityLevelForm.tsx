@@ -3,7 +3,7 @@ import { Controller, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 // @sito/dashboard-app
-import { SelectInput, TextInput, Option } from "@sito/dashboard-app";
+import { SelectInput, TextInput } from "@sito/dashboard-app";
 
 // types
 import { EntityLevelFormPropsType, OptionReqCommonDto } from "./types";
@@ -40,8 +40,7 @@ export const EntityLevelForm = <TDto extends OptionReqCommonDto>(
                 (rex) => (rex as Record<string, unknown>)[attributeId] === res.id,
               ),
         )
-        // the pages build these lists with the display text in `value`
-        .map((res) => ({ id: res.id, name: res.value })) as Option[],
+        .map((res) => ({ id: res.id, name: String(res.value) })),
     [attributeId, currentList, entities, id],
   );
 

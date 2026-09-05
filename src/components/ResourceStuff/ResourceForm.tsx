@@ -3,7 +3,7 @@ import { Controller, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 // @sito/dashboard-app
-import { TextInput, SelectInput, Option } from "@sito/dashboard-app";
+import { TextInput, SelectInput } from "@sito/dashboard-app";
 
 // types
 import { OptionResourceCommonDto, ResourceFormPropsType } from "./types";
@@ -39,8 +39,7 @@ export const ResourceForm = <TDto extends OptionResourceCommonDto>(
                 return rex.resourceId === res.id;
               }),
         )
-        // the pages build these lists with the display text in `value`
-        .map((res) => ({ id: res.id, name: String(res.value) })) as Option[],
+        .map((res) => ({ id: res.id, name: String(res.value) })),
     [currentList, resources, id],
   );
 

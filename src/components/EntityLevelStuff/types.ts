@@ -5,23 +5,16 @@ import { Control } from "react-hook-form";
 import { Tables } from "api";
 
 // lib
-import { BaseReqDto, PhotoDto, QueryResult } from "lib";
+import { BaseReqDto, QueryResult } from "lib";
+
+// components
+import { EntityOption } from "../types";
 
 /**
  * A row of an entity's requirement relation. The component reads the id, the
  * level and the column naming the required entity, nothing else.
  */
 export type OptionReqCommonDto = BaseReqDto;
-
-/**
- * An entity the picker can choose, as the pages build it: the display text
- * lives in `value`.
- */
-export type EntityOption = {
-  id: number;
-  value: string;
-  image?: PhotoDto;
-};
 
 /** what the dialog form holds, inputs give back strings */
 export type EntityLevelFormType = {
