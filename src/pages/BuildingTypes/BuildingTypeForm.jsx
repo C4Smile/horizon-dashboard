@@ -17,6 +17,9 @@ import { useNotification, queryClient, useHorizonApiClient } from "providers";
 // utils
 import { ReactQueryKeys } from "utils";
 
+// api
+import { isHttpRequestError } from "api";
+
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
 
@@ -89,10 +92,13 @@ function BuildingTypeForm() {
   });
 
   useEffect(() => {
-    const { data } = buildingTypeQuery;
-    // eslint-disable-next-line no-console
-    if (data && data.error) console.error(data.error.message);
-    if (data?.status === 404) setNotFound(true);
+    // the api throws instead of answering { data, status }, so the failure
+    // shows up as the query error, never as a field on data
+    const { error } = buildingTypeQuery;
+    if (!error) return;
+
+    console.error(error);
+    if (isHttpRequestError(error) && error.status === 404) setNotFound(true);
   }, [buildingTypeQuery]);
 
   useEffect(() => {

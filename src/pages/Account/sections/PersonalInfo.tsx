@@ -22,6 +22,9 @@ import {
 import { ReactQueryKeys } from "utils";
 import { NotificationEnumType } from "lib";
 
+// api
+import { isHttpRequestError } from "api";
+
 // pages
 const NotFound = loadable(() => import("../../NotFound/NotFound"));
 
@@ -82,9 +85,13 @@ function PersonalInfo() {
   });
 
   useEffect(() => {
-    const { data } = userQuery;
-    if (data && data.error) console.error(data.error.message);
-    if (data?.status === 404) setNotFound(true);
+    // the api throws instead of answering { data, status }, so the failure
+    // shows up as the query error, never as a field on data
+    const { error } = userQuery;
+    if (!error) return;
+
+    console.error(error);
+    if (isHttpRequestError(error) && error.status === 404) setNotFound(true);
   }, [userQuery]);
 
   useEffect(() => {

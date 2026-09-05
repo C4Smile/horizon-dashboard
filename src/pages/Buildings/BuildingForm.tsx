@@ -20,7 +20,7 @@ import { buildingTabs } from "./types.js";
 import { GeneralInfo } from "./tabs/";
 
 // api
-import { Tables } from "api";
+import { Tables, isHttpRequestError } from "api";
 
 // lib
 import {
@@ -57,10 +57,13 @@ function BuildingForm() {
   });
 
   useEffect(() => {
-    const { data, error } = buildingQuery;
+    // the api throws instead of answering { data, status }, so the failure
+    // shows up as the query error, never as a field on data
+    const { error } = buildingQuery;
+    if (!error) return;
 
-    if (error) console.error(error.message);
-    if (data?.status === 404) setNotFound(true);
+    console.error(error);
+    if (isHttpRequestError(error) && error.status === 404) setNotFound(true);
   }, [buildingQuery]);
 
   //#region resources

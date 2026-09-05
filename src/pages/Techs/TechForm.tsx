@@ -20,7 +20,7 @@ import { techTabs } from "./types";
 import { GeneralInfo } from "./tabs";
 
 // api
-import { Tables } from "api";
+import { Tables, isHttpRequestError } from "api";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound"));
@@ -45,10 +45,13 @@ function TechForm() {
   });
 
   useEffect(() => {
-    const { data } = techQuery;
+    // the api throws instead of answering { data, status }, so the failure
+    // shows up as the query error, never as a field on data
+    const { error } = techQuery;
+    if (!error) return;
 
-    if (data && data.error) console.error(data.error.message);
-    if (data?.status === 404) setNotFound(true);
+    console.error(error);
+    if (isHttpRequestError(error) && error.status === 404) setNotFound(true);
   }, [techQuery]);
 
   //#region resources

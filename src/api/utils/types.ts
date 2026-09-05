@@ -24,3 +24,16 @@ export class HttpRequestError extends Error {
     this.status = status;
   }
 }
+
+/**
+ * Type guard for the error the api layer throws on a failed request.
+ * @param error - unknown error candidate
+ * @returns true when it carries an http status
+ */
+export function isHttpRequestError(error: unknown): error is HttpRequestError {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    typeof (error as HttpRequestError).status === "number"
+  );
+}

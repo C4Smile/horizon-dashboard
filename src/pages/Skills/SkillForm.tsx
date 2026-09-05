@@ -23,6 +23,9 @@ import { useNotification, queryClient, useHorizonApiClient } from "providers";
 // utils
 import { ReactQueryKeys } from "../../utils/queryKeys";
 
+// api
+import { isHttpRequestError } from "api";
+
 // loadable
 const HtmlInput = loadable(() =>
   import("components").then((module) => ({
@@ -102,10 +105,13 @@ function SkillForm() {
   });
 
   useEffect(() => {
-    const { data } = skillQuery;
-    // eslint-disable-next-line no-console
-    if (data && data.error) console.error(data.error.message);
-    if (data?.status === 404) setNotFound(true);
+    // the api throws instead of answering { data, status }, so the failure
+    // shows up as the query error, never as a field on data
+    const { error } = skillQuery;
+    if (!error) return;
+
+    console.error(error);
+    if (isHttpRequestError(error) && error.status === 404) setNotFound(true);
   }, [skillQuery]);
 
   useEffect(() => {

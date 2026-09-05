@@ -20,7 +20,7 @@ import { cannonTabs } from "./types.js";
 import { GeneralInfo } from "./tabs";
 
 // api
-import { Tables } from "api";
+import { Tables, isHttpRequestError } from "api";
 
 // pages
 const NotFound = loadable(() => import("../NotFound/NotFound.jsx"));
@@ -45,10 +45,13 @@ function CannonForm() {
   });
 
   useEffect(() => {
-    const { data } = cannonQuery;
-    // eslint-disable-next-line no-console
-    if (data && data.error) console.error(data.error.message);
-    if (data?.status === 404) setNotFound(true);
+    // the api throws instead of answering { data, status }, so the failure
+    // shows up as the query error, never as a field on data
+    const { error } = cannonQuery;
+    if (!error) return;
+
+    console.error(error);
+    if (isHttpRequestError(error) && error.status === 404) setNotFound(true);
   }, [cannonQuery]);
 
   //#region resources
