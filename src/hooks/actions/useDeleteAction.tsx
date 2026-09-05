@@ -39,7 +39,7 @@ export const useDeleteAction = (
         icon: (
           <FontAwesomeIcon
             icon={isLoading ? faSpinner : faTrash}
-            className={`text-success ${isLoading ? "rotate" : ""}`}
+            className={`text-bg-error ${isLoading ? "rotate" : ""}`}
           />
         ),
         tooltip: t("_accessibility:buttons.delete"),
