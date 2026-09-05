@@ -33,13 +33,14 @@ export const EntityLevelRow = memo(
       attributeId,
     } = props;
 
-    const [entityReqId, setEntityReqId] = useState(
-      value ? value[attributeId] : null,
-    );
+    const readReqId = (row?: TDto) =>
+      row ? ((row as Record<string, unknown>)[attributeId] as number) : null;
+
+    const [entityReqId, setEntityReqId] = useState(readReqId(value));
     const [level, setLevel] = useState(value?.level);
 
     useEffect(() => {
-      if (value) setEntityReqId(value[attributeId]);
+      if (value) setEntityReqId(readReqId(value));
       setLevel(value?.level);
     }, [attributeId, value]);
 

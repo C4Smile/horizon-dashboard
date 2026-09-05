@@ -36,7 +36,9 @@ export const EntityLevelForm = <TDto extends OptionReqCommonDto>(
         .filter((res) =>
           !!id && typeof id === "number"
             ? currentList
-            : !currentList.some((rex) => rex[attributeId] === res.id),
+            : !currentList.some(
+                (rex) => (rex as Record<string, unknown>)[attributeId] === res.id,
+              ),
         )
         .map((res) => ({ id: res.id, name: res.name })) as unknown as Option[],
     [attributeId, currentList, entities, id],
@@ -47,7 +49,7 @@ export const EntityLevelForm = <TDto extends OptionReqCommonDto>(
       <p className="min-w-20">{t("_accessibility:labels.require")}</p>
       <Controller
         control={control}
-        name={attributeId as string}
+        name={attributeId}
         render={({ field: { onChange, value, ...rest } }) => (
           <SelectInput
             label={t(`_entities:entities.${entityLabel}`)}

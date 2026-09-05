@@ -145,13 +145,15 @@ export class BaseApiClient<
   }
 
   /**
-   *
+   * @description Lightweight list used to fill entity pickers. The backend has
+   * no `/common` route, so this reads the regular list endpoint: the full dto
+   * is a superset of the common one.
    * @param query - Where conditions (key-value)
    * @returns  - Query result
    */
   async commonGet(query?: TFilter): Promise<TCommonDto[]> {
     const result = await this.api.get<TCommonDto, TFilter>(
-      `${this.table}/common`,
+      this.table,
       query,
       {
         Authorization: "Bearer " + fromLocal(config.user, "string"),

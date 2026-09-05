@@ -1,9 +1,9 @@
-import { useState, useCallback, useEffect, useReducer } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
 // @sito/dashboard-app
-import { Loading } from "@sito/dashboard-app";
+import { FormDialog, Loading, useFormDialog } from "@sito/dashboard-app";
 
 // providers
 import { useNotification, queryClient } from "providers";
@@ -12,24 +12,33 @@ import { useNotification, queryClient } from "providers";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
-// hooks
-import { useFormDialog } from "hooks";
-
-// components
-import { FormDialog } from "components";
-
 // api
 import { HTTPError } from "api";
+
+// lib
+import { QueryResult } from "lib";
 
 // index
 import {
   EntityLevelForm,
   EntityLevelRow,
   Empty,
+  EntityLevelFormType,
+  EntityLevelSaveDto,
   EntityLevelStuffPropsType,
   OptionReqCommonDto,
 } from "./index.js";
-import { BaseReqDto } from "lib";
+
+/**
+ * The relation endpoints answer a bare array while the paged ones answer a
+ * QueryResult, so both shapes are accepted here.
+ * @param data - whatever the query returned
+ * @returns the rows
+ */
+function toRows<TDto>(data?: QueryResult<TDto> | TDto[]): TDto[] {
+  if (!data) return [];
+  return Array.isArray(data) ? data : (data.items ?? []);
+}
 
 /**
  *
@@ -58,129 +67,99 @@ export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
     entities = [],
   } = props;
 
-  const [initial, setInitial] = useState({});
-  const [lists, setLists] = useReducer((state = {}, action = {}) => {
-    const { type } = action;
-    switch (type) {
-      case "add": {
-        const { item } = action;
-        return [...state, item];
-      }
-      case "set": {
-        const { items } = action;
-        return items;
-      }
-      case "modify": {
-        const { item } = action;
-        const found = state.findIndex(
-          (stem) => item[attributeId] === stem[attributeId],
-        );
-        if (found >= 0) state[found] = item.value;
-        return [...state];
-      }
-      case "delete": {
-        const found = state.findIndex(
-          (stem) => action[attributeId] === stem[attributeId],
-        );
-        if (found >= 0) state.splice(found, 1);
-        return [...state];
-      }
-      default:
-        return state;
-    }
-  }, []);
-
-  const costQuery = useQuery({
+  const { data } = useQuery({
     queryKey,
     queryFn,
     enabled: !!queryFn && !!queryKey,
   });
 
-  useEffect(() => {
-    const result = costQuery.data;
-    if (result) setLists({ type: "set", items: result?.items });
-  }, [costQuery.data]);
+  const lists = useMemo(() => toRows(data), [data]);
 
-  const save = useCallback(
-    async (value: BaseReqDto) => {
-      setSaving(true);
-      try {
-        const { error, status } = await saveFn(id, value);
-        setNotification(String(status), {
-          model: t(`_entities:entities.${entityToSave}`),
-        });
-
-        if (error) console.error(error.message);
-        else await queryClient.invalidateQueries({ queryKey });
-      } catch (e: unknown) {
-        console.error(e);
-        setNotification(String((e as HTTPError).status), {
-          model: t(`_entities:entities.${entityToSave}`),
-        });
-      }
-      setSaving(false);
-    },
-    [saveFn, id, setNotification, t, entityToSave, queryKey],
+  const modelName = useMemo(
+    () => t(`_entities:entities.${entityToSave}`),
+    [entityToSave, t],
   );
 
-  const onSubmit = useCallback(
-    (d) => {
-      const value = { level: Number(d.level) };
-      value[attributeId] = d[attributeId];
-      setInitial();
-      save(value);
+  const notifyError = useCallback(
+    (error: unknown) => {
+      console.error(error);
+      setNotification(String((error as HTTPError)?.status), {
+        model: modelName,
+      });
     },
-    [attributeId, save],
+    [modelName, setNotification],
   );
 
-  const formProps = useFormDialog({
-    initial,
-    submit: onSubmit,
+  const emptyRequirement = useMemo(
+    () => ({ id: undefined, level: "", [attributeId]: "" }),
+    [attributeId],
+  );
+
+  const formDialog = useFormDialog<EntityLevelFormType, EntityLevelSaveDto>({
+    mode: "state",
+    title: t(`_entities:entities.${entity}`),
+    defaultValues: emptyRequirement,
+    resetOnOpen: true,
+    formToDto: (values) => ({
+      level: Number(values.level),
+      [attributeId]: Number(values[attributeId]),
+    }),
+    onSubmit: async (dto) => {
+      // the api layer throws on a failed request, it does not return an error
+      await saveFn(id, dto);
+      setNotification("200", { model: modelName });
+      await queryClient.invalidateQueries({ queryKey });
+    },
+    onError: notifyError,
   });
 
-  const openDialog = useCallback(
+  const { openDialog } = formDialog;
+
+  const openRequirement = useCallback(
     (entityReqId?: number) => {
-      const selected = lists.find((res) => res[attributeId] === entityReqId);
-      if (selected) setInitial(selected);
-      formProps.dialogProps.open();
+      const selected = lists.find(
+        (res) => (res as Record<string, unknown>)[attributeId] === entityReqId,
+      );
+      if (!selected) return openDialog();
+      openDialog({
+        values: {
+          id: selected.id,
+          level: selected.level,
+          [attributeId]: (selected as Record<string, unknown>)[
+            attributeId
+          ] as number,
+        },
+      });
     },
-    [attributeId, formProps.dialogProps, lists],
+    [attributeId, lists, openDialog],
   );
 
   const onDelete = useCallback(
     async (entityReqId: number) => {
       setSaving(true);
       try {
-        const { error } = await deleteFn(id, entityReqId);
+        await deleteFn(id, entityReqId);
         setNotification("deleted", { count: 1 });
-
-        if (error) console.error(error.message);
-        else await queryClient.invalidateQueries({ queryKey });
+        await queryClient.invalidateQueries({ queryKey });
       } catch (e: unknown) {
-        console.error(e);
-        setNotification(String((e as HTTPError).status), {
-          model: t(`_entities:entities.${entityToSave}`),
-        });
+        notifyError(e);
       }
-
       setSaving(false);
     },
-    [deleteFn, entityToSave, id, queryKey, setNotification, t],
+    [deleteFn, id, notifyError, queryKey, setNotification],
   );
 
   return (
     <div className="form mt-5 gap-5 w-full">
-      <FormDialog {...formProps}>
+      <FormDialog {...formDialog}>
         <EntityLevelForm
           currentList={lists}
           entities={entities}
           entityLabel={entity}
           attributeId={attributeId}
-          inputLabel={t(`_entities:base.${inputKey as string}.label`)}
-          inputPlaceholder={t(
-            `_entities:base.${inputKey as string}.placeholder`,
-          )}
-          {...formProps}
+          inputLabel={t(`_entities:base.${inputKey}.label`)}
+          inputPlaceholder={t(`_entities:base.${inputKey}.placeholder`)}
+          control={formDialog.control}
         />
       </FormDialog>
       {lists?.length ? (
@@ -189,12 +168,10 @@ export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
             value={entityReq}
             entities={entities}
             disabled={saving}
-            key={`${entityReq[attributeId]}-${i}`}
-            inputLabel={t(`_entities:base.${inputKey as string}.label`)}
-            inputPlaceholder={t(
-              `_entities:base.${inputKey as string}.placeholder`,
-            )}
-            onEdit={(entityReqId) => openDialog(entityReqId)}
+            key={`${(entityReq as Record<string, unknown>)[attributeId] as number}-${i}`}
+            inputLabel={t(`_entities:base.${inputKey}.label`)}
+            inputPlaceholder={t(`_entities:base.${inputKey}.placeholder`)}
+            onEdit={(entityReqId) => openRequirement(entityReqId)}
             onDelete={onDelete}
             entityLabel={entity}
             attributeId={attributeId}
@@ -206,7 +183,7 @@ export function EntityLevelStuff<TDto extends OptionReqCommonDto>(
       <div className="flex gap-3 absolute bottom-6 left-6">
         <button
           disabled={saving || (!!lists && lists.length >= entities.length)}
-          onClick={() => openDialog()}
+          onClick={() => openRequirement()}
           className={`${!!lists && lists.length >= entities.length ? "bg-ocean/80 text-white/60" : "bg-ocean text-white"} w-10 h-10 rounded-full`}
         >
           {saving ? (

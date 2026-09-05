@@ -7,10 +7,10 @@ import { getCookie } from "some-javascript-utils/browser";
 // @sito/dashboard-app
 import {
   AppShell,
-  DashboardFooter,
   DashboardHeader,
   Error,
   TableOptionsProvider,
+  ToTop,
 } from "@sito/dashboard-app";
 
 // providers
@@ -61,6 +61,8 @@ export function Dashboard() {
     void validateSession();
   }, [account.token, horizonApiClient.Auth, logoutUser, navigate]);
 
+  // no footer on purpose: the entity tabs float their add button at the bottom
+  // left and a footer would sit on top of it
   return (
     <AppShell
       header={
@@ -69,7 +71,7 @@ export function Dashboard() {
           logo={<Logo className="w-10 h-10" />}
         />
       }
-      footer={<DashboardFooter copyrightText={config.appName} showToTop />}
+      extras={<ToTop />}
     >
       <TableOptionsProvider>
         <ErrorBoundary FallbackComponent={Error}>
