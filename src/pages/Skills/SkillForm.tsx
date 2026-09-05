@@ -50,7 +50,7 @@ function SkillForm() {
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [lastUpdate, setLastUpdate] = useState();
+  const [updatedAt, setLastUpdate] = useState();
 
   const { handleSubmit, reset, control } = useForm();
 
@@ -118,7 +118,7 @@ function SkillForm() {
       //* PARSING PHOTO
       setPhoto(skillQuery.data?.image);
 
-      setLastUpdate(skillQuery?.data?.lastUpdate);
+      setLastUpdate(skillQuery?.data?.updatedAt);
       // the api stores html, the input edits draft state; the query
       // cache is left alone
       reset({
@@ -156,11 +156,11 @@ function SkillForm() {
             color="stroke-primary"
           />
         ) : (
-          <div className={id && lastUpdate ? "" : "mt-5"}>
-            {id && lastUpdate && (
+          <div className={id && updatedAt ? "" : "mt-5"}>
+            {id && updatedAt && (
               <p className="text-sm mb-10">
-                {t("_accessibility:labels.lastUpdate")}{" "}
-                {new Date(lastUpdate).toLocaleDateString("es-ES")}
+                {t("_accessibility:labels.updatedAt")}{" "}
+                {new Date(updatedAt).toLocaleDateString("es-ES")}
               </p>
             )}
           </div>

@@ -43,11 +43,11 @@ function TechTypes() {
   const { data, isLoading, setTotal } = useTechTypesList();
 
   useEffect(() => {
-    if (data) setTotal(data.total ?? 0);
+    if (data) setTotal(data.totalElements ?? 0);
   }, [data, setTotal]);
 
   useEffect(() => {
-    if (data) setTotal(data.total ?? 0);
+    if (data) setTotal(data.totalElements ?? 0);
   }, [data, setTotal]);
 
   //#region Actions

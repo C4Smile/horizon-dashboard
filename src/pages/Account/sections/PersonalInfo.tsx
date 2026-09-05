@@ -44,7 +44,7 @@ function PersonalInfo() {
 
   const { setNotification, showErrorNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [lastUpdate, setLastUpdate] = useState();
+  const [updatedAt, setLastUpdate] = useState();
 
   const { handleSubmit, reset, control } = useForm();
 
@@ -98,7 +98,7 @@ function PersonalInfo() {
     if (userQuery.data) {
       if (userQuery.data?.image) setPhoto(userQuery?.data?.image);
       reset({ ...userQuery.data });
-      setLastUpdate(userQuery?.data?.lastUpdate);
+      setLastUpdate(userQuery?.data?.updatedAt);
     }
 
     if (!id) {
@@ -131,11 +131,11 @@ function PersonalInfo() {
           color="stroke-primary"
         />
       ) : (
-        <div className={id && lastUpdate ? "" : "mt-5"}>
-          {id && lastUpdate && (
+        <div className={id && updatedAt ? "" : "mt-5"}>
+          {id && updatedAt && (
             <p className="text-sm mb-10">
-              {t("_accessibility:labels.lastUpdate")}{" "}
-              {new Date(lastUpdate).toLocaleDateString("es-ES")}
+              {t("_accessibility:labels.updatedAt")}{" "}
+              {new Date(updatedAt).toLocaleDateString("es-ES")}
             </p>
           )}
         </div>

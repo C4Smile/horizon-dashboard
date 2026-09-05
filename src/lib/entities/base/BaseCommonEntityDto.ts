@@ -2,6 +2,6 @@ import { DeleteDto, PhotoDto } from "lib";
 
 export interface BaseCommonEntityDto extends DeleteDto {
   name: string;
-  lastUpdate: Date;
+  updatedAt: Date;
   image: PhotoDto;
 }

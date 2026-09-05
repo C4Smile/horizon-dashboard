@@ -43,7 +43,7 @@ function ShipsPage() {
   const { data, isLoading, setTotal } = useShipsList();
 
   useEffect(() => {
-    if (data) setTotal(data.total ?? 0);
+    if (data) setTotal(data.totalElements ?? 0);
   }, [data, setTotal]);
 
   //#region Actions

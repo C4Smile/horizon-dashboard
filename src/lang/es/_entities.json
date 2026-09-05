@@ -34,10 +34,10 @@
     "lockedBy": {
       "label": ""
     },
-    "lastUpdate": {
+    "updatedAt": {
       "label": "Última actualización"
     },
-    "dateOfCreation": {
+    "createdAt": {
       "label": "Fecha de creación"
     },
     "factor": {
@@ -87,9 +87,6 @@
     "image": {
       "label": "Imagen"
     },
-    "lastUpdate": {
-      "label": "Última actualización"
-    },
     "description": {
       "label": "Descripción",
       "placeholder": "Alguna descripción"
@@ -111,6 +108,9 @@
     },
     "building": {
       "req": "Requiere"
+    },
+    "updatedAt": {
+      "label": "Última actualización"
     }
   },
   "ship": {
@@ -120,9 +120,6 @@
     },
     "image": {
       "label": "Imagen"
-    },
-    "lastUpdate": {
-      "label": "Última actualización"
     },
     "description": {
       "label": "Descripción",
@@ -169,6 +166,9 @@
     },
     "building": {
       "req": "Requiere"
+    },
+    "updatedAt": {
+      "label": "Última actualización"
     }
   },
   "cannon": {
@@ -178,9 +178,6 @@
     },
     "image": {
       "label": "Imagen"
-    },
-    "lastUpdate": {
-      "label": "Última actualización"
     },
     "description": {
       "label": "Descripción",
@@ -206,6 +203,9 @@
     },
     "building": {
       "req": "Requiere"
+    },
+    "updatedAt": {
+      "label": "Última actualización"
     }
   },
   "buildingType": {
@@ -216,7 +216,7 @@
     "image": {
       "label": "Imagen"
     },
-    "lastUpdate": {
+    "updatedAt": {
       "label": "Última actualización"
     }
   },
@@ -229,15 +229,15 @@
       "label": "Factor base de producción",
       "placeholder": "ej: 1"
     },
-    "lastUpdate": {
-      "label": "Última actualización"
-    },
     "description": {
       "label": "Descripción",
       "placeholder": "Alguna descripción"
     },
     "image": {
       "label": "Imagen"
+    },
+    "updatedAt": {
+      "label": "Última actualización"
     }
   },
   "skill": {
@@ -249,15 +249,15 @@
       "label": "Factor base de producción",
       "placeholder": "ej: 1"
     },
-    "lastUpdate": {
-      "label": "Última actualización"
-    },
     "description": {
       "label": "Descripción",
       "placeholder": "Alguna descripción"
     },
     "image": {
       "label": "Imagen"
+    },
+    "updatedAt": {
+      "label": "Última actualización"
     }
   },
   "tech": {
@@ -271,9 +271,6 @@
     },
     "type": {
       "label": "Tipo"
-    },
-    "lastUpdate": {
-      "label": "Última actualización"
     },
     "description": {
       "label": "Descripción",
@@ -291,6 +288,9 @@
     },
     "building": {
       "req": "Requiere"
+    },
+    "updatedAt": {
+      "label": "Última actualización"
     }
   },
   "techType": {
@@ -301,16 +301,13 @@
     "image": {
       "label": "Imagen"
     },
-    "lastUpdate": {
+    "updatedAt": {
       "label": "Última actualización"
     }
   },
   "user": {
     "roleId": {
       "label": "Rol"
-    },
-    "lastUpdate": {
-      "label": "Última actualización"
     },
     "username": {
       "label": "Nombre de usuario",
@@ -349,6 +346,9 @@
     },
     "image": {
       "label": "Foto de perfil"
+    },
+    "updatedAt": {
+      "label": "Última actualización"
     }
   }
 }

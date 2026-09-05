@@ -43,7 +43,7 @@ function ResourcePage() {
   const { data, isLoading, setTotal } = useResourcesList();
 
   useEffect(() => {
-    if (data) setTotal(data.total ?? 0);
+    if (data) setTotal(data.totalElements ?? 0);
   }, [data, setTotal]);
 
   //#region Actions

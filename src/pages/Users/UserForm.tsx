@@ -43,7 +43,7 @@ function UserForm() {
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [lastUpdate, setLastUpdate] = useState();
+  const [updatedAt, setLastUpdate] = useState();
 
   const { handleSubmit, reset, control } = useForm();
 
@@ -145,7 +145,7 @@ function UserForm() {
       const currentRoleId = parseId(userQuery.data?.roleId);
       const roleId = roleList.find((role) => role.id === currentRoleId);
       reset({ ...userQuery.data, roleId: roleId?.id });
-      setLastUpdate(userQuery?.data?.lastUpdate);
+      setLastUpdate(userQuery?.data?.updatedAt);
     }
 
     if (!id) {
@@ -179,11 +179,11 @@ function UserForm() {
             color="stroke-primary"
           />
         ) : (
-          <div className={id && lastUpdate ? "" : "mt-5"}>
-            {id && lastUpdate && (
+          <div className={id && updatedAt ? "" : "mt-5"}>
+            {id && updatedAt && (
               <p className="text-sm mb-10">
-                {t("_accessibility:labels.lastUpdate")}{" "}
-                {new Date(lastUpdate).toLocaleDateString("es-ES")}
+                {t("_accessibility:labels.updatedAt")}{" "}
+                {new Date(updatedAt).toLocaleDateString("es-ES")}
               </p>
             )}
           </div>

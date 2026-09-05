@@ -45,7 +45,7 @@ function TechPage() {
   const { data, isLoading, setTotal } = useTechsList();
 
   useEffect(() => {
-    if (data) setTotal(data.total ?? 0);
+    if (data) setTotal(data.totalElements ?? 0);
   }, [data, setTotal]);
 
   const { data: techTypeList } = useTechTypesCommon();
@@ -102,7 +102,7 @@ function TechPage() {
       imageColumn<TechDto>("name", "image"),
     ],
     EntityName.Tech,
-    ["dateOfCreation"],
+    ["createdAt"],
   );
 
   return (

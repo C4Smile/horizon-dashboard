@@ -10,8 +10,8 @@ import { BaseEntityDto } from "lib";
 
 export const baseColumns = [
   "id",
-  "dateOfCreation",
-  "lastUpdate",
+  "createdAt",
+  "updatedAt",
   "deletedAt",
 ];
 
@@ -35,18 +35,18 @@ export const prefabBaseColumns = <
     pos: 1,
   },
   {
-    key: "lastUpdate",
+    key: "updatedAt",
     className: "w-56",
     filterOptions: { type: FilterTypes.date, defaultValue: "" },
-    renderBody: (lastUpdate: string) =>
-      new Date(lastUpdate).toLocaleDateString("es-ES"),
+    renderBody: (updatedAt: string) =>
+      new Date(updatedAt).toLocaleDateString("es-ES"),
     pos: -1,
   },
   {
-    key: "dateOfCreation",
+    key: "createdAt",
     filterOptions: { type: FilterTypes.date, defaultValue: "" },
-    renderBody: (dateOfCreation: string) =>
-      new Date(dateOfCreation).toLocaleDateString("es-ES"),
+    renderBody: (createdAt: string) =>
+      new Date(createdAt).toLocaleDateString("es-ES"),
     pos: -2,
   },
   {

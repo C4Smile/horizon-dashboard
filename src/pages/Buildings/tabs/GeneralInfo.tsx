@@ -42,7 +42,7 @@ function GeneralInfo(props) {
 
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
-  const [lastUpdate, setLastUpdate] = useState("");
+  const [updatedAt, setLastUpdate] = useState("");
 
   const { handleSubmit, reset, control, getValues } = useForm();
 
@@ -114,7 +114,7 @@ function GeneralInfo(props) {
       //* PARSING PHOTO
       setPhoto(buildingQuery.data?.image);
 
-      setLastUpdate(buildingQuery?.data?.lastUpdate);
+      setLastUpdate(buildingQuery?.data?.updatedAt);
       // the api stores html, the input edits draft state; the query
       // cache is left alone
       reset({
@@ -147,11 +147,11 @@ function GeneralInfo(props) {
         />
       ) : id ? (
         <>
-          <div className={lastUpdate?.length ? "" : "mt-5"}>
-            {lastUpdate?.length && (
+          <div className={updatedAt?.length ? "" : "mt-5"}>
+            {updatedAt?.length && (
               <p className="text-sm mb-10">
-                {t("_accessibility:labels.lastUpdate")}{" "}
-                {new Date(lastUpdate).toLocaleDateString("es-ES")}
+                {t("_accessibility:labels.updatedAt")}{" "}
+                {new Date(updatedAt).toLocaleDateString("es-ES")}
               </p>
             )}
           </div>

@@ -47,7 +47,7 @@ function Users() {
   const { data, isLoading, setTotal } = useUsersList();
 
   useEffect(() => {
-    if (data) setTotal(data.total ?? 0);
+    if (data) setTotal(data.totalElements ?? 0);
   }, [data, setTotal]);
 
   //#region Actions
@@ -141,7 +141,7 @@ function Users() {
       },
     ],
     EntityName.User,
-    ["dateOfCreation", "lastUpdate"],
+    ["createdAt", "updatedAt"],
   );
 
   return (

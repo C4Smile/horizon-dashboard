@@ -50,7 +50,7 @@ function BuildingPage() {
   const { data, isLoading, setTotal } = useBuildingsList();
 
   useEffect(() => {
-    if (data) setTotal(data.total ?? 0);
+    if (data) setTotal(data.totalElements ?? 0);
   }, [data, setTotal]);
 
   const { data: buildingTypeList } = useBuildingTypesCommon();
@@ -107,7 +107,7 @@ function BuildingPage() {
       imageColumn<BuildingDto>(),
     ],
     EntityName.Building,
-    ["dateOfCreation"],
+    ["createdAt"],
   );
 
   return (
