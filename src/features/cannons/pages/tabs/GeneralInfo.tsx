@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+// components
+import { SaveFab } from "components";
+
 // lib
 import { FormValues } from "lib";
 import { CannonDto } from "../../lib";
@@ -13,7 +16,6 @@ import loadable from "@loadable/component";
 
 // utils
 import { toEditorState } from "utils";
-
 
 // editor
 
@@ -54,8 +56,8 @@ function GeneralInfo(props: GeneralInfoPropsType) {
   const [saving, setSaving] = useState(false);
   const [updatedAt, setLastUpdate] = useState<string>("");
 
-  const { handleSubmit, reset, control, getValues } = useForm<FormValues<CannonDto>>();
-
+  const { handleSubmit, reset, control, getValues } =
+    useForm<FormValues<CannonDto>>();
 
   const onSubmit = async (d: FormValues<CannonDto>) => {
     setSaving(true);
@@ -68,8 +70,7 @@ function GeneralInfo(props: GeneralInfoPropsType) {
       const { error, status } = result;
       setNotification(String(status), {
         model: t("_entities:entities.cannon"),
-        },
-      );
+      });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
       if (error !== null && error) console.error(error.message);
@@ -95,7 +96,7 @@ function GeneralInfo(props: GeneralInfoPropsType) {
       setNotification(
         isHttpRequestError(e) ? String(e.status) : "notConnected",
         {
-        model: t("_entities:entities.cannon"),
+          model: t("_entities:entities.cannon"),
         },
       );
     }
@@ -237,21 +238,10 @@ function GeneralInfo(props: GeneralInfoPropsType) {
         )}
       />
 
-      <button
-        type="submit"
+      <SaveFab
         disabled={cannonQuery.isLoading || saving}
-        className="my-5 submit"
-      >
-        {(cannonQuery.isLoading || saving) && (
-          <Loading
-            className="button-loading"
-            strokeWidth="4"
-            loaderClass="!w-6"
-            color="stroke-white"
-          />
-        )}
-        {t("_accessibility:buttons.save")}
-      </button>
+        loading={cannonQuery.isLoading || saving}
+      />
     </form>
   );
 }

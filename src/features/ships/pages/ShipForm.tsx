@@ -1,7 +1,12 @@
 import { useTranslation } from "react-i18next";
 
 // lib
-import { ShipCostAddDto, ShipReqBuildingAddDto, ShipReqTechAddDto, ShipUpkeepAddDto } from "../lib";
+import {
+  ShipCostAddDto,
+  ShipReqBuildingAddDto,
+  ShipReqTechAddDto,
+  ShipUpkeepAddDto,
+} from "../lib";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -212,7 +217,9 @@ function ShipForm() {
             horizonApiClient.Ship.shipReqBuildings.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Ship.shipReqBuildings.delete(Number(id), [resourceId])
+            horizonApiClient.Ship.shipReqBuildings.delete(Number(id), [
+              resourceId,
+            ])
           }
         />
       ),

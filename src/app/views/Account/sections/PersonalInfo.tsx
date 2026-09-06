@@ -75,7 +75,7 @@ function PersonalInfo() {
       setNotification(
         isHttpRequestError(e) ? String(e.status) : "notConnected",
         {
-        model: t("_entities:entities.user"),
+          model: t("_entities:entities.user"),
         },
       );
     }

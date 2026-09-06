@@ -20,7 +20,7 @@ import { toEditorState } from "utils";
 import { Loading, TextInput } from "@sito/dashboard-app";
 
 // components
-import { ImageFormType, ImageUploader } from "components";
+import { ImageFormType, ImageUploader, SaveFab } from "components";
 
 // providers
 import { useNotification, queryClient, useHorizonApiClient } from "providers";
@@ -380,21 +380,10 @@ function GeneralInfo(props: GeneralInfoPropsType) {
         />
       </div>
 
-      <button
-        type="submit"
+      <SaveFab
         disabled={shipQuery.isLoading || saving}
-        className="my-5 submit"
-      >
-        {(shipQuery.isLoading || saving) && (
-          <Loading
-            className="button-loading"
-            strokeWidth="4"
-            loaderClass="!w-6"
-            color="stroke-white"
-          />
-        )}
-        {t("_accessibility:buttons.save")}
-      </button>
+        loading={shipQuery.isLoading || saving}
+      />
     </form>
   );
 }

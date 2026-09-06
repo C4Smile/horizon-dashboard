@@ -12,3 +12,4 @@ export * from "./utils";
 export * from "./TablePage";
 export * from "./TableToolbar";
 export * from "./FormTitle";
+export * from "./SaveFab";

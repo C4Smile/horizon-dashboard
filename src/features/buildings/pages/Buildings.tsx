@@ -4,7 +4,12 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 // @sito/dashboard-app
-import { ActionType, ConfirmationDialog, FilterTypes, Table } from "@sito/dashboard-app";
+import {
+  ActionType,
+  ConfirmationDialog,
+  FilterTypes,
+  Table,
+} from "@sito/dashboard-app";
 
 // lib
 import { BuildingDto } from "../lib";
@@ -106,9 +111,7 @@ function BuildingPage() {
   );
 
   return (
-    <TablePage
-      title={t("_pages:game.links.buildings")}
-    >
+    <TablePage title={t("_pages:game.links.buildings")}>
       <ConfirmationDialog {...deleteAction}>
         <p>{t("_pages:common.actions.delete.dialog.message")}</p>
       </ConfirmationDialog>

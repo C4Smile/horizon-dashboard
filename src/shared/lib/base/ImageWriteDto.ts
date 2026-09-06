@@ -6,5 +6,4 @@ import { BlobDto } from "lib";
  * as its id. parseImage produces exactly one of the two.
  */
 export type ImageWriteDto =
-  | { image: BlobDto; imageId?: never }
-  | { imageId: number; image?: never };
+  { image: BlobDto; imageId?: never } | { imageId: number; image?: never };

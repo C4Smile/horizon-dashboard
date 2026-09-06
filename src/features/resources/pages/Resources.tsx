@@ -2,7 +2,12 @@ import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 // @sito/dashboard-app
-import { ActionType, ConfirmationDialog, FilterTypes, Table } from "@sito/dashboard-app";
+import {
+  ActionType,
+  ConfirmationDialog,
+  FilterTypes,
+  Table,
+} from "@sito/dashboard-app";
 
 // utils
 import { nameColumn, imageColumn, useParseColumns } from "utils";
@@ -86,9 +91,7 @@ function ResourcePage() {
   );
 
   return (
-    <TablePage
-      title={t("_pages:game.links.resources")}
-    >
+    <TablePage title={t("_pages:game.links.resources")}>
       <ConfirmationDialog {...deleteAction}>
         <p>{t("_pages:common.actions.delete.dialog.message")}</p>
       </ConfirmationDialog>

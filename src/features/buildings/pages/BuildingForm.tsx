@@ -23,7 +23,13 @@ import { GeneralInfo } from "./tabs/";
 import { Tables, isHttpRequestError } from "api";
 
 // lib
-import { BuildingCostAddDto, BuildingProduceAddDto, BuildingReqBuildingAddDto, BuildingReqTechAddDto, BuildingUpkeepAddDto } from "../lib";
+import {
+  BuildingCostAddDto,
+  BuildingProduceAddDto,
+  BuildingReqBuildingAddDto,
+  BuildingReqTechAddDto,
+  BuildingUpkeepAddDto,
+} from "../lib";
 
 // pages
 const NotFound = loadable(() => import("components/NotFound/NotFound"));
@@ -158,9 +164,14 @@ function BuildingForm() {
           label={"production"}
           inputKey={"base"}
           queryKey={[ReactQueryKeys.BuildingProduces, id]}
-          queryFn={() => horizonApiClient.Building.buildingProductions.get(Number(id))}
+          queryFn={() =>
+            horizonApiClient.Building.buildingProductions.get(Number(id))
+          }
           saveFn={async (id: number, data: BuildingProduceAddDto) =>
-            horizonApiClient.Building.buildingProductions.insert(Number(id), data)
+            horizonApiClient.Building.buildingProductions.insert(
+              Number(id),
+              data,
+            )
           }
           deleteFn={async (id: number, resourceId: number) =>
             horizonApiClient.Building.buildingProductions.delete(Number(id), [
@@ -178,12 +189,16 @@ function BuildingForm() {
           label={"cost"}
           inputKey={"base"}
           queryKey={[ReactQueryKeys.BuildingCosts, id]}
-          queryFn={() => horizonApiClient.Building.buildingCosts.get(Number(id))}
+          queryFn={() =>
+            horizonApiClient.Building.buildingCosts.get(Number(id))
+          }
           saveFn={async (id: number, data: BuildingCostAddDto) =>
             horizonApiClient.Building.buildingCosts.insert(Number(id), data)
           }
           deleteFn={async (id: number, resourceId: number) =>
-            horizonApiClient.Building.buildingCosts.delete(Number(id), [resourceId])
+            horizonApiClient.Building.buildingCosts.delete(Number(id), [
+              resourceId,
+            ])
           }
         />
       ),
@@ -196,12 +211,16 @@ function BuildingForm() {
           label={"upkeep"}
           inputKey={"base"}
           queryKey={[ReactQueryKeys.BuildingUpkeeps, id]}
-          queryFn={() => horizonApiClient.Building.buildingUpkeeps.get(Number(id))}
+          queryFn={() =>
+            horizonApiClient.Building.buildingUpkeeps.get(Number(id))
+          }
           saveFn={async (id: number, data: BuildingUpkeepAddDto) =>
             horizonApiClient.Building.buildingUpkeeps.insert(Number(id), data)
           }
           deleteFn={async (id: number, resourceId: number) =>
-            horizonApiClient.Building.buildingUpkeeps.delete(Number(id), [resourceId])
+            horizonApiClient.Building.buildingUpkeeps.delete(Number(id), [
+              resourceId,
+            ])
           }
         />
       ),
@@ -218,12 +237,16 @@ function BuildingForm() {
             ReactQueryKeys.Techs,
             id,
           ]}
-          queryFn={() => horizonApiClient.Building.buildingReqTechs.get(Number(id))}
+          queryFn={() =>
+            horizonApiClient.Building.buildingReqTechs.get(Number(id))
+          }
           saveFn={async (id: number, data: BuildingReqTechAddDto) =>
             horizonApiClient.Building.buildingReqTechs.insert(Number(id), data)
           }
           deleteFn={async (id: number, techId: number) =>
-            horizonApiClient.Building.buildingReqTechs.delete(Number(id), [techId])
+            horizonApiClient.Building.buildingReqTechs.delete(Number(id), [
+              techId,
+            ])
           }
         />
       ),
@@ -240,9 +263,14 @@ function BuildingForm() {
             ReactQueryKeys.Buildings,
             id,
           ]}
-          queryFn={() => horizonApiClient.Building.buildingReqBuildings.get(Number(id))}
+          queryFn={() =>
+            horizonApiClient.Building.buildingReqBuildings.get(Number(id))
+          }
           saveFn={async (id: number, data: BuildingReqBuildingAddDto) =>
-            horizonApiClient.Building.buildingReqBuildings.insert(Number(id), data)
+            horizonApiClient.Building.buildingReqBuildings.insert(
+              Number(id),
+              data,
+            )
           }
           deleteFn={async (id: number, buildingId: number) =>
             horizonApiClient.Building.buildingReqBuildings.delete(Number(id), [

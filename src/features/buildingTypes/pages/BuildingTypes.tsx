@@ -82,9 +82,7 @@ function BuildingTypes() {
   );
 
   return (
-    <TablePage
-      title={t("_pages:game.links.buildingTypes")}
-    >
+    <TablePage title={t("_pages:game.links.buildingTypes")}>
       <ConfirmationDialog {...deleteAction}>
         <p>{t("_pages:common.actions.delete.dialog.message")}</p>
       </ConfirmationDialog>

@@ -2,7 +2,12 @@ import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 // @sito/dashboard-app
-import { ActionType, ConfirmationDialog, FilterTypes, Table } from "@sito/dashboard-app";
+import {
+  ActionType,
+  ConfirmationDialog,
+  FilterTypes,
+  Table,
+} from "@sito/dashboard-app";
 
 // utils
 import { nameColumn, useParseColumns } from "utils";

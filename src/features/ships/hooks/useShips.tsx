@@ -4,7 +4,11 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useHorizonApiClient } from "providers";
 
 // types
-import { ApiQueryResult, TableQueryOptions, withTotal } from "hooks/queries/types";
+import {
+  ApiQueryResult,
+  TableQueryOptions,
+  withTotal,
+} from "hooks/queries/types";
 
 // lib
 import { ShipDto, ShipCommonDto } from "../lib";

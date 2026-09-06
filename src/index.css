@@ -211,6 +211,34 @@ body {
   @apply mb-5 text-2xl font-bold md:text-3xl;
 }
 
+/* The save button of an entity form floats: the forms run long and the button
+   used to sit at the bottom of whatever the last field happened to be. It
+   stacks under the scroll to top button, which is why that one sits higher
+   than a corner button usually would. */
+.save-fab {
+  position: fixed;
+  inset: auto 1rem 1rem auto;
+  z-index: 40;
+  display: flex;
+  width: 3.5rem;
+  height: 3.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  background-color: var(--color-bg-primary);
+  color: var(--color-page);
+  font-size: 1.125rem;
+  transition: background-color 0.2s;
+}
+
+.save-fab:hover:not(:disabled) {
+  background-color: var(--color-primary);
+}
+
+.save-fab:disabled {
+  opacity: 0.5;
+}
+
 /* Tabs. The library builds the active one as a filled button and the rest as
    outlined ones, so the row changed height as you moved along it. Plain CSS
    with !important because the library sets those three the same way, and
@@ -459,8 +487,9 @@ textarea {
    a specificity tie is settled by order, and .submit.primary matches it. */
 .to-top.to-top {
   position: fixed;
-  /* clear of the table footer, whose pager sits in the same corner */
-  inset: auto 1rem 4.5rem auto;
+  /* above the save fab, and clear of the table footer whose pager sits in
+     the same corner */
+  inset: auto 1rem 5.75rem auto;
   width: 2.75rem;
   height: 2.75rem;
   padding: 0;

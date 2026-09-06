@@ -3,8 +3,4 @@
  * assigns them.
  */
 export type OmitBaseEntityDto =
-  | "id"
-  | "deletedAt"
-  | "createdAt"
-  | "updatedAt"
-  | "lockedBy";
+  "id" | "deletedAt" | "createdAt" | "updatedAt" | "lockedBy";

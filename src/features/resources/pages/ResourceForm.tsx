@@ -18,7 +18,7 @@ import { toEditorState } from "utils";
 // editor
 
 // components
-import { ImageFormType, ImageUploader, FormTitle } from "components";
+import { ImageFormType, ImageUploader, FormTitle, SaveFab } from "components";
 
 // providers
 import { useNotification, queryClient, useHorizonApiClient } from "providers";
@@ -252,21 +252,10 @@ function ResourceForm() {
           />
         </div>
 
-        <button
-          type="submit"
+        <SaveFab
           disabled={resourceQuery.isLoading || saving}
-          className="my-5 submit"
-        >
-          {(resourceQuery.isLoading || saving) && (
-            <Loading
-              className="button-loading"
-              strokeWidth="4"
-              loaderClass="!w-6"
-              color="stroke-white"
-            />
-          )}
-          {t("_accessibility:buttons.save")}
-        </button>
+          loading={resourceQuery.isLoading || saving}
+        />
       </form>
     </div>
   );

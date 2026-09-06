@@ -9,7 +9,7 @@ import loadable from "@loadable/component";
 import { Loading, TextInput } from "@sito/dashboard-app";
 
 // components
-import { ImageFormType, ImageUploader, FormTitle } from "components";
+import { ImageFormType, ImageUploader, FormTitle, SaveFab } from "components";
 
 // providers
 import { useNotification, queryClient, useHorizonApiClient } from "providers";
@@ -189,21 +189,10 @@ function TechTypeForm() {
           </div>
         </div>
 
-        <button
-          type="submit"
+        <SaveFab
           disabled={techTypeQuery.isLoading || saving}
-          className="my-5 submit"
-        >
-          {(techTypeQuery.isLoading || saving) && (
-            <Loading
-              className="button-loading"
-              strokeWidth="4"
-              loaderClass="!w-6"
-              color="stroke-white"
-            />
-          )}
-          {t("_accessibility:buttons.save")}
-        </button>
+          loading={techTypeQuery.isLoading || saving}
+        />
       </form>
     </div>
   );

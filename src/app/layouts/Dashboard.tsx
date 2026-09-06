@@ -16,6 +16,9 @@ import {
 // providers
 import { useAccount, useHorizonApiClient } from "providers";
 
+// api
+import { isHttpRequestError } from "api";
+
 // components
 import { Logo } from "components";
 
@@ -47,14 +50,30 @@ export function Dashboard() {
      * routes them to the password update screen when a recovery is pending
      */
     const validateSession = async () => {
+      // nothing to validate: there is no session to begin with, and the api
+      // call would only fail its way to the same place
+      if (!account.token) {
+        navigate(findPath(PageId.signIn));
+        return;
+      }
+
       try {
         await horizonApiClient.Auth.getSession();
         const recovering = getCookie(config.recovering);
         if (recovering?.length) navigate(findPath(PageId.updatePassword));
       } catch (err) {
         console.error(err);
-        await logoutUser();
-        navigate(findPath(PageId.signOut));
+        // only an api that rejects the token ends the session. Any other
+        // failure is the network or the server having a bad moment, and
+        // signing the user out over one would throw away whatever they were
+        // in the middle of
+        if (
+          isHttpRequestError(err) &&
+          (err.status === 401 || err.status === 403)
+        ) {
+          await logoutUser();
+          navigate(findPath(PageId.signOut));
+        }
       }
     };
 

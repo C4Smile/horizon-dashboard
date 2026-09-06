@@ -26,19 +26,19 @@ export const useHorizonQuery = <TResponseDto extends BaseEntityDto>(
   // collapses the union and the result stops matching ApiQueryResult, so the
   // extra field is attached to the result rather than copied out of it.
   const query = useQuery({
-      queryKey: [
-        queryKey,
-        { sortingBy, sortingOrder, currentPage, pageSize },
-        { ...filters },
-      ],
-      queryFn: () =>
-        getFunction({
-          sortingBy,
-          sortingOrder,
-          currentPage,
-          pageSize,
-          ...filters,
-        }),
+    queryKey: [
+      queryKey,
+      { sortingBy, sortingOrder, currentPage, pageSize },
+      { ...filters },
+    ],
+    queryFn: () =>
+      getFunction({
+        sortingBy,
+        sortingOrder,
+        currentPage,
+        pageSize,
+        ...filters,
+      }),
   });
 
   return Object.assign(query, { setTotal });

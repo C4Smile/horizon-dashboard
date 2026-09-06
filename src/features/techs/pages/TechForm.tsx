@@ -1,7 +1,12 @@
 import { useTranslation } from "react-i18next";
 
 // lib
-import { TechCostAddDto, TechProduceAddDto, TechReqBuildingAddDto, TechReqTechAddDto } from "../lib";
+import {
+  TechCostAddDto,
+  TechProduceAddDto,
+  TechReqBuildingAddDto,
+  TechReqTechAddDto,
+} from "../lib";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -156,7 +161,9 @@ function TechForm() {
             horizonApiClient.Tech.techProductions.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Tech.techProductions.delete(Number(id), [resourceId])
+            horizonApiClient.Tech.techProductions.delete(Number(id), [
+              resourceId,
+            ])
           }
         />
       ),
@@ -214,7 +221,9 @@ function TechForm() {
             horizonApiClient.Tech.techReqBuildings.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Tech.techReqBuildings.delete(Number(id), [resourceId])
+            horizonApiClient.Tech.techReqBuildings.delete(Number(id), [
+              resourceId,
+            ])
           }
         />
       ),

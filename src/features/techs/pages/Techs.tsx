@@ -3,7 +3,12 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 // @sito/dashboard-app
-import { ActionType, ConfirmationDialog, FilterTypes, Table } from "@sito/dashboard-app";
+import {
+  ActionType,
+  ConfirmationDialog,
+  FilterTypes,
+  Table,
+} from "@sito/dashboard-app";
 
 // components
 import { TablePage, TableToolbar } from "components";

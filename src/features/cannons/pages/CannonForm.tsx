@@ -1,7 +1,11 @@
 import { useTranslation } from "react-i18next";
 
 // lib
-import { CannonCostAddDto, CannonReqBuildingAddDto, CannonReqTechAddDto } from "../lib";
+import {
+  CannonCostAddDto,
+  CannonReqBuildingAddDto,
+  CannonReqTechAddDto,
+} from "../lib";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -176,7 +180,9 @@ function CannonForm() {
             horizonApiClient.Cannon.cannonReqTechs.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Cannon.cannonReqTechs.delete(Number(id), [resourceId])
+            horizonApiClient.Cannon.cannonReqTechs.delete(Number(id), [
+              resourceId,
+            ])
           }
         />
       ),
@@ -193,7 +199,9 @@ function CannonForm() {
             ReactQueryKeys.Buildings,
             id,
           ]}
-          queryFn={() => horizonApiClient.Cannon.cannonReqBuildings.get(Number(id))}
+          queryFn={() =>
+            horizonApiClient.Cannon.cannonReqBuildings.get(Number(id))
+          }
           saveFn={async (id, data: CannonReqBuildingAddDto) =>
             horizonApiClient.Cannon.cannonReqBuildings.insert(Number(id), data)
           }

@@ -13,6 +13,9 @@ import { sitemap } from "./sitemap";
 // providers
 import { useAccount } from "providers";
 
+// config
+import config from "../config";
+
 // pages
 import { ViewPageType } from "./";
 
@@ -58,15 +61,30 @@ const renderRoutes = (
       }
     });
 
+/** How long to wait for a stored session before giving up on it. */
+const SESSION_RESTORE_TIMEOUT = 8_000;
+
 /**
  * Main App
  * @returns App Component
  */
 function App() {
   const [loading, setLoading] = useState(true);
+  const [restoreGaveUp, setRestoreGaveUp] = useState(false);
 
   const { account, logUserFromLocal } = useAccount();
   const userRole = account?.horizonUser?.roleId as Roles;
+
+  /**
+   * A token in storage means there is a session to resolve. logUserFromLocal
+   * asks the api for it, and it only clears the token when the api rejects it,
+   * so a slow or failed request leaves the token in place and the role
+   * undefined. Rendering then would filter every role gated route out of the
+   * sitemap and drop the user on the not found page, which is what used to
+   * happen on a heavy reload.
+   */
+  const resolvingSession =
+    !restoreGaveUp && !userRole && !!localStorage.getItem(config.user);
 
   const location = useLocation();
 
@@ -95,9 +113,19 @@ function App() {
     void restoreSession();
   }, [logUserFromLocal]);
 
+  useEffect(() => {
+    // never wait forever: a request that neither answers nor fails would hold
+    // the splash screen for good
+    const timer = setTimeout(
+      () => setRestoreGaveUp(true),
+      SESSION_RESTORE_TIMEOUT,
+    );
+    return () => clearTimeout(timer);
+  }, []);
+
   const routes = useMemo(() => renderRoutes(sitemap, userRole), [userRole]);
 
-  if (loading) return <SplashScreen />;
+  if (loading || resolvingSession) return <SplashScreen />;
 
   return (
     <Suspense fallback={<SplashScreen />}>

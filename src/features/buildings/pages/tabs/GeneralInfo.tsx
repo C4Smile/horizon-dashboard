@@ -21,7 +21,7 @@ import { toEditorState } from "utils";
 // editor
 
 // components
-import { ImageFormType, ImageUploader } from "components";
+import { ImageFormType, ImageUploader, SaveFab } from "components";
 
 // providers
 import { useNotification, queryClient, useHorizonApiClient } from "providers";
@@ -261,21 +261,10 @@ function GeneralInfo(props: GeneralInfoPropsType) {
         )}
       />
 
-      <button
-        type="submit"
+      <SaveFab
         disabled={buildingQuery.isLoading || saving}
-        className="my-5 submit"
-      >
-        {(buildingQuery.isLoading || saving) && (
-          <Loading
-            className="button-loading"
-            strokeWidth="4"
-            loaderClass="!w-6"
-            color="stroke-white"
-          />
-        )}
-        {t("_accessibility:buttons.save")}
-      </button>
+        loading={buildingQuery.isLoading || saving}
+      />
     </form>
   );
 }

@@ -18,7 +18,7 @@ import { toEditorState } from "utils";
 import { Loading, TextInput } from "@sito/dashboard-app";
 
 // components
-import { ImageFormType, ImageUploader, FormTitle } from "components";
+import { ImageFormType, ImageUploader, FormTitle, SaveFab } from "components";
 
 // providers
 import { useNotification, queryClient, useHorizonApiClient } from "providers";
@@ -214,21 +214,10 @@ function SkillForm() {
           )}
         />
 
-        <button
-          type="submit"
+        <SaveFab
           disabled={skillQuery.isLoading || saving}
-          className="my-5 submit"
-        >
-          {(skillQuery.isLoading || saving) && (
-            <Loading
-              className="button-loading"
-              strokeWidth="4"
-              loaderClass="!w-6"
-              color="stroke-white"
-            />
-          )}
-          {t("_accessibility:buttons.save")}
-        </button>
+          loading={skillQuery.isLoading || saving}
+        />
       </form>
     </div>
   );

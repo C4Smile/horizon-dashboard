@@ -14,6 +14,7 @@ import {
   ImageUploader,
   PasswordInput,
   FormTitle,
+  SaveFab,
 } from "components";
 
 // providers
@@ -325,21 +326,10 @@ function UserForm() {
             />
           )}
         />
-        <button
-          type="submit"
+        <SaveFab
           disabled={userQuery.isLoading || saving}
-          className="mb-5 submit"
-        >
-          {(userQuery.isLoading || saving) && (
-            <Loading
-              className="button-loading"
-              strokeWidth="4"
-              loaderClass="!w-6"
-              color="stroke-white"
-            />
-          )}
-          {t("_accessibility:buttons.save")}
-        </button>
+          loading={userQuery.isLoading || saving}
+        />
       </form>
     </div>
   );

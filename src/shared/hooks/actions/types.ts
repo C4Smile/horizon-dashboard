@@ -24,8 +24,10 @@ export interface UseSingleActionPropTypes<TInDto> extends UseActionPropTypes {
   hidden?: boolean;
 }
 
-export interface UseEditActionPropTypes
-  extends Omit<UseSingleActionPropTypes<BaseEntityDto>, "onClick"> {
+export interface UseEditActionPropTypes extends Omit<
+  UseSingleActionPropTypes<BaseEntityDto>,
+  "onClick"
+> {
   /**
    * The list page of the model. The route comes from the sitemap: the hand
    * built `game/${Tables.X}` strings were relative, so navigate resolved them
