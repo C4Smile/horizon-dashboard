@@ -158,7 +158,9 @@ function ResourceForm() {
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <FormTitle>
           {id
-            ? `${t("_accessibility:components.form.editing")} ${id}`
+            ? `${t("_accessibility:components.form.editing")} ${
+                resourceQuery.data?.name ?? id
+              }`
             : t("_pages:resources.newForm")}
         </FormTitle>
         {resourceQuery.isLoading ? (

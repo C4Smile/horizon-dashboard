@@ -126,7 +126,9 @@ function BuildingTypeForm() {
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <FormTitle>
           {id
-            ? `${t("_accessibility:components.form.editing")} ${id}`
+            ? `${t("_accessibility:components.form.editing")} ${
+                buildingTypeQuery.data?.name ?? id
+              }`
             : t("_pages:buildingTypes.newForm")}
         </FormTitle>
         {buildingTypeQuery.isLoading ? (

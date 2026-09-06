@@ -179,7 +179,9 @@ function UserForm() {
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <FormTitle>
           {id
-            ? `${t("_accessibility:components.form.editing")} ${id}`
+            ? `${t("_accessibility:components.form.editing")} ${
+                userQuery.data?.name ?? id
+              }`
             : t("_pages:users.newForm")}
         </FormTitle>
         {userQuery.isLoading ? (

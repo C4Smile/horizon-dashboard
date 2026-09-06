@@ -149,7 +149,9 @@ function SkillForm() {
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <FormTitle>
           {id
-            ? `${t("_accessibility:components.form.editing")} ${id}`
+            ? `${t("_accessibility:components.form.editing")} ${
+                skillQuery.data?.name ?? id
+              }`
             : t("_pages:skills.newForm")}
         </FormTitle>
         {skillQuery.isLoading ? (

@@ -125,7 +125,9 @@ function TechTypeForm() {
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <FormTitle>
           {id
-            ? `${t("_accessibility:components.form.editing")} ${id}`
+            ? `${t("_accessibility:components.form.editing")} ${
+                techTypeQuery.data?.name ?? id
+              }`
             : t("_pages:techTypes.newForm")}
         </FormTitle>
         {techTypeQuery.isLoading ? (

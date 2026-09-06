@@ -254,6 +254,13 @@ body {
   border-radius: var(--radius-control);
 }
 
+/* A column header is a button that the library disables when the column
+   cannot be sorted, but it lights the hover either way, so headers that do
+   nothing looked as clickable as the ones that do. */
+.table-headers-cell:disabled:hover {
+  background-color: transparent;
+}
+
 /* The drawer is a fixed 100vh block with no scroll of its own, so an entry
    past the fold simply falls off the bottom: adding Seguridad under settings
    pushed sign out out of a 720px screen. The list takes the space the header
