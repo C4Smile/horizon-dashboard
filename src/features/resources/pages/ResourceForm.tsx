@@ -180,6 +180,27 @@ function ResourceForm() {
         )}
         <div className="form-grid">
           <div className="form-column">
+            {/* Resource Image and Icon */}
+            <div className="form-images my-5">
+              {resourceQuery.isLoading ? (
+                <Loading />
+              ) : (
+                <>
+                  <ImageUploader
+                    photo={photo}
+                    setPhoto={setPhoto}
+                    label={t("_entities:resource.image.label")}
+                    folder={ReactQueryKeys.Resources}
+                  />
+                  <ImageUploader
+                    photo={icon}
+                    setPhoto={setIcon}
+                    label={t("_entities:resource.icon.label")}
+                    folder={`${ReactQueryKeys.Resources}/iconos`}
+                  />
+                </>
+              )}
+            </div>
             {/* Resource Name */}
             <Controller
               control={control}
@@ -212,28 +233,6 @@ function ResourceForm() {
                 />
               )}
             />
-
-            {/* Resource Image and Icon */}
-            <div className="form-images my-5">
-              {resourceQuery.isLoading ? (
-                <Loading />
-              ) : (
-                <>
-                  <ImageUploader
-                    photo={photo}
-                    setPhoto={setPhoto}
-                    label={t("_entities:resource.image.label")}
-                    folder={ReactQueryKeys.Resources}
-                  />
-                  <ImageUploader
-                    photo={icon}
-                    setPhoto={setIcon}
-                    label={t("_entities:resource.icon.label")}
-                    folder={`${ReactQueryKeys.Resources}/iconos`}
-                  />
-                </>
-              )}
-            </div>
           </div>
 
           {/* Resource description */}

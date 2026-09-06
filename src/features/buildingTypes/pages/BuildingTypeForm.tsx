@@ -46,15 +46,18 @@ function BuildingTypeForm() {
 
   const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
-  const { handleSubmit, reset, control } = useForm<FormValues<BuildingTypeDto>>();
+  const { handleSubmit, reset, control } =
+    useForm<FormValues<BuildingTypeDto>>();
 
   const onSubmit = async (d: FormValues<BuildingTypeDto>) => {
     setSaving(true);
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.BuildingType.createFromForm(d, photo);
-      else result = await horizonApiClient.BuildingType.updateFromForm(d, photo);
+      if (!d.id)
+        result = await horizonApiClient.BuildingType.createFromForm(d, photo);
+      else
+        result = await horizonApiClient.BuildingType.updateFromForm(d, photo);
 
       const { error, status } = result;
       setNotification(String(status), {
@@ -81,9 +84,12 @@ function BuildingTypeForm() {
       }
     } catch (e: unknown) {
       console.error(e);
-      setNotification(isHttpRequestError(e) ? String(e.status) : "notConnected", {
-        model: t("_entities:entities.buildingType"),
-      });
+      setNotification(
+        isHttpRequestError(e) ? String(e.status) : "notConnected",
+        {
+          model: t("_entities:entities.buildingType"),
+        },
+      );
     }
     setSaving(false);
   };
@@ -150,6 +156,20 @@ function BuildingTypeForm() {
           </div>
         )}
 
+        {/* Building Image */}
+        <div className="my-5">
+          {buildingTypeQuery.isLoading ? (
+            <Loading />
+          ) : (
+            <ImageUploader
+              photo={photo}
+              setPhoto={setPhoto}
+              label={t("_entities:buildingType.image.label")}
+              folder={ReactQueryKeys.BuildingTypes}
+            />
+          )}
+        </div>
+
         {/* BuildingType Name */}
         <Controller
           control={control}
@@ -166,20 +186,6 @@ function BuildingTypeForm() {
             />
           )}
         />
-
-        {/* Building Image */}
-        <div className="my-5">
-          {buildingTypeQuery.isLoading ? (
-            <Loading />
-          ) : (
-            <ImageUploader
-              photo={photo}
-              setPhoto={setPhoto}
-              label={t("_entities:buildingType.image.label")}
-              folder={ReactQueryKeys.BuildingTypes}
-            />
-          )}
-        </div>
 
         <button
           type="submit"

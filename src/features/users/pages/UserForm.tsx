@@ -9,7 +9,12 @@ import loadable from "@loadable/component";
 import { Loading, TextInput, SelectInput } from "@sito/dashboard-app";
 
 // components
-import { ImageFormType, ImageUploader, PasswordInput, FormTitle } from "components";
+import {
+  ImageFormType,
+  ImageUploader,
+  PasswordInput,
+  FormTitle,
+} from "components";
 
 // providers
 import {
@@ -101,7 +106,7 @@ function UserForm() {
       setNotification(
         isHttpRequestError(e) ? String(e.status) : "notConnected",
         {
-        model: t("_entities:entities.user"),
+          model: t("_entities:entities.user"),
         },
       );
     }
@@ -193,6 +198,20 @@ function UserForm() {
             )}
           </div>
         )}
+        {/* User Image */}
+        <div className="mb-5">
+          {userQuery.isLoading ? (
+            <Loading />
+          ) : (
+            <ImageUploader
+              photo={photo}
+              setPhoto={setPhoto}
+              label={t("_entities:user.image.label")}
+              folder={ReactQueryKeys.Users}
+            />
+          )}
+        </div>
+
         {/* User Role */}
         <Controller
           control={control}
@@ -306,20 +325,6 @@ function UserForm() {
             />
           )}
         />
-        {/* User Image */}
-        <div className="mb-5">
-          {userQuery.isLoading ? (
-            <Loading />
-          ) : (
-            <ImageUploader
-              photo={photo}
-              setPhoto={setPhoto}
-              label={t("_entities:user.image.label")}
-              folder={ReactQueryKeys.Users}
-            />
-          )}
-        </div>
-
         <button
           type="submit"
           disabled={userQuery.isLoading || saving}

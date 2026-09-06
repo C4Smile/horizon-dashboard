@@ -177,6 +177,19 @@ export function GeneralInfo(props: GeneralInfoPropsType) {
 
       <div className="form-grid">
         <div className="form-column gap-5">
+          {/* Tech Image */}
+          <div className="form-images">
+            {techQuery.isLoading ? (
+              <Loading />
+            ) : (
+              <ImageUploader
+                photo={photo}
+                setPhoto={setPhoto}
+                label={t("_entities:tech.image.label")}
+                folder={ReactQueryKeys.Techs}
+              />
+            )}
+          </div>
           {/* Tech Name */}
           <Controller
             control={control}
@@ -232,20 +245,6 @@ export function GeneralInfo(props: GeneralInfoPropsType) {
               />
             )}
           />
-
-          {/* Tech Image */}
-          <div className="form-images">
-            {techQuery.isLoading ? (
-              <Loading />
-            ) : (
-              <ImageUploader
-                photo={photo}
-                setPhoto={setPhoto}
-                label={t("_entities:tech.image.label")}
-                folder={ReactQueryKeys.Techs}
-              />
-            )}
-          </div>
         </div>
 
         {/* Tech description */}

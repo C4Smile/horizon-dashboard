@@ -57,7 +57,8 @@ function GeneralInfo(props: GeneralInfoPropsType) {
   const [saving, setSaving] = useState(false);
   const [updatedAt, setLastUpdate] = useState<string>("");
 
-  const { handleSubmit, reset, control, getValues } = useForm<FormValues<BuildingDto>>();
+  const { handleSubmit, reset, control, getValues } =
+    useForm<FormValues<BuildingDto>>();
 
   const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
@@ -84,14 +85,14 @@ function GeneralInfo(props: GeneralInfoPropsType) {
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.Building.createFromForm(d, photo);
+      if (!d.id)
+        result = await horizonApiClient.Building.createFromForm(d, photo);
       else result = await horizonApiClient.Building.updateFromForm(d, photo);
 
       const { error, status } = result;
       setNotification(String(status), {
         model: t("_entities:entities.building"),
-        },
-      );
+      });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
       if (error !== null && error) console.error(error.message);
@@ -118,7 +119,7 @@ function GeneralInfo(props: GeneralInfoPropsType) {
       setNotification(
         isHttpRequestError(e) ? String(e.status) : "notConnected",
         {
-        model: t("_entities:entities.building"),
+          model: t("_entities:entities.building"),
         },
       );
     }
@@ -173,6 +174,20 @@ function GeneralInfo(props: GeneralInfoPropsType) {
           </div>
         </>
       ) : null}
+
+      {/* Building Image */}
+      <div className="my-5">
+        {buildingQuery.isLoading ? (
+          <Loading />
+        ) : (
+          <ImageUploader
+            photo={photo}
+            setPhoto={setPhoto}
+            label={t("_entities:building.image.label")}
+            folder={ReactQueryKeys.Buildings}
+          />
+        )}
+      </div>
 
       {/* Building Name */}
       <Controller
@@ -229,20 +244,6 @@ function GeneralInfo(props: GeneralInfoPropsType) {
           />
         )}
       />
-
-      {/* Building Image */}
-      <div className="my-5">
-        {buildingQuery.isLoading ? (
-          <Loading />
-        ) : (
-          <ImageUploader
-            photo={photo}
-            setPhoto={setPhoto}
-            label={t("_entities:building.image.label")}
-            folder={ReactQueryKeys.Buildings}
-          />
-        )}
-      </div>
 
       {/* Building description */}
       <Controller

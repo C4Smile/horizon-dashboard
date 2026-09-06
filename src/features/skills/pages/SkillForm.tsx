@@ -95,7 +95,7 @@ function SkillForm() {
       setNotification(
         isHttpRequestError(e) ? String(e.status) : "notConnected",
         {
-        model: t("_entities:entities.skill"),
+          model: t("_entities:entities.skill"),
         },
       );
     }
@@ -169,6 +169,19 @@ function SkillForm() {
             )}
           </div>
         )}
+        {/* Skill Image */}
+        <div className="my-5">
+          {skillQuery.isLoading ? (
+            <Loading />
+          ) : (
+            <ImageUploader
+              photo={photo}
+              setPhoto={setPhoto}
+              label={t("_entities:skill.image.label")}
+              folder={ReactQueryKeys.Skills}
+            />
+          )}
+        </div>
         {/* Skill Name */}
         <Controller
           control={control}
@@ -185,19 +198,6 @@ function SkillForm() {
             />
           )}
         />
-        {/* Skill Image */}
-        <div className="my-5">
-          {skillQuery.isLoading ? (
-            <Loading />
-          ) : (
-            <ImageUploader
-              photo={photo}
-              setPhoto={setPhoto}
-              label={t("_entities:skill.image.label")}
-              folder={ReactQueryKeys.Skills}
-            />
-          )}
-        </div>
         {/* Skill description */}
         <Controller
           control={control}

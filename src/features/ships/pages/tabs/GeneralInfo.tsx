@@ -174,6 +174,27 @@ function GeneralInfo(props: GeneralInfoPropsType) {
 
       <div className="form-grid">
         <div className="form-column gap-5">
+          {/* Ship Image and Icon */}
+          <div className="form-images my-5">
+            {shipQuery.isLoading ? (
+              <Loading />
+            ) : (
+              <>
+                <ImageUploader
+                  photo={photo}
+                  setPhoto={setPhoto}
+                  label={t("_entities:ship.image.label")}
+                  folder={ReactQueryKeys.Ships}
+                />
+                <ImageUploader
+                  photo={icon}
+                  setPhoto={setIcon}
+                  label={t("_entities:ship.icon.label")}
+                  folder={`${ReactQueryKeys.Ships}/iconos`}
+                />
+              </>
+            )}
+          </div>
           {/* Ship Name */}
           <Controller
             control={control}
@@ -340,27 +361,6 @@ function GeneralInfo(props: GeneralInfoPropsType) {
               />
             )}
           />
-          {/* Ship Image and Icon */}
-          <div className="form-images my-5">
-            {shipQuery.isLoading ? (
-              <Loading />
-            ) : (
-              <>
-                <ImageUploader
-                  photo={photo}
-                  setPhoto={setPhoto}
-                  label={t("_entities:ship.image.label")}
-                  folder={ReactQueryKeys.Ships}
-                />
-                <ImageUploader
-                  photo={icon}
-                  setPhoto={setIcon}
-                  label={t("_entities:ship.icon.label")}
-                  folder={`${ReactQueryKeys.Ships}/iconos`}
-                />
-              </>
-            )}
-          </div>
         </div>
 
         {/* Ship description */}
