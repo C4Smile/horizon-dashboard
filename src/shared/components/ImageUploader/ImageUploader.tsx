@@ -58,7 +58,7 @@ export function ImageUploader(props: ImageUploaderPropsType) {
     <label className="flex flex-col items-start gap-4">
       <span>{label}</span>
       {loadingPhoto ? (
-        <Loading className="w-60 h-60 bg-black/20 rounded-full" />
+        <Loading className="w-40 h-40 bg-black/20 rounded-lg" />
       ) : (
         <>
           {photoToShow && photo?.id !== 1 ? (
@@ -67,12 +67,12 @@ export function ImageUploader(props: ImageUploaderPropsType) {
                 <button
                   type="button"
                   onClick={onDelete}
-                  className="text-white bg-error absolute top-1 right-1 rounded-full w-10 h-10"
+                  className="text-error bg-bg-error absolute top-2 right-2 rounded-lg w-9 h-9"
                 >
                   <FontAwesomeIcon icon={faTrash} />
                 </button>
                 <img
-                  className="w-60 h-60 rounded-full object-cover"
+                  className="w-40 h-40 rounded-lg object-cover"
                   src={photoToShow}
                   alt="upload"
                 />
@@ -85,7 +85,7 @@ export function ImageUploader(props: ImageUploaderPropsType) {
                 type="file"
                 onChange={onUploadFile}
               />
-              <div className="w-20 h-20 flex items-center justify-center rounded-full border-2 border-dashed border-primary/40">
+              <div className="w-40 h-40 flex items-center justify-center rounded-lg border-2 border-dashed border-primary/40">
                 <FontAwesomeIcon
                   icon={faAdd}
                   className="cursor-pointer p-4 text-2xl text-primary"

@@ -207,6 +207,21 @@ body {
   color: var(--color-fg);
 }
 
+/* Form layout: the fields stack in the first column with their images in a
+   row underneath, and the description takes the second column whole. The
+   forms are wide and the description is the only field that wants the room. */
+.form-grid {
+  @apply grid w-full grid-cols-1 items-start gap-x-10 gap-y-6 lg:grid-cols-2;
+}
+
+.form-column {
+  @apply flex w-full flex-col items-start;
+}
+
+.form-images {
+  @apply flex flex-wrap items-start gap-8;
+}
+
 /* A tile the way the game art draws one: no fill of its own, a glow behind
    the icon, and a border lit from the top. Deliberately no box-shadow, the
    art has none and the glow is what separates the tile from the page. */

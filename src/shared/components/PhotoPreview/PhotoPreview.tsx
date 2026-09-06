@@ -35,7 +35,7 @@ export function PhotoPreview(props: PhotoPreviewPropsType) {
   if (!photos.length)
     return (
       <img
-        className="small-image rounded-full object-cover"
+        className="small-image rounded-lg object-cover"
         src={noProduct}
         alt={alt}
       />
@@ -55,7 +55,7 @@ export function PhotoPreview(props: PhotoPreviewPropsType) {
             className={`cursor-pointer ${i > 0 ? "-ml-4" : ""}`}
           >
             <img
-              className="small-image rounded-full object-cover border-white border-2 transition hover:brightness-110"
+              className="small-image rounded-lg object-cover border-border border-2 transition hover:brightness-110"
               src={staticUrlPhoto(photo.url)}
               alt={`${alt} ${i}`}
             />

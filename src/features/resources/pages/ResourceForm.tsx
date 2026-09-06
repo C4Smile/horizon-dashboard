@@ -66,14 +66,15 @@ function ResourceForm() {
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.Resource.createFromForm(d, photo, icon);
-      else result = await horizonApiClient.Resource.updateFromForm(d, photo, icon);
+      if (!d.id)
+        result = await horizonApiClient.Resource.createFromForm(d, photo, icon);
+      else
+        result = await horizonApiClient.Resource.updateFromForm(d, photo, icon);
 
       const { error, status } = result;
       setNotification(String(status), {
         model: t("_entities:entities.resource"),
-        },
-      );
+      });
       setLastUpdate(new Date().toDateString());
       // eslint-disable-next-line no-console
       if (error) console.error(error.message);
@@ -101,7 +102,7 @@ function ResourceForm() {
       setNotification(
         isHttpRequestError(e) ? String(e.status) : "notConnected",
         {
-        model: t("_entities:entities.resource"),
+          model: t("_entities:entities.resource"),
         },
       );
     }
@@ -177,81 +178,80 @@ function ResourceForm() {
             )}
           </div>
         )}
-        {/* Resource Name */}
-        <Controller
-          control={control}
-          disabled={resourceQuery.isLoading || saving}
-          name="name"
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              type="text"
-              id="name"
-              placeholder={t("_entities:resource.name.placeholder")}
-              label={t("_entities:resource.name.label")}
-              required
+        <div className="form-grid">
+          <div className="form-column">
+            {/* Resource Name */}
+            <Controller
+              control={control}
+              disabled={resourceQuery.isLoading || saving}
+              name="name"
+              render={({ field }) => (
+                <TextInput
+                  {...field}
+                  type="text"
+                  id="name"
+                  placeholder={t("_entities:resource.name.placeholder")}
+                  label={t("_entities:resource.name.label")}
+                  required
+                />
+              )}
             />
-          )}
-        />
-        {/* Resource Base Factor */}
-        <Controller
-          control={control}
-          disabled={resourceQuery.isLoading || saving}
-          name="baseFactor"
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              type="text"
-              id="baseFactor"
-              placeholder={t("_entities:resource.baseFactor.placeholder")}
-              label={t("_entities:resource.baseFactor.label")}
-              required
+            {/* Resource Base Factor */}
+            <Controller
+              control={control}
+              disabled={resourceQuery.isLoading || saving}
+              name="baseFactor"
+              render={({ field }) => (
+                <TextInput
+                  {...field}
+                  type="text"
+                  id="baseFactor"
+                  placeholder={t("_entities:resource.baseFactor.placeholder")}
+                  label={t("_entities:resource.baseFactor.label")}
+                  required
+                />
+              )}
             />
-          )}
-        />
 
-        {/* Resource Image */}
-        <div className="my-5">
-          {resourceQuery.isLoading ? (
-            <Loading />
-          ) : (
-            <ImageUploader
-              photo={photo}
-              setPhoto={setPhoto}
-              label={t("_entities:resource.image.label")}
-              folder={ReactQueryKeys.Resources}
-            />
-          )}
-        </div>
+            {/* Resource Image and Icon */}
+            <div className="form-images my-5">
+              {resourceQuery.isLoading ? (
+                <Loading />
+              ) : (
+                <>
+                  <ImageUploader
+                    photo={photo}
+                    setPhoto={setPhoto}
+                    label={t("_entities:resource.image.label")}
+                    folder={ReactQueryKeys.Resources}
+                  />
+                  <ImageUploader
+                    photo={icon}
+                    setPhoto={setIcon}
+                    label={t("_entities:resource.icon.label")}
+                    folder={`${ReactQueryKeys.Resources}/iconos`}
+                  />
+                </>
+              )}
+            </div>
+          </div>
 
-        {/* Resource Icon */}
-        <div className="my-5">
-          {resourceQuery.isLoading ? (
-            <Loading />
-          ) : (
-            <ImageUploader
-              photo={icon}
-              setPhoto={setIcon}
-              label={t("_entities:resource.icon.label")}
-              folder={`${ReactQueryKeys.Resources}/iconos`}
-            />
-          )}
+          {/* Resource description */}
+          <Controller
+            control={control}
+            name="description"
+            disabled={resourceQuery.isLoading || saving}
+            render={({ field: { onChange, value, ...rest } }) => (
+              <HtmlInput
+                label={t("_entities:resource.description.label")}
+                wrapperClassName="w-full"
+                {...rest}
+                value={value}
+                onChange={onChange}
+              />
+            )}
+          />
         </div>
-        {/* Resource description */}
-        <Controller
-          control={control}
-          name="description"
-          disabled={resourceQuery.isLoading || saving}
-          render={({ field: { onChange, value, ...rest } }) => (
-            <HtmlInput
-              label={t("_entities:resource.description.label")}
-              wrapperClassName="mt-5 w-full"
-              {...rest}
-              value={value}
-              onChange={onChange}
-            />
-          )}
-        />
 
         <button
           type="submit"

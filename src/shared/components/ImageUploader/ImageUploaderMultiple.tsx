@@ -86,12 +86,12 @@ function ImageUploaderMultiple(props: ImageUploaderMultiplePropsType) {
                 <button
                   type="button"
                   onClick={() => onDelete(i)}
-                  className="text-secondary hover:text-white bg-white hover:bg-secondary absolute -top-2 -right-2 rounded-full w-8 h-8 transition-colors duration-300"
+                  className="text-error bg-bg-error absolute -top-2 -right-2 rounded-lg w-8 h-8 transition-colors duration-300 hover:brightness-110"
                 >
                   <FontAwesomeIcon icon={faTrash} />
                 </button>
                 <img
-                  className="w-20 h-20 rounded-full object-cover"
+                  className="w-20 h-20 rounded-lg object-cover"
                   src={photoToShow(photo) ?? ""}
                   alt="upload"
                 />
@@ -101,7 +101,7 @@ function ImageUploaderMultiple(props: ImageUploaderMultiplePropsType) {
         ) : null}
         <label className="flex flex-col items-start gap-4">
           {loadingPhotos ? (
-            <Loading className="w-20 h-20 bg-black/20 rounded-full" />
+            <Loading className="w-20 h-20 bg-black/20 rounded-lg" />
           ) : (
             <div className="flex gap-4 items-center relative">
               <input
@@ -110,7 +110,7 @@ function ImageUploaderMultiple(props: ImageUploaderMultiplePropsType) {
                 onChange={onUploadFile}
                 multiple
               />
-              <div className="w-20 h-20 flex items-center justify-center rounded-full border-2 border-dashed border-primary/40">
+              <div className="w-20 h-20 flex items-center justify-center rounded-lg border-2 border-dashed border-primary/40">
                 <FontAwesomeIcon
                   icon={faAdd}
                   className="cursor-pointer p-4 text-2xl text-primary"
