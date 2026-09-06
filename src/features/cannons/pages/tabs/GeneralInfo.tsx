@@ -15,7 +15,6 @@ import { Controller, useForm } from "react-hook-form";
 import loadable from "@loadable/component";
 
 // utils
-import { toEditorState } from "utils";
 
 // editor
 
@@ -108,11 +107,9 @@ function GeneralInfo(props: GeneralInfoPropsType) {
       //* PARSING PHOTO
 
       setLastUpdate(String(cannonQuery?.data?.updatedAt ?? ""));
-      // the api stores html, the input edits draft state; the query
-      // cache is left alone
       reset({
         ...cannonQuery.data,
-        description: toEditorState(cannonQuery.data.description),
+        description: cannonQuery.data.description,
       });
     }
 

@@ -17,7 +17,7 @@ import { ImageFormType, ImageUploader, SaveFab } from "components";
 import { useNotification, queryClient, useHorizonApiClient } from "providers";
 
 // utils
-import { ReactQueryKeys, toEditorState } from "utils";
+import { ReactQueryKeys } from "utils";
 import { FormValues, NotificationEnumType } from "lib";
 import { TechDto } from "../../lib";
 import { HTTPError, parseId } from "api";
@@ -132,11 +132,9 @@ export function GeneralInfo(props: GeneralInfoPropsType) {
       setPhoto(techQuery.data?.image ?? null);
 
       setLastUpdate(String(techQuery?.data?.updatedAt ?? ""));
-      // the api stores html, the input edits draft state; the query
-      // cache is left alone
       reset({
         ...techQuery.data,
-        description: toEditorState(techQuery.data.description),
+        description: techQuery.data.description,
       });
     }
 

@@ -13,7 +13,6 @@ import loadable from "@loadable/component";
 import { Loading, TextInput } from "@sito/dashboard-app";
 
 // utils
-import { toEditorState } from "utils";
 
 // editor
 
@@ -131,11 +130,9 @@ function ResourceForm() {
       setPhoto(resourceQuery.data?.image);
       setIcon(resourceQuery.data?.icon ?? null);
       setLastUpdate(String(resourceQuery?.data?.updatedAt ?? ""));
-      // the api stores html, the input edits draft state; the query
-      // cache is left alone
       reset({
         ...resourceQuery.data,
-        description: toEditorState(resourceQuery.data.description),
+        description: resourceQuery.data.description,
       });
     }
 

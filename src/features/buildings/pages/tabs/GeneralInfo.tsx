@@ -16,7 +16,6 @@ import loadable from "@loadable/component";
 import { Loading, SelectInput, TextInput } from "@sito/dashboard-app";
 
 // utils
-import { toEditorState } from "utils";
 
 // editor
 
@@ -132,11 +131,9 @@ function GeneralInfo(props: GeneralInfoPropsType) {
       setPhoto(buildingQuery.data?.image);
 
       setLastUpdate(String(buildingQuery?.data?.updatedAt ?? ""));
-      // the api stores html, the input edits draft state; the query
-      // cache is left alone
       reset({
         ...buildingQuery.data,
-        description: toEditorState(buildingQuery.data.description),
+        description: buildingQuery.data.description,
       });
     }
 

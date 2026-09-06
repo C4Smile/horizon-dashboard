@@ -30,6 +30,13 @@
     },
     "form": {
       "editing": "Editando"
+    },
+    "editor": {
+      "styles": "Estilos",
+      "normal": "Normal",
+      "heading1": "Título 1",
+      "heading2": "Título 2",
+      "heading3": "Título 3"
     }
   },
   "appName": "Horizon dashboard",

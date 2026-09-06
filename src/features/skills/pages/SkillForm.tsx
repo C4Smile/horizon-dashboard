@@ -10,7 +10,6 @@ import { useForm, Controller } from "react-hook-form";
 import loadable from "@loadable/component";
 
 // utils
-import { toEditorState } from "utils";
 
 // editor
 
@@ -124,11 +123,9 @@ function SkillForm() {
       setPhoto(skillQuery.data?.image);
 
       setLastUpdate(String(skillQuery?.data?.updatedAt ?? ""));
-      // the api stores html, the input edits draft state; the query
-      // cache is left alone
       reset({
         ...skillQuery.data,
-        description: toEditorState(skillQuery.data.description),
+        description: skillQuery.data.description,
       });
     }
 

@@ -163,6 +163,41 @@ test.describe("E2E – entity forms save", () => {
     });
   }
 
+  test("a description survives a save and a reload", async ({ page }) => {
+    const errors: string[] = [];
+    page.on("pageerror", (e) => errors.push(e.message));
+
+    await signIn(page);
+
+    const response = await fillAndSave(page, cases[0], `E2E ${Date.now()}`);
+    const [resource] = await response.json();
+
+    const description = `Descripcion ${Date.now()}`;
+    await page.goto(`/game/resources/${resource.id}`);
+
+    // the editor is a contenteditable, not an input
+    const editor = page.locator(".rsw-ce");
+    await expect(editor).toBeVisible({ timeout: 15_000 });
+    await editor.fill(description);
+
+    const saved = page.waitForResponse(
+      (r) =>
+        r.url().includes(`/resources/${resource.id}`) &&
+        r.request().method() === "PATCH",
+      { timeout: 15_000 },
+    );
+    await page.getByRole("button", { name: /guardar|save/i }).click();
+    expect((await saved).status()).toBe(200);
+
+    // html goes to the api and comes back, with no draft state in between
+    await page.reload();
+    await expect(page.locator(".rsw-ce")).toContainText(description, {
+      timeout: 15_000,
+    });
+
+    expect(errors).toEqual([]);
+  });
+
   test("a created resource can be edited back", async ({ page }) => {
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(e.message));

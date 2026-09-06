@@ -1,6 +1,3 @@
-import draftToHtml from "draftjs-to-html";
-import { convertToRaw, EditorState } from "draft-js";
-
 // lib
 import { BlobDto, PhotoDto } from "lib";
 
@@ -9,15 +6,17 @@ export const DEFAULT_IMAGE_ID = 1;
 
 export type FormPhoto = Partial<PhotoDto & BlobDto> | null | undefined;
 
+/** an untouched contenteditable still reports a stray break or a space */
+const EMPTY_HTML = /^(?:<br\s*\/?>|&nbsp;|\s)*$/i;
+
 /**
- * @description Converts what the HtmlInput holds into the html the api stores
- * @param value - draft-js state, or already parsed html
- * @returns html string
+ * @description Normalises what the HtmlInput holds into the html the api stores
+ * @param value - html as the editor left it
+ * @returns html string, empty when the editor holds nothing worth saving
  */
-export function parseHtml(value?: string | EditorState): string {
-  if (!value) return "";
-  if (typeof value === "string") return value;
-  return draftToHtml(convertToRaw(value.getCurrentContent()));
+export function parseHtml(value?: string): string {
+  if (!value || EMPTY_HTML.test(value)) return "";
+  return value;
 }
 
 /**

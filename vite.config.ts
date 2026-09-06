@@ -87,12 +87,6 @@ export default defineConfig({
           }
           if (id.includes("/@fortawesome/")) return "vendor-icons";
           if (id.includes("/react-tooltip/")) return "vendor-tooltip";
-          if (
-            id.includes("/draft-js/") ||
-            id.includes("/react-draft-wysiwyg/")
-          ) {
-            return "vendor-editor";
-          }
           return;
         },
       },
@@ -106,19 +100,46 @@ export default defineConfig({
       { find: /^react-dom$/, replacement: appReactDomRoot },
       { find: /^react-dom\/(.*)$/, replacement: `${appReactDomRoot}/$1` },
       { find: "api", replacement: path.resolve(__dirname, "./src/shared/api") },
-      { find: "assets", replacement: path.resolve(__dirname, "./src/shared/assets") },
-      { find: "components", replacement: path.resolve(__dirname, "./src/shared/components") },
-      { find: "partials", replacement: path.resolve(__dirname, "./src/shared/partials") },
+      {
+        find: "assets",
+        replacement: path.resolve(__dirname, "./src/shared/assets"),
+      },
+      {
+        find: "components",
+        replacement: path.resolve(__dirname, "./src/shared/components"),
+      },
+      {
+        find: "partials",
+        replacement: path.resolve(__dirname, "./src/shared/partials"),
+      },
       { find: "lib", replacement: path.resolve(__dirname, "./src/shared/lib") },
-      { find: "hooks", replacement: path.resolve(__dirname, "./src/shared/hooks") },
-      { find: "utils", replacement: path.resolve(__dirname, "./src/shared/utils") },
-      { find: "lang", replacement: path.resolve(__dirname, "./src/shared/lang") },
-      { find: "layouts", replacement: path.resolve(__dirname, "./src/app/layouts") },
+      {
+        find: "hooks",
+        replacement: path.resolve(__dirname, "./src/shared/hooks"),
+      },
+      {
+        find: "utils",
+        replacement: path.resolve(__dirname, "./src/shared/utils"),
+      },
+      {
+        find: "lang",
+        replacement: path.resolve(__dirname, "./src/shared/lang"),
+      },
+      {
+        find: "layouts",
+        replacement: path.resolve(__dirname, "./src/app/layouts"),
+      },
       { find: "pages", replacement: path.resolve(__dirname, "./src/app") },
-      { find: "providers", replacement: path.resolve(__dirname, "./src/app/providers") },
+      {
+        find: "providers",
+        replacement: path.resolve(__dirname, "./src/app/providers"),
+      },
       { find: "app", replacement: path.resolve(__dirname, "./src/app") },
       { find: "shared", replacement: path.resolve(__dirname, "./src/shared") },
-      { find: "features", replacement: path.resolve(__dirname, "./src/features") },
+      {
+        find: "features",
+        replacement: path.resolve(__dirname, "./src/features"),
+      },
     ],
   },
 });
