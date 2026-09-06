@@ -56,7 +56,8 @@ function GeneralInfo(props: GeneralInfoPropsType) {
   const [saving, setSaving] = useState(false);
   const [updatedAt, setLastUpdate] = useState<string>("");
 
-  const { handleSubmit, reset, control, getValues } = useForm<FormValues<ShipDto>>();
+  const { handleSubmit, reset, control, getValues } =
+    useForm<FormValues<ShipDto>>();
 
   const [photo, setPhoto] = useState<ImageFormType | null>(null);
   const [icon, setIcon] = useState<ImageFormType | null>(null);
@@ -66,7 +67,8 @@ function GeneralInfo(props: GeneralInfoPropsType) {
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.Ship.createFromForm(d, photo, icon);
+      if (!d.id)
+        result = await horizonApiClient.Ship.createFromForm(d, photo, icon);
       else result = await horizonApiClient.Ship.updateFromForm(d, photo, icon);
 
       const { error, status } = result;
@@ -105,7 +107,7 @@ function GeneralInfo(props: GeneralInfoPropsType) {
       setNotification(
         isHttpRequestError(e) ? String(e.status) : "notConnected",
         {
-        model: t("_entities:entities.ship"),
+          model: t("_entities:entities.ship"),
         },
       );
     }
@@ -170,216 +172,213 @@ function GeneralInfo(props: GeneralInfoPropsType) {
         </>
       ) : null}
 
-      {/* Ship Name */}
-      <Controller
-        control={control}
-        disabled={shipQuery.isLoading || saving}
-        name="name"
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            type="text"
+      <div className="form-grid">
+        <div className="form-column gap-5">
+          {/* Ship Name */}
+          <Controller
+            control={control}
+            disabled={shipQuery.isLoading || saving}
             name="name"
-            id="name"
-            placeholder={t("_entities:ship.name.placeholder")}
-            label={t("_entities:ship.name.label")}
-            required
+            render={({ field }) => (
+              <TextInput
+                {...field}
+                type="text"
+                name="name"
+                id="name"
+                placeholder={t("_entities:ship.name.placeholder")}
+                label={t("_entities:ship.name.label")}
+                required
+              />
+            )}
           />
-        )}
-      />
 
-      {/* Ship Capacity */}
-      <Controller
-        control={control}
-        disabled={shipQuery.isLoading || saving}
-        name="capacity"
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            type="number"
+          {/* Ship Capacity */}
+          <Controller
+            control={control}
+            disabled={shipQuery.isLoading || saving}
             name="capacity"
-            id="capacity"
-            placeholder={t("_entities:ship.capacity.placeholder")}
-            label={t("_entities:ship.capacity.label")}
-            required
+            render={({ field }) => (
+              <TextInput
+                {...field}
+                type="number"
+                name="capacity"
+                id="capacity"
+                placeholder={t("_entities:ship.capacity.placeholder")}
+                label={t("_entities:ship.capacity.label")}
+                required
+              />
+            )}
           />
-        )}
-      />
 
-      <div className="flex gap-2 w-full">
-        {/* Ship Max knots */}
-        <Controller
-          control={control}
-          disabled={shipQuery.isLoading || saving}
-          name="knots"
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              type="number"
+          <div className="flex gap-2 w-full">
+            {/* Ship Max knots */}
+            <Controller
+              control={control}
+              disabled={shipQuery.isLoading || saving}
               name="knots"
-              id="knots"
-              placeholder={t("_entities:ship.knots.placeholder")}
-              label={t("_entities:ship.knots.label")}
-              required
+              render={({ field }) => (
+                <TextInput
+                  {...field}
+                  type="number"
+                  name="knots"
+                  id="knots"
+                  placeholder={t("_entities:ship.knots.placeholder")}
+                  label={t("_entities:ship.knots.label")}
+                  required
+                />
+              )}
             />
-          )}
-        />
-      </div>
+          </div>
 
-      <div className="flex gap-2 w-full">
-        {/* Ship Min Crew */}
-        <Controller
-          control={control}
-          disabled={shipQuery.isLoading || saving}
-          name="minCrew"
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              type="number"
+          <div className="flex gap-2 w-full">
+            {/* Ship Min Crew */}
+            <Controller
+              control={control}
+              disabled={shipQuery.isLoading || saving}
               name="minCrew"
-              id="minCrew"
-            inputClassName="w-full"
-              placeholder={t("_entities:ship.minCrew.placeholder")}
-              label={t("_entities:ship.minCrew.label")}
-              required
+              render={({ field }) => (
+                <TextInput
+                  {...field}
+                  type="number"
+                  name="minCrew"
+                  id="minCrew"
+                  inputClassName="w-full"
+                  placeholder={t("_entities:ship.minCrew.placeholder")}
+                  label={t("_entities:ship.minCrew.label")}
+                  required
+                />
+              )}
             />
-          )}
-        />
-        {/* Ship Best Crew */}
-        <Controller
-          control={control}
-          disabled={shipQuery.isLoading || saving}
-          name="bestCrew"
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              type="number"
+            {/* Ship Best Crew */}
+            <Controller
+              control={control}
+              disabled={shipQuery.isLoading || saving}
               name="bestCrew"
-              id="bestCrew"
-            inputClassName="w-full"
-              placeholder={t("_entities:ship.bestCrew.placeholder")}
-              label={t("_entities:ship.bestCrew.label")}
-              required
+              render={({ field }) => (
+                <TextInput
+                  {...field}
+                  type="number"
+                  name="bestCrew"
+                  id="bestCrew"
+                  inputClassName="w-full"
+                  placeholder={t("_entities:ship.bestCrew.placeholder")}
+                  label={t("_entities:ship.bestCrew.label")}
+                  required
+                />
+              )}
             />
-          )}
-        />
-        {/* Ship Max Crew */}
+            {/* Ship Max Crew */}
+            <Controller
+              control={control}
+              disabled={shipQuery.isLoading || saving}
+              name="maxCrew"
+              render={({ field }) => (
+                <TextInput
+                  {...field}
+                  type="number"
+                  name="maxCrew"
+                  id="maxCrew"
+                  inputClassName="w-full"
+                  placeholder={t("_entities:ship.maxCrew.placeholder")}
+                  label={t("_entities:ship.maxCrew.label")}
+                  required
+                />
+              )}
+            />
+          </div>
+
+          {/* Ship Guns */}
+          <Controller
+            control={control}
+            disabled={shipQuery.isLoading || saving}
+            name="guns"
+            render={({ field }) => (
+              <TextInput
+                {...field}
+                type="number"
+                name="guns"
+                id="guns"
+                placeholder={t("_entities:ship.guns.placeholder")}
+                label={t("_entities:ship.guns.label")}
+                required
+              />
+            )}
+          />
+
+          {/* Ship Hull */}
+          <Controller
+            control={control}
+            disabled={shipQuery.isLoading || saving}
+            name="hull"
+            render={({ field }) => (
+              <TextInput
+                {...field}
+                type="number"
+                name="hull"
+                id="hull"
+                placeholder={t("_entities:ship.hull.placeholder")}
+                label={t("_entities:ship.hull.label")}
+                required
+              />
+            )}
+          />
+
+          {/* Ship Creation Time */}
+          <Controller
+            control={control}
+            disabled={shipQuery.isLoading || saving}
+            name="creationTime"
+            render={({ field }) => (
+              <TextInput
+                {...field}
+                type="number"
+                name="creationTime"
+                id="creationTime"
+                placeholder={t("_entities:ship.creationTime.placeholder")}
+                label={t("_entities:ship.creationTime.label")}
+                required
+              />
+            )}
+          />
+          {/* Ship Image and Icon */}
+          <div className="form-images my-5">
+            {shipQuery.isLoading ? (
+              <Loading />
+            ) : (
+              <>
+                <ImageUploader
+                  photo={photo}
+                  setPhoto={setPhoto}
+                  label={t("_entities:ship.image.label")}
+                  folder={ReactQueryKeys.Ships}
+                />
+                <ImageUploader
+                  photo={icon}
+                  setPhoto={setIcon}
+                  label={t("_entities:ship.icon.label")}
+                  folder={`${ReactQueryKeys.Ships}/iconos`}
+                />
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Ship description */}
         <Controller
           control={control}
+          name="description"
           disabled={shipQuery.isLoading || saving}
-          name="maxCrew"
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              type="number"
-              name="maxCrew"
-              id="maxCrew"
-            inputClassName="w-full"
-              placeholder={t("_entities:ship.maxCrew.placeholder")}
-              label={t("_entities:ship.maxCrew.label")}
-              required
+          render={({ field: { onChange, value, ...rest } }) => (
+            <HtmlInput
+              label={t("_entities:ship.description.label")}
+              wrapperClassName="w-full"
+              {...rest}
+              value={value}
+              onChange={onChange}
             />
           )}
         />
       </div>
-
-      {/* Ship Guns */}
-      <Controller
-        control={control}
-        disabled={shipQuery.isLoading || saving}
-        name="guns"
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            type="number"
-            name="guns"
-            id="guns"
-            placeholder={t("_entities:ship.guns.placeholder")}
-            label={t("_entities:ship.guns.label")}
-            required
-          />
-        )}
-      />
-
-      {/* Ship Hull */}
-      <Controller
-        control={control}
-        disabled={shipQuery.isLoading || saving}
-        name="hull"
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            type="number"
-            name="hull"
-            id="hull"
-            placeholder={t("_entities:ship.hull.placeholder")}
-            label={t("_entities:ship.hull.label")}
-            required
-          />
-        )}
-      />
-
-      {/* Ship Creation Time */}
-      <Controller
-        control={control}
-        disabled={shipQuery.isLoading || saving}
-        name="creationTime"
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            type="number"
-            name="creationTime"
-            id="creationTime"
-            placeholder={t("_entities:ship.creationTime.placeholder")}
-            label={t("_entities:ship.creationTime.label")}
-            required
-          />
-        )}
-      />
-
-      {/* Ship Image */}
-      <div className="my-5">
-        {shipQuery.isLoading ? (
-          <Loading />
-        ) : (
-          <ImageUploader
-            photo={photo}
-            setPhoto={setPhoto}
-            label={t("_entities:ship.image.label")}
-            folder={ReactQueryKeys.Ships}
-          />
-        )}
-      </div>
-
-      {/* Ship Icon */}
-      <div className="my-5">
-        {shipQuery.isLoading ? (
-          <Loading />
-        ) : (
-          <ImageUploader
-            photo={icon}
-            setPhoto={setIcon}
-            label={t("_entities:ship.icon.label")}
-            folder={`${ReactQueryKeys.Ships}/iconos`}
-          />
-        )}
-      </div>
-
-      {/* Ship description */}
-      <Controller
-        control={control}
-        name="description"
-        disabled={shipQuery.isLoading || saving}
-        render={({ field: { onChange, value, ...rest } }) => (
-          <HtmlInput
-            label={t("_entities:ship.description.label")}
-            wrapperClassName="mt-5 w-full"
-            {...rest}
-            value={value}
-            onChange={onChange}
-          />
-        )}
-      />
 
       <button
         type="submit"
