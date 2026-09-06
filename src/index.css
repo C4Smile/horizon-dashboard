@@ -384,8 +384,11 @@ textarea {
   animation: disappear 0.5s ease 1;
 }
 
+/* mb-5 does not belong here: the shared library reuses submit primary for its
+   own chrome, the tabs and the scroll to top button among it, and the margin
+   leaked into both. The two auth buttons that want the gap ask for it. */
 .submit.primary {
-  @apply mb-5 relative text-page self-start bg-hover-primary transition-all enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-primary/40 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center duration-500 ease-in-out;
+  @apply relative text-page self-start bg-hover-primary transition-all enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-primary/40 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center duration-500 ease-in-out;
 }
 
 @keyframes appear {

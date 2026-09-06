@@ -35,7 +35,10 @@ function UpdatePassword() {
   const [passwordError, setPasswordError] = useState("");
   const [saving, setSaving] = useState(false);
 
-  const { handleSubmit, control } = useForm<{ password: string; rPassword: string }>();
+  const { handleSubmit, control } = useForm<{
+    password: string;
+    rPassword: string;
+  }>();
 
   const { showNotification } = useNotification();
 
@@ -136,7 +139,7 @@ function UpdatePassword() {
         <button
           type="submit"
           disabled={saving}
-          className={`submit primary delay-[400ms] ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
+          className={`submit primary mb-5 delay-[400ms] ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
         >
           {saving && (
             <Loading
