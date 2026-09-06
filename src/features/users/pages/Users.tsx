@@ -131,7 +131,11 @@ function Users() {
         renderBody: (_, user) => (
           <img
             className="tile w-10 h-10 object-cover"
-            src={user.image?.url ? staticUrlPhoto(user.image.url) : noUserPhoto}
+            src={
+              user.image?.url
+                ? staticUrlPhoto(user.image.url, { w: 80 })
+                : noUserPhoto
+            }
             alt={user.name}
           />
         ),

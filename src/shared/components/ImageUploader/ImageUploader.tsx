@@ -54,13 +54,24 @@ export function ImageUploader(props: ImageUploaderPropsType) {
     setConfirmingDelete(false);
   };
 
-  const photoToShow = useMemo(() => {
+  /** the 160px box it sits in, at twice the size for a dense screen */
+  const thumbnail = useMemo(() => {
     if (photo && (photo.url || photo.base64))
-      return photo.base64 ?? staticUrlPhoto(photo.url ?? "");
+      return photo.base64 ?? staticUrlPhoto(photo.url ?? "", { w: 320 });
     return null;
   }, [photo]);
 
-  const hasPhoto = !!photoToShow && photo?.id !== 1;
+  /** the dialog shows it as large as the screen allows */
+  const fullSize = useMemo(() => {
+    if (photo && (photo.url || photo.base64))
+      return (
+        photo.base64 ??
+        staticUrlPhoto(photo.url ?? "", { w: 1000, fit: "inside" })
+      );
+    return null;
+  }, [photo]);
+
+  const hasPhoto = !!thumbnail && photo?.id !== 1;
 
   if (loadingPhoto)
     return (
@@ -98,7 +109,7 @@ export function ImageUploader(props: ImageUploaderPropsType) {
             >
               <img
                 className="tile w-40 h-40 object-cover transition hover:brightness-110"
-                src={photoToShow}
+                src={thumbnail}
                 alt={String(label)}
               />
             </button>
@@ -129,10 +140,10 @@ export function ImageUploader(props: ImageUploaderPropsType) {
         handleClose={() => setPreviewing(false)}
         closeOnBackdropClick
       >
-        {!!photoToShow && (
+        {!!fullSize && (
           <img
             className="tile max-h-[70vh] w-full object-contain"
-            src={photoToShow}
+            src={fullSize}
             alt={String(label)}
           />
         )}

@@ -49,7 +49,7 @@ export const ResourceRow = memo(
           {resource ? (
             <img
               className="tile w-16 h-16 object-cover"
-              src={staticUrlPhoto(resource?.image?.url ?? "")}
+              src={staticUrlPhoto(resource?.image?.url ?? "", { w: 128 })}
               alt={String(resource?.value ?? "")}
             />
           ) : null}

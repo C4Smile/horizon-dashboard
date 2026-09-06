@@ -56,7 +56,7 @@ export function PhotoPreview(props: PhotoPreviewPropsType) {
           >
             <img
               className="small-image tile object-cover transition hover:brightness-110"
-              src={staticUrlPhoto(photo.url)}
+              src={staticUrlPhoto(photo.url, { w: 80 })}
               alt={`${alt} ${i}`}
             />
           </button>
@@ -72,7 +72,7 @@ export function PhotoPreview(props: PhotoPreviewPropsType) {
         {opened && (
           <img
             className="tile max-h-[70vh] w-full object-contain"
-            src={staticUrlPhoto(opened.url)}
+            src={staticUrlPhoto(opened.url, { w: 1000, fit: "inside" })}
             alt={alt}
           />
         )}

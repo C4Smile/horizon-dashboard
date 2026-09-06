@@ -68,7 +68,7 @@ function ImageUploaderMultiple(props: ImageUploaderMultiplePropsType) {
 
   const photoToShow = useCallback((photo: ImageFormType) => {
     if (photo && (photo.url || photo.base64))
-      return photo.base64 ?? staticUrlPhoto(photo.url ?? "");
+      return photo.base64 ?? staticUrlPhoto(photo.url ?? "", { w: 160 });
     return null;
   }, []);
 
