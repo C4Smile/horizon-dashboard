@@ -249,6 +249,9 @@ body {
   background-color: var(--color-surface-raised);
   border-radius: 0 0.5rem 0.5rem 0.5rem;
   padding: 1.25rem;
+  /* the tab forms carry an mt-5 from when the panel had no surface of its
+     own; it is the whole gap between the active tab and the panel */
+  margin-top: 0;
 }
 
 /* Form layout: the fields stack in the first column with their images in a
