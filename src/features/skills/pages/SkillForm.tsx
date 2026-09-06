@@ -123,7 +123,7 @@ function SkillForm() {
       //* PARSING PHOTO
       setPhoto(skillQuery.data?.image);
 
-      setLastUpdate(skillQuery?.data?.updatedAt ?? "");
+      setLastUpdate(String(skillQuery?.data?.updatedAt ?? ""));
       // the api stores html, the input edits draft state; the query
       // cache is left alone
       reset({

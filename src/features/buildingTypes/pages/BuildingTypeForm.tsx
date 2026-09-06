@@ -109,7 +109,7 @@ function BuildingTypeForm() {
       //* PARSING PHOTO
       setPhoto(buildingTypeQuery.data?.image);
 
-      setUpdatedAt(buildingTypeQuery?.data?.updatedAt);
+      setUpdatedAt(String(buildingTypeQuery?.data?.updatedAt ?? ""));
       reset({ ...buildingTypeQuery.data });
     }
 

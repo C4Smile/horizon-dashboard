@@ -106,7 +106,7 @@ function GeneralInfo(props: GeneralInfoPropsType) {
     if (cannonQuery.data) {
       //* PARSING PHOTO
 
-      setLastUpdate(cannonQuery?.data?.updatedAt ?? "");
+      setLastUpdate(String(cannonQuery?.data?.updatedAt ?? ""));
       // the api stores html, the input edits draft state; the query
       // cache is left alone
       reset({

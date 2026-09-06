@@ -16,7 +16,6 @@ import { isHttpRequestError } from "api";
 
 // lib
 import { NotificationEnumType } from "lib";
-import { UserUpdateDto } from "features/users";
 
 type SecurityFormType = {
   password: string;
@@ -56,7 +55,7 @@ function Security() {
       }
 
       // the api throws on failure, a resolved call means it went through
-      await horizonApiClient.User.update({ ...d, id: userId } as UserUpdateDto);
+      await horizonApiClient.User.update({ password: d.password, id: userId });
       setNotification("200", { model: t("_entities:entities.user") });
     } catch (e: unknown) {
       console.error(e);

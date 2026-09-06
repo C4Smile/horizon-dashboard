@@ -10,7 +10,7 @@ import { PhotoPreview } from "components";
 import { BaseCommonEntityDto, BaseEntityDto, PhotoDto } from "lib";
 
 export const nameColumn = <
-  TDto extends BaseCommonEntityDto & { deletedAt?: string | null },
+  TDto extends BaseCommonEntityDto & { deletedAt?: Date | null },
 >(): ColumnType<TDto> =>
   ({
     key: "name",

@@ -22,8 +22,10 @@ export const useHorizonQuery = <TResponseDto extends BaseEntityDto>(
   const { sortingBy, setTotal, sortingOrder, currentPage, pageSize, filters } =
     useTableOptions();
 
-  return {
-    ...useQuery({
+  // UseQueryResult is a discriminated union. Spreading it into a new object
+  // collapses the union and the result stops matching ApiQueryResult, so the
+  // extra field is attached to the result rather than copied out of it.
+  const query = useQuery({
       queryKey: [
         queryKey,
         { sortingBy, sortingOrder, currentPage, pageSize },
@@ -37,7 +39,7 @@ export const useHorizonQuery = <TResponseDto extends BaseEntityDto>(
           pageSize,
           ...filters,
         }),
-    }),
-    setTotal,
-  };
+  });
+
+  return Object.assign(query, { setTotal });
 };

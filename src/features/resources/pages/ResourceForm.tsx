@@ -129,7 +129,7 @@ function ResourceForm() {
       //* PARSING PHOTO
       setPhoto(resourceQuery.data?.image);
       setIcon(resourceQuery.data?.icon ?? null);
-      setLastUpdate(resourceQuery?.data?.updatedAt ?? "");
+      setLastUpdate(String(resourceQuery?.data?.updatedAt ?? ""));
       // the api stores html, the input edits draft state; the query
       // cache is left alone
       reset({

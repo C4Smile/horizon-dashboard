@@ -118,7 +118,7 @@ function GeneralInfo(props: GeneralInfoPropsType) {
       setPhoto(shipQuery.data?.image);
       setIcon(shipQuery.data?.icon ?? null);
 
-      setLastUpdate(shipQuery?.data?.updatedAt ?? "");
+      setLastUpdate(String(shipQuery?.data?.updatedAt ?? ""));
       // the api stores html, the input edits draft state; the query
       // cache is left alone
       reset({

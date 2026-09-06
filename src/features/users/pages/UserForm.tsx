@@ -150,7 +150,7 @@ function UserForm() {
       const currentRoleId = parseId(userQuery.data?.roleId);
       const roleId = roleList.find((role) => role.id === currentRoleId);
       reset({ ...userQuery.data, roleId: roleId?.id });
-      setLastUpdate(userQuery?.data?.updatedAt ?? "");
+      setLastUpdate(String(userQuery?.data?.updatedAt ?? ""));
     }
 
     if (!id) {

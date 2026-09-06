@@ -109,7 +109,7 @@ function TechTypeForm() {
       //* PARSING PHOTO
       setPhoto(techTypeQuery.data?.image);
 
-      setUpdatedAt(techTypeQuery?.data?.updatedAt);
+      setUpdatedAt(String(techTypeQuery?.data?.updatedAt ?? ""));
       reset({ ...techTypeQuery.data });
     }
 

@@ -1,6 +1,5 @@
-import { DeleteDto } from "lib";
+import { BaseResourceDto } from "lib";
 
-export interface ShipCostDto extends DeleteDto {
+export interface ShipCostDto extends BaseResourceDto {
   shipId: number;
-  resourceId: number;
 }

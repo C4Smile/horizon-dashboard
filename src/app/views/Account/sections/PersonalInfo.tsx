@@ -102,7 +102,7 @@ function PersonalInfo() {
     if (userQuery.data) {
       if (userQuery.data?.image) setPhoto(userQuery?.data?.image);
       reset({ ...userQuery.data });
-      setLastUpdate(userQuery?.data?.updatedAt ?? "");
+      setLastUpdate(String(userQuery?.data?.updatedAt ?? ""));
     }
 
     if (!id) {

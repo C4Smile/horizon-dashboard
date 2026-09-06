@@ -198,10 +198,9 @@ function CannonForm() {
             horizonApiClient.Cannon.cannonReqBuildings.insert(Number(id), data)
           }
           deleteFn={async (id, resourceId) =>
-            horizonApiClient.Cannon.cannonReqBuildings.deleteSingle(
-              id,
+            horizonApiClient.Cannon.cannonReqBuildings.delete(Number(id), [
               resourceId,
-            )
+            ])
           }
         />
       ),

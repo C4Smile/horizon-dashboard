@@ -130,7 +130,7 @@ export function GeneralInfo(props: GeneralInfoPropsType) {
       //* PARSING PHOTO
       setPhoto(techQuery.data?.image ?? null);
 
-      setLastUpdate(techQuery?.data?.updatedAt ?? "");
+      setLastUpdate(String(techQuery?.data?.updatedAt ?? ""));
       // the api stores html, the input edits draft state; the query
       // cache is left alone
       reset({

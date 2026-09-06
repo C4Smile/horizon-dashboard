@@ -130,7 +130,7 @@ function GeneralInfo(props: GeneralInfoPropsType) {
       //* PARSING PHOTO
       setPhoto(buildingQuery.data?.image);
 
-      setLastUpdate(buildingQuery?.data?.updatedAt ?? "");
+      setLastUpdate(String(buildingQuery?.data?.updatedAt ?? ""));
       // the api stores html, the input edits draft state; the query
       // cache is left alone
       reset({

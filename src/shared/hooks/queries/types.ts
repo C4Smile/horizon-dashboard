@@ -18,7 +18,7 @@ export type UseFetchByIdPropsType = {
 };
 
 export type UseApiQueryPropsType<TResponseDto extends BaseEntityDto> = {
-  getFunction: (query: BaseFilterDto) => Promise<QueryResult<TResponseDto[]>>;
+  getFunction: (query: BaseFilterDto) => Promise<QueryResult<TResponseDto>>;
   queryKey: QueryKey;
 };
 
