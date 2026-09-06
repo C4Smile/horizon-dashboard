@@ -171,50 +171,55 @@ function SkillForm() {
             )}
           </div>
         )}
-        {/* Skill Image */}
-        <div className="my-5">
-          {skillQuery.isLoading ? (
-            <Loading />
-          ) : (
-            <ImageUploader
-              photo={photo}
-              setPhoto={setPhoto}
-              label={t("_entities:skill.image.label")}
-              folder={ReactQueryKeys.Skills}
+        <div className="form-grid">
+          <div className="form-column gap-5">
+            {/* Skill Image */}
+            <div className="form-images my-5">
+              {skillQuery.isLoading ? (
+                <Loading />
+              ) : (
+                <ImageUploader
+                  photo={photo}
+                  setPhoto={setPhoto}
+                  label={t("_entities:skill.image.label")}
+                  folder={ReactQueryKeys.Skills}
+                />
+              )}
+            </div>
+            {/* Skill Name */}
+            <Controller
+              control={control}
+              disabled={skillQuery.isLoading || saving}
+              name="name"
+              render={({ field }) => (
+                <TextInput
+                  {...field}
+                  type="text"
+                  id="name"
+                  placeholder={t("_entities:skill.name.placeholder")}
+                  label={t("_entities:skill.name.label")}
+                  required
+                />
+              )}
             />
-          )}
+          </div>
+
+          {/* Skill description */}
+          <Controller
+            control={control}
+            name="description"
+            disabled={skillQuery.isLoading || saving}
+            render={({ field: { onChange, value, ...rest } }) => (
+              <HtmlInput
+                label={t("_entities:skill.description.label")}
+                wrapperClassName="w-full"
+                {...rest}
+                value={value}
+                onChange={onChange}
+              />
+            )}
+          />
         </div>
-        {/* Skill Name */}
-        <Controller
-          control={control}
-          disabled={skillQuery.isLoading || saving}
-          name="name"
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              type="text"
-              id="name"
-              placeholder={t("_entities:skill.name.placeholder")}
-              label={t("_entities:skill.name.label")}
-              required
-            />
-          )}
-        />
-        {/* Skill description */}
-        <Controller
-          control={control}
-          name="description"
-          disabled={skillQuery.isLoading || saving}
-          render={({ field: { onChange, value, ...rest } }) => (
-            <HtmlInput
-              label={t("_entities:skill.description.label")}
-              wrapperClassName="mt-5 w-full"
-              {...rest}
-              value={value}
-              onChange={onChange}
-            />
-          )}
-        />
 
         <SaveFab
           disabled={skillQuery.isLoading || saving}

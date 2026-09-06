@@ -150,93 +150,97 @@ function GeneralInfo(props: GeneralInfoPropsType) {
         </>
       ) : null}
 
-      {/* Cannon Name */}
-      <Controller
-        control={control}
-        disabled={cannonQuery.isLoading || saving}
-        name="name"
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            type="text"
+      <div className="form-grid">
+        <div className="form-column gap-5">
+          {/* Cannon Name */}
+          <Controller
+            control={control}
+            disabled={cannonQuery.isLoading || saving}
             name="name"
-            id="name"
-            placeholder={t("_entities:cannon.name.placeholder")}
-            label={t("_entities:cannon.name.label")}
-            required
+            render={({ field }) => (
+              <TextInput
+                {...field}
+                type="text"
+                name="name"
+                id="name"
+                placeholder={t("_entities:cannon.name.placeholder")}
+                label={t("_entities:cannon.name.label")}
+                required
+              />
+            )}
           />
-        )}
-      />
 
-      {/* Cannon Weight */}
-      <Controller
-        control={control}
-        disabled={cannonQuery.isLoading || saving}
-        name="weight"
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            type="number"
+          {/* Cannon Weight */}
+          <Controller
+            control={control}
+            disabled={cannonQuery.isLoading || saving}
             name="weight"
-            id="weight"
-            placeholder={t("_entities:cannon.weight.placeholder")}
-            label={t("_entities:cannon.weight.label")}
-            required
+            render={({ field }) => (
+              <TextInput
+                {...field}
+                type="number"
+                name="weight"
+                id="weight"
+                placeholder={t("_entities:cannon.weight.placeholder")}
+                label={t("_entities:cannon.weight.label")}
+                required
+              />
+            )}
           />
-        )}
-      />
 
-      {/* Cannon Base Damage */}
-      <Controller
-        control={control}
-        disabled={cannonQuery.isLoading || saving}
-        name="baseDamage"
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            type="number"
+          {/* Cannon Base Damage */}
+          <Controller
+            control={control}
+            disabled={cannonQuery.isLoading || saving}
             name="baseDamage"
-            id="baseDamage"
-            placeholder={t("_entities:cannon.baseDamage.placeholder")}
-            label={t("_entities:cannon.baseDamage.label")}
-            required
+            render={({ field }) => (
+              <TextInput
+                {...field}
+                type="number"
+                name="baseDamage"
+                id="baseDamage"
+                placeholder={t("_entities:cannon.baseDamage.placeholder")}
+                label={t("_entities:cannon.baseDamage.label")}
+                required
+              />
+            )}
           />
-        )}
-      />
 
-      {/* Cannon Creation Time */}
-      <Controller
-        control={control}
-        disabled={cannonQuery.isLoading || saving}
-        name="creationTime"
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            type="number"
+          {/* Cannon Creation Time */}
+          <Controller
+            control={control}
+            disabled={cannonQuery.isLoading || saving}
             name="creationTime"
-            id="creationTime"
-            placeholder={t("_entities:cannon.creationTime.placeholder")}
-            label={t("_entities:cannon.creationTime.label")}
-            required
+            render={({ field }) => (
+              <TextInput
+                {...field}
+                type="number"
+                name="creationTime"
+                id="creationTime"
+                placeholder={t("_entities:cannon.creationTime.placeholder")}
+                label={t("_entities:cannon.creationTime.label")}
+                required
+              />
+            )}
           />
-        )}
-      />
+        </div>
 
-      {/* Cannon description */}
-      <Controller
-        control={control}
-        name="description"
-        disabled={cannonQuery.isLoading || saving}
-        render={({ field: { onChange, value, ...rest } }) => (
-          <HtmlInput
-            label={t("_entities:cannon.description.label")}
-            wrapperClassName="mt-5 w-full"
-            {...rest}
-            value={value}
-            onChange={onChange}
-          />
-        )}
-      />
+        {/* Cannon description */}
+        <Controller
+          control={control}
+          name="description"
+          disabled={cannonQuery.isLoading || saving}
+          render={({ field: { onChange, value, ...rest } }) => (
+            <HtmlInput
+              label={t("_entities:cannon.description.label")}
+              wrapperClassName="w-full"
+              {...rest}
+              value={value}
+              onChange={onChange}
+            />
+          )}
+        />
+      </div>
 
       <SaveFab
         disabled={cannonQuery.isLoading || saving}
