@@ -100,6 +100,14 @@ Rules:
 - `app/` wires the application together and owns the screens that belong to no
   single entity.
 
+Documented exception (section 1 requires naming these):
+
+- A handful of `shared/components` reach for `providers` and `layouts`, which
+  live under `app/`. They need the api client and the entity navigation, and
+  both are wired at the root. Closing it means those components taking what
+  they need as props, or the library's own `useManager()` in place of the
+  horizon wrapper. Until then, this is the one arrow pointing the wrong way.
+
 ## 7) Feature-Level File Structure (Mandatory)
 
 When creating or refactoring hooks/components, use this per-feature structure:

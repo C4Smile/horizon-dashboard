@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { HorizonProvider } from "providers";
 
 // App
-import App from "./App";
+import App from "./app/App";
 
 // i18
 import "./i18.js";
@@ -13,7 +13,7 @@ import "./i18.js";
 // styles
 import "@sito/dashboard-app/theme.css";
 import "./index.css";
-import "./components/Forms/styles.css";
+import "components/Forms/styles.css";
 
 // fonts
 import "@fontsource/poppins/index.css";

@@ -1,0 +1,276 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
+// lib
+import { FormValues } from "lib";
+import { ResourceDto } from "../lib";
+import { useQuery } from "@tanstack/react-query";
+import { useForm, Controller } from "react-hook-form";
+import loadable from "@loadable/component";
+
+// @sito/dashboard-app
+import { Loading, TextInput } from "@sito/dashboard-app";
+
+// utils
+import { toEditorState } from "utils";
+
+// editor
+
+// components
+import { ImageFormType, ImageUploader } from "components";
+
+// providers
+import { useNotification, queryClient, useHorizonApiClient } from "providers";
+
+// utils
+import { ReactQueryKeys } from "utils/queryKeys";
+
+// api
+import { isHttpRequestError } from "api";
+
+// loadable
+const HtmlInput = loadable(() =>
+  import("components").then((module) => ({
+    default: module.HtmlInput,
+  })),
+);
+
+// pages
+const NotFound = loadable(() => import("components/NotFound/NotFound"));
+
+/**
+ * Resource Form page component
+ * @returns Resource Form page component
+ */
+function ResourceForm() {
+  const { id } = useParams();
+
+  const { t } = useTranslation();
+
+  const horizonApiClient = useHorizonApiClient();
+
+  const [notFound, setNotFound] = useState(false);
+
+  const { setNotification } = useNotification();
+  const [saving, setSaving] = useState(false);
+  const [updatedAt, setLastUpdate] = useState<string>("");
+
+  const { handleSubmit, reset, control } = useForm<FormValues<ResourceDto>>();
+
+  const [photo, setPhoto] = useState<ImageFormType | null>(null);
+  const [icon, setIcon] = useState<ImageFormType | null>(null);
+
+  const onSubmit = async (d: FormValues<ResourceDto>) => {
+    setSaving(true);
+
+    try {
+      let result;
+      if (!d.id) result = await horizonApiClient.Resource.createFromForm(d, photo, icon);
+      else result = await horizonApiClient.Resource.updateFromForm(d, photo, icon);
+
+      const { error, status } = result;
+      setNotification(String(status), {
+        model: t("_entities:entities.resource"),
+        },
+      );
+      setLastUpdate(new Date().toDateString());
+      // eslint-disable-next-line no-console
+      if (error) console.error(error.message);
+      else {
+        await queryClient.invalidateQueries({
+          queryKey: [ReactQueryKeys.Resources],
+        });
+        if (id !== undefined)
+          await queryClient.invalidateQueries({
+            queryKey: [ReactQueryKeys.Resources, id],
+          });
+        else {
+          setPhoto(null);
+          setIcon(null);
+          reset({
+            id: undefined,
+            name: "",
+            baseFactor: 0,
+            description: "",
+          });
+        }
+      }
+    } catch (e: unknown) {
+      console.error(e);
+      setNotification(
+        isHttpRequestError(e) ? String(e.status) : "notConnected",
+        {
+        model: t("_entities:entities.resource"),
+        },
+      );
+    }
+    setSaving(false);
+  };
+
+  const resourceQuery = useQuery({
+    queryKey: [ReactQueryKeys.Resources, id],
+    queryFn: () => horizonApiClient.Resource.getById(Number(id)),
+    enabled: id !== undefined,
+  });
+
+  useEffect(() => {
+    // the api throws instead of answering { data, status }, so the failure
+    // shows up as the query error, never as a field on data
+    const { error } = resourceQuery;
+    if (!error) return;
+
+    console.error(error);
+    if (isHttpRequestError(error) && error.status === 404) setNotFound(true);
+  }, [resourceQuery]);
+
+  useEffect(() => {
+    if (resourceQuery.data) {
+      //* PARSING PHOTO
+      setPhoto(resourceQuery.data?.image);
+      setIcon(resourceQuery.data?.icon ?? null);
+      setLastUpdate(resourceQuery?.data?.updatedAt ?? "");
+      // the api stores html, the input edits draft state; the query
+      // cache is left alone
+      reset({
+        ...resourceQuery.data,
+        description: toEditorState(resourceQuery.data.description),
+      });
+    }
+
+    if (!id) {
+      setPhoto(null);
+      setIcon(null);
+      reset({
+        id: undefined,
+        name: "",
+        baseFactor: 0,
+        description: "",
+      });
+    }
+  }, [resourceQuery.data, reset, id]);
+
+  return notFound ? (
+    <NotFound />
+  ) : (
+    <div className="px-5 pt-10 flex items-start justify-start">
+      <form onSubmit={handleSubmit(onSubmit)} className="form">
+        <h1 className="text-2xl md:text-3xl font-bold">
+          {id
+            ? `${t("_accessibility:components.form.editing")} ${id}`
+            : t("_pages:resources.newForm")}
+        </h1>
+        {resourceQuery.isLoading ? (
+          <Loading
+            className="bg-none w-6 h-6 mb-10"
+            strokeWidth="4"
+            loaderClass="!w-6"
+            color="stroke-primary"
+          />
+        ) : (
+          <div className={id && updatedAt ? "" : "mt-5"}>
+            {id && updatedAt && (
+              <p className="text-sm mb-10">
+                {t("_accessibility:labels.updatedAt")}{" "}
+                {new Date(updatedAt).toLocaleDateString("es-ES")}
+              </p>
+            )}
+          </div>
+        )}
+        {/* Resource Name */}
+        <Controller
+          control={control}
+          disabled={resourceQuery.isLoading || saving}
+          name="name"
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="text"
+              id="name"
+              placeholder={t("_entities:resource.name.placeholder")}
+              label={t("_entities:resource.name.label")}
+              required
+            />
+          )}
+        />
+        {/* Resource Base Factor */}
+        <Controller
+          control={control}
+          disabled={resourceQuery.isLoading || saving}
+          name="baseFactor"
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="text"
+              id="baseFactor"
+              placeholder={t("_entities:resource.baseFactor.placeholder")}
+              label={t("_entities:resource.baseFactor.label")}
+              required
+            />
+          )}
+        />
+
+        {/* Resource Image */}
+        <div className="my-5">
+          {resourceQuery.isLoading ? (
+            <Loading />
+          ) : (
+            <ImageUploader
+              photo={photo}
+              setPhoto={setPhoto}
+              label={t("_entities:resource.image.label")}
+              folder={ReactQueryKeys.Resources}
+            />
+          )}
+        </div>
+
+        {/* Resource Icon */}
+        <div className="my-5">
+          {resourceQuery.isLoading ? (
+            <Loading />
+          ) : (
+            <ImageUploader
+              photo={icon}
+              setPhoto={setIcon}
+              label={t("_entities:resource.icon.label")}
+              folder={`${ReactQueryKeys.Resources}/iconos`}
+            />
+          )}
+        </div>
+        {/* Resource description */}
+        <Controller
+          control={control}
+          name="description"
+          disabled={resourceQuery.isLoading || saving}
+          render={({ field: { onChange, value, ...rest } }) => (
+            <HtmlInput
+              label={t("_entities:resource.description.label")}
+              wrapperClassName="mt-5 w-full"
+              {...rest}
+              value={value}
+              onChange={onChange}
+            />
+          )}
+        />
+
+        <button
+          type="submit"
+          disabled={resourceQuery.isLoading || saving}
+          className="my-5 submit"
+        >
+          {(resourceQuery.isLoading || saving) && (
+            <Loading
+              className="button-loading"
+              strokeWidth="4"
+              loaderClass="!w-6"
+              color="stroke-white"
+            />
+          )}
+          {t("_accessibility:buttons.save")}
+        </button>
+      </form>
+    </div>
+  );
+}
+
+export default ResourceForm;

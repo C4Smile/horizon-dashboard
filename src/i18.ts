@@ -1,13 +1,13 @@
 import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
-import { namespaces } from "./lang/nameSpaces";
+import { namespaces } from "lang/nameSpaces";
 
 // resources
 // es
-import esAccessibility from "./lang/es/_accessibility.json";
-import esEntities from "./lang/es/_entities.json";
-import esPages from "./lang/es/_pages.json";
+import esAccessibility from "lang/es/_accessibility.json";
+import esEntities from "lang/es/_entities.json";
+import esPages from "lang/es/_pages.json";
 
 i18n
   // detect user language

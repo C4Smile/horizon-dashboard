@@ -1,5 +1,5 @@
 /* Additional styles */
-@import "./css/variables.css";
+@import "shared/styles/variables.css";
 
 .small-image {
   @apply w-10 h-10 min-h-10 min-w-10;
