@@ -78,7 +78,7 @@ function TechForm() {
           image: c.image,
         })) ?? []
       );
-    } catch (err) {
+    } catch {
       return [];
     }
   }, [resourcesQuery.data]);
@@ -103,7 +103,7 @@ function TechForm() {
             image: c.image,
           })) ?? []
       );
-    } catch (err) {
+    } catch {
       return [];
     }
   }, [id, techsQuery?.data]);
@@ -126,7 +126,7 @@ function TechForm() {
           image: c.image,
         })) ?? []
       );
-    } catch (err) {
+    } catch {
       return [];
     }
   }, [buildingsQuery?.data]);
@@ -137,9 +137,9 @@ function TechForm() {
     () =>
       techTabs
         .filter((tab) => (tab.hide ? tab.hide(!!id) : true))
-        .map(({ id }) => ({
-          id,
-          label: t(`_pages:techs.tabs.${id}`),
+        .map(({ id: tabId }) => ({
+          id: tabId,
+          label: t(`_pages:techs.tabs.${tabId}`),
         })),
     [id, t],
   );
@@ -157,11 +157,11 @@ function TechForm() {
           inputKey={"baseProduction"}
           queryKey={[ReactQueryKeys.TechProduces, id]}
           queryFn={() => horizonApiClient.Tech.techProductions.get(Number(id))}
-          saveFn={async (id, data: TechProduceAddDto) =>
-            horizonApiClient.Tech.techProductions.insert(Number(id), data)
+          saveFn={async (entityId, data: TechProduceAddDto) =>
+            horizonApiClient.Tech.techProductions.insert(Number(entityId), data)
           }
-          deleteFn={async (id, resourceId) =>
-            horizonApiClient.Tech.techProductions.delete(Number(id), [
+          deleteFn={async (entityId, resourceId) =>
+            horizonApiClient.Tech.techProductions.delete(Number(entityId), [
               resourceId,
             ])
           }
@@ -177,11 +177,13 @@ function TechForm() {
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.TechCosts, id]}
           queryFn={() => horizonApiClient.Tech.techCosts.get(Number(id))}
-          saveFn={async (id, data: TechCostAddDto) =>
-            horizonApiClient.Tech.techCosts.insert(Number(id), data)
+          saveFn={async (entityId, data: TechCostAddDto) =>
+            horizonApiClient.Tech.techCosts.insert(Number(entityId), data)
           }
-          deleteFn={async (id, resourceId) =>
-            horizonApiClient.Tech.techCosts.delete(Number(id), [resourceId])
+          deleteFn={async (entityId, resourceId) =>
+            horizonApiClient.Tech.techCosts.delete(Number(entityId), [
+              resourceId,
+            ])
           }
         />
       ),
@@ -195,11 +197,13 @@ function TechForm() {
           inputKey={"techLevel"}
           queryKey={[ReactQueryKeys.TechRequirements, ReactQueryKeys.Techs, id]}
           queryFn={() => horizonApiClient.Tech.techReqTechs.get(Number(id))}
-          saveFn={async (id, data: TechReqTechAddDto) =>
-            horizonApiClient.Tech.techReqTechs.insert(Number(id), data)
+          saveFn={async (entityId, data: TechReqTechAddDto) =>
+            horizonApiClient.Tech.techReqTechs.insert(Number(entityId), data)
           }
-          deleteFn={async (id, resourceId) =>
-            horizonApiClient.Tech.techReqTechs.delete(Number(id), [resourceId])
+          deleteFn={async (entityId, resourceId) =>
+            horizonApiClient.Tech.techReqTechs.delete(Number(entityId), [
+              resourceId,
+            ])
           }
         />
       ),
@@ -217,11 +221,14 @@ function TechForm() {
             id,
           ]}
           queryFn={() => horizonApiClient.Tech.techReqBuildings.get(Number(id))}
-          saveFn={async (id, data: TechReqBuildingAddDto) =>
-            horizonApiClient.Tech.techReqBuildings.insert(Number(id), data)
+          saveFn={async (entityId, data: TechReqBuildingAddDto) =>
+            horizonApiClient.Tech.techReqBuildings.insert(
+              Number(entityId),
+              data,
+            )
           }
-          deleteFn={async (id, resourceId) =>
-            horizonApiClient.Tech.techReqBuildings.delete(Number(id), [
+          deleteFn={async (entityId, resourceId) =>
+            horizonApiClient.Tech.techReqBuildings.delete(Number(entityId), [
               resourceId,
             ])
           }

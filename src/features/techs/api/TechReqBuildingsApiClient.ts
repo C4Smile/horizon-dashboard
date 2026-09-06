@@ -5,7 +5,11 @@ import { BaseManyApiClient } from "api/utils";
 import { Tables } from "api/types";
 
 // lib
-import { TechReqBuildingDto, TechReqBuildingAddDto, TechReqBuildingFilterDto } from "../lib";
+import {
+  TechReqBuildingDto,
+  TechReqBuildingAddDto,
+  TechReqBuildingFilterDto,
+} from "../lib";
 
 /**
  * @class TechReqBuildingsApiClient

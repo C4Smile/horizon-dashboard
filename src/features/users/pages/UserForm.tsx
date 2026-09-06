@@ -133,7 +133,7 @@ function UserForm() {
           id: c.id,
         })) ?? []
       );
-    } catch (err) {
+    } catch {
       return [];
     }
   }, [roleQuery.data]);

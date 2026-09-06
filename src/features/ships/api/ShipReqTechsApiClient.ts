@@ -5,7 +5,11 @@ import { BaseManyApiClient } from "api/utils";
 import { Tables } from "api/types";
 
 // lib
-import { ShipReqTechDto, ShipReqTechAddDto, ShipReqTechFilterDto } from "../lib";
+import {
+  ShipReqTechDto,
+  ShipReqTechAddDto,
+  ShipReqTechFilterDto,
+} from "../lib";
 
 /**
  * @class ShipReqTechsApiClient

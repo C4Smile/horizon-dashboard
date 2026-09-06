@@ -78,7 +78,7 @@ function ShipForm() {
           image: c.image,
         })) ?? []
       );
-    } catch (err) {
+    } catch {
       return [];
     }
   }, [resourcesQuery.data]);
@@ -101,7 +101,7 @@ function ShipForm() {
           image: c.image,
         })) ?? []
       );
-    } catch (err) {
+    } catch {
       return [];
     }
   }, [techsQuery.data]);
@@ -124,7 +124,7 @@ function ShipForm() {
           image: c.image,
         })) ?? []
       );
-    } catch (err) {
+    } catch {
       return [];
     }
   }, [buildingsQuery?.data]);
@@ -135,9 +135,9 @@ function ShipForm() {
     () =>
       shipTabs
         .filter((tab) => (tab.hide ? tab.hide(!!id) : true))
-        .map(({ id }) => ({
-          id,
-          label: t(`_pages:ships.tabs.${id}`),
+        .map(({ id: tabId }) => ({
+          id: tabId,
+          label: t(`_pages:ships.tabs.${tabId}`),
         })),
     [id, t],
   );
@@ -155,11 +155,13 @@ function ShipForm() {
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.ShipCosts, id]}
           queryFn={() => horizonApiClient.Ship.shipCosts.get(Number(id))}
-          saveFn={async (id, data: ShipCostAddDto) =>
-            horizonApiClient.Ship.shipCosts.insert(Number(id), data)
+          saveFn={async (entityId, data: ShipCostAddDto) =>
+            horizonApiClient.Ship.shipCosts.insert(Number(entityId), data)
           }
-          deleteFn={async (id, resourceId) =>
-            horizonApiClient.Ship.shipCosts.delete(Number(id), [resourceId])
+          deleteFn={async (entityId, resourceId) =>
+            horizonApiClient.Ship.shipCosts.delete(Number(entityId), [
+              resourceId,
+            ])
           }
         />
       ),
@@ -173,11 +175,13 @@ function ShipForm() {
           inputKey={"baseUpkeep"}
           queryKey={[ReactQueryKeys.ShipUpkeeps, id]}
           queryFn={() => horizonApiClient.Ship.shipUpkeeps.get(Number(id))}
-          saveFn={async (id, data: ShipUpkeepAddDto) =>
-            horizonApiClient.Ship.shipUpkeeps.insert(Number(id), data)
+          saveFn={async (entityId, data: ShipUpkeepAddDto) =>
+            horizonApiClient.Ship.shipUpkeeps.insert(Number(entityId), data)
           }
-          deleteFn={async (id, resourceId) =>
-            horizonApiClient.Ship.shipUpkeeps.delete(Number(id), [resourceId])
+          deleteFn={async (entityId, resourceId) =>
+            horizonApiClient.Ship.shipUpkeeps.delete(Number(entityId), [
+              resourceId,
+            ])
           }
         />
       ),
@@ -191,11 +195,13 @@ function ShipForm() {
           inputKey={"techLevel"}
           queryKey={[ReactQueryKeys.ShipRequirements, ReactQueryKeys.Techs, id]}
           queryFn={() => horizonApiClient.Ship.shipReqTechs.get(Number(id))}
-          saveFn={async (id, data: ShipReqTechAddDto) =>
-            horizonApiClient.Ship.shipReqTechs.insert(Number(id), data)
+          saveFn={async (entityId, data: ShipReqTechAddDto) =>
+            horizonApiClient.Ship.shipReqTechs.insert(Number(entityId), data)
           }
-          deleteFn={async (id, resourceId) =>
-            horizonApiClient.Ship.shipReqTechs.delete(Number(id), [resourceId])
+          deleteFn={async (entityId, resourceId) =>
+            horizonApiClient.Ship.shipReqTechs.delete(Number(entityId), [
+              resourceId,
+            ])
           }
         />
       ),
@@ -213,11 +219,14 @@ function ShipForm() {
             id,
           ]}
           queryFn={() => horizonApiClient.Ship.shipReqBuildings.get(Number(id))}
-          saveFn={async (id, data: ShipReqBuildingAddDto) =>
-            horizonApiClient.Ship.shipReqBuildings.insert(Number(id), data)
+          saveFn={async (entityId, data: ShipReqBuildingAddDto) =>
+            horizonApiClient.Ship.shipReqBuildings.insert(
+              Number(entityId),
+              data,
+            )
           }
-          deleteFn={async (id, resourceId) =>
-            horizonApiClient.Ship.shipReqBuildings.delete(Number(id), [
+          deleteFn={async (entityId, resourceId) =>
+            horizonApiClient.Ship.shipReqBuildings.delete(Number(entityId), [
               resourceId,
             ])
           }

@@ -64,12 +64,12 @@ function BuildingPage() {
   });
 
   const restoreAction = useRestoreDialog({
-    mutationFn: (data) => horizonApiClient.Building.restore(data),
+    mutationFn: (ids) => horizonApiClient.Building.restore(ids),
     ...BuildingsQueryKeys.all(),
   });
 
   const deleteAction = useDeleteDialog({
-    mutationFn: (data) => horizonApiClient.Building.softDelete(data),
+    mutationFn: (ids) => horizonApiClient.Building.softDelete(ids),
     ...BuildingsQueryKeys.all(),
   });
 

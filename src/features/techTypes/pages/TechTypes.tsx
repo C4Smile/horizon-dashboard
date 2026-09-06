@@ -52,12 +52,12 @@ function TechTypes() {
   });
 
   const restoreAction = useRestoreDialog({
-    mutationFn: (data) => horizonApiClient.TechType.restore(data),
+    mutationFn: (ids) => horizonApiClient.TechType.restore(ids),
     ...TechTypesQueryKeys.all(),
   });
 
   const deleteAction = useDeleteDialog({
-    mutationFn: (data) => horizonApiClient.TechType.softDelete(data),
+    mutationFn: (ids) => horizonApiClient.TechType.softDelete(ids),
     ...TechTypesQueryKeys.all(),
   });
 

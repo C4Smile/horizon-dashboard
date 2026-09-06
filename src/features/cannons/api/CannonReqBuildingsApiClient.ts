@@ -5,7 +5,11 @@ import { BaseManyApiClient } from "api/utils";
 import { Tables } from "api/types";
 
 // lib
-import { CannonReqBuildingAddDto, CannonReqBuildingDto, CannonReqBuildingFilterDto } from "../lib";
+import {
+  CannonReqBuildingAddDto,
+  CannonReqBuildingDto,
+  CannonReqBuildingFilterDto,
+} from "../lib";
 
 /**
  * @class CannonReqBuildingsApiClient

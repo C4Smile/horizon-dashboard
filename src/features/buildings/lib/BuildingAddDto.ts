@@ -7,5 +7,5 @@ export type BuildingAddDto = Omit<
   OmitBaseEntityDto | "image" | "type"
 > &
   ImageWriteDto & {
-  typeId: number;
+    typeId: number;
   };

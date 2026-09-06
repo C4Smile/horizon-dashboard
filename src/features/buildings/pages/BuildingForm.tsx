@@ -144,10 +144,10 @@ function BuildingForm() {
     () =>
       buildingTabs
         .filter((tab) => (tab.hide ? tab.hide(!!id) : true))
-        .map(({ id }) => ({
+        .map(({ id: tabId }) => ({
           // the tab id is the content key, not a number
-          id,
-          label: t(`_pages:buildings.tabs.${id}`),
+          id: tabId,
+          label: t(`_pages:buildings.tabs.${tabId}`),
         })),
     [id, t],
   );
@@ -167,16 +167,17 @@ function BuildingForm() {
           queryFn={() =>
             horizonApiClient.Building.buildingProductions.get(Number(id))
           }
-          saveFn={async (id: number, data: BuildingProduceAddDto) =>
+          saveFn={async (entityId: number, data: BuildingProduceAddDto) =>
             horizonApiClient.Building.buildingProductions.insert(
-              Number(id),
+              Number(entityId),
               data,
             )
           }
-          deleteFn={async (id: number, resourceId: number) =>
-            horizonApiClient.Building.buildingProductions.delete(Number(id), [
-              resourceId,
-            ])
+          deleteFn={async (entityId: number, resourceId: number) =>
+            horizonApiClient.Building.buildingProductions.delete(
+              Number(entityId),
+              [resourceId],
+            )
           }
         />
       ),
@@ -192,11 +193,14 @@ function BuildingForm() {
           queryFn={() =>
             horizonApiClient.Building.buildingCosts.get(Number(id))
           }
-          saveFn={async (id: number, data: BuildingCostAddDto) =>
-            horizonApiClient.Building.buildingCosts.insert(Number(id), data)
+          saveFn={async (entityId: number, data: BuildingCostAddDto) =>
+            horizonApiClient.Building.buildingCosts.insert(
+              Number(entityId),
+              data,
+            )
           }
-          deleteFn={async (id: number, resourceId: number) =>
-            horizonApiClient.Building.buildingCosts.delete(Number(id), [
+          deleteFn={async (entityId: number, resourceId: number) =>
+            horizonApiClient.Building.buildingCosts.delete(Number(entityId), [
               resourceId,
             ])
           }
@@ -214,11 +218,14 @@ function BuildingForm() {
           queryFn={() =>
             horizonApiClient.Building.buildingUpkeeps.get(Number(id))
           }
-          saveFn={async (id: number, data: BuildingUpkeepAddDto) =>
-            horizonApiClient.Building.buildingUpkeeps.insert(Number(id), data)
+          saveFn={async (entityId: number, data: BuildingUpkeepAddDto) =>
+            horizonApiClient.Building.buildingUpkeeps.insert(
+              Number(entityId),
+              data,
+            )
           }
-          deleteFn={async (id: number, resourceId: number) =>
-            horizonApiClient.Building.buildingUpkeeps.delete(Number(id), [
+          deleteFn={async (entityId: number, resourceId: number) =>
+            horizonApiClient.Building.buildingUpkeeps.delete(Number(entityId), [
               resourceId,
             ])
           }
@@ -240,13 +247,17 @@ function BuildingForm() {
           queryFn={() =>
             horizonApiClient.Building.buildingReqTechs.get(Number(id))
           }
-          saveFn={async (id: number, data: BuildingReqTechAddDto) =>
-            horizonApiClient.Building.buildingReqTechs.insert(Number(id), data)
+          saveFn={async (entityId: number, data: BuildingReqTechAddDto) =>
+            horizonApiClient.Building.buildingReqTechs.insert(
+              Number(entityId),
+              data,
+            )
           }
-          deleteFn={async (id: number, techId: number) =>
-            horizonApiClient.Building.buildingReqTechs.delete(Number(id), [
-              techId,
-            ])
+          deleteFn={async (entityId: number, techId: number) =>
+            horizonApiClient.Building.buildingReqTechs.delete(
+              Number(entityId),
+              [techId],
+            )
           }
         />
       ),
@@ -266,16 +277,17 @@ function BuildingForm() {
           queryFn={() =>
             horizonApiClient.Building.buildingReqBuildings.get(Number(id))
           }
-          saveFn={async (id: number, data: BuildingReqBuildingAddDto) =>
+          saveFn={async (entityId: number, data: BuildingReqBuildingAddDto) =>
             horizonApiClient.Building.buildingReqBuildings.insert(
-              Number(id),
+              Number(entityId),
               data,
             )
           }
-          deleteFn={async (id: number, buildingId: number) =>
-            horizonApiClient.Building.buildingReqBuildings.delete(Number(id), [
-              buildingId,
-            ])
+          deleteFn={async (entityId: number, buildingId: number) =>
+            horizonApiClient.Building.buildingReqBuildings.delete(
+              Number(entityId),
+              [buildingId],
+            )
           }
         />
       ),

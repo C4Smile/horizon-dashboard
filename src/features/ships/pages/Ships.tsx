@@ -53,12 +53,12 @@ function ShipsPage() {
   });
 
   const restoreAction = useRestoreDialog({
-    mutationFn: (data) => horizonApiClient.Ship.restore(data),
+    mutationFn: (ids) => horizonApiClient.Ship.restore(ids),
     ...ShipsQueryKeys.all(),
   });
 
   const deleteAction = useDeleteDialog({
-    mutationFn: (data) => horizonApiClient.Ship.softDelete(data),
+    mutationFn: (ids) => horizonApiClient.Ship.softDelete(ids),
     ...ShipsQueryKeys.all(),
   });
 

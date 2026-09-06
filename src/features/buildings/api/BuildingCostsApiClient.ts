@@ -5,7 +5,11 @@ import { BaseManyApiClient } from "api/utils";
 import { Tables } from "api/types";
 
 // lib
-import { BuildingCostAddDto, BuildingCostDto, BuildingCostFilterDto } from "../lib";
+import {
+  BuildingCostAddDto,
+  BuildingCostDto,
+  BuildingCostFilterDto,
+} from "../lib";
 
 /**
  * @class BuildingCostsApiClient

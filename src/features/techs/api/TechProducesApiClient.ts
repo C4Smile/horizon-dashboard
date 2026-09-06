@@ -5,7 +5,11 @@ import { BaseManyApiClient } from "api/utils";
 import { Tables } from "api/types";
 
 // lib
-import { TechProduceDto, TechProduceAddDto, TechProduceFilterDto } from "../lib";
+import {
+  TechProduceDto,
+  TechProduceAddDto,
+  TechProduceFilterDto,
+} from "../lib";
 
 /**
  * @class TechProducesApiClient

@@ -18,11 +18,23 @@ export const baseColumns = ["id", "createdAt", "updatedAt", "deletedAt"];
 export const isBaseColumn = (column: string) => baseColumns.includes(column);
 
 /**
+ * The dtos type these as Date to satisfy the shared library while the api
+ * sends iso strings, so the cell can hold either. Anything else, and anything
+ * that does not parse, renders empty rather than "Invalid Date".
+ *
  * @param value - whatever the api put in the cell
  * @returns the date in the local format, empty when there is none
  */
-const toLocalDate = (value: unknown) =>
-  value ? new Date(String(value)).toLocaleDateString("es-ES") : "";
+const toLocalDate = (value: unknown) => {
+  const isDateLike =
+    typeof value === "string" ||
+    typeof value === "number" ||
+    value instanceof Date;
+  if (!isDateLike) return "";
+
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? "" : date.toLocaleDateString("es-ES");
+};
 
 /**
  * The columns every entity has. They come from BaseEntityDto, but the callers

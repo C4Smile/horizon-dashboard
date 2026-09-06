@@ -53,12 +53,12 @@ function ResourcePage() {
   });
 
   const restoreAction = useRestoreDialog({
-    mutationFn: (data) => horizonApiClient.Resource.restore(data),
+    mutationFn: (ids) => horizonApiClient.Resource.restore(ids),
     ...ResourcesQueryKeys.all(),
   });
 
   const deleteAction = useDeleteDialog({
-    mutationFn: (data) => horizonApiClient.Resource.softDelete(data),
+    mutationFn: (ids) => horizonApiClient.Resource.softDelete(ids),
     ...ResourcesQueryKeys.all(),
   });
 

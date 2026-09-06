@@ -59,12 +59,12 @@ function TechPage() {
   });
 
   const restoreAction = useRestoreDialog({
-    mutationFn: (data) => horizonApiClient.Tech.restore(data),
+    mutationFn: (ids) => horizonApiClient.Tech.restore(ids),
     ...TechsQueryKeys.all(),
   });
 
   const deleteAction = useDeleteDialog({
-    mutationFn: (data) => horizonApiClient.Tech.softDelete(data),
+    mutationFn: (ids) => horizonApiClient.Tech.softDelete(ids),
     ...TechsQueryKeys.all(),
   });
 

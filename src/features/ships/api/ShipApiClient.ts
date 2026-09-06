@@ -1,4 +1,3 @@
-
 // apis
 import { ShipCostsApiClient } from "./ShipCostsApiClient.js";
 import { ShipReqTechsApiClient } from "./ShipReqTechsApiClient.js";
@@ -20,7 +19,13 @@ import { Tables } from "api/types/dbUtils";
 
 // lib
 import { FormValues } from "lib";
-import { ShipAddDto, ShipCommonDto, ShipDto, ShipFilterDto, ShipUpdateDto } from "../lib";
+import {
+  ShipAddDto,
+  ShipCommonDto,
+  ShipDto,
+  ShipFilterDto,
+  ShipUpdateDto,
+} from "../lib";
 
 /**
  * @class ShipApiClient
@@ -76,7 +81,11 @@ export class ShipApiClient extends BaseApiClient<
    * @param icon - Icon
    * @returns Transaction status
    */
-  async createFromForm(ship: FormValues<ShipDto>, photo: FormPhoto, icon: FormPhoto) {
+  async createFromForm(
+    ship: FormValues<ShipDto>,
+    photo: FormPhoto,
+    icon: FormPhoto,
+  ) {
     return await this.saveNew(this.toDto(ship, photo, icon));
   }
 
@@ -87,7 +96,11 @@ export class ShipApiClient extends BaseApiClient<
    * @param icon - Icon
    * @returns Transaction status
    */
-  async updateFromForm(ship: FormValues<ShipDto>, photo: FormPhoto, icon: FormPhoto) {
+  async updateFromForm(
+    ship: FormValues<ShipDto>,
+    photo: FormPhoto,
+    icon: FormPhoto,
+  ) {
     return await this.saveExisting({
       id: parseNumber(ship.id),
       ...this.toDto(ship, photo, icon),

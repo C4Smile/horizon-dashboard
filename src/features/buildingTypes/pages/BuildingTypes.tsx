@@ -52,12 +52,12 @@ function BuildingTypes() {
   });
 
   const restoreAction = useRestoreDialog({
-    mutationFn: (data) => horizonApiClient.BuildingType.restore(data),
+    mutationFn: (ids) => horizonApiClient.BuildingType.restore(ids),
     ...BuildingTypesQueryKeys.all(),
   });
 
   const deleteAction = useDeleteDialog({
-    mutationFn: (data) => horizonApiClient.BuildingType.softDelete(data),
+    mutationFn: (ids) => horizonApiClient.BuildingType.softDelete(ids),
     ...BuildingTypesQueryKeys.all(),
   });
 

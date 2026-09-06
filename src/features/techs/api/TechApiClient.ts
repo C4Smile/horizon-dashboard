@@ -1,4 +1,3 @@
-
 // base
 import { BaseApiClient } from "api/utils";
 import {
@@ -20,7 +19,13 @@ import { Tables } from "api/types";
 
 // lib
 import { FormValues } from "lib";
-import { TechAddDto, TechCommonDto, TechDto, TechFilterDto, TechUpdateDto } from "../lib";
+import {
+  TechAddDto,
+  TechCommonDto,
+  TechDto,
+  TechFilterDto,
+  TechUpdateDto,
+} from "../lib";
 
 /**
  * @class TechApiClient

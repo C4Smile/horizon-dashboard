@@ -75,7 +75,7 @@ function GeneralInfo(props: GeneralInfoPropsType) {
           id: c.id,
         })) ?? []
       );
-    } catch (err) {
+    } catch {
       return [];
     }
   }, [typesQuery.data]);

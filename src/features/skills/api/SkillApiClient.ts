@@ -1,14 +1,24 @@
-
 // base
 import { BaseApiClient } from "api/utils";
-import { FormPhoto, parseHtml, parseImage, parseNumber } from "api/utils/formToDto";
+import {
+  FormPhoto,
+  parseHtml,
+  parseImage,
+  parseNumber,
+} from "api/utils/formToDto";
 
 // types
 import { Tables } from "api/types";
 
 // lib
 import { FormValues } from "lib";
-import { SkillAddDto, SkillCommonDto, SkillDto, SkillFilterDto, SkillUpdateDto } from "../lib";
+import {
+  SkillAddDto,
+  SkillCommonDto,
+  SkillDto,
+  SkillFilterDto,
+  SkillUpdateDto,
+} from "../lib";
 
 /**
  * @class SkillApiClient

@@ -13,8 +13,10 @@ export class ImageApiClient {
   async readFileAsBase64(file: File) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
+      reader.addEventListener("load", () => resolve(reader.result), {
+        once: true,
+      });
+      reader.addEventListener("error", reject, { once: true });
       reader.readAsDataURL(file);
     });
   }
@@ -29,8 +31,10 @@ export class ImageApiClient {
     for (const file of files) {
       const parsedFile = await new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
+        reader.addEventListener("load", () => resolve(reader.result), {
+          once: true,
+        });
+        reader.addEventListener("error", reject, { once: true });
         reader.readAsDataURL(file);
       });
       parsed.push(parsedFile);

@@ -5,7 +5,11 @@ import { BaseManyApiClient } from "api/utils";
 import { Tables } from "api/types";
 
 // lib
-import { BuildingUpkeepDto, BuildingUpkeepAddDto, BuildingUpkeepFilterDto } from "../lib";
+import {
+  BuildingUpkeepDto,
+  BuildingUpkeepAddDto,
+  BuildingUpkeepFilterDto,
+} from "../lib";
 
 /**
  * @class BuildingUpkeepsApiClient

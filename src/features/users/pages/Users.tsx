@@ -58,12 +58,12 @@ function Users() {
   });
 
   const restoreAction = useRestoreDialog({
-    mutationFn: (data) => horizonApiClient.User.restore(data),
+    mutationFn: (ids) => horizonApiClient.User.restore(ids),
     ...UsersQueryKeys.all(),
   });
 
   const deleteAction = useDeleteDialog({
-    mutationFn: (data) => horizonApiClient.User.softDelete(data),
+    mutationFn: (ids) => horizonApiClient.User.softDelete(ids),
     ...UsersQueryKeys.all(),
   });
 

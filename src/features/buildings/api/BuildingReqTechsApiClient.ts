@@ -5,7 +5,11 @@ import { BaseManyApiClient } from "api/utils";
 import { Tables } from "api/types";
 
 // lib
-import { BuildingReqTechDto, BuildingReqTechAddDto, BuildingReqTechFilterDto } from "../lib";
+import {
+  BuildingReqTechDto,
+  BuildingReqTechAddDto,
+  BuildingReqTechFilterDto,
+} from "../lib";
 
 /**
  * @class BuildingReqTechsApiClient

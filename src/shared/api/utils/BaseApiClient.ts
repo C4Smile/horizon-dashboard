@@ -138,10 +138,7 @@ export class BaseApiClient<
    * @returns save result
    */
   protected async saveNew(value: TAddDto): Promise<SaveResult<TDto>> {
-    return await this.saveRequest(
-      () => this.insert(value) as Promise<TDto>,
-      201,
-    );
+    return await this.saveRequest(() => this.insert(value), 201);
   }
 
   /**

@@ -60,8 +60,10 @@ function NationForm() {
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.Nation.createFromForm(d, photo, icon);
-      else result = await horizonApiClient.Nation.updateFromForm(d, photo, icon);
+      if (!d.id)
+        result = await horizonApiClient.Nation.createFromForm(d, photo, icon);
+      else
+        result = await horizonApiClient.Nation.updateFromForm(d, photo, icon);
 
       const { error, status } = result;
       setNotification(String(status), {

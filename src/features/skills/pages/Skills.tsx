@@ -48,12 +48,12 @@ function SkillsPage() {
   });
 
   const restoreAction = useRestoreDialog({
-    mutationFn: (data) => horizonApiClient.Skill.restore(data),
+    mutationFn: (ids) => horizonApiClient.Skill.restore(ids),
     ...SkillsQueryKeys.all(),
   });
 
   const deleteAction = useDeleteDialog({
-    mutationFn: (data) => horizonApiClient.Skill.softDelete(data),
+    mutationFn: (ids) => horizonApiClient.Skill.softDelete(ids),
     ...SkillsQueryKeys.all(),
   });
 

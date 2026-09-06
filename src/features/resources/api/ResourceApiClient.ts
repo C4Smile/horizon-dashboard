@@ -1,4 +1,3 @@
-
 // base
 import { BaseApiClient } from "api/utils/BaseApiClient";
 import {
@@ -14,7 +13,13 @@ import { Tables } from "api/types/dbUtils";
 
 // lib
 import { FormValues } from "lib";
-import { ResourceAddDto, ResourceCommonDto, ResourceDto, ResourceFilterDto, ResourceUpdateDto } from "../lib";
+import {
+  ResourceAddDto,
+  ResourceCommonDto,
+  ResourceDto,
+  ResourceFilterDto,
+  ResourceUpdateDto,
+} from "../lib";
 
 /**
  * @class ResourceApiClient
@@ -41,7 +46,11 @@ export class ResourceApiClient extends BaseApiClient<
    * @param icon - icon ImageUploader state
    * @returns resource dto
    */
-  private toDto(resource: FormValues<ResourceDto>, photo: FormPhoto, icon: FormPhoto) {
+  private toDto(
+    resource: FormValues<ResourceDto>,
+    photo: FormPhoto,
+    icon: FormPhoto,
+  ) {
     return {
       name: resource.name ?? "",
       baseFactor: parseNumber(resource.baseFactor),
@@ -58,7 +67,11 @@ export class ResourceApiClient extends BaseApiClient<
    * @param icon - Icon
    * @returns Transaction status
    */
-  async createFromForm(resource: FormValues<ResourceDto>, photo: FormPhoto, icon: FormPhoto) {
+  async createFromForm(
+    resource: FormValues<ResourceDto>,
+    photo: FormPhoto,
+    icon: FormPhoto,
+  ) {
     return await this.saveNew(this.toDto(resource, photo, icon));
   }
 
@@ -69,7 +82,11 @@ export class ResourceApiClient extends BaseApiClient<
    * @param icon - icon
    * @returns Transaction status
    */
-  async updateFromForm(resource: FormValues<ResourceDto>, photo: FormPhoto, icon: FormPhoto) {
+  async updateFromForm(
+    resource: FormValues<ResourceDto>,
+    photo: FormPhoto,
+    icon: FormPhoto,
+  ) {
     return await this.saveExisting({
       id: parseNumber(resource.id),
       ...this.toDto(resource, photo, icon),

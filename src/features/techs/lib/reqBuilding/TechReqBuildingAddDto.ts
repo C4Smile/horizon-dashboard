@@ -4,4 +4,7 @@ import { TechReqBuildingDto } from "./TechReqBuildingDto";
  * What the api takes to create the relation. The owning entity travels in
  * the url and the joined record is read side only.
  */
-export type TechReqBuildingAddDto = Omit<TechReqBuildingDto, "id" | "buildingId">;
+export type TechReqBuildingAddDto = Omit<
+  TechReqBuildingDto,
+  "id" | "buildingId"
+>;

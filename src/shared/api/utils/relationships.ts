@@ -16,8 +16,8 @@ export const parseManyToMany = <T extends BaseEntityDto>(
   const toAdd = [];
   const toRemove = [];
 
-  const getToCompare = (element: T, hasId: boolean) =>
-    hasId ? element[remoteAttribute] : element.id;
+  const getToCompare = (element: T, byRemote: boolean) =>
+    byRemote ? element[remoteAttribute] : element.id;
 
   // adding new elements
   if (localList)

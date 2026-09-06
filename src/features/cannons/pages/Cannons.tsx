@@ -53,12 +53,12 @@ function CannonsPage() {
   });
 
   const restoreAction = useRestoreDialog({
-    mutationFn: (data) => horizonApiClient.Cannon.restore(data),
+    mutationFn: (ids) => horizonApiClient.Cannon.restore(ids),
     ...CannonsQueryKeys.all(),
   });
 
   const deleteAction = useDeleteDialog({
-    mutationFn: (data) => horizonApiClient.Cannon.softDelete(data),
+    mutationFn: (ids) => horizonApiClient.Cannon.softDelete(ids),
     ...CannonsQueryKeys.all(),
   });
 

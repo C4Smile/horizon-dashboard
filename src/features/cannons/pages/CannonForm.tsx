@@ -77,7 +77,7 @@ function CannonForm() {
           image: c.image,
         })) ?? []
       );
-    } catch (err) {
+    } catch {
       return [];
     }
   }, [resourcesQuery.data]);
@@ -100,7 +100,7 @@ function CannonForm() {
           image: c.image,
         })) ?? []
       );
-    } catch (err) {
+    } catch {
       return [];
     }
   }, [techsQuery.data]);
@@ -123,7 +123,7 @@ function CannonForm() {
           image: c.image,
         })) ?? []
       );
-    } catch (err) {
+    } catch {
       return [];
     }
   }, [buildingsQuery?.data]);
@@ -134,9 +134,9 @@ function CannonForm() {
     () =>
       cannonTabs
         .filter((tab) => (tab.hide ? tab.hide(!!id) : true))
-        .map(({ id }) => ({
-          id,
-          label: t(`_pages:cannons.tabs.${id}`),
+        .map(({ id: tabId }) => ({
+          id: tabId,
+          label: t(`_pages:cannons.tabs.${tabId}`),
         })),
     [id, t],
   );
@@ -154,11 +154,13 @@ function CannonForm() {
           inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.CannonCosts, id]}
           queryFn={() => horizonApiClient.Cannon.cannonCosts.get(Number(id))}
-          saveFn={async (id, data: CannonCostAddDto) =>
-            horizonApiClient.Cannon.cannonCosts.insert(Number(id), data)
+          saveFn={async (entityId, data: CannonCostAddDto) =>
+            horizonApiClient.Cannon.cannonCosts.insert(Number(entityId), data)
           }
-          deleteFn={async (id, resourceId) =>
-            horizonApiClient.Cannon.cannonCosts.delete(Number(id), [resourceId])
+          deleteFn={async (entityId, resourceId) =>
+            horizonApiClient.Cannon.cannonCosts.delete(Number(entityId), [
+              resourceId,
+            ])
           }
         />
       ),
@@ -176,11 +178,14 @@ function CannonForm() {
             id,
           ]}
           queryFn={() => horizonApiClient.Cannon.cannonReqTechs.get(Number(id))}
-          saveFn={async (id, data: CannonReqTechAddDto) =>
-            horizonApiClient.Cannon.cannonReqTechs.insert(Number(id), data)
+          saveFn={async (entityId, data: CannonReqTechAddDto) =>
+            horizonApiClient.Cannon.cannonReqTechs.insert(
+              Number(entityId),
+              data,
+            )
           }
-          deleteFn={async (id, resourceId) =>
-            horizonApiClient.Cannon.cannonReqTechs.delete(Number(id), [
+          deleteFn={async (entityId, resourceId) =>
+            horizonApiClient.Cannon.cannonReqTechs.delete(Number(entityId), [
               resourceId,
             ])
           }
@@ -202,13 +207,17 @@ function CannonForm() {
           queryFn={() =>
             horizonApiClient.Cannon.cannonReqBuildings.get(Number(id))
           }
-          saveFn={async (id, data: CannonReqBuildingAddDto) =>
-            horizonApiClient.Cannon.cannonReqBuildings.insert(Number(id), data)
+          saveFn={async (entityId, data: CannonReqBuildingAddDto) =>
+            horizonApiClient.Cannon.cannonReqBuildings.insert(
+              Number(entityId),
+              data,
+            )
           }
-          deleteFn={async (id, resourceId) =>
-            horizonApiClient.Cannon.cannonReqBuildings.delete(Number(id), [
-              resourceId,
-            ])
+          deleteFn={async (entityId, resourceId) =>
+            horizonApiClient.Cannon.cannonReqBuildings.delete(
+              Number(entityId),
+              [resourceId],
+            )
           }
         />
       ),
