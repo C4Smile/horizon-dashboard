@@ -75,4 +75,34 @@ test.describe("E2E Smoke – shell", () => {
     await expect(full).toHaveAttribute("src", thumbSrc ?? "");
     expect((await full.boundingBox())?.width ?? 0).toBeGreaterThan(200);
   });
+  test("the navbar actions move between a model's list and its form", async ({
+    page,
+  }) => {
+    await page.goto("/auth");
+
+    await page.locator("#sign-in-email").fill(USER);
+    await page.locator("#sign-in-password").fill(PASSWORD);
+    await page.getByRole("button", { name: /enviar|entrar|submit/i }).click();
+    await expect(page).not.toHaveURL(/\/auth/, { timeout: 15_000 });
+
+    await page.goto("/game/resources");
+
+    const list = page.getByRole("button", { name: /lista/i });
+    const insert = page.getByRole("button", { name: /insertar/i });
+
+    // the action pointing at the route already open is the disabled one
+    await expect(list).toBeDisabled({ timeout: 15_000 });
+    await expect(insert).toBeEnabled();
+
+    // the insert path used to be built from an undefined translation key, so
+    // this landed on /game/resources/labels.new and rendered the not found page
+    await insert.click();
+    await expect(page).toHaveURL(/\/game\/resources\/new$/, {
+      timeout: 10_000,
+    });
+    await expect(insert).toBeDisabled();
+
+    await list.click();
+    await expect(page).toHaveURL(/\/game\/resources$/, { timeout: 10_000 });
+  });
 });

@@ -108,7 +108,6 @@ function BuildingPage() {
   return (
     <TablePage
       title={t("_pages:game.links.buildings")}
-      pageKey={PageId.buildings}
     >
       <ConfirmationDialog {...deleteAction}>
         <p>{t("_pages:common.actions.delete.dialog.message")}</p>

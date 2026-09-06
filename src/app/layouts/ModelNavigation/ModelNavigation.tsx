@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 
-// components
-import { Links } from "./Links";
+// hooks
+import { useEntityNavbarActions } from "hooks";
 
 // types
 import { ModelNavigationPropsType } from "./types";
@@ -12,9 +12,15 @@ import { ModelNavigationPropsType } from "./types";
  * @returns ModelNavigation layout component
  */
 export function ModelNavigation(props: ModelNavigationPropsType) {
+  const { pageKey, noInsert } = props;
+
+  // the list and insert links used to sit in a bar of their own under the
+  // header. They are navbar actions now, and the layout is the one place that
+  // covers both the list route and the two form routes below it.
+  useEntityNavbarActions(pageKey, { noInsert });
+
   return (
     <div className="h-full">
-      <Links {...props} />
       <div className="p-5 h-full">
         <Outlet />
       </div>

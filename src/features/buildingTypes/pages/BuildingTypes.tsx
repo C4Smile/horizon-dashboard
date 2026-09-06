@@ -84,7 +84,6 @@ function BuildingTypes() {
   return (
     <TablePage
       title={t("_pages:game.links.buildingTypes")}
-      pageKey={PageId.techTypes}
     >
       <ConfirmationDialog {...deleteAction}>
         <p>{t("_pages:common.actions.delete.dialog.message")}</p>
@@ -98,7 +97,7 @@ function BuildingTypes() {
         isLoading={isLoading}
         columns={columns}
         entity={EntityName.BuildingType}
-        toolbar={<TableToolbar pageKey={PageId.techTypes} />}
+        toolbar={<TableToolbar pageKey={PageId.buildingTypes} />}
       />
     </TablePage>
   );

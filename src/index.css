@@ -83,6 +83,29 @@ body {
   background-color: color-mix(in oklab, var(--color-sheen) 12%, transparent);
 }
 
+/* The library hovers these to --color-secondary, which horizon also spends on
+   error labels, so a plain list or insert button flashed salmon. They take a
+   stronger sheen instead, the same light the tiles catch. */
+.navbar-right
+  .actions-container
+  .actions-container-item
+  .action:hover:not(:disabled),
+.page-header .action:hover:not(:disabled) {
+  background-color: color-mix(in oklab, var(--color-sheen) 24%, transparent);
+}
+
+/* and that hover was painted on disabled actions too, at full strength, so
+   the one pointing at the route you are already on looked clickable */
+.navbar-right .actions-container .actions-container-item .action:disabled,
+.page-header .action:disabled {
+  opacity: 0.4;
+}
+
+.navbar-right .actions-container .actions-container-item .action:disabled:hover,
+.page-header .action:disabled:hover {
+  background-color: color-mix(in oklab, var(--color-sheen) 12%, transparent);
+}
+
 /* --color-base-light carries a second, unrelated job: the text laid over the
    coloured chrome and the filled buttons. It was white because the ramp's
    lightest step happened to be white; now that the ramp is dark it has to be

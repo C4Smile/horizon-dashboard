@@ -292,7 +292,9 @@ export const findPathInChildren = (
 
     if (page.children) {
       path = findPathInChildren(targetPageId, page, currentPath + page.path);
-      if (path) return currentPath + page.path;
+      // returning currentPath + page.path here dropped the segment the match
+      // was actually found at, so a grandchild resolved to its parent's route
+      if (path) return path;
     }
   }
   return path;
@@ -321,3 +323,15 @@ export const findPath = (targetPageId: PageId) => {
   }
   return path;
 };
+
+/**
+ * Every model layout mounts its create form as a `New` child route, named
+ * after the list it belongs to. The path used to be built from a translation
+ * key that was never defined, so the insert link pointed at
+ * /game/resources/labels.new and landed on the not found page.
+ *
+ * @param targetPageId list page of the model
+ * @returns path of that model's create form
+ */
+export const findNewPath = (targetPageId: PageId) =>
+  findPath(`${targetPageId}New` as PageId);

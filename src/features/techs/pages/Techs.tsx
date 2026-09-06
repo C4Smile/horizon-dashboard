@@ -101,7 +101,7 @@ function TechPage() {
   );
 
   return (
-    <TablePage title={t("_pages:game.links.techs")} pageKey={PageId.techTypes}>
+    <TablePage title={t("_pages:game.links.techs")}>
       <ConfirmationDialog {...deleteAction}>
         <p>{t("_pages:common.actions.delete.dialog.message")}</p>
       </ConfirmationDialog>

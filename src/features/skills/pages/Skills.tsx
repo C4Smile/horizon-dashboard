@@ -75,7 +75,7 @@ function SkillsPage() {
   );
 
   return (
-    <TablePage title={t("_pages:game.links.skills")} pageKey={PageId.skills}>
+    <TablePage title={t("_pages:game.links.skills")}>
       <ConfirmationDialog {...deleteAction}>
         <p>{t("_pages:common.actions.delete.dialog.message")}</p>
       </ConfirmationDialog>

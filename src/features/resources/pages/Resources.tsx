@@ -88,7 +88,6 @@ function ResourcePage() {
   return (
     <TablePage
       title={t("_pages:game.links.resources")}
-      pageKey={PageId.resources}
     >
       <ConfirmationDialog {...deleteAction}>
         <p>{t("_pages:common.actions.delete.dialog.message")}</p>

@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 
 // sitemap
-import { findPath } from "pages";
+import { findNewPath } from "pages";
 
 // icons
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
@@ -19,14 +18,12 @@ import { TableToolbarPropsType } from "./types";
 export function TableToolbar(props: TableToolbarPropsType) {
   const { pageKey } = props;
 
-  const { t } = useTranslation();
-
-  const pathName = findPath(pageKey);
+  const newPath = findNewPath(pageKey);
 
   return (
     <ul>
       <Link
-        to={`${pathName}/${t("_accessibility:labels.new")}`}
+        to={newPath}
         className="filter-dropdown-button normal filter-dropdown-trigger"
       >
         <FontAwesomeIcon icon={faAdd} />

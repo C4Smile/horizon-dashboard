@@ -106,7 +106,7 @@ function ShipsPage() {
   );
 
   return (
-    <TablePage title={t("_pages:game.links.ships")} pageKey={PageId.ships}>
+    <TablePage title={t("_pages:game.links.ships")}>
       <ConfirmationDialog {...deleteAction}>
         <p>{t("_pages:common.actions.delete.dialog.message")}</p>
       </ConfirmationDialog>

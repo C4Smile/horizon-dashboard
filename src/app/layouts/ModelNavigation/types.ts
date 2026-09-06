@@ -1,10 +1,6 @@
 import { PageId } from "pages";
 
-export type LinksPropsTypes = {
+export type ModelNavigationPropsType = {
   pageKey: PageId;
   noInsert?: boolean;
-  navClassName?: string;
-  linksClassName?: string;
 };
-
-export type ModelNavigationPropsType = LinksPropsTypes;
