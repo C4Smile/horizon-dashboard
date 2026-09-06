@@ -256,9 +256,21 @@ body {
 
 /* A column header is a button that the library disables when the column
    cannot be sorted, but it lights the hover either way, so headers that do
-   nothing looked as clickable as the ones that do. */
+   nothing looked as clickable as the ones that do. And the light it uses
+   lands on the same colour the header row already is, so the ones that do
+   sort lit up to nothing. Only they light now, and visibly. */
 .table-headers-cell:disabled:hover {
   background-color: transparent;
+}
+
+.table-headers-cell:enabled {
+  cursor: pointer;
+}
+
+/* the highlight goes on the cell, not the button inside it: the button does
+   not fill its th, so hovering the padding lit nothing */
+.table-headers-column:has(.table-headers-cell:enabled):hover {
+  background-color: color-mix(in oklab, var(--color-sheen) 12%, transparent);
 }
 
 /* The drawer is a fixed 100vh block with no scroll of its own, so an entry
