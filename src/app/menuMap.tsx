@@ -48,6 +48,7 @@ export enum SubMenuKeys {
   // players
   Users = "users",
   Account = "account",
+  Security = "security",
 }
 
 /**
@@ -134,7 +135,10 @@ export const getMenuMap = (t: TFunction): MenuItemType<MenuKeys>[] => [
     MenuKeys.Settings,
     "/settings",
     <FontAwesomeIcon icon={faGear} />,
-    [{ key: SubMenuKeys.Account, path: "/account" }],
+    [
+      { key: SubMenuKeys.Account, path: "/account" },
+      { key: SubMenuKeys.Security, path: "/security" },
+    ],
     t,
   ),
   { type: "divider" },

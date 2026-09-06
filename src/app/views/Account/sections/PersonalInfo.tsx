@@ -114,7 +114,6 @@ function PersonalInfo() {
         name: "",
         email: "",
         phone: "",
-        address: "",
       });
     }
   }, [id, reset, userQuery.data]);
@@ -123,9 +122,6 @@ function PersonalInfo() {
     <NotFound />
   ) : (
     <form onSubmit={handleSubmit(onSubmit)} className="form">
-      <h2 className="text-1xl md:text-2xl font-bold">
-        {t("_pages:settings.links.account")}
-      </h2>
       {userQuery.isLoading ? (
         <Loading
           className="bg-none w-6 h-6 mb-10"
@@ -143,88 +139,8 @@ function PersonalInfo() {
           )}
         </div>
       )}
-      {/* User Name */}
-      <Controller
-        control={control}
-        disabled={userQuery.isLoading || saving}
-        name="name"
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            type="text"
-            id="name"
-            placeholder={t("_entities:user.name.placeholder")}
-            label={t("_entities:user.name.label")}
-            required
-          />
-        )}
-      />
-      {/* User Email */}
-      <Controller
-        control={control}
-        name="email"
-        disabled={userQuery.isLoading || saving}
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            type="email"
-            id="email"
-            placeholder={t("_entities:user.email.placeholder")}
-            label={t("_entities:user.email.label")}
-            required
-          />
-        )}
-      />
-      {/* User Username */}
-      <Controller
-        control={control}
-        disabled={userQuery.isLoading || saving}
-        name="username"
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            type="text"
-            id="username"
-            placeholder={t("_entities:user.username.placeholder")}
-            label={t("_entities:user.username.label")}
-            required
-          />
-        )}
-      />
-      {/* User Address */}
-      <Controller
-        control={control}
-        name="address"
-        disabled={userQuery.isLoading || saving}
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            type="text"
-            id="address"
-            placeholder={t("_entities:user.address.placeholder")}
-            label={t("_entities:user.address.label")}
-            required
-          />
-        )}
-      />
-      {/* User Phone */}
-      <Controller
-        control={control}
-        name="phone"
-        disabled={userQuery.isLoading || saving}
-        render={({ field }) => (
-          <TextInput
-            type="tel"
-            id="phone"
-            placeholder={t("_entities:user.phone.placeholder")}
-            label={t("_entities:user.phone.label")}
-            required
-            {...field}
-          />
-        )}
-      />
       {/* User Image */}
-      <div className="mb-5">
+      <div className="form-images mb-5">
         {userQuery.isLoading ? (
           <Loading />
         ) : (
@@ -235,6 +151,76 @@ function PersonalInfo() {
             folder={ReactQueryKeys.Users}
           />
         )}
+      </div>
+
+      <div className="form-pair">
+        {/* User Name */}
+        <Controller
+          control={control}
+          disabled={userQuery.isLoading || saving}
+          name="name"
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="text"
+              id="name"
+              placeholder={t("_entities:user.name.placeholder")}
+              label={t("_entities:user.name.label")}
+              required
+            />
+          )}
+        />
+        {/* User Username */}
+        <Controller
+          control={control}
+          disabled={userQuery.isLoading || saving}
+          name="username"
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="text"
+              id="username"
+              placeholder={t("_entities:user.username.placeholder")}
+              label={t("_entities:user.username.label")}
+              required
+            />
+          )}
+        />
+      </div>
+
+      <div className="form-pair">
+        {/* User Email */}
+        <Controller
+          control={control}
+          name="email"
+          disabled={userQuery.isLoading || saving}
+          render={({ field }) => (
+            <TextInput
+              {...field}
+              type="email"
+              id="email"
+              placeholder={t("_entities:user.email.placeholder")}
+              label={t("_entities:user.email.label")}
+              required
+            />
+          )}
+        />
+        {/* User Phone */}
+        <Controller
+          control={control}
+          name="phone"
+          disabled={userQuery.isLoading || saving}
+          render={({ field }) => (
+            <TextInput
+              type="tel"
+              id="phone"
+              placeholder={t("_entities:user.phone.placeholder")}
+              label={t("_entities:user.phone.label")}
+              required
+              {...field}
+            />
+          )}
+        />
       </div>
 
       <button

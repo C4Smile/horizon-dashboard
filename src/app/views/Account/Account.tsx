@@ -1,6 +1,6 @@
-import PersonalInfo from "./sections/PersonalInfo";
-import Security from "./sections/Security";
 import { useTranslation } from "react-i18next";
+
+import PersonalInfo from "./sections/PersonalInfo";
 
 /**
  * Account settings page
@@ -11,11 +11,8 @@ function Account() {
 
   return (
     <div className="p-5 relative">
-      <h1 className="text-2xl md:text-3xl font-bold mb-5">
-        {t("_pages:settings.title")}
-      </h1>
+      <h1 className="page-title">{t("_pages:settings.links.account")}</h1>
       <PersonalInfo />
-      <Security />
     </div>
   );
 }

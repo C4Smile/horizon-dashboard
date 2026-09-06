@@ -213,119 +213,128 @@ function UserForm() {
           )}
         </div>
 
-        {/* User Role */}
-        <Controller
-          control={control}
-          name="roleId"
-          disabled={userQuery.isLoading || saving}
-          render={({ field: { onChange, value, ...rest } }) => (
-            <SelectInput
-              {...rest}
-              id="roleId"
-              name="roleId"
-              label={t("_entities:user.roleId.label")}
-              options={roleList}
-              value={parseId(value)}
-              onChange={(e) => {
-                onChange(e.target.value);
-              }}
-            />
-          )}
-        />
-        {/* User Name */}
-        <Controller
-          control={control}
-          disabled={userQuery.isLoading || saving}
-          name="name"
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              type="text"
-              id="name"
-              placeholder={t("_entities:user.name.placeholder")}
-              label={t("_entities:user.name.label")}
-              required
-            />
-          )}
-        />
-        {/* User Email */}
-        <Controller
-          control={control}
-          name="email"
-          disabled={userQuery.isLoading || saving}
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              type="email"
-              id="email"
-              placeholder={t("_entities:user.email.placeholder")}
-              label={t("_entities:user.email.label")}
-              required
-            />
-          )}
-        />
-        {/* User Username */}
-        <Controller
-          control={control}
-          disabled={userQuery.isLoading || saving}
-          name="username"
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              type="text"
-              id="username"
-              placeholder={t("_entities:user.username.placeholder")}
-              label={t("_entities:user.username.label")}
-              required
-            />
-          )}
-        />
-        {/* User Password */}
-        <Controller
-          control={control}
-          disabled={userQuery.isLoading || saving}
-          name="password"
-          render={({ field }) => (
-            <PasswordInput
-              {...field}
-              id="password"
-              placeholder={t("_entities:user.password.placeholder")}
-              label={t("_entities:user.password.label")}
-              required
-            />
-          )}
-        />
-        {/* User RPassword */}
-        <Controller
-          control={control}
-          disabled={userQuery.isLoading || saving}
-          name="rPassword"
-          render={({ field }) => (
-            <PasswordInput
-              {...field}
-              id="rPassword"
-              placeholder={t("_entities:user.rPassword.placeholder")}
-              label={t("_entities:user.rPassword.label")}
-              required
-            />
-          )}
-        />
-        {/* User Phone */}
-        <Controller
-          control={control}
-          name="phone"
-          disabled={userQuery.isLoading || saving}
-          render={({ field }) => (
-            <TextInput
-              type="tel"
-              id="phone"
-              placeholder={t("_entities:user.phone.placeholder")}
-              label={t("_entities:user.phone.label")}
-              required
-              {...field}
-            />
-          )}
-        />
+        <div className="form-triplet">
+          {/* User Role */}
+          <Controller
+            control={control}
+            name="roleId"
+            disabled={userQuery.isLoading || saving}
+            render={({ field: { onChange, value, ...rest } }) => (
+              <SelectInput
+                {...rest}
+                id="roleId"
+                name="roleId"
+                label={t("_entities:user.roleId.label")}
+                options={roleList}
+                value={parseId(value)}
+                onChange={(e) => {
+                  onChange(e.target.value);
+                }}
+              />
+            )}
+          />
+          {/* User Name */}
+          <Controller
+            control={control}
+            disabled={userQuery.isLoading || saving}
+            name="name"
+            render={({ field }) => (
+              <TextInput
+                {...field}
+                type="text"
+                id="name"
+                placeholder={t("_entities:user.name.placeholder")}
+                label={t("_entities:user.name.label")}
+                required
+              />
+            )}
+          />
+          {/* User Username */}
+          <Controller
+            control={control}
+            disabled={userQuery.isLoading || saving}
+            name="username"
+            render={({ field }) => (
+              <TextInput
+                {...field}
+                type="text"
+                id="username"
+                placeholder={t("_entities:user.username.placeholder")}
+                label={t("_entities:user.username.label")}
+                required
+              />
+            )}
+          />
+        </div>
+
+        <div className="form-pair">
+          {/* User Password */}
+          <Controller
+            control={control}
+            disabled={userQuery.isLoading || saving}
+            name="password"
+            render={({ field }) => (
+              <PasswordInput
+                {...field}
+                id="password"
+                placeholder={t("_entities:user.password.placeholder")}
+                label={t("_entities:user.password.label")}
+                required
+              />
+            )}
+          />
+          {/* User RPassword */}
+          <Controller
+            control={control}
+            disabled={userQuery.isLoading || saving}
+            name="rPassword"
+            render={({ field }) => (
+              <PasswordInput
+                {...field}
+                id="rPassword"
+                placeholder={t("_entities:user.rPassword.placeholder")}
+                label={t("_entities:user.rPassword.label")}
+                required
+              />
+            )}
+          />
+        </div>
+
+        <div className="form-pair">
+          {/* User Email */}
+          <Controller
+            control={control}
+            name="email"
+            disabled={userQuery.isLoading || saving}
+            render={({ field }) => (
+              <TextInput
+                {...field}
+                type="email"
+                id="email"
+                placeholder={t("_entities:user.email.placeholder")}
+                label={t("_entities:user.email.label")}
+                required
+              />
+            )}
+          />
+          {/* User Phone */}
+          <Controller
+            control={control}
+            name="phone"
+            disabled={userQuery.isLoading || saving}
+            render={({ field }) => (
+              <TextInput
+                type="tel"
+                id="phone"
+                placeholder={t("_entities:user.phone.placeholder")}
+                label={t("_entities:user.phone.label")}
+                required
+                {...field}
+              />
+            )}
+          />
+        </div>
+
         <SaveFab
           disabled={userQuery.isLoading || saving}
           loading={userQuery.isLoading || saving}

@@ -68,10 +68,7 @@ function Security() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="form pt-10">
-      <h2 className="text-1xl md:text-2xl font-bold mb-5">
-        {t("_pages:settings.links.security")}
-      </h2>
+    <form onSubmit={handleSubmit(onSubmit)} className="form">
       <Controller
         control={control}
         disabled={saving}

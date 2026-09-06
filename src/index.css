@@ -254,6 +254,82 @@ body {
   border-radius: var(--radius-control);
 }
 
+/* The drawer is a fixed 100vh block with no scroll of its own, so an entry
+   past the fold simply falls off the bottom: adding Seguridad under settings
+   pushed sign out out of a 720px screen. The list takes the space the header
+   leaves and scrolls inside it. */
+.drawer {
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-menu-list {
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Fields that read as one line. A text input stretches to whatever it is
+   given, and on a wide screen a lone name field is a very long way to type
+   eight letters. */
+.form-pair,
+.form-triplet {
+  @apply grid w-full grid-cols-1 items-start gap-x-6;
+}
+
+.form-pair {
+  @apply sm:grid-cols-2;
+}
+
+.form-triplet {
+  @apply sm:grid-cols-3;
+}
+
+/* The landing page of a drawer group: one card per child, wearing the same
+   frame as everything else. */
+.section-grid {
+  display: grid;
+  width: 100%;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+}
+
+.section-card {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  color: var(--color-fg);
+  font-size: 1.125rem;
+  font-weight: 500;
+  transition: filter 0.2s;
+  background:
+    radial-gradient(
+        circle at 50% 50%,
+        color-mix(in oklab, var(--color-glow) 40%, transparent),
+        transparent 75%
+      )
+      padding-box,
+    linear-gradient(
+        160deg,
+        color-mix(in oklab, var(--color-sheen) 32%, transparent),
+        color-mix(in oklab, var(--color-sheen) 11%, transparent)
+      )
+      border-box;
+}
+
+.section-card:hover {
+  filter: brightness(1.35);
+}
+
+.section-card:active {
+  transform: scale(0.97);
+}
+
 /* A relation row wears the same frame the pictures do, so a list of them
    reads as a stack of cards rather than a run of loose text. The columns are
    fixed: without a width every cell sized to its own content and the labels

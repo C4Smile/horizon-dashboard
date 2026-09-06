@@ -12,6 +12,11 @@ import UpdatePassword from "./views/Auth/UpdatePassword";
 // dashboard
 import Home from "./views/Home";
 import Account from "./views/Account/Account";
+import SecuritySettings from "./views/Account/SecuritySettings";
+import { SectionIndex } from "./views/SectionIndex";
+
+// menu
+import { MenuKeys } from "./menuMap";
 // game
 // ships
 import ShipsPage from "features/ships/pages/Ships";
@@ -52,7 +57,11 @@ export enum PageId {
   updatePassword = "updatePassword",
   dashboard = "dashboard",
   home = "home",
+  // the landing page of a drawer group, listing what hangs off it
+  game = "game",
+  players = "players",
   settings = "settings",
+  security = "security",
   // game
   // ships
   ships = "ships",
@@ -123,8 +132,30 @@ export const sitemap: ViewPageType[] = [
       { key: PageId.home, path: "/", component: <Home /> },
       {
         key: PageId.settings,
+        path: "/settings",
+        component: <SectionIndex page={MenuKeys.Settings} />,
+      },
+      {
+        key: PageId.settings,
         path: "/settings/account",
         component: <Account />,
+      },
+      {
+        key: PageId.security,
+        path: "/settings/security",
+        component: <SecuritySettings />,
+      },
+      {
+        key: PageId.game,
+        path: "/game",
+        role: [Roles.administrator],
+        component: <SectionIndex page={MenuKeys.Game} />,
+      },
+      {
+        key: PageId.players,
+        path: "/players",
+        role: [Roles.administrator],
+        component: <SectionIndex page={MenuKeys.Players} />,
       },
       // game
       {

@@ -125,20 +125,16 @@ function Users() {
       },
       {
         key: "image",
-        renderBody: (_, user) =>
-          user.image?.url ? (
-            <img
-              className={`w-10 h-10 rounded-lg object-cover border-white border-2`}
-              src={staticUrlPhoto(user.image.url)}
-              alt={user.name}
-            />
-          ) : (
-            <img
-              className="w-10 h-10 rounded-lg object-cover"
-              src={noUserPhoto}
-              alt={user.name}
-            />
-          ),
+        // pos 1 puts the picture between the id and the name, the way
+        // imageColumn does it for every other table
+        pos: 1,
+        renderBody: (_, user) => (
+          <img
+            className="tile w-10 h-10 object-cover"
+            src={user.image?.url ? staticUrlPhoto(user.image.url) : noUserPhoto}
+            alt={user.name}
+          />
+        ),
         sortable: false,
       },
     ],

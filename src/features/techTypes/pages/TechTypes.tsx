@@ -8,7 +8,7 @@ import { ActionType, ConfirmationDialog, Table } from "@sito/dashboard-app";
 import { TablePage, TableToolbar } from "components";
 
 // utils
-import { useParseColumns, nameColumn, imageColumn } from "utils";
+import { useParseColumns, nameColumn } from "utils";
 
 // hooks
 import { useEditAction, useDeleteDialog, useRestoreDialog } from "hooks";
@@ -73,7 +73,7 @@ function TechTypes() {
   //#endregion Actions
 
   const { columns } = useParseColumns<TechTypeDto>(
-    [nameColumn<TechTypeDto>(), imageColumn<TechTypeDto>("name", "image")],
+    [nameColumn<TechTypeDto>()],
     EntityName.TechType,
     [],
   );
