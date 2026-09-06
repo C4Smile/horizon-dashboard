@@ -1,4 +1,4 @@
-import { BaseEntityDto } from "lib";
+import { BaseEntityDto, PhotoDto } from "lib";
 
 /**
  * A nation a player can belong to. Not every one is playable: some are there
@@ -6,6 +6,7 @@ import { BaseEntityDto } from "lib";
  */
 export interface NationDto extends BaseEntityDto {
   name: string;
+  image?: PhotoDto;
   description: string;
   playable: boolean;
 }

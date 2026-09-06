@@ -393,6 +393,9 @@
     "playable": {
       "label": "Jugable",
       "filter": "Sólo jugables"
+    },
+    "image": {
+      "label": "Bandera"
     }
   }
 }

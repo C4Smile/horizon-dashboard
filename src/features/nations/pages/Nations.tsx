@@ -13,7 +13,7 @@ import {
 import { TablePage, TableToolbar } from "components";
 
 // utils
-import { useParseColumns, nameColumn } from "utils";
+import { useParseColumns, imageColumn, nameColumn } from "utils";
 
 // hooks
 import { useEditAction, useDeleteDialog, useRestoreDialog } from "hooks";
@@ -76,6 +76,7 @@ function Nations() {
   const { columns } = useParseColumns<NationDto>(
     [
       nameColumn<NationDto>(),
+      imageColumn<NationDto>("name", "image"),
       {
         key: "playable",
         filterOptions: { type: FilterTypes.check, defaultValue: false },

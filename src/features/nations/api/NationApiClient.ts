@@ -1,6 +1,6 @@
 // base
 import { BaseApiClient } from "api/utils";
-import { parseHtml, parseNumber } from "api/utils/formToDto";
+import { FormPhoto, parseHtml, parseImage, parseNumber } from "api/utils/formToDto";
 
 // types
 import { Tables } from "api/types";
@@ -36,11 +36,13 @@ export class NationApiClient extends BaseApiClient<
   /**
    * @description Maps the form values to what the api stores
    * @param nation - form values
+   * @param photo - ImageUploader state
    * @returns nation dto
    */
-  private toDto(nation: FormValues<NationDto>) {
+  private toDto(nation: FormValues<NationDto>, photo: FormPhoto) {
     return {
       name: nation.name ?? "",
+      ...parseImage(photo),
       description: parseHtml(nation.description),
       playable: !!nation.playable,
     };
@@ -49,21 +51,23 @@ export class NationApiClient extends BaseApiClient<
   /**
    * @description Create nation
    * @param nation - Nation
+   * @param photo - Photo
    * @returns Transaction status
    */
-  async createFromForm(nation: FormValues<NationDto>) {
-    return await this.saveNew(this.toDto(nation));
+  async createFromForm(nation: FormValues<NationDto>, photo: FormPhoto) {
+    return await this.saveNew(this.toDto(nation, photo));
   }
 
   /**
    * @description Update nation
    * @param nation - Nation
+   * @param photo - Photo
    * @returns Transaction status
    */
-  async updateFromForm(nation: FormValues<NationDto>) {
+  async updateFromForm(nation: FormValues<NationDto>, photo: FormPhoto) {
     return await this.saveExisting({
       id: parseNumber(nation.id),
-      ...this.toDto(nation),
+      ...this.toDto(nation, photo),
     });
   }
 }

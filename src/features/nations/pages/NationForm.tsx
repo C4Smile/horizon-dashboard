@@ -9,7 +9,7 @@ import loadable from "@loadable/component";
 import { CheckInput, Loading, TextInput } from "@sito/dashboard-app";
 
 // components
-import { FormTitle, SaveFab } from "components";
+import { FormTitle, ImageFormType, ImageUploader, SaveFab } from "components";
 
 // providers
 import { useNotification, queryClient, useHorizonApiClient } from "providers";
@@ -50,6 +50,7 @@ function NationForm() {
   const { setNotification } = useNotification();
   const [saving, setSaving] = useState(false);
   const [updatedAt, setUpdatedAt] = useState<string>("");
+  const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
   const { handleSubmit, reset, control } = useForm<FormValues<NationDto>>();
 
@@ -58,8 +59,8 @@ function NationForm() {
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.Nation.createFromForm(d);
-      else result = await horizonApiClient.Nation.updateFromForm(d);
+      if (!d.id) result = await horizonApiClient.Nation.createFromForm(d, photo);
+      else result = await horizonApiClient.Nation.updateFromForm(d, photo);
 
       const { error, status } = result;
       setNotification(String(status), {
@@ -77,6 +78,7 @@ function NationForm() {
             queryKey: [ReactQueryKeys.Nations, id],
           });
         else {
+          setPhoto(null);
           reset({
             id: undefined,
             name: "",
@@ -115,11 +117,13 @@ function NationForm() {
 
   useEffect(() => {
     if (nationQuery.data) {
+      setPhoto(nationQuery.data?.image ?? null);
       setUpdatedAt(String(nationQuery?.data?.updatedAt ?? ""));
       reset({ ...nationQuery.data });
     }
 
     if (!id) {
+      setPhoto(null);
       reset({
         id: undefined,
         name: "",
@@ -161,6 +165,20 @@ function NationForm() {
 
         <div className="form-grid">
           <div className="form-column gap-5">
+            {/* Nation flag */}
+            <div className="form-images my-5">
+              {nationQuery.isLoading ? (
+                <Loading />
+              ) : (
+                <ImageUploader
+                  photo={photo}
+                  setPhoto={setPhoto}
+                  label={t("_entities:nation.image.label")}
+                  folder={ReactQueryKeys.Nations}
+                />
+              )}
+            </div>
+
             {/* Nation Name */}
             <Controller
               control={control}
