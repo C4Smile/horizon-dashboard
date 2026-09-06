@@ -8,7 +8,7 @@ import { ActionType, ConfirmationDialog, Table } from "@sito/dashboard-app";
 import { TablePage, TableToolbar } from "components";
 
 // utils
-import { useParseColumns, nameColumn, imageColumn } from "utils";
+import { useParseColumns, nameColumn } from "utils";
 
 // hooks
 import { useEditAction, useDeleteDialog, useRestoreDialog } from "hooks";
@@ -73,10 +73,7 @@ function BuildingTypes() {
   //#endregion Actions
 
   const { columns } = useParseColumns<BuildingTypeDto>(
-    [
-      nameColumn<BuildingTypeDto>(),
-      imageColumn<BuildingTypeDto>("name", "image"),
-    ],
+    [nameColumn<BuildingTypeDto>()],
     EntityName.BuildingType,
     [],
   );

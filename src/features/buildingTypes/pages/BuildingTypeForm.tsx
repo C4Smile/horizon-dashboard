@@ -9,7 +9,7 @@ import loadable from "@loadable/component";
 import { Loading, TextInput } from "@sito/dashboard-app";
 
 // components
-import { ImageFormType, ImageUploader, FormTitle, SaveFab } from "components";
+import { FormTitle, SaveFab } from "components";
 
 // providers
 import { useNotification, queryClient, useHorizonApiClient } from "providers";
@@ -44,8 +44,6 @@ function BuildingTypeForm() {
   const [saving, setSaving] = useState(false);
   const [updatedAt, setUpdatedAt] = useState<string>("");
 
-  const [photo, setPhoto] = useState<ImageFormType | null>(null);
-
   const { handleSubmit, reset, control } =
     useForm<FormValues<BuildingTypeDto>>();
 
@@ -54,10 +52,8 @@ function BuildingTypeForm() {
 
     try {
       let result;
-      if (!d.id)
-        result = await horizonApiClient.BuildingType.createFromForm(d, photo);
-      else
-        result = await horizonApiClient.BuildingType.updateFromForm(d, photo);
+      if (!d.id) result = await horizonApiClient.BuildingType.createFromForm(d);
+      else result = await horizonApiClient.BuildingType.updateFromForm(d);
 
       const { error, status } = result;
       setNotification(String(status), {
@@ -75,7 +71,6 @@ function BuildingTypeForm() {
             queryKey: [ReactQueryKeys.BuildingTypes, id],
           });
         else {
-          setPhoto(null);
           reset({
             id: undefined,
             name: "",
@@ -112,15 +107,11 @@ function BuildingTypeForm() {
 
   useEffect(() => {
     if (buildingTypeQuery.data) {
-      //* PARSING PHOTO
-      setPhoto(buildingTypeQuery.data?.image);
-
       setUpdatedAt(String(buildingTypeQuery?.data?.updatedAt ?? ""));
       reset({ ...buildingTypeQuery.data });
     }
 
     if (!id) {
-      setPhoto(null);
       reset({
         id: undefined,
         name: "",
@@ -155,20 +146,6 @@ function BuildingTypeForm() {
             )}
           </div>
         )}
-
-        {/* Building Image */}
-        <div className="my-5">
-          {buildingTypeQuery.isLoading ? (
-            <Loading />
-          ) : (
-            <ImageUploader
-              photo={photo}
-              setPhoto={setPhoto}
-              label={t("_entities:buildingType.image.label")}
-              folder={ReactQueryKeys.BuildingTypes}
-            />
-          )}
-        </div>
 
         {/* BuildingType Name */}
         <Controller
