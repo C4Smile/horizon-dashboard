@@ -254,6 +254,44 @@ body {
   border-radius: var(--radius-control);
 }
 
+/* A relation row wears the same frame the pictures do, so a list of them
+   reads as a stack of cards rather than a run of loose text. The columns are
+   fixed: without a width every cell sized to its own content and the labels
+   never lined up from one row to the next. */
+.relation-row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  background:
+    radial-gradient(
+        circle at 50% 50%,
+        color-mix(in oklab, var(--color-glow) 40%, transparent),
+        transparent 75%
+      )
+      padding-box,
+    linear-gradient(
+        160deg,
+        color-mix(in oklab, var(--color-sheen) 32%, transparent),
+        color-mix(in oklab, var(--color-sheen) 11%, transparent)
+      )
+      border-box;
+}
+
+.relation-row-cell {
+  flex: 0 0 12rem;
+  min-width: 0;
+}
+
+.relation-row-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 0.5rem;
+}
+
 /* Tabs. The library builds the active one as a filled button and the rest as
    outlined ones, so the row changed height as you moved along it. Plain CSS
    with !important because the library sets those three the same way, and
@@ -310,6 +348,16 @@ body {
 
 .form-images {
   @apply flex flex-wrap items-start gap-8;
+}
+
+/* The library scales its own buttons to .97 while they are held down. Ours are
+   plain elements, so they never did; this is the same number. */
+.submit:enabled:active,
+.outlined:enabled:active,
+.icon-button:enabled:active,
+.save-fab:enabled:active,
+.relation-row-actions button:enabled:active {
+  transform: scale(0.97);
 }
 
 /* A frame the way the game art draws one, measured off the tiles rather than

@@ -50,38 +50,42 @@ export const EntityLevelRow = memo(
     );
 
     return (
-      <div className="flex flex-col w-full gap-5">
+      <div className="flex flex-col w-full gap-2">
         <p className="min-w-20">
           {t("_accessibility:labels.require")} {selected?.value}
         </p>
-        <div className="flex items-start justify-start w-full gap-10">
+        <div className="relation-row">
           {selected ? (
             <img
-              className="w-16 h-16 rounded-lg object-cover self-center"
+              className="tile w-16 h-16 object-cover"
               src={staticUrlPhoto(selected.image?.url ?? "")}
               alt={String(selected.value ?? "")}
             />
           ) : null}
-          <p className="text-base">
+          <p className="relation-row-cell">
             {t(`_entities:entities.${entityLabel}`)} <br />
             <span className="text-primary text-xl">{selected?.value}</span>
           </p>
-          <p className="text-base">
+          <p className="relation-row-cell">
             {inputLabel} <br />
             <span className="text-primary text-xl">{level}</span>
           </p>
-          <div className="flex gap-2 my-auto">
+          <div className="relation-row-actions">
             <button
               disabled={disabled}
               onClick={() => onEdit(entityReqId as number)}
-              className="w-10 h-10 min-w-10 rounded-[var(--radius-control)] bg-primary text-white self-center"
+              aria-label={t("_accessibility:buttons.edit")}
+              title={t("_accessibility:buttons.edit")}
+              className="w-10 h-10 min-w-10 rounded-[var(--radius-control)] bg-primary text-page"
             >
               <FontAwesomeIcon icon={faPencil} />
             </button>
             <button
               disabled={disabled}
               onClick={() => onDelete(entityReqId as number)}
-              className="w-10 h-10 min-w-10 rounded-[var(--radius-control)] bg-red-600 text-white self-center"
+              aria-label={t("_accessibility:buttons.delete")}
+              title={t("_accessibility:buttons.delete")}
+              className="w-10 h-10 min-w-10 rounded-[var(--radius-control)] bg-bg-error text-error"
             >
               <FontAwesomeIcon icon={faTrash} />
             </button>

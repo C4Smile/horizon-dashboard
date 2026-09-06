@@ -162,7 +162,7 @@ function BuildingForm() {
           entity={Tables.Buildings}
           entityToSave={Tables.BuildingProduces}
           label={"production"}
-          inputKey={"base"}
+          inputKey={"baseProduction"}
           queryKey={[ReactQueryKeys.BuildingProduces, id]}
           queryFn={() =>
             horizonApiClient.Building.buildingProductions.get(Number(id))
@@ -187,7 +187,7 @@ function BuildingForm() {
           entity={Tables.Buildings}
           entityToSave={Tables.BuildingCosts}
           label={"cost"}
-          inputKey={"base"}
+          inputKey={"baseCost"}
           queryKey={[ReactQueryKeys.BuildingCosts, id]}
           queryFn={() =>
             horizonApiClient.Building.buildingCosts.get(Number(id))
@@ -209,7 +209,7 @@ function BuildingForm() {
           entity={Tables.Buildings}
           entityToSave={Tables.BuildingUpkeeps}
           label={"upkeep"}
-          inputKey={"base"}
+          inputKey={"baseUpkeep"}
           queryKey={[ReactQueryKeys.BuildingUpkeeps, id]}
           queryFn={() =>
             horizonApiClient.Building.buildingUpkeeps.get(Number(id))
@@ -231,7 +231,7 @@ function BuildingForm() {
           attributeId="techReqId"
           entity={Tables.Techs}
           entityToSave={Tables.BuildingReqTechs}
-          inputKey={"level"}
+          inputKey={"techLevel"}
           queryKey={[
             ReactQueryKeys.BuildingRequirements,
             ReactQueryKeys.Techs,
@@ -257,7 +257,7 @@ function BuildingForm() {
           attributeId="buildingReqId"
           entity={Tables.Buildings}
           entityToSave={Tables.BuildingReqBuildings}
-          inputKey={"level"}
+          inputKey={"buildingLevel"}
           queryKey={[
             ReactQueryKeys.BuildingRequirements,
             ReactQueryKeys.Buildings,
