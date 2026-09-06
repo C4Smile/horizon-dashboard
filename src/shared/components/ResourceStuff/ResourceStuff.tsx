@@ -188,7 +188,7 @@ export function ResourceStuff<TDto extends OptionResourceCommonDto, TAddDto>(
         <button
           disabled={saving || lists.length >= resources.length}
           onClick={() => openResource()}
-          className={`${lists.length >= resources.length ? "bg-ocean/80 text-white/60" : "bg-ocean text-white"} w-10 h-10 rounded-full`}
+          className={`${lists.length >= resources.length ? "bg-ocean/80 text-white/60" : "bg-ocean text-white"} w-10 h-10 rounded-[var(--radius-control)]`}
         >
           {saving ? (
             <Loading

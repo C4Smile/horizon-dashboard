@@ -57,7 +57,7 @@ export const EntityLevelRow = memo(
         <div className="flex items-start justify-start w-full gap-10">
           {selected ? (
             <img
-              className="w-16 h-16 rounded-full object-cover self-center"
+              className="w-16 h-16 rounded-lg object-cover self-center"
               src={staticUrlPhoto(selected.image?.url ?? "")}
               alt={String(selected.value ?? "")}
             />
@@ -74,14 +74,14 @@ export const EntityLevelRow = memo(
             <button
               disabled={disabled}
               onClick={() => onEdit(entityReqId as number)}
-              className="w-10 h-10 min-w-10 rounded-full bg-primary text-white self-center"
+              className="w-10 h-10 min-w-10 rounded-[var(--radius-control)] bg-primary text-white self-center"
             >
               <FontAwesomeIcon icon={faPencil} />
             </button>
             <button
               disabled={disabled}
               onClick={() => onDelete(entityReqId as number)}
-              className="w-10 h-10 min-w-10 rounded-full bg-red-600 text-white self-center"
+              className="w-10 h-10 min-w-10 rounded-[var(--radius-control)] bg-red-600 text-white self-center"
             >
               <FontAwesomeIcon icon={faTrash} />
             </button>

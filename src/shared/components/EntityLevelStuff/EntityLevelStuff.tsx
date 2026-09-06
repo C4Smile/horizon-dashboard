@@ -188,7 +188,7 @@ export function EntityLevelStuff<TDto extends OptionReqCommonDto, TAddDto>(
         <button
           disabled={saving || (!!lists && lists.length >= entities.length)}
           onClick={() => openRequirement()}
-          className={`${!!lists && lists.length >= entities.length ? "bg-ocean/80 text-white/60" : "bg-ocean text-white"} w-10 h-10 rounded-full`}
+          className={`${!!lists && lists.length >= entities.length ? "bg-ocean/80 text-white/60" : "bg-ocean text-white"} w-10 h-10 rounded-[var(--radius-control)]`}
         >
           {saving ? (
             <Loading

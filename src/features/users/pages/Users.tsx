@@ -128,13 +128,13 @@ function Users() {
         renderBody: (_, user) =>
           user.image?.url ? (
             <img
-              className={`w-10 h-10 rounded-full object-cover border-white border-2`}
+              className={`w-10 h-10 rounded-lg object-cover border-white border-2`}
               src={staticUrlPhoto(user.image.url)}
               alt={user.name}
             />
           ) : (
             <img
-              className="w-10 h-10 rounded-full object-cover"
+              className="w-10 h-10 rounded-lg object-cover"
               src={noUserPhoto}
               alt={user.name}
             />

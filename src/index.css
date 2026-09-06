@@ -44,6 +44,14 @@
   /* the light the chrome catches, only ever used translucent, and the glow a
      tile carries behind its icon. Declared here rather than in @theme because
      neither is a utility and tailwind drops an unused theme token. */
+  /* One radius for every control. The library and this file each had their
+     own idea of it, so a pill sat next to a rounded rectangle in the same
+     dialog. --sito-ui-radius-pill is the library's button radius; its
+     --sito-ui-radius-round is left alone because the button spinner is a
+     circle and reads it too. */
+  --radius-control: 0.75rem;
+  --sito-ui-radius-pill: var(--radius-control);
+
   --color-sheen: #72a6b5;
   --color-glow: #143a54;
 }
@@ -224,7 +232,7 @@ body {
   height: 3.5rem;
   align-items: center;
   justify-content: center;
-  border-radius: 1rem;
+  border-radius: var(--radius-control);
   background-color: var(--color-bg-primary);
   color: var(--color-page);
   font-size: 1.125rem;
@@ -237,6 +245,13 @@ body {
 
 .save-fab:disabled {
   opacity: 0.5;
+}
+
+/* The library's icon buttons take --sito-ui-radius-round, a full circle, and
+   so does the button spinner. Only the buttons are squared off here. */
+.sito-ui-icon-button,
+.action {
+  border-radius: var(--radius-control);
 }
 
 /* Tabs. The library builds the active one as a filled button and the rest as
@@ -380,12 +395,12 @@ textarea {
 
 .submit {
   padding: 5px 20px;
-  @apply relative text-page border-2 border-hover-primary bg-hover-primary transition enabled:hover:bg-primary enabled:hover:border-primary disabled:bg-primary/40 font-medium rounded-full text-sm w-full sm:w-auto text-center;
+  @apply relative text-page border-2 border-hover-primary bg-hover-primary transition enabled:hover:bg-primary enabled:hover:border-primary disabled:bg-primary/40 font-medium rounded-[var(--radius-control)] text-sm w-full sm:w-auto text-center;
 }
 
 .outlined {
   padding: 5px 10px;
-  @apply relative text-primary border-2 border-primary transition duration-300 enabled:hover:text-page enabled:hover:bg-primary rounded-full flex items-center justify-center font-medium text-sm w-full sm:w-auto text-center;
+  @apply relative text-primary border-2 border-primary transition duration-300 enabled:hover:text-page enabled:hover:bg-primary rounded-[var(--radius-control)] flex items-center justify-center font-medium text-sm w-full sm:w-auto text-center;
 }
 
 .dashed {
@@ -401,7 +416,7 @@ textarea {
 }
 
 .icon-button {
-  @apply min-w-10 w-10 min-h-10 h-10 rounded-full;
+  @apply min-w-10 w-10 min-h-10 h-10 rounded-[var(--radius-control)];
 }
 
 .appear {
@@ -416,7 +431,7 @@ textarea {
    own chrome, the tabs and the scroll to top button among it, and the margin
    leaked into both. The two auth buttons that want the gap ask for it. */
 .submit.primary {
-  @apply relative text-page self-start bg-hover-primary transition-all enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-primary/40 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center duration-500 ease-in-out;
+  @apply relative text-page self-start bg-hover-primary transition-all enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-primary/40 font-medium rounded-[var(--radius-control)] text-sm w-full sm:w-auto px-5 py-2.5 text-center duration-500 ease-in-out;
 }
 
 @keyframes appear {
@@ -493,5 +508,5 @@ textarea {
   width: 2.75rem;
   height: 2.75rem;
   padding: 0;
-  border-radius: 0.75rem;
+  border-radius: var(--radius-control);
 }

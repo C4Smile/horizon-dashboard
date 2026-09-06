@@ -175,91 +175,95 @@ function GeneralInfo(props: GeneralInfoPropsType) {
         </>
       ) : null}
 
-      {/* Building Image */}
-      <div className="my-5">
-        {buildingQuery.isLoading ? (
-          <Loading />
-        ) : (
-          <ImageUploader
-            photo={photo}
-            setPhoto={setPhoto}
-            label={t("_entities:building.image.label")}
-            folder={ReactQueryKeys.Buildings}
-          />
-        )}
-      </div>
+      <div className="form-grid">
+        <div className="form-column gap-5">
+          {/* Building Image */}
+          <div className="my-5">
+            {buildingQuery.isLoading ? (
+              <Loading />
+            ) : (
+              <ImageUploader
+                photo={photo}
+                setPhoto={setPhoto}
+                label={t("_entities:building.image.label")}
+                folder={ReactQueryKeys.Buildings}
+              />
+            )}
+          </div>
 
-      {/* Building Name */}
-      <Controller
-        control={control}
-        disabled={buildingQuery.isLoading || saving}
-        name="name"
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            type="text"
+          {/* Building Name */}
+          <Controller
+            control={control}
+            disabled={buildingQuery.isLoading || saving}
             name="name"
-            id="name"
-            placeholder={t("_entities:building.name.placeholder")}
-            label={t("_entities:building.name.label")}
-            required
+            render={({ field }) => (
+              <TextInput
+                {...field}
+                type="text"
+                name="name"
+                id="name"
+                placeholder={t("_entities:building.name.placeholder")}
+                label={t("_entities:building.name.label")}
+                required
+              />
+            )}
           />
-        )}
-      />
 
-      {/* Building Creation Time */}
-      <Controller
-        control={control}
-        disabled={buildingQuery.isLoading || saving}
-        name="creationTime"
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            type="number"
+          {/* Building Creation Time */}
+          <Controller
+            control={control}
+            disabled={buildingQuery.isLoading || saving}
             name="creationTime"
-            id="creationTime"
-            placeholder={t("_entities:building.creationTime.placeholder")}
-            label={t("_entities:building.creationTime.label")}
-            required
+            render={({ field }) => (
+              <TextInput
+                {...field}
+                type="number"
+                name="creationTime"
+                id="creationTime"
+                placeholder={t("_entities:building.creationTime.placeholder")}
+                label={t("_entities:building.creationTime.label")}
+                required
+              />
+            )}
           />
-        )}
-      />
 
-      {/* Building Type */}
-      <Controller
-        control={control}
-        name="type"
-        disabled={buildingQuery.isLoading || typesQuery.isLoading || saving}
-        render={({ field: { onChange, value, ...rest } }) => (
-          <SelectInput
-            {...rest}
-            id="type"
+          {/* Building Type */}
+          <Controller
+            control={control}
             name="type"
-            label={t("_entities:building.type.label")}
-            options={typesList}
-            value={parseId(value)}
-            onChange={(e) => {
-              onChange(e.target.value);
-            }}
+            disabled={buildingQuery.isLoading || typesQuery.isLoading || saving}
+            render={({ field: { onChange, value, ...rest } }) => (
+              <SelectInput
+                {...rest}
+                id="type"
+                name="type"
+                label={t("_entities:building.type.label")}
+                options={typesList}
+                value={parseId(value)}
+                onChange={(e) => {
+                  onChange(e.target.value);
+                }}
+              />
+            )}
           />
-        )}
-      />
+        </div>
 
-      {/* Building description */}
-      <Controller
-        control={control}
-        name="description"
-        disabled={buildingQuery.isLoading || saving}
-        render={({ field: { onChange, value, ...rest } }) => (
-          <HtmlInput
-            label={t("_entities:building.description.label")}
-            wrapperClassName="mt-5 w-full"
-            {...rest}
-            value={value}
-            onChange={onChange}
-          />
-        )}
-      />
+        {/* Building description */}
+        <Controller
+          control={control}
+          name="description"
+          disabled={buildingQuery.isLoading || saving}
+          render={({ field: { onChange, value, ...rest } }) => (
+            <HtmlInput
+              label={t("_entities:building.description.label")}
+              wrapperClassName="w-full"
+              {...rest}
+              value={value}
+              onChange={onChange}
+            />
+          )}
+        />
+      </div>
 
       <SaveFab
         disabled={buildingQuery.isLoading || saving}
