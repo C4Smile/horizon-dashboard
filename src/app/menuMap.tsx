@@ -45,6 +45,7 @@ export enum SubMenuKeys {
   Resources = "resources",
   Techs = "techs",
   TechTypes = "techTypes",
+  Nations = "nations",
   // players
   Users = "users",
   Account = "account",
@@ -119,6 +120,7 @@ export const getMenuMap = (t: TFunction): MenuItemType<MenuKeys>[] => [
       { key: SubMenuKeys.Resources, path: "/resources" },
       { key: SubMenuKeys.Techs, path: "/techs" },
       { key: SubMenuKeys.TechTypes, path: "/tech-types" },
+      { key: SubMenuKeys.Nations, path: "/nations" },
     ],
     t,
     isAdmin,

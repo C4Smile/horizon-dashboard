@@ -39,6 +39,9 @@ import ResourceForm from "features/resources/pages/ResourceForm";
 // techs
 import TechsPage from "features/techs/pages/Techs";
 import TechForm from "features/techs/pages/TechForm";
+// nations
+import NationsPage from "features/nations/pages/Nations";
+import NationForm from "features/nations/pages/NationForm";
 // techTypes
 import TechTypesPage from "features/techTypes/pages/TechTypes";
 import TechTypeForm from "features/techTypes/pages/TechTypeForm";
@@ -91,6 +94,10 @@ export enum PageId {
   techs = "techs",
   techsNew = "techsNew",
   techsEdit = "techsEdit",
+  // nations
+  nations = "nations",
+  nationsNew = "nationsNew",
+  nationsEdit = "nationsEdit",
   // tech types
   techTypes = "techTypes",
   techTypesNew = "techTypesNew",
@@ -280,6 +287,17 @@ export const sitemap: ViewPageType[] = [
           { key: PageId.techs, path: "/", component: <TechsPage /> },
           { key: PageId.techsNew, path: "/new", component: <TechForm /> },
           { key: PageId.techsEdit, path: "/:id", component: <TechForm /> },
+        ],
+      },
+      {
+        key: PageId.nations,
+        path: "/game/nations",
+        component: <ModelNavigation pageKey={PageId.nations} />,
+        role: [Roles.administrator],
+        children: [
+          { key: PageId.nations, path: "/", component: <NationsPage /> },
+          { key: PageId.nationsNew, path: "/new", component: <NationForm /> },
+          { key: PageId.nationsEdit, path: "/:id", component: <NationForm /> },
         ],
       },
       // players

@@ -7,6 +7,7 @@ export enum ReactQueryKeys {
   BuildingProduces = "buildingProduces",
   BuildingTypes = "buildingTypes",
   BuildingRequirements = "buildingReqTechs",
+  Nations = "nations",
   Resources = "resources",
   Users = "users",
   Techs = "techs",

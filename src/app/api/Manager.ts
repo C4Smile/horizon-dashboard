@@ -3,6 +3,7 @@ import { IManager } from "@sito/dashboard-app";
 // clients
 import { BuildingApiClient } from "../../features/buildings/api/BuildingApiClient";
 import { BuildingTypeApiClient } from "../../features/buildingTypes/api/BuildingTypeApiClient";
+import { NationApiClient } from "../../features/nations/api/NationApiClient";
 import { CannonApiClient } from "../../features/cannons/api/CannonApiClient";
 import { HorizonAuthClient } from "api/HorizonAuthClient";
 import { ImageApiClient } from "api/ImageApiClient";
@@ -27,6 +28,7 @@ export class Manager extends IManager {
 
   building: BuildingApiClient = new BuildingApiClient();
   buildingType: BuildingTypeApiClient = new BuildingTypeApiClient();
+  nation: NationApiClient = new NationApiClient();
   cannon: CannonApiClient = new CannonApiClient();
   image: ImageApiClient = new ImageApiClient();
   resource: ResourceApiClient = new ResourceApiClient();
@@ -56,6 +58,10 @@ export class Manager extends IManager {
 
   get BuildingType(): BuildingTypeApiClient {
     return this.buildingType;
+  }
+
+  get Nation(): NationApiClient {
+    return this.nation;
   }
 
   get Cannon(): CannonApiClient {

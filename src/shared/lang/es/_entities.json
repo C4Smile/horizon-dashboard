@@ -25,7 +25,8 @@
     "cannon": "Cañón",
     "cannonCosts": "Coste del cañón",
     "cannonReqTechs": "Requerimiento tecnológico",
-    "cannonReqBuildings": "Requerimiento de edificio"
+    "cannonReqBuildings": "Requerimiento de edificio",
+    "nation": "Nación"
   },
   "base": {
     "id": {
@@ -379,6 +380,19 @@
   "cannons": {
     "resource": {
       "cost": "Cuesta"
+    }
+  },
+  "nation": {
+    "name": {
+      "label": "Nombre",
+      "placeholder": "ej: España"
+    },
+    "description": {
+      "label": "Descripción"
+    },
+    "playable": {
+      "label": "Jugable",
+      "filter": "Sólo jugables"
     }
   }
 }

@@ -111,7 +111,8 @@
       "buildingTypes": "Tipos de Edificios",
       "resources": "Recursos",
       "techs": "Tecnologías",
-      "techTypes": "Tipos de Tecnologías"
+      "techTypes": "Tipos de Tecnologías",
+      "nations": "Naciones"
     }
   },
   "players": {
@@ -181,5 +182,8 @@
   },
   "notFound": {
     "title": "No encontrado"
+  },
+  "nations": {
+    "newForm": "Nueva nación"
   }
 }
