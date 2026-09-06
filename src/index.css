@@ -41,6 +41,15 @@
   --color-bg-error: #b63d3d;
   --color-error: #fbfbfb;
 
+  /* The tint a plain library button takes on hover. It maps to --color-base,
+     which is also what the header row and the drawer are painted with, so
+     those hovers landed on the colour they already were and lit up nothing. */
+  --sito-ui-color-default-light: color-mix(
+    in oklab,
+    var(--color-sheen) 14%,
+    transparent
+  );
+
   /* the light the chrome catches, only ever used translucent, and the glow a
      tile carries behind its icon. Declared here rather than in @theme because
      neither is a utility and tailwind drops an unused theme token. */
@@ -256,21 +265,14 @@ body {
 
 /* A column header is a button that the library disables when the column
    cannot be sorted, but it lights the hover either way, so headers that do
-   nothing looked as clickable as the ones that do. And the light it uses
-   lands on the same colour the header row already is, so the ones that do
-   sort lit up to nothing. Only they light now, and visibly. */
+   nothing looked as clickable as the ones that do. The button keeps the
+   library's own highlight; only the dead ones are put out. */
 .table-headers-cell:disabled:hover {
   background-color: transparent;
 }
 
 .table-headers-cell:enabled {
   cursor: pointer;
-}
-
-/* the highlight goes on the cell, not the button inside it: the button does
-   not fill its th, so hovering the padding lit nothing */
-.table-headers-column:has(.table-headers-cell:enabled):hover {
-  background-color: color-mix(in oklab, var(--color-sheen) 12%, transparent);
 }
 
 /* The drawer is a fixed 100vh block with no scroll of its own, so an entry
