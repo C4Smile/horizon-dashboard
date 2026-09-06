@@ -1,6 +1,210 @@
 /* Additional styles */
 @import "shared/styles/variables.css";
 
+/*
+ * Library theme tokens, unlayered on purpose.
+ *
+ * @sito/dashboard-app paints its whole chrome from these and always reads
+ * them through var(), so retinting the tokens is enough and nothing needs
+ * forking. Every baked hex in its main.css is followed by a color-mix() twin
+ * reading the same token, so the overrides reach those declarations too.
+ *
+ * Unlayered because the library declares the same names inside @layer theme
+ * and so does our @theme block, both at :root specificity. Unlayered CSS wins
+ * over layered CSS whatever order vite injects them in, which is the only way
+ * to make this deterministic.
+ */
+:root {
+  /* The library ramps these three from darkest to lightest and spends the
+     lightest on the surfaces that sit closest to the reader: table rows,
+     dropdowns, popups. A dark theme inverts the ramp, so base-light is the
+     raised surface here and base-dark is the extra step a hover takes. */
+  --color-base: #0a1726; /* drawer, footer, header row, plain buttons */
+  --color-base-light: #0f2133; /* table rows, dropdowns, popups, dialogs */
+  --color-base-dark: #16293c; /* hover states and chips */
+
+  --color-text: #e8eef5;
+  --color-text-muted: #8fa9bf;
+  --color-border: #24384a;
+
+  --color-primary: #c69e3b;
+  --color-bg-primary: #b8860b;
+  --color-hover-primary: #ddb75c;
+  --color-secondary: #d27d6b;
+
+  --color-bg-info: #0070ba;
+  --color-info: #fbfbfb;
+  --color-bg-success: #065f46;
+  --color-success: #fbfbfb;
+  --color-bg-warning: #ffa500;
+  --color-warning: #000000;
+  --color-bg-error: #b63d3d;
+  --color-error: #fbfbfb;
+
+  /* the light the chrome catches, only ever used translucent, and the glow a
+     tile carries behind its icon. Declared here rather than in @theme because
+     neither is a utility and tailwind drops an unused theme token. */
+  --color-sheen: #8fb0c9;
+  --color-glow: #143a54;
+}
+
+body {
+  background-color: var(--color-page);
+  color: var(--color-fg);
+}
+
+/* The header was the one place the old theme shouted: a full width gold bar.
+   The art keeps the chrome navy and spends the gold on the links and the
+   illustrations, so the bars join the ramp. Delete this rule to get the gold
+   bars back. */
+.header,
+.page-header {
+  background-color: var(--color-surface);
+}
+
+/* The library reads --color-base-light for two unrelated jobs: text on the
+   coloured chrome, and the raised state of a drawer row. The token stays
+   white for the text, so the raised states are set here instead. */
+.drawer-list-item:hover,
+.drawer-list-item.active {
+  background-color: var(--color-surface-raised);
+}
+
+.drawer-list-item-child:hover,
+.drawer-list-item-child.active {
+  background-color: var(--color-surface-raised);
+}
+
+/* The round buttons on the header take base/30, which used to be a white veil
+   over a navy bar. Now that base is navy the veil would vanish, so they take
+   the sheen instead. Their :hover stays the library's secondary. */
+.navbar-right .actions-container .actions-container-item .action,
+.page-header .action {
+  background-color: color-mix(in oklab, var(--color-sheen) 12%, transparent);
+}
+
+/* --color-base-light carries a second, unrelated job: the text laid over the
+   coloured chrome and the filled buttons. It was white because the ramp's
+   lightest step happened to be white; now that the ramp is dark it has to be
+   named here. */
+.header,
+.header h1,
+.header .icon-button,
+.navbar-menu,
+.navbar-title,
+.navbar-right .actions-container .actions-container-item .action,
+.page-header,
+.page-header-back,
+.page-header .action,
+.page-header-actions-mobile .actions-dropdown-trigger,
+.button.submit.primary,
+.button.submit.secondary,
+.icon-button.submit.primary,
+.icon-button.submit.secondary,
+.top-banner--primary,
+.top-banner--secondary,
+.top-banner--tertiary,
+.top-banner--quaternary {
+  color: var(--color-fg);
+}
+
+/* react-draft-wysiwyg ships its own stylesheet with every surface hardcoded
+   white, so it is the one island the tokens cannot reach. Only the chrome the
+   editor actually shows is repainted here: toolbar, buttons, dropdowns and
+   the popups they open. */
+.rdw-editor-toolbar {
+  background-color: var(--color-base);
+  border-color: var(--color-border);
+}
+
+.rdw-option-wrapper,
+.rdw-dropdown-wrapper,
+.rdw-dropdown-wrapper:hover {
+  background-color: var(--color-base-dark);
+  border-color: var(--color-border);
+  color: var(--color-fg);
+  box-shadow: none;
+}
+
+/* the body has no border of its own and the raised navy is close enough to
+   the page that the box would vanish without one */
+.rdw-editor-main {
+  border: 1px solid var(--color-border);
+  border-top: 0;
+  border-radius: 0 0 0.25rem 0.25rem;
+}
+
+.rdw-option-wrapper:hover {
+  box-shadow: none;
+  background-color: var(--color-surface-raised);
+}
+
+.rdw-option-active {
+  background-color: var(--color-primary);
+  box-shadow: none;
+}
+
+/* the icons are black png sprites, so they need inverting to read on navy */
+.rdw-option-wrapper img {
+  filter: invert(1);
+}
+
+.rdw-dropdown-optionwrapper,
+.rdw-dropdown-optionwrapper:hover,
+.rdw-colorpicker-modal,
+.rdw-link-modal,
+.rdw-embedded-modal,
+.rdw-emoji-modal,
+.rdw-image-modal,
+.rdw-suggestion-dropdown {
+  background-color: var(--color-base-light);
+  border-color: var(--color-border);
+  color: var(--color-fg);
+  box-shadow: none;
+}
+
+.rdw-dropdownoption-highlighted,
+.rdw-dropdownoption-active {
+  background-color: var(--color-surface-raised);
+}
+
+.rdw-link-modal-btn,
+.rdw-embedded-modal-btn,
+.rdw-image-modal-btn {
+  background-color: var(--color-base-dark);
+  border-color: var(--color-border);
+  color: var(--color-fg);
+}
+
+.rdw-link-modal-input,
+.rdw-embedded-modal-link-input,
+.rdw-image-modal-url-input {
+  background-color: var(--color-page);
+  border-color: var(--color-border);
+  color: var(--color-fg);
+}
+
+/* A tile the way the game art draws one: no fill of its own, a glow behind
+   the icon, and a border lit from the top. Deliberately no box-shadow, the
+   art has none and the glow is what separates the tile from the page. */
+.tile {
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  background:
+    radial-gradient(
+        circle at 50% 50%,
+        color-mix(in oklab, var(--color-glow) 55%, transparent),
+        transparent 70%
+      )
+      padding-box,
+    linear-gradient(
+        to bottom,
+        color-mix(in oklab, var(--color-sheen) 45%, transparent),
+        color-mix(in oklab, var(--color-sheen) 25%, transparent)
+      )
+      border-box;
+}
+
 .small-image {
   @apply w-10 h-10 min-h-10 min-w-10;
 }
@@ -61,12 +265,12 @@ textarea {
 
 .submit {
   padding: 5px 20px;
-  @apply relative text-white border-2 border-hover-primary bg-hover-primary transition enabled:hover:bg-primary enabled:hover:border-primary disabled:bg-primary/40 font-medium rounded-full text-sm w-full sm:w-auto text-center;
+  @apply relative text-page border-2 border-hover-primary bg-hover-primary transition enabled:hover:bg-primary enabled:hover:border-primary disabled:bg-primary/40 font-medium rounded-full text-sm w-full sm:w-auto text-center;
 }
 
 .outlined {
   padding: 5px 10px;
-  @apply relative text-primary border-2 border-primary transition duration-300 enabled:hover:text-white enabled:hover:bg-primary rounded-full flex items-center justify-center font-medium text-sm w-full sm:w-auto text-center;
+  @apply relative text-primary border-2 border-primary transition duration-300 enabled:hover:text-page enabled:hover:bg-primary rounded-full flex items-center justify-center font-medium text-sm w-full sm:w-auto text-center;
 }
 
 .dashed {
@@ -78,7 +282,7 @@ textarea {
 }
 
 .filled.primary {
-  @apply bg-primary text-white;
+  @apply bg-primary text-page;
 }
 
 .icon-button {
@@ -94,7 +298,7 @@ textarea {
 }
 
 .submit.primary {
-  @apply mb-5 relative text-white self-start bg-hover-primary transition-all enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 duration-500 ease-in-out;
+  @apply mb-5 relative text-page self-start bg-hover-primary transition-all enabled:hover:bg-primary enabled:focus:ring-4 focus:outline-none focus:ring-primary/40 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center duration-500 ease-in-out;
 }
 
 @keyframes appear {
@@ -151,7 +355,7 @@ textarea {
 }
 
 .action.action-dropdown-item:hover:not(:disabled) {
-  background-color: rgb(0 0 0 / 6%);
+  background-color: color-mix(in oklab, var(--color-sheen) 12%, transparent);
 }
 
 .actions-container.actions-dropdown-list {

@@ -1,25 +1,44 @@
 @import "tailwindcss";
 
+/*
+ * Dark navy theme, sampled from the game art: the page is the deepest navy,
+ * the chrome sits one step up, and gold is the only accent.
+ *
+ * The tokens the shared library also declares (--color-base*, --color-text*,
+ * --color-border, --color-primary, the notification pairs) are repeated in an
+ * unlayered :root in index.css. They have to be: this @theme and the library's
+ * main.css both land in @layer theme at :root specificity, so the winner would
+ * come down to the order vite happens to inject them. The values here exist so
+ * tailwind generates the utilities; the values there are the ones that apply.
+ */
 @theme {
-  --color-dark: #1b1b1b;
-  --color-dark-background: #272727;
-  --color-light: #fbfbfb;
-  --color-light-background: #f9f9f9;
-  --color-drawer-background: #202020;
-  --color-alt-background: #343434;
-  --color-border: #393939;
+  /* surfaces, deepest first */
+  --color-page: #06111d;
+  --color-surface: #0a1726;
+  --color-surface-raised: #0f2133;
+
+  /* foreground */
+  --color-fg: #e8eef5;
+  --color-fg-muted: #8fa9bf;
+
+  --color-border: #24384a;
+
+  /* brand. Gold reads on navy at every weight, so one value serves the links,
+     the buttons and the header. The old --color-light-primary was a darker
+     gold picked to survive a white background and means nothing here. */
   --color-primary: #c69e3b;
-  /* primary readable on a light background, the gold above is for the header */
-  --color-light-primary: #7a5c12;
   --color-bg-primary: #b8860b;
-  --color-hover-primary: #c69e3b;
+  --color-hover-primary: #ddb75c;
   --color-secondary: #d27d6b;
-  /** Theme **/
-  --color-ocean: "#003366";
-  --color-wood: "#8B4513";
-  --color-sail: "#F5F5DC";
-  --color-gold: "#B8860B";
-  /** Notification colors **/
+
+  /* Theme accents. Unquoted on purpose: a quoted value is not a colour and
+     tailwind emits it verbatim, which is why bg-ocean painted nothing. */
+  --color-ocean: #1c4f7c;
+  --color-wood: #8b4513;
+  --color-sail: #f5f5dc;
+  --color-gold: #b8860b;
+
+  /* Notification colours */
   --color-bg-info: #0070ba;
   --color-info: #fbfbfb;
   --color-bg-success: #065f46;
@@ -28,5 +47,6 @@
   --color-warning: #000000;
   --color-bg-error: #b63d3d;
   --color-error: #fbfbfb;
+
   --breakpoint-xs: 28rem;
 }

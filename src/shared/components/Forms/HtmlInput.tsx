@@ -28,7 +28,7 @@ export const HtmlInput = forwardRef(function (
         editorState={editorState}
         toolbarClassName="toolbarClassName"
         wrapperClassName={`wrapperClassName ${wrapperClassName}`}
-        editorClassName="editorClassName !h-60 !bg-white p-5"
+        editorClassName="editorClassName !h-60 !bg-base-light !text-fg p-5"
         onEditorStateChange={onChange}
         editorRef={ref as (ref: object) => void}
         toolbar={{

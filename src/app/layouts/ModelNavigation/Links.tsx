@@ -25,12 +25,12 @@ export function Links(props: LinksPropsTypes) {
   const pathName = findPath(pageKey);
 
   return (
-    <nav className={`flex bg-slate-200 w-full px-4 ${navClassName}`}>
+    <nav className={`flex bg-surface w-full px-4 ${navClassName}`}>
       <Link
         className={`px-3 py-2 ${linksClassName} ${
           pathname === pathName
-            ? "text-dark/60 disabled-link"
-            : "text-primary hover:text-dark-primary"
+            ? "text-fg-muted disabled-link"
+            : "text-primary hover:text-hover-primary"
         }`}
         to={pathName}
       >
@@ -41,8 +41,8 @@ export function Links(props: LinksPropsTypes) {
           className={`px-3 py-2 ${linksClassName} ${
             pathname === `${pathName}/${t("_accessibility:labels.new")}` ||
             pathname.match(/^\/[^/]+\/[^/]+\/\d+$/)
-              ? "text-dark/60 disabled-link"
-              : "text-primary hover:text-dark-primary"
+              ? "text-fg-muted disabled-link"
+              : "text-primary hover:text-hover-primary"
           }`}
           to={`${pathName}/${t("_accessibility:labels.new")}`}
         >

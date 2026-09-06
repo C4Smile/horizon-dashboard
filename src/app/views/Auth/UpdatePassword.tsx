@@ -91,7 +91,7 @@ function UpdatePassword() {
           />
         </Link>
         <h1
-          className={`w-full text-2xl md:text-3xl text-slate-800 font-bold mb-5 transition-all duration-500 ease-in-out delay-100 ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
+          className={`w-full text-2xl md:text-3xl text-fg font-bold mb-5 transition-all duration-500 ease-in-out delay-100 ${appear ? "translate-y-0 opacity-100" : "opacity-0 translate-y-1"}`}
         >
           {t("_pages:auth.updatePassword.title")}
         </h1>
@@ -106,7 +106,7 @@ function UpdatePassword() {
               <PasswordInput
                 {...field}
                 id="password"
-                className={`block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
+                className={`block py-2.5 px-0 w-full text-sm text-fg bg-transparent border-0 border-b-2 border-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer`}
                 label={t("_entities:user.password.label")}
                 required
               />
@@ -124,7 +124,7 @@ function UpdatePassword() {
               <PasswordInput
                 {...field}
                 id="rPassword"
-                className={`block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer`}
+                className={`block py-2.5 px-0 w-full text-sm text-fg bg-transparent border-0 border-b-2 border-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer`}
                 label={t("_entities:user.rPassword.label")}
                 required
                 helperText={passwordError}

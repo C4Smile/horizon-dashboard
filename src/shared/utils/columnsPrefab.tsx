@@ -17,7 +17,7 @@ export const nameColumn = <
     filterOptions: { type: FilterTypes.text, defaultValue: "" },
     renderBody: (name: unknown, entity: BaseEntityDto) => (
       <Link
-        className={`underline ${entity.deletedAt ? "text-white" : "text-light-primary"} flex`}
+        className={`underline ${entity.deletedAt ? "text-fg-muted" : "text-primary"} flex`}
         to={`${entity.id}`}
       >
         <span className="w-80 truncate">{String(name)}</span>
@@ -62,7 +62,7 @@ export const titleColumn = {
   filterOptions: { type: FilterTypes.text, defaultValue: "" },
   renderBody: (title: string, entity: BaseEntityDto) => (
     <Link
-      className={`underline ${entity.deletedAt ? "text-white" : "text-light-primary"} flex`}
+      className={`underline ${entity.deletedAt ? "text-fg-muted" : "text-primary"} flex`}
       to={`${entity.id}`}
     >
       <span className="w-80 truncate">{title}</span>

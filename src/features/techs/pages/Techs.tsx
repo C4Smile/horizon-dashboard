@@ -87,7 +87,7 @@ function TechPage() {
         },
         renderBody: (_: unknown, tech: TechDto) => (
           <Link
-            className={`underline ${tech.deletedAt ? "text-white" : "text-light-primary"}`}
+            className={`underline ${tech.deletedAt ? "text-fg-muted" : "text-primary"}`}
             to={`/game/${Tables.TechTypes}/${tech.id}`}
           >
             {tech.type.name}
