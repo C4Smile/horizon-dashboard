@@ -125,4 +125,44 @@ test.describe("E2E Smoke – shell", () => {
       timeout: 10_000,
     });
   });
+  test("removing an image from a form asks first", async ({ page }) => {
+    await page.goto("/auth");
+
+    await page.locator("#sign-in-email").fill(USER);
+    await page.locator("#sign-in-password").fill(PASSWORD);
+    await page.getByRole("button", { name: /enviar|entrar|submit/i }).click();
+    await expect(page).not.toHaveURL(/\/auth/, { timeout: 15_000 });
+
+    await page.goto("/game/resources/1");
+
+    const images = page.locator("img[alt='upload']");
+    await expect(images.first()).toBeVisible({ timeout: 15_000 });
+    const before = await images.count();
+
+    // the trash used to drop the image on the spot
+    await page
+      .getByRole("button", { name: /eliminar/i })
+      .first()
+      .click();
+    await expect(page.getByText(/quitar esta imagen/i)).toBeVisible({
+      timeout: 10_000,
+    });
+    await expect(images).toHaveCount(before);
+
+    await page
+      .getByRole("button", { name: /cancelar/i })
+      .first()
+      .click();
+    await expect(images).toHaveCount(before);
+
+    await page
+      .getByRole("button", { name: /eliminar/i })
+      .first()
+      .click();
+    await page
+      .getByRole("button", { name: /aceptar/i })
+      .first()
+      .click();
+    await expect(images).toHaveCount(before - 1);
+  });
 });

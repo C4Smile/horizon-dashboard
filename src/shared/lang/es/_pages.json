@@ -13,6 +13,12 @@
           "message": "¿Seguro que quieres eliminar este elemento?"
         }
       },
+      "deleteImage": {
+        "dialog": {
+          "title": "Eliminar imagen",
+          "message": "¿Seguro que quieres quitar esta imagen? El cambio se guarda al enviar el formulario."
+        }
+      },
       "restore": {
         "text": "Restaurar",
         "successMessage": "Elemento restaurado",
