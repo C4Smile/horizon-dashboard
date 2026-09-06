@@ -69,10 +69,15 @@ test.describe("E2E Smoke – shell", () => {
 
     await thumb.click();
 
-    // the same photo, no longer at thumbnail size
+    // the same file, asked for at a bigger size: the cell renders it small and
+    // the dialog does not, so the two urls differ by their width
     const full = page.locator(".dialog img");
     await expect(full).toBeVisible({ timeout: 10_000 });
-    await expect(full).toHaveAttribute("src", thumbSrc ?? "");
+    const fullSrc = (await full.getAttribute("src")) ?? "";
+    expect(fullSrc.split("?")[0]).toBe((thumbSrc ?? "").split("?")[0]);
+    expect(Number(new URL(fullSrc).searchParams.get("w"))).toBeGreaterThan(
+      Number(new URL(thumbSrc ?? "").searchParams.get("w")),
+    );
     expect((await full.boundingBox())?.width ?? 0).toBeGreaterThan(200);
   });
   test("a model form goes back to its list", async ({ page }) => {
