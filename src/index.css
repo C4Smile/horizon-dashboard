@@ -443,3 +443,18 @@ textarea {
 .actions-container.actions-dropdown-list {
   gap: 0.125rem;
 }
+
+/* The scroll to top button is a .submit as well, and .submit sets position
+   relative, a full width and a pill radius. Both rules are unlayered and
+   equally specific, so the fixed button dropped into the flow and hung 16px
+   off the left edge of the page. This has to stay the last rule in the file:
+   a specificity tie is settled by order, and .submit.primary matches it. */
+.to-top.to-top {
+  position: fixed;
+  /* clear of the table footer, whose pager sits in the same corner */
+  inset: auto 1rem 4.5rem auto;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border-radius: 0.75rem;
+}
