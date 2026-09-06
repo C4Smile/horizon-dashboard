@@ -135,7 +135,9 @@ test.describe("E2E Smoke – shell", () => {
 
     await page.goto("/game/resources/1");
 
-    const images = page.locator("img[alt='upload']");
+    // the uploaders of a form sit in one row; each keeps its picture until
+    // the delete is confirmed
+    const images = page.locator(".form-images img");
     await expect(images.first()).toBeVisible({ timeout: 15_000 });
     const before = await images.count();
 

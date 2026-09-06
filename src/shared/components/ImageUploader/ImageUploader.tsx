@@ -2,7 +2,7 @@ import { ChangeEvent, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 // @sito/dashboard-app
-import { ConfirmationDialog, Loading } from "@sito/dashboard-app";
+import { ConfirmationDialog, Dialog, Loading } from "@sito/dashboard-app";
 
 // font awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,6 +27,7 @@ export function ImageUploader(props: ImageUploaderPropsType) {
 
   const [loadingPhoto, setLoadingPhoto] = useState(false);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [previewing, setPreviewing] = useState(false);
 
   const { t } = useTranslation();
 
@@ -59,54 +60,84 @@ export function ImageUploader(props: ImageUploaderPropsType) {
     return null;
   }, [photo]);
 
+  const hasPhoto = !!photoToShow && photo?.id !== 1;
+
+  if (loadingPhoto)
+    return (
+      <div className="flex flex-col items-start gap-4">
+        <span>{label}</span>
+        <Loading className="w-40 h-40 bg-black/20 rounded-lg" />
+      </div>
+    );
+
   return (
     <>
-      <label className="flex flex-col items-start gap-4">
-        <span>{label}</span>
-        {loadingPhoto ? (
-          <Loading className="w-40 h-40 bg-black/20 rounded-lg" />
-        ) : (
-          <>
-            {photoToShow && photo?.id !== 1 ? (
-              <>
-                <div className="flex flex-col relative">
-                  <button
-                    type="button"
-                    onClick={() => setConfirmingDelete(true)}
-                    aria-label={t("_accessibility:buttons.delete")}
-                    title={t("_accessibility:buttons.delete")}
-                    className="text-error bg-bg-error absolute top-2 right-2 rounded-lg w-9 h-9"
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
-                  <img
-                    className="tile w-40 h-40 object-cover"
-                    src={photoToShow}
-                    alt="upload"
-                  />
-                </div>
-              </>
-            ) : (
-              <div className="flex gap-4 items-center relative">
-                <input
-                  accept="image/png, image/jpeg, image/jpg"
-                  type="file"
-                  onChange={onUploadFile}
-                />
-                <div className="w-40 h-40 flex items-center justify-center rounded-lg border-2 border-dashed border-primary/40">
-                  <FontAwesomeIcon
-                    icon={faAdd}
-                    className="cursor-pointer p-4 text-2xl text-primary"
-                  />
-                </div>
-              </div>
-            )}
-          </>
-        )}
-      </label>
+      {hasPhoto ? (
+        // no label around this one: a click anywhere inside a label activates
+        // the label's control, and here that was the delete button, so
+        // clicking the picture asked to throw it away
+        <div className="flex flex-col items-start gap-4">
+          <span>{label}</span>
+          <div className="flex flex-col relative">
+            <button
+              type="button"
+              onClick={() => setConfirmingDelete(true)}
+              aria-label={t("_accessibility:buttons.delete")}
+              title={t("_accessibility:buttons.delete")}
+              className="text-error bg-bg-error absolute top-2 right-2 rounded-lg w-9 h-9 z-10"
+            >
+              <FontAwesomeIcon icon={faTrash} />
+            </button>
+            <button
+              type="button"
+              onClick={() => setPreviewing(true)}
+              aria-label={t("_accessibility:ariaLabels.viewImage", {
+                defaultValue: String(label),
+              })}
+              className="cursor-pointer"
+            >
+              <img
+                className="tile w-40 h-40 object-cover transition hover:brightness-110"
+                src={photoToShow}
+                alt={String(label)}
+              />
+            </button>
+          </div>
+        </div>
+      ) : (
+        <label className="flex flex-col items-start gap-4">
+          <span>{label}</span>
+          <div className="flex gap-4 items-center relative">
+            <input
+              accept="image/png, image/jpeg, image/jpg"
+              type="file"
+              onChange={onUploadFile}
+            />
+            <div className="w-40 h-40 flex items-center justify-center rounded-lg border-2 border-dashed border-primary/40">
+              <FontAwesomeIcon
+                icon={faAdd}
+                className="cursor-pointer p-4 text-2xl text-primary"
+              />
+            </div>
+          </div>
+        </label>
+      )}
 
-      {/* outside the label on purpose: a click inside one activates the
-          label's control, and that is the file input */}
+      <Dialog
+        open={previewing}
+        title={photo?.fileName?.length ? photo.fileName : String(label)}
+        handleClose={() => setPreviewing(false)}
+        closeOnBackdropClick
+      >
+        {!!photoToShow && (
+          <img
+            className="tile max-h-[70vh] w-full object-contain"
+            src={photoToShow}
+            alt={String(label)}
+          />
+        )}
+      </Dialog>
+
       <ConfirmationDialog
         open={confirmingDelete}
         title={t("_pages:common.actions.deleteImage.dialog.title")}
