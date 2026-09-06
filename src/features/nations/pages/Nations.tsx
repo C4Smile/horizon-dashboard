@@ -77,6 +77,7 @@ function Nations() {
     [
       nameColumn<NationDto>(),
       imageColumn<NationDto>("name", "image"),
+      imageColumn<NationDto>("name", "icon"),
       {
         key: "playable",
         filterOptions: { type: FilterTypes.check, defaultValue: false },

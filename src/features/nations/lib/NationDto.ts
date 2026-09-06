@@ -7,6 +7,7 @@ import { BaseEntityDto, PhotoDto } from "lib";
 export interface NationDto extends BaseEntityDto {
   name: string;
   image?: PhotoDto;
+  icon?: PhotoDto;
   description: string;
   playable: boolean;
 }

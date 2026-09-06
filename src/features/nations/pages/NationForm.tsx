@@ -51,6 +51,7 @@ function NationForm() {
   const [saving, setSaving] = useState(false);
   const [updatedAt, setUpdatedAt] = useState<string>("");
   const [photo, setPhoto] = useState<ImageFormType | null>(null);
+  const [icon, setIcon] = useState<ImageFormType | null>(null);
 
   const { handleSubmit, reset, control } = useForm<FormValues<NationDto>>();
 
@@ -59,8 +60,8 @@ function NationForm() {
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.Nation.createFromForm(d, photo);
-      else result = await horizonApiClient.Nation.updateFromForm(d, photo);
+      if (!d.id) result = await horizonApiClient.Nation.createFromForm(d, photo, icon);
+      else result = await horizonApiClient.Nation.updateFromForm(d, photo, icon);
 
       const { error, status } = result;
       setNotification(String(status), {
@@ -79,6 +80,7 @@ function NationForm() {
           });
         else {
           setPhoto(null);
+          setIcon(null);
           reset({
             id: undefined,
             name: "",
@@ -118,12 +120,14 @@ function NationForm() {
   useEffect(() => {
     if (nationQuery.data) {
       setPhoto(nationQuery.data?.image ?? null);
+      setIcon(nationQuery.data?.icon ?? null);
       setUpdatedAt(String(nationQuery?.data?.updatedAt ?? ""));
       reset({ ...nationQuery.data });
     }
 
     if (!id) {
       setPhoto(null);
+      setIcon(null);
       reset({
         id: undefined,
         name: "",
@@ -170,12 +174,20 @@ function NationForm() {
               {nationQuery.isLoading ? (
                 <Loading />
               ) : (
-                <ImageUploader
-                  photo={photo}
-                  setPhoto={setPhoto}
-                  label={t("_entities:nation.image.label")}
-                  folder={ReactQueryKeys.Nations}
-                />
+                <>
+                  <ImageUploader
+                    photo={photo}
+                    setPhoto={setPhoto}
+                    label={t("_entities:nation.image.label")}
+                    folder={ReactQueryKeys.Nations}
+                  />
+                  <ImageUploader
+                    photo={icon}
+                    setPhoto={setIcon}
+                    label={t("_entities:nation.icon.label")}
+                    folder={`${ReactQueryKeys.Nations}/iconos`}
+                  />
+                </>
               )}
             </div>
 

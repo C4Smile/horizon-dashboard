@@ -109,7 +109,7 @@ export function ImageUploader(props: ImageUploaderPropsType) {
           <span>{label}</span>
           <div className="flex gap-4 items-center relative">
             <input
-              accept="image/png, image/jpeg, image/jpg"
+              accept="image/png, image/jpeg, image/jpg, image/webp"
               type="file"
               onChange={onUploadFile}
             />

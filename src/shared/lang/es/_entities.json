@@ -396,6 +396,9 @@
     },
     "image": {
       "label": "Bandera"
+    },
+    "icon": {
+      "label": "Icono"
     }
   }
 }
