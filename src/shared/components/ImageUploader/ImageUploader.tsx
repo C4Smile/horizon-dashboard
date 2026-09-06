@@ -72,7 +72,7 @@ export function ImageUploader(props: ImageUploaderPropsType) {
                   <FontAwesomeIcon icon={faTrash} />
                 </button>
                 <img
-                  className="w-40 h-40 rounded-lg object-cover"
+                  className="tile w-40 h-40 object-cover"
                   src={photoToShow}
                   alt="upload"
                 />

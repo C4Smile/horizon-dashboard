@@ -91,7 +91,7 @@ function ImageUploaderMultiple(props: ImageUploaderMultiplePropsType) {
                   <FontAwesomeIcon icon={faTrash} />
                 </button>
                 <img
-                  className="w-20 h-20 rounded-lg object-cover"
+                  className="tile w-20 h-20 object-cover"
                   src={photoToShow(photo) ?? ""}
                   alt="upload"
                 />

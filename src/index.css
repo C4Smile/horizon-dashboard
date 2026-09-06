@@ -44,7 +44,7 @@
   /* the light the chrome catches, only ever used translucent, and the glow a
      tile carries behind its icon. Declared here rather than in @theme because
      neither is a utility and tailwind drops an unused theme token. */
-  --color-sheen: #8fb0c9;
+  --color-sheen: #72a6b5;
   --color-glow: #143a54;
 }
 
@@ -266,9 +266,11 @@ body {
   @apply flex flex-wrap items-start gap-8;
 }
 
-/* A tile the way the game art draws one: no fill of its own, a glow behind
-   the icon, and a border lit from the top. Deliberately no box-shadow, the
-   art has none and the glow is what separates the tile from the page. */
+/* A frame the way the game art draws one, measured off the tiles rather than
+   guessed: no fill of its own, a glow behind the icon, and a border lit from
+   the top. The light falls off towards the bottom right, so the top edge
+   carries about 30% and the right edge about 11%. Deliberately no box-shadow,
+   the art has none and the glow is what separates the tile from the page. */
 .tile {
   border: 1px solid transparent;
   border-radius: 0.5rem;
@@ -280,9 +282,9 @@ body {
       )
       padding-box,
     linear-gradient(
-        to bottom,
-        color-mix(in oklab, var(--color-sheen) 45%, transparent),
-        color-mix(in oklab, var(--color-sheen) 25%, transparent)
+        160deg,
+        color-mix(in oklab, var(--color-sheen) 32%, transparent),
+        color-mix(in oklab, var(--color-sheen) 11%, transparent)
       )
       border-box;
 }
