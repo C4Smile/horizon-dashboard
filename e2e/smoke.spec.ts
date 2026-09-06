@@ -34,6 +34,33 @@ test.describe("E2E Smoke – shell", () => {
     await expect(page).not.toHaveURL(/\/auth/, { timeout: 15_000 });
   });
 
+  test("the home page counts what the api holds, and loads nothing from outside", async ({
+    page,
+  }) => {
+    // the banner used to pull a stock photo from an external cdn
+    const remote: string[] = [];
+    page.on("request", (request) => {
+      if (!request.url().includes("localhost")) remote.push(request.url());
+    });
+
+    await page.goto("/auth");
+    await page.locator("#sign-in-email").fill(USER);
+    await page.locator("#sign-in-password").fill(PASSWORD);
+    await page.getByRole("button", { name: /enviar|entrar|submit/i }).click();
+    await expect(page).not.toHaveURL(/\/auth/, { timeout: 15_000 });
+
+    await page.goto("/");
+
+    const first = page.locator(".stat-card").first();
+    await expect(first).toBeVisible({ timeout: 15_000 });
+    // an em dash is what a counter shows while its query is in flight
+    await expect(first.locator(".stat-count")).not.toHaveText("—", {
+      timeout: 15_000,
+    });
+
+    expect(remote).toEqual([]);
+  });
+
   test("the drawer offers sign out and it ends the session", async ({
     page,
   }) => {

@@ -732,6 +732,36 @@ textarea {
   text-decoration: underline;
 }
 
+/* The banner used to load a stock photo of a hotel from an external cdn, left
+   over from the template this dashboard started as: wrong game, and a remote
+   request that hangs on a slow link. It wears the frame the art wears
+   instead, which costs nothing to download. */
+.welcome-banner {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-control);
+}
+
+/* A counter reads as a number first, so the card stacks instead of laying its
+   two halves against each other the way a section card does. */
+.stat-card {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.stat-count {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.stat-label {
+  color: color-mix(in oklab, var(--color-fg) 70%, transparent);
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
 /* The scroll to top button is a .submit as well, and .submit sets position
    relative, a full width and a pill radius. Both rules are unlayered and
    equally specific, so the fixed button dropped into the flow and hung 16px
