@@ -37,7 +37,8 @@ export const EntityLevelForm = <TDto extends OptionReqCommonDto>(
           !!id && typeof id === "number"
             ? currentList
             : !currentList.some(
-                (rex) => (rex as Record<string, unknown>)[attributeId] === res.id,
+                (rex) =>
+                  (rex as Record<string, unknown>)[attributeId] === res.id,
               ),
         )
         .map((res) => ({ id: res.id, name: String(res.value) })),

@@ -5,6 +5,9 @@ import { useTranslation } from "react-i18next";
 // @sito/dashboard-app
 import { FormDialog, Loading, useFormDialog } from "@sito/dashboard-app";
 
+// components
+import { Empty } from "../Empty";
+
 // providers
 import { useNotification, queryClient } from "providers";
 
@@ -164,20 +167,24 @@ export function ResourceStuff<TDto extends OptionResourceCommonDto, TAddDto>(
           control={formDialog.control}
         />
       </FormDialog>
-      {lists?.map((cost, i) => (
-        <ResourceRow
-          value={cost}
-          disabled={saving}
-          resources={resources}
-          key={`${cost.resourceId}-${i}`}
-          label={t(`_entities:${entity}.resource.${label}`)}
-          inputLabel={t(`_entities:base.${inputKey}.label`)}
-          onEdit={(resourceId) => openResource(resourceId)}
-          onDelete={onDelete}
-        />
-      ))}
+      {lists?.length ? (
+        lists.map((cost, i) => (
+          <ResourceRow
+            value={cost}
+            disabled={saving}
+            resources={resources}
+            key={`${cost.resourceId}-${i}`}
+            label={t(`_entities:${entity}.resource.${label}`)}
+            inputLabel={t(`_entities:base.${inputKey}.label`)}
+            onEdit={(resourceId) => openResource(resourceId)}
+            onDelete={onDelete}
+          />
+        ))
+      ) : (
+        <Empty />
+      )}
 
-      <div className="flex gap-3 absolute bottom-6 left-6">
+      <div className="flex gap-3">
         <button
           disabled={saving || lists.length >= resources.length}
           onClick={() => openResource()}

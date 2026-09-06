@@ -2,7 +2,12 @@ import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 // @sito/dashboard-app
-import { ActionType, ConfirmationDialog, FilterTypes, Table } from "@sito/dashboard-app";
+import {
+  ActionType,
+  ConfirmationDialog,
+  FilterTypes,
+  Table,
+} from "@sito/dashboard-app";
 
 // utils
 import { nameColumn, imageColumn, useParseColumns } from "utils";
@@ -100,6 +105,7 @@ function ShipsPage() {
         filterOptions: { type: FilterTypes.number },
       },
       imageColumn<ShipDto>("name", "image"),
+      imageColumn<ShipDto>("name", "icon"),
     ],
     EntityName.Ship,
     [],

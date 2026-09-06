@@ -19,10 +19,13 @@ import { HTTPError } from "api";
 import { QueryResult } from "lib";
 
 // index
+// components
+import { Empty } from "../Empty";
+
+// index
 import {
   EntityLevelForm,
   EntityLevelRow,
-  Empty,
   EntityLevelFormType,
   EntityLevelSaveDto,
   EntityLevelStuffPropsType,
@@ -181,7 +184,7 @@ export function EntityLevelStuff<TDto extends OptionReqCommonDto, TAddDto>(
       ) : (
         <Empty />
       )}
-      <div className="flex gap-3 absolute bottom-6 left-6">
+      <div className="flex gap-3">
         <button
           disabled={saving || (!!lists && lists.length >= entities.length)}
           onClick={() => openRequirement()}

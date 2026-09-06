@@ -61,8 +61,7 @@ export function Dashboard() {
     void validateSession();
   }, [account.token, horizonApiClient.Auth, logoutUser, navigate]);
 
-  // no footer on purpose: the entity tabs float their add button at the bottom
-  // left and a footer would sit on top of it
+  // no footer on purpose
   return (
     <AppShell
       header={

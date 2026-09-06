@@ -43,6 +43,10 @@ export const imageColumn = <TDto extends BaseEntityDto>(
   return {
     key: imageKey,
     sortable: false,
+    // the table sorts its columns by pos, descending, and keeps the array
+    // order within a tie. Anything the pages add lands on 0, so a 1 puts the
+    // pictures between the id and the name wherever they are declared.
+    pos: 1,
     renderBody: (_: unknown, entity: TDto) => {
       const value = entity[imageKey];
       // older entities answered a list, the api sends a single relation now
@@ -50,9 +54,7 @@ export const imageColumn = <TDto extends BaseEntityDto>(
         (photo): photo is PhotoDto => !!photo?.url,
       );
 
-      return (
-        <PhotoPreview photos={photos} alt={entity[altKey] as string} />
-      );
+      return <PhotoPreview photos={photos} alt={entity[altKey] as string} />;
     },
   };
 };
