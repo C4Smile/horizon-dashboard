@@ -10,3 +10,4 @@ export * from "./TabComponent";
 export * from "./utils";
 export * from "./TablePage";
 export * from "./TableToolbar";
+export * from "./FormTitle";

@@ -50,7 +50,7 @@ function TechPage() {
   //#region Actions
 
   const editAction = useEditAction({
-    url: `game/${Tables.Techs}`,
+    pageKey: PageId.techs,
   });
 
   const restoreAction = useRestoreDialog({

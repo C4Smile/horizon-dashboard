@@ -1,9 +1,4 @@
-import { Link, Outlet, useLocation } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-
-// icons
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { Outlet } from "react-router-dom";
 
 // sitemap
 import { findPath } from "pages";
@@ -19,29 +14,12 @@ import { ModelNavigationPropsType } from "./types";
 export function ModelNavigation(props: ModelNavigationPropsType) {
   const { pageKey } = props;
 
-  const { pathname } = useLocation();
-  const { t } = useTranslation();
-
-  const listPath = findPath(pageKey);
-
-  // this layout mounts the list and the two forms under it, so any route but
-  // the list is one of the forms
-  const inForm = pathname !== listPath;
-
+  // the forms below draw the chevron back to this list next to their own
+  // title, and only this layout knows which list that is
   return (
     <div className="h-full">
       <div className="p-5 h-full">
-        {inForm && (
-          <Link
-            to={listPath}
-            className="icon-button button text-primary hover:text-hover-primary"
-            aria-label={t("_accessibility:buttons.back")}
-            title={t("_accessibility:buttons.back")}
-          >
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </Link>
-        )}
-        <Outlet />
+        <Outlet context={{ listPath: findPath(pageKey) }} />
       </div>
     </div>
   );

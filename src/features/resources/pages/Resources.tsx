@@ -18,7 +18,7 @@ import { useEditAction, useDeleteDialog, useRestoreDialog } from "hooks";
 import { ResourcesQueryKeys, useResourcesList } from "../hooks";
 
 // api
-import { EntityName, Tables } from "api";
+import { EntityName } from "api";
 
 // pages
 import { PageId } from "pages";
@@ -44,7 +44,7 @@ function ResourcePage() {
   //#region Actions
 
   const editAction = useEditAction({
-    url: `game/${Tables.Resources}`,
+    pageKey: PageId.resources,
   });
 
   const restoreAction = useRestoreDialog({

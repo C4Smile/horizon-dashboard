@@ -5,6 +5,9 @@ import { useTranslation } from "react-i18next";
 import { TabsLayout as SharedTabsLayout } from "@sito/dashboard-app";
 import type { TabsType } from "@sito/dashboard-app";
 
+// components
+import { FormTitle } from "../FormTitle";
+
 // types
 import { TabsLayoutPropsType } from "./types.js";
 
@@ -32,11 +35,11 @@ export const TabsLayout = (props: TabsLayoutPropsType) => {
 
   return (
     <>
-      <h1 className="text-2xl md:text-3xl font-bold mb-2">
+      <FormTitle>
         {id
           ? `${t("_accessibility:components.form.editing")} ${name}`
           : t(`_pages:${entity}.newForm`)}
-      </h1>
+      </FormTitle>
       {/* useLinks renders anchors without an href, which are not keyboard
           reachable; these tabs switch local state, so they are buttons */}
       <SharedTabsLayout tabs={sharedTabs} useLinks={false} />

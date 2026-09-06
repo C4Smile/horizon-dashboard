@@ -1,8 +1,3 @@
-import { useEffect } from "react";
-
-// providers
-import { useNavbar } from "providers";
-
 // types
 import { TablePagePropsType } from "./types";
 
@@ -14,11 +9,13 @@ import { TablePagePropsType } from "./types";
 export const TablePage = (props: TablePagePropsType) => {
   const { children, title } = props;
 
-  const { setTitle } = useNavbar();
-
-  useEffect(() => {
-    setTitle(title ?? "");
-  }, [setTitle, title]);
-
-  return <div className="h-full">{children}</div>;
+  // the title used to go into the navbar, next to the menu button, which left
+  // the app without a name of its own. It sits over its table now and the
+  // navbar keeps the app name.
+  return (
+    <div className="h-full">
+      {!!title?.length && <h1 className="page-title">{title}</h1>}
+      {children}
+    </div>
+  );
 };

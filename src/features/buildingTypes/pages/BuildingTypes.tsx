@@ -21,7 +21,7 @@ import { PageId } from "pages";
 import { BuildingTypeDto } from "../lib";
 
 // api
-import { EntityName, Tables } from "api";
+import { EntityName } from "api";
 
 // providers
 import { useHorizonApiClient } from "providers";
@@ -48,7 +48,7 @@ function BuildingTypes() {
   //#region Actions
 
   const editAction = useEditAction({
-    url: `game/${Tables.BuildingTypes}`,
+    pageKey: PageId.buildingTypes,
   });
 
   const restoreAction = useRestoreDialog({

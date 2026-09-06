@@ -32,6 +32,8 @@ export const useDeleteAction = (
     (row: BaseEntityDto) => {
       return {
         id: BaseActions.Delete,
+        // kept out of the dropdown: two actions do not earn a menu
+        sticky: true,
         isLoading,
         hidden: hidden || !!row.deletedAt,
         disabled: disabled || !!row.lockedBy,

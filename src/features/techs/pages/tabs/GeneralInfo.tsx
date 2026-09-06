@@ -50,7 +50,8 @@ export function GeneralInfo(props: GeneralInfoPropsType) {
   const [saving, setSaving] = useState(false);
   const [updatedAt, setLastUpdate] = useState<string>("");
 
-  const { handleSubmit, reset, control, getValues } = useForm<FormValues<TechDto>>();
+  const { handleSubmit, reset, control, getValues } =
+    useForm<FormValues<TechDto>>();
 
   const [photo, setPhoto] = useState<ImageFormType | null>(null);
 
@@ -174,91 +175,95 @@ export function GeneralInfo(props: GeneralInfoPropsType) {
         </>
       ) : null}
 
-      {/* Tech Name */}
-      <Controller
-        control={control}
-        disabled={techQuery.isLoading || saving}
-        name="name"
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            type="text"
+      <div className="form-grid">
+        <div className="form-column gap-5">
+          {/* Tech Name */}
+          <Controller
+            control={control}
+            disabled={techQuery.isLoading || saving}
             name="name"
-            id="name"
-            placeholder={t("_entities:tech.name.placeholder")}
-            label={t("_entities:tech.name.label")}
-            required
+            render={({ field }) => (
+              <TextInput
+                {...field}
+                type="text"
+                name="name"
+                id="name"
+                placeholder={t("_entities:tech.name.placeholder")}
+                label={t("_entities:tech.name.label")}
+                required
+              />
+            )}
           />
-        )}
-      />
 
-      {/* Tech Creation Time */}
-      <Controller
-        control={control}
-        disabled={techQuery.isLoading || saving}
-        name="creationTime"
-        render={({ field }) => (
-          <TextInput
-            {...field}
-            type="number"
+          {/* Tech Creation Time */}
+          <Controller
+            control={control}
+            disabled={techQuery.isLoading || saving}
             name="creationTime"
-            id="creationTime"
-            placeholder={t("_entities:tech.creationTime.placeholder")}
-            label={t("_entities:tech.creationTime.label")}
-            required
+            render={({ field }) => (
+              <TextInput
+                {...field}
+                type="number"
+                name="creationTime"
+                id="creationTime"
+                placeholder={t("_entities:tech.creationTime.placeholder")}
+                label={t("_entities:tech.creationTime.label")}
+                required
+              />
+            )}
           />
-        )}
-      />
 
-      {/* Tech Type */}
-      <Controller
-        control={control}
-        name="type"
-        disabled={techQuery.isLoading || typesQuery.isLoading || saving}
-        render={({ field: { onChange, value, ...rest } }) => (
-          <SelectInput
-            {...rest}
-            id="type"
+          {/* Tech Type */}
+          <Controller
+            control={control}
             name="type"
-            label={t("_entities:tech.type.label")}
-            options={typesList}
-            value={parseId(value)}
-            onChange={(e) => {
-              onChange(e.target.value);
-            }}
+            disabled={techQuery.isLoading || typesQuery.isLoading || saving}
+            render={({ field: { onChange, value, ...rest } }) => (
+              <SelectInput
+                {...rest}
+                id="type"
+                name="type"
+                label={t("_entities:tech.type.label")}
+                options={typesList}
+                value={parseId(value)}
+                onChange={(e) => {
+                  onChange(e.target.value);
+                }}
+              />
+            )}
           />
-        )}
-      />
 
-      {/* Tech Image */}
-      <div className="my-5">
-        {techQuery.isLoading ? (
-          <Loading />
-        ) : (
-          <ImageUploader
-            photo={photo}
-            setPhoto={setPhoto}
-            label={t("_entities:tech.image.label")}
-            folder={ReactQueryKeys.Techs}
-          />
-        )}
+          {/* Tech Image */}
+          <div className="form-images">
+            {techQuery.isLoading ? (
+              <Loading />
+            ) : (
+              <ImageUploader
+                photo={photo}
+                setPhoto={setPhoto}
+                label={t("_entities:tech.image.label")}
+                folder={ReactQueryKeys.Techs}
+              />
+            )}
+          </div>
+        </div>
+
+        {/* Tech description */}
+        <Controller
+          control={control}
+          name="description"
+          disabled={techQuery.isLoading || saving}
+          render={({ field: { onChange, value, ...rest } }) => (
+            <HtmlInput
+              label={t("_entities:tech.description.label")}
+              wrapperClassName="w-full"
+              {...rest}
+              value={value}
+              onChange={onChange}
+            />
+          )}
+        />
       </div>
-
-      {/* Tech description */}
-      <Controller
-        control={control}
-        name="description"
-        disabled={techQuery.isLoading || saving}
-        render={({ field: { onChange, value, ...rest } }) => (
-          <HtmlInput
-            label={t("_entities:tech.description.label")}
-            wrapperClassName="mt-5 w-full"
-            {...rest}
-            value={value}
-            onChange={onChange}
-          />
-        )}
-      />
 
       <button
         type="submit"

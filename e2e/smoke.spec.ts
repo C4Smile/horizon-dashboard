@@ -104,4 +104,25 @@ test.describe("E2E Smoke – shell", () => {
     await page.getByRole("link", { name: /atrás/i }).click();
     await expect(page).toHaveURL(/\/game\/resources$/, { timeout: 10_000 });
   });
+  test("the edit action opens the row it belongs to", async ({ page }) => {
+    await page.goto("/auth");
+
+    await page.locator("#sign-in-email").fill(USER);
+    await page.locator("#sign-in-password").fill(PASSWORD);
+    await page.getByRole("button", { name: /enviar|entrar|submit/i }).click();
+    await expect(page).not.toHaveURL(/\/auth/, { timeout: 15_000 });
+
+    // building types is the case that failed twice over: the url was relative,
+    // so it resolved against the list route, and the table name it was built
+    // from is buildingTypes while the route segment is building-types
+    await page.goto("/game/building-types");
+
+    const edit = page.locator("button.action").first();
+    await expect(edit).toBeVisible({ timeout: 15_000 });
+    await edit.click();
+
+    await expect(page).toHaveURL(/\/game\/building-types\/\d+$/, {
+      timeout: 10_000,
+    });
+  });
 });

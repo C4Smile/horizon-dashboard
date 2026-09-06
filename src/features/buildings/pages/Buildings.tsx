@@ -55,7 +55,7 @@ function BuildingPage() {
   //#region Actions
 
   const editAction = useEditAction({
-    url: `game/${Tables.Buildings}`,
+    pageKey: PageId.buildings,
   });
 
   const restoreAction = useRestoreDialog({

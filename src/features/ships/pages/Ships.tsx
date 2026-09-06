@@ -18,7 +18,7 @@ import { useEditAction, useDeleteDialog, useRestoreDialog } from "hooks";
 import { useShipsList, ShipsQueryKeys } from "../hooks";
 
 // api
-import { EntityName, Tables } from "api";
+import { EntityName } from "api";
 
 // pages
 import { PageId } from "pages";
@@ -44,7 +44,7 @@ function ShipsPage() {
   //#region Actions
 
   const editAction = useEditAction({
-    url: `game/${Tables.Ships}`,
+    pageKey: PageId.ships,
   });
 
   const restoreAction = useRestoreDialog({

@@ -18,7 +18,7 @@ import { useEditAction, useDeleteDialog, useRestoreDialog } from "hooks";
 import { useCannonsList, CannonsQueryKeys } from "../hooks";
 
 // api
-import { EntityName, Tables } from "api";
+import { EntityName } from "api";
 
 // pages
 import { PageId } from "pages";
@@ -44,7 +44,7 @@ function CannonsPage() {
   //#region Actions
 
   const editAction = useEditAction({
-    url: `game/${Tables.Cannons}`,
+    pageKey: PageId.cannons,
   });
 
   const restoreAction = useRestoreDialog({

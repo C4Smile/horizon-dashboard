@@ -9,6 +9,9 @@ import { ActionHook, BaseActions, UseEditActionPropTypes } from "./types.js";
 // utils
 import { isDeleted, isLocked, isLockedBy } from "utils";
 
+// sitemap
+import { findPath } from "pages";
+
 // providers
 import { useAccount } from "providers";
 
@@ -27,7 +30,7 @@ import { BaseEntityDto } from "lib";
 export const useEditAction = (
   props: UseEditActionPropTypes,
 ): ActionHook<BaseEntityDto> => {
-  const { url, hidden, disabled = false } = props;
+  const { pageKey, hidden, disabled = false } = props;
 
   const navigate = useNavigate();
 
@@ -38,16 +41,18 @@ export const useEditAction = (
   const action = useCallback(
     (row: BaseEntityDto): ActionType<BaseEntityDto> => ({
       id: BaseActions.Edit,
+      // kept out of the dropdown: two actions do not earn a menu
+      sticky: true,
       disabled:
         disabled ||
         isDeleted(row) ||
         (isLocked(row) && !isLockedBy(account?.horizonUser?.id, row)),
       hidden: hidden,
-      onClick: () => navigate(`${url}/${row.id}`),
+      onClick: () => navigate(`${findPath(pageKey)}/${row.id}`),
       icon: <FontAwesomeIcon icon={faPencil} />,
       tooltip: t("_pages:common.actions.edit.text"),
     }),
-    [account?.horizonUser?.id, disabled, hidden, navigate, t, url],
+    [account?.horizonUser?.id, disabled, hidden, navigate, pageKey, t],
   );
 
   return {

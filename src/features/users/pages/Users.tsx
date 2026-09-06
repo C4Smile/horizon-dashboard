@@ -22,7 +22,7 @@ import { useEditAction, useDeleteDialog, useRestoreDialog } from "hooks";
 import { UsersQueryKeys, useUsersList } from "../hooks";
 
 // api
-import { EntityName, Tables } from "api";
+import { EntityName } from "api";
 
 // pages
 import { PageId } from "pages";
@@ -49,7 +49,7 @@ function Users() {
   //#region Actions
 
   const editAction = useEditAction({
-    url: `game/${Tables.Users}`,
+    pageKey: PageId.users,
   });
 
   const restoreAction = useRestoreDialog({

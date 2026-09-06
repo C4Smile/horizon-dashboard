@@ -9,7 +9,7 @@ import loadable from "@loadable/component";
 import { Loading, TextInput } from "@sito/dashboard-app";
 
 // components
-import { ImageFormType, ImageUploader } from "components";
+import { ImageFormType, ImageUploader, FormTitle } from "components";
 
 // providers
 import { useNotification, queryClient, useHorizonApiClient } from "providers";
@@ -127,11 +127,11 @@ function BuildingTypeForm() {
   ) : (
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="form">
-        <h1 className="text-2xl md:text-3xl font-bold">
+        <FormTitle>
           {id
             ? `${t("_accessibility:components.form.editing")} ${id}`
             : t("_pages:buildingTypes.newForm")}
-        </h1>
+        </FormTitle>
         {buildingTypeQuery.isLoading ? (
           <Loading
             className="bg-none w-6 h-6 mb-10"

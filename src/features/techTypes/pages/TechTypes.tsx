@@ -21,7 +21,7 @@ import { PageId } from "pages";
 import { TechTypeDto } from "../lib";
 
 // api
-import { EntityName, Tables } from "api";
+import { EntityName } from "api";
 
 // providers
 import { useHorizonApiClient } from "providers";
@@ -48,7 +48,7 @@ function TechTypes() {
   //#region Actions
 
   const editAction = useEditAction({
-    url: `game/${Tables.TechTypes}`,
+    pageKey: PageId.techTypes,
   });
 
   const restoreAction = useRestoreDialog({

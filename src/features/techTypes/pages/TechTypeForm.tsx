@@ -9,7 +9,7 @@ import loadable from "@loadable/component";
 import { Loading, TextInput } from "@sito/dashboard-app";
 
 // components
-import { ImageFormType, ImageUploader } from "components";
+import { ImageFormType, ImageUploader, FormTitle } from "components";
 
 // providers
 import { useNotification, queryClient, useHorizonApiClient } from "providers";
@@ -53,7 +53,8 @@ function TechTypeForm() {
 
     try {
       let result;
-      if (!d.id) result = await horizonApiClient.TechType.createFromForm(d, photo);
+      if (!d.id)
+        result = await horizonApiClient.TechType.createFromForm(d, photo);
       else result = await horizonApiClient.TechType.updateFromForm(d, photo);
 
       const { error, status } = result;
@@ -81,9 +82,12 @@ function TechTypeForm() {
       }
     } catch (e: unknown) {
       console.error(e);
-      setNotification(isHttpRequestError(e) ? String(e.status) : "notConnected", {
-        model: t("_entities:entities.techType"),
-      });
+      setNotification(
+        isHttpRequestError(e) ? String(e.status) : "notConnected",
+        {
+          model: t("_entities:entities.techType"),
+        },
+      );
     }
     setSaving(false);
   };
@@ -127,11 +131,11 @@ function TechTypeForm() {
   ) : (
     <div className="px-5 pt-10 flex items-start justify-start">
       <form onSubmit={handleSubmit(onSubmit)} className="form">
-        <h1 className="text-2xl md:text-3xl font-bold">
+        <FormTitle>
           {id
             ? `${t("_accessibility:components.form.editing")} ${id}`
             : t("_pages:techTypes.newForm")}
-        </h1>
+        </FormTitle>
         {techTypeQuery.isLoading ? (
           <Loading
             className="bg-none w-6 h-6 mb-10"
@@ -150,35 +154,39 @@ function TechTypeForm() {
           </div>
         )}
 
-        {/* TechType Name */}
-        <Controller
-          control={control}
-          disabled={techTypeQuery.isLoading || saving}
-          name="name"
-          render={({ field }) => (
-            <TextInput
-              {...field}
-              type="text"
-              id="name"
-              placeholder={t("_entities:techType.name.placeholder")}
-              label={t("_entities:techType.name.label")}
-              required
+        <div className="form-grid">
+          {/* TechType Name */}
+          <div className="form-column">
+            <Controller
+              control={control}
+              disabled={techTypeQuery.isLoading || saving}
+              name="name"
+              render={({ field }) => (
+                <TextInput
+                  {...field}
+                  type="text"
+                  id="name"
+                  placeholder={t("_entities:techType.name.placeholder")}
+                  label={t("_entities:techType.name.label")}
+                  required
+                />
+              )}
             />
-          )}
-        />
+          </div>
 
-        {/* Tech Image */}
-        <div className="my-5">
-          {techTypeQuery.isLoading ? (
-            <Loading />
-          ) : (
-            <ImageUploader
-              photo={photo}
-              setPhoto={setPhoto}
-              label={t("_entities:techType.image.label")}
-              folder={ReactQueryKeys.TechTypes}
-            />
-          )}
+          {/* Tech Image */}
+          <div className="form-images">
+            {techTypeQuery.isLoading ? (
+              <Loading />
+            ) : (
+              <ImageUploader
+                photo={photo}
+                setPhoto={setPhoto}
+                label={t("_entities:techType.image.label")}
+                folder={ReactQueryKeys.TechTypes}
+              />
+            )}
+          </div>
         </div>
 
         <button
